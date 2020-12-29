@@ -1,5 +1,5 @@
 {
-  "name": "windi",
+  "name": "windicss",
   "version": "1.0.0",
   "description": "tailwindcss like css compiler",
   "main": "./dist/tests/index.js",
