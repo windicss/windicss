@@ -1,0 +1,22 @@
+{
+  "name": "windi",
+  "version": "1.0.0",
+  "description": "tailwindcss like css compiler",
+  "main": "./dist/tests/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node"
+  },
+  "keywords": [
+    "tailwindcss",
+    "css",
+    "compiler"
+  ],
+  "author": "Veritas Raven",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.14"
+  }
+}
