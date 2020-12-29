@@ -1,6 +1,6 @@
-# Windicss
+# windicss
 
-Windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.
+windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.
 
 The original idea of this project was to replace the tailwindcss workflow of build css then add some purgecss and autoprefixer plugins.
 
@@ -258,6 +258,7 @@ Contribution will be very helpful.
 * Push to npm.
 * CLI support.
 * Add some tests.
+* Write documentations.
 * Add tailwind.config.js support.
 * svelte && vue preprocess plugin.
 * Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).
