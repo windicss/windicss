@@ -1,7 +1,7 @@
 {
   "name": "windicss",
   "version": "1.0.0",
-  "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features",
+  "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.",
   "main": "./dist/tests/index.js",
   "directories": {
     "test": "tests"
