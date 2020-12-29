@@ -4,9 +4,6 @@
   "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
     "build": "tsc",
     "test": "node"
@@ -19,7 +16,6 @@
   "author": "Veritas Raven",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.7.2",
-    "@types/node": "^14.14.14"
+    "typescript": "^2.7.2"
   }
 }

@@ -1,5 +1,17 @@
 # windicss
 
+<p>
+  <a href="https://www.npmjs.com/package/windicss">
+    <img src="https://img.shields.io/npm/v/windicss.svg" alt="npm version">
+  </a>
+  <a href="https://www.npmjs.com/package/windicss">
+    <img src="https://img.shields.io/npm/types/windicss.svg" alt="typescript">
+  </a>
+  <a href="https://github.com/voorjaar/windicss/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/windicss.svg" alt="license">
+  </a>
+</p>
+
 windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.
 
 The original idea of this project was to replace the tailwindcss workflow of build css then add some purgecss and autoprefixer plugins.
