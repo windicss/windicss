@@ -18,9 +18,9 @@ The original idea of this project was to replace the tailwindcss workflow of bui
 
 ## How it works
 
-### Interpret Mode
+### Interpretation mode
 
-Interpret Mode is similar to the traditional tailwindcss workflow, based on the input HTML text, and parse the classes in the HTML, then build our css file based on these classes.
+Interpret mode is similar to the traditional tailwindcss workflow, based on the input HTML text, and parse the classes in the HTML, then build our css file based on these classes.
 
 * Input
 
@@ -73,9 +73,9 @@ Interpret Mode is similar to the traditional tailwindcss workflow, based on the 
 }
 ```
 
-### Compile Mode
+### Compilation mode
 
-The Compile mode synthesizes all the css attributes corresponding to the className in the class attribute, which brings us back to the traditional css writing method, and includes all the great features of tailwindcss. This mode is conducive to JavaScript frameworks based on template declarations like vuejs and sveltejs. All we need is a preprocessor.
+The compilation mode synthesizes all the css attributes corresponding to the className in the class attribute, which brings us back to the traditional css writing method, and includes all the great features of tailwindcss. This mode is conducive to JavaScript frameworks based on template declarations like vuejs and sveltejs. All we need is a preprocessor.
 
 * Input
 
@@ -249,7 +249,7 @@ The Compile mode synthesizes all the css attributes corresponding to the classNa
 
 ## Quick start
 
-Go check `example/*`
+Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 
 ## Applications && Plugins
 
