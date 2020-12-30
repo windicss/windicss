@@ -6,7 +6,8 @@
   "types": "./dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node"
+    "test": "node",
+    "cli": "node ./dist/src/cli/index.js"
   },
   "keywords": [
     "tailwindcss",

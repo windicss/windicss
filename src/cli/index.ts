@@ -1,5 +1,5 @@
 import arg from 'arg';
-import packageJson from '../../package.json';
+import { getVersion, findFiles } from './utils';
 
 const doc = `
 Generate css from text files containing tailwindcss class.
@@ -17,6 +17,7 @@ Options:
   
   -i, --interpret       Interpretation mode, generate class name corresponding to tailwindcss. This is the default behavior.
   -c, --compile         Compilation mode, combine the class name in each row into a single class.
+  -t, --preflight       Add preflights, default is false.
   
   -b, --combine         Combine all css into one single file. This is the default behavior.
   -s, --separate        Generate a separate css file for each input file.
@@ -32,6 +33,7 @@ const args = arg({
     '--version': Boolean,
     '--compile': Boolean,
     '--interpret': Boolean,
+    '--preflight': Boolean,
     '--combine': Boolean,
     '--separate': Boolean,
     '--minify': Boolean,
@@ -41,22 +43,39 @@ const args = arg({
     // Aliases
     '-h':        '--help',
     '-v':        '--version',
-    '-c':        '--compile',
     '-i':        '--interpret',
+    '-c':        '--compile',
+    '-t':        '--preflight',
     '-b':        '--combine',
     '-s':        '--separate',
+
     '-m':        '--minify',
     '-p':        '--prefix',
     '-o':        '--output',
+}, {
+  // argv: ["--compile", "--combine"],
+  // permissive: true
 });
- 
-// console.log(args);
-if (args["--help"]) {
-    console.log(doc);
-    process.exit();
+// console.log(args); 
+
+if (args["--help"] || (args._.length === 0 && Object.keys(args).length === 1)) {
+  console.log(doc);
+  process.exit();
 }
 
 if (args["--version"]) {
-  console.log(`${packageJson.name} ${packageJson.version}`);
+  console.log(getVersion());
   process.exit();
 }
+
+const interpret = args["--interpret"];
+const separate = args["--separate"];
+
+// console.log(args);
+
+
+// if (args["--separate"]) const outputFile = args["--output"] ?? 'windi.output.css';
+
+// console.log(outputFile);
+
+console.log(findFiles(''));
