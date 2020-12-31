@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import arg from 'arg';
 import { readFileSync, writeFileSync } from 'fs';
 import { HTMLParser } from '../utils/html';
