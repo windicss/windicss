@@ -1,35 +1,32 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import packageJson from '../../package.json';
 
 
-export function walk(dir:string, callback:(item:{type:string, path:string})=>unknown, deep=true) {
+export function isFile(path:string) {
+  return fs.existsSync(path) && fs.lstatSync(path).isFile();
+}
+
+
+export function walk(dir:string, deep=true) {
   let result:{type:string, path:string}[] = [];
  
-  // get the contents of dir
-  fs.readdir(dir, (e, items) => {
-
-    // for each item in the contents
-    items.forEach((item) => {
-
-      // get the item path
-      let itemPath = path.join(dir, item);
+  fs.readdirSync(dir).forEach(item=>{
+    let itemPath = path.join(dir, item);
 
       if (fs.lstatSync(itemPath).isFile()) {
-        callback({
+        result.push({
           type: 'file',
           path: itemPath,
         })
       } else {
-        callback({
+        result.push({
           type: 'folder',
           path: itemPath,
         });
-        if (deep) walk(itemPath, callback);
+        if (deep) result = [...result, ...walk(itemPath, deep)];
       };
-    });
-  });
+  })
   return result;
 };
 
@@ -50,6 +47,7 @@ export class FilePattern {
     const backSlash = String.fromCharCode(92);
     const anyText = `[${backSlash}s${backSlash}S]+`;
     pattern = pattern
+              .replace(/^\.\//, '')
               .replace(/\*\*\/\*/g, anyText)
               .replace(/\*\*/g, '[^/]+')
               .replace(/\*/g, '[^/]+')
@@ -59,40 +57,7 @@ export class FilePattern {
   }
 }
 
-export function findFiles(path: string) {
-}
-//   // process.cwd()
-//   const regex = /.*.js$/;
-//   const dir = process.cwd();
-
-//   fs.readdir(dir, function (err, files) {
-//     if (err) {
-//       console.log(err);
-//       return;
-//     }
-//     console.log(files);
-//     files.forEach(f => {
-//       if (isExists(f) && isFolder(f)) {
-//         console.log(f);
-//         // findFiles(f);
-//       }
-//     })
-//     // console.log(files.filter(i=>i.match(regex)));
-//   });
-// }
 
 export function getVersion() {
   return `${packageJson.name} ${packageJson.version}`;
 }
-
-const pattern = new FilePattern('**/variants/*.js');
-
-walk('../', (item:{type:string, path:string}) => {
-  if (item.type === 'file' && pattern.match(item.path)) {
-    console.log(item.path);
-  }
-  // console.log(item);
-}, true);
-// console.log(isExists('/Users/veritas/Test/svelte-pro/my-svelte-project/*.txt'))
-
-// console.log(fileMatch('./src/**/*.html'));

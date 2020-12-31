@@ -265,10 +265,10 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 
 ## Future work
 
-Contribution will be very helpful.
+  Contribution will be very helpful.
 
-* Push to npm.
-* CLI support.
+* ~~Push to npm.~~
+* ~~CLI support.~~
 * Add some tests.
 * Write documentations.
 * Add tailwind.config.js support.

@@ -1,5 +1,9 @@
 import arg from 'arg';
-import { getVersion, findFiles } from './utils';
+import { readFileSync, writeFileSync } from 'fs';
+import { HTMLParser } from '../utils/html';
+import { StyleSheet } from '../utils/style';
+import { interpret, compile, preflight } from '../processor';
+import { getVersion, FilePattern, walk, isFile } from './utils';
 
 const doc = `
 Generate css from text files containing tailwindcss class.
@@ -52,11 +56,7 @@ const args = arg({
     '-m':        '--minify',
     '-p':        '--prefix',
     '-o':        '--output',
-}, {
-  // argv: ["--compile", "--combine"],
-  // permissive: true
 });
-// console.log(args); 
 
 if (args["--help"] || (args._.length === 0 && Object.keys(args).length === 1)) {
   console.log(doc);
@@ -68,14 +68,83 @@ if (args["--version"]) {
   process.exit();
 }
 
-const interpret = args["--interpret"];
-const separate = args["--separate"];
+const localFiles = walk('.', true).filter(i=>i.type==='file');
 
-// console.log(args);
+const matchFiles:string[] = [];
+for (let pt of args._) {
+  if (isFile(pt) && pt.search(/\.windi\./) === -1) {
+    matchFiles.push(pt);
+  } else if (pt.search(/\*/) !== -1){
+    // match files like **/*.html **/src/*.html *.html ...
+    localFiles.forEach(i=>{
+      const pattern = new FilePattern(pt);
+      if (pattern.match(i.path) && i.path.search(/\.windi\./) === -1) matchFiles.push(i.path);
+    });
+  } else {
+    console.error(`File ${pt} does not exist!`);
+  }
+}
 
+let ignoredClasses:string[] = [];
+let preflights:StyleSheet[] = [];
+let styleSheets:StyleSheet[] = [];
 
-// if (args["--separate"]) const outputFile = args["--output"] ?? 'windi.output.css';
+if (args["--compile"]) {
+  // compilation mode
+  const prefix = args["--prefix"] ?? 'windi-';
+  matchFiles.forEach(file=>{
+    let indexStart = 0;
+    const outputStyle:StyleSheet[] = [];
+    const outputHTML:string[] = [];
+    const html = readFileSync(file).toString();
+    const parser = new HTMLParser(html);
 
-// console.log(outputFile);
+    // Match tailwind ClassName then replace with new ClassName
+    parser.parseClasses().forEach(p=>{
+      outputHTML.push(html.substring(indexStart, p.start));
+      const utility = compile(p.result, prefix, true); // Set third argument to false to hide comments;
+      outputStyle.push(utility.styleSheet);
+      ignoredClasses = [...ignoredClasses, ...utility.ignored];
+      outputHTML.push([utility.className, ...utility.ignored].join(' '));
+      indexStart = p.end;
+    });
+    outputHTML.push(html.substring(indexStart));
+    styleSheets.push(outputStyle.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)));
+    
+    const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
+    writeFileSync(outputFile, outputHTML.join(''));
+    console.log(`${file} -> ${outputFile}`);
 
-console.log(findFiles(''));
+    if (args["--preflight"]) preflights.push(preflight(parser.parseTags()));
+  });
+
+} else {
+  // interpretation mode
+  matchFiles.forEach(file=>{
+    const parser = new HTMLParser(readFileSync(file).toString());
+    const utility = interpret(parser.parseClasses().map(i=>i.result).join(' '));
+    styleSheets.push(utility.styleSheet);
+    ignoredClasses = [...ignoredClasses, ...utility.ignored];
+
+    if (args["--preflight"]) preflights.push(preflight(parser.parseTags()));
+  });
+}
+
+if (args["--separate"]) {
+  styleSheets.forEach((style, index)=>{
+    const filePath = matchFiles[index].replace(/\.\w+$/, '.windi.css');
+    if (args["--preflight"]) style = preflights[index].extend(style);
+    writeFileSync(filePath, style.build(args["--minify"]));
+    console.log(`${matchFiles[index]} -> ${filePath}`);
+  })
+} else {
+  let outputStyle = styleSheets.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)).combine().sort();
+  if (args["--preflight"]) outputStyle = preflights.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)).combine().sort().extend(outputStyle);
+  const filePath = args["--output"] ?? 'windi.output.css';
+  writeFileSync(filePath, outputStyle.build(args["--minify"]));
+  console.log('matched files:', matchFiles);
+  console.log('output file:', filePath);
+}
+
+console.log('ignored classes:', ignoredClasses);
+
