@@ -249,6 +249,24 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 
 ## Quick start
 
+### Install
+
+  `npm i -g windicss`
+
+### Test it
+
+  `windicss --help`
+
+  `windicss './**/*.html' -o windi.css`
+
+  `windicss './**/*.html' -mo windi.css`
+
+  `windicss './**/*.html' -cto windi.css`
+
+  `windicss './**/*.html' -cts`
+
+### Programming interface
+
 Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 
 ## Applications && Plugins
