@@ -16,7 +16,7 @@ Use a better box model (opinionated).
 // {
 //   keys: ['*'],
 //   global: true,
-//   selector: '*,\n*::before,\n*::after',
+//   selector: '*, *::before, *::after',
 //   properties: {
 //     '-webkit-box-sizing': 'border-box',
 //     'box-sizing': 'border-box'
@@ -242,7 +242,7 @@ Correct the inability to style clickable types in iOS and Safari.
 
 {
   keys: ['button'],
-  selector: `button,\n[type='button'],\n[type='reset'],\n[type='submit']`,
+  selector: `button, [type='button'], [type='reset'], [type='submit']`,
   properties: {
     '-webkit-appearance': 'button' /* 1 */
   }
@@ -318,7 +318,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 {
   keys: ['spin'],
   global: true,
-  selector: '::-webkit-inner-spin-button,\n::-webkit-outer-spin-button',
+  selector: '::-webkit-inner-spin-button, ::-webkit-outer-spin-button',
   properties: {
     'height': 'auto',
   }
@@ -506,7 +506,7 @@ Add the correct display in Chrome and Safari.
 {
   keys: ['*'],
   global: true,
-  selector: '*,\n::before,\n::after',
+  selector: '*, ::before, ::after',
   properties: {
     '-webkit-box-sizing': 'border-box',
     'box-sizing': 'border-box',
@@ -623,7 +623,7 @@ Add the correct display in Chrome and Safari.
 
 {
   keys: ['button'],
-  selector: 'button,\n[role="button"]',
+  selector: 'button, [role="button"]',
   properties: {
     'color': '#a1a1aa'
   }
