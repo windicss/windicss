@@ -1,15 +1,16 @@
 {
   "name": "windicss",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "bin": {
-    "windicss": "./dist/src/cli/index.js"
+    "windicss": "src/cli/index.js"
   },
   "scripts": {
     "build": "tsc",
-    "test": "node"
+    "example": "tsc -p ./example",
+    "test": "tsc -p ./test"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,9 @@
   "devDependencies": {
     "@types/node": "^14.14.14",
     "typescript": "^3.7.5"
-  }
+  },
+  "files": [
+    "src/**/*.js",
+    "src/**/*.d.ts"
+  ]
 }
