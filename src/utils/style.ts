@@ -121,7 +121,8 @@ export class Style {
         return this;
     }
 
-    extend(item: Style, onlyProperty=false, append=true) {
+    extend(item: Style|undefined, onlyProperty=false, append=true) {
+        if (!item) return this;
         const connect = append? (list:any[]=[], anotherList:any[]=[]) => [...list, ...anotherList] : (list:any[]=[], anotherList:any[]=[]) => [...anotherList, ...list];
         this.property = connect(this.property, item.property);
         if (onlyProperty) return this;
@@ -237,8 +238,8 @@ export class StyleSheet {
         }
     }
 
-    extend(styleSheet:StyleSheet, append=true) {
-        this.children = append?[...this.children, ...styleSheet.children]:[...styleSheet.children, ...this.children];
+    extend(styleSheet:StyleSheet|undefined, append=true) {
+        if (styleSheet) this.children = append?[...this.children, ...styleSheet.children]:[...styleSheet.children, ...this.children];
         return this;
     }
 
