@@ -2,10 +2,10 @@
 
 <p>
   <a href="https://www.npmjs.com/package/windicss">
-    <img src="https://img.shields.io/npm/v/windicss.svg" alt="npm version">
+    <img src="https://img.shields.io/npm/v/windicss.svg" alt="package version">
   </a>
   <a href="https://www.npmjs.com/package/windicss">
-    <img src="https://img.shields.io/npm/types/windicss.svg" alt="typescript">
+    <img src="https://img.shields.io/npm/dt/windicss.svg" alt="total downloads">
   </a>
   <a href="https://github.com/voorjaar/windicss/blob/main/LICENSE">
     <img src="https://img.shields.io/npm/l/windicss.svg" alt="license">
@@ -233,13 +233,15 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 
 #### Compile to `tailwind.css`
 
-`windicss './**/*.html' -o tailwind.css`
+`windicss './**/*.html' -to tailwind.css`
 
-`windicss './**/*.html' -mo tailwind.css`
+`windicss './**/*.html' -mto tailwind.min.css`
 
 #### Transform tailwindcss to normal css file
 
 `windicss './**/*.html' -cto windi.css`
+
+`windicss './**/*.html' -ts`
 
 `windicss './**/*.html' -cts`
 
