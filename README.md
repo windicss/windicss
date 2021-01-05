@@ -12,17 +12,13 @@
   </a>
 </p>
 
-windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.
+windicss is a css compiler or css interpreter, which is based on the grammar of [tailwindcss](https://github.com/tailwindlabs/tailwindcss) and adds other features.
 
-The original idea of this project was to replace the tailwindcss workflow of build css then add some purgecss and autoprefixer plugins.
+The original idea of this project was to replace the tailwindcss workflow of (postcss + purgecss + autoprefixer).
 
 ## How it works
 
-### Interpretation mode
-
-Interpret mode is similar to the traditional tailwindcss workflow, based on the input HTML text, and parse the classes in the HTML, then build our css file based on these classes.
-
-* Input
+The following html as an example:
 
 ```html
 <div class="py-8 px-8 max-w-sm mx-auto bg-white rounded-xl shadow-md space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
@@ -41,7 +37,9 @@ Interpret mode is similar to the traditional tailwindcss workflow, based on the 
 </div>
 ```
 
-* Output
+### Interpretation mode
+
+Interpret mode is similar to the traditional [tailwindcss](https://github.com/tailwindlabs/tailwindcss) workflow, based on the input HTML text, and parse the classes in the HTML, then build our css file based on these classes.
 
 ```css
 /* preflight... */
@@ -75,28 +73,7 @@ Interpret mode is similar to the traditional tailwindcss workflow, based on the 
 
 ### Compilation mode
 
-The compilation mode synthesizes all the css attributes corresponding to the className in the class attribute, which brings us back to the traditional css writing method, and includes all the great features of tailwindcss. This mode is conducive to JavaScript frameworks based on template declarations like vuejs and sveltejs. All we need is a preprocessor.
-
-* Input
-
-```html
-<div class="py-8 px-8 max-w-sm mx-auto bg-white rounded-xl shadow-md space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
-  <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:flex-shrink-0" src="/img/erin-lindford.jpg" alt="Woman's Face">
-  <div class="text-center space-y-2 sm:text-left">
-    <div class="space-y-0.5">
-      <p class="text-lg text-black font-semibold">
-        Erin Lindford
-      </p>
-      <p class="text-gray-500 font-medium">
-        Product Engineer
-      </p>
-    </div>
-    <button class="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Message</button>
-  </div>
-</div>
-```
-
-* Ouput HTML
+The compilation mode synthesizes all the css attributes corresponding to the className in the class attribute, which brings us back to the traditional css writing method, and includes all the great features of tailwindcss. This mode is conducive to JavaScript Frameworks based on SFC templates like [vuejs](https://github.com/vuejs/vue) and [sveltejs](https://github.com/sveltejs/svelte). All we need is a preprocessor.
 
 ```html
 <div class="windi-15wa4me">
@@ -114,8 +91,6 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 </div>
 </div>
 ```
-
-* Output CSS
 
 ```css
 /* preflight... */
@@ -161,11 +136,11 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 
 * Cross browser support
 
-    Each utility of windicss has cross-browser support, which means you don't need an autoprefixer plugin.
+    Each utility of windicss built with cross-browser support, which means you don't need an autoprefixer plugin.
 
 * Minify support
 
-    You can simply output the minimized css.
+    You can simply generate the minimized css.
 
 * Preflight support
 
@@ -222,7 +197,6 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
         bg-hex-1c1c1e -> background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
         ```
 
-
 * new variants
 
     1. screens
@@ -245,57 +219,61 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 
     3. states
 
-        Support all css pseudo elements and pseudo classes.
+        Support all css [pseudo elements and pseudo classes](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).
 
-## Quick start
+## Usage
 
-### Install
+### CLI Application
 
-  `npm i -g windicss`
+`npm i -g windicss`
 
-### Test it
+#### Learn how to use it
 
-  `windicss --help`
+`windicss --help`
 
-  `windicss './**/*.html' -o windi.css`
+#### Compile to `tailwind.css`
 
-  `windicss './**/*.html' -mo windi.css`
+`windicss './**/*.html' -o tailwind.css`
 
-  `windicss './**/*.html' -cto windi.css`
+`windicss './**/*.html' -mo tailwind.css`
 
-  `windicss './**/*.html' -cts`
+#### Transform tailwindcss to normal css file
+
+`windicss './**/*.html' -cto windi.css`
+
+`windicss './**/*.html' -cts`
+
+### Interaction with Javascript Frameworks
+
+vue: [vue-windicss-preprocess](https://github.com/voorjaar/vue-windicss-preprocess)
+
+svelte: [svelte-windicss-preprocess](https://github.com/voorjaar/svelte-windicss-preprocess)
+
+react and angular: webpack plugin (coming soon...).
 
 ### Programming interface
 
 Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 
-## Applications && Plugins
-
-1. Interact with JavaScript Frameworks.
-
-    vue: https://github.com/vuejs/vue-loader
-
-    svelte: https://github.com/sveltejs/svelte-preprocess
-
-    react and angular: maybe some jsx or webpack plugin, not sure about this.
-
-2. Transform tailwindcss to normal css file.
-
 ## Future work
 
-  Contribution will be very helpful.
+  The project is still in its early stages and contributions will be very helpful.
 
-* ~~Push to npm.~~
+* ~~Utilities support.~~
+* ~~Preflights support.~~
+* ~~Autoprefix support.~~
+* ~~Minify support.~~
 * ~~CLI support.~~
+* ~~Svelte Plugin.~~
+* ~~Vue Plugin.~~
 * Add some tests.
 * Write documentations.
 * Add tailwind.config.js support.
-* svelte && vue preprocess plugin.
 * Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).
 * Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).
 * Add new utility && variant && variable support
-* Online playground (maybe fork from https://github.com/tailwindlabs/playtailwindcss.com).
+* Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/playtailwindcss.com)).
 
 ## Special thanks
 
-Learned a lot from [this project](https://github.com/ben-rogerson/twin.macro), if you want to use css-in-js with tailwindcss, you can check this project.
+Learned a lot from [twin.macro](https://github.com/ben-rogerson/twin.macro), if you want to use css-in-js with tailwindcss, you can check it.

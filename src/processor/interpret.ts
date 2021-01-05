@@ -31,6 +31,6 @@ export default function interpret(classNames:string) {
     return {
         success,
         ignored,
-        styleSheet: style.sort()
+        styleSheet: style //.sort()
     }
 }
