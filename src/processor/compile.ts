@@ -20,7 +20,13 @@ export default function compile(classNames:string, prefix='windi-', showComment=
                 const result = extract(obj.content, showComment);
                 if (result) {
                     success.push(obj.content);
-                    if (result instanceof Style) result.selector = buildSelector;
+                    if (Array.isArray(result)) {
+                        result.forEach(i=>{
+                            i.selector = buildSelector;
+                        })
+                    } else {
+                        result.selector = buildSelector;
+                    }
                     style.add(apply(obj.variants, result));
                 } else {
                     ignored.push(obj.content);
