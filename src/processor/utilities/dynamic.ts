@@ -27,20 +27,23 @@ function inset(utility: Utility): Output {
         .handleFraction()
         .handleSize()
         .handleValue((value:string)=>utility.isNegative? '-' + value : value)
+        .handleVariable()
         .value
     if (!value) return;
-    switch (utility.key) {
-        case 'inset':
-            return new Property(['top', 'right', 'bottom', 'left'], value);
-        case 'inset-x':
-            return new Property(['right', 'left'], value);
-        case 'inset-y':
-            return new Property(['top', 'bottom'], value);
+    switch (utility.identifier) {
         case 'top':
         case 'right':
         case 'bottom':
         case 'left':
             return new Property(utility.identifier, value);
+        case 'inset':
+            if (utility.raw.match(/^-?inset-x/)) {
+                return new Property(['right', 'left'], value);
+            } else if (utility.raw.match(/^-?inset-y/)) {
+                return new Property(['top', 'bottom'], value);
+            } else {
+                return new Property(['top', 'right', 'bottom', 'left'], value);
+            }
     }
 }
 
@@ -49,6 +52,7 @@ function zIndex(utility: Utility): Output {
     return utility.handler
         .handleStatic({ 'auto': 'auto' })
         .handleNumber(0, 99999, 'int')
+        .handleVariable()
         .createProperty('z-index')
 }
 
@@ -58,27 +62,28 @@ function order(utility: Utility): Output {
         .handleStatic({ 'first': '9999', 'last': '-9999', 'none': '0' })
         .handleNumber(1, 9999, 'int')
         .handleValue((value:string)=>utility.isNegative && value !== '0' ? '-' + value : value)
+        .handleVariable()
         .value;
-    if (value) return new Style(utility.class, [new Property('-webkit-box-ordinal-group', (parseInt(value)+1).toString()), new Property(['-webkit-order', '-ms-flex-order', 'order'], value)]);
+    if (value) return new Style(utility.class, [new Property('-webkit-box-ordinal-group', value.startsWith('var')?`calc(${value}+1)`:(parseInt(value)+1).toString()), new Property(['-webkit-order', '-ms-flex-order', 'order'], value)]);
 }
 
 // https://tailwindcss.com/docs/grid-template-columns
 // https://tailwindcss.com/docs/grid-template-rows
 function gridTemplate(utility: Utility): Output {
     let type;
-    switch (utility.center) {
-        case 'cols':
-            type = 'columns';
-            break;
-        case 'rows':
-            type = 'rows';
-            break;
-        default:
-            return;
+
+    if (utility.raw.match(/^grid-rows-/)) {
+        type = 'rows';
+    } else if (utility.raw.match(/^grid-cols-/)) {
+        type = 'columns';
+    } else {
+        return;
     }
+    
     return utility.handler
         .handleStatic({'none': 'none'})
         .handleNumber(1, undefined, 'int')
+        .handleVariable()
         .createProperty(`grid-template-${type}`, (value:string) => value === 'none' ? 'none': `repeat(${value}, minmax(0, 1fr));`)
    
 }
@@ -90,15 +95,15 @@ function gridColumn(utility: Utility): Output {
     let value  = utility.handler
             .handleStatic({'auto': 'auto'})
             .handleNumber(1, undefined, 'int')
+            .handleVariable()
             .value;
     if (!value) return;
-    switch (utility.center) {
-        case 'span':
-            return new Style(utility.class, [new Property('-ms-grid-column-span', value), new Property('grid-column', `span ${value} / span ${value}`)]);
-        case 'start':
-            return new Property('grid-column-start', value);
-        case 'end':
-            return new Style(utility.class, [new Property('-ms-grid-column-span', value), new Property('grid-column-end', value)]);
+    if (utility.raw.match(/^col-span-/)) {
+        return new Style(utility.class, [new Property('-ms-grid-column-span', value), new Property('grid-column', `span ${value} / span ${value}`)]);
+    } else if (utility.raw.match(/^col-start-/)) {
+        return new Property('grid-column-start', value);
+    } else if (utility.raw.match(/^col-end-/)) {
+        return new Style(utility.class, [new Property('-ms-grid-column-span', value), new Property('grid-column-end', value)]);
     }
 }
 
@@ -109,15 +114,15 @@ function gridRow(utility: Utility): Output {
     let value  = utility.handler
             .handleStatic({'auto': 'auto'})
             .handleNumber(1, undefined, 'int')
+            .handleVariable()
             .value;
     if (!value) return;
-    switch (utility.center) {
-        case 'span':
-            return new Style(utility.class, [new Property('-ms-grid-row-span', value), new Property('grid-row', `span ${value} / span ${value}`)]);
-        case 'start':
-            return new Property('grid-row-start', value);
-        case 'end':
-            return new Style(utility.class, [new Property('-ms-grid-row-span', value), new Property('grid-row-end', value)]);
+    if (utility.raw.match(/^row-span-/)) {
+        return new Style(utility.class, [new Property('-ms-grid-row-span', value), new Property('grid-row', `span ${value} / span ${value}`)]);
+    } else if (utility.raw.match(/^row-start-/)) {
+        return new Property('grid-row-start', value);
+    } else if (utility.raw.match(/^row-end-/)) {
+        return new Style(utility.class, [new Property('-ms-grid-row-span', value), new Property('grid-row-end', value)]);
     }
 }
 
@@ -127,15 +132,15 @@ function gap(utility: Utility): Output {
         .handleStatic({ 'px': '1px' })
         .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
         .handleSize()
+        .handleVariable()
         .value;
     if (!value) return;
-    switch(utility.center) {
-        case '':
-            return new Property('gap', value);
-        case 'x':
-            return new Property(['-webkit-column-gap', '-moz-column-gap', 'column-gap'], value);
-        case 'y':
-            return new Property('row-gap', value);
+    if (utility.raw.match(/^gap-x-/)) {
+        return new Property(['-webkit-column-gap', '-moz-column-gap', 'column-gap'], value);
+    } else if (utility.raw.match(/^gap-y-/)) {
+        return new Property('row-gap', value);
+    } else {
+        return new Property('gap', value);
     }
 }
 
@@ -145,6 +150,7 @@ function padding(utility: Utility): Output {
         .handleStatic({ 'px': '1px' })
         .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
         .handleSize()
+        .handleVariable()
         .value;
     if (!value) return;
     switch (utility.identifier) {
@@ -172,6 +178,7 @@ function margin(utility: Utility): Output {
         .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
         .handleSize()
         .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+        .handleVariable()
         .value;
     if (!value) return;
     switch (utility.identifier) {
@@ -201,21 +208,22 @@ function space(utility: Utility):Output {
     .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
     .handleSize()
     .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+    .handleVariable()
     .value;
     if (!value) return;
-    switch(utility.center) {
-        case 'x':
-            return new Style(utility.class, [
-                new Property('--tw-space-x-reverse', '0'), 
-                new Property('margin-right', `calc(${value} * var(--tw-space-x-reverse))`),
-                new Property('margin-left', `calc(${value} * calc(1 - var(--tw-space-x-reverse)))`)
-            ]).child('> :not([hidden]) ~ :not([hidden])');
-        case 'y':
-            return new Style(utility.class, [
-                new Property('--tw-space-y-reverse', '0'), 
-                new Property('margin-top', `calc(${value} * calc(1 - var(--tw-space-y-reverse)))`),
-                new Property('margin-bottom', `calc(${value} * var(--tw-space-y-reverse))`)
-            ]).child('> :not([hidden]) ~ :not([hidden])');
+    if (utility.raw.match(/^-?space-x-/)) {
+        return new Style(utility.class, [
+            new Property('--tw-space-x-reverse', '0'), 
+            new Property('margin-right', `calc(${value} * var(--tw-space-x-reverse))`),
+            new Property('margin-left', `calc(${value} * calc(1 - var(--tw-space-x-reverse)))`)
+        ]).child('> :not([hidden]) ~ :not([hidden])');
+    } 
+    if (utility.raw.match(/^-?space-y-/)) {
+        return new Style(utility.class, [
+            new Property('--tw-space-y-reverse', '0'), 
+            new Property('margin-top', `calc(${value} * calc(1 - var(--tw-space-y-reverse)))`),
+            new Property('margin-bottom', `calc(${value} * var(--tw-space-y-reverse))`)
+        ]).child('> :not([hidden]) ~ :not([hidden])');
     }
 }
 
@@ -239,29 +247,28 @@ function size(utility:Utility):Output {
     } else if (amount === 'max') {
         return new Style(utility.class, [new Property(type, '-webkit-max-content'), new Property(type, '-moz-max-content'), new Property(type, 'max-content')]);
     }
-    switch (utility.center) {
-        case 'screen':
-            return utility.handler.handleStatic({'sm': '640px', 'md': '768px', 'lg': '1024px', 'xl': '1280px', '2xl': '1536px'}).createProperty(type)
-        case '':
-            return utility.handler
-                .handleStatic({ 'auto': 'auto', 'full': '100%', 'px': '1px', 'screen': type==='width'?'100vw':'100vh', 'none': 'none', 'xs': '20rem', 'sm': '24rem', 'md': '28rem', 'lg': '32rem', 'prose': '65ch'})
-                .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
-                .handleFraction()
-                .handleSize()
-                .handleNxl((number:number)=>{
-                    switch (number) {
-                        case 1:
-                            return '36rem';
-                        case 2:
-                            return '42rem';
-                        case 3:
-                            return '48rem';
-                        default:
-                            return `${(number-3)*8+48}rem`;
-                    }
-                })
-                .createProperty(type)
-    }
+    if (utility.raw.match(/^[w|h]-screen-/)) {
+        return utility.handler.handleStatic({'sm': '640px', 'md': '768px', 'lg': '1024px', 'xl': '1280px', '2xl': '1536px'}).createProperty(type)
+    };
+    return utility.handler
+            .handleStatic({ 'auto': 'auto', 'full': '100%', 'px': '1px', 'screen': type==='width'?'100vw':'100vh', 'none': 'none', 'xs': '20rem', 'sm': '24rem', 'md': '28rem', 'lg': '32rem', 'prose': '65ch'})
+            .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
+            .handleFraction()
+            .handleSize()
+            .handleNxl((number:number)=>{
+                switch (number) {
+                    case 1:
+                        return '36rem';
+                    case 2:
+                        return '42rem';
+                    case 3:
+                        return '48rem';
+                    default:
+                        return `${(number-3)*8+48}rem`;
+                }
+            })
+            .handleVariable()
+            .createProperty(type)
 }
 
 // https://tailwindcss.com/docs/min-width
@@ -269,32 +276,32 @@ function size(utility:Utility):Output {
 // https://tailwindcss.com/docs/max-width
 // https://tailwindcss.com/docs/max-height
 function minMaxSize(utility:Utility):Output {
-    const center = utility.center;
-     switch (center) {
-         case 'w-screen':
-         case 'h-screen':
-             return utility.handler.handleStatic({'sm': '640px', 'md': '768px', 'lg': '1024px', 'xl': '1280px', '2xl': '1536px'}).createProperty(center==='w-screen'?`${utility.identifier}-width`:`${utility.identifier}-height`)
-         case 'w':
-         case 'h':
-             return utility.handler
-                 .handleStatic({ 'auto': 'auto', 'full': '100%', 'px': '1px', 'screen': center==='w'?'100vw':'100vh', 'min': 'min-content', 'max': 'max-content', 'none': 'none', 'xs': '20rem', 'sm': '24rem', 'md': '28rem', 'lg': '32rem', 'prose': '65ch'})
-                 .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
-                 .handleFraction()
-                 .handleSize()
-                 .handleNxl((number:number)=>{
-                     switch (number) {
-                         case 1:
-                             return '36rem';
-                         case 2:
-                             return '42rem';
-                         case 3:
-                             return '48rem';
-                         default:
-                             return `${(number-3)*8+48}rem`;
-                     }
-                 })
-                 .createProperty(center==='w'?`${utility.identifier}-width`:`${utility.identifier}-height`);
-     }
+    const identifier = utility.raw.replace(/^(min|max)-[w|h]-/, '');
+    const name = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
+
+    if (identifier.startsWith('screen-')) {
+        return utility.handler.handleStatic({'sm': '640px', 'md': '768px', 'lg': '1024px', 'xl': '1280px', '2xl': '1536px'}).createProperty(name)
+    };
+
+    return utility.handler
+            .handleStatic({ 'auto': 'auto', 'full': '100%', 'px': '1px', 'screen': name.endsWith('width')?'100vw':'100vh', 'min': 'min-content', 'max': 'max-content', 'none': 'none', 'xs': '20rem', 'sm': '24rem', 'md': '28rem', 'lg': '32rem', 'prose': '65ch'})
+            .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
+            .handleFraction()
+            .handleSize()
+            .handleNxl((number:number)=>{
+                switch (number) {
+                    case 1:
+                        return '36rem';
+                    case 2:
+                        return '42rem';
+                    case 3:
+                        return '48rem';
+                    default:
+                        return `${(number-3)*8+48}rem`;
+                }
+            })
+            .handleVariable()
+            .createProperty(name);
 }
 
 // https://tailwindcss.com/docs/font-size
@@ -302,7 +309,7 @@ function minMaxSize(utility:Utility):Output {
 // https://tailwindcss.com/docs/text-color
 function text(utility:Utility):Output {
     // handle font opacity
-    if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-text-opacity');
+    if (utility.raw.startsWith('text-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-text-opacity');
     // handle font sizes
     const staticMap:{[key:string]:{[key:string]:string}} = {
         'xs': {'font-size':'0.75rem', 'line-height':'1rem'},
@@ -322,12 +329,14 @@ function text(utility:Utility):Output {
     const amount = utility.amount;
     if (amount in staticMap) return new Style(utility.class, [new Property('font-size', staticMap[amount]['font-size']), new Property('line-height', staticMap[amount]['line-height'])]);
     let value = utility.handler.handleNxl((number:number)=>`${number}rem`).handleSize().value;
+    if (utility.raw.startsWith('text-size-var-')) value = utility.handler.handleVariable().value;
     if (value) return new Style(utility.class, [new Property('font-size', value), new Property('line-height', '1')]);
+
     // handle colors
-    value = utility.handler.handleColor().value;
+    value = utility.handler.handleColor().handleVariable().value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('color', value);
-        return new Style(utility.class, [new Property('--tw-text-opacity', '1'), new Property('color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-text-opacity))`)]);
+        return new Style(utility.class, [new Property('--tw-text-opacity', '1'), new Property('color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-text-opacity))`)]);
     }
 }
 
@@ -347,6 +356,7 @@ function fontWeight(utility:Utility):Output {
             black: '900',
         })
         .handleNumber(0, 900, 'int')
+        .handleVariable()
         .createProperty('font-weight');
 }
 
@@ -364,6 +374,7 @@ function letterSpacing(utility:Utility):Output {
         })
         .handleSize()
         .handleValue((value:string)=>utility.isNegative && value !== '0em' ? '-' + value : value)
+        .handleVariable()
         .createProperty('letter-spacing');
 }
 
@@ -380,6 +391,7 @@ function lineHeight(utility:Utility):Output {
         })
         .handleNumber(0, undefined, 'int', (number:number)=>`${number*0.25}rem`)
         .handleSize()
+        .handleVariable()
         .createProperty('line-height');
 }
 
@@ -387,11 +399,11 @@ function lineHeight(utility:Utility):Output {
 // https://tailwindcss.com/docs/placeholder-opacity
 function placeholder(utility:Utility):Output {
     // handle placeholder opacity
-    if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-placeholder-opacity');
-    let value = utility.handler.handleColor().value;
+    if (utility.raw.startsWith('placeholder-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-placeholder-opacity');
+    let value = utility.handler.handleColor().handleVariable().value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('color', value);
-        const rgb = hex2RGB(value)?.join(', ');
+        const rgb = value.startsWith('var')? value:hex2RGB(value)?.join(', ');
         return [
             new Style(utility.class, [new Property('--tw-placeholder-opacity', '1'), new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`)]).pseudoElement('-webkit-input-placeholder'),
             new Style(utility.class, [new Property('--tw-placeholder-opacity', '1'), new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`)]).pseudoElement('-moz-placeholder'),
@@ -406,18 +418,18 @@ function placeholder(utility:Utility):Output {
 // https://tailwindcss.com/docs/background-opacity
 function background(utility:Utility):Output {
      // handle background opacity
-     if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-bg-opacity');
+     if (utility.raw.startsWith('bg-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-bg-opacity');
      // handle background color
-     let value = utility.handler.handleColor().value;
+     let value = utility.handler.handleColor().handleVariable().value;
      if (value) {
          if (['transparent', 'currentColor'].includes(value)) return new Property('background-color', value);
-         return new Style(utility.class, [new Property('--tw-bg-opacity', '1'), new Property('background-color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-bg-opacity))`)])
+         return new Style(utility.class, [new Property('--tw-bg-opacity', '1'), new Property('background-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-bg-opacity))`)])
      }
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops from
 function gradientColorFrom(utility:Utility):Output {
-    let value = utility.handler.handleColor().value;
+    let value = utility.handler.handleColor().handleVariable().value;
      if (value) {
         let rgb;
         switch (value) {
@@ -428,7 +440,7 @@ function gradientColorFrom(utility:Utility):Output {
                 rgb = '255, 255, 255';
                 break;
             default:
-                rgb = hex2RGB(value)?.join(', ');
+                rgb = value.startsWith('var')?value:hex2RGB(value)?.join(', ');
         }
         return new Style(utility.class, [new Property('--tw-gradient-from', value), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`)]);
      }
@@ -437,7 +449,7 @@ function gradientColorFrom(utility:Utility):Output {
 
 // https://tailwindcss.com/docs/gradient-color-stops via
 function gradientColorVia(utility:Utility):Output {
-    let value = utility.handler.handleColor().value;
+    let value = utility.handler.handleColor().handleVariable().value;
      if (value) {
         let rgb;
         switch (value) {
@@ -448,7 +460,12 @@ function gradientColorVia(utility:Utility):Output {
                 rgb = '255, 255, 255';
                 break;
             default:
-                rgb = hex2RGB(value)?.join(', ');
+                if (value.startsWith('var')) {
+                    rgb = value;
+                    value = `rgb(${value})`;
+                } else {
+                    rgb = hex2RGB(value)?.join(', ');
+                }
         }
         return new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`);
      }
@@ -456,13 +473,13 @@ function gradientColorVia(utility:Utility):Output {
 
 // https://tailwindcss.com/docs/gradient-color-stops to
 function gradientColorTo(utility:Utility):Output {
-    return utility.handler.handleColor().createProperty('--tw-gradient-to');
+    return utility.handler.handleColor().handleVariable().createProperty('--tw-gradient-to');
 }
 
 // https://tailwindcss.com/docs/border-radius
 function borderRadius(utility:Utility):Output {
     let properties:string|string [] = [];
-    switch (utility.center) {
+    switch (utility.center.replace(/-?var-[\w-]+/, '')) {
         case '':
             properties = 'border-radius';
             break;
@@ -504,6 +521,7 @@ function borderRadius(utility:Utility):Output {
         })
         .handleNxl((number:number)=>`${number*0.5}rem`)
         .handleSize()
+        .handleVariable()
         .createProperty(properties);
 }
 
@@ -512,16 +530,17 @@ function borderRadius(utility:Utility):Output {
 // https://tailwindcss.com/docs/border-opacity
 function border(utility:Utility):Output {
     // handle border opacity
-    if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-border-opacity');
+    if (utility.raw.startsWith('border-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-border-opacity');
+    
     // handle border color
-    let value = utility.handler.handleColor().value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('border-var')?`var(--${variable})`:undefined).value;
      if (value) {
          if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
-         return new Style(utility.class, [new Property('--tw-border-opacity', '1'), new Property('border-color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`)])
+         return new Style(utility.class, [new Property('--tw-border-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`)])
      }
     // handle border width
     let property = '';
-    switch (utility.center) {
+    switch (utility.center.replace(/-?width-var-[\w-]+/, '')) {
         case '':
             property = 'border-width';
             break;
@@ -540,7 +559,7 @@ function border(utility:Utility):Output {
         default:
             return;
     };
-    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}px`).handleSize().createProperty(property);
+    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}px`).handleSize().handleVariable().createProperty(property);
 }
 
 // https://tailwindcss.com/docs/divide-width
@@ -551,12 +570,12 @@ function divide(utility:Utility):Output {
     // handle divide style
     if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])');
     // handle divide opacity
-    if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-divide-opacity');
+    if (utility.raw.startsWith('divide-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-divide-opacity');
     // handle divide color
-    let value = utility.handler.handleColor().value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('divide-var')?`var(--${variable})`:undefined).value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
-        return new Style(utility.class, [new Property('--tw-divide-opacity', '1'), new Property('border-color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-divide-opacity))`)]).child('> :not([hidden]) ~ :not([hidden])');
+        return new Style(utility.class, [new Property('--tw-divide-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-divide-opacity))`)]).child('> :not([hidden]) ~ :not([hidden])');
     }
     // handle divide width
     switch (utility.raw) {
@@ -569,14 +588,18 @@ function divide(utility:Utility):Output {
         case 'divide-x':
             return new Style(utility.class, [new Property('--tw-divide-x-reverse', '0'), new Property('border-right-width', 'calc(1px * var(--tw-divide-x-reverse))'), new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))')]).child('> :not([hidden]) ~ :not([hidden])');
     };
-    value = utility.handler.handleNumber(0, undefined, 'float', (number:number)=>`${number}px`).handleSize().value;
+    value = utility.handler.handleNumber(0, undefined, 'float', (number:number)=>`${number}px`).handleSize().handleVariable().value;
     if (value) {
-        switch (utility.center) {
-            case 'x':
-                return new Style(utility.class, [new Property('--tw-divide-x-reverse', '0'), new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`), new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`)]).child('> :not([hidden]) ~ :not([hidden])');
-            case 'y':
-                return new Style(utility.class, [new Property('--tw-divide-y-reverse', '0'), new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`), new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`)]).child('> :not([hidden]) ~ :not([hidden])');
-        };
+        const centerMatch = utility.raw.match(/^-?divide-[x|y]/);
+        if (centerMatch) {
+            const center = centerMatch[0].replace(/^-?divide-/,'');
+            switch (center) {
+                case 'x':
+                    return new Style(utility.class, [new Property('--tw-divide-x-reverse', '0'), new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`), new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`)]).child('> :not([hidden]) ~ :not([hidden])');
+                case 'y':
+                    return new Style(utility.class, [new Property('--tw-divide-y-reverse', '0'), new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`), new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`)]).child('> :not([hidden]) ~ :not([hidden])');
+            };
+        }
     }
 }
 
@@ -584,6 +607,12 @@ function divide(utility:Utility):Output {
 // https://tailwindcss.com/docs/ring-offset-color
 function ringOffset(utility:Utility):Output {
     let value;
+    // handle ring offset width variable
+    if (utility.raw.startsWith('ring-offset-width-var-')) {
+        value = utility.handler.handleVariable().value;
+        if (value) return new Style(utility.class.replace('ringOffset', 'ring-offset'), [new Property('--tw-ring-offset-width', value), new Property(['-webkit-box-shadow', 'box-shadow'], '0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)')]);
+    }
+
     // handle ring offset width
     if (utility.center === '') {
         value = utility.handler.handleNumber(0, undefined, 'float', (number:number)=>`${number}px`).handleSize().value;
@@ -591,7 +620,7 @@ function ringOffset(utility:Utility):Output {
     }
     
     // handle ring offset color
-    value = utility.handler.handleColor().value;
+    value = utility.handler.handleColor().handleVariable().value;
     if (value) return new Style(utility.class.replace('ringOffset', 'ring-offset'), [new Property('--tw-ring-offset-color', value), new Property(['-webkit-box-shadow', 'box-shadow'], '0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)')]);
 }
 
@@ -602,9 +631,9 @@ function ring(utility:Utility):Output {
     // handle ring offset
     if (utility.raw.startsWith('ring-offset')) return ringOffset(new Utility(utility.raw.replace('ring-offset', 'ringOffset')));
     // handle ring opacity
-    if (utility.center === 'opacity') return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('--tw-ring-opacity');
+    if (utility.raw.startsWith('ring-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-ring-opacity');
     // handle ring color
-    let value = utility.handler.handleColor().value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('ring-var')?`var(--${variable})`:undefined).value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('--tw-ring-color', value);
         return new Property('--tw-ring-color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-ring-opacity))`);
@@ -612,23 +641,23 @@ function ring(utility:Utility):Output {
     // handle ring width
     if (utility.raw === 'ring-inset') return new Property('--tw-ring-inset', 'inset');
     if (utility.raw === 'ring') value = '3px';
-    value = utility.handler.handleNumber(0, undefined, 'float', (number:number)=>`${number}px`).handleSize().value;
+    value = utility.handler.handleNumber(0, undefined, 'float', (number:number)=>`${number}px`).handleSize().handleVariable().value;
     if (value) return new Property(['-webkit-box-shadow', 'box-shadow'], `var(--tw-ring-inset) 0 0 0 calc(${value} + var(--tw-ring-offset-width)) var(--tw-ring-color)`);
 }
 
 // https://tailwindcss.com/docs/opacity
 function opacity(utility:Utility):Output {
-    return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).createProperty('opacity');
+    return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('opacity');
 }
 
 // https://tailwindcss.com/docs/transition-duration
 function duration(utility:Utility):Output {
-    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}ms`).createProperty(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration']);
+    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}ms`).handleVariable().createProperty(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration']);
 }
 
 // https://tailwindcss.com/docs/transition-delay
 function delay(utility:Utility):Output {
-    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}ms`).createProperty(['-webkit-transition-delay', '-o-transition-delay', 'transition-delay']);
+    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>`${number}ms`).handleVariable().createProperty(['-webkit-transition-delay', '-o-transition-delay', 'transition-delay']);
 }
 
 // https://tailwindcss.com/docs/animation
@@ -674,60 +703,64 @@ function animation(utility:Utility):Output {
 
 // https://tailwindcss.com/docs/scale
 function scale(utility:Utility):Output {
-    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>(number/100).toString()).createProperty(['--tw-scale-x', '--tw-scale-y']);
+    return utility.handler.handleNumber(0, undefined, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty(['--tw-scale-x', '--tw-scale-y']);
 }
 
 // https://tailwindcss.com/docs/rotate
 function rotate(utility:Utility):Output {
-    return utility.handler.handleNumber(0, 360, 'float', (number:number)=>`${number}deg`).handleValue((value:string)=>utility.isNegative && value !== '0deg' ? '-' + value : value).createProperty('--tw-rotate');
+    return utility.handler.handleNumber(0, 360, 'float', (number:number)=>`${number}deg`).handleValue((value:string)=>utility.isNegative && value !== '0deg' ? '-' + value : value).handleVariable().createProperty('--tw-rotate');
 }
 
 // https://tailwindcss.com/docs/translate
 function translate(utility:Utility):Output {
-    const center = utility.center;
-    if (['x', 'y'].includes(center)) {
+    const centerMatch = utility.raw.match(/^-?translate-[x|y]/);
+    if (centerMatch) {
+        const center = centerMatch[0].replace(/^-?translate-/,'');
         return utility.handler
             .handleStatic({full: '100%', px: '1px'})
             .handleNumber(0, undefined, 'float', (number:number)=>(number === 0)?'0px':`${roundUp(number/4, 6)}rem`)
             .handleFraction()
             .handleSize()
             .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+            .handleVariable()
             .createProperty(`--tw-translate-${center}`);
     }
 }
 
 // https://tailwindcss.com/docs/skew
 function skew(utility:Utility):Output {
-    const center = utility.center;
-    if (['x', 'y'].includes(center)) {
+    const centerMatch = utility.raw.match(/^-?skew-[x|y]/);
+    if (centerMatch) {
+        const center = centerMatch[0].replace(/^-?skew-/,'');
         return utility.handler
             .handleNumber(0, 360, 'float', (number:number)=>`${number}deg`)
             .handleValue((value:string)=>utility.isNegative && value !== '0deg' ? '-' + value : value)
+            .handleVariable()
             .createProperty(`--tw-skew-${center}`);
     }
 }
 
 // https://tailwindcss.com/docs/outline
 function outline(utility:Utility):Output {
-    let value = utility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().value;
+    let value = utility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().handleVariable((variable:string)=>utility.raw.startsWith('outline-var')?`var(--${variable})`:undefined).value;
     if (value) return new Style(utility.class, [new Property('outline', `2px ${value==='transparent'?'solid':'dotted'} ${value}`), new Property('outline-offset', '2px')]);
     if (utility.raw.match(/^outline-(solid|dotted)/)) {
         const newUtility = new Utility(utility.raw.replace('outline-', ''));
-        value = newUtility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().value;
+        value = newUtility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().handleVariable().value;
         if (value) return new Style(utility.class, [new Property('outline', `2px ${newUtility.identifier} ${value}`), new Property('outline-offset', '2px')]);
     }
 }
 
 // https://tailwindcss.com/docs/fill
 function fill(utility:Utility):Output {
-    return utility.handler.handleColor().createProperty('fill');
+    return utility.handler.handleColor().handleVariable().createProperty('fill');
 }
 
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility:Utility):Output {
-    const value = utility.handler.handleNumber(0, undefined, 'int').createProperty('stroke-width');
-    return value ?? utility.handler.handleColor().createProperty('stroke');
+    const value = utility.raw.startsWith('stroke-var')?utility.handler.handleVariable().createProperty('stroke-width'):utility.handler.handleNumber(0, undefined, 'int').createProperty('stroke-width');
+    return value ?? utility.handler.handleColor().handleVariable().createProperty('stroke');
 }
 
 export default {

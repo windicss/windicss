@@ -197,6 +197,19 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
         bg-hex-1c1c1e -> background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
         ```
 
+    5. Variable
+
+        ```js
+        bg-var-${variableName}
+
+        bg-var-test-variable {
+          --tw-bg-opacity: 1;
+          background-color: rgba(var(--test-variable), var(--tw-bg-opacity));
+        }
+
+        // You should define css variables in inline style to apply dynamic rendering. eg. <div class="bg-var-test-variable" style="--test-variable: 23, 22, 21;">...</div>
+        ```
+
 * New variants
 
     1. screens

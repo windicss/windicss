@@ -3,40 +3,51 @@ import { Property } from '../../utils/style';
 import { isNumber, isFraction, isSize, fracToPercent, hex2RGB } from '../../utils/tools';
 
 class Handler {
+    raw:string
     center:string;
     amount:string;
     value:string|undefined;
-    constructor(center:string, amount:string) {
+    constructor(raw:string, center:string, amount:string) {
+        this.raw = raw;
         this.center = center;
         this.amount = amount;
         this.value = undefined;
     }
-    handleStatic(map:{ [key: string]: string }, callback?:(str:string)=>string) {
+    handleStatic(map:{ [key: string]: string }, callback?:(str:string)=>string|undefined) {
         if (this.value) return this;
         if (this.amount in map) this.value = callback?callback(this.amount):map[this.amount];
         return this;
     }
-    handleNumber(start=-Infinity, end=Infinity, type:'int'|'float'='int', callback?:(number:number)=>string) {
+    handleNumber(start=-Infinity, end=Infinity, type:'int'|'float'='int', callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
         if (isNumber(this.amount, start, end, type)) this.value = callback? callback(+this.amount) : this.amount;
         return this;
     }
-    handleNxl(callback?:(number:number)=>string) {
+    handleNxl(callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
         if (/^\d*xl$/.test(this.amount)) this.value = callback? callback(this.amount==='xl'?1:parseInt(this.amount)): parseInt(this.amount).toString();
         return this;
     }
-    handleFraction(callback?:(fraction:string)=>string) {
+    handleFraction(callback?:(fraction:string)=>string|undefined) {
         if (this.value) return this;
         if (isFraction(this.amount)) this.value = callback?callback(this.amount):fracToPercent(this.amount);
         return this;
     }
-    handleSize(callback?:(size:string)=>string) {
+    handleSize(callback?:(size:string)=>string|undefined) {
         if (this.value) return this;
         if (isSize(this.amount)) this.value = callback?callback(this.amount):this.amount;
         return this;
     }
-    handleColor(callback?:(color:string)=>string) {
+    handleVariable(callback?:(variable:string)=>string|undefined) {
+        if (this.value) return this;
+        const matchVariable = this.raw.match(/-var-[\w-]+/);
+        if (matchVariable) {
+            const variableName = matchVariable[0].substring(5);
+            this.value = callback?callback(variableName):`var(--${variableName})`;
+        }
+        return this;
+    }
+    handleColor(callback?:(color:string)=>string|undefined) {
         if (this.value) return this;
         let color;
         if (this.amount in colors) color = colors[this.amount];
@@ -49,7 +60,7 @@ class Handler {
         }
         return this;
     }
-    handleValue(callback?:(value:string)=>string) {
+    handleValue(callback?:(value:string)=>string|undefined) {
         if (!this.value) return this;
         if (callback) this.value = callback(this.value);
         return this;
@@ -95,6 +106,6 @@ export class Utility {
         return this.match(/-.+/).substring(1,); // real-gray-300
     }
     get handler() {
-        return new Handler(this.center, this.amount);
+        return new Handler(this.raw, this.center, this.amount);
     }
 }
