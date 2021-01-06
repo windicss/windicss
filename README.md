@@ -197,7 +197,7 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
         bg-hex-1c1c1e -> background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
         ```
 
-* new variants
+* New variants
 
     1. screens
 
@@ -230,6 +230,12 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 #### Learn how to use it
 
 `windicss --help`
+
+#### Initialize a simple html project
+
+`windicss --init <project>`
+
+`windicss --init <project> --compile`
 
 #### Compile to `tailwind.css`
 

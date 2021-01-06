@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { HTMLParser } from '../utils/html';
 import { StyleSheet } from '../utils/style';
 import { interpret, compile, preflight } from '../processor';
-import { getVersion, FilePattern, walk, isFile } from './utils';
+import { getVersion, FilePattern, walk, isFile, generateTemplate } from './utils';
 
 const doc = `
 Generate css from text files containing tailwindcss class.
@@ -30,6 +30,8 @@ Options:
   -m, --minify          Generate minimized css file.
   -p, --prefix PREFIX   Set the css class name prefix, only valid in compilation mode. The default prefix is 'windi-'.
   -o, --output PATH     Set output css file path.
+
+  --init PATH           Start a new project on the path.
 `
 
 const args = arg({
@@ -42,6 +44,7 @@ const args = arg({
     '--combine': Boolean,
     '--separate': Boolean,
     '--minify': Boolean,
+    '--init': String,
     '--prefix': String,
     '--output': String,
  
@@ -67,6 +70,13 @@ if (args["--help"] || (args._.length === 0 && Object.keys(args).length === 1)) {
 if (args["--version"]) {
   console.log(getVersion());
   process.exit();
+}
+
+if (args["--init"]) {
+  const template = generateTemplate(args["--init"], args["--output"]);
+  args._.push(template.html);
+  args["--preflight"] = true;
+  args["--output"] = template.css;
 }
 
 const localFiles = walk('.', true).filter(i=>i.type==='file');
