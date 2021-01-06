@@ -212,7 +212,7 @@ export class StyleSheet {
         });
         // sort atrules 
         const sortedAtrules:{[key:string]:{[key:string]:any}} = {};
-        Object.keys(originAtrules).sort().forEach(key=>{
+        Object.keys(originAtrules).reverse().forEach(key=>{
             sortedAtrules[key] = originAtrules[key];
         })
         return sortedAtrules;
