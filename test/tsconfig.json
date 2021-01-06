@@ -1,10 +1,9 @@
 {
 	"extends": "../tsconfig.json",
-	"include": ["."],
+	"include": ["./"],
 
 	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"noEmit": true
-	}
+		"target": "es2017",
+		"declaration": false,
+  }
 }

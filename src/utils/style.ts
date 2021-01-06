@@ -1,3 +1,4 @@
+import { sortMediaQuery } from './sort';
 import { wrapit, escape, indent, hash } from './tools';
 
 export class Property {
@@ -212,7 +213,7 @@ export class StyleSheet {
         });
         // sort atrules 
         const sortedAtrules:{[key:string]:{[key:string]:any}} = {};
-        Object.keys(originAtrules).reverse().forEach(key=>{
+        Object.keys(originAtrules).sort(sortMediaQuery).forEach(key=>{
             sortedAtrules[key] = originAtrules[key];
         })
         return sortedAtrules;

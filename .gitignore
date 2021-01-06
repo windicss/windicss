@@ -37,10 +37,12 @@ Thumbs.db
 # Ignore built ts files
 src/**/*.js
 src/**/*.d.ts
+example/**/*.css
 example/**/*.js
 example/**/*.d.ts
 test/**/*.js
 test/**/*.d.ts
+test/**/*.css
 
 # ignore yarn.lock
 yarn.lock
