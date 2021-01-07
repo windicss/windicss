@@ -40,9 +40,9 @@ class Handler {
     }
     handleVariable(callback?:(variable:string)=>string|undefined) {
         if (this.value) return this;
-        const matchVariable = this.raw.match(/-var-[\w-]+/);
+        const matchVariable = this.raw.match(/-\$[\w-]+/);
         if (matchVariable) {
-            const variableName = matchVariable[0].substring(5);
+            const variableName = matchVariable[0].substring(2);
             this.value = callback?callback(variableName):`var(--${variableName})`;
         }
         return this;

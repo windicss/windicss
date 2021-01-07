@@ -329,7 +329,7 @@ function text(utility:Utility):Output {
     const amount = utility.amount;
     if (amount in staticMap) return new Style(utility.class, [new Property('font-size', staticMap[amount]['font-size']), new Property('line-height', staticMap[amount]['line-height'])]);
     let value = utility.handler.handleNxl((number:number)=>`${number}rem`).handleSize().value;
-    if (utility.raw.startsWith('text-size-var-')) value = utility.handler.handleVariable().value;
+    if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
     if (value) return new Style(utility.class, [new Property('font-size', value), new Property('line-height', '1')]);
 
     // handle colors
@@ -479,7 +479,7 @@ function gradientColorTo(utility:Utility):Output {
 // https://tailwindcss.com/docs/border-radius
 function borderRadius(utility:Utility):Output {
     let properties:string|string [] = [];
-    switch (utility.center.replace(/-?var-[\w-]+/, '')) {
+    switch (utility.center.replace(/-?\$[\w-]+/, '')) {
         case '':
             properties = 'border-radius';
             break;
@@ -533,14 +533,14 @@ function border(utility:Utility):Output {
     if (utility.raw.startsWith('border-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-border-opacity');
     
     // handle border color
-    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('border-var')?`var(--${variable})`:undefined).value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('border-$')?`var(--${variable})`:undefined).value;
      if (value) {
          if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
          return new Style(utility.class, [new Property('--tw-border-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`)])
      }
     // handle border width
     let property = '';
-    switch (utility.center.replace(/-?width-var-[\w-]+/, '')) {
+    switch (utility.center.replace(/-?width-\$[\w-]+/, '')) {
         case '':
             property = 'border-width';
             break;
@@ -572,7 +572,7 @@ function divide(utility:Utility):Output {
     // handle divide opacity
     if (utility.raw.startsWith('divide-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-divide-opacity');
     // handle divide color
-    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('divide-var')?`var(--${variable})`:undefined).value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('divide-$')?`var(--${variable})`:undefined).value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
         return new Style(utility.class, [new Property('--tw-divide-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-divide-opacity))`)]).child('> :not([hidden]) ~ :not([hidden])');
@@ -608,7 +608,7 @@ function divide(utility:Utility):Output {
 function ringOffset(utility:Utility):Output {
     let value;
     // handle ring offset width variable
-    if (utility.raw.startsWith('ring-offset-width-var-')) {
+    if (utility.raw.startsWith('ring-offset-width-$')) {
         value = utility.handler.handleVariable().value;
         if (value) return new Style(utility.class.replace('ringOffset', 'ring-offset'), [new Property('--tw-ring-offset-width', value), new Property(['-webkit-box-shadow', 'box-shadow'], '0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)')]);
     }
@@ -633,7 +633,7 @@ function ring(utility:Utility):Output {
     // handle ring opacity
     if (utility.raw.startsWith('ring-opacity')) return utility.handler.handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('--tw-ring-opacity');
     // handle ring color
-    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('ring-var')?`var(--${variable})`:undefined).value;
+    let value = utility.handler.handleColor().handleVariable((variable:string)=>utility.raw.startsWith('ring-$')?`var(--${variable})`:undefined).value;
     if (value) {
         if (['transparent', 'currentColor'].includes(value)) return new Property('--tw-ring-color', value);
         return new Property('--tw-ring-color', `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-ring-opacity))`);
@@ -742,7 +742,7 @@ function skew(utility:Utility):Output {
 
 // https://tailwindcss.com/docs/outline
 function outline(utility:Utility):Output {
-    let value = utility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().handleVariable((variable:string)=>utility.raw.startsWith('outline-var')?`var(--${variable})`:undefined).value;
+    let value = utility.handler.handleStatic({'none': 'transparent', 'white': 'white', 'black': 'black'}).handleColor().handleVariable((variable:string)=>utility.raw.startsWith('outline-$')?`var(--${variable})`:undefined).value;
     if (value) return new Style(utility.class, [new Property('outline', `2px ${value==='transparent'?'solid':'dotted'} ${value}`), new Property('outline-offset', '2px')]);
     if (utility.raw.match(/^outline-(solid|dotted)/)) {
         const newUtility = new Utility(utility.raw.replace('outline-', ''));
@@ -759,7 +759,7 @@ function fill(utility:Utility):Output {
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility:Utility):Output {
-    const value = utility.raw.startsWith('stroke-var')?utility.handler.handleVariable().createProperty('stroke-width'):utility.handler.handleNumber(0, undefined, 'int').createProperty('stroke-width');
+    const value = utility.raw.startsWith('stroke-$')?utility.handler.handleVariable().createProperty('stroke-width'):utility.handler.handleNumber(0, undefined, 'int').createProperty('stroke-width');
     return value ?? utility.handler.handleColor().handleVariable().createProperty('stroke');
 }
 
