@@ -212,7 +212,7 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
 
 * New variants
 
-    1. screens
+    1. Screens
 
         ```css
         sm: @media (min-width:640px);
@@ -221,7 +221,7 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
         ...
         ```
 
-    2. themes
+    2. Themes
 
         ```css
         dark: .dark
@@ -230,7 +230,7 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
         @light: @media (prefers-color-scheme:light);
         ```
 
-    3. states
+    3. States
 
         Support all css [pseudo elements and pseudo classes](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes).
 

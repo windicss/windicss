@@ -254,7 +254,7 @@ export class StyleSheet {
                 styleMap[hash] = v;
             }
         });
-        this.children = Object.values(styleMap).map(i=>i.clean().sort());
+        this.children = Object.values(styleMap).map(i=>i.clean());//.sort());
         return this;
     }
 
