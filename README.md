@@ -276,6 +276,16 @@ react and angular: webpack plugin (coming soon...).
 
 Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 
+## Resources
+
+* [Roadmap](https://github.com/voorjaar/windicss/projects/1)
+
+* [Documents](https://github.com/voorjaar/windicss)
+
+* [Discussions](https://github.com/voorjaar/windicss/discussions)
+
+* [MIT License](https://github.com/voorjaar/windicss/blob/main/LICENSE)
+
 ## Future work
 
   The project is still in its early stages and contributions will be very helpful.
@@ -291,7 +301,7 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * Write documentations.
 * Add tailwind.config.js support.
 * Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).
-* Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).
+* ~~(x) Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).~~
 * Add new utility && variant && variable support
 * Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/playtailwindcss.com)).
 
