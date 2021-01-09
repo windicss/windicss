@@ -12,6 +12,18 @@ export class Property {
         this.comment = comment;
     }
 
+    static parse(css:string) {
+        css = css.trim();
+        if (!css) return;
+        const split = css.search(':');
+        const end = css.search(';');
+        if (split === -1) {
+            console.log(css);
+            throw new Error('No attribute value defined!');
+        }
+        return new Property(css.substring(0, split).trim(), css.substring(split+1, end === -1 ? undefined : end).trim());
+    }
+
     toStyle(selector?:string) {
         return new Style(selector, this);
     }
