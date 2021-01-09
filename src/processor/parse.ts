@@ -73,6 +73,9 @@ class Parser {
                     break;
                 case ')':
                 case ' ':
+                case '\n':
+                case '\t':
+                case '\r':
                     if (!ignoreSpace) {
                         if (groupStart !== this.index) {
                             const raw = this.classNames.slice(classStart, this.index);
