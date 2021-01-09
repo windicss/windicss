@@ -40,7 +40,7 @@ export default function compile(classNames:string, prefix='windi-', showComment=
     return {
         success,
         ignored,
-        className,
+        className: success.length>0 ? className : undefined,
         styleSheet: style.combine()
     };
 }
