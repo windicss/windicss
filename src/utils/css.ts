@@ -1,16 +1,19 @@
 import { relative } from 'path';
 import { exit } from 'process';
-import { Property, StyleSheet } from './style';
+import { Property, Style, StyleSheet, InlineAtRule } from './style';
 
-export class AtRule {
-    identifier:string;
-    rule:string;
-    constructor(identifier:string, rule:string) {
-        this.identifier = identifier;
-        this.rule = rule;
-    }
-    build() {
-        return `@${this.identifier} ${this.rule}`;
+export interface Ast {
+    type: 'AtRule' | 'Rule' | 'Property',
+    start: number,
+    end: number,
+    data: any,
+    raw: string,
+    object?: Style,
+    children?: {
+        start: number,
+        end: number,
+        raw: string,
+        data: Ast[]
     }
 }
 
@@ -48,19 +51,32 @@ export class CSSParser {
     }
 
     private _searchFrom(text:string, target:string|RegExp, startIndex=0, endIndex=undefined) {
+        // search from partial of string
         const subText = text.substring(startIndex, endIndex);
         const relativeIndex = subText.search(target);
         return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
     }
 
-    private _handleChildren(css:string) {
-
+    private _parseProperties(css:string, offset=0) {
+        const result:(Property|InlineAtRule)[] = [];
+        let index = 0;
+        while (true) {
+            const start = this._searchFrom(css, /\S/, index);
+            const end = this._searchFrom(css, ';', index);
+            if (end === -1) break;
+            const piece = css.substring(start, end+1);
+            const isAtRule = css.charAt(start) === '@';
+            const parsed = isAtRule? InlineAtRule.parse(piece) : Property.parse(piece);
+            if (parsed) result.push(parsed);
+            index = end + 1;
+        }
+        return result;
     }
 
-    parse(css=this.css) {
+    parse(css=this.css):StyleSheet {
         css = this._removeComment(css);
-
         let index = 0;
+        const styleSheet = new StyleSheet();
 
         while (true) {
             const firstLetter = this._searchFrom(css, /\S/, index);
@@ -71,25 +87,25 @@ export class CSSParser {
                 const nestStart = this._searchFrom(css, '{', firstLetter);
 
                 if (nestStart === -1 || ruleEnd < nestStart) {
-                    // single line atrule
-                    console.log({type:'atRule', start:firstLetter, end: ruleEnd, raw: css.substring(firstLetter, ruleEnd)});
+                    // inline atrule
+                    styleSheet.add(InlineAtRule.parse(css.substring(firstLetter, ruleEnd).trim()).toStyle());
                     index = ruleEnd + 1;
                 } else {
                     // nested atrule
-                    const atrule = css.substring(firstLetter, nestStart);
                     const nestEnd = this._searchGroup(css, nestStart+1);
-                    console.log({type: 'atRule', start: nestStart, end: nestEnd, raw: atrule, children: this.parse(css.substring(nestStart+1, nestEnd))});
+                    let result = new Style(undefined, this.parse(css.substring(nestStart + 1, nestEnd))).atRule(css.substring(firstLetter, nestStart).trim());
+                    styleSheet.add(result);
                     index = nestEnd + 1;
                 }
             } else {
                 // nested selector
                 const nestStart = this._searchFrom(css, '{', firstLetter);
                 if (nestStart === -1) break;
-                const selector = css.substring(firstLetter, nestStart);
                 const nestEnd = this._searchGroup(css, nestStart+1);
-                console.log({type: 'selector', start: nestStart, end: nestEnd, raw: selector, children: css.substring(nestStart+1, nestEnd)});
+                styleSheet.add(new Style(css.substring(firstLetter, nestStart).trim(), this._parseProperties(css.substring(nestStart+1, nestEnd))))
                 index = nestEnd + 1;
             }    
         }
+        return styleSheet;
     }
 }
