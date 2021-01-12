@@ -13,17 +13,6 @@ const css = `
   src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
 }
 
-@layer utilities {
-  @variants hover, focus {
-    .filter-none {
-      filter: none;
-    }
-    .filter-grayscale {
-      filter: grayscale(100%);
-    }
-  }
-}
-
 @screen sm {
   * {
     padding-top: 1px;
@@ -34,10 +23,6 @@ img,
 video {
   max-width: 100%;
   height: auto;
-}
-
-.hover\:bg-pink-200:hover {
-  background-color: #fed7e2;
 }
 
 .container {
@@ -95,6 +80,24 @@ html {
         @apply bg-yellow-300 md:bg-red-500;
       }
     }
+  }
+}
+
+@screen dark {
+  .test {
+    @apply bg-gray-300;
+  }
+}
+
+@variants dark {
+  .test {
+    @apply font-medium;
+  }
+}
+
+@variants lg:hover, focus {
+  .button {
+    @apply text-green-300;
   }
 }
 `

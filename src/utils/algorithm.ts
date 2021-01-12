@@ -70,7 +70,7 @@ export function optimizeBuild(styleSheet:StyleSheet, minify=false) {
     const body = buildMap(
                 styleSheet.children.filter(i=>i.selector)
                 .map(i=>{
-                    const list = [...(i.atRules??[]).sort(sortMediaQuery), i.selector??''];
+                    const list = [...(i.atRules??[]).sort(sortMediaQuery), i.rule];
                     return deepList(list, new Style(undefined, i.property));
                 })
                 .sort((a: {}, b: {})=>{

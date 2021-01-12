@@ -1,5 +1,6 @@
 import { Property, Style, StyleSheet, InlineAtRule } from './style';
 import { compile } from '../processor';
+import { apply } from '../processor/variants';
 import screens from '../processor/variants/screen';
 
 export class CSSParser {
@@ -70,12 +71,15 @@ export class CSSParser {
         return new Style(selector, properties);
     }
 
-    private _clearDirectives(atrule:string):string|undefined {
-        // transform @screen, keep @layer, remove other directives
+    private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]}|undefined {
         const iatrule = InlineAtRule.parse(atrule);
-        if (["tailwind", "variants", "responsive"].includes(iatrule.name)) return undefined;
-        if (iatrule.name === 'screen' && iatrule.value && screens.hasOwnProperty(iatrule.value)) return screens[iatrule.value]().atRules?.[0];
-        return atrule;
+        if (["tailwind", "responsive"].includes(iatrule.name)) return undefined;
+        if (iatrule.name === "variants" && iatrule.value) return { variants: iatrule.value.split(',').map(i=>i.trim().split(':')) }
+        if (iatrule.name === 'screen' && iatrule.value) {
+            if (screens.hasOwnProperty(iatrule.value)) return { atrule: screens[iatrule.value]().atRules?.[0] };
+            if (['dark', 'light'].includes(iatrule.value)) return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
+        }
+        return { atrule };
     }
 
     parse(css=this.css, transform=false):StyleSheet {
@@ -93,16 +97,29 @@ export class CSSParser {
 
                 if (nestStart === -1 || ruleEnd < nestStart) {
                     // inline atrule
-                    const atrule = this._clearDirectives(css.substring(firstLetter, ruleEnd).trim());
-                    if (atrule) styleSheet.add(InlineAtRule.parse(atrule).toStyle());
+                    let atrule = css.substring(firstLetter, ruleEnd).trim();
+                    if (transform) {
+                        const directives = this._handleDirectives(atrule);
+                        if (directives?.atrule) atrule = directives.atrule;
+                    }
+                    styleSheet.add(InlineAtRule.parse(atrule).toStyle());
                     index = ruleEnd + 1;
                 } else {
                     // nested atrule
                     const nestEnd = this._searchGroup(css, nestStart+1);
-                    let atrule:string|undefined = css.substring(firstLetter, nestStart).trim();
-                    if (transform) atrule = this._clearDirectives(atrule);
-                    let result = this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(atrule));
-                    styleSheet.add(result);
+                    let atrule = css.substring(firstLetter, nestStart).trim();
+                    if (transform) {
+                        const directives = this._handleDirectives(atrule);
+                        if (directives?.atrule) {
+                            styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(directives.atrule)));
+                        } else if (directives?.variants) {
+                            const variants = directives.variants;
+                            const style = this.parse(css.substring(nestStart + 1, nestEnd), transform).children;
+                            variants.map(i=>apply(i, style)).forEach(i=>styleSheet.add(i));
+                        }
+                    } else {
+                        styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(atrule)));
+                    }
                     index = nestEnd + 1;
                 }
             } else {
