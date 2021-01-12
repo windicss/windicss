@@ -297,10 +297,11 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * ~~CLI support.~~
 * ~~Svelte Plugin.~~
 * ~~Vue Plugin.~~
-* Add some tests.
-* Write documentations.
+* ~~Add tailwind directives support.~~
+* ~~Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).~~
 * Add tailwind.config.js support.
-* Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).
+* Write documentations.
+* Add some unit tests.
 * ~~(x) Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).~~
 * Add new utility && variant && variable support
 * Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/playtailwindcss.com)).

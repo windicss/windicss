@@ -3,10 +3,10 @@ import { wrapit, escape, indent, hash } from './tools';
 
 export class Property {
     name: string|string [];
-    value: string;
+    value?: string;
     comment?:string;
 
-    constructor(name: string|string [], value: string, comment?:string) {
+    constructor(name: string|string [], value?: string, comment?:string) {
         this.name = name;
         this.value = value;
         this.comment = comment;
@@ -29,7 +29,7 @@ export class Property {
     }
 
     build(minify=false):string {
-        const createProperty = (name: string, value: string) => {
+        const createProperty = (name: string, value?: string) => {
             if (minify) {
                 return `${name}:${value};`;
             } else {
@@ -38,6 +38,26 @@ export class Property {
             }
         };
         return (typeof this.name === 'string') ? createProperty(this.name, this.value) : this.name.map(i=>createProperty(i, this.value)).join(minify?'':'\n');
+    }
+}
+
+export class InlineAtRule extends Property {
+    name: string;
+    constructor(name:string, value?:string) {
+        super(name, value);
+        this.name = name;
+    }
+    static parse(css:string) {
+        const matchName = css.match(/@[^\s\{}]+/);
+        if (matchName) {
+            const name = matchName[0].substring(1, );
+            const expression = matchName.index !== undefined ? css.substring(matchName.index + name.length + 1, ).match(/[^;]*/)?.[0].trim(): undefined;
+            return new InlineAtRule(name, expression);
+        }
+        throw new Error('Not an available atrule!');
+    }
+    build() {
+        return `@${this.name} ${this.value};`;
     }
 }
 
@@ -51,10 +71,10 @@ export class Style {
     private _childSelectors?: string [];
     private _atRules?: string [];
 
-    constructor(selector?: string, property?: Property | Style | (Style|Property) [], escape=true) {
+    constructor(selector?: string, property?: Property | Style | (Style|Property)[] | StyleSheet, escape=true) {
         this.selector = selector;
         this.escape = escape;
-        this.property = (property instanceof Property || property instanceof Style)?[property]:property ?? [];
+        this.property = (property instanceof StyleSheet)?property.children:(property instanceof Property || property instanceof Style)?[property]:property ?? [];
     }
 
     get rule() {
@@ -80,11 +100,12 @@ export class Style {
         return this;
     }
 
-    atRule(string:string) {
+    atRule(atrule?:string) {
+        if (!atrule) return this;
         if (this._atRules) {
-            this._atRules.push(string);
+            this._atRules.push(atrule);
         } else {
-            this._atRules = [ string ];
+            this._atRules = [ atrule ];
         }
         return this;
     }
@@ -125,9 +146,11 @@ export class Style {
         return this;
     }
 
-    add(item: Property | Style | (Property|Style) []) {
+    add(item: Property | Style | (Property|Style)[] | StyleSheet) {
         if (Array.isArray(item)) {
             this.property = [...this.property, ...item];
+        } else if (item instanceof StyleSheet) {
+            this.property = [...this.property, ...item.children];
         } else {
             this.property.push(item);
         }
@@ -179,8 +202,9 @@ export class Style {
     }
 
     build(minify=false):string {
-        if (!this.selector) return this.property.map(p=>p.build(minify)).join(minify?'':'\n').replace(/;}/g, '}');
-        let result = (minify? this.rule.replace(/,\s/g, ',') : this.rule + ' ') + wrapit(this.property.map(p=>p.build(minify)).join(minify?'':'\n'), undefined, undefined, undefined, minify);
+        let result = this.property.map(p=>p.build(minify)).join(minify?'':'\n');
+        if (!this.selector && !this._atRules) return result.replace(/;}/g, '}');
+        if (this.selector) result = (minify? this.rule.replace(/,\s/g, ',') : this.rule + ' ') + wrapit(result, undefined, undefined, undefined, minify);
         if (this._atRules) {
             for (let rule of this._atRules) {
                 result =  minify? `${rule.replace(/\s/g,'')}${wrapit(result, undefined, undefined, undefined, minify)}` : `${rule} ${wrapit(result, undefined, undefined, undefined, minify)}`;

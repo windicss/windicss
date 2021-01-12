@@ -14,8 +14,9 @@ const maxHeight = /\(\s*max(-device)?-height/i
 const isMinHeight = _testQuery(minMaxHeight, maxMinHeight, minHeight)
 const isMaxHeight = _testQuery(maxMinHeight, minMaxHeight, maxHeight)
 
-const isPrint = /print/i
-const isPrintOnly = /^print$/i
+const isPrint = /(print)|(keyframes)/i
+const isPrintOnly = /^(print)|(keyframes)\$/i
+const isAtRule = /^\s*@/i
 
 const maxValue = Number.MAX_VALUE
 
@@ -55,6 +56,16 @@ function _testQuery (doubleTestTrue:RegExp, doubleTestFalse:RegExp, singleTest:R
   }
 }
 
+function _testAtRule (a:string, b:string) {
+  const isAtRuleA = isAtRule.test(a);
+  const isAtRuleB = isAtRule.test(b);
+  if (isAtRuleA && isAtRuleB) return null;
+  if (isAtRuleA) return 1;
+  if (isAtRuleB) return -1;
+  // return (a > b)? 1 : -1;
+  return 0; // don't sort selector name, may cause overwrite bug.
+}
+
 function _testIsPrint (a:string, b:string) {
   const isPrintA = isPrint.test(a)
   const isPrintOnlyA = isPrintOnly.test(a)
@@ -82,10 +93,11 @@ function _testIsPrint (a:string, b:string) {
 }
 
 export function sortMediaQuery (a:string, b:string) {
+  // if (isAtRule.test(a))
+  const testAtRule = _testAtRule(a, b)
+  if (testAtRule !== null) return testAtRule;
   const testIsPrint = _testIsPrint(a, b)
-  if (testIsPrint !== null) {
-    return testIsPrint
-  }
+  if (testIsPrint !== null) return testIsPrint
 
   const minA = isMinWidth(a) || isMinHeight(a)
   const maxA = isMaxWidth(a) || isMaxHeight(a)
