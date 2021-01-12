@@ -200,9 +200,9 @@ The compilation mode synthesizes all the css attributes corresponding to the cla
     5. Variable
 
         ```js
-        bg-${variableName}
+        bg-$${variableName}
 
-        bg-$test-variable {
+        .bg-$test-variable {
           --tw-bg-opacity: 1;
           background-color: rgba(var(--test-variable), var(--tw-bg-opacity));
         }
