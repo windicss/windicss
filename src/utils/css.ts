@@ -2,21 +2,6 @@ import { Property, Style, StyleSheet, InlineAtRule } from './style';
 import { compile } from '../processor';
 import screens from '../processor/variants/screen';
 
-export interface Ast {
-    type: 'AtRule' | 'Rule' | 'Property',
-    start: number,
-    end: number,
-    data: any,
-    raw: string,
-    object?: Style,
-    children?: {
-        start: number,
-        end: number,
-        raw: string,
-        data: Ast[]
-    }
-}
-
 export class CSSParser {
     css:string;
     constructor(css:string) {
