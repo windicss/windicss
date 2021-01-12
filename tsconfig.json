@@ -4,7 +4,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+    "lib": ["dom", "es2019", "dom.iterable", "scripthost"],
     "allowJs": true,
     // "declarationDir": "types",
     "strict": true,

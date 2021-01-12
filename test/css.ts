@@ -1,12 +1,34 @@
-import { CSSParser, Ast } from '../src/utils/css';
-import { wrapit } from '../src/utils/tools';
-import { Property, Style, StyleSheet } from '../src/utils/style';
-import { compile } from '../src/processor';
-import { sortMediaQuery } from '../src/utils/sort';
-import { wrap } from 'module';
+import { CSSParser } from '../src/utils/css';
+import { optimizeBuild } from '../src/utils/algorithm';
+import { writeFileSync } from 'fs';
 
 const css = `
 @charset "utf-8";
+
+@tailwind base;
+
+@font-face {
+  font-family: Proxima Nova;
+  font-weight: 400;
+  src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
+}
+
+@layer utilities {
+  @variants hover, focus {
+    .filter-none {
+      filter: none;
+    }
+    .filter-grayscale {
+      filter: grayscale(100%);
+    }
+  }
+}
+
+@screen sm {
+  * {
+    padding-top: 1px;
+  }
+}
 
 img,
 video {
@@ -33,7 +55,6 @@ video {
 }
 
 .container {
-  width: 100%;
   padding: 1rem;
 }
 
@@ -79,134 +100,5 @@ html {
 `
 
 const parser = new CSSParser(css);
-const ast = parser.parse();
-
-function logAst(ast:Ast[]):string {
-  return ast.map(node => {
-    if (node.children) {
-      return `${node.data} ${wrapit(logAst(node.children.data))}`;
-    } else {
-      if (node.type === 'AtRule' && node.data.name === 'apply') {
-        return '123';
-      }
-      return node.raw;
-    }
-  }).join('\n');
-}
-
-function generateStyle(node:Ast, root:Style) {
-  const result = compile(node.data.expression);
-  result.styleSheet.children.forEach(style=>{
-    style.selector = root.selector;
-    if (root.atRules) {
-      const originAtRules = style.atRules ?? [];
-      style.clearAtRules();
-      for (let atrule of [...originAtRules, ...root.atRules].reverse()) {
-        style.atRule(atrule);
-      }
-    }
-  });
-  return result.styleSheet;
-}
-
-// function optimize(styleSheet:StyleSheet) {
-  // styleSheet.forEach()
-// }
-
-function combineObject(a:{[key:string]:any}, b:{[key:string]:any}) {
-  const output = {...a};
-  for (let [key_of_b, value_of_b] of Object.entries(b)) {
-    if (a.hasOwnProperty(key_of_b)) {
-      const value_of_a = a[key_of_b];
-      if (value_of_a !== value_of_b) {
-        if (value_of_b !== null && value_of_b.constructor !== Object) {
-          output[key_of_b] = [value_of_a, value_of_b];
-        } else if (value_of_a !== null && value_of_a.constructor === Object) {
-          output[key_of_b] = combineObject(value_of_a, value_of_b);
-        } else {
-          output[key_of_b] = [
-            value_of_a,
-            combineObject(value_of_a, value_of_b)
-          ]
-        }
-      }
-    } else {
-      output[key_of_b] = value_of_b;
-    }
-  }
-  return output;
-}
-
-// function mapStyle(style:Style) {
-// }
-
-function deepList(list:string[], value?:any):{} {
-  const key = list.pop();
-  if (!value) value = {};
-  if (!key) return value;
-  const dict:{[key:string]:{}} = {}
-  dict[key] = value;
-  return deepList(list, dict); 
-}
-
-function findApply(ast:Ast[], output:StyleSheet, root?:Style, ) {
-  const _updateStyle = (node:Ast, root:Style) => {
-    if (node.type==='AtRule') return root.atRule(node.data);
-    root.selector = node.data;
-    return root;
-  };
-  ast.forEach(node => {
-    if (node.children) {
-      findApply(node.children.data, output, _updateStyle(node, root ?? new Style()));
-    } else if (node.type === 'AtRule' && node.data.name === 'apply') {
-      if (root) {
-        output.extend(generateStyle(node, root));
-      }
-    }
-  });
-}
-
-function buildWrap(obj:{}):string {
-  const output = [];
-  if (Array.isArray(obj)) {
-
-    obj.forEach(item=>{
-      if (item.constructor === Object) {
-        output.push(buildWrap(item));
-      } else {
-        output.push(item.build());
-      }
-    })
-  } else {
-    for (let [key, value] of Object.entries(obj)) {
-      if (value instanceof Style) {
-        output.push(`${key} ${wrapit(value.build())}`);
-      } else if (value && typeof value === 'object'){
-        output.push(`${key} ${wrapit(buildWrap(value))}`);
-      }
-    }
-  }
-  return output.join('\n'); 
-}
-
-
-// const styleSheet = new StyleSheet();
-// findApply(ast, styleSheet);
-// const styleMap = styleSheet.children
-//                 .map(i=>{
-//                   const list = [...(i.atRules??[]).sort(sortMediaQuery), i.selector??''];
-//                   i.clearAtRules();
-//                   i.selector = undefined;
-//                   return deepList(list, i);
-//                 })
-//                 .sort((a: {}, b: {})=>{
-//                   const akey = Object.keys(a)[0];
-//                   const bkey = Object.keys(b)[0];
-//                   return sortMediaQuery(akey, bkey);
-//                 })
-//                 .reduce((previousValue: {}, currentValue: {})=>combineObject(previousValue, currentValue));
-
-
-// console.log(buildWrap(styleMap));
-
-console.log(ast.build());
+const styleSheet = parser.parse(undefined, true);
+writeFileSync('output.css', optimizeBuild(styleSheet, false));

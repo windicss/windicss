@@ -41,9 +41,14 @@ export class Property {
     }
 }
 
-export class InlineAtRule extends Property {   
+export class InlineAtRule extends Property {
+    name: string;
+    constructor(name:string, value?:string) {
+        super(name, value);
+        this.name = name;
+    }
     static parse(css:string) {
-        const matchName = css.match(/@[\w-]+(?=\s)/);
+        const matchName = css.match(/@[^\s\{}]+/);
         if (matchName) {
             const name = matchName[0].substring(1, );
             const expression = matchName.index !== undefined ? css.substring(matchName.index + name.length + 1, ).match(/[^;]*/)?.[0].trim(): undefined;
@@ -95,11 +100,12 @@ export class Style {
         return this;
     }
 
-    atRule(string:string) {
+    atRule(atrule?:string) {
+        if (!atrule) return this;
         if (this._atRules) {
-            this._atRules.push(string);
+            this._atRules.push(atrule);
         } else {
-            this._atRules = [ string ];
+            this._atRules = [ atrule ];
         }
         return this;
     }
