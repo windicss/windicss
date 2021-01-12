@@ -297,8 +297,8 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * ~~CLI support.~~
 * ~~Svelte Plugin.~~
 * ~~Vue Plugin.~~
-* Add tailwind directives support.
-* Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).
+* ~~Add tailwind directives support.~~
+* ~~Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).~~
 * Add tailwind.config.js support.
 * Write documentations.
 * Add some unit tests.

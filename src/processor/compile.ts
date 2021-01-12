@@ -12,26 +12,37 @@ export default function compile(classNames:string, prefix='windi-', showComment=
     const style = new StyleSheet();
     const className = prefix + hash(JSON.stringify(ast.sort((a: {[key:string]:any}, b: {[key:string]:any}) => a.raw - b.raw)));
     const buildSelector = '.' + className;
+
+    const _gStyle = (baseClass:string, variants:string[], selector:string) => {
+        const result = extract(baseClass, showComment);
+        if (result) {
+            success.push(selector);
+            if (Array.isArray(result)) {
+                result.forEach(i=>{
+                    i.selector = buildSelector;
+                })
+            } else {
+                result.selector = buildSelector;
+            }
+            style.add(apply(variants, result));
+        } else {
+            ignored.push(selector);
+        }
+    }
+    
     ast.forEach(obj=>{
         if (obj.type === 'utility') {
             if (Array.isArray(obj.content)) {
-                // #todo, group && functions stuff
+                // #functions stuff
             } else {
-                const result = extract(obj.content, showComment);
-                if (result) {
-                    success.push(obj.content);
-                    if (Array.isArray(result)) {
-                        result.forEach(i=>{
-                            i.selector = buildSelector;
-                        })
-                    } else {
-                        result.selector = buildSelector;
-                    }
-                    style.add(apply(obj.variants, result));
-                } else {
-                    ignored.push(obj.content);
-                }
+                _gStyle(obj.content, obj.variants, obj.raw);
             }
+        } else if (obj.type === 'group') {
+            obj.content.forEach((u:{[key:string]:any})=>{
+                const variants = [...obj.variants, ...u.variants];
+                const selector = [...variants, u.content].join(':');
+                _gStyle(u.content, variants, selector);
+            })
         } else {
             ignored.push(obj.raw);
         }
