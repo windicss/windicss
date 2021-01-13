@@ -304,7 +304,7 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * Add some unit tests.
 * ~~(x) Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).~~
 * Add new utility && variant && variable support
-* Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/playtailwindcss.com)).
+* Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/play.tailwindcss.com)).
 
 ## Special thanks
 

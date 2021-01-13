@@ -62,6 +62,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
+    wrap?: (rule:string)=>string; // wrap rule, like :global(.bg-white)
     selector?: string;
     escape: boolean;
     property: (Style|Property) [];
@@ -71,9 +72,10 @@ export class Style {
     private _childSelectors?: string [];
     private _atRules?: string [];
 
-    constructor(selector?: string, property?: Property | Style | (Style|Property)[] | StyleSheet, escape=true) {
+    constructor(selector?: string, property?: Property | Style | (Style|Property)[] | StyleSheet, escape=true, wrap?:(rule:string)=>string) {
         this.selector = selector;
         this.escape = escape;
+        this.wrap = wrap;
         this.property = (property instanceof StyleSheet)?property.children:(property instanceof Property || property instanceof Style)?[property]:property ?? [];
     }
 
@@ -83,7 +85,7 @@ export class Style {
         this._pseudoClasses && (result += `:${this._pseudoClasses.join(':')}`);
         this._pseudoElements && (result += `::${this._pseudoElements.join('::')}`);
         this._childSelectors && (result += ` ${this._childSelectors.join(' ')}`);
-        return result;
+        return this.wrap? this.wrap(result) : result;
     }
 
     get atRules() {

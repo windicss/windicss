@@ -5,6 +5,7 @@ import { Style } from '../../utils/style';
 
 const variant = {...screenVariants, ...stateVariants, ...themeVariants};
 
+export {variant as variants};
 // export default variant;
 
 export function apply(variants: string[], styles: Style | Style []): Style [] {
