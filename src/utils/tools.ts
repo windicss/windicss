@@ -13,9 +13,7 @@ export function indent(code:string, tab=2) {
 }
 
 export function escape(className:string):string {
-    return className.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.').replace(/^\\:global\(\\\./, ':global(.');
-    // fix escape .className
-    // fix :global() for svelte
+    return className.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.');
 }
 
 export function wrapit(code:string, start='{', end='}', tab=2, minify=false) {
