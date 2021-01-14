@@ -69,3 +69,15 @@ export function camelToDash(str:string) {
 export function dashToCamel(str:string) {
     return str.toLowerCase().replace(/-(.)/g, (_, group) => group.toUpperCase());
 }
+
+export function getNestedValue(obj:{[key:string]:any}, key:string) {
+    const keys = key.split('.');
+    if ( keys.length === 0 ) return obj[key];
+    let result = obj;
+    const end = keys.length - 1;
+    keys.forEach((value, index) => {
+        result = result[value];
+        if (index !== end && !result) result = {};
+    });
+    return result;
+}

@@ -1,12 +1,14 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
-import { compile } from '../../processor';
+import Processor from '../../processor';
 import { apply } from '../../processor/variants';
 import screens from '../../processor/variants/screen';
 
 export default class CSSParser {
     css:string;
+    processor:Processor;
     constructor(css:string) {
         this.css = css;
+        this.processor = new Processor();
     }
 
     private _removeComment(css:string) {
@@ -64,7 +66,7 @@ export default class CSSParser {
             index = end + 1;
         }
         if (applies.length > 0) {
-            const styleSheet = compile(applies.join(' ')).styleSheet;
+            const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
             styleSheet.children.forEach(style=>style.selector=selector);
             return (properties.length > 0) ? [new Style(selector, properties), ...styleSheet.children] : styleSheet.children;
         }

@@ -1,20 +1,31 @@
-import { default as extract } from './extract';
-import { default as preflight } from './preflight';
-import { default as interpret } from './interpret';
-import { default as compile } from './compile';
+import { resolve } from 'path';
+import extract from './extract';
+import preflight from './preflight';
+import interpret from './interpret';
+import compile from './compile';
+import defaultConfig from '../config/default';
+import { getNestedValue, escape } from '../utils/tools';
 import { Style } from '../utils/style';
 
 export default class Processor {
-    private _config: object;
+    private _config: {theme?:{[key:string]:any}};
     private _plugins: string[];
 
     constructor(config?:string|object, plugins:string[]=[]) {
-        this._config = config ? typeof config === 'string' ? this._parseConfig(config) : config : {};
+        this._config = this._parseConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {});
         this._plugins = plugins;
     }
 
-    _parseConfig(path:string) {
-        return {}
+    _parseConfig(userConfig:{[key:string]:any}) {
+        const userTheme = userConfig.theme;
+        if (userTheme) delete userConfig.theme;
+        const extendTheme:{[key:string]:{}} = userTheme?.extend ?? {};
+        if (userTheme && extendTheme) delete userTheme.extend;
+        const theme = { ...defaultConfig.theme, ...userTheme };
+        for (let [key, value] of Object.entries(extendTheme)) {
+            theme[key] = {...theme[key]??{}, ...value};
+        };
+        return { ...defaultConfig, ...userConfig, theme };
     }
 
     extract(className:string, addComment=false) {
@@ -34,12 +45,13 @@ export default class Processor {
     }
 
     // tailwind interfaces
-    config() {
-
+    config(path:string, defaultValue?:any) {
+        return getNestedValue(this._config, path) ?? defaultValue;
     }
 
-    theme() {
-
+    theme(path:string, defaultValue?:any) {
+        const theme = this._config.theme;
+        return theme ? getNestedValue(theme, path) ?? defaultValue : undefined;
     }
 
     corePlugins() {
@@ -50,8 +62,8 @@ export default class Processor {
 
     }
 
-    e() {
-
+    e(selector:string) {
+        return escape(selector);
     }
 
     prefix() {
@@ -73,5 +85,4 @@ export default class Processor {
     addVariant(name:string, generator:(selector:string)=>Style, options={}) {
 
     }
-
 }

@@ -1,4 +1,4 @@
-import config from '../../config/windi.config';
+import config from '../../config/default';
 import { Style } from '../../utils/style';
 
 const variants:{[key:string]:()=>Style} = {};
