@@ -1,10 +1,10 @@
-import { Utility } from './utilities/base';
 import staticUtility from './utilities/static';
 import dynamicUtility from './utilities/dynamic';
+import { Utility } from './utilities/base';
 import { Style, Property } from '../utils/style';
 
 
-export default function extract(className:string, addComment=false) {
+export default function extract(config:object, className:string, addComment=false) {
     let result: Style | Style [] | undefined;
     if (className in staticUtility) {
         result = new Style('.' + className);

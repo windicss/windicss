@@ -2,9 +2,9 @@ import parse from './parse';
 import extract from './extract';
 import { apply } from './variants';
 import { hash } from '../utils/tools';
-import { Style, StyleSheet } from '../utils/style';
+import { StyleSheet } from '../utils/style';
 
-export default function compile(classNames:string, prefix='windi-', showComment=false) {
+export default function compile(config:object, classNames:string, prefix='windi-', showComment=false) {
     // Compile tailwind css classes to one combined class.
     const ast = parse(classNames);
     const success:string [] = [];
@@ -14,7 +14,7 @@ export default function compile(classNames:string, prefix='windi-', showComment=
     const buildSelector = '.' + className;
 
     const _gStyle = (baseClass:string, variants:string[], selector:string) => {
-        const result = extract(baseClass, showComment);
+        const result = extract(config, baseClass, showComment);
         if (result) {
             success.push(selector);
             if (Array.isArray(result)) {

@@ -18,15 +18,14 @@ class Parser {
     classNames: string;
     classCopy: string;
     classMap: { [ key:string ]: { [ key:string ]:any } };
+    
     constructor(classNames:string) {
         this.classNames = classNames;
         this.classCopy = classNames;
         this.classMap = {'*':[]};
         this.index = 0;
     }
-    parse_variant() {
 
-    }
     sort() {
         const obj = this.classMap;
         let output: { [ key:string ]: { [ key:string ]:any } }= {};

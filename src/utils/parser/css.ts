@@ -1,7 +1,7 @@
-import { Property, Style, StyleSheet, InlineAtRule } from './style';
-import { compile } from '../processor';
-import { apply } from '../processor/variants';
-import screens from '../processor/variants/screen';
+import { Property, Style, StyleSheet, InlineAtRule } from '../style';
+import { compile } from '../../processor';
+import { apply } from '../../processor/variants';
+import screens from '../../processor/variants/screen';
 
 export class CSSParser {
     css:string;

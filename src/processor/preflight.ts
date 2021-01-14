@@ -1,7 +1,7 @@
 import preflights from './utilities/preflight';
 import { Style, Property, StyleSheet } from '../utils/style';
 
-export default function preflight(htmlTags:string [], global=true) {
+export default function preflight(config:object, tags:string [], global=true) {
     // Generate preflight style based on html tags.
     const globalSheet = new StyleSheet();
     const styleSheet = new StyleSheet();
@@ -22,7 +22,7 @@ export default function preflight(htmlTags:string [], global=true) {
         if (global && p.global) {
            globalSheet.add(createStyle(p.selector, p.properties));
         } else {
-            const includeTags = htmlTags.filter(i=>p.keys.includes(i));
+            const includeTags = tags.filter(i=>p.keys.includes(i));
             if (includeTags.length > 0) {
                 styleSheet.add(createStyle(p.selector?p.selector:includeTags.join(', '), p.properties));
             }

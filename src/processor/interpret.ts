@@ -3,7 +3,7 @@ import extract from './extract';
 import { apply } from './variants';
 import { Style, StyleSheet } from '../utils/style';
 
-export default function interpret(classNames:string) {
+export default function interpret(config:object, classNames:string) {
     // Interpret tailwind class then generate raw tailwind css.
     const ast = parse(classNames);
     const success:string [] = [];
@@ -11,7 +11,7 @@ export default function interpret(classNames:string) {
     const style = new StyleSheet();
 
     const _gStyle = (baseClass:string, variants:string[], selector:string) => {
-        const result = extract(baseClass);
+        const result = extract(config, baseClass);
         if (result) {
             success.push(selector);
             if (result instanceof Style) result.selector = '.' + selector;
