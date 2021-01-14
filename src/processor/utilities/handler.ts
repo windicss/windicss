@@ -1,4 +1,4 @@
-import colors from '../../config/colors.config.js';
+import colors from '../../config/colors.js';
 import { Property } from '../../utils/style';
 import { isNumber, isFraction, isSize, fracToPercent, hex2RGB } from '../../utils/tools';
 

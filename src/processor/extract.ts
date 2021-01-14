@@ -1,6 +1,6 @@
 import staticUtility from './utilities/static';
 import dynamicUtility from './utilities/dynamic';
-import { Utility } from './utilities/base';
+import { Utility } from './utilities/handler';
 import { Style, Property } from '../utils/style';
 
 

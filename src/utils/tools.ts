@@ -61,3 +61,11 @@ export function hex2RGB(hex:string) {
         return Array.from(short, s => Number.parseInt(s, 16)).map(n => (n << 4) | n);
     }
 };
+
+export function camelToDash(str:string) {
+    return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+}
+
+export function dashToCamel(str:string) {
+    return str.toLowerCase().replace(/-(.)/g, (_, group) => group.toUpperCase());
+}

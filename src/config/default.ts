@@ -1,4 +1,4 @@
-import colors from './colors.config';
+import colors from './colors';
 
 export default {
 
