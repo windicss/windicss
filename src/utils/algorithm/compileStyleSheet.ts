@@ -1,6 +1,6 @@
-import { Style, StyleSheet } from './style'
-import { wrapit } from '../utils/tools'
-import { sortMediaQuery } from './sort'
+import sortMediaQuery from './sortMediaQuery';
+import { Style, StyleSheet } from '../style';
+import { wrapit } from '../../utils/tools';
 
 function combineObject(a:{[key:string]:any}, b:{[key:string]:any}) {
     const output = {...a};
@@ -63,7 +63,7 @@ function buildMap(obj:{}, minify=false):string {
 }
 
 
-export function optimizeBuild(styleSheet:StyleSheet, minify=false) {
+export default function compileStyleSheet(styleSheet:StyleSheet, minify=false) {
     // The alternative to stylesheet.build(), and will eventually replace stylesheet.build(), currently in the testing phase.
     const head = styleSheet.children.filter(i=>!i.selector).map(i=>i.build(minify)).join(minify?'':'\n');
 

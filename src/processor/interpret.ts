@@ -1,11 +1,11 @@
-import parse from './parse';
 import extract from './extract';
 import { apply } from './variants';
+import { ClassParser } from '../utils/parser';
 import { Style, StyleSheet } from '../utils/style';
 
 export default function interpret(config:object, classNames:string) {
     // Interpret tailwind class then generate raw tailwind css.
-    const ast = parse(classNames);
+    const ast = new ClassParser(classNames).parse();
     const success:string [] = [];
     const ignored:string [] = [];
     const style = new StyleSheet();
@@ -15,7 +15,7 @@ export default function interpret(config:object, classNames:string) {
         if (result) {
             success.push(selector);
             if (result instanceof Style) result.selector = '.' + selector;
-            style.add(apply(variants, result));
+            style.add(apply(config, variants, result));
         } else {
             ignored.push(selector);
         }

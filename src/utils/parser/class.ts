@@ -13,7 +13,7 @@ enum Priority {
 
 const priorities = Object.values(Priority).reverse();
 
-class Parser {
+export default class ClassParser {
     index: number;
     classNames: string;
     classCopy: string;
@@ -128,8 +128,4 @@ class Parser {
         this.classNames = '(' + this.classNames + ')'; // turn into group;
         return this.handle_group();
     }
-}
-
-export default function parse(classNames:string) {
-    return new Parser(classNames).parse();
 }

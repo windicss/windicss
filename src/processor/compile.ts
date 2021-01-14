@@ -1,12 +1,13 @@
-import parse from './parse';
+// import parse from './parse';
 import extract from './extract';
 import { apply } from './variants';
 import { hash } from '../utils/tools';
 import { StyleSheet } from '../utils/style';
+import { ClassParser } from '../utils/parser';
 
 export default function compile(config:object, classNames:string, prefix='windi-', showComment=false) {
     // Compile tailwind css classes to one combined class.
-    const ast = parse(classNames);
+    const ast = new ClassParser(classNames).parse();
     const success:string [] = [];
     const ignored:string [] = [];
     const style = new StyleSheet();
@@ -24,7 +25,7 @@ export default function compile(config:object, classNames:string, prefix='windi-
             } else {
                 result.selector = buildSelector;
             }
-            style.add(apply(variants, result));
+            style.add(apply(config, variants, result));
         } else {
             ignored.push(selector);
         }

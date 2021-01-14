@@ -3,7 +3,7 @@ import { compile } from '../../processor';
 import { apply } from '../../processor/variants';
 import screens from '../../processor/variants/screen';
 
-export class CSSParser {
+export default class CSSParser {
     css:string;
     constructor(css:string) {
         this.css = css;

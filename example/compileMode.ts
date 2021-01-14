@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { HTMLParser } from '../src/utils/parser/html';
 import Processor from '../src/processor';
+import { HTMLParser } from '../src/utils/parser';
 import { StyleSheet } from '../src/utils/style';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)

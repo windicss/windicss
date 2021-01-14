@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Processor from '../src/processor';
-import { HTMLParser } from '../src/utils/parser/html';
+import { HTMLParser } from '../src/utils/parser';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
 const html = `<!--

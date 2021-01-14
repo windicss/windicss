@@ -1,4 +1,4 @@
-export class HTMLParser {
+export default class HTMLParser {
     html:string;
     constructor(html:string) {
       this.html = html;
