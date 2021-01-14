@@ -299,11 +299,11 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * ~~Vue Plugin.~~
 * ~~Add tailwind directives support.~~
 * ~~Group support (eg. sm:hover:(bg-black-300 dark:text-gray-200)).~~
-* Add tailwind.config.js support.
-* Write documentations.
-* Add some unit tests.
+* ~~Add tailwind.config.js support.~~
 * ~~(x) Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).~~
-* Add new utility && variant && variable support
+* ~~Add new utility && variant && variable support~~
+* Add some unit tests.
+* Write documentations.
 * Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/play.tailwindcss.com)).
 
 ## Special thanks
