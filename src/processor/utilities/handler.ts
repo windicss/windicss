@@ -1,46 +1,54 @@
 import colors from '../../config/colors.js';
 import { Property } from '../../utils/style';
-import { isNumber, isFraction, isSize, fracToPercent, hex2RGB } from '../../utils/tools';
+import { camelToDash } from '../../utils/tools';
+import { isNumber, isFraction, isSize, fracToPercent, hex2RGB, negateValue } from '../../utils/tools';
+
+const DEFAULT_COLORS = { ...colors };
+
+for (let [key, value] of Object.entries(colors)) {
+    DEFAULT_COLORS[camelToDash(key)] = value;
+}
 
 class Handler {
-    raw:string
-    center:string;
-    amount:string;
+    private _center:string;
+    private _amount:string;
+    utility:Utility;
     value:string|undefined;
-    constructor(raw:string, center:string, amount:string) {
-        this.raw = raw;
-        this.center = center;
-        this.amount = amount;
+    constructor(utility:Utility) {
+        this.utility = utility;
         this.value = undefined;
+        // speed up
+        this._amount = utility.amount;
+        this._center = utility.center;
     }
     handleStatic(map:{ [key: string]: string }, callback?:(str:string)=>string|undefined) {
         if (this.value) return this;
-        if (this.amount in map) this.value = callback?callback(this.amount):map[this.amount];
+        if (this._amount in map) this.value = callback?callback(this._amount):map[this._amount];
         return this;
     }
     handleNumber(start=-Infinity, end=Infinity, type:'int'|'float'='int', callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
-        if (isNumber(this.amount, start, end, type)) this.value = callback? callback(+this.amount) : this.amount;
+        if (isNumber(this._amount, start, end, type)) this.value = callback? callback(+this._amount) : this._amount;
         return this;
     }
     handleNxl(callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
-        if (/^\d*xl$/.test(this.amount)) this.value = callback? callback(this.amount==='xl'?1:parseInt(this.amount)): parseInt(this.amount).toString();
+        if (/^\d*xl$/.test(this._amount)) this.value = callback? callback(this._amount==='xl'?1:parseInt(this._amount)): parseInt(this._amount).toString();
         return this;
     }
     handleFraction(callback?:(fraction:string)=>string|undefined) {
         if (this.value) return this;
-        if (isFraction(this.amount)) this.value = callback?callback(this.amount):fracToPercent(this.amount);
+        if (isFraction(this._amount)) this.value = callback?callback(this._amount):fracToPercent(this._amount);
         return this;
     }
     handleSize(callback?:(size:string)=>string|undefined) {
         if (this.value) return this;
-        if (isSize(this.amount)) this.value = callback?callback(this.amount):this.amount;
+        if (isSize(this._amount)) this.value = callback?callback(this._amount):this._amount;
         return this;
     }
     handleVariable(callback?:(variable:string)=>string|undefined) {
         if (this.value) return this;
-        const matchVariable = this.raw.match(/-\$[\w-]+/);
+        const matchVariable = this.utility.raw.match(/-\$[\w-]+/);
         if (matchVariable) {
             const variableName = matchVariable[0].substring(2);
             this.value = callback?callback(variableName):`var(--${variableName})`;
@@ -50,21 +58,29 @@ class Handler {
     handleColor(callback?:(color:string)=>string|undefined) {
         if (this.value) return this;
         let color;
-        if (this.amount in colors) color = colors[this.amount];
-        if (this.center in colors) color = colors[this.center];
-        if (this.center === 'hex' && hex2RGB(this.amount)) color = '#'+this.amount;
+        if (this._amount in DEFAULT_COLORS) color = DEFAULT_COLORS[this._amount];
+        if (this._center in DEFAULT_COLORS) color = DEFAULT_COLORS[this._center];
+        if (this._center === 'hex' && hex2RGB(this._amount)) color = '#'+this._amount;
         if (typeof color === 'string') {
             this.value = callback?callback(color):color;
         } else if (typeof color === 'object') {
-            this.value = callback?callback(color[this.amount]):color[this.amount];
+            this.value = callback?callback(color[this._amount]):color[this._amount];
         }
         return this;
     }
+
+    handleNegative(callback:(value:string)=>string|undefined = negateValue) {
+        if (!this.value) return this;
+        this.value = this.utility.isNegative? callback(this.value) : this.value ;
+        return this;
+    }
+
     handleValue(callback?:(value:string)=>string|undefined) {
         if (!this.value) return this;
         if (callback) this.value = callback(this.value);
         return this;
     }
+
     createProperty(name:string|string [], callback?:(value:string)=>string) {
         if (!this.value) return;
         const value = callback?callback(this.value):this.value;
@@ -106,6 +122,6 @@ export class Utility {
         return this.match(/-.+/).substring(1,); // real-gray-300
     }
     get handler() {
-        return new Handler(this.raw, this.center, this.amount);
+        return new Handler(this);
     }
 }

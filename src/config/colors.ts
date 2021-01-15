@@ -87,7 +87,7 @@ const colors:{[key:string]:string|{[key:string]:string}} = {
       800: '#1e40af',
       900: '#1e3a8a',
     },
-    'light-blue': {
+    lightBlue: {
       50: '#f0f9ff',
       100: '#e0f2fe',
       200: '#bae6fd',
@@ -207,7 +207,7 @@ const colors:{[key:string]:string|{[key:string]:string}} = {
       800: '#991b1b',
       900: '#7f1d1d',
     },
-    'warm-gray': {
+    warmGray: {
       50: '#fafaf9',
       100: '#f5f5f4',
       200: '#e7e5e4',
@@ -219,7 +219,7 @@ const colors:{[key:string]:string|{[key:string]:string}} = {
       800: '#292524',
       900: '#1c1917',
     },
-    'true-gray': {
+    trueGray: {
       50: '#fafafa',
       100: '#f5f5f5',
       200: '#e5e5e5',
@@ -243,7 +243,7 @@ const colors:{[key:string]:string|{[key:string]:string}} = {
       800: '#27272a',
       900: '#18181b',
     },
-    'cool-gray': {
+    coolGray: {
       50: '#f9fafb',
       100: '#f3f4f6',
       200: '#e5e7eb',
@@ -255,7 +255,7 @@ const colors:{[key:string]:string|{[key:string]:string}} = {
       800: '#1f2937',
       900: '#111827',
     },
-    'blue-gray': {
+    blueGray: {
       50: '#f8fafc',
       100: '#f1f5f9',
       200: '#e2e8f0',

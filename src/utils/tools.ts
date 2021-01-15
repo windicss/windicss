@@ -81,3 +81,32 @@ export function getNestedValue(obj:{[key:string]:any}, key:string) {
     });
     return result;
 }
+
+export function negateValue(value:string) {
+    if (/(^0\w)|(^-)|(^0$)/.test(value)) return value;
+    return '-' + value;
+}
+
+export function negative(scale:{[key:string]:string}) {
+    return Object.keys(scale)
+      .filter((key) => scale[key] !== '0')
+      .reduce(
+        (negativeScale, key) => ({
+          ...negativeScale,
+          [`-${key}`]: negateValue(scale[key]),
+        }),
+        {}
+      )
+}
+
+export function breakpoints(screens:{[key:string]:string}) {
+    return Object.keys(screens)
+        .filter((key) => typeof screens[key] === 'string')
+        .reduce(
+            (breakpoints, key) => ({
+            ...breakpoints,
+            [`screen-${key}`]: screens[key],
+            }),
+            {}
+        )
+}

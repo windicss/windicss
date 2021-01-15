@@ -1,6 +1,6 @@
 import { Property, Style, GlobalStyle } from '../../utils/style';
 import { Utility } from './handler';
-import { roundUp, hex2RGB } from '../../utils/tools';
+import { roundUp, hex2RGB, negateValue } from '../../utils/tools';
 
 type Output = Property | Style | (Property|Style)[] | undefined;
 
@@ -26,7 +26,7 @@ function inset(utility: Utility): Output {
         .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
         .handleFraction()
         .handleSize()
-        .handleValue((value:string)=>utility.isNegative? '-' + value : value)
+        .handleNegative()
         .handleVariable()
         .value
     if (!value) return;
@@ -61,7 +61,7 @@ function order(utility: Utility): Output {
     let value = utility.handler
         .handleStatic({ 'first': '9999', 'last': '-9999', 'none': '0' })
         .handleNumber(1, 9999, 'int')
-        .handleValue((value:string)=>utility.isNegative && value !== '0' ? '-' + value : value)
+        .handleNegative()
         .handleVariable()
         .value;
     if (value) return new Style(utility.class, [new Property('-webkit-box-ordinal-group', value.startsWith('var')?`calc(${value}+1)`:(parseInt(value)+1).toString()), new Property(['-webkit-order', '-ms-flex-order', 'order'], value)]);
@@ -177,7 +177,7 @@ function margin(utility: Utility): Output {
         .handleStatic({ 'auto': 'auto', 'px': '1px' })
         .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
         .handleSize()
-        .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+        .handleNegative()
         .handleVariable()
         .value;
     if (!value) return;
@@ -207,7 +207,7 @@ function space(utility: Utility):Output {
     .handleStatic({ 'px': '1px' })
     .handleNumber(0, undefined, 'float', (number: number) => number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`)
     .handleSize()
-    .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+    .handleNegative()
     .handleVariable()
     .value;
     if (!value) return;
@@ -373,7 +373,7 @@ function letterSpacing(utility:Utility):Output {
             widest: '0.1em',
         })
         .handleSize()
-        .handleValue((value:string)=>utility.isNegative && value !== '0em' ? '-' + value : value)
+        .handleNegative()
         .handleVariable()
         .createProperty('letter-spacing');
 }
@@ -708,7 +708,7 @@ function scale(utility:Utility):Output {
 
 // https://tailwindcss.com/docs/rotate
 function rotate(utility:Utility):Output {
-    return utility.handler.handleNumber(0, 360, 'float', (number:number)=>`${number}deg`).handleValue((value:string)=>utility.isNegative && value !== '0deg' ? '-' + value : value).handleVariable().createProperty('--tw-rotate');
+    return utility.handler.handleNumber(0, 360, 'float', (number:number)=>`${number}deg`).handleNegative().handleVariable().createProperty('--tw-rotate');
 }
 
 // https://tailwindcss.com/docs/translate
@@ -721,7 +721,7 @@ function translate(utility:Utility):Output {
             .handleNumber(0, undefined, 'float', (number:number)=>(number === 0)?'0px':`${roundUp(number/4, 6)}rem`)
             .handleFraction()
             .handleSize()
-            .handleValue((value:string)=>utility.isNegative && value !== '0px' ? '-' + value : value)
+            .handleNegative()
             .handleVariable()
             .createProperty(`--tw-translate-${center}`);
     }
@@ -734,7 +734,7 @@ function skew(utility:Utility):Output {
         const center = centerMatch[0].replace(/^-?skew-/,'');
         return utility.handler
             .handleNumber(0, 360, 'float', (number:number)=>`${number}deg`)
-            .handleValue((value:string)=>utility.isNegative && value !== '0deg' ? '-' + value : value)
+            .handleNegative()
             .handleVariable()
             .createProperty(`--tw-skew-${center}`);
     }
