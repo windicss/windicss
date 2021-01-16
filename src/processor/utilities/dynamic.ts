@@ -1,6 +1,6 @@
-import { Property, Style, GlobalStyle } from '../../utils/style';
 import { Utility } from './handler';
-import { roundUp, hex2RGB, negateValue } from '../../utils/tools';
+import { roundUp, hex2RGB } from '../../utils/tools';
+import { Property, Style, GlobalStyle } from '../../utils/style';
 
 type Output = Property | Style | (Property|Style)[] | undefined;
 

@@ -1,4 +1,3 @@
-import config from '../src/config/default';
 import Processor from '../src/processor';
 
 const processor = new Processor('./tailwind.config.js');
@@ -23,6 +22,9 @@ const processor = new Processor('./tailwind.config.js');
 
 console.log(processor.theme('maxWidth'));
 
-console.log(processor.theme('space'))
+console.log(processor.theme('space'));
+
+console.log(processor.variants('zIndex'));
+
 
 

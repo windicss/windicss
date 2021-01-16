@@ -1,17 +1,10 @@
 import colors from './colors';
-
-export interface Tailwind {
-  theme: (path:string, defaultValue?:any) => any;
-  negative: (config:{[key:string]:string}) => {[key:string]:string};
-  breakpoints: (config:{[key:string]:string}) => {[key:string]:string};
-}
-
-export type Config = { presets?: Config[], darkMode?: 'media'|'class', theme?: {[key:string]:any}, variantOrder?: string[], plugins?: any[] };
+import type { Config } from '../interfaces';
 
 const config:Config = {
   // purge: [],
   presets: [],
-  darkMode: 'media', // or 'class'
+  darkMode: 'class', // or 'media'
   theme: {
     screens: {
       sm: '640px',
@@ -79,7 +72,7 @@ const config:Config = {
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
     },
-    backgroundColor: (theme:Tailwind['theme']) => theme('colors'),
+    backgroundColor: (theme) => theme('colors'),
     backgroundImage: {
       none: 'none',
       'gradient-to-t': 'linear-gradient(to top, var(--tw-gradient-stops))',
@@ -91,7 +84,7 @@ const config:Config = {
       'gradient-to-l': 'linear-gradient(to left, var(--tw-gradient-stops))',
       'gradient-to-tl': 'linear-gradient(to top left, var(--tw-gradient-stops))',
     },
-    backgroundOpacity: (theme:Tailwind['theme']) => theme('opacity'),
+    backgroundOpacity: (theme) => theme('opacity'),
     backgroundPosition: {
       bottom: 'bottom',
       center: 'center',
@@ -108,11 +101,11 @@ const config:Config = {
       cover: 'cover',
       contain: 'contain',
     },
-    borderColor: (theme:Tailwind['theme']) => ({
+    borderColor: (theme) => ({
       ...theme('colors'),
       DEFAULT: theme('colors.gray.200', 'currentColor'),
     }),
-    borderOpacity: (theme:Tailwind['theme']) => theme('opacity'),
+    borderOpacity: (theme) => theme('opacity'),
     borderRadius: {
       none: '0px',
       sm: '0.125rem',
@@ -151,9 +144,9 @@ const config:Config = {
       move: 'move',
       'not-allowed': 'not-allowed',
     },
-    divideColor: (theme:Tailwind['theme']) => theme('borderColor'),
-    divideOpacity: (theme:Tailwind['theme']) => theme('borderOpacity'),
-    divideWidth: (theme:Tailwind['theme']) => theme('borderWidth'),
+    divideColor: (theme) => theme('borderColor'),
+    divideOpacity: (theme) => theme('borderOpacity'),
+    divideWidth: (theme) => theme('borderWidth'),
     fill: { current: 'currentColor' },
     flex: {
       1: '1 1 0%',
@@ -224,8 +217,8 @@ const config:Config = {
       extrabold: '800',
       black: '900',
     },
-    gap: (theme:Tailwind['theme']) => theme('spacing'),
-    gradientColorStops: (theme:Tailwind['theme']) => theme('colors'),
+    gap: (theme) => theme('spacing'),
+    gradientColorStops: (theme) => theme('colors'),
     gridAutoColumns: {
       auto: 'auto',
       min: 'min-content',
@@ -351,7 +344,7 @@ const config:Config = {
       5: 'repeat(5, minmax(0, 1fr))',
       6: 'repeat(6, minmax(0, 1fr))',
     },
-    height: (theme:Tailwind['theme']) => ({
+    height: (theme) => ({
       auto: 'auto',
       ...theme('spacing'),
       '1/2': '50%',
@@ -372,7 +365,7 @@ const config:Config = {
       full: '100%',
       screen: '100vh',
     }),
-    inset: (theme:Tailwind['theme'], { negative }: Tailwind) => ({
+    inset: (theme, { negative }) => ({
       auto: 'auto',
       ...theme('spacing'),
       ...negative(theme('spacing')),
@@ -448,17 +441,17 @@ const config:Config = {
       disc: 'disc',
       decimal: 'decimal',
     },
-    margin: (theme:Tailwind['theme'], { negative }:Tailwind) => ({
+    margin: (theme, { negative }) => ({
       auto: 'auto',
       ...theme('spacing'),
       ...negative(theme('spacing')),
     }),
-    maxHeight: (theme:Tailwind['theme']) => ({
+    maxHeight: (theme) => ({
       ...theme('spacing'),
       full: '100%',
       screen: '100vh',
     }),
-    maxWidth: (theme:Tailwind['theme'], { breakpoints }:Tailwind) => ({
+    maxWidth: (theme, { breakpoints }) => ({
       none: 'none',
       0: '0rem',
       xs: '20rem',
@@ -539,14 +532,14 @@ const config:Config = {
       white: ['2px dotted white', '2px'],
       black: ['2px dotted black', '2px'],
     },
-    padding: (theme:Tailwind['theme']) => theme('spacing'),
-    placeholderColor: (theme:Tailwind['theme']) => theme('colors'),
-    placeholderOpacity: (theme:Tailwind['theme']) => theme('opacity'),
-    ringColor: (theme:Tailwind['theme']) => ({
+    padding: (theme) => theme('spacing'),
+    placeholderColor: (theme) => theme('colors'),
+    placeholderOpacity: (theme) => theme('opacity'),
+    ringColor: (theme) => ({
       DEFAULT: theme('colors.blue.500', '#3b82f6'),
       ...theme('colors'),
     }),
-    ringOffsetColor: (theme:Tailwind['theme']) => theme('colors'),
+    ringOffsetColor: (theme) => theme('colors'),
     ringOffsetWidth: {
       0: '0px',
       1: '1px',
@@ -554,7 +547,7 @@ const config:Config = {
       4: '4px',
       8: '8px',
     },
-    ringOpacity: (theme:Tailwind['theme']) => ({
+    ringOpacity: (theme) => ({
       DEFAULT: '0.5',
       ...theme('opacity'),
     }),
@@ -610,7 +603,7 @@ const config:Config = {
       6: '6deg',
       12: '12deg',
     },
-    space: (theme:Tailwind['theme'], { negative }:Tailwind) => ({
+    space: (theme, { negative }) => ({
       ...theme('spacing'),
       ...negative(theme('spacing')),
     }),
@@ -622,8 +615,8 @@ const config:Config = {
       1: '1',
       2: '2',
     },
-    textColor: (theme:Tailwind['theme']) => theme('colors'),
-    textOpacity: (theme:Tailwind['theme']) => theme('opacity'),
+    textColor: (theme) => theme('colors'),
+    textOpacity: (theme) => theme('opacity'),
     transitionDuration: {
       DEFAULT: '150ms',
       75: '75ms',
@@ -661,7 +654,7 @@ const config:Config = {
       out: 'cubic-bezier(0, 0, 0.2, 1)',
       'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
     },
-    translate: (theme:Tailwind['theme'], { negative }:Tailwind) => ({
+    translate: (theme, { negative }) => ({
       ...theme('spacing'),
       ...negative(theme('spacing')),
       '1/2': '50%',
@@ -679,7 +672,7 @@ const config:Config = {
       '-3/4': '-75%',
       '-full': '-100%',
     }),
-    width: (theme:Tailwind['theme']) => ({
+    width: (theme) => ({
       auto: 'auto',
       ...theme('spacing'),
       '1/2': '50%',
@@ -724,20 +717,61 @@ const config:Config = {
     },
   },
   variantOrder: [
-    'first',
-    'last',
-    'odd',
-    'even',
-    'visited',
-    'checked',
-    'group-hover',
-    'group-focus',
-    'focus-within',
     'hover',
     'focus',
-    'focus-visible',
     'active',
+    'visited',
+    'link',
+    'target',
+    'focus-visible',
+    'focus-within',
+    'checked',
+    'not-checked',
+    'default',
     'disabled',
+    'enabled',
+    'indeterminate',
+    'invalid',
+    'valid',
+    'optional',
+    'required',
+    'placeholder-shown',
+    'read-only',
+    'read-write',
+    'not-disabled',
+    'first-of-type',
+    'not-first-of-type',
+    'last-of-type',
+    'not-last-of-type',
+    'first',
+    'last',
+    'not-first',
+    'not-last',
+    'only-child',
+    'not-only-child',
+    'only-of-type',
+    'not-only-of-type',
+    'even',
+    'odd',
+    'even-of-type',
+    'odd-of-type',
+    'root',
+    'empty',
+    'before',
+    'after',
+    'first-letter',
+    'first-line',
+    'selection',
+    'svg',
+    'all',
+    'all-child',
+    'sibling',
+    'group-hover',
+    'group-focus',
+    'group-active',
+    'group-visited',
+    'motion-safe',
+    'motion-reduce'
   ],
   // variants: {
   //   accessibility: ['responsive', 'focus-within', 'focus'],

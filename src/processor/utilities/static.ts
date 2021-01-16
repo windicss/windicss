@@ -1,4 +1,4 @@
-interface StaticUtility { [key: string]: { [key: string]: string | string[] } };
+import type { ThemeUtilStr, StaticUtility }  from '../../interfaces';
 
 // https://tailwindcss.com/docs/font-variant-numeric
 // This feature uses var+comment hacks to get around property stripping:
@@ -282,9 +282,9 @@ const staticUtilities: StaticUtility = {
      */
 
     // https://tailwindcss.com/docs/font-family
-    'font-sans': { 'font-family': 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"' },
-    'font-serif': { 'font-family': 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif' },
-    'font-mono': { 'font-family': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' },
+    'font-sans': { 'font-family': (theme)=>theme('fontFamily.sans', `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`)},
+    'font-serif': { 'font-family': (theme)=>theme('fontFamily.serif', `ui-serif, Georgia, Cambria, "Times New Roman", Times, serif`)},
+    'font-mono': { 'font-family': (theme)=>theme('fontFamily.mono', `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`)},
     // https://tailwindcss.com/docs/font-size
     // See dynamic.ts
 

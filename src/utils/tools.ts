@@ -12,8 +12,8 @@ export function indent(code:string, tab=2) {
     return code.split('\n').map(line=>spaces+line).join('\n');
 }
 
-export function escape(className:string):string {
-    return className.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.');
+export function escape(selector:string):string {
+    return selector.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.');
 }
 
 export function wrapit(code:string, start='{', end='}', tab=2, minify=false) {
