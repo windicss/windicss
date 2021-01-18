@@ -19,6 +19,9 @@ export default class Processor {
     private _screens: {[key:string]:()=>Style} = {};
     private _states: {[key:string]:()=>Style} = {};
     private _themes: {[key:string]:()=>Style} = {};
+    private _processedUtilities: string[] = [];
+    private _processedTags: string[] = [];
+    private _generatedClasses: string[] = [];
 
     constructor(config?:string | Config) {
         this._config = this.resolveConfig(config);
@@ -107,24 +110,26 @@ export default class Processor {
         return extract(theme, className, addComment);
     }
 
-    preflight(tags:string [], global=true) {
+    preflight(tags:string [], global=true, ignoreProcessed=false) {
+        if (ignoreProcessed) tags = tags.filter(i=>!(this._processedTags.includes(i)));
         const theme = (path:string, defaultValue?:any) => this.theme(path, defaultValue);
+        this._processedTags = [...this._processedTags, ...tags];
         return preflight(theme, tags, global);
     }
 
-    interpret(classNames:string) {
+    interpret(classNames:string, ignoreProcessed=false) {
         // Interpret tailwind class then generate raw tailwind css.
         const ast = new ClassParser(classNames).parse();
         const success:string [] = [];
         const ignored:string [] = [];
-        const style = new StyleSheet();
+        const styleSheet = new StyleSheet();
     
         const _gStyle = (baseClass:string, variants:string[], selector:string) => {
             const result = this.extract(baseClass);
             if (result) {
                 success.push(selector);
                 if (result instanceof Style) result.selector = '.' + selector;
-                style.add(this.wrapWithVariants(variants, result));
+                styleSheet.add(this.wrapWithVariants(variants, result));
             } else {
                 ignored.push(selector);
             }
@@ -144,33 +149,37 @@ export default class Processor {
         };
     
         ast.forEach(obj=>{
-            if (obj.type === 'utility') {
-                if (Array.isArray(obj.content)) {
-                    // #functions stuff
+            if (!(ignoreProcessed && this._processedUtilities.includes(obj.raw))) {
+                this._processedUtilities.push(obj.raw);
+                if (obj.type === 'utility') {
+                    if (Array.isArray(obj.content)) {
+                        // #functions stuff
+                    } else {
+                        _gStyle(obj.content, obj.variants, obj.raw);
+                    }
+                } else if (obj.type === 'group') {
+                _hGroup(obj);
                 } else {
-                    _gStyle(obj.content, obj.variants, obj.raw);
+                    ignored.push(obj.raw);
                 }
-            } else if (obj.type === 'group') {
-               _hGroup(obj);
-            } else {
-                ignored.push(obj.raw);
             }
         })
         
         return {
             success,
             ignored,
-            styleSheet: style //.sort()
+            styleSheet //.sort()
         }
     }
 
-    compile(classNames:string, prefix='windi-', showComment=false) {
+    compile(classNames:string, prefix='windi-', showComment=false, ignoreGenerated=false) {
         // Compile tailwind css classes to one combined class.
         const ast = new ClassParser(classNames).parse();
         const success:string [] = [];
         const ignored:string [] = [];
-        const style = new StyleSheet();
-        const className = prefix + hash(JSON.stringify(ast.sort((a: {[key:string]:any}, b: {[key:string]:any}) => a.raw - b.raw)));
+        const styleSheet = new StyleSheet();
+        let className:string|undefined = prefix + hash(JSON.stringify(ast.sort((a: {[key:string]:any}, b: {[key:string]:any}) => a.raw - b.raw)));
+        if (ignoreGenerated && this._generatedClasses.includes(className)) return { success, ignored, styleSheet, className }
         const buildSelector = '.' + className;
     
         const _gStyle = (baseClass:string, variants:string[], selector:string) => {
@@ -184,7 +193,7 @@ export default class Processor {
                 } else {
                     result.selector = buildSelector;
                 }
-                style.add(this.wrapWithVariants(variants, result));
+                styleSheet.add(this.wrapWithVariants(variants, result));
             } else {
                 ignored.push(selector);
             }
@@ -217,11 +226,13 @@ export default class Processor {
             }
         })
     
+        className = success.length>0 ? className : undefined;
+        if (className) this._generatedClasses.push(className);
         return {
             success,
             ignored,
-            className: success.length>0 ? className : undefined,
-            styleSheet: style.combine()
+            className,
+            styleSheet
         };
     }
 
