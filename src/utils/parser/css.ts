@@ -1,5 +1,5 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
-import Processor from '../../processor';
+import Processor from '../../lib';
 
 export default class CSSParser {
     css:string;

@@ -1,9 +1,2 @@
-export * from './processor';
-export * from './utils';
-export * from './config';
-export * from './plugin';
-
-module.exports = {
-    'colors': require('./config/colors')
-}
-
+export { default as Processor } from './lib';
+export { default as colors } from './config/colors';

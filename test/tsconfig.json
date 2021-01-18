@@ -1,9 +1,16 @@
 {
-	"extends": "../tsconfig.json",
 	"include": ["./"],
-
+  
 	"compilerOptions": {
-		"target": "es2017",
-		"declaration": false,
+	  "target": "es2017",
+	  "module": "commonjs",
+	  "moduleResolution": "node",
+	  "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+	  "allowJs": true,
+	  "strict": true,
+	  "esModuleInterop": true,
+	  "skipLibCheck": true,
+	  "forceConsistentCasingInFileNames": true,
+	  "resolveJsonModule": true
+	}
   }
-}

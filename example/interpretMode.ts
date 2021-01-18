@@ -1,5 +1,5 @@
 import fs from 'fs';
-import Processor from '../src/processor';
+import Processor from '../src/lib';
 import { HTMLParser } from '../src/utils/parser';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)

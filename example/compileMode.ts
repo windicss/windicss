@@ -1,5 +1,5 @@
 import fs from 'fs';
-import Processor from '../src/processor';
+import Processor from '../src/lib';
 import { HTMLParser } from '../src/utils/parser';
 import { StyleSheet } from '../src/utils/style';
 

@@ -1,16 +1,11 @@
 {
-  "include": ["./src", "./example", "./test"],
-
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
-    "allowJs": true,
-    // "declarationDir": "types",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  }
+    "rootDir": ".",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "composite": true,
+  },
+  "files": [
+    "package.json"
+  ]
 }

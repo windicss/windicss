@@ -43,6 +43,7 @@ example/**/*.d.ts
 test/**/*.js
 test/**/*.d.ts
 test/**/*.css
+dist/
 
 # ignore yarn.lock
 yarn.lock
