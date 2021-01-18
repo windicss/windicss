@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { HTMLParser } from '../src/utils/html';
-import { compile, preflight } from '../src/processor';
+import Processor from '../src/processor';
+import { HTMLParser } from '../src/utils/parser';
 import { StyleSheet } from '../src/utils/style';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
@@ -73,7 +73,8 @@ start from scratch if you know enough to be dangerous. Have fun!
 `;
 
 const parser = new HTMLParser(html); // Simple html parser, only has two methods.
-const preflightSheet = preflight(parser.parseTags()); // Parse all html tags, then generate preflight
+const processor = new Processor({});
+const preflightSheet = processor.preflight(parser.parseTags()); // Parse all html tags, then generate preflight
 
 let outputHTML: string[] = [];
 let outputCSS: StyleSheet[] = [];
@@ -83,7 +84,7 @@ let indexStart = 0;
 // Match tailwind ClassName then replace with new ClassName
 parser.parseClasses().forEach(p=>{
   outputHTML.push(html.substring(indexStart, p.start));
-  const result = compile(p.result, 'windi-', true); // Set third argument to false to hide comments;
+  const result = processor.compile(p.result, 'windi-', true); // Set third argument to false to hide comments;
   outputCSS.push(result.styleSheet);
   ignoredClass = [...ignoredClass, ...result.ignored];
   outputHTML.push([result.className, ...result.ignored].join(' '));

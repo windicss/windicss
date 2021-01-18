@@ -12,8 +12,8 @@ export function indent(code:string, tab=2) {
     return code.split('\n').map(line=>spaces+line).join('\n');
 }
 
-export function escape(className:string):string {
-    return className.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.');
+export function escape(selector:string):string {
+    return selector.replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92)).replace(/^\\\./, '.');
 }
 
 export function wrapit(code:string, start='{', end='}', tab=2, minify=false) {
@@ -61,3 +61,28 @@ export function hex2RGB(hex:string) {
         return Array.from(short, s => Number.parseInt(s, 16)).map(n => (n << 4) | n);
     }
 };
+
+export function camelToDash(str:string) {
+    return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+}
+
+export function dashToCamel(str:string) {
+    return str.toLowerCase().replace(/-(.)/g, (_, group) => group.toUpperCase());
+}
+
+export function getNestedValue(obj:{[key:string]:any}, key:string) {
+    const keys = key.split('.');
+    if ( keys.length === 0 ) return obj[key];
+    let result = obj;
+    const end = keys.length - 1;
+    keys.forEach((value, index) => {
+        result = result[value];
+        if (index !== end && !result) result = {};
+    });
+    return result;
+}
+
+export function negateValue(value:string) {
+    if (/(^0\w)|(^-)|(^0$)/.test(value)) return value;
+    return '-' + value;
+}

@@ -1,19 +1,13 @@
-import { default as screenVariants } from './screen';
-import { default as stateVariants } from './state';
-import { default as themeVariants } from './theme';
-import { Style } from '../../utils/style';
+import { default as screensGenerator } from './screen';
+import { default as themesGenerator } from './theme';
+import { default as statesGenerator } from './state';
 
-const variant = {...screenVariants, ...stateVariants, ...themeVariants};
+import type { Config } from '../../interfaces';
 
-export {variant as variants};
-// export default variant;
-
-export function apply(variants: string[], styles: Style | Style []): Style [] {
-    if (!Array.isArray(styles)) styles = [styles];
-    if (variants.length === 0) return styles;
-    return styles.map(style=>{
-        return variants.map(i=>variant[i]()).reduce((previousValue:Style, currentValue:Style)=>{
-            return previousValue.extend(currentValue);
-        }).extend(style);
-    })
+export default function resolveVariants(config:Config) {
+    return {
+        'screen': screensGenerator(config.theme?.screens ?? {}),
+        'theme': themesGenerator(config.darkMode ?? 'class'),
+        'state': statesGenerator(config.variantOrder ?? [])
+    }
 }

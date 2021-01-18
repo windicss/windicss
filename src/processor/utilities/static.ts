@@ -1,4 +1,4 @@
-interface StaticUtility { [key: string]: { [key: string]: string | string[] } };
+import type { StaticUtility }  from '../../interfaces';
 
 // https://tailwindcss.com/docs/font-variant-numeric
 // This feature uses var+comment hacks to get around property stripping:
@@ -65,15 +65,7 @@ const staticUtilities: StaticUtility = {
     'object-scale-down': { '-o-object-fit': 'scale-down', 'object-fit': 'scale-down' },
 
     // https://tailwindcss.com/docs/object-position
-    'object-bottom': { '-o-object-position': 'bottom', 'object-position': 'bottom' },
-    'object-center': { '-o-object-position': 'center', 'object-position': 'center' },
-    'object-left': { '-o-object-position': 'left', 'object-position': 'left' },
-    'object-left-bottom': { '-o-object-position': 'left bottom', 'object-position': 'left bottom' },
-    'object-left-top': { '-o-object-position': 'left top', 'object-position': 'left top' },
-    'object-right': { '-o-object-position': 'right', 'object-position': 'right' },
-    'object-right-bottom': { '-o-object-position': 'right bottom', 'object-position': 'right bottom' },
-    'object-right-top': { '-o-object-position': 'right top', 'object-position': 'right top' },
-    'object-top': { '-o-object-position': 'top', 'object-position': 'top' },
+    // dynamic
 
     // https://tailwindcss.com/docs/overflow
     'overflow-auto': { overflow: 'auto' },
@@ -134,19 +126,8 @@ const staticUtilities: StaticUtility = {
     'flex-nowrap': { '-ms-flex-wrap': 'nowrap', '-webkit-flex-wrap': 'nowrap', 'flex-wrap': 'nowrap' },
 
     // https://tailwindcss.com/docs/flex
-    'flex-1': { '-webkit-box-flex': '1', '-ms-flex': '1 1 0%', '-webkit-flex': '1 1 0%', 'flex': '1 1 0%' },
-    'flex-auto': { '-webkit-box-flex': '1', '-ms-flex': '1 1 auto', '-webkit-flex': '1 1 auto', 'flex': '1 1 auto' },
-    'flex-initial': { '-webkit-box-flex': '0', '-ms-flex': '0 1 auto', '-webkit-flex': '0 1 auto', 'flex': '0 1 auto' },
-    'flex-none': { '-webkit-box-flex': '0', '-ms-flex': 'none', '-webkit-flex': 'none', 'flex': 'none' },
-
     // https://tailwindcss.com/docs/flex-grow
-    'flex-grow-0': { '-webkit-box-flex': '0', '-ms-flex-positive': '0', '-webkit-flex-grow': '0', 'flex-grow': '0' },
-    'flex-grow': { '-webkit-box-flex': '1', '-ms-flex-positive': '1', '-webkit-flex-grow': '1', 'flex-grow': '1' },
-
     // https://tailwindcss.com/docs/flex-shrink
-    'flex-shrink-0': { '-ms-flex-negative': '0', '-webkit-flex-shrink': '0', 'flex-shrink': '0' },
-    'flex-shrink': { '-ms-flex-negative': '1', '-webkit-flex-shrink': '1', 'flex-shrink': '1' },
-
     // https://tailwindcss.com/docs/order
     // See dynamic.ts
 
@@ -169,17 +150,7 @@ const staticUtilities: StaticUtility = {
     'grid-flow-col-dense': { 'grid-auto-flow': 'col dense' },
 
     // https://tailwindcss.com/docs/grid-auto-columns
-    'auto-cols-auto': { 'grid-auto-columns': 'auto' },
-    'auto-cols-min': { 'grid-auto-columns': ['-webkit-min-content', 'min-content'] },
-    'auto-cols-max': { 'grid-auto-columns': ['-webkit-max-content', 'max-content'] },
-    'auto-cols-fr': { 'grid-auto-columns': 'minmax(0, 1fr)' },
-
     // https://tailwindcss.com/docs/grid-auto-rows
-    'auto-rows-auto': { 'grid-auto-rows': 'auto' },
-    'auto-rows-min': { 'grid-auto-rows': ['-webkit-min-content', 'min-content'] },
-    'auto-rows-max': { 'grid-auto-rows': ['-webkit-max-content', 'max-content'] },
-    'auto-rows-fr': { 'grid-auto-rows': 'minmax(0, 1fr)' },
-
     // https://tailwindcss.com/docs/gap
     // See dynamic.ts
 
@@ -282,9 +253,6 @@ const staticUtilities: StaticUtility = {
      */
 
     // https://tailwindcss.com/docs/font-family
-    'font-sans': { 'font-family': 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"' },
-    'font-serif': { 'font-family': 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif' },
-    'font-mono': { 'font-family': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' },
     // https://tailwindcss.com/docs/font-size
     // See dynamic.ts
 
@@ -339,12 +307,8 @@ const staticUtilities: StaticUtility = {
 
     // https://tailwindcss.com/docs/letter-spacing
     // https://tailwindcss.com/docs/line-height
-    // See dynamic.ts
-
     // https://tailwindcss.com/docs/list-style-type
-    'list-none': { 'list-style-type': 'none' },
-    'list-disc': { 'list-style-type': 'disc' },
-    'list-decimal': { 'list-style-type': 'decimal' },
+    // See dynamic.ts
 
     // https://tailwindcss.com/docs/list-style-position
     'list-inside': { 'list-style-position': 'inside' },
@@ -437,18 +401,8 @@ const staticUtilities: StaticUtility = {
 
     // https://tailwindcss.com/docs/background-color
     // https://tailwindcss.com/docs/background-opacity
-    // See dynamic.ts
-
     // https://tailwindcss.com/docs/background-position
-    'bg-bottom': { 'background-position': 'bottom' },
-    'bg-center': { 'background-position': 'center' },
-    'bg-left': { 'background-position': 'left' },
-    'bg-left-bottom': { 'background-position': 'left bottom' },
-    'bg-left-top': { 'background-position': 'left top' },
-    'bg-right': { 'background-position': 'right' },
-    'bg-right-bottom': { 'background-position': 'right bottom' },
-    'bg-right-top': { 'background-position': 'right top' },
-    'bg-top': { 'background-position': 'top' },
+    // See dynamic.ts
 
     // https://tailwindcss.com/docs/background-repeat
     'bg-repeat': { 'background-repeat': 'repeat' },
@@ -457,23 +411,8 @@ const staticUtilities: StaticUtility = {
     'bg-repeat-y': { 'background-repeat': 'repeat-y' },
     'bg-repeat-round': { 'background-repeat': 'round' },
     'bg-repeat-space': { 'background-repeat': 'space' },
-
-    // https://tailwindcss.com/docs/background-size
-    'bg-auto': { 'background-size': 'auto' },
-    'bg-cover': { 'background-size': 'cover' },
-    'bg-contain': { 'background-size': 'contain' },
-
+    
     // https://tailwindcss.com/docs/background-image
-    'bg-none': { 'background-image': 'none' },
-    'bg-gradient-to-t': { 'background-image': ['-o-linear-gradient(bottom, var(--tw-gradient-stops))', '-webkit-gradient(linear, left bottom, left top, from(var(--tw-gradient-stops)))', 'linear-gradient(to top, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-tr': { 'background-image': ['-o-linear-gradient(bottom left, var(--tw-gradient-stops))', '-webkit-gradient(linear, left bottom, right top, from(var(--tw-gradient-stops)))', 'linear-gradient(to top right, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-r': { 'background-image': ['-o-linear-gradient(left, var(--tw-gradient-stops))', '-webkit-gradient(linear, left top, right top, from(var(--tw-gradient-stops)))', 'linear-gradient(to right, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-br': { 'background-image': ['-o-linear-gradient(top left, var(--tw-gradient-stops))', '-webkit-gradient(linear, left top, right bottom, from(var(--tw-gradient-stops)))', 'linear-gradient(to bottom right, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-b': { 'background-image': ['-o-linear-gradient(top, var(--tw-gradient-stops))', '-webkit-gradient(linear, left top, left bottom, from(var(--tw-gradient-stops)))', 'linear-gradient(to bottom, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-bl': { 'background-image': ['-o-linear-gradient(top right, var(--tw-gradient-stops))', '-webkit-gradient(linear, right top, left bottom, from(var(--tw-gradient-stops)))', 'linear-gradient(to bottom left, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-l': { 'background-image': ['-o-linear-gradient(right, var(--tw-gradient-stops))', '-webkit-gradient(linear, right top, left top, from(var(--tw-gradient-stops)))', 'linear-gradient(to left, var(--tw-gradient-stops))'] },
-    'bg-gradient-to-tl': { 'background-image': ['-o-linear-gradient(bottom right, var(--tw-gradient-stops))', '-webkit-gradient(linear, right bottom, left top, from(var(--tw-gradient-stops)))', 'linear-gradient(to top left, var(--tw-gradient-stops))'] },
-
     // https://tailwindcss.com/docs/gradient-color-stops
     // See dynamic.ts
 
@@ -483,35 +422,9 @@ const staticUtilities: StaticUtility = {
      */
 
     // https://tailwindcss.com/docs/border-radius
-    'rounded': { 'border-radius': '0.25rem' },
-    'rounded-t': {
-        'border-top-left-radius': '0.25rem',
-        'border-top-right-radius': '0.25rem',
-    },
-    'rounded-r': {
-        'border-top-right-radius': '0.25rem',
-        'border-bottom-right-radius': '0.25rem',
-    },
-    'rounded-b': {
-        'border-bottom-right-radius': '0.25rem',
-        'border-bottom-left-radius': '0.25rem',
-    },
-    'rounded-l': {
-        'border-top-left-radius': '0.25rem',
-        'border-bottom-left-radius': '0.25rem',
-    },
-    'rounded-tl': { 'border-top-left-radius': '0.25rem' },
-    'rounded-tr': { 'border-top-right-radius': '0.25rem' },
-    'rounded-br': { 'border-bottom-right-radius': '0.25rem' },
-    'rounded-bl': { 'border-bottom-left-radius': '0.25rem' },
     // See dynamic.ts
 
     // https://tailwindcss.com/docs/border-width
-    'border': { 'border-width': '1px' },
-    'border-t': { 'border-top-width': '1px' },
-    'border-r': { 'border-right-width': '1px' },
-    'border-b': { 'border-bottom-width': '1px' },
-    'border-l': { 'border-left-width': '1px' },
     // See dynamic.ts
 
     // https://tailwindcss.com/docs/border-color
@@ -533,8 +446,6 @@ const staticUtilities: StaticUtility = {
 
 
     // https://tailwindcss.com/docs/ring-width
-    'ring': { '-webkit-box-shadow': 'var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color)', 'box-shadow': 'var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color)' },
-    // dynamic
     // https://tailwindcss.com/docs/ring-color
     // https://tailwindcss.com/docs/ring-opacity
     // https://tailwindcss.com/docs/ring-offset-width
@@ -547,54 +458,6 @@ const staticUtilities: StaticUtility = {
      */
 
     // https://tailwindcss.com/docs/box-shadow/
-    'shadow-sm': {
-        '--tw-shadow': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow': {
-        '--tw-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-md': {
-        '--tw-shadow': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-lg': {
-        '--tw-shadow': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-xl': {
-        '--tw-shadow': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-2xl': {
-        '--tw-shadow': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-inner': {
-        '--tw-shadow': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
-    'shadow-none': {
-        '--tw-shadow': '0 0 #0000',
-        '-webkit-box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-        'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-    },
-
     // https://tailwindcss.com/docs/opacity
     // See dynamic.ts
 
@@ -617,84 +480,10 @@ const staticUtilities: StaticUtility = {
      */
 
     // https://tailwindcss.com/docs/transition-property
-    'transition-none': { '-webkit-transition-property': 'none', '-o-transition-property': 'none', 'transition-property': 'none' },
-    'transition-all': {
-        '-webkit-transition-property': 'all', 
-        '-o-transition-property': 'all',
-        'transition-property': 'all',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-    'transition': {
-        '-webkit-transition-property': 'background-color, border-color, color, fill, stroke, opacity, -webkit-box-shadow, -webkit-transform',
-        '-o-transition-property': 'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform',
-        'transition-property': 'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, -webkit-box-transform, -webkit-transform',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-    'transition-colors': {
-        '-webkit-transition-property': 'background-color, border-color, color, fill, stroke',
-        '-o-transition-property': 'background-color, border-color, color, fill, stroke',
-        'transition-property': 'background-color, border-color, color, fill, stroke',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-    'transition-opacity': {
-        '-webkit-transition-property': 'opacity',
-        '-o-transition-property': 'opacity',
-        'transition-property': 'opacity',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-    'transition-shadow': {
-        '-webkit-transition-property': '-webkit-box-shadow',
-        '-o-transition-property': 'box-shadow',
-        'transition-property': 'box-shadow, -webkit-box-shadow',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-    'transition-transform': {
-        '-webkit-transition-property': '-webkit-transform',
-        '-o-transition-property': 'transform',
-        'transition-property': 'transform, -webkit-transform',
-        '-webkit-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 
-        '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)',
-        '-webkit-transition-duration': '150ms', 
-        '-o-transition-duration': '150ms',
-        'transition-duration': '150ms'
-    },
-
     // https://tailwindcss.com/docs/transition-duration
     // https://tailwindcss.com/docs/transition-delay
-    // See dynamic.ts
-
     // https://tailwindcss.com/docs/transition-timing-function
-    'ease-linear': { '-webkit-transition-timing-function':'linear', '-o-transition-timing-function': 'linear', 'transition-timing-function': 'linear' },
-    'ease-in': { '-webkit-transition-timing-function':'cubic-bezier(0.4, 0, 1, 1)', '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 1, 1)', 'transition-timing-function': 'cubic-bezier(0.4, 0, 1, 1)' },
-    'ease-out': { '-webkit-transition-timing-function':'cubic-bezier(0, 0, 0.2, 1)', '-o-transition-timing-function': 'cubic-bezier(0, 0, 0.2, 1)', 'transition-timing-function': 'cubic-bezier(0, 0, 0.2, 1)' },
-    'ease-in-out': { '-webkit-transition-timing-function':'cubic-bezier(0.4, 0, 0.2, 1)', '-o-transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)', 'transition-timing-function': 'cubic-bezier(0.4, 0, 0.2, 1)' },
-
+    // See dynamic.ts
 
 
     /**
@@ -729,17 +518,7 @@ const staticUtilities: StaticUtility = {
     },
 
     'transform-none': { '-webkit-transform': 'none', '-ms-transform': 'none', transform: 'none' },
-
     // https://tailwindcss.com/docs/transform-origin
-    'origin-center': { '-webkit-transform-origin': 'center', '-ms-transform-origin': 'center', 'transform-origin': 'center' },
-    'origin-top': { '-webkit-transform-origin': 'top', '-ms-transform-origin': 'top', 'transform-origin': 'top' },
-    'origin-top-right': { '-webkit-transform-origin': 'top right', '-ms-transform-origin': 'top right', 'transform-origin': 'top right' },
-    'origin-right': { '-webkit-transform-origin': 'right', '-ms-transform-origin': 'right', 'transform-origin': 'right' },
-    'origin-bottom-right': { '-webkit-transform-origin': 'bottom right', '-ms-transform-origin': 'bottom right', 'transform-origin': 'bottom right' },
-    'origin-bottom': { '-webkit-transform-origin': 'bottom', '-ms-transform-origin': 'bottom', 'transform-origin': 'bottom' },
-    'origin-bottom-left': { '-webkit-transform-origin': 'bottom left', '-ms-transform-origin': 'bottom left', 'transform-origin': 'bottom left' },
-    'origin-left': { '-webkit-transform-origin': 'left', '-ms-transform-origin': 'left', 'transform-origin': 'left' },
-    'origin-top-left': { '-webkit-transform-origin': 'top left', '-ms-transform-origin': 'top left', 'transform-origin': 'top left' },
 
     // https://tailwindcss.com/docs/scale
     // https://tailwindcss.com/docs/rotate
@@ -756,14 +535,6 @@ const staticUtilities: StaticUtility = {
     'appearance-none': { '-webkit-appearance': 'none', '-moz-appearance': 'none', appearance: 'none' },
 
     // https://tailwindcss.com/docs/cursor
-    'cursor-auto': { cursor: 'auto' },
-    'cursor-default': { cursor: 'default' },
-    'cursor-pointer': { cursor: 'pointer' },
-    'cursor-wait': { cursor: 'wait' },
-    'cursor-text': { cursor: 'text' },
-    'cursor-move': { cursor: 'move' },
-    'cursor-not-allowed': { cursor: 'not-allowed' },
-
     // https://tailwindcss.com/docs/outline
     // See dynamic.ts
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import arg from 'arg';
+import Processor from '../processor';
 import { readFileSync, writeFileSync } from 'fs';
-import { HTMLParser } from '../utils/html';
+import { HTMLParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
-import { interpret, compile, preflight } from '../processor';
 import { getVersion, FilePattern, walk, isFile, generateTemplate } from './utils';
 
 const doc = `
@@ -99,6 +99,7 @@ for (let pt of args._) {
 let ignoredClasses:string[] = [];
 let preflights:StyleSheet[] = [];
 let styleSheets:StyleSheet[] = [];
+const processor = new Processor();
 
 if (args["--compile"]) {
   // compilation mode
@@ -113,7 +114,7 @@ if (args["--compile"]) {
     // Match tailwind ClassName then replace with new ClassName
     parser.parseClasses().forEach(p=>{
       outputHTML.push(html.substring(indexStart, p.start));
-      const utility = compile(p.result, prefix, true); // Set third argument to false to hide comments;
+      const utility = processor.compile(p.result, prefix, true); // Set third argument to false to hide comments;
       outputStyle.push(utility.styleSheet);
       ignoredClasses = [...ignoredClasses, ...utility.ignored];
       outputHTML.push([utility.className, ...utility.ignored].join(' '));
@@ -126,18 +127,18 @@ if (args["--compile"]) {
     writeFileSync(outputFile, outputHTML.join(''));
     console.log(`${file} -> ${outputFile}`);
 
-    if (args["--preflight"]) preflights.push(preflight(parser.parseTags()));
+    if (args["--preflight"]) preflights.push(processor.preflight(parser.parseTags()));
   });
 
 } else {
   // interpretation mode
   matchFiles.forEach(file=>{
     const parser = new HTMLParser(readFileSync(file).toString());
-    const utility = interpret(parser.parseClasses().map(i=>i.result).join(' '));
+    const utility = processor.interpret(parser.parseClasses().map(i=>i.result).join(' '));
     styleSheets.push(utility.styleSheet);
     ignoredClasses = [...ignoredClasses, ...utility.ignored];
 
-    if (args["--preflight"]) preflights.push(preflight(parser.parseTags()));
+    if (args["--preflight"]) preflights.push(processor.preflight(parser.parseTags()));
   });
 }
 

@@ -1,5 +1,5 @@
-import { sortMediaQuery } from './sort';
-import { wrapit, escape, indent, hash } from './tools';
+import { compileStyleSheet } from './algorithm';
+import { wrapit, escape, hash } from './tools';
 
 export class Property {
     name: string|string [];
@@ -90,11 +90,6 @@ export class Style {
 
     get atRules() {
         return this._atRules;
-    }
-
-    get hash() {
-        // hash without property
-        return hash(this.atRules + this.rule);
     }
 
     clearAtRules() {
@@ -230,45 +225,6 @@ export class StyleSheet {
         this.children = children || [];
     }
 
-    private _combineAtrules() {
-        let atrules:{[key:string]:{[key:string]:any}} = {};
-        const originAtrules = atrules;
-        this.children.forEach((child)=>{
-            if (child.atRules) {
-                atrules = originAtrules;
-                for (let i= child.atRules.length-1; i >= 0; i--) {
-                    const atrule = child.atRules[i];
-                    if (+i === 0) {
-                        if (atrules[atrule]) {
-                            atrules[atrule].root.push(child.clearAtRules());
-                        } else {
-                            atrules[atrule] = {root:[child.clearAtRules()]};
-                        }
-                    };
-                    atrules = atrules[atrule];
-                }
-            }
-        });
-        // sort atrules 
-        const sortedAtrules:{[key:string]:{[key:string]:any}} = {};
-        Object.keys(originAtrules).sort(sortMediaQuery).forEach(key=>{
-            sortedAtrules[key] = originAtrules[key];
-        })
-        return sortedAtrules;
-    }
-
-    private _buildAtrules(obj:{[key:string]:any}, tab=0, minify=false):string {
-        let css = '';
-        for (let [key, value] of Object.entries(obj)) {
-            if (Array.isArray(value)) {
-                css += minify? value.map(i=>i.build(minify)).join('') : indent(value.map(i=>i.build()).join('\n'), tab) + '\n';
-            } else {
-                css += minify? `${key.replace(/\s/g,'')}{${this._buildAtrules(value, tab+2, minify)}}` : `\n${indent(key, tab)} {\n${this._buildAtrules(value, tab+2, minify)}${indent('}', tab)}\n`;
-            }
-        }
-        return css;
-    }
-
     add(item: Style | Style[]) {
         if (Array.isArray(item)) {
             this.children = [...this.children, ...item];
@@ -285,11 +241,11 @@ export class StyleSheet {
     combine() {
         const styleMap:{[key:string]:Style} = {};
         this.children.forEach(v=>{
-            const hash = v.hash;
-            if (hash in styleMap) {
-                styleMap[hash] = styleMap[hash].extend(v, true);
+            const hashValue = hash(v.atRules + v.rule);
+            if (hashValue in styleMap) {
+                styleMap[hashValue] = styleMap[hashValue].extend(v, true);
             } else {
-                styleMap[hash] = v;
+                styleMap[hashValue] = v;
             }
         });
         this.children = Object.values(styleMap).map(i=>i.clean());//.sort());
@@ -302,7 +258,6 @@ export class StyleSheet {
     }
 
     build(minify=false):string {
-        if (minify) return this.children.filter(i=>!i.atRules).map(i=>i.build(minify)).join('') + this._buildAtrules(this._combineAtrules(), undefined, minify);
-        return this.children.filter(i=>!i.atRules).map(i=>i.build()).join('\n\n') + '\n' + this._buildAtrules(this._combineAtrules());
+        return compileStyleSheet(this.children, minify);
     }
 }

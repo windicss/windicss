@@ -1,7 +1,8 @@
-import { apply } from '../src/processor/variants';
 import { Property } from '../src/utils/style';
+import Processor from '../src/processor';
 
-const testVariant = (v: string []) => apply(v, new Property('box-sizing', 'border-box').toStyle('.box-border')).map(i=>i.build(true)).join('\n');
+const processor = new Processor();
+const testVariant = (v: string []) => processor.wrapWithVariants(v, new Property('box-sizing', 'border-box').toStyle('.box-border')).map(i=>i.build(true)).join('\n');
 
 console.log(testVariant(['sm', '@dark', 'hover']));
 console.log(testVariant(['+sm', 'dark', 'hover']));

@@ -1,7 +1,9 @@
 // (Last Update: Aug 22 2020) [https://github.com/sindresorhus/modern-normalize/blob/master/modern-normalize.css]
 // (Last Update: Nov 4 2020) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
 
-const preflights:{keys:string[], properties:{[key:string]:string|string[]}, selector?:string, global?:boolean}[] = [
+import type { ThemeUtilStr } from '../../interfaces';
+
+const preflights:{keys:string[], properties:{[key:string]:string|string[]|((theme:ThemeUtilStr)=>string)}, selector?:string, global?:boolean}[] = [
 
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -457,7 +459,7 @@ Add the correct display in Chrome and Safari.
   global: true,
   selector: 'html',
   properties: {
-    'font-family': `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`, /* 1 */
+    'font-family': (theme) => theme('fontFamily.sans', `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`), /* 1 */
     'line-height': '1.5' /* 2 */
   }
 },
@@ -512,7 +514,7 @@ Add the correct display in Chrome and Safari.
     'box-sizing': 'border-box',
     'border-width': '0',
     'border-style': 'solid',
-    'border-color': 'currentColor'
+    'border-color': (theme) => theme('borderColor.DEFAULT', 'currentColor')
   }
 },
 
@@ -561,7 +563,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::webkit-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -569,7 +571,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-moz-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -577,7 +579,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input:-ms-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -585,7 +587,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-ms-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -593,7 +595,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::webkit-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -601,7 +603,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-moz-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -609,7 +611,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea:-ms-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -617,7 +619,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-ms-input-placeholder',
   properties: {
-    'color': '#a1a1aa'
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
   }
 },
 
@@ -625,7 +627,7 @@ Add the correct display in Chrome and Safari.
   keys: ['button'],
   selector: 'button, [role="button"]',
   properties: {
-    'color': '#a1a1aa'
+    'cursor': 'pointer'
   }
 },
 
@@ -684,7 +686,7 @@ Add the correct display in Chrome and Safari.
 {
   keys: ['pre', 'code', 'kbd', 'samp'],
   properties: {
-    'font-family': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+    'font-family': (theme) => theme('fontFamily.mono', `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`)
   }
 },
 

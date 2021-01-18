@@ -1,12 +1,12 @@
-import { Property, Style, StyleSheet, InlineAtRule } from './style';
-import { compile } from '../processor';
-import { apply } from '../processor/variants';
-import screens from '../processor/variants/screen';
+import { Property, Style, StyleSheet, InlineAtRule } from '../style';
+import Processor from '../../processor';
 
-export class CSSParser {
+export default class CSSParser {
     css:string;
+    processor:Processor;
     constructor(css:string) {
         this.css = css;
+        this.processor = new Processor();
     }
 
     private _removeComment(css:string) {
@@ -64,7 +64,7 @@ export class CSSParser {
             index = end + 1;
         }
         if (applies.length > 0) {
-            const styleSheet = compile(applies.join(' ')).styleSheet;
+            const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
             styleSheet.children.forEach(style=>style.selector=selector);
             return (properties.length > 0) ? [new Style(selector, properties), ...styleSheet.children] : styleSheet.children;
         }
@@ -76,6 +76,7 @@ export class CSSParser {
         if (["tailwind", "responsive"].includes(iatrule.name)) return undefined;
         if (iatrule.name === "variants" && iatrule.value) return { variants: iatrule.value.split(',').map(i=>i.trim().split(':')) }
         if (iatrule.name === 'screen' && iatrule.value) {
+            const screens = this.processor.resolveVariants('screen');
             if (screens.hasOwnProperty(iatrule.value)) return { atrule: screens[iatrule.value]().atRules?.[0] };
             if (['dark', 'light'].includes(iatrule.value)) return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
         }
@@ -115,7 +116,7 @@ export class CSSParser {
                         } else if (directives?.variants) {
                             const variants = directives.variants;
                             const style = this.parse(css.substring(nestStart + 1, nestEnd), transform).children;
-                            variants.map(i=>apply(i, style)).forEach(i=>styleSheet.add(i));
+                            variants.map(i=>this.processor.wrapWithVariants(i, style)).forEach(i=>styleSheet.add(i));
                         }
                     } else {
                         styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(atrule)));
