@@ -1,4 +1,3 @@
-// import config from '../../config/default';
 import { Style } from '../../utils/style';
 
 export default function (screens:{[key:string]:string}) {
@@ -15,4 +14,4 @@ export default function (screens:{[key:string]:string}) {
                                     `@media (min-width: ${size})`);
     }
     return variants;
-} 
+}

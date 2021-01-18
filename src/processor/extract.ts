@@ -3,8 +3,10 @@ import dynamicUtility from './utilities/dynamic';
 import { Utility } from './utilities/handler';
 import { Style, Property } from '../utils/style';
 
+import type { ThemeUtil } from '../interfaces';
 
-export default function extract(config:object, className:string, addComment=false) {
+
+export default function extract(theme:ThemeUtil, className:string, addComment=false) {
     let result: Style | Style [] | undefined;
     if (className in staticUtility) {
         result = new Style('.' + className);
@@ -21,7 +23,7 @@ export default function extract(config:object, className:string, addComment=fals
         const matches = className.match(/\w+/);
         const key = matches ? matches[0]: undefined;
         if (key && key in dynamicUtility) {
-            const u = dynamicUtility[key](new Utility(className));
+            const u = dynamicUtility[key](new Utility(className), { theme });
             if (u) {
                 if (u instanceof Property) {
                     result = new Style('.' + className);

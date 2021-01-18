@@ -29,4 +29,10 @@ export interface ConfigValue {
     defaultValue?:any
 }
 
-export interface StaticUtility { [key: string]: { [key: string]: string | string[] | ((theme:ThemeUtilStr)=>string) } };
+export interface StaticUtility { [key: string]: { [key: string]: string | string[] } };
+
+export interface PluginUtils {
+    theme: (path:string, defaultValue?:any) => any;
+}
+
+export type FontSize = [fontSize?:string, options?:{ letterSpacing?:string, lineHeight?:string, }];

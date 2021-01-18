@@ -1,6 +1,4 @@
 const colors:{[key:string]:string|{[key:string]:string}} = {
-    transparent: 'transparent',
-    current: 'currentColor',
     black: '#000',
     white: '#fff',
     rose: {

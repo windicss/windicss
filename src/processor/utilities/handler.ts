@@ -1,9 +1,9 @@
 import colors from '../../config/colors.js';
 import { Property } from '../../utils/style';
 import { camelToDash } from '../../utils/tools';
-import { isNumber, isFraction, isSize, fracToPercent, hex2RGB, negateValue } from '../../utils/tools';
+import { isNumber, isFraction, isSize, roundUp, fracToPercent, hex2RGB, negateValue } from '../../utils/tools';
 
-const DEFAULT_COLORS = { ...colors };
+const DEFAULT_COLORS:{[key:string]:string|{[key:string]:string}} = { transparent: 'transparent', current: 'currentColor', ...colors };
 
 for (let [key, value] of Object.entries(colors)) {
     DEFAULT_COLORS[camelToDash(key)] = value;
@@ -21,15 +21,29 @@ class Handler {
         this._amount = utility.amount;
         this._center = utility.center;
     }
-    handleStatic(map:{ [key: string]: string }, callback?:(str:string)=>string|undefined) {
+    handleStatic(map?:{ [key: string]: string|string[] }, callback?:(str:string)=>string|undefined) {
         if (this.value) return this;
-        if (this._amount in map) this.value = callback?callback(this._amount):map[this._amount];
+        if (!map) return this;
+        if (map.DEFAULT) map[this.utility.raw] = map.DEFAULT;
+        if (this._amount in map) this.value = callback?callback(this._amount):`${map[this._amount]}`;
+        return this;
+    }
+    handleBody(map?:{ [key: string]: string|string[] }, callback?:(str:string)=>string|undefined) {
+        if (this.value) return this;
+        if (!map) return this;
+        if (map.DEFAULT) map[this.utility.raw] = map.DEFAULT;
+        const body = this.utility.body
+        if (body in map) this.value = callback?callback(body):`${map[body]}`;
         return this;
     }
     handleNumber(start=-Infinity, end=Infinity, type:'int'|'float'='int', callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
         if (isNumber(this._amount, start, end, type)) this.value = callback? callback(+this._amount) : this._amount;
         return this;
+    }
+    handleSpacing() {
+        // just a short-hand for handle spacing.
+        return this.handleNumber(0, undefined, 'float', (number:number)=>(number === 0)?'0px':`${roundUp(number/4, 6)}rem`);
     }
     handleNxl(callback?:(number:number)=>string|undefined) {
         if (this.value) return this;
@@ -55,11 +69,11 @@ class Handler {
         }
         return this;
     }
-    handleColor(callback?:(color:string)=>string|undefined) {
+    handleColor(map:{ [key: string]: string| { [key:string]: string} } = DEFAULT_COLORS, callback?:(color:string)=>string|undefined) {
         if (this.value) return this;
         let color;
-        if (this._amount in DEFAULT_COLORS) color = DEFAULT_COLORS[this._amount];
-        if (this._center in DEFAULT_COLORS) color = DEFAULT_COLORS[this._center];
+        if (this._amount in map) color = map[this._amount];
+        if (this._center in map) color = map[this._center];
         if (this._center === 'hex' && hex2RGB(this._amount)) color = '#'+this._amount;
         if (typeof color === 'string') {
             this.value = callback?callback(color):color;
@@ -81,9 +95,10 @@ class Handler {
         return this;
     }
 
-    createProperty(name:string|string [], callback?:(value:string)=>string) {
+    createProperty(name:string|string [], callback?:(value:string)=>string|string[]) {
         if (!this.value) return;
         const value = callback?callback(this.value):this.value;
+        if (Array.isArray(value)) return value.map(i=>new Property(name, i));
         return new Property(name, value);
     }
 }

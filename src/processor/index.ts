@@ -1,28 +1,29 @@
 import { resolve } from 'path';
+import { getNestedValue, escape, hash } from '../utils/tools';
+import { negative, breakpoints } from '../utils/helpers';
+import { Style, StyleSheet } from '../utils/style';
+import { ClassParser } from '../utils/parser';
+
 import extract from './extract';
 import preflight from './preflight';
-import interpret from './interpret';
-import compile from './compile';
 import defaultConfig from '../config/default';
-import screensGenerator from './variants/screen';
-import themesGenerator from './variants/theme';
-import statesGenerator from './variants/state';
+import resolveVariants from './variants';
 
-
-import { getNestedValue, escape, negative, breakpoints } from '../utils/tools';
-import { Style } from '../utils/style';
-
-import type { Config, ConfigValue } from '../interfaces';
-
+import type { Config } from '../interfaces';
 
 
 export default class Processor {
     private _config: Config;
+    private _theme: Config['theme'];
     private _variants: {[key:string]:()=>Style};
+    private _screens: {[key:string]:()=>Style} = {};
+    private _states: {[key:string]:()=>Style} = {};
+    private _themes: {[key:string]:()=>Style} = {};
 
     constructor(config?:string|object) {
         this._config = this.resolveConfig(config);
-        this._variants = this.resolveVariants(this._config);
+        this._theme = this._config.theme;
+        this._variants = this.resolveVariants(undefined, true);
     }
 
     private _resolveConfig(userConfig: Config) {
@@ -69,8 +70,23 @@ export default class Processor {
         return this._resolveFunction(this._resolveConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {}));
     }
 
-    resolveVariants(config:Config) {
-        return {...screensGenerator(config.theme?.screens ?? {}), ...themesGenerator(config.darkMode ?? 'class'), ...statesGenerator(config.variantOrder ?? [])};
+    resolveVariants(type?:'screen'|'theme'|'state', recreate = false) {
+        if (recreate) {
+            const variants = resolveVariants(this._config);
+            this._screens = variants.screen;
+            this._themes = variants.theme;
+            this._states = variants.state;
+        }
+        switch (type) {
+            case 'screen':
+                return this._screens;
+            case 'theme':
+                return this._themes;
+            case 'state':
+                return this._states;
+            default:
+                return {...this._screens, ...this._themes, ...this._states};
+        }
     }
 
     wrapWithVariants(variants: string[], styles: Style | Style []): Style [] {
@@ -85,7 +101,8 @@ export default class Processor {
     }
 
     extract(className:string, addComment=false) {
-        return extract(this.config, className, addComment);
+        const theme = (path:string, defaultValue?:any) => this.theme(path, defaultValue);
+        return extract(theme, className, addComment);
     }
 
     preflight(tags:string [], global=true) {
@@ -94,11 +111,98 @@ export default class Processor {
     }
 
     interpret(classNames:string) {
-        return interpret(this.config, classNames);
+        // Interpret tailwind class then generate raw tailwind css.
+        const ast = new ClassParser(classNames).parse();
+        const success:string [] = [];
+        const ignored:string [] = [];
+        const style = new StyleSheet();
+    
+        const _gStyle = (baseClass:string, variants:string[], selector:string) => {
+            const result = this.extract(baseClass);
+            if (result) {
+                success.push(selector);
+                if (result instanceof Style) result.selector = '.' + selector;
+                style.add(this.wrapWithVariants(variants, result));
+            } else {
+                ignored.push(selector);
+            }
+        }
+    
+        ast.forEach(obj=>{
+            if (obj.type === 'utility') {
+                if (Array.isArray(obj.content)) {
+                    // #functions stuff
+                } else {
+                    _gStyle(obj.content, obj.variants, obj.raw);
+                }
+            } else if (obj.type === 'group') {
+                obj.content.forEach((u:{[key:string]:any})=>{
+                    const variants = [...obj.variants, ...u.variants];
+                    const selector = [...variants, u.content].join(':');
+                    _gStyle(u.content, variants, selector);
+                })
+            } else {
+                ignored.push(obj.raw);
+            }
+        })
+        
+        return {
+            success,
+            ignored,
+            styleSheet: style //.sort()
+        }
     }
 
     compile(classNames:string, prefix='windi-', showComment=false) {
-        return compile(this.config, classNames, prefix, showComment);
+        // Compile tailwind css classes to one combined class.
+        const ast = new ClassParser(classNames).parse();
+        const success:string [] = [];
+        const ignored:string [] = [];
+        const style = new StyleSheet();
+        const className = prefix + hash(JSON.stringify(ast.sort((a: {[key:string]:any}, b: {[key:string]:any}) => a.raw - b.raw)));
+        const buildSelector = '.' + className;
+    
+        const _gStyle = (baseClass:string, variants:string[], selector:string) => {
+            const result = this.extract(baseClass, showComment);
+            if (result) {
+                success.push(selector);
+                if (Array.isArray(result)) {
+                    result.forEach(i=>{
+                        i.selector = buildSelector;
+                    })
+                } else {
+                    result.selector = buildSelector;
+                }
+                style.add(this.wrapWithVariants(variants, result));
+            } else {
+                ignored.push(selector);
+            }
+        }
+        
+        ast.forEach(obj=>{
+            if (obj.type === 'utility') {
+                if (Array.isArray(obj.content)) {
+                    // #functions stuff
+                } else {
+                    _gStyle(obj.content, obj.variants, obj.raw);
+                }
+            } else if (obj.type === 'group') {
+                obj.content.forEach((u:{[key:string]:any})=>{
+                    const variants = [...obj.variants, ...u.variants];
+                    const selector = [...variants, u.content].join(':');
+                    _gStyle(u.content, variants, selector);
+                })
+            } else {
+                ignored.push(obj.raw);
+            }
+        })
+    
+        return {
+            success,
+            ignored,
+            className: success.length>0 ? className : undefined,
+            styleSheet: style.combine()
+        };
     }
 
     // tailwind interfaces
@@ -106,9 +210,8 @@ export default class Processor {
         return getNestedValue(this._config, path) ?? defaultValue;
     }
 
-    theme(path:string, defaultValue?:any) {
-        const theme = this._config.theme;
-        return theme ? getNestedValue(theme, path) ?? defaultValue : undefined;
+    theme(path:string, defaultValue?:any):any {
+        return this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
     }
 
     corePlugins(path:string) {
