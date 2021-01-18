@@ -20,7 +20,7 @@ export default class Processor {
     private _states: {[key:string]:()=>Style} = {};
     private _themes: {[key:string]:()=>Style} = {};
 
-    constructor(config?:string|object) {
+    constructor(config?:string | Config) {
         this._config = this.resolveConfig(config);
         this._theme = this._config.theme;
         this._variants = this.resolveVariants(undefined, true);
@@ -66,8 +66,10 @@ export default class Processor {
         // not support yet
     }
 
-    resolveConfig(config:string|object|undefined) {
-        return this._resolveFunction(this._resolveConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {}));
+    resolveConfig(config:string|Config|undefined) {
+        this._config = this._resolveConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {});
+        this._theme = this._config.theme; // update theme to make sure theme() function works.
+        return this._resolveFunction(this._config);
     }
 
     resolveVariants(type?:'screen'|'theme'|'state', recreate = false) {
@@ -126,7 +128,20 @@ export default class Processor {
             } else {
                 ignored.push(selector);
             }
-        }
+        };
+
+        const _hGroup = (obj:{[key:string]:any}, parentVariants:string[]=[]) => {
+            obj.content.forEach((u:{[key:string]:any})=>{
+                if (u.type === 'group') {
+                   _hGroup(u, obj.variants);
+                } else {
+                    // utility
+                    const variants = [...parentVariants, ...obj.variants, ...u.variants];
+                    const selector = [...variants, u.content].join(':');
+                    _gStyle(u.content, variants, selector);
+                }
+            })
+        };
     
         ast.forEach(obj=>{
             if (obj.type === 'utility') {
@@ -136,11 +151,7 @@ export default class Processor {
                     _gStyle(obj.content, obj.variants, obj.raw);
                 }
             } else if (obj.type === 'group') {
-                obj.content.forEach((u:{[key:string]:any})=>{
-                    const variants = [...obj.variants, ...u.variants];
-                    const selector = [...variants, u.content].join(':');
-                    _gStyle(u.content, variants, selector);
-                })
+               _hGroup(obj);
             } else {
                 ignored.push(obj.raw);
             }
@@ -178,6 +189,19 @@ export default class Processor {
                 ignored.push(selector);
             }
         }
+
+        const _hGroup = (obj:{[key:string]:any}, parentVariants:string[]=[]) => {
+            obj.content.forEach((u:{[key:string]:any})=>{
+                if (u.type === 'group') {
+                   _hGroup(u, obj.variants);
+                } else {
+                    // utility
+                    const variants = [...parentVariants, ...obj.variants, ...u.variants];
+                    const selector = [...variants, u.content].join(':');
+                    _gStyle(u.content, variants, selector);
+                }
+            })
+        };
         
         ast.forEach(obj=>{
             if (obj.type === 'utility') {
@@ -187,11 +211,7 @@ export default class Processor {
                     _gStyle(obj.content, obj.variants, obj.raw);
                 }
             } else if (obj.type === 'group') {
-                obj.content.forEach((u:{[key:string]:any})=>{
-                    const variants = [...obj.variants, ...u.variants];
-                    const selector = [...variants, u.content].join(':');
-                    _gStyle(u.content, variants, selector);
-                })
+                _hGroup(obj);
             } else {
                 ignored.push(obj.raw);
             }

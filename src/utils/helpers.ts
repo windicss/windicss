@@ -14,7 +14,7 @@ export function negative(scale:{[key:string]:string}) {
       )
 }
 
-export function breakpoints(screens:{[key:string]:string}) {
+export function breakpoints(screens:{[key:string]:string}={}) {
     return Object.keys(screens)
         .filter((key) => typeof screens[key] === 'string')
         .reduce(
@@ -29,6 +29,8 @@ export function breakpoints(screens:{[key:string]:string}) {
 export function generateKeyframe(name:string, children:{[key:string]:{[key:string]:string}}) {
     const output:GlobalStyle[] = [];
     for (let [key, value] of Object.entries(children)) {
+        const style = new GlobalStyle(key).atRule(`@keyframes ${name}`);
+        const webkitStyle = new GlobalStyle(key).atRule(`@-webkit-keyframes ${name}`);
         for (let [pkey, pvalue] of Object.entries(value)) {
             let prop:string|string[] = pkey;
             if (pkey === 'transform') {
@@ -36,9 +38,11 @@ export function generateKeyframe(name:string, children:{[key:string]:{[key:strin
             } else if (['animationTimingFunction', 'animation-timing-function'].includes(pkey)) {
                 prop = ['-webkit-animation-timing-function', 'animation-timing-function'];
             }
-            output.push(new GlobalStyle(key, new Property(prop, pvalue)).atRule(`@keyframes ${name}`),)
-            output.push(new GlobalStyle(key, new Property(prop, pvalue)).atRule(`@-webkit-keyframes ${name}`),)
+            style.add(new Property(prop, pvalue));
+            webkitStyle.add(new Property(prop, pvalue));
         }
+        output.push(style);
+        output.push(webkitStyle);
     }
     return output;
 }

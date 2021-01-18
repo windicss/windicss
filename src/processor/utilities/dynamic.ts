@@ -12,13 +12,13 @@ type Output = Property | Style | (Property|Style)[] | undefined;
 function container(utility: Utility, { theme }: PluginUtils): Output {
     if (utility.raw === 'container') {
         const className = utility.class;
-        const baseStyle = new Property('width', '100%').toStyle();
+        const baseStyle = new Property('width', '100%').toStyle(utility.class);
         const paddingDefault = theme('container.padding.DEFAULT');
         if (paddingDefault) baseStyle.add(new Property('padding', paddingDefault));
         if (theme('container.center')) baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
         const output:Style[] = [ baseStyle ];
-        for (let [screen, size] of theme('screens')) {
-            const props = [new Property('max-width', size)];
+        for (let [screen, size] of Object.entries(theme('screens'))) {
+            const props = [new Property('max-width', `${size}`)];
             const padding = theme(`container.padding.${screen}`);
             if (padding) props.push(new Property('padding', padding));
             output.push(new Style(className, props).atRule(`@media (min-width: ${size})`));
@@ -483,16 +483,15 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
     
     // handle border color
     let value = utility.handler.handleColor(theme('borderColor')).handleVariable((variable:string)=>utility.raw.startsWith('border-$')?`var(--${variable})`:undefined).value;
-     if (value) {
-         if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
-         return new Style(utility.class, [new Property('--tw-border-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`)])
-     }
+    if (value) {
+        if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value);
+        return new Style(utility.class, [new Property('--tw-border-opacity', '1'), new Property('border-color', `rgba(${value.startsWith('var')?value:hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`)])
+    }
     // handle border width
-    const directions = expandDirection(utility.raw.substring(7,8), false);
-    if (!directions) return;
+    const directions = expandDirection(utility.raw.substring(7,8), false) ?? ['*'];
     const borders = theme('borderWidth');
     const raw = (['border', 'border-t', 'border-r', 'border-b', 'border-l'].includes(utility.raw)) ? `${utility.raw}-${borders.DEFAULT}`: utility.raw;
-    return new Utility(raw).handler.handleStatic().handleNumber(0, undefined, 'int', (number:number)=>`${number}px`).handleSize().handleVariable().createProperty(directions[0] === '*' ? 'border-width' : directions.map(i=>`border-${i}-width`));
+    return new Utility(raw).handler.handleStatic(borders).handleNumber(0, undefined, 'int', (number:number)=>`${number}px`).handleSize().handleVariable().createProperty(directions[0] === '*' ? 'border-width' : directions.map(i=>`border-${i}-width`));
 }
 
 // https://tailwindcss.com/docs/divide-width
@@ -580,8 +579,8 @@ function ring(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/box-shadow/
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
-    // return utility.handler.handleStatic(theme('opacity')).handleNumber(0, 100, 'int', (number:number)=>(number/100).toString()).handleVariable().createProperty('opacity');
-    let body = utility.body ?? 'DEFAULT';
+    let body = utility.body;
+    if (body === '') body = 'DEFAULT';
     const shadows = theme('boxShadow');
     if (Object.keys(shadows).includes(body)) {
         return new Style(utility.class, [ new Property('--tw-shadow', shadows[body]), new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)')]);
@@ -635,7 +634,7 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
         if (value === 'none') return new Property(['-webkit-animation', 'animation'], 'none');
         return [
             new Style(utility.class, new Property(['-webkit-animation', 'animation'], value)),
-            ...generateKeyframe(value, theme(`keyframes.${value}`) ?? {})
+            ...generateKeyframe(amount, theme(`keyframes.${amount}`) ?? {})
         ];
     }
 }

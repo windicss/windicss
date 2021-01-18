@@ -1,6 +1,6 @@
 import sortMediaQuery from './sortMediaQuery';
-import { Style, StyleSheet } from '../style';
-import { wrapit } from '../../utils/tools';
+import { Style } from '../style';
+import { wrapit, hash } from '../../utils/tools';
 
 function combineObject(a:{[key:string]:any}, b:{[key:string]:any}) {
     const output = {...a};
@@ -35,18 +35,31 @@ function deepList(list:string[], value?:any):{} {
     dict[key] = value;
     return deepList(list, dict); 
 }
+
+
+function handleNest(item:any) {
+    let output:any[] = [];
+    if (Array.isArray(item)) {
+        item.forEach(i=>{
+            output = [...output, ...handleNest(i)];
+        });
+    } else {
+        if (item.build) output.push(item.build());
+    }
+    return output;
+}
   
   
 function buildMap(obj:{}, minify=false):string {
-    const output = [];
+    let output:any[] = [];
     if (Array.isArray(obj)) {
         obj.forEach(item=>{
             if (item.constructor === Object) {
                 output.push(buildMap(item));
             } else if (Array.isArray(item)) {
-                item.forEach(i=>output.push(i.build(minify)));
+                output = [...output, ...handleNest(item)];
             } else {
-                output.push(item.build(minify));
+                if (item.build) output.push(item.build(minify));
             }
         })
     } else {
@@ -62,13 +75,25 @@ function buildMap(obj:{}, minify=false):string {
     return output.join(minify?'':'\n'); 
 }
 
+function combineSelector(styleList:Style[]) {
+    const styleMap:{[key:string]:Style} = {};
+    styleList.forEach(v=>{
+        const hashValue = hash(v.rule);
+        if (styleMap.hasOwnProperty(hashValue)) {
+            styleMap[hashValue] = styleMap[hashValue].extend(v, true);
+        } else {
+            styleMap[hashValue] = v;
+        }
+    });
+    return Object.values(styleMap).map(i=>i.clean());//.sort());
+}
 
-export default function compileStyleSheet(styleSheet:StyleSheet, minify=false) {
+
+export default function compileStyleSheet(styleList:Style[], minify=false) {
     // The alternative to stylesheet.build(), and will eventually replace stylesheet.build(), currently in the testing phase.
-    const head = styleSheet.children.filter(i=>!i.selector).map(i=>i.build(minify)).join(minify?'':'\n');
-
+    const head = combineSelector(styleList.filter(i=>!(i.selector && i.atRules))).map(i=>i.build(minify)).join(minify?'':'\n');
     const body = buildMap(
-                styleSheet.children.filter(i=>i.selector)
+                styleList.filter(i=>i.selector && i.atRules)
                 .map(i=>{
                     const list = [...(i.atRules??[]).sort(sortMediaQuery), i.rule];
                     return deepList(list, new Style(undefined, i.property));

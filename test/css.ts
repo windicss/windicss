@@ -1,5 +1,4 @@
-import { CSSParser } from '../src/utils/css';
-import { optimizeBuild } from '../src/utils/algorithm';
+import { CSSParser } from '../src/utils/parser';
 import { writeFileSync } from 'fs';
 
 const css = `
@@ -104,4 +103,4 @@ html {
 
 const parser = new CSSParser(css);
 const styleSheet = parser.parse(undefined, true);
-writeFileSync('output.css', optimizeBuild(styleSheet, false));
+writeFileSync('output.css', styleSheet.build());

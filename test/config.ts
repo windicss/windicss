@@ -24,7 +24,4 @@ console.log(processor.theme('maxWidth'));
 
 console.log(processor.theme('space'));
 
-console.log(processor.variants('zIndex'));
-
-
-
+console.log(processor.theme('zIndex'));

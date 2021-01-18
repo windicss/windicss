@@ -1,5 +1,5 @@
-import { sortMediaQuery, compileStyleSheet } from './algorithm';
-import { wrapit, escape, indent, hash } from './tools';
+import { compileStyleSheet } from './algorithm';
+import { wrapit, escape, hash } from './tools';
 
 export class Property {
     name: string|string [];
@@ -90,11 +90,6 @@ export class Style {
 
     get atRules() {
         return this._atRules;
-    }
-
-    get hash() {
-        // hash without property
-        return hash(this.atRules + this.rule);
     }
 
     clearAtRules() {
@@ -246,11 +241,11 @@ export class StyleSheet {
     combine() {
         const styleMap:{[key:string]:Style} = {};
         this.children.forEach(v=>{
-            const hash = v.hash;
-            if (hash in styleMap) {
-                styleMap[hash] = styleMap[hash].extend(v, true);
+            const hashValue = hash(v.atRules + v.rule);
+            if (hashValue in styleMap) {
+                styleMap[hashValue] = styleMap[hashValue].extend(v, true);
             } else {
-                styleMap[hash] = v;
+                styleMap[hashValue] = v;
             }
         });
         this.children = Object.values(styleMap).map(i=>i.clean());//.sort());
@@ -263,6 +258,6 @@ export class StyleSheet {
     }
 
     build(minify=false):string {
-        return compileStyleSheet(this, minify);
+        return compileStyleSheet(this.children, minify);
     }
 }
