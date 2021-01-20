@@ -1,6 +1,6 @@
-import fs from 'fs';
-import Processor from '../src/processor';
+import { Processor } from '../src/lib';
 import { StyleSheet } from '../src/utils/style';
+import { writeFileSync } from 'fs';
 
 
 // [...document.querySelectorAll('.text-violet-600.whitespace-nowrap')].map(i=>i.innerText.replace(' > * + *', '').replace('::placeholder', '')).join('", "')
@@ -192,6 +192,6 @@ function build(classNames:string[], minify=false) {
     return styleSheet.build(minify);
 }
 
-fs.writeFileSync('output.css', build(classNames, false)); // Set true to minify build
+writeFileSync('output.css', build(classNames, false)); // Set true to minify build
 
 

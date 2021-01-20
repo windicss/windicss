@@ -6,13 +6,15 @@ import { ClassParser } from '../utils/parser';
 
 import extract from './extract';
 import preflight from './preflight';
-import defaultConfig from '../config/default';
+import baseConfig from '../config/base';
 import resolveVariants from './variants';
 
 import type { Config } from '../interfaces';
 
+export * as utilities from './utilities';
 
-export default class Processor {
+
+export class Processor {
     private _config: Config;
     private _theme: Config['theme'];
     private _variants: {[key:string]:()=>Style};
@@ -30,7 +32,7 @@ export default class Processor {
     }
 
     private _resolveConfig(userConfig: Config) {
-        const presets = userConfig.presets ? this._resolvePresets(userConfig.presets): defaultConfig;
+        const presets = userConfig.presets ? this._resolvePresets(userConfig.presets): baseConfig;
         const userTheme = userConfig.theme;
         if (userTheme) delete userConfig.theme;
         const extendTheme:{[key:string]:{}} = userTheme?.extend ?? {};

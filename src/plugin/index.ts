@@ -2,7 +2,7 @@
 //     () => {}
 // }
 
-export default function plugin() {
+export function plugin() {
     console.log(123);
 }
 

@@ -1,6 +1,5 @@
-#!/usr/bin/env node
 import arg from 'arg';
-import Processor from '../lib';
+import { Processor } from '../lib';
 import { readFileSync, writeFileSync } from 'fs';
 import { HTMLParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';

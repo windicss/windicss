@@ -1,12 +1,12 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
-import Processor from '../../lib';
+import type { Processor } from '../../lib';
 
 export default class CSSParser {
     css:string;
-    processor:Processor;
-    constructor(css:string) {
+    processor?:Processor;
+    constructor(css:string, processor?:Processor) {
         this.css = css;
-        this.processor = new Processor();
+        this.processor = processor;
     }
 
     private _removeComment(css:string) {
@@ -43,7 +43,7 @@ export default class CSSParser {
         return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
     }
 
-    private _generateStyle(css:string, selector?:string, transform=false) {
+    private _generateStyle(css:string, selector?:string) {
         const properties:Property[] = [];
         const applies:string[] = [];
         let index = 0;
@@ -55,7 +55,7 @@ export default class CSSParser {
             const isAtRule = css.charAt(start) === '@';
             const parsed = isAtRule? InlineAtRule.parse(piece) : Property.parse(piece);
             if (parsed) {
-                if (transform && isAtRule && parsed.name==='apply' && parsed.value) {
+                if (this.processor && isAtRule && parsed.name==='apply' && parsed.value) {
                     applies.push(parsed.value);
                 } else {
                     properties.push(parsed);
@@ -63,7 +63,7 @@ export default class CSSParser {
             }
             index = end + 1;
         }
-        if (applies.length > 0) {
+        if (this.processor && applies.length > 0) {
             const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
             styleSheet.children.forEach(style=>style.selector=selector);
             return (properties.length > 0) ? [new Style(selector, properties), ...styleSheet.children] : styleSheet.children;
@@ -72,6 +72,7 @@ export default class CSSParser {
     }
 
     private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]}|undefined {
+        if (!this.processor) return { atrule };
         const iatrule = InlineAtRule.parse(atrule);
         if (["tailwind", "responsive"].includes(iatrule.name)) return undefined;
         if (iatrule.name === "variants" && iatrule.value) return { variants: iatrule.value.split(',').map(i=>i.trim().split(':')) }
@@ -83,7 +84,7 @@ export default class CSSParser {
         return { atrule };
     }
 
-    parse(css=this.css, transform=false):StyleSheet {
+    parse(css=this.css):StyleSheet {
         css = this._removeComment(css);
         let index = 0;
         const styleSheet = new StyleSheet();
@@ -99,7 +100,7 @@ export default class CSSParser {
                 if (nestStart === -1 || ruleEnd < nestStart) {
                     // inline atrule
                     let atrule = css.substring(firstLetter, ruleEnd).trim();
-                    if (transform) {
+                    if (this.processor) {
                         const directives = this._handleDirectives(atrule);
                         if (directives?.atrule) atrule = directives.atrule;
                     }
@@ -109,17 +110,17 @@ export default class CSSParser {
                     // nested atrule
                     const nestEnd = this._searchGroup(css, nestStart+1);
                     let atrule = css.substring(firstLetter, nestStart).trim();
-                    if (transform) {
+                    if (this.processor) {
                         const directives = this._handleDirectives(atrule);
                         if (directives?.atrule) {
-                            styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(directives.atrule)));
+                            styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd)).children.map(i=>i.atRule(directives.atrule)));
                         } else if (directives?.variants) {
                             const variants = directives.variants;
-                            const style = this.parse(css.substring(nestStart + 1, nestEnd), transform).children;
-                            variants.map(i=>this.processor.wrapWithVariants(i, style)).forEach(i=>styleSheet.add(i));
+                            const style = this.parse(css.substring(nestStart + 1, nestEnd)).children;
+                            variants.map(i=>this.processor?.wrapWithVariants(i, style)).forEach(i=>i && styleSheet.add(i));
                         }
                     } else {
-                        styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd), transform).children.map(i=>i.atRule(atrule)));
+                        styleSheet.add(this.parse(css.substring(nestStart + 1, nestEnd)).children.map(i=>i.atRule(atrule)));
                     }
                     index = nestEnd + 1;
                 }
@@ -128,11 +129,11 @@ export default class CSSParser {
                 const nestEnd = this._searchGroup(css, nestStart+1);
                 if (nestStart === -1) {
                     // inline properties
-                    styleSheet.add(this._generateStyle(css, undefined, transform));
+                    styleSheet.add(this._generateStyle(css, undefined));
                     break;
                 }
                 // nested selector
-                styleSheet.add(this._generateStyle(css.substring(nestStart+1, nestEnd), css.substring(firstLetter, nestStart).trim(), transform));
+                styleSheet.add(this._generateStyle(css.substring(nestStart+1, nestEnd), css.substring(firstLetter, nestStart).trim()));
                 index = nestEnd + 1;
             }
         }

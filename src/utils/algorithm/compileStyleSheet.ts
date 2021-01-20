@@ -1,5 +1,5 @@
 import sortMediaQuery from './sortMediaQuery';
-import { Style } from '../style';
+import { Style } from '../style/base';
 import { wrapit, hash } from '../../utils/tools';
 
 function combineObject(a:{[key:string]:any}, b:{[key:string]:any}) {

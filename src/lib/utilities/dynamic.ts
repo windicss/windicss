@@ -2,7 +2,7 @@ import { Utility } from './handler';
 import { hex2RGB, dashToCamel } from '../../utils/tools';
 import { Property, Style } from '../../utils/style';
 import { generateKeyframe, generateFontSize, expandDirection } from '../../utils/helpers';
-import { linearGradient, minMaxContent } from '../../utils/prefixer';
+import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 
 import type { PluginUtils, FontSize } from '../../interfaces';
 

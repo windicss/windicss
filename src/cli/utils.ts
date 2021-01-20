@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import packageJson from '../../package.json';
 
 export function isFile(path:string) {
   return fs.existsSync(path) && fs.lstatSync(path).isFile();
@@ -58,7 +57,7 @@ export class FilePattern {
 
 
 export function getVersion() {
-  return `${packageJson.name} ${packageJson.version}`;
+  return `__NAME__ __VERSION__`; // replace by rollup
 }
 
 

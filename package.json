@@ -1,17 +1,45 @@
 {
   "name": "windicss",
-  "version": "2.0.1-beta",
+  "version": "2.0.2",
   "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.",
   "main": "index.js",
-  "types": "index.d.ts",
+  "module": "index.mjs",
+  "types": "types/index.d.ts",
   "bin": {
     "windicss": "cli/index.js"
   },
   "scripts": {
-    "dev": "tsc --build src --watch",
+    "dev": "rollup -cw",
+    "build": "rollup -c && tsc -p ./src --emitDeclarationOnly",
     "test": "tsc -p ./test --watch",
-    "build": "rm -rf ./dist && tsc --build src && copyfiles * ./dist && rm ./dist/tsconfig.tsbuildinfo",
     "example": "tsc -p ./example --watch"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./cli": {
+      "import": "./cli/index.mjs",
+      "require": "./cli/index.js"
+    },
+    "./config": {
+      "import": "./config/index.mjs",
+      "require": "./config/index.js"
+    },
+    "./lib": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./plugin": {
+      "import": "./plugin/index.mjs",
+      "require": "./plugin/index.js"
+    },
+    "./utils": {
+      "import": "./utils/index.mjs",
+      "require": "./utils/index.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -29,8 +57,12 @@
     "arg": "^5.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@rollup/plugin-replace": "^2.3.4",
+    "@rollup/plugin-typescript": "^8.1.0",
     "@types/node": "^14.14.14",
-    "copyfiles": "^2.4.1",
+    "rollup": "^2.37.0",
+    "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   }
 }

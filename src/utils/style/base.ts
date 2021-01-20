@@ -1,5 +1,4 @@
-import { compileStyleSheet } from './algorithm';
-import { wrapit, escape, hash } from './tools';
+import { wrapit, escape } from '../tools';
 
 export class Property {
     name: string|string [];
@@ -61,6 +60,7 @@ export class InlineAtRule extends Property {
     }
 }
 
+
 export class Style {
     wrap?: (rule:string)=>string; // wrap rule, like :global(.bg-white)
     selector?: string;
@@ -72,11 +72,11 @@ export class Style {
     private _childSelectors?: string [];
     private _atRules?: string [];
 
-    constructor(selector?: string, property?: Property | Style | (Style|Property)[] | StyleSheet, escape=true, wrap?:(rule:string)=>string) {
+    constructor(selector?: string, property?: Property | Style | (Style|Property)[], escape=true, wrap?:(rule:string)=>string) {
         this.selector = selector;
         this.escape = escape;
         this.wrap = wrap;
-        this.property = (property instanceof StyleSheet)?property.children:(property instanceof Property || property instanceof Style)?[property]:property ?? [];
+        this.property = (property instanceof Property || property instanceof Style)?[property]:property ?? [];
     }
 
     get rule() {
@@ -143,11 +143,9 @@ export class Style {
         return this;
     }
 
-    add(item: Property | Style | (Property|Style)[] | StyleSheet) {
+    add(item: Property | Style | (Property|Style)[]) {
         if (Array.isArray(item)) {
             this.property = [...this.property, ...item];
-        } else if (item instanceof StyleSheet) {
-            this.property = [...this.property, ...item.children];
         } else {
             this.property.push(item);
         }
@@ -215,49 +213,5 @@ export class Style {
 export class GlobalStyle extends Style {
     constructor(...args: any[]) {
         super(...args);
-    }
-}
-
-export class StyleSheet {
-    children: (Style)[];
-
-    constructor(children?: (Style)[]) {
-        this.children = children || [];
-    }
-
-    add(item: Style | Style[]) {
-        if (Array.isArray(item)) {
-            this.children = [...this.children, ...item];
-        } else {
-            this.children.push(item);
-        }
-    }
-
-    extend(styleSheet:StyleSheet|undefined, append=true) {
-        if (styleSheet) this.children = append?[...this.children, ...styleSheet.children]:[...styleSheet.children, ...this.children];
-        return this;
-    }
-
-    combine() {
-        const styleMap:{[key:string]:Style} = {};
-        this.children.forEach(v=>{
-            const hashValue = hash(v.atRules + v.rule);
-            if (hashValue in styleMap) {
-                styleMap[hashValue] = styleMap[hashValue].extend(v, true);
-            } else {
-                styleMap[hashValue] = v;
-            }
-        });
-        this.children = Object.values(styleMap).map(i=>i.clean());//.sort());
-        return this;
-    }
-
-    sort() {
-        this.children = this.children.sort((a:Style, b:Style)=>(a.rule>b.rule)?1:-1);
-        return this;
-    }
-
-    build(minify=false):string {
-        return compileStyleSheet(this.children, minify);
     }
 }

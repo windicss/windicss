@@ -1,22 +1,15 @@
 {
-	"compilerOptions": {
-	  "target": "es5",
-	  "module": "commonjs",
-	  "moduleResolution": "node",
-	  "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
-	  "allowJs": true,
-	  // "declarationDir": "types",
-	  "strict": true,
-	  "esModuleInterop": true,
-	  "skipLibCheck": true,
-	  "forceConsistentCasingInFileNames": true,
-	  "resolveJsonModule": true,
-	  "rootDir": ".",
-	  "declaration": true,
-	  "outDir": "../dist/",
-	},
-	"references": [
-		{"path": "../"}
-	]
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+    "declaration": true,
+    "declarationDir": "../dist/types",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   }
-  
+}

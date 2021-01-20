@@ -1,11 +1,21 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "./dist",
+    "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "composite": true,
+    "rootDir": ".",
+    "declaration": true
   },
-  "files": [
-    "package.json"
+  "include": [
+	  "./src",
+	  "./test",
+	  "./example"
   ]
 }

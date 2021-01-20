@@ -47,7 +47,11 @@ export function roundUp(num:number, precision:number) {
 }
   
 export function fracToPercent(amount:string) {
-    return `${roundUp(eval(amount)*100, 6)}%`;
+    const matches = amount.match(/[^\/]+/g)
+    if (!matches) return;
+    const a = + matches[0];
+    const b = + matches[1];
+    return roundUp(a/b*100, 6) + '%';
 }
 
 export function hex2RGB(hex:string) {

@@ -1,3 +1,4 @@
+import { Processor } from '../src/lib';
 import { CSSParser } from '../src/utils/parser';
 import { writeFileSync } from 'fs';
 
@@ -101,6 +102,7 @@ html {
 }
 `
 
-const parser = new CSSParser(css);
-const styleSheet = parser.parse(undefined, true);
+const processor = new Processor();
+const parser = new CSSParser(css, processor);
+const styleSheet = parser.parse(undefined);
 writeFileSync('output.css', styleSheet.build());

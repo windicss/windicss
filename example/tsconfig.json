@@ -1,16 +1,15 @@
 {
-  "include": ["./"],
-
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
-    "allowJs": true,
+    "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": false
+  },
+  "include": ["./"]
 }
