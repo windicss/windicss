@@ -77,15 +77,21 @@ function buildMap(obj:{}, minify=false):string {
 
 function combineSelector(styleList:Style[]) {
     const styleMap:{[key:string]:Style} = {};
-    styleList.forEach(v=>{
-        const hashValue = hash(v.rule);
-        if (styleMap.hasOwnProperty(hashValue)) {
-            styleMap[hashValue] = styleMap[hashValue].extend(v, true);
+    const passed: Style[] = [];
+    styleList.forEach(style => {
+        const rule = style.rule;
+        if (rule) {
+            const hashValue = hash(rule);
+            if (styleMap.hasOwnProperty(hashValue)) {
+                styleMap[hashValue] = styleMap[hashValue].extend(style, true);
+            } else {
+                styleMap[hashValue] = style;
+            }
         } else {
-            styleMap[hashValue] = v;
+            passed.push(style);
         }
     });
-    return Object.values(styleMap).map(i=>i.clean());//.sort());
+    return [...passed, ...Object.values(styleMap).map(style => style.clean())];
 }
 
 function getWeights(a: string) {
@@ -109,6 +115,7 @@ function sortSelector(a: Style, b:Style) {
 
 export default function compileStyleSheet(styleList:Style[], minify=false) {
     // The alternative to stylesheet.build(), and will eventually replace stylesheet.build(), currently in the testing phase.
+    // console.log(styleList.map(i=>i.build()+'23232\n').join('\n'));
     const head = combineSelector(styleList.filter(i=>!(i.selector && i.atRules))).sort(sortSelector).map(i=>i.build(minify)).join(minify?'':'\n');
     const body = buildMap(
                 styleList.filter(i=>i.selector && i.atRules)
