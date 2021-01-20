@@ -51,7 +51,7 @@ export default [
             },
             {
                 file: dump(pkg.module),
-                format: 'es',
+                format: 'esm',
             }
         ],
         plugins: [
@@ -68,12 +68,12 @@ export default [
         input: 'src/colors.ts',
         output: [
             {
-                file: dump('colors.mjs'),
+                file: dump('colors.js'),
                 format: 'cjs',
             },
             {
-                file: dump('colors.js'),
-                format: 'es',
+                file: dump('colors.mjs'),
+                format: 'esm',
             }
         ],
         plugins: [
@@ -86,14 +86,14 @@ export default [
         input: 'src/cli/index.ts',
         output: [
             {
-                file: dump('cli/index.mjs'),
+                file: dump('cli/index.js'),
                 banner: '#!/usr/bin/env node',
                 format: 'cjs',
             },
             {
-                file: dump('cli/index.js'),
+                file: dump('cli/index.mjs'),
                 banner: '#!/usr/bin/env node',
-                format: 'es',
+                format: 'esm',
             },
         ],
         external,
@@ -114,12 +114,12 @@ export default [
         input: `src/${dir}/index.ts`,
         output: [
             {
-                file: dump(`${dir}/index.mjs`),
-                format: 'esm',
-            },
-            {
                 file: dump(`${dir}/index.js`),
                 format: 'cjs',
+            },
+            {
+                file: dump(`${dir}/index.mjs`),
+                format: 'esm',
             }
         ],
         plugins: [
