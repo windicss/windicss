@@ -23,8 +23,8 @@ export class Property {
         return new Property(css.substring(0, split).trim(), css.substring(split+1, end === -1 ? undefined : end).trim());
     }
 
-    toStyle(selector?:string) {
-        return new Style(selector, this);
+    toStyle(selector?:string, escape=true) {
+        return new Style(selector, this, escape);
     }
 
     build(minify=false):string {

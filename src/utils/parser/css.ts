@@ -4,8 +4,10 @@ import type { Processor } from '../../lib';
 export default class CSSParser {
     css:string;
     processor?:Processor;
-    constructor(css:string, processor?:Processor) {
+    escape:boolean;
+    constructor(css:string, processor?:Processor, escape=true) {
         this.css = css;
+        this.escape = escape;
         this.processor = processor;
     }
 
@@ -44,6 +46,7 @@ export default class CSSParser {
     }
 
     private _generateStyle(css:string, selector?:string) {
+        if (!/;\s*$/.test(css)) css += ';' ; // Fix for the situation where the last semicolon is omitted
         const properties:Property[] = [];
         const applies:string[] = [];
         let index = 0;
@@ -66,9 +69,9 @@ export default class CSSParser {
         if (this.processor && applies.length > 0) {
             const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
             styleSheet.children.forEach(style=>style.selector=selector);
-            return (properties.length > 0) ? [new Style(selector, properties), ...styleSheet.children] : styleSheet.children;
+            return (properties.length > 0) ? [new Style(selector, properties, this.escape), ...styleSheet.children] : styleSheet.children;
         }
-        return new Style(selector, properties);
+        return new Style(selector, properties, this.escape);
     }
 
     private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]}|undefined {
@@ -97,14 +100,14 @@ export default class CSSParser {
                 const ruleEnd = this._searchFrom(css, ';', firstLetter);
                 const nestStart = this._searchFrom(css, '{', firstLetter);
 
-                if (nestStart === -1 || ruleEnd < nestStart) {
+                if (nestStart === -1 || (ruleEnd !== -1 && ruleEnd < nestStart)) {
                     // inline atrule
                     let atrule = css.substring(firstLetter, ruleEnd).trim();
                     if (this.processor) {
                         const directives = this._handleDirectives(atrule);
                         if (directives?.atrule) atrule = directives.atrule;
                     }
-                    styleSheet.add(InlineAtRule.parse(atrule).toStyle());
+                    styleSheet.add(InlineAtRule.parse(atrule).toStyle(undefined, this.escape));
                     index = ruleEnd + 1;
                 } else {
                     // nested atrule

@@ -88,10 +88,28 @@ function combineSelector(styleList:Style[]) {
     return Object.values(styleMap).map(i=>i.clean());//.sort());
 }
 
+function getWeights(a: string) {
+    const first = a.charAt(0);
+    const second = a.charAt(1);
+    const map:{[key:string]:number} = {
+        '.': 200,
+        '#': 201
+    }
+    if (first === ':' && second === ':') return '59';
+    return first in map ? map[first] : first.charCodeAt(0);
+}
+
+function sortSelector(a: Style, b:Style) {
+    if (a.selector && b.selector) {
+        return getWeights(a.selector) > getWeights(b.selector) ? 1 : -1;
+    } 
+    return 0;
+}
+
 
 export default function compileStyleSheet(styleList:Style[], minify=false) {
     // The alternative to stylesheet.build(), and will eventually replace stylesheet.build(), currently in the testing phase.
-    const head = combineSelector(styleList.filter(i=>!(i.selector && i.atRules))).map(i=>i.build(minify)).join(minify?'':'\n');
+    const head = combineSelector(styleList.filter(i=>!(i.selector && i.atRules))).sort(sortSelector).map(i=>i.build(minify)).join(minify?'':'\n');
     const body = buildMap(
                 styleList.filter(i=>i.selector && i.atRules)
                 .map(i=>{

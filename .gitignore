@@ -38,9 +38,9 @@ Thumbs.db
 dist
 *.css
 *.d.ts
-./src/**/*.js
-./test/**/*.js
-./example/**/*.js
+src/**/*.js
+test/**/*.js
+example/**/*.js
 
 # ignore yarn.lock
 yarn.lock
