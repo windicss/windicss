@@ -59,7 +59,8 @@ export default [
             mkdir(output_dir),
             ts_plugin,
             resolve(),
-            copy(['package.json', 'README.md', 'LICENSE'])
+            copy(['package.json', 'README.md', 'LICENSE']),
+            fs.writeFileSync(dump('index.d.ts'), `export * from '../types/index';`)
         ],
     },
 
@@ -77,7 +78,8 @@ export default [
             }
         ],
         plugins: [
-            ts_plugin
+            ts_plugin,
+            fs.writeFileSync(dump('colors.d.ts'), `export * from '../types/color';`)
         ]
     },
 
@@ -104,6 +106,7 @@ export default [
             }),
             ts_plugin,
             resolve(),
+            fs.writeFileSync(dump('cli/index.d.ts'), `export * from '../types/cli/index';`)
         ]
     },
 
@@ -125,6 +128,7 @@ export default [
         plugins: [
             ts_plugin,
             resolve(),
+            fs.writeFileSync(dump(`${dir}/index.d.ts`), `export * from '../types/${dir}/index';`)
         ]
     })),
 ]
