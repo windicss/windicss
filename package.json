@@ -1,6 +1,6 @@
 {
   "name": "windicss",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "windicss is a css compiler based on the grammar of tailwindcss and adds other features.",
   "main": "index.js",
   "module": "index.mjs",
@@ -19,6 +19,10 @@
     ".": {
       "import": "./index.mjs",
       "require": "./index.js"
+    },
+    "./colors": {
+      "import": "./colors.mjs",
+      "require": "./colors.js"
     },
     "./cli": {
       "import": "./cli/index.mjs",

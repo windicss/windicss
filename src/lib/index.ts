@@ -17,7 +17,7 @@ export * as utilities from './utilities';
 export class Processor {
     private _config: Config;
     private _theme: Config['theme'];
-    private _variants: {[key:string]:()=>Style};
+    private _variants: {[key:string]:()=>Style} = {};
     private _screens: {[key:string]:()=>Style} = {};
     private _states: {[key:string]:()=>Style} = {};
     private _themes: {[key:string]:()=>Style} = {};
@@ -28,7 +28,6 @@ export class Processor {
     constructor(config?:string | Config) {
         this._config = this.resolveConfig(config);
         this._theme = this._config.theme;
-        this._variants = this.resolveVariants(undefined, true);
     }
 
     private _resolveConfig(userConfig: Config) {
@@ -74,7 +73,9 @@ export class Processor {
     resolveConfig(config:string|Config|undefined) {
         this._config = this._resolveConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {});
         this._theme = this._config.theme; // update theme to make sure theme() function works.
-        return this._resolveFunction(this._config);
+        this._config = this._resolveFunction(this._config);
+        this._variants = this.resolveVariants(undefined, true);
+        return this._config;
     }
 
     resolveVariants(type?:'screen'|'theme'|'state', recreate = false) {
