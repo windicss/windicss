@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import replace from '@rollup/plugin-replace'
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript'
@@ -18,27 +19,35 @@ const external = [
     ...Object.keys(pkg.peerDependencies || {}),
 ];
 
-const dump = (path) => `${output_dir}/${path}`;
+const dump = (file) => path.join(output_dir, file);
 
 const copy = (files) => files.forEach( file => fs.copyFileSync(file, dump(file)) );
 
-const rmdir = (path) => {
-    if (fs.existsSync(path)) {
-        const files = fs.readdirSync(path)
+const rmdir = (dir) => {
+    if (fs.existsSync(dir)) {
+        const files = fs.readdirSync(dir)
 
         if (files.length > 0) {
-            files.forEach(filename => {
-                if (fs.statSync(path + "/" + filename).isDirectory()) {
-                    rmdir(path + "/" + filename)
+            files.forEach(file => {
+                if (fs.statSync(path.join(dir, file)).isDirectory()) {
+                    rmdir(dir + "/" + file)
                 } else {
-                    fs.unlinkSync(path + "/" + filename)
+                    fs.unlinkSync(path.join(dir, file))
                 }
             })
         };
     };
 }
 
-const mkdir = (path) => !(fs.existsSync(path) && fs.statSync(path).isDirectory()) && fs.mkdirSync(path);
+const mkdir = (dir) => !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
+
+const types = (src = '../types/index', dest = 'index') => {
+    return {
+        writeBundle() {
+            fs.writeFileSync(dump(dest), `export * from '${src}';`)
+        }
+    }
+}
 
 export default [
     // main
@@ -60,7 +69,7 @@ export default [
             ts_plugin,
             resolve(),
             copy(['package.json', 'README.md', 'LICENSE']),
-            fs.writeFileSync(dump('index.d.ts'), `export * from '../types/index';`)
+            types('./types/index', 'index.d.ts'),
         ],
     },
 
@@ -79,7 +88,7 @@ export default [
         ],
         plugins: [
             ts_plugin,
-            fs.writeFileSync(dump('colors.d.ts'), `export * from '../types/color';`)
+            types('./types/colors', 'colors.d.ts'),
         ]
     },
 
@@ -106,7 +115,7 @@ export default [
             }),
             ts_plugin,
             resolve(),
-            fs.writeFileSync(dump('cli/index.d.ts'), `export * from '../types/cli/index';`)
+            types('../types/cli/index', 'cli/index.d.ts'),
         ]
     },
 
@@ -128,7 +137,29 @@ export default [
         plugins: [
             ts_plugin,
             resolve(),
-            fs.writeFileSync(dump(`${dir}/index.d.ts`), `export * from '../types/${dir}/index';`)
+            types(`../types/${dir}/index`, `${dir}/index.d.ts`),
+        ]
+    })),
+
+    // utils deep
+    ...fs.readdirSync('src/utils')
+    .filter(dir => dir !== 'algorithm' && fs.statSync(`src/utils/${dir}`).isDirectory())
+    .map(dir => ({
+        input: `src/utils/${dir}/index.ts`,
+        output: [
+            {
+                file: dump(`utils/${dir}/index.js`),
+                format: 'cjs',
+            },
+            {
+                file: dump(`utils/${dir}/index.mjs`),
+                format: 'esm',
+            }
+        ],
+        plugins: [
+            ts_plugin,
+            resolve(),
+            types(`../../types/utils/${dir}/index`, `utils/${dir}/index.d.ts`),
         ]
     })),
 ]
