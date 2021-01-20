@@ -1,7 +1,7 @@
 {
   "name": "windicss",
-  "version": "2.0.4",
-  "description": "windicss is a css compiler or css interpreter, which is based on the grammar of tailwindcss and adds other features.",
+  "version": "2.0.5",
+  "description": "windicss is a css compiler based on the grammar of tailwindcss and adds other features.",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
@@ -39,6 +39,14 @@
     "./utils": {
       "import": "./utils/index.mjs",
       "require": "./utils/index.js"
+    },
+    "./utils/parser": {
+      "import": "./utils/parser/index.mjs",
+      "require": "./utils/parser/index.js"
+    },
+    "./utils/style": {
+      "import": "./utils/style/index.mjs",
+      "require": "./utils/style/index.js"
     }
   },
   "repository": {
