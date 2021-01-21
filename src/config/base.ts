@@ -21,6 +21,11 @@ const config:Config = {
       yellow: colors.amber,
       green: colors.emerald,
       purple: colors.violet,
+      'light-blue': colors.lightBlue,
+      'warm-gray': colors.warmGray,
+      'true-gray': colors.trueGray,
+      'cool-gray': colors.coolGray,
+      'blue-gray': colors.blueGray,
     },
     spacing: {
       px: '1px',

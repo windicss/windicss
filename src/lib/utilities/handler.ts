@@ -1,4 +1,4 @@
-import colors from '../../config/colors.js';
+import colors from '../../config/colors';
 import { Property } from '../../utils/style';
 import { camelToDash } from '../../utils/tools';
 import { isNumber, isFraction, isSize, roundUp, fracToPercent, hex2RGB, negateValue } from '../../utils/tools';

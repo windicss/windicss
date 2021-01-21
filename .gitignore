@@ -37,6 +37,7 @@ Thumbs.db
 # Ignore built ts files
 dist
 *.css
+*.html
 *.d.ts
 src/**/*.js
 test/**/*.js

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": ".",
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
@@ -10,12 +11,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "rootDir": ".",
-    "declaration": true
   },
   "include": [
-	  "./src",
-	  "./test",
-	  "./example"
+    "./src",
+    "./test",
+    "./example",
   ]
 }
