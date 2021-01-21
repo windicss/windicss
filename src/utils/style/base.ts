@@ -63,16 +63,15 @@ export class InlineAtRule extends Property {
         this.name = name;
     }
     static parse(css:string) {
-        const matchName = css.match(/@[^\s\{}]+/);
+        const matchName = css.match(/@[^\s;\{\}]+/);
         if (matchName) {
             const name = matchName[0].substring(1, );
             const expression = matchName.index !== undefined ? css.substring(matchName.index + name.length + 1, ).match(/[^;]*/)?.[0].trim(): undefined;
-            return new InlineAtRule(name, expression);
+            return new InlineAtRule(name, expression === '' ? undefined : expression);
         }
-        throw new Error('Not an available atrule!');
     }
     build() {
-        return `@${this.name} ${this.value};`;
+        return this.value ? `@${this.name} ${this.value};` : `@${this.name};`;
     }
 }
 

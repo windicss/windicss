@@ -6,7 +6,7 @@ export default class CSSParser {
     css:string;
     processor?:Processor;
     escape:boolean;
-    constructor(css:string, processor?:Processor, escape=true) {
+    constructor(css:string, processor?:Processor, escape=false) {
         this.css = css;
         this.escape = escape;
         this.processor = processor;

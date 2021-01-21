@@ -59,9 +59,39 @@ describe('Property', () => {
 
     it('toStyle', () => {
         const p = new Property('padding', '1rem');
+
         expect(p.toStyle().build()).toEqual('padding: 1rem;');
         expect(p.toStyle('.p-4').build()).toEqual('.p-4 {\n  padding: 1rem;\n}');
         expect(p.toStyle('.sm:p-4', true).build()).toEqual('.sm\\:p-4 {\n  padding: 1rem;\n}');
         expect(p.toStyle('.sm:p-4', false).build()).toEqual('.sm:p-4 {\n  padding: 1rem;\n}');
     })
 });
+
+describe('InlineAtRule', () => {
+    it('build', () => {
+        const r1 = new InlineAtRule('apply', 'font-bold text-md');
+        const r2 = new InlineAtRule('apply');
+
+        expect(r1.build()).toBe('@apply font-bold text-md;');
+        expect(r2.build()).toBe('@apply;');
+    })
+
+    it('parse', () => {
+        const r1 = InlineAtRule.parse('@apply  ');
+        const r2 = InlineAtRule.parse('@apply font-bold text-md;');
+        const r3 = InlineAtRule.parse('  @apply  font-bold text-md ');
+        const r4 = InlineAtRule.parse('@apply;');
+
+        expect(!r1 || r1.name).toBe('apply');
+        expect(!r1 || r1.value).toBeUndefined();
+
+        expect(!r2 || r2.name).toBe('apply');
+        expect(!r2 || r2.value).toBe('font-bold text-md');
+
+        expect(!r3 || r3.name).toBe('apply');
+        expect(!r3 || r3.value).toBe('font-bold text-md');
+
+        expect(!r4 || r4.name).toBe('apply');
+        expect(!r4 || r4.value).toBeUndefined();
+    })
+})
