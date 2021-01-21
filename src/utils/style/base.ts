@@ -1,4 +1,4 @@
-import { wrapit, escape } from '../tools';
+import { wrapit, escape, searchFrom } from '../tools';
 
 export class Property {
     name: string|string [];
@@ -11,16 +11,31 @@ export class Property {
         this.comment = comment;
     }
 
-    static parse(css:string) {
+    private static _singleParse(css:string):Property|InlineAtRule|undefined {
         css = css.trim();
         if (!css) return;
+        if (css.charAt(0) === '@') return InlineAtRule.parse(css);
         const split = css.search(':');
         const end = css.search(';');
-        if (split === -1) {
-            console.log(css);
-            throw new Error('No attribute value defined!');
-        }
+        if (split === -1) return;
         return new Property(css.substring(0, split).trim(), css.substring(split+1, end === -1 ? undefined : end).trim());
+    }
+
+    static parse(css:string):Property|InlineAtRule|(Property|InlineAtRule)[]|undefined {
+        if (!/;\s*$/.test(css)) css += ';' ; // Fix for the situation where the last semicolon is omitted
+        const properties:(Property|InlineAtRule)[] = [];
+        let index = 0;
+        while (true) {
+            const start = searchFrom(css, /\S/, index);
+            const end = searchFrom(css, ';', index);
+            if (end === -1) break;
+            const parsed = this._singleParse(css.substring(start, end+1))
+            if (parsed) properties.push(parsed);
+            index = end + 1;
+        };
+        const count = properties.length;
+        if (count > 1) return properties;
+        if (count === 1) return properties[0];
     }
 
     toStyle(selector?:string, escape=true) {
@@ -36,6 +51,7 @@ export class Property {
                 return this.comment? p + ` /* ${this.comment} */` : p;
             }
         };
+        if (!this.value) return '';
         return (typeof this.name === 'string') ? createProperty(this.name, this.value) : this.name.map(i=>createProperty(i, this.value)).join(minify?'':'\n');
     }
 }

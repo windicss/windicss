@@ -1,4 +1,5 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
+import { searchFrom } from '../tools';
 import type { Processor } from '../../lib';
 
 export default class CSSParser {
@@ -24,8 +25,8 @@ export default class CSSParser {
     private _searchGroup(text:string, startIndex=0) {
         let level = 1;
         while (true) {
-            const endBracket = this._searchFrom(text, '}', startIndex);
-            const nextBracket = this._searchFrom(text, '{', startIndex);
+            const endBracket = searchFrom(text, '}', startIndex);
+            const nextBracket = searchFrom(text, '{', startIndex);
             if (endBracket === -1) return -1;
             if (endBracket < nextBracket || nextBracket === -1) {
                 level --;
@@ -38,34 +39,11 @@ export default class CSSParser {
         }
     }
 
-    private _searchFrom(text:string, target:string|RegExp, startIndex=0, endIndex=undefined) {
-        // search from partial of string
-        const subText = text.substring(startIndex, endIndex);
-        const relativeIndex = subText.search(target);
-        return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
-    }
-
     private _generateStyle(css:string, selector?:string) {
-        if (!/;\s*$/.test(css)) css += ';' ; // Fix for the situation where the last semicolon is omitted
-        const properties:Property[] = [];
-        const applies:string[] = [];
-        let index = 0;
-        while (true) {
-            const start = this._searchFrom(css, /\S/, index);
-            const end = this._searchFrom(css, ';', index);
-            if (end === -1) break;
-            const piece = css.substring(start, end+1);
-            const isAtRule = css.charAt(start) === '@';
-            const parsed = isAtRule? InlineAtRule.parse(piece) : Property.parse(piece);
-            if (parsed) {
-                if (this.processor && isAtRule && parsed.name==='apply' && parsed.value) {
-                    applies.push(parsed.value);
-                } else {
-                    properties.push(parsed);
-                }
-            }
-            index = end + 1;
-        }
+        // if (!/;\s*$/.test(css)) css += ';' ; // Fix for the situation where the last semicolon is omitted
+        const parsed = Property.parse(css);
+        const properties = Array.isArray(parsed)? parsed : parsed === undefined ? [] : [parsed];
+        const applies = properties.filter(i=>i instanceof InlineAtRule && i.name === 'apply' && i.value).map(i=>i.value);
         if (this.processor && applies.length > 0) {
             const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
             styleSheet.children.forEach(style=>style.selector=selector);
@@ -93,12 +71,12 @@ export default class CSSParser {
         const styleSheet = new StyleSheet();
 
         while (true) {
-            const firstLetter = this._searchFrom(css, /\S/, index);
+            const firstLetter = searchFrom(css, /\S/, index);
             if (firstLetter === -1) break;
             if (css.charAt(firstLetter) === '@') {
                 // atrule
-                const ruleEnd = this._searchFrom(css, ';', firstLetter);
-                const nestStart = this._searchFrom(css, '{', firstLetter);
+                const ruleEnd = searchFrom(css, ';', firstLetter);
+                const nestStart = searchFrom(css, '{', firstLetter);
 
                 if (nestStart === -1 || (ruleEnd !== -1 && ruleEnd < nestStart)) {
                     // inline atrule
@@ -128,7 +106,7 @@ export default class CSSParser {
                     index = nestEnd + 1;
                 }
             } else {
-                const nestStart = this._searchFrom(css, '{', firstLetter);
+                const nestStart = searchFrom(css, '{', firstLetter);
                 const nestEnd = this._searchGroup(css, nestStart+1);
                 if (nestStart === -1) {
                     // inline properties

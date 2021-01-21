@@ -94,3 +94,10 @@ export function negateValue(value:string) {
     if (/(^0\w)|(^-)|(^0$)/.test(value)) return value;
     return '-' + value;
 }
+
+export function searchFrom(text:string, target:string|RegExp, startIndex=0, endIndex=undefined) {
+    // search from partial of string
+    const subText = text.substring(startIndex, endIndex);
+    const relativeIndex = subText.search(target);
+    return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
+}
