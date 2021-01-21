@@ -1,6 +1,6 @@
 import sortMediaQuery from './sortMediaQuery';
 import { Style } from '../style/base';
-import { wrapit, hash } from '../../utils/tools';
+import { wrapit, hash, isSpace } from '../../utils/tools';
 
 function combineObject(a:{[key:string]:any}, b:{[key:string]:any}) {
     const output = {...a};
@@ -128,7 +128,7 @@ export default function compileStyleSheet(styleList:Style[], minify=false) {
                     const bkey = Object.keys(b)[0];
                     return sortMediaQuery(akey, bkey);
                 })
-                .reduce((previousValue: {}, currentValue: {})=>combineObject(previousValue, currentValue))
+                .reduce((previousValue: {}, currentValue: {})=>combineObject(previousValue, currentValue), {})
                 ,minify);
-    return minify? (head+body).replace(/;\}/g, '}') : head + '\n' + body;
+    return minify? (head+body).replace(/;\}/g, '}') : [head, body].filter(i=>!isSpace(i)).join('\n');
 }

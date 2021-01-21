@@ -1,7 +1,7 @@
 import { Processor } from '../src/lib';
 import { CSSParser } from '../src/utils/parser';
 import { writeFileSync } from 'fs';
-import { Style } from '../src/utils/style'
+import { StyleSheet } from '../src/utils/style'
 
 
 const css = `
@@ -110,6 +110,5 @@ const css3 = String.raw`*, ::before, ::after{-webkit-box-sizing:border-box;box-s
 const processor = new Processor();
 const parser = new CSSParser(css3, processor, false);
 const styleSheet = parser.parse();
-console.log(styleSheet.build())
-// console.log(styleSheet.children.map(i=>i.build()).join('\n').substring(0,200))
+console.log(styleSheet.children.map(i=>i.build()).join('\n').substring(0,200))
 // writeFileSync('output.css', styleSheet.build());

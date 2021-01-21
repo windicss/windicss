@@ -41,6 +41,10 @@ export function isSize(amount:string) {
     return /^(\d+(\.\d+)?)+(rem|em|px|vh|vw)$/.test(amount);
 }
 
+export function isSpace(str:string) {
+    return /^\s*$/.test(str);
+}
+
 export function roundUp(num:number, precision:number) {
     precision = Math.pow(10, precision)
     return Math.round(num * precision) / precision;
