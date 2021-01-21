@@ -9,7 +9,8 @@ export class StyleSheet {
         this.children = children || [];
     }
 
-    add(item: Style | Style[]) {
+    add(item?: Style | Style[]) {
+        if (!item) return;
         if (Array.isArray(item)) {
             this.children = [...this.children, ...item];
         } else {

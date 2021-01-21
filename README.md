@@ -302,7 +302,7 @@ Go check [example/*](https://github.com/voorjaar/windicss/tree/v1.0.0/example)
 * ~~Add tailwind.config.js support.~~
 * ~~(x) Function support (eg. prop(font-size, 1em), bg-hsla(...), bg-raw(#fff) ...).~~
 * ~~Add new utility && variant && variable support~~
-* Add some unit tests.
+* ~~Add some unit tests.~~
 * Write documentations.
 * Online playground (maybe fork from [tailwind playground](https://github.com/tailwindlabs/play.tailwindcss.com)).
 

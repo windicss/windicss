@@ -5,10 +5,8 @@ import type { Processor } from '../../lib';
 export default class CSSParser {
     css:string;
     processor?:Processor;
-    escape:boolean;
-    constructor(css:string, processor?:Processor, escape=false) {
+    constructor(css:string, processor?:Processor) {
         this.css = css;
-        this.escape = escape;
         this.processor = processor;
     }
 
@@ -40,16 +38,20 @@ export default class CSSParser {
     }
 
     private _generateStyle(css:string, selector?:string) {
-        // if (!/;\s*$/.test(css)) css += ';' ; // Fix for the situation where the last semicolon is omitted
-        const parsed = Property.parse(css);
-        const properties = Array.isArray(parsed)? parsed : parsed === undefined ? [] : [parsed];
-        const applies = properties.filter(i=>i instanceof InlineAtRule && i.name === 'apply' && i.value).map(i=>i.value);
+        let parsed = Property.parse(css);
+        if (!parsed) return;
+        if (!Array.isArray(parsed)) parsed = [ parsed ];
+        const properties:(Property)[] = parsed.filter(i=>!(i instanceof InlineAtRule));
+        const applies = parsed.filter(i=>i instanceof InlineAtRule && i.name === 'apply' && i.value).map(i=>i.value);
         if (this.processor && applies.length > 0) {
             const styleSheet = this.processor.compile(applies.join(' ')).styleSheet;
-            styleSheet.children.forEach(style=>style.selector=selector);
-            return (properties.length > 0) ? [new Style(selector, properties, this.escape), ...styleSheet.children] : styleSheet.children;
+            styleSheet.children.forEach(style => {
+                style.selector = selector;
+                style.escape = false;
+            });
+            return (properties.length > 0) ? [new Style(selector, properties, false), ...styleSheet.children] : styleSheet.children;
         }
-        return new Style(selector, properties, this.escape);
+        return new Style(selector, properties, false);
     }
 
     private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]} | undefined {
@@ -87,7 +89,7 @@ export default class CSSParser {
                         if (directives?.atrule) atrule = directives.atrule;
                     }
                     const parsed = InlineAtRule.parse(atrule);
-                    if (parsed) styleSheet.add(parsed.toStyle(undefined, this.escape));
+                    if (parsed) styleSheet.add(parsed.toStyle(undefined, false));
                     index = ruleEnd + 1;
                 } else {
                     // nested atrule
