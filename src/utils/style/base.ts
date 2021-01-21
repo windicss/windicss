@@ -77,7 +77,6 @@ export class InlineAtRule extends Property {
 
 
 export class Style {
-    wrap?: (rule:string)=>string; // wrap rule, like :global(.bg-white)
     selector?: string;
     escape: boolean;
     property: (Style|Property) [];
@@ -85,31 +84,59 @@ export class Style {
     private _pseudoElements?: string [];
     private _parentSelectors?: string [];
     private _childSelectors?: string [];
+    private _brotherSelectors?: string [];
+    private _wrapSelectors?: ((selector:string)=>string)[];
+    private _wrapRules?: ((rule:string)=>string)[];
     private _atRules?: string [];
 
-    constructor(selector?: string, property?: Property | Style | (Style|Property)[], escape=true, wrap?:(rule:string)=>string) {
+    constructor(selector?: string, property?: Property | Style | (Style|Property)[], escape=true) {
         this.selector = selector;
         this.escape = escape;
-        this.wrap = wrap;
         this.property = (property instanceof Property || property instanceof Style)?[property]:property ?? [];
     }
 
     get rule() {
         let result = this.selector ? this.escape ? escape(this.selector) : this.selector : '';
+        (this._wrapSelectors??[]).forEach(func => result = func(result));
         this._parentSelectors && (result = `${this._parentSelectors.join(' ')} ${result}`);
         this._pseudoClasses && (result += `:${this._pseudoClasses.join(':')}`);
         this._pseudoElements && (result += `::${this._pseudoElements.join('::')}`);
+        this._brotherSelectors && (result += `.${this._brotherSelectors.join('.')}`);
         this._childSelectors && (result += ` ${this._childSelectors.join(' ')}`);
-        return this.wrap? this.wrap(result) : result;
+        (this._wrapRules??[]).forEach(func => result = func(result));
+        return result;
     }
 
     get atRules() {
         return this._atRules;
     }
 
-    clearAtRules() {
-        this._atRules = [];
-        return this;
+    get pseudoClasses() {
+        return this._pseudoClasses;
+    }
+
+    get pseudoElements() {
+        return this._pseudoElements;
+    }
+
+    get parentSelectors() {
+        return this._parentSelectors;
+    }
+
+    get childSelectors() {
+        return this._childSelectors;
+    }
+
+    get brotherSelectors() {
+        return this._brotherSelectors;
+    }
+
+    get wrapSelectors() {
+        return this._wrapSelectors;
+    }
+
+    get wrapRules() {
+        return this._wrapRules;
     }
 
     atRule(atrule?:string) {
@@ -140,6 +167,15 @@ export class Style {
         return this;
     }
 
+    brother(string:string) {
+        if (this._brotherSelectors) {
+            this._brotherSelectors.push(string);
+        } else {
+            this._brotherSelectors = [ string ];
+        }
+        return this;
+    }
+
     parent(string:string) {
         if (this._parentSelectors) {
             this._parentSelectors.push(string);
@@ -154,6 +190,24 @@ export class Style {
             this._childSelectors.push(string);
         } else {
             this._childSelectors = [ string ];
+        }
+        return this;
+    }
+
+    wrapSelector(func:(selector:string)=>string) {
+        if (this._wrapSelectors) {
+            this._wrapSelectors.push(func);
+        } else {
+            this._wrapSelectors = [ func ];
+        }
+        return this;
+    }
+
+    wrapRule(func:(rule:string)=>string) {
+        if (this._wrapRules) {
+            this._wrapRules.push(func);
+        } else {
+            this._wrapRules = [ func ];
         }
         return this;
     }
@@ -174,10 +228,13 @@ export class Style {
         if (onlyProperty) return this;
         if (item.selector) this.selector = item.selector;
         if (item._atRules) this._atRules = connect(item._atRules, this._atRules); // atrule is build in reverse
+        if (item._brotherSelectors) this._brotherSelectors = connect(this._brotherSelectors, item._brotherSelectors);
         if (item._childSelectors) this._childSelectors = connect(this._childSelectors, item._childSelectors);
         if (item._parentSelectors) this._parentSelectors = connect(this._parentSelectors, item._parentSelectors);
         if (item._pseudoClasses) this._pseudoClasses = connect(this._pseudoClasses, item._pseudoClasses);
         if (item._pseudoElements) this._pseudoElements = connect(this._pseudoElements, item._pseudoElements);
+        if (item._wrapRules) this._wrapRules = connect(this._wrapRules, item._wrapRules);
+        if (item._wrapSelectors) this._wrapSelectors = connect(this._wrapSelectors, item._wrapSelectors);
         return this;
     }
 

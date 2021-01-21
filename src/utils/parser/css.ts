@@ -52,10 +52,11 @@ export default class CSSParser {
         return new Style(selector, properties, this.escape);
     }
 
-    private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]}|undefined {
+    private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]} | undefined {
         if (!this.processor) return { atrule };
         const iatrule = InlineAtRule.parse(atrule);
-        if (["tailwind", "responsive"].includes(iatrule.name)) return undefined;
+        if (!iatrule) return;
+        if (["tailwind", "responsive"].includes(iatrule.name)) return;
         if (iatrule.name === "variants" && iatrule.value) return { variants: iatrule.value.split(',').map(i=>i.trim().split(':')) }
         if (iatrule.name === 'screen' && iatrule.value) {
             const screens = this.processor.resolveVariants('screen');
@@ -85,7 +86,8 @@ export default class CSSParser {
                         const directives = this._handleDirectives(atrule);
                         if (directives?.atrule) atrule = directives.atrule;
                     }
-                    styleSheet.add(InlineAtRule.parse(atrule).toStyle(undefined, this.escape));
+                    const parsed = InlineAtRule.parse(atrule);
+                    if (parsed) styleSheet.add(parsed.toStyle(undefined, this.escape));
                     index = ruleEnd + 1;
                 } else {
                     // nested atrule
