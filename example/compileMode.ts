@@ -98,7 +98,7 @@ console.log('ignored classes:', ignoredClass);
 fs.writeFileSync('compile_test.html', outputHTML.join(''));
 fs.writeFileSync('compile_test.css', 
   outputCSS
-  .reduce((previousValue: StyleSheet, currentValue: StyleSheet) => previousValue.extend(currentValue)) // Combine all stylesheet
+  .reduce((previousValue: StyleSheet, currentValue: StyleSheet) => previousValue.extend(currentValue), new StyleSheet()) // Combine all stylesheet
   .extend(preflightSheet, false) // Insert preflight before utilities, set second argument to true to insert after
   .combine() // Remove duplicated classes
   .build(false) // Build css, set true to minify build

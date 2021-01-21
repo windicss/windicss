@@ -120,7 +120,7 @@ if (args["--compile"]) {
       indexStart = p.end;
     });
     outputHTML.push(html.substring(indexStart));
-    styleSheets.push(outputStyle.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)));
+    styleSheets.push(outputStyle.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue), new StyleSheet()));
     
     const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
     writeFileSync(outputFile, outputHTML.join(''));
@@ -149,8 +149,8 @@ if (args["--separate"]) {
     console.log(`${matchFiles[index]} -> ${filePath}`);
   })
 } else {
-  let outputStyle = styleSheets.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)).combine().sort();
-  if (args["--preflight"]) outputStyle = preflights.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue)).combine().sort().extend(outputStyle);
+  let outputStyle = styleSheets.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue), new StyleSheet()).combine().sort();
+  if (args["--preflight"]) outputStyle = preflights.reduce((previousValue:StyleSheet, currentValue:StyleSheet)=>previousValue.extend(currentValue), new StyleSheet()).combine().sort().extend(outputStyle);
   const filePath = args["--output"] ?? 'windi.output.css';
   writeFileSync(filePath, outputStyle.build(args["--minify"]));
   console.log('matched files:', matchFiles);

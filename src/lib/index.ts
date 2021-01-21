@@ -104,7 +104,7 @@ export class Processor {
         return styles.map(style=>{
             return variants.map(i=>this._variants[i]()).reduce((previousValue:Style, currentValue:Style)=>{
                 return previousValue.extend(currentValue);
-            }).extend(style);
+            }, new Style()).extend(style);
         })
     }
 
