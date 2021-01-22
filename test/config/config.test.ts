@@ -1,4 +1,3 @@
-import { base } from '../../src/config';
 import { resolve } from 'path';
 import { Processor } from '../../src/lib';
 

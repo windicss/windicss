@@ -1,5 +1,6 @@
 import { resolve } from 'path';
-import { getNestedValue, escape, hash, deepCopy } from '../utils/tools';
+import { deepCopy } from '../utils/algorithm';
+import { getNestedValue, escape, hash } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
 import { Style, StyleSheet } from '../utils/style';
 import { ClassParser } from '../utils/parser';
