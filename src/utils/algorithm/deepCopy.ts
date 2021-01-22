@@ -1,13 +1,4 @@
-// copy from https://github.com/ramda/ramda/blob/master/source/internal/_clone.js
-
-function type(val:any) {
-    return val === null
-      ? 'Null'
-      : val === undefined
-        ? 'Undefined'
-        : Object.prototype.toString.call(val).slice(8, -1);
-};
-
+import { type } from '../tools';
 
 function _cloneRegExp(pattern: RegExp) {
     return new RegExp(pattern.source, (pattern.global     ? 'g' : '') +

@@ -7,6 +7,14 @@ export function hash(str:string) {
     return (hash >>> 0).toString(36);
 }
 
+export function type(val:any) {
+    return val === null
+      ? 'Null'
+      : val === undefined
+        ? 'Undefined'
+        : Object.prototype.toString.call(val).slice(8, -1);
+};
+
 export function indent(code:string, tab=2) {
     const spaces = Array(tab).fill(' ').join('');
     return code.split('\n').map(line=>spaces+line).join('\n');
@@ -38,7 +46,7 @@ export function isFraction(amount:string) {
 }
 
 export function isSize(amount:string) {
-    return /^(\d+(\.\d+)?)+(rem|em|px|vh|vw)$/.test(amount);
+    return /^(\d+(\.\d+)?)+(rem|em|px|vh|vw|ch|ex)$/.test(amount);
 }
 
 export function isSpace(str:string) {
