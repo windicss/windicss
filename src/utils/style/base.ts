@@ -79,7 +79,7 @@ export class InlineAtRule extends Property {
 export class Style {
     selector?: string;
     escape: boolean;
-    property: (Style|Property) [];
+    property: Property[];
     private _pseudoClasses?: string [];
     private _pseudoElements?: string [];
     private _parentSelectors?: string [];
@@ -89,10 +89,10 @@ export class Style {
     private _wrapRules?: ((rule:string)=>string)[];
     private _atRules?: string [];
 
-    constructor(selector?: string, property?: Property | Style | (Style|Property)[], escape=true) {
+    constructor(selector?: string, property?: Property | Property[], escape=true) {
         this.selector = selector;
         this.escape = escape;
-        this.property = (property instanceof Property || property instanceof Style)?[property]:property ?? [];
+        this.property = property ? Array.isArray(property)? property: [property] : [];
     }
 
     get rule() {
@@ -212,7 +212,7 @@ export class Style {
         return this;
     }
 
-    add(item: Property | Style | (Property|Style)[]) {
+    add(item: Property | Property[]) {
         if (Array.isArray(item)) {
             this.property = [...this.property, ...item];
         } else {
@@ -240,30 +240,38 @@ export class Style {
 
     clean() {
         // remove duplicated property
-        let property:(Style|Property)[] = [];
+        let property:Property[] = [];
         let cache:string[] = [];
         this.property.forEach(i=>{
-           if (i instanceof Property) {
-               const inline = i.build();
-               if (!cache.includes(inline)) {
-                   cache.push(inline);
-                   property.push(i);
-               }
-           } else {
-               property.push(i);
-           }
+            const inline = i.build();
+            if (!cache.includes(inline)) {
+                cache.push(inline);
+                property.push(i);
+            }
         })
         this.property = property;
         return this;
     }
 
+    flat() {
+        const properties:Property[] = [];
+        this.property.forEach(p => {
+            if (Array.isArray(p.name)) {
+                p.name.forEach(i => {
+                    properties.push(new Property(i, p.value, p.comment));
+                })
+            } else {
+                properties.push(p);
+            }
+        });
+        this.property = properties;
+        return this;
+    }
+
     sort() {
         // sort property
-        this.property = this.property.sort((a: Style|Property, b: Style|Property)=>{
-            if (a instanceof Property && b instanceof Property) {
-                return (a.build() > b.build())?1:-1;
-            };
-            return 0;
+        this.property = this.property.sort((a: Property, b: Property)=>{
+            return (`${a.name}`.substring(0, 2) > `${b.name}`.substring(0, 2)) ? 1 : -1;
         });
         return this;
     }
