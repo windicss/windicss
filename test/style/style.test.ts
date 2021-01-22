@@ -92,6 +92,8 @@ describe('Style', () => {
     })
 
     it('add atrule', () => {
+        expect(new Style().atRule('@media (min-width: 768px)').build()).toBe('@media (min-width: 768px) {}');
+        expect(new Style().atRule('@media (min-width: 768px)').build(true)).toBe('@media(min-width:768px){}');
         expect(new Style('.test', [p1, p2]).atRule('@media (min-width: 768px)').build()).toBe('@media (min-width: 768px) {\n  .test {\n    padding: 1rem;\n    color: #1C1C1E;\n  }\n}');
         expect(new Style('.test', [p1, p2]).atRule('@media (min-width: 768px)').build(true)).toBe('@media(min-width:768px){.test{padding:1rem;color:#1C1C1E}}');
         expect(new Style('.test', [p1, p2]).atRule('@media (min-width: 768px)').atRule('@media (prefers-color-scheme: dark)').build()).toBe('@media (prefers-color-scheme: dark) {\n  @media (min-width: 768px) {\n    .test {\n      padding: 1rem;\n      color: #1C1C1E;\n    }\n  }\n}');

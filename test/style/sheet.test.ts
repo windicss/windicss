@@ -36,8 +36,8 @@ describe('StyleSheet', () => {
     })
 
     it('sort styles', () => {
-        const ss = new StyleSheet(['.test', 'html', '*', ':root', '::moz-focus-inner'].map(i=>new Style(i)));
-        expect(ss.sort().children.map(i=>i.selector)).toEqual(['*', ':root', '::moz-focus-inner', 'html', '.test']);
+        const ss = new StyleSheet(['.test', 'html', '*', ':root', '::moz-focus-inner', undefined].map(i=>new Style(i)));
+        expect(ss.sort().children.map(i=>i.selector)).toEqual(['*', ':root', '::moz-focus-inner', 'html', '.test', undefined]);
     })
 
     it('build', () => {

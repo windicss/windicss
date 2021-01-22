@@ -101,3 +101,7 @@ export function searchFrom(text:string, target:string|RegExp, startIndex=0, endI
     const relativeIndex = subText.search(target);
     return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
 }
+
+export function deepCopy(obj:{}) {
+    return JSON.parse(JSON.stringify(obj));
+}

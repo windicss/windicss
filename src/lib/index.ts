@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { getNestedValue, escape, hash } from '../utils/tools';
+import { getNestedValue, escape, hash, deepCopy } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
 import { Style, StyleSheet } from '../utils/style';
 import { ClassParser } from '../utils/parser';
@@ -71,7 +71,7 @@ export class Processor {
     }
 
     resolveConfig(config:string|Config|undefined) {
-        this._config = this._resolveConfig(config ? typeof config === 'string' ? require(resolve(config)) : config : {});
+        this._config = this._resolveConfig(deepCopy(config ? typeof config === 'string' ? require(resolve(config)) : config : {})); // deep copy
         this._theme = this._config.theme; // update theme to make sure theme() function works.
         this._config = this._resolveFunction(this._config);
         this._variants = this.resolveVariants(undefined, true);

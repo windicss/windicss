@@ -1,5 +1,5 @@
 // tailwind.config.js
-// const colors = require('../src/colors');
+const colors = require('../../dist/colors');
 
 module.exports = {
   theme: {
@@ -9,12 +9,12 @@ module.exports = {
       lg: '976px',
       xl: '1440px',
     },
-    // colors: {
-    //   gray: colors.coolGray,
-    //   blue: colors.lightBlue,
-    //   red: colors.rose,
-    //   pink: colors.fuchsia,
-    // },
+    colors: {
+      gray: colors.coolGray,
+      blue: colors.lightBlue,
+      red: colors.rose,
+      pink: colors.fuchsia,
+    },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],

@@ -42,6 +42,7 @@ dist
 src/**/*.js
 test/**/*.js
 example/**/*.js
+!test/config/tailwind.config.js
 
 # ignore yarn.lock
 yarn.lock
