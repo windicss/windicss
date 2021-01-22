@@ -46,3 +46,4 @@ example/**/*.js
 # ignore yarn.lock
 yarn.lock
 .vscode
+.nyc_output

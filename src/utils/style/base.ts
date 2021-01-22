@@ -271,7 +271,7 @@ export class Style {
     build(minify=false):string {
         let result = this.property.map(p=>p.build(minify)).join(minify?'':'\n');
         if (!this.selector && !this._atRules) return result.replace(/;}/g, '}');
-        if (this.selector) result = (minify? this.rule.replace(/,\s/g, ',') : this.rule + ' ') + wrapit(result, undefined, undefined, undefined, minify);
+        if (this.selector) result = (minify? this.rule.replace(/,\s/g, ',') : this.rule + ' ') + wrapit(result, undefined, undefined, undefined, result!==''?minify:true);
         if (this._atRules) {
             for (let rule of this._atRules) {
                 result =  minify? `${rule.replace(/\s/g,'')}${wrapit(result, undefined, undefined, undefined, minify)}` : `${rule} ${wrapit(result, undefined, undefined, undefined, minify)}`;

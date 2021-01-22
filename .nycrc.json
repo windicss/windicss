@@ -1,0 +1,11 @@
+{
+    "extension": [
+        ".ts"
+    ],
+    "include": [
+        "src/**/*.ts"
+    ],
+    "reporter": [
+        "text"
+    ]
+}

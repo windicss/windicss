@@ -16,7 +16,7 @@ describe('Property', () => {
         expect(p2.build(true)).toBe('padding-left:1rem;padding-right:1rem;');
     });
 
-    it('undefiend value', () => {
+    it('undefiend value input', () => {
         const p = new Property('padding');
 
         expect(p.build()).toBe('');
