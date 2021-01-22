@@ -1,6 +1,6 @@
 import type { Style } from './base';
 import { hash } from '../tools';
-import { compileStyleSheet } from '../algorithm';
+import { sortSelector, compileStyleSheet } from '../algorithm';
 
 export class StyleSheet {
     children: (Style)[];
@@ -38,7 +38,7 @@ export class StyleSheet {
     }
 
     sort() {
-        this.children = this.children.sort((a:Style, b:Style)=>(a.rule>b.rule)?1:-1);
+        this.children = this.children.sort(sortSelector);
         return this;
     }
 
