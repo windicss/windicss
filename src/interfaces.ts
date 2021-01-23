@@ -15,7 +15,7 @@ export type Theme = {
 
 export type Config = { 
     presets?: Config[],
-    darkMode?: 'media'|'class',
+    darkMode?: 'media'|'class'|false,
     theme?: Theme,
     variantOrder?: string[],
     variants?: {[key:string]:string[]},

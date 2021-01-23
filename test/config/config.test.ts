@@ -28,18 +28,4 @@ describe('Config', () => {
         expect(processor.theme('spacing')).toEqual({...baseConfig.theme('spacing'), ...userConfig.theme.extend.spacing});
         expect(processor.theme('borderRadius')).toEqual({...baseConfig.theme('borderRadius'), ...userConfig.theme.extend.borderRadius});
     })
-
-    it('sort screens', () => {
-        const processor = new Processor({
-            theme: {
-                screens: {
-                    lg: '976px',
-                    xl: '1440px',
-                    sm: '480px',
-                    md: '768px',
-                }
-            }
-        })
-        expect(Object.entries(processor.theme('screens'))).toEqual([[ 'sm', '480px' ], [ 'md', '768px' ], [ 'lg', '976px' ], [ 'xl', '1440px' ]]);
-    })
 });

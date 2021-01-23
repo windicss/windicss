@@ -79,7 +79,7 @@ export default function (variantOrder:string[]) {
         'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),  // tailwind
     };
     const orderedStates:typeof states = {};
-    variantOrder.forEach(v=>{
+    variantOrder.forEach(v => {
         if (states.hasOwnProperty(v)) {
             orderedStates[v] = states[v];
         }

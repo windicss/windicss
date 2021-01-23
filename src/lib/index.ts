@@ -4,11 +4,11 @@ import { getNestedValue, escape, hash } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
 import { Style, StyleSheet } from '../utils/style';
 import { ClassParser } from '../utils/parser';
+import { resolveVariants } from './variants';
 
 import extract from './extract';
 import preflight from './preflight';
 import baseConfig from '../config/base';
-import resolveVariants from './variants';
 
 import type { Config } from '../interfaces';
 
@@ -63,16 +63,6 @@ export class Processor {
         return config;
     }
 
-    private _sortScreens(config: Config) {
-        if (!config.theme) return config;
-        const screens:{[key:string]:any} = config.theme.screens;
-        const sorted:typeof screens = {};
-        Object.keys(screens).sort((a:string, b:string)=>parseInt(screens[a].match(/\d+/)[0])>parseInt(screens[b].match(/\d+/)[0])?1:-1)
-            .forEach(k => sorted[k] = screens[k]);
-        config.theme['screens'] = sorted;
-        return config;
-    }
-
     private _resolveCorePlugins() {
         // not support yet
     }
@@ -84,7 +74,7 @@ export class Processor {
     resolveConfig(config:string|Config|undefined) {
         this._config = this._resolveConfig(deepCopy(config ? typeof config === 'string' ? require(resolve(config)) : config : {})); // deep copy
         this._theme = this._config.theme; // update theme to make sure theme() function works.
-        this._config = this._sortScreens(this._resolveFunction(this._config));
+        this._config = this._resolveFunction(this._config);
         this._variants = this.resolveVariants(undefined, true);
         return this._config;
     }
