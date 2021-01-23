@@ -1,43 +1,16 @@
-enum Priority {
-    '*',
-    sm,
-    md,
-    lg,
-    xl,
-    '2xl',
-    light,
-    dark,
-    'motion-safe',
-    'motion-reduce',
-}
-
-const priorities = Object.values(Priority).reverse();
-
 export default class ClassParser {
     index: number;
-    classNames: string;
-    classCopy: string;
+    classNames?: string;
     classMap: { [ key:string ]: { [ key:string ]:any } };
     
-    constructor(classNames:string) {
+    constructor(classNames?:string) {
         this.classNames = classNames;
-        this.classCopy = classNames;
         this.classMap = {'*':[]};
         this.index = 0;
     }
 
-    sort() {
-        const obj = this.classMap;
-        let output: { [ key:string ]: { [ key:string ]:any } }= {};
-        Object.keys(obj).sort((a:string,b:string):number=>{
-            return priorities.indexOf(b) - priorities.indexOf(a);
-        }).forEach(k=>{
-            output[k] = obj[k];
-        });
-        return output;
-    };
-
-    handle_group():{[key:string]:any}[] {
+    private _handle_group():{[key:string]:any}[] {
+        if (!this.classNames) return [];
         let char;
         let group;
         let func;
@@ -63,10 +36,10 @@ export default class ClassParser {
                     break;
                 case '(':
                     if (ignoreSpace) {
-                        group = this.handle_group();
+                        group = this._handle_group();
                     } else {
                         func = this.classNames.slice(groupStart, this.index);
-                        group = this.handle_function();
+                        group = this._handle_function();
                     }
                     ignoreSpace = false;
                     break;
@@ -113,7 +86,8 @@ export default class ClassParser {
         return newParts;
     }
 
-    handle_function() {
+    private _handle_function() {
+        if (!this.classNames) return;
         let groupStart = this.index+1;
         while (true) {
             if ( this.classNames.charAt(this.index) === ')' ) {
@@ -125,7 +99,8 @@ export default class ClassParser {
     }
 
     parse() {
+        if (!this.classNames) return [];
         this.classNames = '(' + this.classNames + ')'; // turn into group;
-        return this.handle_group();
+        return this._handle_group();
     }
 }

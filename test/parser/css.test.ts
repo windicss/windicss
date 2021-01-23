@@ -113,7 +113,6 @@ const MINICSS = String.raw`*, ::before, ::after{-webkit-box-sizing:border-box;bo
 
 const PROCESSOR = new Processor();
 
-
 describe('CSSParser', () => {
     it('parse empty', () => {
         expect(new CSSParser().parse().build()).toEqual('');
