@@ -8,8 +8,6 @@ import {
     resolveVariants
 } from '../../src/lib/variants';
 
-import fs from 'fs';
-
 function _generateTestVariants(variants:{[key:string]:()=>Style}) {
     const output:{[key:string]:string} = {};
     for (let [name, func] of Object.entries(variants)) {

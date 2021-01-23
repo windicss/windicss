@@ -6,8 +6,6 @@ import {
     expandDirection,
 } from '../../src/utils';
 
-import fs from 'fs';
-
 import { Style, StyleSheet } from '../../src/utils/style';
 
 describe('Helpers', () => {
