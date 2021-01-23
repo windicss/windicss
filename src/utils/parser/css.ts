@@ -3,9 +3,9 @@ import { searchFrom } from '../tools';
 import type { Processor } from '../../lib';
 
 export default class CSSParser {
-    css:string;
+    css?:string;
     processor?:Processor;
-    constructor(css:string, processor?:Processor) {
+    constructor(css?:string, processor?:Processor) {
         this.css = css;
         this.processor = processor;
     }
@@ -51,7 +51,7 @@ export default class CSSParser {
             });
             return (properties.length > 0) ? [new Style(selector, properties, false), ...styleSheet.children] : styleSheet.children;
         }
-        return new Style(selector, properties, false);
+        return new Style(selector, this.processor?properties:parsed, false);
     }
 
     private _handleDirectives(atrule:string):{atrule?:string, variants?:string[][]} | undefined {
@@ -68,10 +68,12 @@ export default class CSSParser {
         return { atrule };
     }
 
-    parse(css=this.css):StyleSheet {
-        css = this._removeComment(css);
-        let index = 0;
+    parse(css = this.css):StyleSheet {        
         const styleSheet = new StyleSheet();
+        
+        if (!css) return styleSheet;
+        let index = 0;
+        css = this._removeComment(css);
 
         while (true) {
             const firstLetter = searchFrom(css, /\S/, index);

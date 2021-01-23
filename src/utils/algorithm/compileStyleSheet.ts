@@ -101,7 +101,7 @@ export default function compileStyleSheet(styleList:Style[], minify=false) {
     const body = buildMap(
                 styleList.filter(i=>i.selector && i.atRules)
                 .map(i=>{
-                    const list = [...(i.atRules??[]).sort(sortMediaQuery), i.rule];
+                    const list = [...(i.atRules??[]).sort(sortMediaQuery).reverse(), i.rule];
                     return deepList(list, new Style(undefined, i.property));
                 })
                 .sort((a: {}, b: {})=>{

@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import config from '../../src/config/base';
 import { HTMLParser } from '../../src/utils/parser';
 
 const HTML = readFileSync('./test/parser/example.html').toString();
