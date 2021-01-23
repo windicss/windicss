@@ -1,6 +1,6 @@
 import { InlineAtRule } from '../../src/utils/style';
 
-describe('InlineAtRule', () => {
+describe('AtRule', () => {
     it('build', () => {
         const v1 = new InlineAtRule('apply', 'font-bold text-md');
         const v2 = new InlineAtRule('apply');
