@@ -31,6 +31,7 @@ bower_components
 *.iml
 
 # OS metadata
+.nyc_output
 .DS_Store
 Thumbs.db
 
@@ -42,10 +43,13 @@ dist
 src/**/*.js
 test/**/*.js
 example/**/*.js
+
+# Don't ignore example files
 !test/config/tailwind.config.js
 !test/parser/example.html
+!test/processor/preflight.css
+!test/processor/examplePreflight.css
 
 # ignore yarn.lock
 yarn.lock
 .vscode
-.nyc_output

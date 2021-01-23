@@ -2,7 +2,7 @@ import preflights from './utilities/preflight';
 import { Style, Property, StyleSheet } from '../utils/style';
 import type { ThemeUtilStr } from '../interfaces';
 
-export default function preflight(theme:ThemeUtilStr, tags:string [], global=true) {
+export default function preflight(theme:ThemeUtilStr, tags?:string [], global=true) {
     // Generate preflight style based on html tags.
     const globalSheet = new StyleSheet();
     const styleSheet = new StyleSheet();
@@ -23,11 +23,13 @@ export default function preflight(theme:ThemeUtilStr, tags:string [], global=tru
     preflights.forEach(p=>{
         if (global && p.global) {
            globalSheet.add(createStyle(p.selector, p.properties));
-        } else {
+        } else if (tags) {
             const includeTags = tags.filter(i=>p.keys.includes(i));
             if (includeTags.length > 0) {
                 styleSheet.add(createStyle(p.selector?p.selector:includeTags.join(', '), p.properties));
             }
+        } else {
+            styleSheet.add(createStyle(p.selector?p.selector:p.keys.join(', '), p.properties));
         }
     });
     let result = styleSheet.combine().sort();

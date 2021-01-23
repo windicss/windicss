@@ -114,10 +114,10 @@ export class Processor {
         return extract(theme, className, addComment);
     }
 
-    preflight(tags:string [], global=true, ignoreProcessed=false) {
-        if (ignoreProcessed) tags = tags.filter(i=>!(this._processedTags.includes(i)));
+    preflight(tags?:string [], global=true, ignoreProcessed=false) {
+        if (ignoreProcessed && tags) tags = tags.filter(i=>!(this._processedTags.includes(i)));
         const theme = (path:string, defaultValue?:any) => this.theme(path, defaultValue);
-        this._processedTags = [...this._processedTags, ...tags];
+        this._processedTags = [...this._processedTags, ...tags??[]];
         return preflight(theme, tags, global);
     }
 
