@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "rollup -cw",
     "build": "rollup -c && tsc -p ./src --emitDeclarationOnly",
+    "release": "PUBLISH=true npm run build",
     "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "coverage": "nyc --nycrc-path=.nycrc.json npm run test"
   },
@@ -71,6 +72,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.1.0",
     "@rollup/plugin-replace": "^2.3.4",
+    "@rollup/plugin-sucrase": "^3.1.0",
     "@rollup/plugin-typescript": "^8.1.0",
     "@types/jasmine": "^3.6.3",
     "@types/node": "^14.14.14",

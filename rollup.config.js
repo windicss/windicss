@@ -2,17 +2,24 @@ import fs from 'fs'
 import path from 'path'
 import replace from '@rollup/plugin-replace'
 import resolve from '@rollup/plugin-node-resolve';
+import sucrase from '@rollup/plugin-sucrase';
 import typescript from '@rollup/plugin-typescript'
 import pkg from './package.json'
 
 const output_dir = './dist';
 
-const ts_plugin = typescript({
-    target: "es5",
-    include: 'src/**',
-    outDir: output_dir,
-    typescript: require('typescript')
-});
+const is_publish = !!process.env.PUBLISH;
+
+const ts_plugin = is_publish
+    ? typescript({
+        target: "es5",
+        include: 'src/**',
+        outDir: output_dir,
+        typescript: require('typescript')
+    })
+    : sucrase({
+        transforms: ['typescript']
+    });
 
 const external = [
     ...Object.keys(pkg.dependencies || {}),
