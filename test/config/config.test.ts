@@ -4,10 +4,10 @@ import { Processor } from '../../src/lib';
 const configPath = resolve('./test/config/tailwind.config.js');
 const userConfig = require(configPath);
 
-describe('Processor', () => {
+describe('Config', () => {
     const baseConfig = new Processor();
 
-    it('config file', () => {
+    it('file input', () => {
         const processor = new Processor(configPath);
         expect(processor.config('theme.screens')).toEqual(processor.theme('screens'));
         expect(processor.theme('screens')).toEqual(userConfig.theme.screens);
@@ -18,7 +18,7 @@ describe('Processor', () => {
         expect(processor.theme('borderRadius')).toEqual({...baseConfig.theme('borderRadius'), ...userConfig.theme.extend.borderRadius});
     })
 
-    it('config dict', () => {
+    it('dict input', () => {
         const processor = new Processor(userConfig);
         expect(processor.config('theme.screens')).toEqual(processor.theme('screens'));
         expect(processor.theme('screens')).toEqual(userConfig.theme.screens);

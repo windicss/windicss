@@ -1,10 +1,11 @@
 export default class HTMLParser {
-    html:string;
-    constructor(html:string) {
+    html?:string;
+    constructor(html?:string) {
       this.html = html;
     }
     parseClasses() {
         // Match all class properties
+        if (!this.html) return [];
         const classRegex = /class\s*=\s*(["'])(?:(?=(\\?))\2.)*?\1/;
         const quoteRegex = /["']/;
         const classNames = [];
@@ -31,6 +32,7 @@ export default class HTMLParser {
 
     parseTags() {
         // Match all html tags
+        if(!this.html) return [];
         return Array.from(new Set(this.html.match(/<\w+/g))).map(i=>i.substring(1));
     }
 }
