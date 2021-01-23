@@ -53,7 +53,7 @@ export function isSpace(str:string) {
     return /^\s*$/.test(str);
 }
 
-export function roundUp(num:number, precision:number) {
+export function roundUp(num:number, precision:number = 0) {
     precision = Math.pow(10, precision)
     return Math.round(num * precision) / precision;
 }
@@ -103,7 +103,7 @@ export function negateValue(value:string) {
     return '-' + value;
 }
 
-export function searchFrom(text:string, target:string|RegExp, startIndex=0, endIndex=undefined) {
+export function searchFrom(text:string, target:string|RegExp, startIndex=0, endIndex?:number) {
     // search from partial of string
     const subText = text.substring(startIndex, endIndex);
     const relativeIndex = subText.search(target);
