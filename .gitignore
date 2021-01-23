@@ -45,11 +45,7 @@ test/**/*.js
 example/**/*.js
 
 # Don't ignore example files
-!test/config/tailwind.config.js
-!test/parser/example.html
-!test/processor/preflight.css
-!test/processor/examplePreflight.css
-
+!test/assets/**
 # ignore yarn.lock
 yarn.lock
 .vscode

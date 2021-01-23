@@ -34,13 +34,13 @@
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
-a {
-  color: inherit;
-  text-decoration: inherit;
-}
 abbr[title] {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
 }
 body {
   margin: 0;

@@ -8,7 +8,7 @@ describe('StyleSheet', () => {
     it('initial', () => {
         const ss = new StyleSheet([s1, s2, s3]);
         expect(ss.children.length).toBe(3);
-        expect(ss.build(true)).toBe('.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.bg-white{--bg-opacity:1;background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}')
+        expect(ss.build(true)).toBe('.bg-white{--bg-opacity:1;background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}')
     })
 
     it('add style', () => {
@@ -36,17 +36,17 @@ describe('StyleSheet', () => {
     })
 
     it('sort styles', () => {
-        const ss = new StyleSheet(['.test', 'html', '*', ':root', '::moz-focus-inner', undefined].map(i=>new Style(i)));
-        expect(ss.sort().children.map(i=>i.selector)).toEqual(['*', ':root', '::moz-focus-inner', 'html', '.test', undefined]);
+        const ss = new StyleSheet(['.test', '.abc', 'html', '*', ':root', '::moz-focus-inner', undefined].map(i=>new Style(i)));
+        expect(ss.sort().children.map(i=>i.selector)).toEqual(['*', ':root', '::moz-focus-inner', 'html', '.test', '.abc', undefined]);
     })
 
     it('build', () => {
         const ss = new StyleSheet([s1, s2, s3]);
-        expect(ss.build()).toBe('.py-10 {\n  padding-top: 2.5rem;\n  padding-bottom: 2.5rem;\n}\n.bg-white {\n  --bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}')
+        expect(ss.build()).toBe('.bg-white {\n  --bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}\n.py-10 {\n  padding-top: 2.5rem;\n  padding-bottom: 2.5rem;\n}')
     })
 
     it('minimize build', () => {
         const ss = new StyleSheet([s1, s2, s3]);
-        expect(ss.build(true)).toBe('.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.bg-white{--bg-opacity:1;background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}')
+        expect(ss.build(true)).toBe('.bg-white{--bg-opacity:1;background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}')
     })
 })

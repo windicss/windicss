@@ -13,7 +13,7 @@ function getWeights(a: string) {
 
 export default function sortSelector(a: Style, b:Style) {
     if (a.selector && b.selector) {
-        return getWeights(a.selector) > getWeights(b.selector) ? 1 : -1;
+        return getWeights(a.selector) >= getWeights(b.selector) ? 1 : -1;
     } 
     return 0;
 }

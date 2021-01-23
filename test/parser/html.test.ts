@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { HTMLParser } from '../../src/utils/parser';
 
-const HTML = readFileSync('./test/parser/example.html').toString();
+const HTML = readFileSync('./test/assets/example.html').toString();
 
 describe('HTMLParser', () => {
     it('parse tags', () => {

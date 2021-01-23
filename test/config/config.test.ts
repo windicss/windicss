@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { Processor } from '../../src/lib';
 
-const configPath = resolve('./test/config/tailwind.config.js');
+const configPath = resolve('./test/assets/tailwind.config.js');
 const userConfig = require(configPath);
 
 describe('Config', () => {

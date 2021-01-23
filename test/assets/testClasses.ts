@@ -1,10 +1,7 @@
-import { Processor } from '../src/lib';
-import { StyleSheet } from '../src/utils/style';
-import { writeFileSync } from 'fs';
-
-
 // [...document.querySelectorAll('.text-violet-600.whitespace-nowrap')].map(i=>i.innerText.replace(' > * + *', '').replace('::placeholder', '')).join('", "')
 // run this command inside tailwindcss document page 
+
+
 const classNames = [
     "container", 
     "box-border", "box-content",
@@ -170,28 +167,6 @@ const classNames = [
     "stroke-0", "stroke-1", "stroke-2",
     "stroke-5", "stroke-12", "stroke-width-$test-variable", // not in tailwind
     "sr-only", "not-sr-only"
-]
+];
 
-const processor = new Processor();
-
-function build(classNames:string[], minify=false) {
-    const success:string [] = [];
-    const ignored:string [] = [];
-    const styleSheet = new StyleSheet();
-    classNames.forEach(className=>{
-        const result = processor.extract(className);
-        if (result) {
-            success.push(className);
-            styleSheet.add(result);
-        } else {
-            ignored.push(className);
-        }
-    })
-
-    console.log('ignored:', ignored);
-    return styleSheet.build(minify);
-}
-
-writeFileSync('output.css', build(classNames, false)); // Set true to minify build
-
-
+export default classNames;

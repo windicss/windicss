@@ -1,15 +1,25 @@
-import { Processor } from '../../src/lib';
+import { Processor } from "../../src/lib";
 
 const processor = new Processor();
 
-describe('Compilation Mode', () => {
-    it('compile', () => {
-        const result = processor.compile('font-bold \n\ttext-green-300 \nsm:dark:hover:text-lg sm:(bg-gray-100 hover:bg-gray-200) abc bg-cool-gray-300 bg-hex-fff');
-        expect(result.className).toBe('windi-o9n2ol');
-        expect(result.ignored).toEqual(['abc']);
-        expect(result.success).toEqual(['font-bold', 'text-green-300', 'sm:dark:hover:text-lg', 'sm:bg-gray-100', 'sm:hover:bg-gray-200', 'bg-cool-gray-300', 'bg-hex-fff']);
-        expect(result.styleSheet.build()).toBe(
-`.windi-o9n2ol {
+describe("Compilation Mode", () => {
+  it("compile", () => {
+    const result = processor.compile(
+      "font-bold \n\ttext-green-300 \nsm:dark:hover:text-lg sm:(bg-gray-100 hover:bg-gray-200) abc bg-cool-gray-300 bg-hex-fff"
+    );
+    expect(result.className).toBe("windi-o9n2ol");
+    expect(result.ignored).toEqual(["abc"]);
+    expect(result.success).toEqual([
+      "font-bold",
+      "text-green-300",
+      "sm:dark:hover:text-lg",
+      "sm:bg-gray-100",
+      "sm:hover:bg-gray-200",
+      "bg-cool-gray-300",
+      "bg-hex-fff",
+    ]);
+    expect(result.styleSheet.build()).toBe(
+      `.windi-o9n2ol {
   font-weight: 700;
   --tw-text-opacity: 1;
   color: rgba(110, 231, 183, var(--tw-text-opacity));
@@ -30,7 +40,8 @@ describe('Compilation Mode', () => {
     --tw-bg-opacity: 1;
     background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
   }
-}`);
-        expect(processor.compile('test wrong css').className).toBeUndefined();
-    })
-})
+}`
+    );
+    expect(processor.compile("test wrong css").className).toBeUndefined();
+  });
+});
