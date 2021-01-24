@@ -21,11 +21,6 @@ const ts_plugin = is_publish
         transforms: ['typescript']
     });
 
-const external = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {}),
-];
-
 const dump = (file) => path.join(output_dir, file);
 
 const copy = (files) => files.forEach( file => fs.copyFileSync(file, dump(file)) );
@@ -60,7 +55,7 @@ const pack = (dir) => {
     return {
         writeBundle() {
             fs.writeFileSync(`${dump(dir)}/package.json`, JSON.stringify({
-                main: './index',
+                main: './index.js',
                 module: './index.mjs',
                 types: './index.d.ts'
             }, null, '  '));
@@ -86,6 +81,7 @@ export default [
         ],
         external: id => id.startsWith('./'),
         plugins: [
+            ts_plugin,
             rmdir(output_dir),
             mkdir(output_dir),
             copy(['package.json', 'README.md', 'LICENSE']),
@@ -112,7 +108,6 @@ export default [
         plugins: [
             ts_plugin,
             types('./types/colors', 'colors.d.ts'),
-
         ]
     },
 
@@ -124,9 +119,10 @@ export default [
                 file: dump('cli/index.js'),
                 banner: '#!/usr/bin/env node',
                 format: 'cjs',
+                paths: id => id.match(/\/src\/(lib|utils|plugin|config|colors)/) && `../${path.dirname(path.relative('./src', id))}/index.js`
             }
         ],
-        external,
+        external: id => Object.keys(pkg.dependencies).includes(id) || id.match(/\/src\/(lib|utils|plugin|config|colors)/),
         plugins: [
             replace({
                 __NAME__: pkg.name,

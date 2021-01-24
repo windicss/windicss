@@ -16,5 +16,8 @@
     "./src",
     "./test",
     "./example",
+  ],
+  "exclude": [
+    "./test/assets/tailwind.config.js"
   ]
 }
