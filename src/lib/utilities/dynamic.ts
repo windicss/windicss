@@ -6,7 +6,7 @@ import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 
 import type { PluginUtils, FontSize } from '../../interfaces';
 
-type Output = Property | Style | (Property|Style)[] | undefined;
+type Output = Property | Style | Style[] | undefined;
 
 // https://tailwindcss.com/docs/container
 function container(utility: Utility, { theme }: PluginUtils): Output {
@@ -172,10 +172,13 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/grid-auto-columns
 // https://tailwindcss.com/docs/grid-auto-rows
 function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
-    if (utility.raw.startsWith('auto-cols')) {
-        return utility.handler.handleStatic(theme('gridAutoColumns')).createProperty('grid-auto-columns', (value:string)=>minMaxContent(value));
-    } else if (utility.raw.startsWith('auto-rows')) {
-        return utility.handler.handleStatic(theme('gridAutoRows')).createProperty('grid-auto-rows', (value:string)=>minMaxContent(value));
+    const type = utility.raw.startsWith('auto-cols') ? 'columns' : utility.raw.startsWith('auto-rows') ? 'rows' : undefined;
+    if (!type) return;
+    const value = utility.handler.handleStatic(theme(type === 'columns' ? 'gridAutoColumns' : 'gridAutoRows')).value;
+    if (value) {
+        const prefixer = minMaxContent(value);
+        if (typeof prefixer === 'string') return new Property(`grid-auto-${type}`, prefixer);
+        return new Style(utility.class, prefixer.map(i=>new Property(`grid-auto-${type}`, i)));
     }
 }
 
@@ -396,7 +399,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
     if (Object.keys(images).includes(body)) {
         const prefixer = linearGradient(images[body]);
         if (Array.isArray(prefixer)) {
-            return prefixer.map(i=>new Property('background-image', i));
+            return new Style(utility.class, prefixer.map(i=>new Property('background-image', i)));
         }
         return new Property('background-image', prefixer);
     }

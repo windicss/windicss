@@ -1,4 +1,4 @@
-import preflights from './utilities/preflight';
+import { baseUtilities } from './utilities';
 import { Style, Property, StyleSheet } from '../utils/style';
 import type { ThemeUtilStr } from '../interfaces';
 
@@ -10,28 +10,22 @@ export default function preflight(theme:ThemeUtilStr, tags?:string [], global=tr
     const createStyle = (selector:string|undefined, properties: {[key:string]:string|string[]|((theme:ThemeUtilStr)=>string)}) => {
         const style = new Style(selector, undefined, false);
         for (let [key, value] of Object.entries(properties)) {
-            if (Array.isArray(value)) {
-                value.forEach(v=>{
-                    style.add(new Property(key, v));
-                })
-            } else {
-                style.add(new Property(key, typeof value === 'function'? value(theme): value));
-            }
+            style.add(Array.isArray(value) ? value.map(v => new Property(key,v)) : new Property(key, typeof value === 'function'? value(theme): value));
         }
         return style;
     }
-    preflights.forEach(p=>{
+
+    baseUtilities.forEach(p=>{
         if (global && p.global) {
            globalSheet.add(createStyle(p.selector, p.properties));
         } else if (tags) {
             const includeTags = tags.filter(i=>p.keys.includes(i));
-            if (includeTags.length > 0) {
-                styleSheet.add(createStyle(p.selector?p.selector:includeTags.join(', '), p.properties));
-            }
+            if (includeTags.length > 0) styleSheet.add(createStyle(p.selector?p.selector:includeTags.join(', '), p.properties));
         } else {
             styleSheet.add(createStyle(p.selector?p.selector:p.keys.join(', '), p.properties));
         }
     });
-    let result = styleSheet.combine().sort();
+
+    const result = styleSheet.combine().sort();
     return global? result.extend(globalSheet.combine().sort(), false) : result;
 }

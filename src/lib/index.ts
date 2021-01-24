@@ -12,9 +12,6 @@ import baseConfig from '../config/base';
 
 import type { Config } from '../interfaces';
 
-export * as utilities from './utilities';
-
-
 export class Processor {
     private _config: Config;
     private _theme: Config['theme'];

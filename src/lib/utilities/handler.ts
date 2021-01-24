@@ -95,10 +95,9 @@ class Handler {
         return this;
     }
 
-    createProperty(name:string|string [], callback?:(value:string)=>string|string[]) {
+    createProperty(name:string|string [], callback?:(value:string)=>string) {
         if (!this.value) return;
         const value = callback?callback(this.value):this.value;
-        if (Array.isArray(value)) return value.map(i=>new Property(name, i));
         return new Property(name, value);
     }
 }

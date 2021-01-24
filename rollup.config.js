@@ -56,25 +56,38 @@ const types = (src = '../types/index', dest = 'index') => {
     }
 }
 
+const pack = (dir) => {
+    return {
+        writeBundle() {
+            fs.writeFileSync(`${dump(dir)}/package.json`, JSON.stringify({
+                main: './index',
+                module: './index.mjs',
+                types: './index.d.ts'
+            }, null, '  '));
+        }
+    }
+}
+
 export default [
     // main
     {
         input: 'src/index.ts',
         output: [
             {
-                file: dump(pkg.main),
+                file: dump('index.js'),
                 format: 'cjs',
+                paths: id => `./${path.relative('./src', id)}/index.js`
             },
             {
-                file: dump(pkg.module),
+                file: dump('index.mjs'),
                 format: 'esm',
+                paths: id => `./${path.relative('./src', id)}/index.mjs`
             }
         ],
+        external: id => id.startsWith('./'),
         plugins: [
             rmdir(output_dir),
             mkdir(output_dir),
-            ts_plugin,
-            resolve(),
             copy(['package.json', 'README.md', 'LICENSE']),
             types('./types/index', 'index.d.ts'),
         ],
@@ -87,15 +100,19 @@ export default [
             {
                 file: dump('colors.js'),
                 format: 'cjs',
+                paths: id => `./${path.relative('./src', id)}/index.js`
             },
             {
                 file: dump('colors.mjs'),
                 format: 'esm',
+                paths: id => `./${path.relative('./src', id)}/index.mjs`
             }
         ],
+        external: id => id.startsWith('./'),
         plugins: [
             ts_plugin,
             types('./types/colors', 'colors.d.ts'),
+
         ]
     },
 
@@ -107,12 +124,7 @@ export default [
                 file: dump('cli/index.js'),
                 banner: '#!/usr/bin/env node',
                 format: 'cjs',
-            },
-            {
-                file: dump('cli/index.mjs'),
-                banner: '#!/usr/bin/env node',
-                format: 'esm',
-            },
+            }
         ],
         external,
         plugins: [
@@ -122,7 +134,6 @@ export default [
             }),
             ts_plugin,
             resolve(),
-            types('../types/cli/index', 'cli/index.d.ts'),
         ]
     },
 
@@ -145,6 +156,7 @@ export default [
             ts_plugin,
             resolve(),
             types(`../types/${dir}/index`, `${dir}/index.d.ts`),
+            pack(dir)
         ]
     })),
 
@@ -167,6 +179,7 @@ export default [
             ts_plugin,
             resolve(),
             types(`../../types/utils/${dir}/index`, `utils/${dir}/index.d.ts`),
+            pack(`utils/${dir}`)
         ]
     })),
 ]
