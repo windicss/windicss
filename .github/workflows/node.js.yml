@@ -21,14 +21,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm ci
     - name: Build project
-      run: |
-          npm ci
-          npm run build --if-present
+      run: npm run build --if-present
     - name: Run tests and generate coverage report
       run: npm run coverage
     - name: Upload coverage to Codecov
