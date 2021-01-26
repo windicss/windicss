@@ -7,11 +7,11 @@
   <a href="https://www.npmjs.com/package/windicss">
     <img src="https://img.shields.io/npm/dt/windicss.svg" alt="total downloads">
   </a>
-  <a href="https://travis-ci.com/voorjaar/windicss">
-    <img src="https://travis-ci.com/voorjaar/windicss.svg?branch=main" alt="build status">
+  <a href="https://github.com/voorjaar/windicss/actions">
+    <img src="https://img.shields.io/github/workflow/status/voorjaar/windicss/Node.js%20CI" alt="build status">
   </a>
   <a href="https://codecov.io/gh/voorjaar/windicss">
-    <img src="https://img.shields.io/codecov/c/github/voorjaar/windicss/dev.svg?sanitize=true"/>
+    <img src="https://img.shields.io/codecov/c/github/voorjaar/windicss/dev.svg?sanitize=true" alt="coverage"/>
   </a>
   <a href="https://github.com/voorjaar/windicss/blob/main/LICENSE">
     <img src="https://img.shields.io/npm/l/windicss.svg" alt="license">
