@@ -64,6 +64,9 @@
     "css",
     "compiler"
   ],
+  "engines": {
+    "node": ">= 12"
+  },
   "author": "Veritas Raven",
   "license": "MIT",
   "homepage": "https://github.com/voorjaar/windicss",
