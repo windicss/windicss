@@ -13,7 +13,8 @@
     "build": "rollup -c && tsc -p ./src --emitDeclarationOnly",
     "release": "PUBLISH=true npm run build",
     "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
-    "coverage": "nyc --nycrc-path=.nycrc.json npm run test"
+    "coverage": "nyc --nycrc-path=.nycrc.json npm run test",
+    "codecov": "codecov"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -76,6 +77,7 @@
     "@rollup/plugin-typescript": "^8.1.0",
     "@types/jasmine": "^3.6.3",
     "@types/node": "^14.14.14",
+    "codecov": "^3.8.1",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
     "nyc": "^15.1.0",

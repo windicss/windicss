@@ -1,0 +1,10 @@
+language: node_js
+
+node_js:
+  - 'node'
+  - '12'
+  - '10'
+
+script:
+  - npm run coverage
+  - npm run codecov
