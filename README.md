@@ -8,7 +8,7 @@ View full documentation on [Github Wiki](https://github.com/voorjaar/windicss/wi
 
 ## Discussions
 
-We’re using [Github Discussions](https://github.com/voorjaar/windicss/discussions) as a place to connect with other members of our community. You are free to ask questions and share ideas, and enjoy yourself.
+We’re using [Github Discussions](https://github.com/voorjaar/windicss/discussions) as a place to connect with other members of our community. You are free to ask questions and share ideas, so enjoy yourself.
 
 ## Development
 
