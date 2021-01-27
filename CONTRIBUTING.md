@@ -8,7 +8,7 @@ We use [GitHub Issues](https://github.com/voorjaar/windicss/issues) to track all
 
 ## Build the project locally
 
-In order to contribute to a project on GitHub, you must first get a copy of the project running locally on your computer.
+In order to contribute to windicss, you must first get a copy of the project running locally on your computer.
 
 There are five steps to building this project:
 
@@ -24,7 +24,7 @@ All GitHub projects are backed by a version control software called *Git*. You'l
 
 This specific project is written in JavaScript and uses Node.js as it's runtime. You'll need to [install Node.js](https://nodejs.org/en/) in order to run the project.
 
-### Fork the repository
+### Fork the [repository](https://github.com/voorjaar/windicss.git)
 
 A *fork* is a copy of a repository. Forking a repository lets you to make changes to your copy without affecting any of the original code.
 
@@ -69,7 +69,7 @@ $ npm run release
 
 ## Submit a Pull Request
 
-After you successfully build the project, you can make some changes of your own. 
+After you successfully [build the project](#build-the-project), you can make some changes of your own. 
 
 There are five steps to submit pull request:
 
@@ -88,7 +88,7 @@ $ git checkout fix-issue-123
 
 ### Make your changes
 
-Mke sure your code following [TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html).
+Make sure your code is following [TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html).
 
 Lint your code:
 ```
