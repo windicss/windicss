@@ -11,7 +11,7 @@ export default function extract(
   if (className in staticUtilities) {
     const style = new Style("." + className);
     const comment = addComment ? className : undefined;
-    for (let [key, value] of Object.entries(staticUtilities[className])) {
+    for (const [key, value] of Object.entries(staticUtilities[className])) {
       style.add(
         Array.isArray(value)
           ? value.map((i) => new Property(key, i, comment))

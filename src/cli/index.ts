@@ -9,6 +9,7 @@ import {
   walk,
   isFile,
   generateTemplate,
+  Console,
 } from "./utils";
 
 const doc = `
@@ -68,12 +69,12 @@ const args = arg({
 });
 
 if (args["--help"] || (args._.length === 0 && Object.keys(args).length === 1)) {
-  console.log(doc);
+  Console.log(doc);
   process.exit();
 }
 
 if (args["--version"]) {
-  console.log(getVersion());
+  Console.log(getVersion());
   process.exit();
 }
 
@@ -87,7 +88,7 @@ if (args["--init"]) {
 const localFiles = walk(".", true).filter((i) => i.type === "file");
 
 const matchFiles: string[] = [];
-for (let pt of args._) {
+for (const pt of args._) {
   if (isFile(pt) && pt.search(/\.windi\./) === -1) {
     matchFiles.push(pt);
   } else if (pt.search(/\*/) !== -1) {
@@ -98,13 +99,13 @@ for (let pt of args._) {
         matchFiles.push(i.path);
     });
   } else {
-    console.error(`File ${pt} does not exist!`);
+    Console.error(`File ${pt} does not exist!`);
   }
 }
 
 let ignoredClasses: string[] = [];
-let preflights: StyleSheet[] = [];
-let styleSheets: StyleSheet[] = [];
+const preflights: StyleSheet[] = [];
+const styleSheets: StyleSheet[] = [];
 const processor = new Processor();
 
 if (args["--compile"]) {
@@ -137,7 +138,7 @@ if (args["--compile"]) {
 
     const outputFile = file.replace(/(?=\.\w+$)/, ".windi");
     writeFileSync(outputFile, outputHTML.join(""));
-    console.log(`${file} -> ${outputFile}`);
+    Console.log(`${file} -> ${outputFile}`);
 
     if (args["--preflight"])
       preflights.push(processor.preflight(parser.parseTags()));
@@ -165,7 +166,7 @@ if (args["--separate"]) {
     const filePath = matchFiles[index].replace(/\.\w+$/, ".windi.css");
     if (args["--preflight"]) style = preflights[index].extend(style);
     writeFileSync(filePath, style.build(args["--minify"]));
-    console.log(`${matchFiles[index]} -> ${filePath}`);
+    Console.log(`${matchFiles[index]} -> ${filePath}`);
   });
 } else {
   let outputStyle = styleSheets
@@ -188,8 +189,8 @@ if (args["--separate"]) {
       .extend(outputStyle);
   const filePath = args["--output"] ?? "windi.output.css";
   writeFileSync(filePath, outputStyle.build(args["--minify"]));
-  console.log("matched files:", matchFiles);
-  console.log("output file:", filePath);
+  Console.log("matched files:", matchFiles);
+  Console.log("output file:", filePath);
 }
 
-console.log("ignored classes:", ignoredClasses);
+Console.log("ignored classes:", ignoredClasses);

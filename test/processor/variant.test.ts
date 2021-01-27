@@ -10,7 +10,7 @@ import {
 
 function _generateTestVariants(variants: { [key: string]: () => Style }) {
   const output: { [key: string]: string } = {};
-  for (let [name, func] of Object.entries(variants)) {
+  for (const [name, func] of Object.entries(variants)) {
     const style = func();
     style.selector = ".test";
     style.add(new Property("background", "#1C1C1E"));

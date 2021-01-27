@@ -82,7 +82,7 @@ export default function (variantOrder: string[]) {
   };
   const orderedStates: typeof states = {};
   variantOrder.forEach((v) => {
-    if (states.hasOwnProperty(v)) {
+    if (v in states) {
       orderedStates[v] = states[v];
     }
   });

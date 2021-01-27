@@ -15,7 +15,7 @@ export default class ClassParser {
     let group;
     let func;
     let variants = [];
-    let parts: { [key: string]: any }[] = [];
+    const parts: { [key: string]: any }[] = [];
     let variantStart = this.index + 1;
     let classStart = this.index + 1;
     let groupStart = this.index + 1;
@@ -99,7 +99,7 @@ export default class ClassParser {
 
   private _handle_function() {
     if (!this.classNames) return;
-    let groupStart = this.index + 1;
+    const groupStart = this.index + 1;
     while (true) {
       if (this.classNames.charAt(this.index) === ")") {
         break;

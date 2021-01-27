@@ -81,7 +81,6 @@ const result = processor.interpret(
     .map((i) => i.result)
     .join(" ")
 ); // Combine all classes into one line to simplify operations
-console.log("ignored classes:", result.ignored); // Classes that not been used
 fs.writeFileSync(
   "interpret_test.css",
   result.styleSheet.extend(preflightSheet, false).build(false)

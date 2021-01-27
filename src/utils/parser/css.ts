@@ -73,7 +73,7 @@ export default class CSSParser {
       };
     if (iatrule.name === "screen" && iatrule.value) {
       const screens = this.processor.resolveVariants("screen");
-      if (screens.hasOwnProperty(iatrule.value))
+      if (iatrule.value in screens)
         return { atrule: screens[iatrule.value]().atRules?.[0] };
       if (["dark", "light"].includes(iatrule.value))
         return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
@@ -109,7 +109,7 @@ export default class CSSParser {
         } else {
           // nested atrule
           const nestEnd = this._searchGroup(css, nestStart + 1);
-          let atrule = css.substring(firstLetter, nestStart).trim();
+          const atrule = css.substring(firstLetter, nestStart).trim();
           if (this.processor) {
             const directives = this._handleDirectives(atrule);
             if (directives?.atrule) {

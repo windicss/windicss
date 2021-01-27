@@ -75,9 +75,9 @@ start from scratch if you know enough to be dangerous. Have fun!
 const parser = new HTMLParser(html); // Simple html parser, only has two methods.
 const processor = new Processor({});
 const preflightSheet = processor.preflight(parser.parseTags()); // Parse all html tags, then generate preflight
+const outputHTML: string[] = [];
+const outputCSS: StyleSheet[] = [];
 
-let outputHTML: string[] = [];
-let outputCSS: StyleSheet[] = [];
 let ignoredClass: string[] = [];
 let indexStart = 0;
 
@@ -91,9 +91,6 @@ parser.parseClasses().forEach((p) => {
   indexStart = p.end;
 });
 outputHTML.push(html.substring(indexStart));
-
-// Classes that not been used
-console.log("ignored classes:", ignoredClass);
 
 fs.writeFileSync("compile_test.html", outputHTML.join(""));
 fs.writeFileSync(

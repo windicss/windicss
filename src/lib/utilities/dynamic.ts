@@ -18,7 +18,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     if (theme("container.center"))
       baseStyle.add(new Property(["margin-left", "margin-right"], "auto"));
     const output: Style[] = [baseStyle];
-    for (let [screen, size] of Object.entries(theme("screens"))) {
+    for (const [screen, size] of Object.entries(theme("screens"))) {
       const props = [new Property("max-width", `${size}`)];
       const padding = theme(`container.padding.${screen}`);
       if (padding) props.push(new Property("padding", padding));
@@ -39,7 +39,7 @@ function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/top-right-bottom-left
 function inset(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("inset"))
     .handleSpacing()
     .handleFraction()
@@ -118,7 +118,7 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/order
 function order(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("order"))
     .handleNumber(1, 9999, "int")
     .handleNegative()
@@ -254,7 +254,7 @@ function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/gap
 function gap(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("gap"))
     .handleSpacing()
     .handleSize()
@@ -274,7 +274,7 @@ function gap(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/padding
 function padding(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("padding"))
     .handleSpacing()
     .handleSize()
@@ -292,7 +292,7 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/margin
 function margin(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("margin"))
     .handleSpacing()
     .handleSize()
@@ -315,7 +315,7 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
     return new Property("--tw-space-x-reverse", "1");
   if (utility.raw === "space-y-reverse")
     return new Property("--tw-space-y-reverse", "1");
-  let value = utility.handler
+  const value = utility.handler
     .handleStatic(theme("space"))
     .handleSpacing()
     .handleSize()
@@ -530,7 +530,7 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
       )
       .handleVariable()
       .createProperty("--tw-placeholder-opacity");
-  let value = utility.handler
+  const value = utility.handler
     .handleColor(theme("placeholderColor"))
     .handleVariable().value;
   if (value) {
@@ -601,7 +601,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       .handleVariable()
       .createProperty("--tw-bg-opacity");
   // handle background color
-  let value = utility.handler
+  const value = utility.handler
     .handleColor(theme("backgroundColor"))
     .handleVariable().value;
   if (value) {
@@ -621,7 +621,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/gradient-color-stops from
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleColor(theme("gradientColorStops"))
     .handleVariable().value;
   if (value) {
@@ -731,7 +731,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty("--tw-border-opacity");
 
   // handle border color
-  let value = utility.handler
+  const value = utility.handler
     .handleColor(theme("borderColor"))
     .handleVariable((variable: string) =>
       utility.raw.startsWith("border-$") ? `var(--${variable})` : undefined
@@ -1012,7 +1012,7 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
 function transition(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const props: { [key: string]: string } = theme("transitionProperty");
-  for (let [key, value] of Object.entries(props)) {
+  for (const [key, value] of Object.entries(props)) {
     if (body === key || (body === "" && key === "DEFAULT")) {
       if (value === "none")
         return new Property(

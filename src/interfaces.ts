@@ -4,6 +4,10 @@ export type ThemeUtilStr = (path: string, defaultValue?: string) => string;
 
 export type DictStr = { [key: string]: string };
 
+export type GenericNestObject<T> = { [key: string]: T | GenericNestObject<T> };
+
+export type AnyObject = Record<string, unknown>;
+
 export interface ConfigUtils {
   negative: (config: DictStr) => DictStr;
   breakpoints: (config: DictStr) => DictStr;

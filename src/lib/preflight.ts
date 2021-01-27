@@ -18,7 +18,7 @@ export default function preflight(
     }
   ) => {
     const style = new Style(selector, undefined, false);
-    for (let [key, value] of Object.entries(properties)) {
+    for (const [key, value] of Object.entries(properties)) {
       style.add(
         Array.isArray(value)
           ? value.map((v) => new Property(key, v))

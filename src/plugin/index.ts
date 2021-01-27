@@ -1,9 +1,5 @@
-// interface tailwindInterfaces {
-//     () => {}
-// }
-
-export function plugin() {
-  console.log(123);
+export function plugin(): undefined {
+  return;
 }
 
 module.exports = plugin;

@@ -1,15 +1,29 @@
 import fs from "fs";
 import path from "path";
 
-export function isFile(path: string) {
+export class Console {
+  static log(...message: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
+  static error(...message: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.error(message);
+  }
+}
+
+export function isFile(path: string): boolean {
   return fs.existsSync(path) && fs.lstatSync(path).isFile();
 }
 
-export function walk(dir: string, deep = true) {
+export function walk(
+  dir: string,
+  deep = true
+): { type: string; path: string }[] {
   let result: { type: string; path: string }[] = [];
 
   fs.readdirSync(dir).forEach((item) => {
-    let itemPath = path.join(dir, item);
+    const itemPath = path.join(dir, item);
 
     if (fs.lstatSync(itemPath).isFile()) {
       result.push({
@@ -33,7 +47,7 @@ export class FilePattern {
     this.pattern = this._transform(pattern);
   }
 
-  match(text: string) {
+  match(text: string): boolean {
     return Boolean(text.match(this.pattern));
   }
 
@@ -53,14 +67,14 @@ export class FilePattern {
   }
 }
 
-export function getVersion() {
+export function getVersion(): string {
   return `__NAME__ __VERSION__`; // replace by rollup
 }
 
 export function generateTemplate(
   folder: string,
   outputPath = "windi.output.css"
-) {
+): { html: string; css: string } {
   if (!(fs.existsSync(folder) && fs.lstatSync(folder).isDirectory())) {
     fs.mkdirSync(folder);
     if (!fs.existsSync(folder))

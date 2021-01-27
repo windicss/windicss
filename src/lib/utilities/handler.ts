@@ -17,7 +17,7 @@ const DEFAULT_COLORS: { [key: string]: string | { [key: string]: string } } = {
   ...colors,
 };
 
-for (let [key, value] of Object.entries(colors)) {
+for (const [key, value] of Object.entries(colors)) {
   DEFAULT_COLORS[camelToDash(key)] = value;
 }
 

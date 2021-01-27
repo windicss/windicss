@@ -10,7 +10,7 @@ import extract from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
 
-import type { Config } from "../interfaces";
+import type { Config, Theme, AnyObject, GenericNestObject } from "../interfaces";
 
 export class Processor {
   private _config: Config;
@@ -34,10 +34,10 @@ export class Processor {
       : baseConfig;
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
-    const extendTheme: { [key: string]: {} } = userTheme?.extend ?? {};
+    const extendTheme: { [key: string]: Theme } = userTheme?.extend ?? {};
     if (userTheme && extendTheme) delete userTheme.extend;
-    const theme: any = { ...presets.theme, ...userTheme };
-    for (let [key, value] of Object.entries(extendTheme)) {
+    const theme: Theme = { ...presets.theme, ...userTheme };
+    for (const [key, value] of Object.entries(extendTheme)) {
       theme[key] = { ...(theme[key] ?? {}), ...value };
     }
     return { ...presets, ...userConfig, theme };
@@ -55,7 +55,7 @@ export class Processor {
     if (!config.theme) return config;
     const theme = (path: string, defaultValue?: any) =>
       this.theme(path, defaultValue);
-    for (let [key, value] of Object.entries(config.theme)) {
+    for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === "function") {
         config.theme[key] = value(theme, { negative, breakpoints });
       }
@@ -284,7 +284,7 @@ export class Processor {
   }
 
   // tailwind interfaces
-  config(path: string, defaultValue?: any) {
+  config(path: string, defaultValue?: any):any {
     return getNestedValue(this._config, path) ?? defaultValue;
   }
 
@@ -318,19 +318,27 @@ export class Processor {
 
   addUtilities(
     utilities: { [key: string]: { [key: string]: string } },
-    options: string[] | {} = []
-  ) {}
+    options: string[] | AnyObject = []
+  ):undefined {
+    return
+  }
 
   addComponents(
     components: { [key: string]: string | { [key: string]: string } },
-    options: string[] | {} = []
-  ) {}
+    options: string[] | AnyObject = []
+  ) {
+    return
+  }
 
-  addBase(baseStyles: { [key: string]: string | { [key: string]: string } }) {}
+  addBase(baseStyles: { [key: string]: string | { [key: string]: string } }) {
+    return
+  }
 
   addVariant(
     name: string,
     generator: (selector: string) => Style,
     options = {}
-  ) {}
+  ) {
+    return
+  }
 }

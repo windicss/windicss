@@ -28,7 +28,7 @@ function _getQueryLength(length: string) {
     return maxValue;
   }
 
-  let number = result[1];
+  const number = result[1];
   const unit = result[2];
 
   switch (unit) {
@@ -121,8 +121,8 @@ export default function sortMediaQuery(a: string, b: string) {
     return 1;
   }
 
-  let lengthA = _getQueryLength(a);
-  let lengthB = _getQueryLength(b);
+  const lengthA = _getQueryLength(a);
+  const lengthB = _getQueryLength(b);
 
   if (lengthA === maxValue && lengthB === maxValue) {
     return a.localeCompare(b);

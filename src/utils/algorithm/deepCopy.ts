@@ -12,8 +12,8 @@ function _cloneRegExp(pattern: RegExp) {
 }
 
 function _clone(value: any, refFrom: any[], refTo: any[], deep: boolean) {
-  let copy = function copy(copiedValue: any) {
-    let len = refFrom.length;
+  const copy = function copy(copiedValue: any) {
+    const len = refFrom.length;
     let idx = 0;
     while (idx < len) {
       if (value === refFrom[idx]) {
@@ -23,8 +23,8 @@ function _clone(value: any, refFrom: any[], refTo: any[], deep: boolean) {
     }
     refFrom[idx] = value;
     refTo[idx] = copiedValue;
-    for (let key in value) {
-      if (value.hasOwnProperty(key)) {
+    for (const key in value) {
+      if (key in value) {
         copiedValue[key] = deep
           ? _clone(value[key], refFrom, refTo, true)
           : value[key];

@@ -31,12 +31,12 @@ export function generateKeyframe(
   children: { [key: string]: { [key: string]: string } }
 ) {
   const output: GlobalStyle[] = [];
-  for (let [key, value] of Object.entries(children)) {
+  for (const [key, value] of Object.entries(children)) {
     const style = new GlobalStyle(key).atRule(`@keyframes ${name}`);
     const webkitStyle = new GlobalStyle(key).atRule(
       `@-webkit-keyframes ${name}`
     );
-    for (let [pkey, pvalue] of Object.entries(value)) {
+    for (const [pkey, pvalue] of Object.entries(value)) {
       let prop: string | string[] = pkey;
       if (pkey === "transform") {
         prop = ["-webkit-transform", "transform"];

@@ -294,8 +294,8 @@ export class Style {
 
   clean() {
     // remove duplicated property
-    let property: Property[] = [];
-    let cache: string[] = [];
+    const property: Property[] = [];
+    const cache: string[] = [];
     this.property.forEach((i) => {
       const inline = i.build();
       if (!cache.includes(inline)) {
@@ -346,7 +346,7 @@ export class Style {
           result !== "" ? minify : true
         );
     if (this._atRules) {
-      for (let rule of this._atRules) {
+      for (const rule of this._atRules) {
         result = minify
           ? `${rule.replace(/\s/g, "")}${wrapit(
               result,

@@ -1,12 +1,13 @@
 import sortMediaQuery from "./sortMediaQuery";
 import sortSelector from "./sortSelector";
 import { Style } from "../style/base";
-import { wrapit, hash, isSpace } from "../../utils/tools";
+import { wrapit, hash, isSpace, type } from "../../utils/tools";
+import type { AnyObject } from "../../interfaces";
 
 function combineObject(a: { [key: string]: any }, b: { [key: string]: any }) {
   const output = { ...a };
-  for (let [key_of_b, value_of_b] of Object.entries(b)) {
-    if (a.hasOwnProperty(key_of_b)) {
+  for (const [key_of_b, value_of_b] of Object.entries(b)) {
+    if (key_of_b in a) {
       const value_of_a = a[key_of_b];
       if (value_of_a !== value_of_b) {
         if (value_of_b !== null && value_of_b.constructor !== Object) {
@@ -27,11 +28,11 @@ function combineObject(a: { [key: string]: any }, b: { [key: string]: any }) {
   return output;
 }
 
-function deepList(list: string[], value?: any): {} {
+function deepList(list: string[], value?: any): AnyObject {
   const key = list.pop();
   if (!value) value = {};
   if (!key) return value;
-  const dict: { [key: string]: {} } = {};
+  const dict: { [key: string]: AnyObject } = {};
   dict[key] = value;
   return deepList(list, dict);
 }
@@ -48,7 +49,7 @@ function handleNest(item: any) {
   return output;
 }
 
-function buildMap(obj: {}, minify = false): string {
+function buildMap(obj: unknown, minify = false): string {
   let output: any[] = [];
   if (Array.isArray(obj)) {
     obj.forEach((item) => {
@@ -60,8 +61,8 @@ function buildMap(obj: {}, minify = false): string {
         if (item.build) output.push(item.build(minify));
       }
     });
-  } else {
-    for (let [key, value] of Object.entries(obj)) {
+  } else if (obj && typeof obj === "object"){
+    for (const [key, value] of Object.entries(obj)) {
       const _gstyle = (v: string) =>
         (minify ? key.replace(/\n/g, "") : key + " ") +
         wrapit(v, undefined, undefined, undefined, minify);
@@ -82,7 +83,7 @@ function combineSelector(styleList: Style[]) {
     const rule = style.rule;
     if (rule) {
       const hashValue = hash(rule);
-      if (styleMap.hasOwnProperty(hashValue)) {
+      if (hashValue in styleMap) {
         styleMap[hashValue] = styleMap[hashValue].extend(style, true);
       } else {
         styleMap[hashValue] = style;
@@ -112,13 +113,13 @@ export default function compileStyleSheet(styleList: Style[], minify = false) {
         ];
         return deepList(list, new Style(undefined, i.property));
       })
-      .sort((a: {}, b: {}) => {
+      .sort((a: AnyObject, b: AnyObject) => {
         const akey = Object.keys(a)[0];
         const bkey = Object.keys(b)[0];
         return sortMediaQuery(akey, bkey);
       })
       .reduce(
-        (previousValue: {}, currentValue: {}) =>
+        (previousValue: AnyObject, currentValue: AnyObject) =>
           combineObject(previousValue, currentValue),
         {}
       ),

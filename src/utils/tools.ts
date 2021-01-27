@@ -1,4 +1,4 @@
-export function hash(str: string) {
+export function hash(str: string): string {
   str = str.replace(/\r/g, "");
   let hash = 5381;
   let i = str.length;
@@ -7,7 +7,7 @@ export function hash(str: string) {
   return (hash >>> 0).toString(36);
 }
 
-export function type(val: any) {
+export function type(val: unknown): string {
   return val === null
     ? "Null"
     : val === undefined
@@ -15,7 +15,7 @@ export function type(val: any) {
     : Object.prototype.toString.call(val).slice(8, -1);
 }
 
-export function indent(code: string, tab = 2) {
+export function indent(code: string, tab = 2): string {
   const spaces = Array(tab).fill(" ").join("");
   return code
     .split("\n")
@@ -35,7 +35,7 @@ export function wrapit(
   end = "}",
   tab = 2,
   minify = false
-) {
+): string {
   if (minify) return `${start}${code}${end}`;
   return `${start}\n${indent(code, tab)}\n${end}`;
 }
@@ -45,7 +45,7 @@ export function isNumber(
   start = -Infinity,
   end = Infinity,
   type: "int" | "float" = "int"
-) {
+): boolean {
   const isInt = /^-?\d+$/.test(amount);
   if (type === "int") {
     if (!isInt) return false;
@@ -57,24 +57,24 @@ export function isNumber(
   return num >= start && num <= end;
 }
 
-export function isFraction(amount: string) {
+export function isFraction(amount: string): boolean {
   return /^\d+\/\d+$/.test(amount);
 }
 
-export function isSize(amount: string) {
+export function isSize(amount: string): boolean {
   return /^(\d+(\.\d+)?)+(rem|em|px|vh|vw|ch|ex)$/.test(amount);
 }
 
-export function isSpace(str: string) {
+export function isSpace(str: string): boolean {
   return /^\s*$/.test(str);
 }
 
-export function roundUp(num: number, precision: number = 0) {
+export function roundUp(num: number, precision = 0): number {
   precision = Math.pow(10, precision);
   return Math.round(num * precision) / precision;
 }
 
-export function fracToPercent(amount: string) {
+export function fracToPercent(amount: string): string | undefined {
   const matches = amount.match(/[^\/]+/g);
   if (!matches) return;
   const a = +matches[0];
@@ -82,7 +82,7 @@ export function fracToPercent(amount: string) {
   return roundUp((a / b) * 100, 6) + "%";
 }
 
-export function hex2RGB(hex: string) {
+export function hex2RGB(hex: string): number[] | undefined {
   const RGB_HEX = /^#?(?:([\da-f]{3})[\da-f]?|([\da-f]{6})(?:[\da-f]{2})?)$/i;
   const [, short, long] = String(hex).match(RGB_HEX) || [];
 
@@ -96,11 +96,11 @@ export function hex2RGB(hex: string) {
   }
 }
 
-export function camelToDash(str: string) {
+export function camelToDash(str: string): string {
   return str.replace(/([a-zA-Z])(?=[A-Z])/g, "$1-").toLowerCase();
 }
 
-export function dashToCamel(str: string) {
+export function dashToCamel(str: string): string {
   return str.toLowerCase().replace(/-(.)/g, (_, group) => group.toUpperCase());
 }
 
@@ -126,7 +126,7 @@ export function searchFrom(
   target: string | RegExp,
   startIndex = 0,
   endIndex?: number
-) {
+): number {
   // search from partial of string
   const subText = text.substring(startIndex, endIndex);
   const relativeIndex = subText.search(target);
