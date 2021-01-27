@@ -15,12 +15,13 @@ export default class ClassParser {
     let group;
     let func;
     let variants = [];
-    const parts: { [key: string]: any }[] = [];
     let variantStart = this.index + 1;
     let classStart = this.index + 1;
     let groupStart = this.index + 1;
     let ignoreSpace = false;
-    while (true) {
+    const parts: { [key: string]: any }[] = [];
+    const length = this.classNames.length;
+    while (this.index < length) {
       this.index++;
       char = this.classNames.charAt(this.index);
       switch (char) {
@@ -100,10 +101,7 @@ export default class ClassParser {
   private _handle_function() {
     if (!this.classNames) return;
     const groupStart = this.index + 1;
-    while (true) {
-      if (this.classNames.charAt(this.index) === ")") {
-        break;
-      }
+    while (this.classNames.charAt(this.index) !== ")") {
       this.index++;
     }
     return this.classNames.slice(groupStart, this.index);

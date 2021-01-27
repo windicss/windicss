@@ -75,7 +75,7 @@ export function roundUp(num: number, precision = 0): number {
 }
 
 export function fracToPercent(amount: string): string | undefined {
-  const matches = amount.match(/[^\/]+/g);
+  const matches = amount.match(/[^/]+/g);
   if (!matches) return;
   const a = +matches[0];
   const b = +matches[1];

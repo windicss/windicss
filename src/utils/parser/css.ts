@@ -11,21 +11,21 @@ export default class CSSParser {
   }
 
   private _removeComment(css: string) {
-    while (true) {
-      const commentOpen = css.search(/\/\*/);
-      const commentClose = css.search(/\*\//);
-      if (commentOpen === -1 || commentClose === -1) break;
+    let commentOpen = css.search(/\/\*/);
+    let commentClose = css.search(/\*\//);
+    while (commentOpen !== -1 && commentClose !== -1) {
       css = css.substring(0, commentOpen) + css.substring(commentClose + 2);
+      commentOpen = css.search(/\/\*/);
+      commentClose = css.search(/\*\//);
     }
     return css;
   }
 
   private _searchGroup(text: string, startIndex = 0) {
     let level = 1;
-    while (true) {
-      const endBracket = searchFrom(text, "}", startIndex);
+    let endBracket = searchFrom(text, "}", startIndex);
+    while (endBracket !== -1) {
       const nextBracket = searchFrom(text, "{", startIndex);
-      if (endBracket === -1) return -1;
       if (endBracket < nextBracket || nextBracket === -1) {
         level--;
         startIndex = endBracket + 1;
@@ -34,7 +34,9 @@ export default class CSSParser {
         level++;
         startIndex = nextBracket + 1;
       }
+      endBracket = searchFrom(text, "}", startIndex);
     }
+    return -1;
   }
 
   private _generateStyle(css: string, selector?: string) {
@@ -86,11 +88,10 @@ export default class CSSParser {
 
     if (!css) return styleSheet;
     let index = 0;
+    let firstLetter = searchFrom(css, /\S/, index);
     css = this._removeComment(css);
 
-    while (true) {
-      const firstLetter = searchFrom(css, /\S/, index);
-      if (firstLetter === -1) break;
+    while (firstLetter !== -1) {
       if (css.charAt(firstLetter) === "@") {
         // atrule
         const ruleEnd = searchFrom(css, ";", firstLetter);
@@ -152,6 +153,7 @@ export default class CSSParser {
         );
         index = nestEnd + 1;
       }
+      firstLetter = searchFrom(css, /\S/, index);
     }
     return styleSheet;
   }

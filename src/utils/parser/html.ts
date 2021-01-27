@@ -11,9 +11,8 @@ export default class HTMLParser {
     const classNames = [];
     let _indexStart = 0;
     let _htmlLeft = this.html;
-    while (true) {
-      const propStart = _htmlLeft.search(classRegex);
-      if (propStart === -1) break;
+    let propStart = _htmlLeft.search(classRegex);
+    while (propStart !== -1) {
       const afterMatch = _htmlLeft.substring(propStart);
       const relativeStart = afterMatch.search(quoteRegex);
       const relativeEnd = afterMatch
@@ -28,6 +27,7 @@ export default class HTMLParser {
       });
       _htmlLeft = _htmlLeft.substring(absoluteEnd + 2);
       _indexStart += absoluteEnd + 2;
+      propStart = _htmlLeft.search(classRegex);
     }
     return classNames;
   }

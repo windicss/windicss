@@ -32,13 +32,14 @@ export class Property {
     if (!/;\s*$/.test(css)) css += ";"; // Fix for the situation where the last semicolon is omitted
     const properties: (Property | InlineAtRule)[] = [];
     let index = 0;
-    while (true) {
-      const start = searchFrom(css, /\S/, index);
-      const end = searchFrom(css, ";", index);
-      if (end === -1) break;
-      const parsed = this._singleParse(css.substring(start, end + 1));
+    let end = searchFrom(css, ";", index);
+    while (end !== -1) {
+      const parsed = this._singleParse(
+        css.substring(searchFrom(css, /\S/, index), end + 1)
+      );
       if (parsed) properties.push(parsed);
       index = end + 1;
+      end = searchFrom(css, ";", index);
     }
     const count = properties.length;
     if (count > 1) return properties;
@@ -74,7 +75,7 @@ export class InlineAtRule extends Property {
     this.name = name;
   }
   static parse(css: string) {
-    const matchName = css.match(/@[^\s;\{\}]+/);
+    const matchName = css.match(/@[^\s;{}]+/);
     if (matchName) {
       const name = matchName[0].substring(1);
       const expression =
