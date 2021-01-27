@@ -1,7 +1,7 @@
-import fs from 'fs';
-import { Processor } from '../src/lib';
-import { HTMLParser } from '../src/utils/parser';
-import { StyleSheet } from '../src/utils/style';
+import fs from "fs";
+import { Processor } from "../src/lib";
+import { HTMLParser } from "../src/utils/parser";
+import { StyleSheet } from "../src/utils/style";
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
 const html = `<!--
@@ -82,24 +82,29 @@ let ignoredClass: string[] = [];
 let indexStart = 0;
 
 // Match tailwind ClassName then replace with new ClassName
-parser.parseClasses().forEach(p=>{
+parser.parseClasses().forEach((p) => {
   outputHTML.push(html.substring(indexStart, p.start));
-  const result = processor.compile(p.result, 'windi-', true); // Set third argument to false to hide comments;
+  const result = processor.compile(p.result, "windi-", true); // Set third argument to false to hide comments;
   outputCSS.push(result.styleSheet);
   ignoredClass = [...ignoredClass, ...result.ignored];
-  outputHTML.push([result.className, ...result.ignored].join(' '));
+  outputHTML.push([result.className, ...result.ignored].join(" "));
   indexStart = p.end;
 });
 outputHTML.push(html.substring(indexStart));
 
 // Classes that not been used
-console.log('ignored classes:', ignoredClass);
+console.log("ignored classes:", ignoredClass);
 
-fs.writeFileSync('compile_test.html', outputHTML.join(''));
-fs.writeFileSync('compile_test.css', 
+fs.writeFileSync("compile_test.html", outputHTML.join(""));
+fs.writeFileSync(
+  "compile_test.css",
   outputCSS
-  .reduce((previousValue: StyleSheet, currentValue: StyleSheet) => previousValue.extend(currentValue), new StyleSheet()) // Combine all stylesheet
-  .extend(preflightSheet, false) // Insert preflight before utilities, set second argument to true to insert after
-  .combine() // Remove duplicated classes
-  .build(false) // Build css, set true to minify build
-)
+    .reduce(
+      (previousValue: StyleSheet, currentValue: StyleSheet) =>
+        previousValue.extend(currentValue),
+      new StyleSheet()
+    ) // Combine all stylesheet
+    .extend(preflightSheet, false) // Insert preflight before utilities, set second argument to true to insert after
+    .combine() // Remove duplicated classes
+    .build(false) // Build css, set true to minify build
+);

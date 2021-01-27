@@ -1,1 +1,1 @@
-export { colors } from './config';
+export { colors } from "./config";

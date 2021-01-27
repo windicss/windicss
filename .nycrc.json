@@ -1,12 +1,5 @@
 {
-    "extension": [
-        ".ts"
-    ],
-    "include": [
-        "src/**/*.ts"
-    ],
-    "reporter": [
-        "text",
-        "lcov"
-    ]
+	"extension": [".ts"],
+	"include": ["src/**/*.ts"],
+	"reporter": ["text", "lcov"]
 }

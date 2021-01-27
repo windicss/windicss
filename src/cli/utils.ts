@@ -1,82 +1,82 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
-export function isFile(path:string) {
+export function isFile(path: string) {
   return fs.existsSync(path) && fs.lstatSync(path).isFile();
 }
 
+export function walk(dir: string, deep = true) {
+  let result: { type: string; path: string }[] = [];
 
-export function walk(dir:string, deep=true) {
-  let result:{type:string, path:string}[] = [];
- 
-  fs.readdirSync(dir).forEach(item=>{
+  fs.readdirSync(dir).forEach((item) => {
     let itemPath = path.join(dir, item);
 
-      if (fs.lstatSync(itemPath).isFile()) {
-        result.push({
-          type: 'file',
-          path: itemPath,
-        })
-      } else {
-        result.push({
-          type: 'folder',
-          path: itemPath,
-        });
-        if (deep) result = [...result, ...walk(itemPath, deep)];
-      };
-  })
+    if (fs.lstatSync(itemPath).isFile()) {
+      result.push({
+        type: "file",
+        path: itemPath,
+      });
+    } else {
+      result.push({
+        type: "folder",
+        path: itemPath,
+      });
+      if (deep) result = [...result, ...walk(itemPath, deep)];
+    }
+  });
   return result;
-};
-
+}
 
 export class FilePattern {
   pattern: RegExp;
-  constructor(pattern:string) {
+  constructor(pattern: string) {
     this.pattern = this._transform(pattern);
   }
 
-  match(text:string) {
+  match(text: string) {
     return Boolean(text.match(this.pattern));
   }
 
-  private _transform(pattern:string) {
+  private _transform(pattern: string) {
     // if (!pattern.startsWith('^')) pattern = '^' + pattern;
-    if (!pattern.endsWith('$')) pattern += '$';
+    if (!pattern.endsWith("$")) pattern += "$";
     const backSlash = String.fromCharCode(92);
     const anyText = `[${backSlash}s${backSlash}S]+`;
     pattern = pattern
-              .replace(/^\.\//, '')
-              .replace(/\*\*\/\*/g, anyText)
-              .replace(/\*\*/g, '[^/]+')
-              .replace(/\*/g, '[^/]+')
-              .replace(/\./g, backSlash+'.')
-              .replace(/\//g, backSlash+'/');
+      .replace(/^\.\//, "")
+      .replace(/\*\*\/\*/g, anyText)
+      .replace(/\*\*/g, "[^/]+")
+      .replace(/\*/g, "[^/]+")
+      .replace(/\./g, backSlash + ".")
+      .replace(/\//g, backSlash + "/");
     return new RegExp(pattern);
   }
 }
-
 
 export function getVersion() {
   return `__NAME__ __VERSION__`; // replace by rollup
 }
 
-
-export function generateTemplate(folder:string, outputPath="windi.output.css") {
+export function generateTemplate(
+  folder: string,
+  outputPath = "windi.output.css"
+) {
   if (!(fs.existsSync(folder) && fs.lstatSync(folder).isDirectory())) {
     fs.mkdirSync(folder);
-    if (!fs.existsSync(folder)) throw new Error(`Folder ${folder} creatation failed.`);
-  };
+    if (!fs.existsSync(folder))
+      throw new Error(`Folder ${folder} creatation failed.`);
+  }
   folder = path.resolve(folder);
   const template = `<!DOCTYPE html>
   <html lang="en">
-  
+
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>${path.basename(folder)}</title>
       <link rel="stylesheet" href="${outputPath}">
   </head>
-  
+
   <body class="bg-gray-100">
       <div class="container mx-auto flex flex-col justify-center items-center h-screen">
           <div class="lg:flex shadow rounded-lg">
@@ -98,7 +98,7 @@ export function generateTemplate(folder:string, outputPath="windi.output.css") {
                   <div class="text-gray-700 text-xl pb-1 text-center lg:text-left px-2">
                       International Conference Dubai
                   </div>
-      
+
                   <div class="text-gray-800 font-light text-sm pt-1 text-center lg:text-left px-2">
                       A-142/1, A-142, Ganesh Nagar, Tilak Nagar, New Delhi, 110018
                   </div>
@@ -112,9 +112,9 @@ export function generateTemplate(folder:string, outputPath="windi.output.css") {
       </div>
   </body>
   </html>`;
-  const inputPath = path.join(folder, 'index.html');
+  const inputPath = path.join(folder, "index.html");
   outputPath = path.join(folder, outputPath);
   fs.writeFileSync(inputPath, template);
-  fs.writeFileSync(outputPath, '');
-  return {html: inputPath, css: outputPath};
+  fs.writeFileSync(outputPath, "");
+  return { html: inputPath, css: outputPath };
 }

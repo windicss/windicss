@@ -1,182 +1,196 @@
-import fs from 'fs'
-import path from 'path'
-import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve';
-import sucrase from '@rollup/plugin-sucrase';
-import typescript from '@rollup/plugin-typescript'
-import pkg from './package.json'
+import fs from "fs";
+import path from "path";
+import replace from "@rollup/plugin-replace";
+import resolve from "@rollup/plugin-node-resolve";
+import sucrase from "@rollup/plugin-sucrase";
+import typescript from "@rollup/plugin-typescript";
+import pkg from "./package.json";
 
-const output_dir = './dist';
+const output_dir = "./dist";
 
 const is_publish = !!process.env.PUBLISH;
 
 const ts_plugin = is_publish
-    ? typescript({
-        target: "es5",
-        include: 'src/**',
-        outDir: output_dir,
-        typescript: require('typescript')
-    })
-    : sucrase({
-        transforms: ['typescript']
-    });
+	? typescript({
+			target: "es5",
+			include: "src/**",
+			outDir: output_dir,
+			typescript: require("typescript"),
+	  })
+	: sucrase({
+			transforms: ["typescript"],
+	  });
 
 const dump = (file) => path.join(output_dir, file);
 
-const copy = (files) => files.forEach( file => fs.copyFileSync(file, dump(file)) );
+const copy = (files) =>
+	files.forEach((file) => fs.copyFileSync(file, dump(file)));
 
 const rmdir = (dir) => {
-    if (fs.existsSync(dir)) {
-        const files = fs.readdirSync(dir)
+	if (fs.existsSync(dir)) {
+		const files = fs.readdirSync(dir);
 
-        if (files.length > 0) {
-            files.forEach(file => {
-                if (fs.statSync(path.join(dir, file)).isDirectory()) {
-                    rmdir(dir + "/" + file)
-                } else {
-                    fs.unlinkSync(path.join(dir, file))
-                }
-            })
-        };
-    };
-}
+		if (files.length > 0) {
+			files.forEach((file) => {
+				if (fs.statSync(path.join(dir, file)).isDirectory()) {
+					rmdir(dir + "/" + file);
+				} else {
+					fs.unlinkSync(path.join(dir, file));
+				}
+			});
+		}
+	}
+};
 
-const mkdir = (dir) => !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
+const mkdir = (dir) =>
+	!(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
 
-const types = (src = '../types/index', dest = 'index') => {
-    return {
-        writeBundle() {
-            fs.writeFileSync(dump(dest), `export * from '${src}';`)
-        }
-    }
-}
+const types = (src = "../types/index", dest = "index") => {
+	return {
+		writeBundle() {
+			fs.writeFileSync(dump(dest), `export * from '${src}';`);
+		},
+	};
+};
 
 const pack = (dir) => {
-    return {
-        writeBundle() {
-            fs.writeFileSync(`${dump(dir)}/package.json`, JSON.stringify({
-                main: './index.js',
-                module: './index.mjs',
-                types: './index.d.ts'
-            }, null, '  '));
-        }
-    }
-}
+	return {
+		writeBundle() {
+			fs.writeFileSync(
+				`${dump(dir)}/package.json`,
+				JSON.stringify(
+					{
+						main: "./index.js",
+						module: "./index.mjs",
+						types: "./index.d.ts",
+					},
+					null,
+					"  "
+				)
+			);
+		},
+	};
+};
 
 export default [
-    // main
-    {
-        input: 'src/index.ts',
-        output: [
-            {
-                file: dump('index.js'),
-                format: 'cjs',
-                paths: id => `./${path.relative('./src', id)}/index.js`
-            },
-            {
-                file: dump('index.mjs'),
-                format: 'esm',
-                paths: id => `./${path.relative('./src', id)}/index.mjs`
-            }
-        ],
-        external: id => id.startsWith('./'),
-        plugins: [
-            ts_plugin,
-            rmdir(output_dir),
-            mkdir(output_dir),
-            copy(['package.json', 'README.md', 'LICENSE']),
-            types('./types/index', 'index.d.ts'),
-        ],
-    },
+	// main
+	{
+		input: "src/index.ts",
+		output: [
+			{
+				file: dump("index.js"),
+				format: "cjs",
+				paths: (id) => `./${path.relative("./src", id)}/index.js`,
+			},
+			{
+				file: dump("index.mjs"),
+				format: "esm",
+				paths: (id) => `./${path.relative("./src", id)}/index.mjs`,
+			},
+		],
+		external: (id) => id.startsWith("./"),
+		plugins: [
+			ts_plugin,
+			rmdir(output_dir),
+			mkdir(output_dir),
+			copy(["package.json", "README.md", "LICENSE"]),
+			types("./types/index", "index.d.ts"),
+		],
+	},
 
-    // colors
-    {
-        input: 'src/colors.ts',
-        output: [
-            {
-                file: dump('colors.js'),
-                format: 'cjs',
-                paths: id => `./${path.relative('./src', id)}/index.js`
-            },
-            {
-                file: dump('colors.mjs'),
-                format: 'esm',
-                paths: id => `./${path.relative('./src', id)}/index.mjs`
-            }
-        ],
-        external: id => id.startsWith('./'),
-        plugins: [
-            ts_plugin,
-            types('./types/colors', 'colors.d.ts'),
-        ]
-    },
+	// colors
+	{
+		input: "src/colors.ts",
+		output: [
+			{
+				file: dump("colors.js"),
+				format: "cjs",
+				paths: (id) => `./${path.relative("./src", id)}/index.js`,
+			},
+			{
+				file: dump("colors.mjs"),
+				format: "esm",
+				paths: (id) => `./${path.relative("./src", id)}/index.mjs`,
+			},
+		],
+		external: (id) => id.startsWith("./"),
+		plugins: [ts_plugin, types("./types/colors", "colors.d.ts")],
+	},
 
-    // cli
-    {
-        input: 'src/cli/index.ts',
-        output: [
-            {
-                file: dump('cli/index.js'),
-                banner: '#!/usr/bin/env node',
-                format: 'cjs',
-                paths: id => id.match(/\/src\/(lib|utils|plugin|config|colors)/) && `../${path.dirname(path.relative('./src', id))}/index.js`
-            }
-        ],
-        external: id => Object.keys(pkg.dependencies).includes(id) || id.match(/\/src\/(lib|utils|plugin|config|colors)/),
-        plugins: [
-            replace({
-                __NAME__: pkg.name,
-                __VERSION__: pkg.version
-            }),
-            ts_plugin,
-            resolve(),
-        ]
-    },
+	// cli
+	{
+		input: "src/cli/index.ts",
+		output: [
+			{
+				file: dump("cli/index.js"),
+				banner: "#!/usr/bin/env node",
+				format: "cjs",
+				paths: (id) =>
+					id.match(/\/src\/(lib|utils|plugin|config|colors)/) &&
+					`../${path.dirname(path.relative("./src", id))}/index.js`,
+			},
+		],
+		external: (id) =>
+			Object.keys(pkg.dependencies).includes(id) ||
+			id.match(/\/src\/(lib|utils|plugin|config|colors)/),
+		plugins: [
+			replace({
+				__NAME__: pkg.name,
+				__VERSION__: pkg.version,
+			}),
+			ts_plugin,
+			resolve(),
+		],
+	},
 
-    // utils
-    ...fs.readdirSync('src/')
-    .filter(dir => dir !== 'cli' && fs.statSync(`src/${dir}`).isDirectory())
-    .map(dir => ({
-        input: `src/${dir}/index.ts`,
-        output: [
-            {
-                file: dump(`${dir}/index.js`),
-                format: 'cjs',
-            },
-            {
-                file: dump(`${dir}/index.mjs`),
-                format: 'esm',
-            }
-        ],
-        plugins: [
-            ts_plugin,
-            resolve(),
-            types(`../types/${dir}/index`, `${dir}/index.d.ts`),
-            pack(dir)
-        ]
-    })),
+	// utils
+	...fs
+		.readdirSync("src/")
+		.filter((dir) => dir !== "cli" && fs.statSync(`src/${dir}`).isDirectory())
+		.map((dir) => ({
+			input: `src/${dir}/index.ts`,
+			output: [
+				{
+					file: dump(`${dir}/index.js`),
+					format: "cjs",
+				},
+				{
+					file: dump(`${dir}/index.mjs`),
+					format: "esm",
+				},
+			],
+			plugins: [
+				ts_plugin,
+				resolve(),
+				types(`../types/${dir}/index`, `${dir}/index.d.ts`),
+				pack(dir),
+			],
+		})),
 
-    // utils deep
-    ...fs.readdirSync('src/utils')
-    .filter(dir => dir !== 'algorithm' && fs.statSync(`src/utils/${dir}`).isDirectory())
-    .map(dir => ({
-        input: `src/utils/${dir}/index.ts`,
-        output: [
-            {
-                file: dump(`utils/${dir}/index.js`),
-                format: 'cjs',
-            },
-            {
-                file: dump(`utils/${dir}/index.mjs`),
-                format: 'esm',
-            }
-        ],
-        plugins: [
-            ts_plugin,
-            resolve(),
-            types(`../../types/utils/${dir}/index`, `utils/${dir}/index.d.ts`),
-            pack(`utils/${dir}`)
-        ]
-    })),
-]
-    
+	// utils deep
+	...fs
+		.readdirSync("src/utils")
+		.filter(
+			(dir) =>
+				dir !== "algorithm" && fs.statSync(`src/utils/${dir}`).isDirectory()
+		)
+		.map((dir) => ({
+			input: `src/utils/${dir}/index.ts`,
+			output: [
+				{
+					file: dump(`utils/${dir}/index.js`),
+					format: "cjs",
+				},
+				{
+					file: dump(`utils/${dir}/index.mjs`),
+					format: "esm",
+				},
+			],
+			plugins: [
+				ts_plugin,
+				resolve(),
+				types(`../../types/utils/${dir}/index`, `utils/${dir}/index.d.ts`),
+				pack(`utils/${dir}`),
+			],
+		})),
+];

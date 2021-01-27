@@ -1,9 +1,16 @@
 // (Last Update: Aug 22 2020) [https://github.com/sindresorhus/modern-normalize/blob/master/modern-normalize.css]
 // (Last Update: Nov 4 2020) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
 
-import type { ThemeUtilStr } from '../../interfaces';
+import type { ThemeUtilStr } from "../../interfaces";
 
-const preflights:{keys:string[], properties:{[key:string]:string|string[]|((theme:ThemeUtilStr)=>string)}, selector?:string, global?:boolean}[] = [
+const preflights: {
+  keys: string[];
+  properties: {
+    [key: string]: string | string[] | ((theme: ThemeUtilStr) => string);
+  };
+  selector?: string;
+  global?: boolean;
+}[] = [
 
 /*! modern-normalize v1.0.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -338,7 +345,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
   properties: {
     '-webkit-appearance': 'textfield', /* 1 */
     'outline-offset': '-2px', /* 2 */
-    
+
   }
 },
 
@@ -420,7 +427,7 @@ Add the correct display in Chrome and Safari.
   selector: 'button:focus',
   properties: {
     'outline': [
-      '1px dotted', 
+      '1px dotted',
       '5px auto -webkit-focus-ring-color'
     ]
   }

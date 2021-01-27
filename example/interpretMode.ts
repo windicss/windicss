@@ -1,6 +1,6 @@
-import fs from 'fs';
-import { Processor } from '../src/lib';
-import { HTMLParser } from '../src/utils/parser';
+import fs from "fs";
+import { Processor } from "../src/lib";
+import { HTMLParser } from "../src/utils/parser";
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
 const html = `<!--
@@ -75,6 +75,14 @@ const parser = new HTMLParser(html); // Simple html parser, only has two methods
 const processor = new Processor();
 const preflightSheet = processor.preflight(parser.parseTags()); // Parse all html tags, then generate preflight
 
-const result = processor.interpret(parser.parseClasses().map(i=>i.result).join(' ')); // Combine all classes into one line to simplify operations
-console.log('ignored classes:', result.ignored); // Classes that not been used
-fs.writeFileSync('interpret_test.css', result.styleSheet.extend(preflightSheet, false).build(false)); // Build css, set true to minify build
+const result = processor.interpret(
+  parser
+    .parseClasses()
+    .map((i) => i.result)
+    .join(" ")
+); // Combine all classes into one line to simplify operations
+console.log("ignored classes:", result.ignored); // Classes that not been used
+fs.writeFileSync(
+  "interpret_test.css",
+  result.styleSheet.extend(preflightSheet, false).build(false)
+); // Build css, set true to minify build

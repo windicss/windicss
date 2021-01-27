@@ -1,23 +1,17 @@
 {
-  "compilerOptions": {
-    "rootDir": ".",
-    "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
-    "allowJs": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-  },
-  "include": [
-    "./src",
-    "./test",
-    "./example",
-  ],
-  "exclude": [
-    "./test/assets/tailwind.config.js"
-  ]
+	"compilerOptions": {
+		"rootDir": ".",
+		"target": "es5",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+		"allowJs": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true
+	},
+	"include": ["./src", "./test", "./example"],
+	"exclude": ["./test/assets/tailwind.config.js"]
 }
