@@ -46,7 +46,7 @@ export class Property {
     if (count === 1) return properties[0];
   }
 
-  toStyle(selector?: string, escape = true) {
+  toStyle(selector?: string, escape = true): Style {
     return new Style(selector, this, escape);
   }
 
@@ -74,7 +74,7 @@ export class InlineAtRule extends Property {
     super(name, value);
     this.name = name;
   }
-  static parse(css: string) {
+  static parse(css: string): InlineAtRule | undefined {
     const matchName = css.match(/@[^\s;{}]+/);
     if (matchName) {
       const name = matchName[0].substring(1);
@@ -88,7 +88,7 @@ export class InlineAtRule extends Property {
       return new InlineAtRule(name, expression === "" ? undefined : expression);
     }
   }
-  build() {
+  build(): string {
     return this.value ? `@${this.name} ${this.value};` : `@${this.name};`;
   }
 }
@@ -120,7 +120,7 @@ export class Style {
       : [];
   }
 
-  get rule() {
+  get rule(): string {
     let result = this.selector
       ? this.escape
         ? escape(this.selector)
@@ -138,39 +138,39 @@ export class Style {
     return result;
   }
 
-  get atRules() {
+  get atRules(): string[] | undefined {
     return this._atRules;
   }
 
-  get pseudoClasses() {
+  get pseudoClasses(): string[] | undefined {
     return this._pseudoClasses;
   }
 
-  get pseudoElements() {
+  get pseudoElements(): string[] | undefined {
     return this._pseudoElements;
   }
 
-  get parentSelectors() {
+  get parentSelectors(): string[] | undefined {
     return this._parentSelectors;
   }
 
-  get childSelectors() {
+  get childSelectors(): string[] | undefined {
     return this._childSelectors;
   }
 
-  get brotherSelectors() {
+  get brotherSelectors(): string[] | undefined {
     return this._brotherSelectors;
   }
 
-  get wrapSelectors() {
+  get wrapSelectors(): ((selector: string) => string)[] | undefined {
     return this._wrapSelectors;
   }
 
-  get wrapRules() {
+  get wrapRules(): ((selector: string) => string)[] | undefined {
     return this._wrapRules;
   }
 
-  atRule(atrule?: string) {
+  atRule(atrule?: string): this {
     if (!atrule) return this;
     if (this._atRules) {
       this._atRules.push(atrule);
@@ -180,7 +180,7 @@ export class Style {
     return this;
   }
 
-  pseudoClass(string: string) {
+  pseudoClass(string: string): this {
     if (this._pseudoClasses) {
       this._pseudoClasses.push(string);
     } else {
@@ -189,7 +189,7 @@ export class Style {
     return this;
   }
 
-  pseudoElement(string: string) {
+  pseudoElement(string: string): this {
     if (this._pseudoElements) {
       this._pseudoElements.push(string);
     } else {
@@ -198,7 +198,7 @@ export class Style {
     return this;
   }
 
-  brother(string: string) {
+  brother(string: string): this {
     if (this._brotherSelectors) {
       this._brotherSelectors.push(string);
     } else {
@@ -207,7 +207,7 @@ export class Style {
     return this;
   }
 
-  parent(string: string) {
+  parent(string: string): this {
     if (this._parentSelectors) {
       this._parentSelectors.push(string);
     } else {
@@ -216,7 +216,7 @@ export class Style {
     return this;
   }
 
-  child(string: string) {
+  child(string: string): this {
     if (this._childSelectors) {
       this._childSelectors.push(string);
     } else {
@@ -225,7 +225,7 @@ export class Style {
     return this;
   }
 
-  wrapSelector(func: (selector: string) => string) {
+  wrapSelector(func: (selector: string) => string): this {
     if (this._wrapSelectors) {
       this._wrapSelectors.push(func);
     } else {
@@ -234,7 +234,7 @@ export class Style {
     return this;
   }
 
-  wrapRule(func: (rule: string) => string) {
+  wrapRule(func: (rule: string) => string): this {
     if (this._wrapRules) {
       this._wrapRules.push(func);
     } else {
@@ -243,7 +243,7 @@ export class Style {
     return this;
   }
 
-  add(item: Property | Property[]) {
+  add(item: Property | Property[]): this {
     if (Array.isArray(item)) {
       this.property = [...this.property, ...item];
     } else {
@@ -252,7 +252,7 @@ export class Style {
     return this;
   }
 
-  extend(item: Style | undefined, onlyProperty = false, append = true) {
+  extend(item: Style | undefined, onlyProperty = false, append = true): this {
     if (!item) return this;
     const connect = append
       ? (list: any[] = [], anotherList: any[] = []) => [...list, ...anotherList]
@@ -293,7 +293,7 @@ export class Style {
     return this;
   }
 
-  clean() {
+  clean(): this {
     // remove duplicated property
     const property: Property[] = [];
     const cache: string[] = [];
@@ -308,7 +308,7 @@ export class Style {
     return this;
   }
 
-  flat() {
+  flat(): this {
     const properties: Property[] = [];
     this.property.forEach((p) => {
       if (Array.isArray(p.name)) {
@@ -323,7 +323,7 @@ export class Style {
     return this;
   }
 
-  sort() {
+  sort(): this {
     // sort property
     this.property = this.property.sort((a: Property, b: Property) => {
       return `${a.name}`.substring(0, 2) > `${b.name}`.substring(0, 2) ? 1 : -1;

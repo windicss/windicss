@@ -4,7 +4,9 @@ import { Style } from "../../utils/style";
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
  */
 
-export default function (variantOrder: string[]) {
+export default function (
+  variantOrder: string[]
+): { [key: string]: () => Style } {
   const states: { [key: string]: () => Style } = {
     // Interactive links/buttons
     hover: () => new Style().pseudoClass("hover"), // Tailwind

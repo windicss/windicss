@@ -1,6 +1,8 @@
 import { Style } from "../../utils/style";
 
-export default function generateScreens(screens: { [key: string]: string }) {
+export default function generateScreens(screens: {
+  [key: string]: string;
+}): { [key: string]: () => Style } {
   const variants: { [key: string]: () => Style } = {};
   const identifiers = Object.keys(screens).sort((a: string, b: string) => {
     return parseInt(screens[a]) - parseInt(screens[b]);

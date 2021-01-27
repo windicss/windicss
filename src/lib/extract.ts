@@ -7,7 +7,7 @@ export default function extract(
   theme: ThemeUtil,
   className: string,
   addComment = false
-) {
+): Style | Style[] | undefined {
   if (className in staticUtilities) {
     const style = new Style("." + className);
     const comment = addComment ? className : undefined;

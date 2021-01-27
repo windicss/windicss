@@ -1,7 +1,7 @@
 import sortMediaQuery from "./sortMediaQuery";
 import sortSelector from "./sortSelector";
 import { Style } from "../style/base";
-import { wrapit, hash, isSpace, type } from "../../utils/tools";
+import { wrapit, hash, isSpace } from "../../utils/tools";
 import type { AnyObject } from "../../interfaces";
 
 function combineObject(a: { [key: string]: any }, b: { [key: string]: any }) {
@@ -61,7 +61,7 @@ function buildMap(obj: unknown, minify = false): string {
         if (item.build) output.push(item.build(minify));
       }
     });
-  } else if (obj && typeof obj === "object"){
+  } else if (obj && typeof obj === "object") {
     for (const [key, value] of Object.entries(obj)) {
       const _gstyle = (v: string) =>
         (minify ? key.replace(/\n/g, "") : key + " ") +
@@ -95,8 +95,10 @@ function combineSelector(styleList: Style[]) {
   return [...passed, ...Object.values(styleMap).map((style) => style.clean())];
 }
 
-export default function compileStyleSheet(styleList: Style[], minify = false) {
-  // The alternative to stylesheet.build(), and will eventually replace stylesheet.build(), currently in the testing phase.
+export default function compileStyleSheet(
+  styleList: Style[],
+  minify = false
+): string {
   const head = combineSelector(
     styleList.filter((i) => !(i.selector && i.atRules))
   )

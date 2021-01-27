@@ -116,7 +116,7 @@ export function getNestedValue(obj: { [key: string]: any }, key: string) {
   return result;
 }
 
-export function negateValue(value: string) {
+export function negateValue(value: string): string {
   if (/(^0\w)|(^-)|(^0$)/.test(value)) return value;
   return "-" + value;
 }

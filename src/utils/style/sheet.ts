@@ -9,16 +9,17 @@ export class StyleSheet {
     this.children = children || [];
   }
 
-  add(item?: Style | Style[]) {
-    if (!item) return;
+  add(item?: Style | Style[]): this {
+    if (!item) return this;
     if (Array.isArray(item)) {
       this.children = [...this.children, ...item];
     } else {
       this.children.push(item);
     }
+    return this;
   }
 
-  extend(styleSheet: StyleSheet | undefined, append = true) {
+  extend(styleSheet: StyleSheet | undefined, append = true): this {
     if (styleSheet)
       this.children = append
         ? [...this.children, ...styleSheet.children]
@@ -26,7 +27,7 @@ export class StyleSheet {
     return this;
   }
 
-  combine() {
+  combine(): this {
     const styleMap: { [key: string]: Style } = {};
     this.children.forEach((v) => {
       const hashValue = hash(v.atRules + v.rule);
@@ -40,7 +41,7 @@ export class StyleSheet {
     return this;
   }
 
-  sort() {
+  sort(): this {
     this.children = this.children.sort(sortSelector);
     return this;
   }

@@ -1,6 +1,8 @@
 import { Style } from "../../utils/style";
 
-export default function (darkMode?: "media" | "class" | false) {
+export default function (
+  darkMode?: "media" | "class" | false
+): { [key: string]: () => Style } {
   if (!darkMode) return {};
   return {
     "@dark": () => new Style().atRule("@media (prefers-color-scheme: dark)"),

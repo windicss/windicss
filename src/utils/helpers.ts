@@ -2,7 +2,9 @@ import { negateValue } from "./tools";
 import { Property, GlobalStyle } from "./style";
 import type { FontSize } from "../interfaces";
 
-export function negative(scale: { [key: string]: string }) {
+export function negative(scale: {
+  [key: string]: string;
+}): { [key: string]: string } {
   return Object.keys(scale)
     .filter((key) => scale[key] !== "0")
     .reduce(
@@ -14,7 +16,9 @@ export function negative(scale: { [key: string]: string }) {
     );
 }
 
-export function breakpoints(screens: { [key: string]: string } = {}) {
+export function breakpoints(
+  screens: { [key: string]: string } = {}
+): { [key: string]: string } {
   return Object.keys(screens)
     .filter((key) => typeof screens[key] === "string")
     .reduce(
@@ -29,7 +33,7 @@ export function breakpoints(screens: { [key: string]: string } = {}) {
 export function generateKeyframe(
   name: string,
   children: { [key: string]: { [key: string]: string } }
-) {
+): GlobalStyle[] {
   const output: GlobalStyle[] = [];
   for (const [key, value] of Object.entries(children)) {
     const style = new GlobalStyle(key).atRule(`@keyframes ${name}`);
@@ -57,7 +61,7 @@ export function generateKeyframe(
   return output;
 }
 
-export function generateFontSize(font: FontSize) {
+export function generateFontSize(font: FontSize): Property[] {
   const output: Property[] = [];
   if (font[0]) output.push(new Property("font-size", font[0]));
   if (font[1]?.lineHeight)
@@ -67,7 +71,10 @@ export function generateFontSize(font: FontSize) {
   return output;
 }
 
-export function expandDirection(value: string, divide = false) {
+export function expandDirection(
+  value: string,
+  divide = false
+): [a: string, b?: string] | undefined {
   const map: { [key: string]: [a: string, b?: string] } = {
     "": ["*"],
     y: ["top", "bottom"],

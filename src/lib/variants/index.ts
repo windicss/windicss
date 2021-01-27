@@ -2,13 +2,20 @@ import { default as generateScreens } from "./screen";
 import { default as generateThemes } from "./theme";
 import { default as generateStates } from "./state";
 
+import type { Style } from "../../utils/style";
 import type { Config } from "../../interfaces";
 
 export { default as generateScreens } from "./screen";
 export { default as generateThemes } from "./theme";
 export { default as generateStates } from "./state";
 
-export function resolveVariants(config: Config) {
+export function resolveVariants(
+  config: Config
+): {
+  screen: { [key: string]: () => Style };
+  theme: { [key: string]: () => Style };
+  state: { [key: string]: () => Style };
+} {
   return {
     screen: generateScreens(config.theme?.screens ?? {}),
     theme: generateThemes(config.darkMode),

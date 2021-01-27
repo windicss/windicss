@@ -152,35 +152,35 @@ export class Utility {
   constructor(raw: string) {
     this.raw = raw; // -placeholder-real-gray-300
   }
-  match(expression: RegExp) {
+  match(expression: RegExp): string {
     const match = this.absolute.match(expression);
     return match ? match[0] : "";
   }
-  get class() {
+  get class(): string {
     return "." + this.raw; // .-placeholder-real-gray-300
   }
-  get isNegative() {
+  get isNegative(): boolean {
     return this.raw[0] === "-"; // true
   }
-  get absolute() {
+  get absolute(): string {
     return this.isNegative ? this.raw.substring(1) : this.raw;
   }
-  get identifier() {
+  get identifier(): string {
     return this.match(/[^-]+/); // placeholder
   }
-  get key() {
+  get key(): string {
     return this.match(/^\w[-\w]+(?=-)/); // placeholder-real-gray
   }
-  get center() {
+  get center(): string {
     return this.match(/-.+(?=-)/).substring(1); // real-gray
   }
-  get amount() {
+  get amount(): string {
     return this.match(/[^-]+$/); // 300
   }
-  get body() {
+  get body(): string {
     return this.match(/-.+/).substring(1); // real-gray-300
   }
-  get handler() {
+  get handler(): Handler {
     return new Handler(this);
   }
 }

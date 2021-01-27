@@ -102,7 +102,7 @@ function _testIsPrint(a: string, b: string) {
   return null;
 }
 
-export default function sortMediaQuery(a: string, b: string) {
+export default function sortMediaQuery(a: string, b: string): number {
   const testAtRule = _testAtRule(a, b);
   if (testAtRule !== null) return testAtRule;
   const testIsPrint = _testIsPrint(a, b);

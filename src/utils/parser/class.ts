@@ -107,7 +107,7 @@ export default class ClassParser {
     return this.classNames.slice(groupStart, this.index);
   }
 
-  parse() {
+  parse(): { [key: string]: any } {
     if (!this.classNames) return [];
     this.classNames = "(" + this.classNames + ")"; // turn into group;
     return this._handle_group();

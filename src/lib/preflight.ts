@@ -6,7 +6,7 @@ export default function preflight(
   theme: ThemeUtilStr,
   tags?: string[],
   global = true
-) {
+): StyleSheet {
   // Generate preflight style based on html tags.
   const globalSheet = new StyleSheet();
   const styleSheet = new StyleSheet();

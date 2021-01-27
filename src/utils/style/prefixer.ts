@@ -1,4 +1,4 @@
-export function linearGradient(value: string) {
+export function linearGradient(value: string): string | string[] {
   // Stupid method, will be changed in the next version...
   const map: { [key: string]: string[] } = {
     "linear-gradient(to top, var(--tw-gradient-stops))": [
@@ -46,7 +46,7 @@ export function linearGradient(value: string) {
   return value;
 }
 
-export function minMaxContent(value: string) {
+export function minMaxContent(value: string): string | string[] {
   if (value === "min-content") {
     return ["-webkit-min-content", "min-content"];
   } else if (value === "max-content") {
