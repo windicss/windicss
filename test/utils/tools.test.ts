@@ -130,11 +130,13 @@ describe("Tools", () => {
   it("camelToDash", () => {
     expect(camelToDash("backgroundOpacity")).toBe("background-opacity");
     expect(camelToDash("camelToDash")).toBe("camel-to-dash");
+    expect(camelToDash("camel-to-dash")).toBe("camel-to-dash");
   });
 
   it("dashToCamel", () => {
     expect(dashToCamel("bg-transparent")).toBe("bgTransparent");
     expect(dashToCamel("dash-to-camel")).toBe("dashToCamel");
+    expect(dashToCamel("dashToCamel")).toBe("dashToCamel");
   });
 
   it("getNestedValue", () => {

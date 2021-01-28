@@ -2,6 +2,7 @@ import {
   Property,
   Style,
   GlobalStyle,
+  StyleSheet,
   InlineAtRule,
 } from "../../src/utils/style";
 
@@ -317,6 +318,113 @@ describe("Style", () => {
     expect(s.flat().sort().build(true)).toBe(
       ".windi-14r5bq6{--tw-shadow:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);--tw-bg-opacity:1;-webkit-box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);background-color:rgba(255, 255, 255, var(--tw-bg-opacity));box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);padding-bottom:2.5rem;padding-top:2.5rem;padding-right:1rem;padding-left:1rem;position:relative}"
     );
+  });
+
+  it("Generate Style From css-in-js", () => {
+    const style1 = Style.generate(".card", { backgroundColor: "#fff" });
+    expect(style1[0].build()).toBe(".card {\n  background-color: #fff;\n}");
+
+    const style2 = Style.generate(".card", {
+      backgroundColor: "#fff",
+      borderRadius: ".25rem",
+      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+      "&:hover": {
+        boxShadow: "0 10px 15px rgba(0,0,0,0.2)",
+      },
+      "@media (min-width: 500px)": {
+        borderRadius: ".5rem",
+      },
+    });
+    expect(style2.map((s) => s.build()).join("\n")).toBe(
+      ".card {\n  background-color: #fff;\n  border-radius: .25rem;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.2);\n}\n.card:hover {\n  box-shadow: 0 10px 15px rgba(0,0,0,0.2);\n}\n@media (min-width: 500px) {\n  .card {\n    border-radius: .5rem;\n  }\n}"
+    );
+
+    const style3 = Style.generate("@media (min-width: 500px)", {
+      ".card": { backgroundColor: "#fff" },
+    });
+    expect(style3[0].build()).toBe(
+      "@media (min-width: 500px) {\n  .card {\n    background-color: #fff;\n  }\n}"
+    );
+
+    const style4 = Style.generate("@media (min-width: 500px)", {
+      "@media (prefers-color-scheme: dark)": {
+        ".card": { backgroundColor: "#fff" },
+      },
+    });
+    expect(style4[0].build()).toBe(
+      "@media (min-width: 500px) {\n  @media (prefers-color-scheme: dark) {\n    .card {\n      background-color: #fff;\n    }\n  }\n}"
+    );
+
+    const style5 = Style.generate(".card", {
+      "@media (min-width: 500px)": {
+        "@media (prefers-color-scheme: dark)": { backgroundColor: "#fff" },
+      },
+    });
+    expect(style5[0].build()).toBe(
+      "@media (min-width: 500px) {\n  @media (prefers-color-scheme: dark) {\n    .card {\n      background-color: #fff;\n    }\n  }\n}"
+    );
+
+    const style6 = Style.generate(".alert", {
+      "&:hover": { "font-weight": "bold" },
+      "[dir=rtl] &": { "margin-left": "0", "margin-right": "10px" },
+      ":not(&)": { opacity: "0.8" },
+    });
+    expect(style6.map((s) => s.build()).join("\n")).toBe(
+      ".alert:hover {\n  font-weight: bold;\n}\n[dir=rtl] .alert {\n  margin-left: 0;\n  margin-right: 10px;\n}\n:not(.alert) {\n  opacity: 0.8;\n}"
+    );
+
+    const style7 = Style.generate("nav", {
+      li: { display: "inline-block" },
+      a: { display: "block" },
+    });
+    expect(style7.map((s) => s.build()).join("\n")).toBe(
+      "nav li {\n  display: inline-block;\n}\nnav a {\n  display: block;\n}"
+    );
+
+    const style8 = Style.generate("ul >", {
+      li: { display: "inline-block" },
+      a: { display: "block" },
+    });
+    expect(style8.map((s) => s.build()).join("\n")).toBe(
+      "ul > li {\n  display: inline-block;\n}\nul > a {\n  display: block;\n}"
+    );
+
+    const style9 = Style.generate("h2", { "+ p": { display: "inline-block" } });
+    expect(style9.map((s) => s.build()).join("\n")).toBe(
+      "h2 + p {\n  display: inline-block;\n}"
+    );
+
+    const style10 = Style.generate("p", {
+      "~": { span: { display: "inline-block" }, a: { display: "block" } },
+    });
+    expect(style10.map((s) => s.build()).join("\n")).toBe(
+      "p ~ span {\n  display: inline-block;\n}\np ~ a {\n  display: block;\n}"
+    );
+
+    const style11 = Style.generate(".alert", {
+      "ul, p": { "margin-left": "0" },
+    });
+    expect(style11[0].build()).toBe(
+      ".alert ul, .alert p {\n  margin-left: 0;\n}"
+    );
+
+    const style12 = Style.generate(".alert, .warning", {
+      "ul, p": { "margin-left": "0" },
+    });
+    expect(style12[0].build()).toBe(
+      ".alert ul, .alert p, .warning ul, .warning p {\n  margin-left: 0;\n}"
+    );
+
+    const style13 = Style.generate(".accordion", {
+      "max-width": "600px",
+      "&__copy": { display: "none", "&--open": { display: "block" } },
+    });
+    expect(style13.map((s) => s.build()).join("\n")).toBe(
+      ".accordion {\n  max-width: 600px;\n}\n.accordion__copy {\n  display: none;\n}\n.accordion__copy--open {\n  display: block;\n}"
+    );
+
+    const style14 = Style.generate(".enlarge", {"font-size": "14px", "transition": {"property": "font-size", "duration": "4s", "delay": "2s"}});
+    expect(new StyleSheet(style14).build()).toBe('.enlarge {\n  font-size: 14px;\n  transition-property: font-size;\n  transition-duration: 4s;\n  transition-delay: 2s;\n}')
   });
 });
 

@@ -2,6 +2,8 @@ export type ThemeUtil = (path: string, defaultValue?: unknown) => unknown;
 
 export type DictStr = { [key: string]: string };
 
+export type NestObject = { [key: string]: string| NestObject }
+
 export type GenericNestObject<T> = { [key: string]: T | GenericNestObject<T> };
 
 export type AnyObject = Record<string, unknown>;

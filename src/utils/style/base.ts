@@ -1,4 +1,13 @@
-import { wrapit, escape, searchFrom, connectList } from "../tools";
+import {
+  wrapit,
+  escape,
+  searchFrom,
+  connectList,
+  camelToDash,
+  deepCopy,
+  isTagName,
+} from "../tools";
+import type { NestObject } from "../../interfaces";
 
 export class Property {
   name: string | string[];
@@ -102,6 +111,7 @@ export class Style {
   private _parentSelectors?: string[];
   private _childSelectors?: string[];
   private _brotherSelectors?: string[];
+  private _wrapProperties?: ((property: string) => string)[];
   private _wrapSelectors?: ((selector: string) => string)[];
   private _wrapRules?: ((rule: string) => string)[];
   private _atRules?: string[];
@@ -162,6 +172,10 @@ export class Style {
     return this._brotherSelectors;
   }
 
+  get wrapProperties(): ((properties: string) => string)[] | undefined {
+    return this._wrapProperties;
+  }
+
   get wrapSelectors(): ((selector: string) => string)[] | undefined {
     return this._wrapSelectors;
   }
@@ -170,10 +184,64 @@ export class Style {
     return this._wrapRules;
   }
 
-  atRule(atrule?: string): this {
+  static generate(
+    parent?: string,
+    property?: NestObject,
+    root?: Style
+  ): Style[] {
+    root ??= parent?.startsWith("@")
+      ? new Style().atRule(parent)
+      : new Style(parent);
+    let output: Style[] = [];
+    for (const [key, value] of Object.entries(property ?? {})) {
+      if (typeof value === "string") {
+        root.add(new Property(camelToDash(key), value));
+      } else {
+        const wrap = deepCopy(root);
+        wrap.property = [];
+        let child: Style | undefined;
+        if (key.startsWith("@")) {
+          child = wrap.atRule(key, false);
+        } else {
+          if (wrap.selector === undefined) {
+            wrap.selector = key;
+            child = wrap;
+          } else {
+            if (/^[a-z]+$/.test(key) && !isTagName(key)) {
+              wrap.wrapProperty((property) => `${key}-${property}`);
+              child = wrap;
+            } else {
+              const _hKey = (selector: string, key: string) =>
+                (/&/.test(key) ? key : `& ${key}`).replace("&", selector);
+              wrap.wrapSelector((selector) =>
+                selector
+                  .replace(/\\/g, "")
+                  .split(/\s*,\s*/g)
+                  .map((s) =>
+                    key
+                      .split(/\s*,\s*/g)
+                      .map((i) => _hKey(s, i))
+                      .join(", ")
+                  )
+                  .join(", ")
+              );
+              child = wrap;
+            }
+          }
+        }
+        output = output.concat(
+          Style.generate(key.startsWith("@") ? undefined : key, value, child)
+        );
+      }
+    }
+    if (root.property.length > 0) output.unshift(root);
+    return output;
+  }
+
+  atRule(atrule?: string, append = true): this {
     if (!atrule) return this;
     if (this._atRules) {
-      this._atRules.push(atrule);
+      append ? this._atRules.push(atrule) : this._atRules.unshift(atrule);
     } else {
       this._atRules = [atrule];
     }
@@ -225,6 +293,15 @@ export class Style {
     return this;
   }
 
+  wrapProperty(func: (property: string) => string): this {
+    if (this._wrapProperties) {
+      this._wrapProperties.push(func);
+    } else {
+      this._wrapProperties = [func];
+    }
+    return this;
+  }
+
   wrapSelector(func: (selector: string) => string): this {
     if (this._wrapSelectors) {
       this._wrapSelectors.push(func);
@@ -254,7 +331,21 @@ export class Style {
 
   extend(item: Style | undefined, onlyProperty = false, append = true): this {
     if (!item) return this;
-    this.property = connectList(this.property, item.property, append);
+    if (item.wrapProperties) {
+      const props: Property[] = [];
+      item.property.forEach((p) => {
+        const pc = new Property(p.name, p.value, p.comment);
+        item.wrapProperties?.forEach((wrap) => {
+          pc.name = Array.isArray(pc.name)
+            ? pc.name.map((i) => wrap(i))
+            : wrap(pc.name);
+        });
+        props.push(pc);
+      });
+      this.property = connectList(this.property, props, append);
+    } else {
+      this.property = connectList(this.property, item.property, append);
+    }
     if (onlyProperty) return this;
     item.selector && (this.selector = item.selector);
     item._atRules &&
@@ -340,7 +431,18 @@ export class Style {
 
   build(minify = false): string {
     let result = this.property
-      .map((p) => p.build(minify))
+      .map((p) => {
+        if (this._wrapProperties) {
+          let name = p.name;
+          this._wrapProperties.forEach(
+            (w) =>
+              (name = Array.isArray(name) ? name.map((n) => w(n)) : w(name))
+          );
+          const pc = new Property(name, p.value, p.comment);
+          return pc.build(minify);
+        }
+        return p.build(minify);
+      })
       .join(minify ? "" : "\n");
     if (!this.selector && !this._atRules) return result.replace(/;}/g, "}");
     if (this.selector)
