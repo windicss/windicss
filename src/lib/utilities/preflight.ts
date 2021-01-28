@@ -1,12 +1,12 @@
 // (Last Update: Aug 22 2020) [https://github.com/sindresorhus/modern-normalize/blob/master/modern-normalize.css]
 // (Last Update: Nov 4 2020) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
 
-import type { ThemeUtilStr } from "../../interfaces";
+import type { ThemeUtil } from "../../interfaces";
 
 const preflights: {
   keys: string[];
   properties: {
-    [key: string]: string | string[] | ((theme: ThemeUtilStr) => string);
+    [key: string]: string | string[] | ((theme: ThemeUtil) => string);
   };
   selector?: string;
   global?: boolean;
@@ -466,7 +466,7 @@ Add the correct display in Chrome and Safari.
   global: true,
   selector: 'html',
   properties: {
-    'font-family': (theme) => theme('fontFamily.sans', `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`), /* 1 */
+    'font-family': (theme) => theme('fontFamily.sans', `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`) as string, /* 1 */
     'line-height': '1.5' /* 2 */
   }
 },
@@ -521,7 +521,7 @@ Add the correct display in Chrome and Safari.
     'box-sizing': 'border-box',
     'border-width': '0',
     'border-style': 'solid',
-    'border-color': (theme) => theme('borderColor.DEFAULT', 'currentColor')
+    'border-color': (theme) => theme('borderColor.DEFAULT', 'currentColor') as string
   }
 },
 
@@ -570,7 +570,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::webkit-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -578,7 +578,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-moz-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -586,7 +586,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input:-ms-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -594,7 +594,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-ms-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -602,7 +602,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::webkit-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -610,7 +610,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-moz-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -618,7 +618,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea:-ms-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -626,7 +626,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-ms-input-placeholder',
   properties: {
-    'color': (theme) => theme('colors.gray.400', '#a1a1aa')
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
 
@@ -693,7 +693,7 @@ Add the correct display in Chrome and Safari.
 {
   keys: ['pre', 'code', 'kbd', 'samp'],
   properties: {
-    'font-family': (theme) => theme('fontFamily.mono', `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`)
+    'font-family': (theme) => theme('fontFamily.mono', `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`) as string
   }
 },
 

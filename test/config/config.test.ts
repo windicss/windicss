@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import { toType } from "../../src/utils/tools";
 import { Processor } from "../../src/lib";
 
 const configPath = resolve("./test/assets/tailwind.config.js");
@@ -9,7 +10,7 @@ describe("Config", () => {
 
   it("file input", () => {
     const processor = new Processor(configPath);
-    expect(processor.config<{[key:string]:string}>("theme.screens")).toEqual(
+    expect(processor.config("theme.screens")).toEqual(
       processor.theme("screens")
     );
     expect(processor.theme("screens")).toEqual(userConfig.theme.screens);
@@ -19,11 +20,11 @@ describe("Config", () => {
     );
     expect(processor.theme("fontFamily")).toEqual(userConfig.theme.fontFamily);
     expect(processor.theme("spacing")).toEqual({
-      ...baseConfig.theme("spacing"),
+      ...(toType(baseConfig.theme("spacing"), "object") ?? {}),
       ...userConfig.theme.extend.spacing,
     });
     expect(processor.theme("borderRadius")).toEqual({
-      ...baseConfig.theme("borderRadius"),
+      ...(toType(baseConfig.theme("borderRadius"), "object") ?? {}),
       ...userConfig.theme.extend.borderRadius,
     });
   });
@@ -40,11 +41,11 @@ describe("Config", () => {
     );
     expect(processor.theme("fontFamily")).toEqual(userConfig.theme.fontFamily);
     expect(processor.theme("spacing")).toEqual({
-      ...baseConfig.theme("spacing"),
+      ...(toType(baseConfig.theme("spacing"), "object") ?? {}),
       ...userConfig.theme.extend.spacing,
     });
     expect(processor.theme("borderRadius")).toEqual({
-      ...baseConfig.theme("borderRadius"),
+      ...(toType(baseConfig.theme("borderRadius"), "object") ?? {}),
       ...userConfig.theme.extend.borderRadius,
     });
   });

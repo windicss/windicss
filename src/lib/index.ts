@@ -9,13 +9,7 @@ import extract from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
 
-import type {
-  Config,
-  Theme,
-  AnyObject,
-  GenericNestObject,
-  AnyValue,
-} from "../interfaces";
+import type { Config, Theme, AnyObject, Element } from "../interfaces";
 
 export class Processor {
   private _config: Config;
@@ -58,7 +52,7 @@ export class Processor {
 
   private _resolveFunction(config: Config) {
     if (!config.theme) return config;
-    const theme = (path: string, defaultValue?: any) =>
+    const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === "function") {
@@ -76,7 +70,7 @@ export class Processor {
     // not support yet
   }
 
-  resolveConfig(config: string | Config | undefined) {
+  resolveConfig(config: string | Config | undefined): Config {
     this._config = this._resolveConfig(
       deepCopy(
         config
@@ -92,7 +86,10 @@ export class Processor {
     return this._config;
   }
 
-  resolveVariants(type?: "screen" | "theme" | "state", recreate = false) {
+  resolveVariants(
+    type?: "screen" | "theme" | "state",
+    recreate = false
+  ): { [key: string]: () => Style } {
     if (recreate) {
       const variants = resolveVariants(this._config);
       this._screens = variants.screen;
@@ -125,22 +122,29 @@ export class Processor {
     });
   }
 
-  extract(className: string, addComment = false) {
-    const theme = (path: string, defaultValue?: any) =>
+  extract(className: string, addComment = false): Style | Style[] | undefined {
+    const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
     return extract(theme, className, addComment);
   }
 
-  preflight(tags?: string[], global = true, ignoreProcessed = false) {
+  preflight(
+    tags?: string[],
+    global = true,
+    ignoreProcessed = false
+  ): StyleSheet {
     if (ignoreProcessed && tags)
       tags = tags.filter((i) => !this._processedTags.includes(i));
-    const theme = (path: string, defaultValue?: any) =>
+    const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
     this._processedTags = [...this._processedTags, ...(tags ?? [])];
     return preflight(theme, tags, global);
   }
 
-  interpret(classNames: string, ignoreProcessed = false) {
+  interpret(
+    classNames: string,
+    ignoreProcessed = false
+  ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     // Interpret tailwind class then generate raw tailwind css.
     const ast = new ClassParser(classNames).parse();
     const success: string[] = [];
@@ -162,29 +166,32 @@ export class Processor {
       }
     };
 
-    const _hGroup = (
-      obj: { [key: string]: any },
-      parentVariants: string[] = []
-    ) => {
-      obj.content.forEach((u: { [key: string]: any }) => {
-        if (u.type === "group") {
-          _hGroup(u, obj.variants);
-        } else {
-          // utility
-          const variants = [...parentVariants, ...obj.variants, ...u.variants];
-          const selector = [...variants, u.content].join(":");
-          _gStyle(u.content, variants, selector);
-        }
-      });
+    const _hGroup = (obj: Element, parentVariants: string[] = []) => {
+      Array.isArray(obj.content) &&
+        obj.content.forEach((u: Element) => {
+          if (u.type === "group") {
+            _hGroup(u, obj.variants);
+          } else {
+            // utility
+            const variants = [
+              ...parentVariants,
+              ...obj.variants,
+              ...u.variants,
+            ];
+            const selector = [...variants, u.content].join(":");
+            typeof u.content === "string" &&
+              _gStyle(u.content, variants, selector);
+          }
+        });
     };
 
-    ast.forEach((obj:any) => {
+    ast.forEach((obj) => {
       if (!(ignoreProcessed && this._processedUtilities.includes(obj.raw))) {
         this._processedUtilities.push(obj.raw);
         if (obj.type === "utility") {
           if (Array.isArray(obj.content)) {
             // #functions stuff
-          } else {
+          } else if (obj.content) {
             _gStyle(obj.content, obj.variants, obj.raw);
           }
         } else if (obj.type === "group") {
@@ -207,7 +214,12 @@ export class Processor {
     prefix = "windi-",
     showComment = false,
     ignoreGenerated = false
-  ) {
+  ): {
+    success: string[];
+    ignored: string[];
+    className?: string;
+    styleSheet: StyleSheet;
+  } {
     // Compile tailwind css classes to one combined class.
     const ast = new ClassParser(classNames).parse();
     const success: string[] = [];
@@ -215,14 +227,7 @@ export class Processor {
     const styleSheet = new StyleSheet();
     let className: string | undefined =
       prefix +
-      hash(
-        JSON.stringify(
-          ast.sort(
-            (a: { [key: string]: any }, b: { [key: string]: any }) =>
-              a.raw - b.raw
-          )
-        )
-      );
+      hash(JSON.stringify([...ast].sort((a, b) => (a.raw > b.raw ? 1 : -1))));
     if (ignoreGenerated && this._generatedClasses.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = "." + className;
@@ -248,27 +253,30 @@ export class Processor {
       }
     };
 
-    const _hGroup = (
-      obj: { [key: string]: any },
-      parentVariants: string[] = []
-    ) => {
-      obj.content.forEach((u: { [key: string]: any }) => {
-        if (u.type === "group") {
-          _hGroup(u, obj.variants);
-        } else {
-          // utility
-          const variants = [...parentVariants, ...obj.variants, ...u.variants];
-          const selector = [...variants, u.content].join(":");
-          _gStyle(u.content, variants, selector);
-        }
-      });
+    const _hGroup = (obj: Element, parentVariants: string[] = []) => {
+      Array.isArray(obj.content) &&
+        obj.content.forEach((u) => {
+          if (u.type === "group") {
+            _hGroup(u, obj.variants);
+          } else {
+            // utility
+            const variants = [
+              ...parentVariants,
+              ...obj.variants,
+              ...u.variants,
+            ];
+            const selector = [...variants, u.content].join(":");
+            typeof u.content === "string" &&
+              _gStyle(u.content, variants, selector);
+          }
+        });
     };
 
-    ast.forEach((obj:any) => {
+    ast.forEach((obj) => {
       if (obj.type === "utility") {
         if (Array.isArray(obj.content)) {
           // #functions stuff
-        } else {
+        } else if (obj.content) {
           _gStyle(obj.content, obj.variants, obj.raw);
         }
       } else if (obj.type === "group") {
@@ -289,53 +297,58 @@ export class Processor {
   }
 
   // tailwind interfaces
-  config<T>(path: string, defaultValue?: T): T | undefined {
+  config(path: string, defaultValue?: unknown): unknown {
     return getNestedValue(this._config, path) ?? defaultValue;
   }
 
-  theme(path: string, defaultValue?: any): any {
+  theme(path: string, defaultValue?: unknown): unknown {
     return this._theme
       ? getNestedValue(this._theme, path) ?? defaultValue
       : undefined;
   }
 
-  corePlugins(path: string) {
+  corePlugins(path: string): boolean {
     if (Array.isArray(this._config.corePlugins)) {
       return this._config.corePlugins.includes(path);
     }
-    return this.config(`corePlugins.${path}`, true);
+    return (this.config(`corePlugins.${path}`, true) as boolean) ?? false;
   }
 
-  variants(path: string, defaultValue?: any) {
+  variants(path: string, defaultValue?: unknown): unknown {
     if (Array.isArray(this._config.variants)) {
       return this._config.variants;
     }
     return this.config(`variants.${path}`, defaultValue);
   }
 
-  e(selector: string) {
+  e(selector: string): string {
     return escape(selector);
   }
 
-  prefix(selector: string) {
+  prefix(selector: string): string {
     return selector.replace(/(?=[\w])/, this._config.prefix ?? "");
   }
 
   addUtilities(
     utilities: { [key: string]: { [key: string]: string } },
     options: string[] | AnyObject = []
-  ): undefined {
+  ): void {
+    options && utilities;
     return;
   }
 
   addComponents(
     components: { [key: string]: string | { [key: string]: string } },
     options: string[] | AnyObject = []
-  ) {
+  ): void {
+    options && components;
     return;
   }
 
-  addBase(baseStyles: { [key: string]: string | { [key: string]: string } }) {
+  addBase(baseStyles: {
+    [key: string]: string | { [key: string]: string };
+  }): void {
+    baseStyles;
     return;
   }
 
@@ -343,7 +356,8 @@ export class Processor {
     name: string,
     generator: (selector: string) => Style,
     options = {}
-  ) {
+  ): void {
+    name && generator && options
     return;
   }
 }

@@ -1,7 +1,5 @@
 export type ThemeUtil = (path: string, defaultValue?: unknown) => unknown;
 
-export type ThemeUtilStr = (path: string, defaultValue?: string) => string;
-
 export type DictStr = { [key: string]: string };
 
 export type GenericNestObject<T> = { [key: string]: T | GenericNestObject<T> };
@@ -26,7 +24,7 @@ export type Config = {
   theme?: Theme;
   variantOrder?: string[];
   variants?: { [key: string]: string[] };
-  plugins?: any[];
+  plugins?: (() => unknown)[];
   corePlugins?: string[];
   prefix?: string;
 };
@@ -45,3 +43,11 @@ export type FontSize = [
   fontSize?: string,
   options?: { letterSpacing?: string; lineHeight?: string }
 ];
+
+export interface Element {
+  raw: string;
+  variants: string[];
+  content?: Element[] | string;
+  func?: string;
+  type: "group" | "func" | "utility";
+}

@@ -1,15 +1,15 @@
+import type { Element } from '../../interfaces';
+
 export default class ClassParser {
   index: number;
   classNames?: string;
-  classMap: { [key: string]: { [key: string]: any } };
 
   constructor(classNames?: string) {
     this.classNames = classNames;
-    this.classMap = { "*": [] };
     this.index = 0;
   }
 
-  private _handle_group(): { [key: string]: any }[] {
+  private _handle_group(): Element[] {
     if (!this.classNames) return [];
     let char;
     let group;
@@ -19,7 +19,7 @@ export default class ClassParser {
     let classStart = this.index + 1;
     let groupStart = this.index + 1;
     let ignoreSpace = false;
-    const parts: { [key: string]: any }[] = [];
+    const parts: Element[] = [];
     const length = this.classNames.length;
     while (this.index < length) {
       this.index++;
@@ -87,7 +87,7 @@ export default class ClassParser {
       }
     }
     // remove duplicated class
-    const newParts: { [key: string]: any }[] = [];
+    const newParts: Element[] = [];
     const cache: string[] = [];
     parts.forEach((item) => {
       if (!cache.includes(item.raw)) {
@@ -107,7 +107,7 @@ export default class ClassParser {
     return this.classNames.slice(groupStart, this.index);
   }
 
-  parse(): { [key: string]: any } {
+  parse(): Element[] {
     if (!this.classNames) return [];
     this.classNames = "(" + this.classNames + ")"; // turn into group;
     return this._handle_group();

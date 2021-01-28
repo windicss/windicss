@@ -1,9 +1,9 @@
 import { baseUtilities } from "./utilities";
 import { Style, Property, StyleSheet } from "../utils/style";
-import type { ThemeUtilStr } from "../interfaces";
+import type { ThemeUtil } from "../interfaces";
 
 export default function preflight(
-  theme: ThemeUtilStr,
+  theme: ThemeUtil,
   tags?: string[],
   global = true
 ): StyleSheet {
@@ -14,7 +14,7 @@ export default function preflight(
   const createStyle = (
     selector: string | undefined,
     properties: {
-      [key: string]: string | string[] | ((theme: ThemeUtilStr) => string);
+      [key: string]: string | string[] | ((theme: ThemeUtil) => string);
     }
   ) => {
     const style = new Style(selector, undefined, false);
