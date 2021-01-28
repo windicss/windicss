@@ -9,7 +9,7 @@ describe("Config", () => {
 
   it("file input", () => {
     const processor = new Processor(configPath);
-    expect(processor.config("theme.screens")).toEqual(
+    expect(processor.config<{[key:string]:string}>("theme.screens")).toEqual(
       processor.theme("screens")
     );
     expect(processor.theme("screens")).toEqual(userConfig.theme.screens);

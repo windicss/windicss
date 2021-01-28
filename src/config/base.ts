@@ -1,4 +1,5 @@
 import colors from "./colors";
+import { toType } from "../utils/tools";
 import type { Config } from "../interfaces";
 
 const config: Config = {
@@ -72,7 +73,7 @@ const config: Config = {
       contain: "contain",
     },
     borderColor: (theme) => ({
-      ...theme("colors"),
+      ...(toType(theme("colors"), "object") ?? {}),
       DEFAULT: theme("colors.gray.200", "currentColor"),
     }),
     borderOpacity: (theme) => theme("opacity"),
@@ -92,10 +93,14 @@ const config: Config = {
     },
     boxShadow: {
       sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-      DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-      md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-      lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-      xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+      DEFAULT:
+        "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+      md:
+        "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      lg:
+        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      xl:
+        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
       inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
       none: "none",
@@ -253,7 +258,7 @@ const config: Config = {
     },
     height: (theme, { breakpoints }) => ({
       auto: "auto",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       // fraction -> percent
       xs: "20rem",
       sm: "24rem",
@@ -268,11 +273,11 @@ const config: Config = {
       max: "max-content",
       prose: "65ch",
       screen: "100vh",
-      ...breakpoints(theme("screens")),
+      ...breakpoints((toType(theme("screens"), "object") ?? {}) as {[key:string]:string}),
     }),
     inset: (theme) => ({
       auto: "auto",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       full: "100%",
       // fraction -> percent
       // ...negative
@@ -341,12 +346,12 @@ const config: Config = {
     },
     margin: (theme) => ({
       auto: "auto",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       // ...negative
     }),
     maxHeight: (theme, { breakpoints }) => ({
       none: "none",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       xs: "20rem",
       sm: "24rem",
       md: "28rem",
@@ -360,11 +365,11 @@ const config: Config = {
       max: "max-content",
       prose: "65ch",
       screen: "100vh",
-      ...breakpoints(theme("screens")),
+      ...breakpoints((toType(theme("screens"), "object") ?? {}) as {[key:string]:string}),
     }),
     maxWidth: (theme, { breakpoints }) => ({
       none: "none",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       xs: "20rem",
       sm: "24rem",
       md: "28rem",
@@ -378,7 +383,7 @@ const config: Config = {
       max: "max-content",
       prose: "65ch",
       screen: "100vw",
-      ...breakpoints(theme("screens")),
+      ...breakpoints((toType(theme("screens"), "object") ?? {}) as {[key:string]:string}),
     }),
     minHeight: (theme) => theme("maxHeight"),
     minWidth: (theme) => theme("maxWidth"),
@@ -412,7 +417,7 @@ const config: Config = {
     placeholderOpacity: (theme) => theme("opacity"),
     ringColor: (theme) => ({
       DEFAULT: theme("colors.blue.500", "#3b82f6"),
-      ...theme("colors"),
+      ...(toType(theme("colors"), "object") ?? {}),
     }),
     ringOffsetColor: (theme) => theme("colors"),
     ringOffsetWidth: {
@@ -420,7 +425,7 @@ const config: Config = {
     },
     ringOpacity: (theme) => ({
       DEFAULT: "0.5",
-      ...theme("opacity"),
+      ...(toType(theme("opacity"), "object") ?? {}),
     }),
     ringWidth: {
       DEFAULT: "3px",
@@ -469,14 +474,14 @@ const config: Config = {
       "in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
     },
     translate: (theme) => ({
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       full: "100%",
       // fraction -> percent
       // ...negative
     }),
     width: (theme, { breakpoints }) => ({
       auto: "auto",
-      ...theme("spacing"),
+      ...(toType(theme("spacing"), "object") ?? {}),
       // fraction -> percent
       xs: "20rem",
       sm: "24rem",
@@ -491,7 +496,7 @@ const config: Config = {
       max: "max-content",
       prose: "65ch",
       screen: "100vw",
-      ...breakpoints(theme("screens")),
+      ...breakpoints((toType(theme("screens"), "object") ?? {}) as {[key:string]:string}),
     }),
     zIndex: {
       auto: "auto",

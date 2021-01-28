@@ -1,4 +1,4 @@
-import { wrapit, escape, searchFrom } from "../tools";
+import { wrapit, escape, searchFrom, connectList } from "../tools";
 
 export class Property {
   name: string | string[];
@@ -254,42 +254,49 @@ export class Style {
 
   extend(item: Style | undefined, onlyProperty = false, append = true): this {
     if (!item) return this;
-    const connect = append
-      ? (list: any[] = [], anotherList: any[] = []) => [...list, ...anotherList]
-      : (list: any[] = [], anotherList: any[] = []) => [
-          ...anotherList,
-          ...list,
-        ];
-    this.property = connect(this.property, item.property);
+    this.property = connectList(this.property, item.property, append);
     if (onlyProperty) return this;
-    if (item.selector) this.selector = item.selector;
-    if (item._atRules) this._atRules = connect(item._atRules, this._atRules); // atrule is build in reverse
-    if (item._brotherSelectors)
-      this._brotherSelectors = connect(
+    item.selector && (this.selector = item.selector);
+    item._atRules &&
+      (this._atRules = connectList(item._atRules, this._atRules, append)); // atrule is build in reverse
+    item._brotherSelectors &&
+      (this._brotherSelectors = connectList(
         this._brotherSelectors,
-        item._brotherSelectors
-      );
-    if (item._childSelectors)
-      this._childSelectors = connect(
+        item._brotherSelectors,
+        append
+      ));
+    item._childSelectors &&
+      (this._childSelectors = connectList(
         this._childSelectors,
-        item._childSelectors
-      );
-    if (item._parentSelectors)
-      this._parentSelectors = connect(
+        item._childSelectors,
+        append
+      ));
+    item._parentSelectors &&
+      (this._parentSelectors = connectList(
         this._parentSelectors,
-        item._parentSelectors
-      );
-    if (item._pseudoClasses)
-      this._pseudoClasses = connect(this._pseudoClasses, item._pseudoClasses);
-    if (item._pseudoElements)
-      this._pseudoElements = connect(
+        item._parentSelectors,
+        append
+      ));
+    item._pseudoClasses &&
+      (this._pseudoClasses = connectList(
+        this._pseudoClasses,
+        item._pseudoClasses,
+        append
+      ));
+    item._pseudoElements &&
+      (this._pseudoElements = connectList(
         this._pseudoElements,
-        item._pseudoElements
-      );
-    if (item._wrapRules)
-      this._wrapRules = connect(this._wrapRules, item._wrapRules);
-    if (item._wrapSelectors)
-      this._wrapSelectors = connect(this._wrapSelectors, item._wrapSelectors);
+        item._pseudoElements,
+        append
+      ));
+    item._wrapRules &&
+      (this._wrapRules = connectList(this._wrapRules, item._wrapRules, append));
+    item._wrapSelectors &&
+      (this._wrapSelectors = connectList(
+        this._wrapSelectors,
+        item._wrapSelectors,
+        append
+      ));
     return this;
   }
 
@@ -370,7 +377,11 @@ export class Style {
 }
 
 export class GlobalStyle extends Style {
-  constructor(...args: any[]) {
-    super(...args);
+  constructor(
+    selector?: string,
+    property?: Property | Property[],
+    escape = true
+  ) {
+    super(selector, property, escape);
   }
 }

@@ -1,6 +1,5 @@
 import { resolve } from "path";
-import { deepCopy } from "../utils/algorithm";
-import { getNestedValue, escape, hash } from "../utils/tools";
+import { getNestedValue, escape, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Style, StyleSheet } from "../utils/style";
 import { ClassParser } from "../utils/parser";
@@ -10,7 +9,13 @@ import extract from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
 
-import type { Config, Theme, AnyObject, GenericNestObject } from "../interfaces";
+import type {
+  Config,
+  Theme,
+  AnyObject,
+  GenericNestObject,
+  AnyValue,
+} from "../interfaces";
 
 export class Processor {
   private _config: Config;
@@ -173,7 +178,7 @@ export class Processor {
       });
     };
 
-    ast.forEach((obj) => {
+    ast.forEach((obj:any) => {
       if (!(ignoreProcessed && this._processedUtilities.includes(obj.raw))) {
         this._processedUtilities.push(obj.raw);
         if (obj.type === "utility") {
@@ -259,7 +264,7 @@ export class Processor {
       });
     };
 
-    ast.forEach((obj) => {
+    ast.forEach((obj:any) => {
       if (obj.type === "utility") {
         if (Array.isArray(obj.content)) {
           // #functions stuff
@@ -284,7 +289,7 @@ export class Processor {
   }
 
   // tailwind interfaces
-  config(path: string, defaultValue?: any):any {
+  config<T>(path: string, defaultValue?: T): T | undefined {
     return getNestedValue(this._config, path) ?? defaultValue;
   }
 
@@ -319,19 +324,19 @@ export class Processor {
   addUtilities(
     utilities: { [key: string]: { [key: string]: string } },
     options: string[] | AnyObject = []
-  ):undefined {
-    return
+  ): undefined {
+    return;
   }
 
   addComponents(
     components: { [key: string]: string | { [key: string]: string } },
     options: string[] | AnyObject = []
   ) {
-    return
+    return;
   }
 
   addBase(baseStyles: { [key: string]: string | { [key: string]: string } }) {
-    return
+    return;
   }
 
   addVariant(
@@ -339,6 +344,6 @@ export class Processor {
     generator: (selector: string) => Style,
     options = {}
   ) {
-    return
+    return;
   }
 }

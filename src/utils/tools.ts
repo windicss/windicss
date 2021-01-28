@@ -76,7 +76,7 @@ export function roundUp(num: number, precision = 0): number {
 
 export function fracToPercent(amount: string): string | undefined {
   const matches = amount.match(/[^/]+/g);
-  if (!matches) return;
+  if (!matches || matches.length < 2) return;
   const a = +matches[0];
   const b = +matches[1];
   return roundUp((a / b) * 100, 6) + "%";
@@ -104,9 +104,9 @@ export function dashToCamel(str: string): string {
   return str.toLowerCase().replace(/-(.)/g, (_, group) => group.toUpperCase());
 }
 
-export function getNestedValue(obj: { [key: string]: any }, key: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getNestedValue(obj: { [key: string]: any }, key: string): any {
   const keys = key.split(".");
-  if (keys.length === 0) return obj[key];
   let result = obj;
   const end = keys.length - 1;
   keys.forEach((value, index) => {
@@ -131,4 +131,53 @@ export function searchFrom(
   const subText = text.substring(startIndex, endIndex);
   const relativeIndex = subText.search(target);
   return relativeIndex === -1 ? -1 : startIndex + relativeIndex;
+}
+
+export function connectList<T = string>(a?: T[], b?: T[], append = true): T[] {
+  return append ? [...(a ?? []), ...(b ?? [])] : [...(b ?? []), ...(a ?? [])];
+}
+
+export function toType(
+  value: unknown,
+  type: "object"
+): { [key: string]: unknown } | undefined;
+export function toType(value: unknown, type: "string"): string | undefined;
+export function toType(value: unknown, type: "number"): number | undefined;
+export function toType(
+  value: unknown,
+  type: "object" | "string" | "number"
+): unknown {
+  switch (type) {
+    case "object":
+      if (value && typeof value === "object")
+        return value as { [key: string]: unknown };
+      break;
+    case "string":
+      if (typeof value === "string") return value as string;
+      break;
+    case "number":
+      if (typeof value === "number") return value as number;
+      break;
+  }
+}
+
+export function deepCopy<T>(source: T): T {
+  return Array.isArray(source)
+    ? source.map((item) => deepCopy(item))
+    : source instanceof Date
+    ? new Date(source.getTime())
+    : source && typeof source === "object"
+    ? Object.getOwnPropertyNames(source).reduce((o, prop) => {
+        const descriptor = Object.getOwnPropertyDescriptor(source, prop);
+        if (descriptor) {
+          Object.defineProperty(o, prop, descriptor);
+          if (source && typeof source === "object") {
+            o[prop] = deepCopy(
+              ((source as unknown) as { [key: string]: unknown })[prop]
+            );
+          }
+        }
+        return o;
+      }, Object.create(Object.getPrototypeOf(source)))
+    : (source as T);
 }

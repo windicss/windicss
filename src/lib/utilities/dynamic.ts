@@ -1,8 +1,12 @@
 import { Utility } from "./handler";
-import { hex2RGB, dashToCamel } from "../../utils/tools";
+import { hex2RGB, dashToCamel, toType } from "../../utils/tools";
 import { Property, Style } from "../../utils/style";
 import { linearGradient, minMaxContent } from "../../utils/style/prefixer";
-import { generateKeyframe, generateFontSize, expandDirection } from "../../utils/helpers";
+import {
+  generateKeyframe,
+  generateFontSize,
+  expandDirection,
+} from "../../utils/helpers";
 
 import type { PluginUtils, FontSize } from "../../interfaces";
 
@@ -13,15 +17,17 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === "container") {
     const className = utility.class;
     const baseStyle = new Property("width", "100%").toStyle(utility.class);
-    const paddingDefault = theme("container.padding.DEFAULT");
+    const paddingDefault = toType(theme("container.padding.DEFAULT"), "string");
     if (paddingDefault) baseStyle.add(new Property("padding", paddingDefault));
     if (theme("container.center"))
       baseStyle.add(new Property(["margin-left", "margin-right"], "auto"));
     const output: Style[] = [baseStyle];
-    for (const [screen, size] of Object.entries(theme("screens"))) {
+    const screens = toType(theme("screens"), "object") ?? {};
+    for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property("max-width", `${size}`)];
       const padding = theme(`container.padding.${screen}`);
-      if (padding) props.push(new Property("padding", padding));
+      if (padding && typeof padding === "string")
+        props.push(new Property("padding", padding));
       output.push(
         new Style(className, props).atRule(`@media (min-width: ${size})`)
       );
@@ -80,7 +86,9 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
 function flex(utility: Utility, { theme }: PluginUtils): Output {
   const className = utility.raw;
   if (className.startsWith("flex-grow")) {
-    const map = theme("flexGrow");
+    const map = (toType(theme("flexGrow"), "object") ?? {}) as {
+      [key: string]: string;
+    };
     let amount = className.replace(/flex-grow-?/, "");
     if (amount === "") amount = "DEFAULT";
     if (Object.keys(map).includes(amount))
@@ -94,7 +102,9 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
         map[amount]
       ).toStyle(utility.class);
   } else if (className.startsWith("flex-shrink")) {
-    const map = theme("flexShrink");
+    const map = (toType(theme("flexShrink"), "object") ?? {}) as {
+      [key: string]: string;
+    };
     let amount = className.replace(/flex-shrink-?/, "");
     if (amount === "") amount = "DEFAULT";
     if (Object.keys(map).includes(amount))
@@ -163,7 +173,9 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
 function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // col span
-  const spans = theme("gridColumn");
+  const spans = (toType(theme("gridColumn"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   if (Object.keys(spans).includes(body)) {
     return new Property(["-ms-grid-column-span", "grid-column"], spans[body]);
   }
@@ -198,7 +210,9 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
 function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // row span
-  const spans = theme("gridRow");
+  const spans = (toType(theme("gridRow"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   if (Object.keys(spans).includes(body)) {
     return new Property(["-ms-grid-row-span", "grid-row"], spans[body]);
   }
@@ -355,7 +369,9 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
 function size(utility: Utility, { theme }: PluginUtils): Output {
   const name = utility.identifier === "w" ? "width" : "height";
   const body = utility.body;
-  const sizes = theme(name);
+  const sizes = (toType(theme(name), "object") ?? {}) as {
+    [key: string]: string;
+  };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -394,7 +410,9 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
     .substring(0, 5)
     .replace("h", "height")
     .replace("w", "width");
-  const sizes = theme(dashToCamel(prop));
+  const sizes = (toType(theme(dashToCamel(prop)), "object") ?? {}) as {
+    [key: string]: string;
+  };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -439,7 +457,9 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty("--tw-text-opacity");
   // handle font sizes
   const amount = utility.amount;
-  const fontSizes: { [key: string]: FontSize } = theme("fontSize");
+  const fontSizes = (toType(theme("fontSize"), "object") ?? {}) as {
+    [key: string]: FontSize;
+  };
   if (Object.keys(fontSizes).includes(amount))
     return new Style(utility.class, generateFontSize(fontSizes[amount]));
   let value = utility.handler
@@ -570,17 +590,23 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
 function background(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // handle background positions
-  const positions = theme("backgroundPosition");
+  const positions = toType(theme("backgroundPosition"), "object") as {
+    [key: string]: string;
+  };
   if (Object.keys(positions).includes(body)) {
     return new Property("background-position", positions[body]);
   }
   // handle background sizes
-  const sizes = theme("backgroundSize");
+  const sizes = toType(theme("backgroundSize"), "object") as {
+    [key: string]: string;
+  };
   if (Object.keys(sizes).includes(body)) {
     return new Property("background-size", sizes[body]);
   }
   // handle background image
-  const images = theme("backgroundImage");
+  const images = toType(theme("backgroundImage"), "object") as {
+    [key: string]: string;
+  };
   if (Object.keys(images).includes(body)) {
     const prefixer = linearGradient(images[body]);
     if (Array.isArray(prefixer)) {
@@ -753,7 +779,9 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [
     "*",
   ];
-  const borders = theme("borderWidth");
+  const borders = (toType(theme("borderWidth"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   const raw = [
     "border",
     "border-t",
@@ -761,7 +789,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
     "border-b",
     "border-l",
   ].includes(utility.raw)
-    ? `${utility.raw}-${borders.DEFAULT}`
+    ? `${utility.raw}-${borders.DEFAULT ?? "1px"}`
     : utility.raw;
   return new Utility(raw).handler
     .handleStatic(borders)
@@ -970,7 +998,8 @@ function ring(utility: Utility, { theme }: PluginUtils): Output {
   // handle ring width
   if (utility.raw === "ring-inset")
     return new Property("--tw-ring-inset", "inset");
-  if (utility.raw === "ring") value = theme("ringWidth.DEFAULT");
+  if (utility.raw === "ring")
+    value = toType(theme("ringWidth.DEFAULT"), "string") ?? "3px";
   value = utility.handler
     .handleStatic(theme("ringWidth"))
     .handleNumber(0, undefined, "float", (number: number) => `${number}px`)
@@ -987,7 +1016,9 @@ function ring(utility: Utility, { theme }: PluginUtils): Output {
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   let body = utility.body;
   if (body === "") body = "DEFAULT";
-  const shadows = theme("boxShadow");
+  const shadows = toType(theme("boxShadow"), "object") as {
+    [key: string]: string;
+  };
   if (Object.keys(shadows).includes(body)) {
     return new Style(utility.class, [
       new Property("--tw-shadow", shadows[body]),
@@ -1011,7 +1042,9 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/transition-property
 function transition(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const props: { [key: string]: string } = theme("transitionProperty");
+  const props = (toType(theme("transitionProperty"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   for (const [key, value] of Object.entries(props)) {
     if (body === key || (body === "" && key === "DEFAULT")) {
       if (value === "none")
@@ -1041,7 +1074,8 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
             "-o-transition-timing-function",
             "transition-timing-function",
           ],
-          theme("transitionTimingFunction.DEFAULT")
+          toType(theme("transitionTimingFunction.DEFAULT"), "string") ??
+            "cubic-bezier(0.4, 0, 0.2, 1)"
         ),
         new Property(
           [
@@ -1049,7 +1083,7 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
             "-o-transition-duration",
             "transition-duration",
           ],
-          theme("transitionDuration.DEFAULT")
+          toType(theme("transitionDuration.DEFAULT"), "string") ?? "150ms"
         ),
       ]);
     }
@@ -1098,7 +1132,9 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/animation
 function animation(utility: Utility, { theme }: PluginUtils): Output {
-  const animations: { [key: string]: string } = theme("animation");
+  const animations = (toType(theme("animation"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   const amount = utility.amount;
   if (Object.keys(animations).includes(amount)) {
     const value = animations[amount];
@@ -1109,7 +1145,12 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
         utility.class,
         new Property(["-webkit-animation", "animation"], value)
       ),
-      ...generateKeyframe(amount, theme(`keyframes.${amount}`) ?? {}),
+      ...generateKeyframe(
+        amount,
+        (toType(theme(`keyframes.${amount}`), "object") ?? {}) as {
+          [key: string]: { [key: string]: string };
+        }
+      ),
     ];
   }
 }
@@ -1117,7 +1158,9 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/transform-origin
 function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const origins = theme("transformOrigin");
+  const origins = (toType(theme("transformOrigin"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   if (Object.keys(origins).includes(body)) {
     return new Property(
       ["-webkit-transform-origin", "-ms-transform-origin", "transform-origin"],
@@ -1180,7 +1223,9 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const cursors = theme("cursor");
+  const cursors = (toType(theme("cursor"), "object") ?? {}) as {
+    [key: string]: string;
+  };
   if (Object.keys(cursors).includes(body))
     return new Property("cursor", cursors[body]);
 }
@@ -1188,9 +1233,9 @@ function cursor(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/outline
 function outline(utility: Utility, { theme }: PluginUtils): Output {
   const amount = utility.amount;
-  const staticMap: {
+  const staticMap = (toType(theme("outline"), "object") ?? {}) as {
     [key: string]: [outline: string, outlineOffset: string];
-  } = theme("outline");
+  };
   if (Object.keys(staticMap).includes(amount))
     return new Style(utility.class, [
       new Property("outline", staticMap[amount][0]),

@@ -34,25 +34,32 @@ class Handler {
     this._center = utility.center;
   }
   handleStatic(
-    map?: { [key: string]: string | string[] },
+    map?: { [key: string]: string | string[] } | unknown,
     callback?: (str: string) => string | undefined
   ) {
     if (this.value) return this;
-    if (!map) return this;
-    if (map.DEFAULT) map[this.utility.raw] = map.DEFAULT;
-    if (this._amount in map)
-      this.value = callback ? callback(this._amount) : `${map[this._amount]}`;
+    if (map && typeof map === "object") {
+      const knownMap = map as { [key: string]: string | string[] };
+      if (knownMap.DEFAULT) knownMap[this.utility.raw] = knownMap.DEFAULT;
+      if (this._amount in knownMap)
+        this.value = callback
+          ? callback(this._amount)
+          : `${knownMap[this._amount]}`;
+    }
     return this;
   }
   handleBody(
-    map?: { [key: string]: string | string[] },
+    map?: { [key: string]: string | string[] } | unknown,
     callback?: (str: string) => string | undefined
   ) {
     if (this.value) return this;
-    if (!map) return this;
-    if (map.DEFAULT) map[this.utility.raw] = map.DEFAULT;
-    const body = this.utility.body;
-    if (body in map) this.value = callback ? callback(body) : `${map[body]}`;
+    if (map && typeof map === "object") {
+      const knownMap = map as { [key: string]: string | string[] };
+      if (knownMap.DEFAULT) knownMap[this.utility.raw] = knownMap.DEFAULT;
+      const body = this.utility.body;
+      if (body in knownMap)
+        this.value = callback ? callback(body) : `${knownMap[body]}`;
+    }
     return this;
   }
   handleNumber(
@@ -104,21 +111,24 @@ class Handler {
     return this;
   }
   handleColor(
-    map: { [key: string]: string | { [key: string]: string } } = DEFAULT_COLORS,
+    map: { [key: string]: string | { [key: string]: string } } | unknown = DEFAULT_COLORS,
     callback?: (color: string) => string | undefined
   ) {
     if (this.value) return this;
     let color;
-    if (this._amount in map) color = map[this._amount];
-    if (this._center in map) color = map[this._center];
-    if (this._center === "hex" && hex2RGB(this._amount))
-      color = "#" + this._amount;
-    if (typeof color === "string") {
-      this.value = callback ? callback(color) : color;
-    } else if (typeof color === "object") {
-      this.value = callback
-        ? callback(color[this._amount])
-        : color[this._amount];
+    if (map && typeof map === "object") {
+      const knownMap = map as { [key: string]: string | { [key: string]: string } };
+      if (this._amount in knownMap) color = knownMap[this._amount];
+      if (this._center in knownMap) color = knownMap[this._center];
+      if (this._center === "hex" && hex2RGB(this._amount))
+        color = "#" + this._amount;
+      if (typeof color === "string") {
+        this.value = callback ? callback(color) : color;
+      } else if (typeof color === "object") {
+        this.value = callback
+          ? callback(color[this._amount])
+          : color[this._amount];
+      }
     }
     return this;
   }

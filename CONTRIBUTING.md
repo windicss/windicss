@@ -126,4 +126,5 @@ $ git push origin fix-issue-123
 5. Click **Create Pull Request**
 
 ## License
+
 By contributing, you agree that your contributions will be licensed under its [MIT license](https://github.com/voorjaar/windicss/blob/main/LICENSE).

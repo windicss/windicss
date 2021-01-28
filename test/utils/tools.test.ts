@@ -16,7 +16,12 @@ import {
   getNestedValue,
   negateValue,
   searchFrom,
+  connectList,
+  deepCopy,
+  toType,
 } from "../../src/utils";
+
+import { Property, Style} from "../../src/utils/style";
 
 describe("Tools", () => {
   it("hash", () => {
@@ -108,6 +113,7 @@ describe("Tools", () => {
   });
 
   it("fracToPercent", () => {
+    expect(fracToPercent("123")).toBeUndefined();
     expect(fracToPercent("2/3")).toBe("66.666667%");
     expect(fracToPercent("2/5")).toBe("40%");
     expect(fracToPercent("0/2")).toBe("0%");
@@ -154,5 +160,55 @@ describe("Tools", () => {
     expect(searchFrom(str, /\s/)).toBe(5);
     expect(searchFrom(str, /\s/, 8)).toBe(11);
     expect(searchFrom(str, /\s/, 8, 10)).toBe(-1);
+  });
+
+  it("connectList", () => {
+    expect(connectList([1, 2])).toEqual([1, 2]);
+    expect(connectList(undefined, [3, 4])).toEqual([3, 4]);
+    expect(connectList([1, 2], [3, 4])).toEqual([1, 2, 3, 4]);
+    expect(connectList([1, 2], [3, 4], true)).toEqual([1, 2, 3, 4]);
+    expect(connectList([1, 2], [3, 4], false)).toEqual([3, 4, 1, 2]);
+  });
+
+  it("toType", () => {
+    expect(toType("123", "object")).toBeUndefined();
+    expect(toType("hello", "number")).toBeUndefined();
+    expect(toType(123, "string")).toBeUndefined();
+    expect(toType(123, "number")).toEqual(123);
+    expect(toType("hello", "string")).toEqual("hello");
+    expect(toType({ hello: 123 }, "object")).toEqual({ hello: 123 });
+  });
+
+  it("deepCopy", () => {
+    const a = [
+      1,
+      2,
+      "hello",
+      new Date(),
+      undefined,
+      null,
+      { helllo: "world" },
+      () => 123,
+    ];
+    expect(deepCopy(a)).toEqual(a);
+
+    const b = {
+      darkMode: "class", // or 'media'
+      theme: {
+        screens: {
+          sm: "640px",
+          md: "768px",
+          lg: "1024px",
+          xl: "1280px",
+          "2xl": "1536px",
+        },
+      },
+      copy: () => "hello",
+    };
+
+    expect(deepCopy(b)).toEqual(b);
+
+    const style = new Style('.test', [new Property('font-size', '1em'), new Property('color', 'black')]);
+    expect(deepCopy(style)).toEqual(style);
   });
 });
