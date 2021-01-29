@@ -51,17 +51,33 @@ describe("Config", () => {
   });
 
   it("change separator test", () => {
-    const processor = new Processor({separator:'_'});
-    expect(processor.interpret('sm_bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}');
-  })
+    const processor = new Processor({ separator: "_" });
+    expect(processor.interpret("sm_bg-black").styleSheet.build()).toBe(
+      "@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}"
+    );
+  });
 
   it("add prefix test", () => {
-    const processor = new Processor({prefix:'tw-'});
-    expect(processor.interpret('sm:tw-bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm\\:tw-bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}');
-  })
+    const processor = new Processor({ prefix: "tw-" });
+    expect(processor.interpret("sm:tw-bg-black").styleSheet.build()).toBe(
+      "@media (min-width: 640px) {\n  .sm\\:tw-bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}"
+    );
+  });
 
   it("important test", () => {
-    const processor = new Processor({important: true});
-    expect(processor.interpret('sm:bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm\\:bg-black {\n    --tw-bg-opacity: 1 !important;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity)) !important;\n  }\n}');
-  })
+    const processor = new Processor({ important: true });
+    expect(processor.interpret("sm:bg-black").styleSheet.build()).toBe(
+      "@media (min-width: 640px) {\n  .sm\\:bg-black {\n    --tw-bg-opacity: 1 !important;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity)) !important;\n  }\n}"
+    );
+  });
+
+  it("important string test", () => {
+    const processor = new Processor({ important: "#app" });
+    expect(processor.interpret("sm:bg-black").styleSheet.build()).toBe(
+      "@media (min-width: 640px) {\n  #app .sm\\:bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}"
+    );
+    expect(processor.interpret("dark:bg-white").styleSheet.build()).toBe(
+      ".dark #app .dark\\:bg-white {\n  --tw-bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}"
+    );
+  });
 });

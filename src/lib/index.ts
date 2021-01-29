@@ -127,6 +127,19 @@ export class Processor {
     return prefix ? className.replace(new RegExp(`^${prefix}`), "") : className;
   }
 
+  markAsImportant(style: Style, force: boolean | string = false): Style {
+    const _important = force ? force : this.config("important", false);
+    const important = typeof _important === 'string'? _important as string: _important as boolean;
+    if (important) {
+      if (typeof important === 'string') {
+        style.parent(important);
+      } else {
+        style.important = true;
+      }
+    }
+    return style;
+  }
+
   extract(className: string, addComment = false): Style | Style[] | undefined {
     const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
@@ -157,7 +170,6 @@ export class Processor {
     ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
-    const important = this.config("important", false) as boolean;
     const styleSheet = new StyleSheet();
 
     const _gStyle = (
@@ -170,10 +182,10 @@ export class Processor {
         success.push(selector);
         if (result instanceof Style) {
           result.selector = "." + selector;
-          if (important) result.important = true;
+          this.markAsImportant(result);
         }
-        if (important && Array.isArray(result))
-          result.forEach((i) => (i.important = true));
+        if (Array.isArray(result))
+          result.forEach((i) => this.markAsImportant(i));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
         ignored.push(selector);
@@ -241,7 +253,6 @@ export class Processor {
     ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
-    const important = this.config("important", false) as boolean;
     const styleSheet = new StyleSheet();
     let className: string | undefined =
       prefix +
@@ -261,11 +272,11 @@ export class Processor {
         if (Array.isArray(result)) {
           result.forEach((i) => {
             i.selector = buildSelector;
-            if (important) i.important = true;
+            this.markAsImportant(i);
           });
         } else {
           result.selector = buildSelector;
-          if (important) result.important = true;
+          this.markAsImportant(result);
         }
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
