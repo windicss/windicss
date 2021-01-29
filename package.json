@@ -14,7 +14,7 @@
     "build": "rollup -c && tsc -p ./src --emitDeclarationOnly",
     "product": "PUBLISH=true npm run build",
     "release": "npm run lint && npm run product && npm run test",
-    "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json'",
+    "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "coverage": "nyc --nycrc-path=.nycrc.json npm run test"
   },
   "exports": {
