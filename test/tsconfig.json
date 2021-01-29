@@ -5,5 +5,5 @@
     "module": "commonjs"
   },
   "include": ["."],
-  "exclude": ["interface", "assets"]
+  "exclude": ["assets"]
 }
