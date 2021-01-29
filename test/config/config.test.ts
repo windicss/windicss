@@ -59,4 +59,9 @@ describe("Config", () => {
     const processor = new Processor({prefix:'tw-'});
     expect(processor.interpret('sm:tw-bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm\\:tw-bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}');
   })
+
+  it("important test", () => {
+    const processor = new Processor({important: true});
+    expect(processor.interpret('sm:bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm\\:bg-black {\n    --tw-bg-opacity: 1 !important;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity)) !important;\n  }\n}');
+  })
 });

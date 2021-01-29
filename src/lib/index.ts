@@ -157,6 +157,7 @@ export class Processor {
     ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
+    const important = this.config("important", false) as boolean;
     const styleSheet = new StyleSheet();
 
     const _gStyle = (
@@ -167,7 +168,12 @@ export class Processor {
       const result = this.extract(baseClass);
       if (result) {
         success.push(selector);
-        if (result instanceof Style) result.selector = "." + selector;
+        if (result instanceof Style) {
+          result.selector = "." + selector;
+          if (important) result.important = true;
+        }
+        if (important && Array.isArray(result))
+          result.forEach((i) => (i.important = true));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
         ignored.push(selector);
@@ -188,11 +194,7 @@ export class Processor {
             ];
             const selector = [...variants, u.content].join(":");
             typeof u.content === "string" &&
-              _gStyle(
-                this.removePrefix(u.content),
-                variants,
-                selector
-              );
+              _gStyle(this.removePrefix(u.content), variants, selector);
           }
         });
     };
@@ -204,11 +206,7 @@ export class Processor {
           if (Array.isArray(obj.content)) {
             // #functions stuff
           } else if (obj.content) {
-            _gStyle(
-              this.removePrefix(obj.content),
-              obj.variants,
-              obj.raw
-            );
+            _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
           }
         } else if (obj.type === "group") {
           _hGroup(obj);
@@ -243,6 +241,7 @@ export class Processor {
     ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
+    const important = this.config("important", false) as boolean;
     const styleSheet = new StyleSheet();
     let className: string | undefined =
       prefix +
@@ -262,9 +261,11 @@ export class Processor {
         if (Array.isArray(result)) {
           result.forEach((i) => {
             i.selector = buildSelector;
+            if (important) i.important = true;
           });
         } else {
           result.selector = buildSelector;
+          if (important) result.important = true;
         }
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
@@ -286,11 +287,7 @@ export class Processor {
             ];
             const selector = [...variants, u.content].join(":");
             typeof u.content === "string" &&
-              _gStyle(
-                this.removePrefix(u.content),
-                variants,
-                selector
-              );
+              _gStyle(this.removePrefix(u.content), variants, selector);
           }
         });
     };

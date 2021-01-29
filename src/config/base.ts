@@ -5,7 +5,6 @@ import type { Config } from "../interfaces";
 const config: Config = {
   // purge: [],
   presets: [],
-  separator: ':',
   darkMode: "class", // or 'media'
   theme: {
     screens: {

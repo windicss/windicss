@@ -369,10 +369,12 @@ export class Style {
             ? pc.name.map((i) => wrap(i))
             : wrap(pc.name);
         });
+        if (item.important) pc.important = true;
         props.push(pc);
       });
       this.property = connectList(this.property, props, append);
     } else {
+      if (item.important) item.property.forEach(i => i.important = true);
       this.property = connectList(this.property, item.property, append);
     }
     if (onlyProperty) return this;
