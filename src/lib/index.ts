@@ -122,6 +122,11 @@ export class Processor {
     });
   }
 
+  removePrefix(className: string): string {
+    const prefix = this.config("prefix") as string | undefined;
+    return prefix ? className.replace(new RegExp(`^${prefix}`), "") : className;
+  }
+
   extract(className: string, addComment = false): Style | Style[] | undefined {
     const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
@@ -146,7 +151,10 @@ export class Processor {
     ignoreProcessed = false
   ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     // Interpret tailwind class then generate raw tailwind css.
-    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
+    const ast = new ClassParser(
+      classNames,
+      this.config("separator", ":") as string
+    ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -180,7 +188,11 @@ export class Processor {
             ];
             const selector = [...variants, u.content].join(":");
             typeof u.content === "string" &&
-              _gStyle(u.content, variants, selector);
+              _gStyle(
+                this.removePrefix(u.content),
+                variants,
+                selector
+              );
           }
         });
     };
@@ -192,7 +204,11 @@ export class Processor {
           if (Array.isArray(obj.content)) {
             // #functions stuff
           } else if (obj.content) {
-            _gStyle(obj.content, obj.variants, obj.raw);
+            _gStyle(
+              this.removePrefix(obj.content),
+              obj.variants,
+              obj.raw
+            );
           }
         } else if (obj.type === "group") {
           _hGroup(obj);
@@ -221,7 +237,10 @@ export class Processor {
     styleSheet: StyleSheet;
   } {
     // Compile tailwind css classes to one combined class.
-    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
+    const ast = new ClassParser(
+      classNames,
+      this.config("separator", ":") as string
+    ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -267,7 +286,11 @@ export class Processor {
             ];
             const selector = [...variants, u.content].join(":");
             typeof u.content === "string" &&
-              _gStyle(u.content, variants, selector);
+              _gStyle(
+                this.removePrefix(u.content),
+                variants,
+                selector
+              );
           }
         });
     };
@@ -277,7 +300,7 @@ export class Processor {
         if (Array.isArray(obj.content)) {
           // #functions stuff
         } else if (obj.content) {
-          _gStyle(obj.content, obj.variants, obj.raw);
+          _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
         }
       } else if (obj.type === "group") {
         _hGroup(obj);
@@ -357,7 +380,7 @@ export class Processor {
     generator: (selector: string) => Style,
     options = {}
   ): void {
-    name && generator && options
+    name && generator && options;
     return;
   }
 }

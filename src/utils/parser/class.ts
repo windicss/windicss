@@ -1,11 +1,11 @@
-import type { Element } from '../../interfaces';
+import type { Element } from "../../interfaces";
 
 export default class ClassParser {
   index: number;
   separator: string;
   classNames?: string;
 
-  constructor(classNames?: string, separator=':') {
+  constructor(classNames?: string, separator = ":") {
     this.classNames = classNames;
     this.separator = separator;
     this.index = 0;

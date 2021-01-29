@@ -54,4 +54,9 @@ describe("Config", () => {
     const processor = new Processor({separator:'_'});
     expect(processor.interpret('sm_bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}');
   })
+
+  it("add prefix test", () => {
+    const processor = new Processor({prefix:'tw-'});
+    expect(processor.interpret('sm:tw-bg-black').styleSheet.build()).toBe('@media (min-width: 640px) {\n  .sm\\:tw-bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}');
+  })
 });
