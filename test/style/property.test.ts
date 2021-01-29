@@ -4,9 +4,14 @@ describe("Property", () => {
   it("normal build", () => {
     const p1 = new Property("padding", "1rem");
     const p2 = new Property(["padding-left", "padding-right"], "1rem");
+    const p3 = new Property("padding", "1rem", undefined, true);
+    const p4 = new Property(["padding-left", "padding-right"], "1rem", undefined, true);
 
     expect(p1.build()).toBe("padding: 1rem;");
     expect(p2.build()).toBe("padding-left: 1rem;\npadding-right: 1rem;");
+    expect(p3.build()).toBe("padding: 1rem !important;");
+    expect(p3.build(true)).toBe("padding:1rem!important;");
+    expect(p4.build()).toBe("padding-left: 1rem !important;\npadding-right: 1rem !important;")
   });
   it("minimized build", () => {
     const p1 = new Property("padding", "1rem");

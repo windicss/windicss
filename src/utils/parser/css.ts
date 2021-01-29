@@ -46,18 +46,25 @@ export default class CSSParser {
     const properties: Property[] = parsed.filter(
       (i) => !(i instanceof InlineAtRule)
     );
-    const applies = parsed
-      .filter((i) => i instanceof InlineAtRule && i.name === "apply" && i.value)
-      .map((i) => i.value);
+    const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === "apply" && i.value);
     if (this.processor && applies.length > 0) {
-      const styleSheet = this.processor.compile(applies.join(" ")).styleSheet;
-      styleSheet.children.forEach((style) => {
+
+      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(" ")).styleSheet;
+      notImportant.children.forEach((style) => {
         style.selector = selector;
         style.escape = false;
       });
+
+      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(" ")).styleSheet;
+      important.children.forEach((style) => {
+        style.selector = selector;
+        style.escape = false;
+        style.important = true;
+      });
+
       return properties.length > 0
-        ? [new Style(selector, properties, false), ...styleSheet.children]
-        : styleSheet.children;
+        ? [new Style(selector, properties, false), ...notImportant.extend(important).children]
+        : notImportant.extend(important).children;
     }
     return new Style(selector, this.processor ? properties : parsed, false);
   }

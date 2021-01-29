@@ -14,6 +14,7 @@ describe("AtRule", () => {
     const v2 = InlineAtRule.parse("@apply font-bold text-md;");
     const v3 = InlineAtRule.parse("  @apply  font-bold text-md ");
     const v4 = InlineAtRule.parse("@apply;");
+    const v5 = InlineAtRule.parse("@apply font-bold text-md!important;");
 
     expect(!v1 || v1.name).toBe("apply");
     expect(!v1 || v1.value).toBeUndefined();
@@ -26,5 +27,8 @@ describe("AtRule", () => {
 
     expect(!v4 || v4.name).toBe("apply");
     expect(!v4 || v4.value).toBeUndefined();
+
+    expect(!v5 || v5.value).toBe("font-bold text-md");
+    expect(!v5 || v5.important).toBeTrue();
   });
 });

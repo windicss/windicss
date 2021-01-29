@@ -35,7 +35,7 @@ video {
 }
 
 .dtest {
-  @apply font-light;
+  @apply font-light !important;
 }
 
 .container {
@@ -150,7 +150,7 @@ video {
   padding: 1rem;
 }
 .dtest {
-  font-weight: 300;
+  font-weight: 300 !important;
 }
 .dark .test {
   font-weight: 500;
@@ -249,7 +249,7 @@ video {
   padding: 1rem;
 }
 .dtest {
-  @apply font-light;
+  @apply font-light !important;
 }
 .link:hover {
   @apply bg-red-500;

@@ -13,11 +13,18 @@ export class Property {
   name: string | string[];
   value?: string;
   comment?: string;
+  important: boolean;
 
-  constructor(name: string | string[], value?: string, comment?: string) {
+  constructor(
+    name: string | string[],
+    value?: string,
+    comment?: string,
+    important = false
+  ) {
     this.name = name;
     this.value = value;
     this.comment = comment;
+    this.important = important;
   }
 
   private static _singleParse(
@@ -29,9 +36,17 @@ export class Property {
     const split = css.search(":");
     const end = css.search(";");
     if (split === -1) return;
+    let important = false;
+    let prop = css.substring(split + 1, end === -1 ? undefined : end).trim();
+    if (/!important;?$/.test(prop)) {
+      important = true;
+      prop = prop.replace(/!important/, "").trimRight();
+    }
     return new Property(
       css.substring(0, split).trim(),
-      css.substring(split + 1, end === -1 ? undefined : end).trim()
+      prop,
+      undefined,
+      important
     );
   }
 
@@ -62,9 +77,9 @@ export class Property {
   build(minify = false): string {
     const createProperty = (name: string, value?: string) => {
       if (minify) {
-        return `${name}:${value};`;
+        return `${name}:${value}${this.important ? "!important" : ""};`;
       } else {
-        const p = `${name}: ${value};`;
+        const p = `${name}: ${value}${this.important ? " !important" : ""};`;
         return this.comment ? p + ` /* ${this.comment} */` : p;
       }
     };
@@ -79,32 +94,44 @@ export class Property {
 
 export class InlineAtRule extends Property {
   name: string;
-  constructor(name: string, value?: string) {
-    super(name, value);
+  constructor(name: string, value?: string, important = false) {
+    super(name, value, undefined, important);
     this.name = name;
   }
   static parse(css: string): InlineAtRule | undefined {
     const matchName = css.match(/@[^\s;{}]+/);
     if (matchName) {
       const name = matchName[0].substring(1);
-      const expression =
+      let important = false;
+      let expression =
         matchName.index !== undefined
           ? css
               .substring(matchName.index + name.length + 1)
               .match(/[^;]*/)?.[0]
               .trim()
           : undefined;
-      return new InlineAtRule(name, expression === "" ? undefined : expression);
+      if (expression && /!important;?$/.test(expression)) {
+        important = true;
+        expression = expression.replace(/!important/, "").trimRight();
+      }
+      return new InlineAtRule(
+        name,
+        expression === "" ? undefined : expression,
+        important
+      );
     }
   }
   build(): string {
-    return this.value ? `@${this.name} ${this.value};` : `@${this.name};`;
+    return this.value
+      ? `@${this.name} ${this.value}${this.important ? " !important" : ""};`
+      : `@${this.name}${this.important ? " !important" : ""};`;
   }
 }
 
 export class Style {
   selector?: string;
   escape: boolean;
+  important: boolean;
   property: Property[];
   private _pseudoClasses?: string[];
   private _pseudoElements?: string[];
@@ -119,10 +146,12 @@ export class Style {
   constructor(
     selector?: string,
     property?: Property | Property[],
-    escape = true
+    escape = true,
+    important = false
   ) {
     this.selector = selector;
     this.escape = escape;
+    this.important = important;
     this.property = property
       ? Array.isArray(property)
         ? property
@@ -438,10 +467,16 @@ export class Style {
             (w) =>
               (name = Array.isArray(name) ? name.map((n) => w(n)) : w(name))
           );
-          const pc = new Property(name, p.value, p.comment);
-          return pc.build(minify);
+          return new Property(
+            name,
+            p.value,
+            p.comment,
+            this.important ? true : p.important
+          ).build(minify);
         }
-        return p.build(minify);
+        return this.important
+          ? new Property(p.name, p.value, p.comment, true).build(minify)
+          : p.build(minify);
       })
       .join(minify ? "" : "\n");
     if (!this.selector && !this._atRules) return result.replace(/;}/g, "}");

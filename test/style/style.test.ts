@@ -19,6 +19,13 @@ describe("Style", () => {
     expect(s.build(true)).toBe(".test{padding:1rem;color:#1C1C1E}");
   });
 
+  it("important style", () => {
+    const s = new Style(".test", [p1, p2]);
+    s.important = true;
+    expect(s.build()).toBe(".test {\n  padding: 1rem !important;\n  color: #1C1C1E !important;\n}");
+    expect(s.build(true)).toBe(".test{padding:1rem!important;color:#1C1C1E!important}");
+  });
+
   it("empty property input", () => {
     const s = new Style(".test");
     expect(s.build()).toBe(".test {}");
