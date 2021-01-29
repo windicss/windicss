@@ -61,10 +61,10 @@ Development Version
 $ npm run build
 ```
 
-Release Version
+Product Version
 
 ```
-$ npm run release
+$ npm run product
 ```
 
 ## Submit a Pull Request

@@ -218,9 +218,10 @@ export class Style {
     property?: NestObject,
     root?: Style
   ): Style[] {
-    root ??= parent?.startsWith("@")
-      ? new Style().atRule(parent)
-      : new Style(parent);
+    if (!root)
+      root = parent?.startsWith("@")
+        ? new Style().atRule(parent)
+        : new Style(parent);
     let output: Style[] = [];
     for (const [key, value] of Object.entries(property ?? {})) {
       if (typeof value === "string") {
@@ -374,7 +375,7 @@ export class Style {
       });
       this.property = connectList(this.property, props, append);
     } else {
-      if (item.important) item.property.forEach(i => i.important = true);
+      if (item.important) item.property.forEach((i) => (i.important = true));
       this.property = connectList(this.property, item.property, append);
     }
     if (onlyProperty) return this;

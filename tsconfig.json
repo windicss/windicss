@@ -12,6 +12,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true
 	},
-	"include": ["./src", "./test", "./example"],
-	"exclude": ["./test/assets/tailwind.config.js"]
+  "include": ["./src", "./test", "./example"],
+  "exclude": ["./test/assets", "./test/helpers"]
 }

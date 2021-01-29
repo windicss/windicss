@@ -41,7 +41,6 @@ dist
 *.html
 *.d.ts
 src/**/*.js
-test/**/*.js
 example/**/*.js
 
 # Don't ignore example files

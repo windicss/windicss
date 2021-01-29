@@ -1,8 +1,8 @@
-import { DisplayProcessor, SpecReporter } from "jasmine-spec-reporter";
+const { DisplayProcessor, SpecReporter} = require("jasmine-spec-reporter");
 
 class CustomProcessor extends DisplayProcessor {
-  public displayJasmineStarted(): string {
-    return `TypeScript test started`;
+  displayJasmineStarted() {
+    return `JavaScript test started`;
   }
 }
 

@@ -1,1 +1,1 @@
-export { Processor } from "./lib";
+export { Processor as default } from "./lib";

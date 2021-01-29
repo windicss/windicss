@@ -4,5 +4,6 @@
     "target": "es2017",
     "module": "commonjs"
   },
-  "include": ["."]
+  "include": ["."],
+  "exclude": ["interface", "assets"]
 }

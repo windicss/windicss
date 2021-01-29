@@ -9,7 +9,7 @@ import extract from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
 
-import type { Config, Theme, AnyObject, Element } from "../interfaces";
+import type { Config, DefaultConfig, ConfigUtil, Theme, DefaultTheme, AnyObject, Element } from "../interfaces";
 
 export class Processor {
   private _config: Config;
@@ -33,7 +33,7 @@ export class Processor {
       : baseConfig;
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
-    const extendTheme: { [key: string]: Theme } = userTheme?.extend ?? {};
+    const extendTheme = userTheme?.extend ?? {} as { [key: string]: Theme };
     if (userTheme && extendTheme) delete userTheme.extend;
     const theme: Theme = { ...presets.theme, ...userTheme };
     for (const [key, value] of Object.entries(extendTheme)) {
@@ -56,7 +56,7 @@ export class Processor {
       this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === "function") {
-        config.theme[key] = value(theme, { negative, breakpoints });
+        config.theme[key] = value(theme, { negative, breakpoints }) as ConfigUtil;
       }
     }
     return config;
@@ -106,6 +106,14 @@ export class Processor {
       default:
         return { ...this._screens, ...this._themes, ...this._states };
     }
+  }
+
+  get allConfig(): DefaultConfig {
+    return this._config as DefaultConfig;
+  }
+
+  get allTheme(): DefaultTheme {
+    return this._theme as DefaultTheme;
   }
 
   wrapWithVariants(variants: string[], styles: Style | Style[]): Style[] {
