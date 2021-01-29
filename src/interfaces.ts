@@ -22,6 +22,7 @@ export type Theme = {
 
 export type Config = {
   presets?: Config[];
+  separator?: string;
   darkMode?: "media" | "class" | false;
   theme?: Theme;
   variantOrder?: string[];

@@ -2,10 +2,12 @@ import type { Element } from '../../interfaces';
 
 export default class ClassParser {
   index: number;
+  separator: string;
   classNames?: string;
 
-  constructor(classNames?: string) {
+  constructor(classNames?: string, separator=':') {
     this.classNames = classNames;
+    this.separator = separator;
     this.index = 0;
   }
 
@@ -25,12 +27,7 @@ export default class ClassParser {
       this.index++;
       char = this.classNames.charAt(this.index);
       switch (char) {
-        case "|":
-          variants.push(this.classNames.slice(variantStart, this.index));
-          variantStart = this.index + 1;
-          ignoreSpace = true;
-          break;
-        case ":":
+        case this.separator:
           variants.push(this.classNames.slice(variantStart, this.index));
           variantStart = this.index + 1;
           ignoreSpace = true;

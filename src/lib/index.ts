@@ -146,7 +146,7 @@ export class Processor {
     ignoreProcessed = false
   ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     // Interpret tailwind class then generate raw tailwind css.
-    const ast = new ClassParser(classNames).parse();
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -221,7 +221,7 @@ export class Processor {
     styleSheet: StyleSheet;
   } {
     // Compile tailwind css classes to one combined class.
-    const ast = new ClassParser(classNames).parse();
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
