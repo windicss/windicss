@@ -20,6 +20,7 @@ import type {
   PluginUtils,
   PluginUtilOptions,
   NestObject,
+  DeepNestObject,
 } from "../interfaces";
 
 export class Processor {
@@ -35,13 +36,24 @@ export class Processor {
     classes: [],
     utilities: []
   }
+  private _plugin: {
+    utilities: {[key:string]:Style[]}
+    components: {[key:string]:Style[]}
+    preflights: {[key:string]:Style[]}
+    variants: {[key:string]:Style[]}
+  } = {
+    utilities: {},
+    components: {},
+    preflights: {},
+    variants: {}
+  }
 
   public utils: PluginUtils = {
-    addUtilities: (utilities: NestObject, options?: PluginUtilOptions) =>
+    addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
-    addComponents: (components: NestObject, options?: PluginUtilOptions) =>
+    addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
       this.addComponents(components, options),
-    addBase: (baseStyles: NestObject) => this.addBase(baseStyles),
+    addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
     addVariant: (name: string, generator: () => Style, options?: NestObject) =>
       this.addVariant(name, generator, options),
     e: (selector: string) => this.e(selector),
@@ -393,28 +405,37 @@ export class Processor {
   }
 
   addUtilities(
-    utilities: NestObject,
+    utilities: DeepNestObject,
     options: PluginUtilOptions = {
       variants: [],
       respectPrefix: true,
       respectImportant: true,
     }
-  ): void {
-    options && utilities;
+  ): Style[] {
+    let output: Style[] = [];
+    for (const [key, value] of Object.entries(utilities)) {
+      const styles = Style.generate(key, value);
+      output = [...output, ...styles];
+      this._plugin.utilities[key] = styles;
+    }
+    return output;
   }
 
   addComponents(
-    components: NestObject,
+    components: DeepNestObject,
     options: PluginUtilOptions = { variants: [], respectPrefix: true }
-  ): void {
+  ): Style[] {
     options && components;
+    return [];
   }
 
-  addBase(baseStyles: NestObject): void {
+  addBase(baseStyles: DeepNestObject): Style[] {
     baseStyles;
+    return [];
   }
 
-  addVariant(name: string, generator: () => Style, options = {}): void {
+  addVariant(name: string, generator: () => Style, options = {}): Style {
     name && generator && options;
+    return new Style();
   }
 }

@@ -4,6 +4,8 @@ export type DictStr = { [key: string]: string };
 
 export type NestObject = { [key: string]: string | NestObject };
 
+export type DeepNestObject = { [key: string]: NestObject };
+
 export type GenericNestObject<T> = { [key: string]: T | GenericNestObject<T> };
 
 export type AnyObject = Record<string, unknown>;
@@ -106,14 +108,14 @@ export interface StaticUtility {
 }
 
 export interface PluginUtils {
-  addUtilities: (utilities: NestObject, options?: PluginUtilOptions) => void;
-  addComponents: (components: NestObject, options?: PluginUtilOptions) => void;
-  addBase: (baseStyles: NestObject) => void;
+  addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) => Style[];
+  addComponents: (components: DeepNestObject, options?: PluginUtilOptions) => Style[];
+  addBase: (baseStyles: DeepNestObject) => Style[];
   addVariant: (
     name: string,
     generator: () => Style,
     options?: NestObject
-  ) => void;
+  ) => Style;
   e: (selector: string) => string;
   prefix: (selector: string) => string;
   theme: (path: string, defaultValue?: unknown) => unknown;
