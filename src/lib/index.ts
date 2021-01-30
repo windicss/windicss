@@ -426,7 +426,13 @@ export class Processor {
     options: PluginUtilOptions = { variants: [], respectPrefix: true }
   ): Style[] {
     options && components;
-    return [];
+    let output: Style[] = [];
+    for (const [key, value] of Object.entries(components)) {
+      const styles = Style.generate(key, value);
+      output = [...output, ...styles];
+      this._plugin.components[key] = styles;
+    }
+    return output;
   }
 
   addBase(baseStyles: DeepNestObject): Style[] {
