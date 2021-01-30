@@ -16,9 +16,10 @@ import type {
   ConfigUtil,
   Theme,
   DefaultTheme,
-  AnyObject,
   Element,
   PluginUtils,
+  PluginUtilOptions,
+  NestObject,
 } from "../interfaces";
 
 export class Processor {
@@ -31,6 +32,24 @@ export class Processor {
   private _processedUtilities: string[] = [];
   private _processedTags: string[] = [];
   private _generatedClasses: string[] = [];
+
+  public utils: PluginUtils = {
+    addUtilities: (utilities: NestObject, options?: PluginUtilOptions) =>
+      this.addUtilities(utilities, options),
+    addComponents: (components: NestObject, options?: PluginUtilOptions) =>
+      this.addComponents(components, options),
+    addBase: (baseStyles: NestObject) => this.addBase(baseStyles),
+    addVariant: (name: string, generator: () => Style, options?: NestObject) =>
+      this.addVariant(name, generator, options),
+    e: (selector: string) => this.e(selector),
+    prefix: (selector: string) => this.prefix(selector),
+    config: (path: string, defaultValue?: unknown) =>
+      this.config(path, defaultValue),
+    theme: (path: string, defaultValue?: unknown) =>
+      this.theme(path, defaultValue),
+    variants: (path: string, defaultValue?: unknown) =>
+      this.variants(path, defaultValue),
+  };
 
   constructor(config?: string | Config) {
     this._config = this.resolveConfig(config);
@@ -165,12 +184,7 @@ export class Processor {
   }
 
   extract(className: string, addComment = false): Style | Style[] | undefined {
-    const utils: PluginUtils = {
-      config: (path: string, defaultValue?: unknown) => this.config(path, defaultValue),
-      theme: (path: string, defaultValue?: unknown) => this.theme(path, defaultValue),
-      variants: (path: string, defaultValue?: unknown) => this.variants(path, defaultValue),
-    }
-    return extract(utils, className, addComment);
+    return extract(this.utils, className, addComment);
   }
 
   preflight(
@@ -388,34 +402,28 @@ export class Processor {
   }
 
   addUtilities(
-    utilities: { [key: string]: { [key: string]: string } },
-    options: string[] | AnyObject = []
+    utilities: NestObject,
+    options: PluginUtilOptions = {
+      variants: [],
+      respectPrefix: true,
+      respectImportant: true,
+    }
   ): void {
     options && utilities;
-    return;
   }
 
   addComponents(
-    components: { [key: string]: string | { [key: string]: string } },
-    options: string[] | AnyObject = []
+    components: NestObject,
+    options: PluginUtilOptions = { variants: [], respectPrefix: true }
   ): void {
     options && components;
-    return;
   }
 
-  addBase(baseStyles: {
-    [key: string]: string | { [key: string]: string };
-  }): void {
+  addBase(baseStyles: NestObject): void {
     baseStyles;
-    return;
   }
 
-  addVariant(
-    name: string,
-    generator: (selector: string) => Style,
-    options = {}
-  ): void {
+  addVariant(name: string, generator: () => Style, options = {}): void {
     name && generator && options;
-    return;
   }
 }

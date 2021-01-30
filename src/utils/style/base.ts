@@ -6,7 +6,7 @@ import {
   deepCopy,
   isTagName,
 } from "../tools";
-import { cssEscape } from "../algorithm";
+import cssEscape from "../algorithm/cssEscape";
 import type { NestObject } from "../../interfaces";
 
 export class Property {

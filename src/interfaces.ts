@@ -1,3 +1,5 @@
+import type { Style } from "./utils/style";
+
 export type DictStr = { [key: string]: string };
 
 export type NestObject = { [key: string]: string | NestObject };
@@ -26,6 +28,36 @@ export type ConfigUtil = (
   }
 ) => unknown;
 
+export type PluginUtilOptions =
+  | string[]
+  | {
+      variants?: string[];
+      respectPrefix?: boolean;
+      respectImportant?: boolean;
+    };
+
+export type withOptions = (
+  pluginFunction: (options: DictStr) => NestObject,
+  configFunction?: (options: DictStr) => NestObject
+) => {
+  (options: DictStr): {
+    __options: DictStr;
+    handler: NestObject;
+    config: NestObject;
+  };
+  __isOptionsFunction: boolean;
+  __pluginFunction: (options: DictStr) => NestObject;
+  __configFunction: (options: DictStr) => NestObject;
+};
+
+export interface Plugin {
+  (): {
+    handler: (utils: PluginUtils) => undefined;
+    config?: Config;
+  };
+  withOptions: withOptions;
+}
+
 export interface Theme {
   [key: string]: ConfigUtil | { [key: string]: unknown } | undefined;
 }
@@ -38,7 +70,7 @@ export interface Config {
   theme?: Theme;
   variantOrder?: string[];
   variants?: { [key: string]: string[] };
-  plugins?: (() => unknown)[];
+  plugins?: Plugin[];
   corePlugins?: string[];
   prefix?: string;
 }
@@ -49,7 +81,7 @@ export interface DefaultTheme {
   fontFamily: { [key: string]: string[] };
   fontSize: { [key: string]: FontSize };
   keyframes: { [key: string]: { [key: string]: string } };
-  outline: {[key:string]: [outline: string, outlineOffset: string]};
+  outline: { [key: string]: [outline: string, outlineOffset: string] };
 }
 
 export interface DefaultTheme {
@@ -66,7 +98,7 @@ export interface DefaultConfig {
   theme: DefaultTheme;
   variantOrder: string[];
   variants: { [key: string]: string[] };
-  plugins: unknown[];
+  plugins: Plugin[];
 }
 
 export interface StaticUtility {
@@ -74,12 +106,16 @@ export interface StaticUtility {
 }
 
 export interface PluginUtils {
-  // addUtilities: ;
-  // addComponents: ;
-  // addBase:;
-  // addVariant:;
-  // e: (selector: string) => string;
-  // prefix: (selector: string) => string;
+  addUtilities: (utilities: NestObject, options?: PluginUtilOptions) => void;
+  addComponents: (components: NestObject, options?: PluginUtilOptions) => void;
+  addBase: (baseStyles: NestObject) => void;
+  addVariant: (
+    name: string,
+    generator: () => Style,
+    options?: NestObject
+  ) => void;
+  e: (selector: string) => string;
+  prefix: (selector: string) => string;
   theme: (path: string, defaultValue?: unknown) => unknown;
   variants: (path: string, defaultValue?: unknown) => unknown;
   config: (path: string, defaultValue?: unknown) => unknown;
