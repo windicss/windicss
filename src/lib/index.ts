@@ -1,5 +1,6 @@
 import { resolve } from "path";
-import { getNestedValue, escape, hash, deepCopy } from "../utils/tools";
+import { cssEscape } from "../utils/algorithm";
+import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Style, StyleSheet } from "../utils/style";
 import { ClassParser } from "../utils/parser";
@@ -379,7 +380,7 @@ export class Processor {
   }
 
   e(selector: string): string {
-    return escape(selector);
+    return cssEscape(selector);
   }
 
   prefix(selector: string): string {

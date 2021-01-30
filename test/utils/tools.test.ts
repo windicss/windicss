@@ -2,7 +2,6 @@ import {
   hash,
   type,
   indent,
-  escape,
   wrapit,
   isNumber,
   isFraction,
@@ -47,17 +46,6 @@ describe("Tools", () => {
     const str = "hello\nworld";
     expect(indent(str)).toEqual("  hello\n  world");
     expect(indent(str, 4)).toEqual("    hello\n    world");
-  });
-
-  it("escape", () => {
-    expect(escape(".test")).toEqual(".test");
-    expect(escape("sm:bg-red-500")).toEqual(String.raw`sm\:bg-red-500`);
-    expect(escape("p-1.5")).toEqual(String.raw`p-1\.5`);
-    expect(escape("@dark:p-1.5")).toEqual(String.raw`\@dark\:p-1\.5`);
-    expect(escape("+sm:p-1.5")).toEqual(String.raw`\+sm\:p-1\.5`);
-    expect(escape("-sm:p-1.5")).toEqual(String.raw`-sm\:p-1\.5`);
-    expect(escape("p-1/3")).toEqual(String.raw`p-1\/3`);
-    expect(escape("p-$v")).toEqual(String.raw`p-\$v`);
   });
 
   it("wrapit", () => {

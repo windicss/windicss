@@ -23,12 +23,6 @@ export function indent(code: string, tab = 2): string {
     .join("\n");
 }
 
-export function escape(selector: string): string {
-  return selector
-    .replace(/(?=\.|:|@|\+|\/|\$)/g, String.fromCharCode(92))
-    .replace(/^\\\./, ".");
-}
-
 export function wrapit(
   code: string,
   start = "{",

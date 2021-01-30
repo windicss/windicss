@@ -1,12 +1,12 @@
 import {
   wrapit,
-  escape,
   searchFrom,
   connectList,
   camelToDash,
   deepCopy,
   isTagName,
 } from "../tools";
+import { cssEscape } from "../algorithm";
 import type { NestObject } from "../../interfaces";
 
 export class Property {
@@ -162,7 +162,7 @@ export class Style {
   get rule(): string {
     let result = this.selector
       ? this.escape
-        ? escape(this.selector)
+        ? cssEscape(this.selector)
         : this.selector
       : "";
     (this._wrapSelectors ?? []).forEach((func) => (result = func(result)));
