@@ -26,12 +26,15 @@ export class Processor {
   private _config: Config;
   private _theme: Config["theme"];
   private _variants: { [key: string]: () => Style } = {};
-  private _screens: { [key: string]: () => Style } = {};
-  private _states: { [key: string]: () => Style } = {};
-  private _themes: { [key: string]: () => Style } = {};
-  private _processedUtilities: string[] = [];
-  private _processedTags: string[] = [];
-  private _generatedClasses: string[] = [];
+  private _cache: {
+    tags: string[],
+    classes: string[],
+    utilities: string[],
+  } = {
+    tags: [],
+    classes: [],
+    utilities: []
+  }
 
   public utils: PluginUtils = {
     addUtilities: (utilities: NestObject, options?: PluginUtilOptions) =>
@@ -114,30 +117,18 @@ export class Processor {
     ); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
-    this._variants = this.resolveVariants(undefined, true);
+    this._variants = this.resolveVariants();
     return this._config;
   }
 
   resolveVariants(
     type?: "screen" | "theme" | "state",
-    recreate = false
   ): { [key: string]: () => Style } {
-    if (recreate) {
-      const variants = resolveVariants(this._config);
-      this._screens = variants.screen;
-      this._themes = variants.theme;
-      this._states = variants.state;
+    const variants = resolveVariants(this._config);
+    if (type) {
+      return variants[type];
     }
-    switch (type) {
-      case "screen":
-        return this._screens;
-      case "theme":
-        return this._themes;
-      case "state":
-        return this._states;
-      default:
-        return { ...this._screens, ...this._themes, ...this._states };
-    }
+    return {...variants.screen, ...variants.theme, ...variants.state};
   }
 
   get allConfig(): DefaultConfig {
@@ -153,7 +144,7 @@ export class Processor {
     if (!Array.isArray(styles)) styles = [styles];
     if (variants.length === 0) return styles;
     return styles.map((style) => {
-      return variants
+      return variants.filter(i => i in this._variants)
         .map((i) => this._variants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           return previousValue.extend(currentValue);
@@ -193,10 +184,10 @@ export class Processor {
     ignoreProcessed = false
   ): StyleSheet {
     if (ignoreProcessed && tags)
-      tags = tags.filter((i) => !this._processedTags.includes(i));
+      tags = tags.filter((i) => !this._cache.tags.includes(i));
     const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
-    this._processedTags = [...this._processedTags, ...(tags ?? [])];
+    this._cache.tags = [...this._cache.tags, ...(tags ?? [])];
     return preflight(theme, tags, global);
   }
 
@@ -253,8 +244,8 @@ export class Processor {
     };
 
     ast.forEach((obj) => {
-      if (!(ignoreProcessed && this._processedUtilities.includes(obj.raw))) {
-        this._processedUtilities.push(obj.raw);
+      if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
+        this._cache.utilities.push(obj.raw);
         if (obj.type === "utility") {
           if (Array.isArray(obj.content)) {
             // #functions stuff
@@ -298,7 +289,7 @@ export class Processor {
     let className: string | undefined =
       prefix +
       hash(JSON.stringify([...ast].sort((a, b) => (a.raw > b.raw ? 1 : -1))));
-    if (ignoreGenerated && this._generatedClasses.includes(className))
+    if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = "." + className;
 
@@ -359,7 +350,7 @@ export class Processor {
     });
 
     className = success.length > 0 ? className : undefined;
-    if (className) this._generatedClasses.push(className);
+    if (className) this._cache.classes.push(className);
     return {
       success,
       ignored,
