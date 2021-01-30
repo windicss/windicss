@@ -1,3 +1,4 @@
+import { FontSize } from "../../dist/types/interfaces";
 import { Processor } from "../../src/lib";
 
 const processor = new Processor();
@@ -39,5 +40,13 @@ describe("Plugin Method", () => {
     }
 
     expect(processor.addComponents(buttons).map(i=>i.build()).join('\n')).toBe(".btn {\n  padding: .5rem 1rem;\n  border-radius: .25rem;\n  font-weight: 600;\n}\n.btn-blue {\n  background-color: #3490dc;\n  color: #fff;\n}\n.btn-blue:hover {\n  background-color: #2779bd;\n}\n.btn-red {\n  background-color: #e3342f;\n  color: #fff;\n}\n.btn-red:hover {\n  background-color: #cc1f1a;\n}");
+  })
+
+  it("addBase", () => {
+    expect(processor.addBase({
+      'h1': { fontSize: (processor.theme('fontSize.2xl') as FontSize)[0] ?? '1.5rem' },
+      'h2': { fontSize: (processor.theme('fontSize.xl') as FontSize)[0] ?? '1.25rem' },
+      'h3': { fontSize: (processor.theme('fontSize.lg') as FontSize)[0] ?? '1.125rem' },
+    }).map(i=>i.build()).join('\n')).toBe('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}\nh3 {\n  font-size: 1.125rem;\n}');
   })
 })

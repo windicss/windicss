@@ -425,7 +425,6 @@ export class Processor {
     components: DeepNestObject,
     options: PluginUtilOptions = { variants: [], respectPrefix: true }
   ): Style[] {
-    options && components;
     let output: Style[] = [];
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key, value);
@@ -436,8 +435,13 @@ export class Processor {
   }
 
   addBase(baseStyles: DeepNestObject): Style[] {
-    baseStyles;
-    return [];
+    let output: Style[] = [];
+    for (const [key, value] of Object.entries(baseStyles)) {
+      const styles = Style.generate(key, value);
+      output = [...output, ...styles];
+      this._plugin.preflights[key] = styles;
+    }
+    return output;
   }
 
   addVariant(name: string, generator: () => Style, options = {}): Style {
