@@ -4,6 +4,7 @@ import replace from "@rollup/plugin-replace";
 import resolve from "@rollup/plugin-node-resolve";
 import sucrase from "@rollup/plugin-sucrase";
 import typescript from "@rollup/plugin-typescript";
+import commonjs from '@rollup/plugin-commonjs';
 import pkg from "./package.json";
 
 const output_dir = "./dist";
@@ -198,7 +199,6 @@ export default [
       },
     ],
     external: (id) =>
-      Object.keys(pkg.dependencies).includes(id) ||
       id.match(/\/src\/(lib|utils|plugin|config|colors)/),
     plugins: [
       replace({
@@ -207,6 +207,7 @@ export default [
       }),
       ts_plugin,
       resolve(),
+      commonjs()
     ],
   },
 
@@ -229,6 +230,7 @@ export default [
       plugins: [
         ts_plugin,
         resolve(),
+        commonjs(),
         types(`${dir}/index.d.ts`, `../types/${dir}/index`),
         pack(dir),
       ],
@@ -256,6 +258,7 @@ export default [
       plugins: [
         ts_plugin,
         resolve(),
+        commonjs(),
         types(`utils/${dir}/index.d.ts`, `../../types/utils/${dir}/index`),
         pack(`utils/${dir}`),
       ],
