@@ -1,6 +1,7 @@
 import colors from "../../config/colors";
 import { Property } from "../../utils/style";
 import { camelToDash } from "../../utils/tools";
+import { cssEscape } from "../../utils/algorithm";
 import {
   isNumber,
   isFraction,
@@ -167,7 +168,7 @@ export class Utility {
     return match ? match[0] : "";
   }
   get class(): string {
-    return "." + this.raw; // .-placeholder-real-gray-300
+    return "." + cssEscape(this.raw); // .-placeholder-real-gray-300
   }
   get isNegative(): boolean {
     return this.raw[0] === "-"; // true

@@ -222,7 +222,7 @@ export class Processor {
       if (result) {
         success.push(selector);
         if (result instanceof Style) {
-          result.selector = "." + selector;
+          result.selector = "." + cssEscape(selector);
           this.markAsImportant(result);
         }
         if (Array.isArray(result))
