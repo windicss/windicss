@@ -1,10 +1,10 @@
 import { Utility } from "./utilities/handler";
 import { Style, Property } from "../utils/style";
 import { staticUtilities, dynamicUtilities } from "./utilities";
-import type { ThemeUtil } from "../interfaces";
+import type { PluginUtils } from "../interfaces";
 
 export default function extract(
-  theme: ThemeUtil,
+  utils: PluginUtils,
   className: string,
   addComment = false
 ): Style | Style[] | undefined {
@@ -23,7 +23,7 @@ export default function extract(
   const matches = className.match(/\w+/);
   const key = matches ? matches[0] : undefined;
   if (key && key in dynamicUtilities) {
-    let style = dynamicUtilities[key](new Utility(className), { theme });
+    let style = dynamicUtilities[key](new Utility(className), utils);
     if (!style) return;
     if (style instanceof Property) style = style.toStyle("." + className);
     if (addComment)

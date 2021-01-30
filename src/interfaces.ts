@@ -74,7 +74,15 @@ export interface StaticUtility {
 }
 
 export interface PluginUtils {
-  theme: ThemeUtil;
+  // addUtilities: ;
+  // addComponents: ;
+  // addBase:;
+  // addVariant:;
+  // e: (selector: string) => string;
+  // prefix: (selector: string) => string;
+  theme: (path: string, defaultValue?: unknown) => unknown;
+  variants: (path: string, defaultValue?: unknown) => unknown;
+  config: (path: string, defaultValue?: unknown) => unknown;
 }
 
 export interface Element {

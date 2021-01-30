@@ -17,6 +17,7 @@ import type {
   DefaultTheme,
   AnyObject,
   Element,
+  PluginUtils,
 } from "../interfaces";
 
 export class Processor {
@@ -163,9 +164,12 @@ export class Processor {
   }
 
   extract(className: string, addComment = false): Style | Style[] | undefined {
-    const theme = (path: string, defaultValue?: unknown) =>
-      this.theme(path, defaultValue);
-    return extract(theme, className, addComment);
+    const utils: PluginUtils = {
+      config: (path: string, defaultValue?: unknown) => this.config(path, defaultValue),
+      theme: (path: string, defaultValue?: unknown) => this.theme(path, defaultValue),
+      variants: (path: string, defaultValue?: unknown) => this.variants(path, defaultValue),
+    }
+    return extract(utils, className, addComment);
   }
 
   preflight(

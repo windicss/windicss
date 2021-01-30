@@ -162,6 +162,28 @@ export default [
     plugins: [ts_plugin, types("defaultTheme.d.ts", "./types/defaultTheme", "{ default }")],
   },
 
+  // plugin
+  {
+    input: `src/plugin/index.ts`,
+    output: [
+      {
+        file: dump(`plugin/index.js`),
+        exports: "default",
+        format: "cjs",
+      },
+      {
+        file: dump(`plugin/index.mjs`),
+        format: "esm",
+      },
+    ],
+    plugins: [
+      ts_plugin,
+      resolve(),
+      types(`plugin/index.d.ts`, `../types/plugin/index`, "{ default }"),
+      pack("plugin"),
+    ],
+  },
+
   // cli
   {
     input: "src/cli/index.ts",
@@ -191,7 +213,7 @@ export default [
   // utils
   ...fs
     .readdirSync("src/")
-    .filter((dir) => dir !== "cli" && fs.statSync(`src/${dir}`).isDirectory())
+    .filter((dir) => ["config", "lib", "utils"].includes(dir) && fs.statSync(`src/${dir}`).isDirectory())
     .map((dir) => ({
       input: `src/${dir}/index.ts`,
       output: [

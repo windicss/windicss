@@ -965,17 +965,15 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/ring-width
 // https://tailwindcss.com/docs/ring-color
 // https://tailwindcss.com/docs/ring-opacity
-function ring(utility: Utility, { theme }: PluginUtils): Output {
+function ring(utility: Utility, utils: PluginUtils): Output {
   // handle ring offset
   if (utility.raw.startsWith("ring-offset"))
     return ringOffset(
-      new Utility(utility.raw.replace("ring-offset", "ringOffset")),
-      { theme }
-    );
+      new Utility(utility.raw.replace("ring-offset", "ringOffset")), utils);
   // handle ring opacity
   if (utility.raw.startsWith("ring-opacity"))
     return utility.handler
-      .handleStatic(theme("ringOpacity"))
+      .handleStatic(utils.theme("ringOpacity"))
       .handleNumber(0, 100, "int", (number: number) =>
         (number / 100).toString()
       )
@@ -983,7 +981,7 @@ function ring(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty("--tw-ring-opacity");
   // handle ring color
   let value = utility.handler
-    .handleColor(theme("ringColor"))
+    .handleColor(utils.theme("ringColor"))
     .handleVariable((variable: string) =>
       utility.raw.startsWith("ring-$") ? `var(--${variable})` : undefined
     ).value;
@@ -999,9 +997,9 @@ function ring(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === "ring-inset")
     return new Property("--tw-ring-inset", "inset");
   if (utility.raw === "ring")
-    value = toType(theme("ringWidth.DEFAULT"), "string") ?? "3px";
+    value = toType(utils.theme("ringWidth.DEFAULT"), "string") ?? "3px";
   value = utility.handler
-    .handleStatic(theme("ringWidth"))
+    .handleStatic(utils.theme("ringWidth"))
     .handleNumber(0, undefined, "float", (number: number) => `${number}px`)
     .handleSize()
     .handleVariable().value;
