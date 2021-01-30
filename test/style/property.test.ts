@@ -93,10 +93,7 @@ describe("Property", () => {
 
     expect(p.toStyle().build()).toEqual("padding: 1rem;");
     expect(p.toStyle(".p-4").build()).toEqual(".p-4 {\n  padding: 1rem;\n}");
-    expect(p.toStyle(".sm:p-4", true).build()).toEqual(
-      ".sm\\:p-4 {\n  padding: 1rem;\n}"
-    );
-    expect(p.toStyle(".sm:p-4", false).build()).toEqual(
+    expect(p.toStyle(".sm:p-4").build()).toEqual(
       ".sm:p-4 {\n  padding: 1rem;\n}"
     );
   });

@@ -52,13 +52,11 @@ export default class CSSParser {
       const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(" ")).styleSheet;
       notImportant.children.forEach((style) => {
         style.selector = selector;
-        style.escape = false;
       });
 
       const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(" ")).styleSheet;
       important.children.forEach((style) => {
         style.selector = selector;
-        style.escape = false;
         style.important = true;
       });
 
@@ -112,7 +110,7 @@ export default class CSSParser {
             if (directives?.atrule) atrule = directives.atrule;
           }
           const parsed = InlineAtRule.parse(atrule);
-          if (parsed) styleSheet.add(parsed.toStyle(undefined, false));
+          if (parsed) styleSheet.add(parsed.toStyle(undefined));
           index = ruleEnd + 1;
         } else {
           // nested atrule

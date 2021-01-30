@@ -6,7 +6,7 @@ import {
   deepCopy,
   isTagName,
 } from "../tools";
-import cssEscape from "../algorithm/cssEscape";
+
 import type { NestObject } from "../../interfaces";
 
 export class Property {
@@ -70,8 +70,8 @@ export class Property {
     if (count === 1) return properties[0];
   }
 
-  toStyle(selector?: string, escape = true): Style {
-    return new Style(selector, this, escape);
+  toStyle(selector?: string): Style {
+    return new Style(selector, this, this.important);
   }
 
   build(minify = false): string {
@@ -130,7 +130,6 @@ export class InlineAtRule extends Property {
 
 export class Style {
   selector?: string;
-  escape: boolean;
   important: boolean;
   property: Property[];
   private _pseudoClasses?: string[];
@@ -146,11 +145,9 @@ export class Style {
   constructor(
     selector?: string,
     property?: Property | Property[],
-    escape = true,
     important = false
   ) {
     this.selector = selector;
-    this.escape = escape;
     this.important = important;
     this.property = property
       ? Array.isArray(property)
@@ -160,11 +157,7 @@ export class Style {
   }
 
   get rule(): string {
-    let result = this.selector
-      ? this.escape
-        ? cssEscape(this.selector)
-        : this.selector
-      : "";
+    let result = this.selector ?? "";
     (this._wrapSelectors ?? []).forEach((func) => (result = func(result)));
     this._parentSelectors &&
       (result = `${this._parentSelectors.join(" ")} ${result}`);
@@ -520,8 +513,8 @@ export class GlobalStyle extends Style {
   constructor(
     selector?: string,
     property?: Property | Property[],
-    escape = true
+    important?: boolean
   ) {
-    super(selector, property, escape);
+    super(selector, property, important);
   }
 }

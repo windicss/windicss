@@ -51,8 +51,8 @@ export type withOptions = (
 };
 
 export interface Plugin {
-  (): {
-    handler: (utils: PluginUtils) => undefined;
+  (handler: (utils: PluginUtils) => void, config?: Config): {
+    handler: (utils: PluginUtils) => void;
     config?: Config;
   };
   withOptions: withOptions;

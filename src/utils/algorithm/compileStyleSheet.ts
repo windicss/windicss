@@ -132,7 +132,7 @@ export default function compileStyleSheet(
           ...(i.atRules ?? []).sort(sortMediaQuery).reverse(),
           i.rule,
         ];
-        const style = new Style(undefined, i.property, i.escape, i.important)
+        const style = new Style(undefined, i.property, i.important)
         i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap))
         return deepList(list, style);
       })

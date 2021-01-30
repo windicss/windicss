@@ -6,14 +6,15 @@ import type {
   DictStr,
 } from "../interfaces";
 
-const createPlugin = <Plugin>(
-  function (plugin: (utils: PluginUtils) => undefined, config?: Config) {
-    return {
-      handler: plugin,
-      config,
-    };
-  }
-);
+const createPlugin: Plugin = (
+  plugin: (utils: PluginUtils) => void,
+  config?: Config
+) => {
+  return {
+    handler: plugin,
+    config,
+  };
+};
 
 createPlugin.withOptions = function (
   pluginFunction: (options: DictStr) => NestObject,
