@@ -21,6 +21,7 @@ import type {
   PluginUtilOptions,
   NestObject,
   DeepNestObject,
+  VariantGenerator,
 } from "../interfaces";
 
 export class Processor {
@@ -48,13 +49,13 @@ export class Processor {
     variants: {}
   }
 
-  public utils: PluginUtils = {
+  public pluginUtils: PluginUtils = {
     addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
     addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
       this.addComponents(components, options),
     addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
-    addVariant: (name: string, generator: () => Style, options?: NestObject) =>
+    addVariant: (name: string, generator: VariantGenerator, options?: NestObject) =>
       this.addVariant(name, generator, options),
     e: (selector: string) => this.e(selector),
     prefix: (selector: string) => this.prefix(selector),
@@ -64,6 +65,15 @@ export class Processor {
       this.theme(path, defaultValue),
     variants: (path: string, defaultValue?: unknown) =>
       this.variants(path, defaultValue),
+  };
+
+  public variantUtils = {
+    modifySelectors: (modifier:(({className}:{className:string})=>string)):Style => new Style().wrapSelector((selector:string)=>modifier({className: /^[.#]/.test(selector)? selector.substring(1,): selector})),
+    atRule: (name:string):Style => new Style().atRule(name),
+    pseudoClass: (name:string):Style => new Style().pseudoClass(name),
+    pseudoElement: (name:string):Style => new Style().pseudoElement(name),
+    parent: (name:string):Style => new Style().parent(name),
+    child: (name:string):Style => new Style().child(name),
   };
 
   constructor(config?: string | Config) {
@@ -187,7 +197,7 @@ export class Processor {
   }
 
   extract(className: string, addComment = false): Style | Style[] | undefined {
-    return extract(this.utils, className, addComment);
+    return extract(this.pluginUtils, className, addComment);
   }
 
   preflight(
@@ -444,8 +454,10 @@ export class Processor {
     return output;
   }
 
-  addVariant(name: string, generator: () => Style, options = {}): Style {
-    name && generator && options;
-    return new Style();
+  addVariant(name: string, generator: VariantGenerator, options = {}): Style | Style[] {
+    // name && generator && options;
+    const style = generator({...this.variantUtils, separator: this.config("separator", ":") as string, style: new Style()});
+    this._plugin.variants[name] = Array.isArray(style) ? style : [ style ];
+    return style;
   }
 }

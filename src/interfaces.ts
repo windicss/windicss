@@ -113,15 +113,26 @@ export interface PluginUtils {
   addBase: (baseStyles: DeepNestObject) => Style[];
   addVariant: (
     name: string,
-    generator: () => Style,
+    generator: VariantGenerator,
     options?: NestObject
-  ) => Style;
+  ) => Style | Style[];
   e: (selector: string) => string;
   prefix: (selector: string) => string;
   theme: (path: string, defaultValue?: unknown) => unknown;
   variants: (path: string, defaultValue?: unknown) => unknown;
   config: (path: string, defaultValue?: unknown) => unknown;
 }
+
+export type VariantGenerator = (generator: {
+  modifySelectors: (modifier:(({className}:{className:string})=>string)) => Style,
+  atRule: (name: string) => Style,
+  pseudoClass: (name: string) => Style,
+  pseudoElement: (name: string) => Style,
+  parent: (name: string) => Style,
+  child: (name: string) => Style,
+  separator: string,
+  style: Style,
+}) => Style | Style[]
 
 export interface Element {
   raw: string;

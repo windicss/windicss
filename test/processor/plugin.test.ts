@@ -1,4 +1,5 @@
 import { FontSize } from "../../dist/types/interfaces";
+import { Property, Style } from "../../src/utils/style";
 import { Processor } from "../../src/lib";
 
 const processor = new Processor();
@@ -48,5 +49,23 @@ describe("Plugin Method", () => {
       'h2': { fontSize: (processor.theme('fontSize.xl') as FontSize)[0] ?? '1.25rem' },
       'h3': { fontSize: (processor.theme('fontSize.lg') as FontSize)[0] ?? '1.125rem' },
     }).map(i=>i.build()).join('\n')).toBe('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}\nh3 {\n  font-size: 1.125rem;\n}');
+  })
+
+  it("addVariant pseudoClass", () => {
+    const test = new Style('.float-right', new Property('float', 'right'));
+    const style = processor.addVariant('disabled', ({ pseudoClass }) => {
+      return pseudoClass('disabled');
+    });
+    expect(Array.isArray(style) || style.extend(test).build()).toBe('.float-right:disabled {\n  float: right;\n}');
+  })
+
+  it("addVariant modifySelectors", () => {
+    const test = new Style('.float-right', new Property('float', 'right'));
+    const style = processor.addVariant('disabled', ({ modifySelectors, separator }) => {
+      return modifySelectors(({className}) => {
+        return `.${processor.e(`disabled${separator}${className}`)}:disabled`;
+      });
+    });
+    expect(Array.isArray(style) || style.extend(test).build()).toBe('.disabled\\:float-right:disabled {\n  float: right;\n}');
   })
 })
