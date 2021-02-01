@@ -8,9 +8,7 @@ import {
   expandDirection,
 } from "../../utils/helpers";
 
-import type { PluginUtils, FontSize } from "../../interfaces";
-
-type Output = Property | Style | Style[] | undefined;
+import type { PluginUtils, FontSize, Output } from "../../interfaces";
 
 // https://tailwindcss.com/docs/container
 function container(utility: Utility, { theme }: PluginUtils): Output {

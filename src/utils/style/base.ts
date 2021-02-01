@@ -13,7 +13,7 @@ export class Property {
   name: string | string[];
   value?: string;
   comment?: string;
-  important: boolean;
+  important?: boolean;
 
   constructor(
     name: string | string[],

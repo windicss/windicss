@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { cssEscape } from "../utils/algorithm";
 import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
-import { Style, StyleSheet } from "../utils/style";
+import { Property, Style, StyleSheet } from "../utils/style";
 import { ClassParser } from "../utils/parser";
 import { resolveVariants } from "./variants";
 
@@ -16,13 +16,17 @@ import type {
   ConfigUtil,
   Theme,
   DefaultTheme,
+  Output,
   Element,
   PluginUtils,
   PluginUtilOptions,
   NestObject,
   DeepNestObject,
+  UtilityGenerator,
   VariantGenerator,
 } from "../interfaces";
+
+import type { Utility } from "./utilities/handler";
 
 export class Processor {
   private _config: Config;
@@ -38,11 +42,13 @@ export class Processor {
     utilities: []
   }
   private _plugin: {
+    dynamic: {[key:string]: (utility: Utility) => Output}
     utilities: {[key:string]:Style[]}
     components: {[key:string]:Style[]}
     preflights: {[key:string]:Style[]}
     variants: {[key:string]:Style[]}
   } = {
+    dynamic: {},
     utilities: {},
     components: {},
     preflights: {},
@@ -50,6 +56,7 @@ export class Processor {
   }
 
   public pluginUtils: PluginUtils = {
+    addDynamic: (key: string, generator: UtilityGenerator) => this.addDynamic(key, generator),
     addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
     addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
@@ -429,6 +436,15 @@ export class Processor {
       this._plugin.utilities[key] = styles;
     }
     return output;
+  }
+
+  addDynamic(key:string, generator: UtilityGenerator): UtilityGenerator {
+    const style = (selector: string, property?: Property | Property[], important = false) => new Style(selector, property, important);
+    style.generate = Style.generate;
+    const prop = (name: string | string[], value?: string, comment?: string, important = false) => new Property(name, value, comment, important);
+    prop.parse = Property.parse;
+    this._plugin.dynamic[key] = (utility:Utility) => generator({utility, Style: style, Property: prop});
+    return generator;
   }
 
   addComponents(

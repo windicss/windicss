@@ -1,4 +1,6 @@
-import type { Style } from "./utils/style";
+import type { Utility } from "./lib/utilities/handler";
+
+import type { Property, Style, InlineAtRule } from "./utils/style";
 
 export type DictStr = { [key: string]: string };
 
@@ -11,6 +13,8 @@ export type GenericNestObject<T> = { [key: string]: T | GenericNestObject<T> };
 export type AnyObject = Record<string, unknown>;
 
 export type AnyValue<T> = T;
+
+export type Output = Property | Style | Style[] | undefined;
 
 export type FontSize = [
   fontSize?: string,
@@ -108,8 +112,15 @@ export interface StaticUtility {
 }
 
 export interface PluginUtils {
-  addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) => Style[];
-  addComponents: (components: DeepNestObject, options?: PluginUtilOptions) => Style[];
+  addDynamic: (key: string, generator: UtilityGenerator) => UtilityGenerator;
+  addUtilities: (
+    utilities: DeepNestObject,
+    options?: PluginUtilOptions
+  ) => Style[];
+  addComponents: (
+    components: DeepNestObject,
+    options?: PluginUtilOptions
+  ) => Style[];
   addBase: (baseStyles: DeepNestObject) => Style[];
   addVariant: (
     name: string,
@@ -124,15 +135,44 @@ export interface PluginUtils {
 }
 
 export type VariantGenerator = (generator: {
-  modifySelectors: (modifier:(({className}:{className:string})=>string)) => Style,
-  atRule: (name: string) => Style,
-  pseudoClass: (name: string) => Style,
-  pseudoElement: (name: string) => Style,
-  parent: (name: string) => Style,
-  child: (name: string) => Style,
-  separator: string,
-  style: Style,
-}) => Style | Style[]
+  modifySelectors: (
+    modifier: ({ className }: { className: string }) => string
+  ) => Style;
+  atRule: (name: string) => Style;
+  pseudoClass: (name: string) => Style;
+  pseudoElement: (name: string) => Style;
+  parent: (name: string) => Style;
+  child: (name: string) => Style;
+  separator: string;
+  style: Style;
+}) => Style | Style[];
+
+export type UtilityGenerator = (generator: {
+  utility: Utility;
+  Style: {
+    (
+      selector: string,
+      property?: Property | Property[] | undefined,
+      important?: boolean
+    ): Style;
+    generate: (
+      parent?: string | undefined,
+      property?: NestObject | undefined,
+      root?: Style | undefined
+    ) => Style[];
+  };
+  Property: {
+    (
+      name: string | string[],
+      value?: string | undefined,
+      comment?: string | undefined,
+      important?: boolean
+    ): Property;
+    parse: (
+      css: string
+    ) => Property | InlineAtRule | (Property | InlineAtRule)[] | undefined;
+  };
+}) => Output;
 
 export interface Element {
   raw: string;
