@@ -20,6 +20,7 @@ const ts_plugin = is_publish
       typescript: require("typescript"),
     })
   : sucrase({
+      exclude: ['node_modules/**'],
       transforms: ["typescript"],
     });
 
