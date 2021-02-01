@@ -33,37 +33,41 @@ export class Processor {
   private _theme: Config["theme"];
   private _variants: { [key: string]: () => Style } = {};
   private _cache: {
-    tags: string[],
-    classes: string[],
-    utilities: string[],
+    tags: string[];
+    classes: string[];
+    utilities: string[];
   } = {
     tags: [],
     classes: [],
-    utilities: []
-  }
+    utilities: [],
+  };
   private _plugin: {
-    dynamic: {[key:string]: (utility: Utility) => Output}
-    utilities: {[key:string]:Style[]}
-    components: {[key:string]:Style[]}
-    preflights: {[key:string]:Style[]}
-    variants: {[key:string]:Style[]}
+    dynamic: { [key: string]: (utility: Utility) => Output };
+    utilities: { [key: string]: Style[] };
+    components: { [key: string]: Style[] };
+    preflights: { [key: string]: Style[] };
+    variants: { [key: string]: Style[] };
   } = {
     dynamic: {},
     utilities: {},
     components: {},
     preflights: {},
-    variants: {}
-  }
+    variants: {},
+  };
 
   public pluginUtils: PluginUtils = {
-    addDynamic: (key: string, generator: UtilityGenerator) => this.addDynamic(key, generator),
+    addDynamic: (key: string, generator: UtilityGenerator, options?: PluginUtilOptions) =>
+      this.addDynamic(key, generator, options),
     addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
     addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
       this.addComponents(components, options),
     addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
-    addVariant: (name: string, generator: VariantGenerator, options?: NestObject) =>
-      this.addVariant(name, generator, options),
+    addVariant: (
+      name: string,
+      generator: VariantGenerator,
+      options?: NestObject
+    ) => this.addVariant(name, generator, options),
     e: (selector: string) => this.e(selector),
     prefix: (selector: string) => this.prefix(selector),
     config: (path: string, defaultValue?: unknown) =>
@@ -75,12 +79,19 @@ export class Processor {
   };
 
   public variantUtils = {
-    modifySelectors: (modifier:(({className}:{className:string})=>string)):Style => new Style().wrapSelector((selector:string)=>modifier({className: /^[.#]/.test(selector)? selector.substring(1,): selector})),
-    atRule: (name:string):Style => new Style().atRule(name),
-    pseudoClass: (name:string):Style => new Style().pseudoClass(name),
-    pseudoElement: (name:string):Style => new Style().pseudoElement(name),
-    parent: (name:string):Style => new Style().parent(name),
-    child: (name:string):Style => new Style().child(name),
+    modifySelectors: (
+      modifier: ({ className }: { className: string }) => string
+    ): Style =>
+      new Style().wrapSelector((selector: string) =>
+        modifier({
+          className: /^[.#]/.test(selector) ? selector.substring(1) : selector,
+        })
+      ),
+    atRule: (name: string): Style => new Style().atRule(name),
+    pseudoClass: (name: string): Style => new Style().pseudoClass(name),
+    pseudoElement: (name: string): Style => new Style().pseudoElement(name),
+    parent: (name: string): Style => new Style().parent(name),
+    child: (name: string): Style => new Style().child(name),
   };
 
   constructor(config?: string | Config) {
@@ -151,13 +162,13 @@ export class Processor {
   }
 
   resolveVariants(
-    type?: "screen" | "theme" | "state",
+    type?: "screen" | "theme" | "state"
   ): { [key: string]: () => Style } {
     const variants = resolveVariants(this._config);
     if (type) {
       return variants[type];
     }
-    return {...variants.screen, ...variants.theme, ...variants.state};
+    return { ...variants.screen, ...variants.theme, ...variants.state };
   }
 
   get allConfig(): DefaultConfig {
@@ -173,7 +184,8 @@ export class Processor {
     if (!Array.isArray(styles)) styles = [styles];
     if (variants.length === 0) return styles;
     return styles.map((style) => {
-      return variants.filter(i => i in this._variants)
+      return variants
+        .filter((i) => i in this._variants)
         .map((i) => this._variants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           return previousValue.extend(currentValue);
@@ -438,12 +450,30 @@ export class Processor {
     return output;
   }
 
-  addDynamic(key:string, generator: UtilityGenerator): UtilityGenerator {
-    const style = (selector: string, property?: Property | Property[], important = false) => new Style(selector, property, important);
+  addDynamic(
+    key: string,
+    generator: UtilityGenerator,
+    options: PluginUtilOptions = {
+      variants: [],
+      respectPrefix: true,
+      respectImportant: true,
+    }
+  ): UtilityGenerator {
+    const style = (
+      selector: string,
+      property?: Property | Property[],
+      important = false
+    ) => new Style(selector, property, important);
     style.generate = Style.generate;
-    const prop = (name: string | string[], value?: string, comment?: string, important = false) => new Property(name, value, comment, important);
+    const prop = (
+      name: string | string[],
+      value?: string,
+      comment?: string,
+      important = false
+    ) => new Property(name, value, comment, important);
     prop.parse = Property.parse;
-    this._plugin.dynamic[key] = (Utility:Utility) => generator({Utility, Style: style, Property: prop});
+    this._plugin.dynamic[key] = (Utility: Utility) =>
+      generator({ Utility, Style: style, Property: prop });
     return generator;
   }
 
@@ -470,10 +500,18 @@ export class Processor {
     return output;
   }
 
-  addVariant(name: string, generator: VariantGenerator, options = {}): Style | Style[] {
+  addVariant(
+    name: string,
+    generator: VariantGenerator,
+    options = {}
+  ): Style | Style[] {
     // name && generator && options;
-    const style = generator({...this.variantUtils, separator: this.config("separator", ":") as string, style: new Style()});
-    this._plugin.variants[name] = Array.isArray(style) ? style : [ style ];
+    const style = generator({
+      ...this.variantUtils,
+      separator: this.config("separator", ":") as string,
+      style: new Style(),
+    });
+    this._plugin.variants[name] = Array.isArray(style) ? style : [style];
     return style;
   }
 }

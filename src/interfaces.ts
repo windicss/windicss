@@ -117,7 +117,7 @@ export interface StaticUtility {
 }
 
 export interface PluginUtils {
-  addDynamic: (key: string, generator: UtilityGenerator) => UtilityGenerator;
+  addDynamic: (key: string, generator: UtilityGenerator, options?: PluginUtilOptions) => UtilityGenerator;
   addUtilities: (
     utilities: DeepNestObject,
     options?: PluginUtilOptions
