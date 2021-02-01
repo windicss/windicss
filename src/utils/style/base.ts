@@ -219,6 +219,8 @@ export class Style {
     for (const [key, value] of Object.entries(property ?? {})) {
       if (typeof value === "string") {
         root.add(new Property(camelToDash(key), value));
+      } else if (Array.isArray(value)) {
+        value.map(i => root?.add(new Property(camelToDash(key), i)));
       } else {
         const wrap = deepCopy(root);
         wrap.property = [];

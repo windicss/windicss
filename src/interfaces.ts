@@ -4,7 +4,7 @@ import type { Property, Style, InlineAtRule } from "./utils/style";
 
 export type DictStr = { [key: string]: string };
 
-export type NestObject = { [key: string]: string | NestObject };
+export type NestObject = { [key: string]: string | string[] |NestObject };
 
 export type DeepNestObject = { [key: string]: NestObject };
 
