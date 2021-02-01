@@ -74,7 +74,7 @@ export class Processor {
       this.config(path, defaultValue),
     theme: (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue),
-    variants: (path: string, defaultValue?: unknown) =>
+    variants: (path: string, defaultValue?: string[]) =>
       this.variants(path, defaultValue),
   };
 
@@ -418,11 +418,11 @@ export class Processor {
     return (this.config(`corePlugins.${path}`, true) as boolean) ?? false;
   }
 
-  variants(path: string, defaultValue?: unknown): unknown {
+  variants(path: string, defaultValue: string[] = []): string[] {
     if (Array.isArray(this._config.variants)) {
       return this._config.variants;
     }
-    return this.config(`variants.${path}`, defaultValue);
+    return this.config(`variants.${path}`, defaultValue) as string[];
   }
 
   e(selector: string): string {

@@ -2,7 +2,6 @@ import type {
   Plugin,
   PluginUtils,
   Config,
-  NestObject,
   DictStr,
 } from "../interfaces";
 
@@ -17,8 +16,8 @@ const createPlugin: Plugin = (
 };
 
 createPlugin.withOptions = function (
-  pluginFunction: (options: DictStr) => NestObject,
-  configFunction: (options: DictStr) => NestObject = () => ({})
+  pluginFunction: (options: DictStr) => (utils: PluginUtils) => void,
+  configFunction: (options: DictStr) => Config = () => ({}),
 ) {
   const optionsFunction = function (options: DictStr) {
     return {

@@ -48,17 +48,17 @@ export type PluginUtilOptions =
     };
 
 export type withOptions = (
-  pluginFunction: (options: DictStr) => NestObject,
-  configFunction?: (options: DictStr) => NestObject
+  pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void),
+  configFunction?: (options: DictStr) => Config,
 ) => {
   (options: DictStr): {
     __options: DictStr;
-    handler: NestObject;
-    config: NestObject;
+    handler: ((utils: PluginUtils) => void);
+    config: Config;
   };
   __isOptionsFunction: boolean;
-  __pluginFunction: (options: DictStr) => NestObject;
-  __configFunction: (options: DictStr) => NestObject;
+  __pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void);
+  __configFunction: (options: DictStr) => Config;
 };
 
 export interface Plugin {
@@ -135,7 +135,7 @@ export interface PluginUtils {
   e: (selector: string) => string;
   prefix: (selector: string) => string;
   theme: (path: string, defaultValue?: unknown) => unknown;
-  variants: (path: string, defaultValue?: unknown) => unknown;
+  variants: (path: string, defaultValue?: string[]) => string[];
   config: (path: string, defaultValue?: unknown) => unknown;
 }
 
