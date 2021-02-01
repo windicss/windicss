@@ -1,6 +1,7 @@
 import type { Style } from "./base";
 import { hash } from "../tools";
-import { sortSelector, compileStyleSheet } from "../algorithm";
+import sortSelector from "../algorithm/sortSelector";
+import compileStyleSheet from "../algorithm/compileStyleSheet";
 
 export class StyleSheet {
   children: Style[];

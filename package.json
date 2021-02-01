@@ -75,6 +75,7 @@
   "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
     "@rollup/plugin-replace": "^2.3.4",
     "@rollup/plugin-sucrase": "^3.1.0",
@@ -84,8 +85,10 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "arg": "^5.0.0",
+    "css-select": "^3.1.2",
     "css-what": "^4.0.0",
     "eslint": "^7.18.0",
+    "htmlparser2": "^6.0.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
     "nyc": "^15.1.0",

@@ -5,6 +5,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import sucrase from "@rollup/plugin-sucrase";
 import typescript from "@rollup/plugin-typescript";
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 import pkg from "./package.json";
 
 const output_dir = "./dist";
@@ -229,6 +230,7 @@ export default [
       ],
       plugins: [
         ts_plugin,
+        json(),
         resolve(),
         commonjs(),
         types(`${dir}/index.d.ts`, `../types/${dir}/index`),
@@ -257,6 +259,7 @@ export default [
       ],
       plugins: [
         ts_plugin,
+        json(),
         resolve(),
         commonjs(),
         types(`utils/${dir}/index.d.ts`, `../../types/utils/${dir}/index`),
