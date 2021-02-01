@@ -3,11 +3,11 @@ import plugin from "../index";
 const lineClamp = plugin(
   function ({ addDynamic, theme }) {
 
-    addDynamic('line-clamp', ({ utility, Property, Style }) => {
-      if (utility.amount === 'none') return Style(utility.class, Property('-webkit-line-clamp', 'unset'));
-      const value = utility.handler.handleStatic(theme('lineClamp')).handleNumber(1, undefined, 'int').value;
+    addDynamic('line-clamp', ({ Utility, Property, Style }) => {
+      if (Utility.amount === 'none') return Style(Utility.class, Property('-webkit-line-clamp', 'unset'));
+      const value = Utility.handler.handleStatic(theme('lineClamp')).handleNumber(1, undefined, 'int').value;
       if (value) {
-        return Style.generate(utility.class, {
+        return Style.generate(Utility.class, {
           overflow: 'hidden',
           display: '-webkit-box',
           '-webkit-box-orient': 'vertical',

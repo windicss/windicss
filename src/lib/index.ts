@@ -443,7 +443,7 @@ export class Processor {
     style.generate = Style.generate;
     const prop = (name: string | string[], value?: string, comment?: string, important = false) => new Property(name, value, comment, important);
     prop.parse = Property.parse;
-    this._plugin.dynamic[key] = (utility:Utility) => generator({utility, Style: style, Property: prop});
+    this._plugin.dynamic[key] = (Utility:Utility) => generator({Utility, Style: style, Property: prop});
     return generator;
   }
 

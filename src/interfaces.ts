@@ -21,6 +21,11 @@ export type FontSize = [
   options?: { letterSpacing?: string; lineHeight?: string }
 ];
 
+export type DefaultFontSize = [
+  fontSize: string,
+  options: { letterSpacing?: string; lineHeight: string }
+];
+
 export type ThemeUtil = (path: string, defaultValue?: unknown) => unknown;
 
 export type ConfigUtil = (
@@ -85,7 +90,7 @@ export interface DefaultTheme {
   colors: { [key: string]: string | { [key: string]: string } };
   container: { [key: string]: string | { [key: string]: string } };
   fontFamily: { [key: string]: string[] };
-  fontSize: { [key: string]: FontSize };
+  fontSize: { [key: string]: DefaultFontSize };
   keyframes: { [key: string]: { [key: string]: string } };
   outline: { [key: string]: [outline: string, outlineOffset: string] };
 }
@@ -95,7 +100,7 @@ export interface DefaultTheme {
     | DictStr
     | { [key: string]: string | { [key: string]: string } }
     | { [key: string]: string[] }
-    | { [key: string]: FontSize };
+    | { [key: string]: DefaultFontSize };
 }
 
 export interface DefaultConfig {
@@ -148,7 +153,7 @@ export type VariantGenerator = (generator: {
 }) => Style | Style[];
 
 export type UtilityGenerator = (generator: {
-  utility: Utility;
+  Utility: Utility;
   Style: {
     (
       selector: string,

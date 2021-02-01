@@ -1,4 +1,4 @@
-const colors: { [key: string]: string | { [key: string]: string } } = {
+export default {
   black: "#000",
   white: "#fff",
   rose: {
@@ -266,5 +266,3 @@ const colors: { [key: string]: string | { [key: string]: string } } = {
     900: "#0f172a",
   },
 };
-
-export default colors;
