@@ -28,9 +28,13 @@
       "import": "./colors.mjs",
       "require": "./colors.js"
     },
-    "./cli": {
-      "import": "./cli/index.mjs",
-      "require": "./cli/index.js"
+    "./defaultConfig": {
+      "import": "./defaultConfig.mjs",
+      "require": "./defaultConfig.js"
+    },
+    "./defaultTheme": {
+      "import": "./defaultTheme.mjs",
+      "require": "./defaultTheme.js"
     },
     "./config": {
       "import": "./config/index.mjs",
@@ -91,6 +95,7 @@
     "htmlparser2": "^6.0.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
+    "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
     "rollup": "^2.37.0",
     "ts-node": "^9.1.1",

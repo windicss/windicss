@@ -2,8 +2,6 @@ import { FontSize, NestObject } from "../../interfaces";
 import { isPlainObject, castArray } from "../../utils/tools";
 import plugin from "../index";
 
-const _ = require('lodash');
-
 const defaultOptions = {
   ellipsis: true,
   hyphens: true,
@@ -19,9 +17,9 @@ const camelCaseToKebabCase = function(string: string) {
     .toLowerCase();
 };
 
-module.exports = plugin.withOptions(function(options = {}) {
+module.exports = plugin.withOptions(function(userOptions = {}) {
   return function({ theme, variants, e, addUtilities, addComponents, addDynamic }) {
-    options = _.defaults({}, options, defaultOptions);
+    const options = {...userOptions, ...defaultOptions};
 
     addDynamic('indent', ({ Utility }) => {
       return Utility.handler.handleStatic(theme('textIndent')).handleSpacing().handleSize().handleNegative().createProperty('text-indent');

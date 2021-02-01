@@ -56,7 +56,7 @@ const types = (dest = "index.d.ts", src = "../types/index", module = "*") => {
   };
 };
 
-const pack = (dir) => {
+const pack = (dir, mjs = true) => {
   return {
     writeBundle() {
       fs.writeFileSync(
@@ -186,6 +186,27 @@ export default [
       pack("plugin"),
     ],
   },
+
+  // plugin deep
+  ...fs
+    .readdirSync("src/plugin")
+    .filter(
+      (dir) => fs.statSync(`src/plugin/${dir}`).isDirectory()
+    )
+    .map((dir) => ({
+      input: `src/plugin/${dir}/index.ts`,
+      output: [
+        {
+          file: dump(`plugin/${dir}/index.js`),
+          format: "cjs",
+        }
+      ],
+      plugins: [
+        ts_plugin,
+        resolve(),
+        commonjs(),
+      ],
+    })),
 
   // cli
   {
