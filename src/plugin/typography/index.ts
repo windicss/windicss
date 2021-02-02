@@ -17,7 +17,7 @@ const camelCaseToKebabCase = function(string: string) {
     .toLowerCase();
 };
 
-module.exports = plugin.withOptions(function(userOptions = {}) {
+export default plugin.withOptions(function(userOptions = {}) {
   return function({ theme, variants, e, addUtilities, addComponents, addDynamic }) {
     const options = {...userOptions, ...defaultOptions};
 

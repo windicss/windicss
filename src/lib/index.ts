@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { cssEscape } from "../utils/algorithm";
+import { cssEscape, combineConfig } from "../utils/algorithm";
 import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Property, Style, StyleSheet } from "../utils/style";
@@ -41,7 +41,7 @@ export class Processor {
     classes: [],
     utilities: [],
   };
-  private _plugin: {
+  readonly _plugin: {
     dynamic: { [key: string]: (utility: Utility) => Output };
     utilities: { [key: string]: Style[] };
     components: { [key: string]: Style[] };
@@ -95,14 +95,12 @@ export class Processor {
   };
 
   constructor(config?: string | Config) {
-    this._config = this.resolveConfig(config);
+    this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
   }
 
-  private _resolveConfig(userConfig: Config) {
-    const presets = userConfig.presets
-      ? this._resolvePresets(userConfig.presets)
-      : baseConfig;
+  private _resolveConfig(userConfig: Config, presets: Config) {
+    if (userConfig.presets) presets = this._resolvePresets(userConfig.presets);
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
     const extendTheme = userTheme?.extend ?? ({} as { [key: string]: Theme });
@@ -117,7 +115,7 @@ export class Processor {
   private _resolvePresets(presets: Config[]) {
     let config: Config = {};
     presets.forEach((p) => {
-      config = { ...config, ...this._resolveConfig(p) };
+      config = this._resolveConfig(config, p);
     });
     return config;
   }
@@ -145,7 +143,7 @@ export class Processor {
     // not support yet
   }
 
-  resolveConfig(config: string | Config | undefined): Config {
+  resolveConfig(config: string | Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig(
       deepCopy(
         config
@@ -153,7 +151,7 @@ export class Processor {
             ? require(resolve(config))
             : config
           : {}
-      )
+      ), presets
     ); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
@@ -216,7 +214,7 @@ export class Processor {
   }
 
   extract(className: string, addComment = false): Style | Style[] | undefined {
-    return extract(this.pluginUtils, className, addComment);
+    return extract(this, className, addComment);
   }
 
   preflight(
@@ -398,6 +396,18 @@ export class Processor {
       className,
       styleSheet,
     };
+  }
+
+  loadPlugin({ handler, config }:{ handler: (utils: PluginUtils) => void,
+    config?: Config
+  }): void {
+    if (config) {
+      config = this._resolveFunction(config);
+      this._config = combineConfig(config as {[key:string]:unknown}, this._config as {[key:string]:unknown});
+      this._theme = this._config.theme;
+      this._variants = this.resolveVariants();
+    }
+    handler(this.pluginUtils);
   }
 
   // tailwind interfaces

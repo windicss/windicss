@@ -1,6 +1,6 @@
 import plugin from "../index";
 
-const lineClamp = plugin(
+export default plugin(
   function ({ addDynamic, theme }) {
 
     addDynamic('line-clamp', ({ Utility, Property, Style }) => {
@@ -26,5 +26,3 @@ const lineClamp = plugin(
     },
   }
 )
-
-module.exports = lineClamp

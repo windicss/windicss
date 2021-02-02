@@ -1,10 +1,10 @@
 import { Utility } from "./utilities/handler";
 import { Style, Property } from "../utils/style";
 import { staticUtilities, dynamicUtilities } from "./utilities";
-import type { PluginUtils } from "../interfaces";
+import type { Processor } from "./index";
 
 export default function extract(
-  utils: PluginUtils,
+  processor: Processor,
   className: string,
   addComment = false
 ): Style | Style[] | undefined {
@@ -22,9 +22,9 @@ export default function extract(
   }
   const matches = className.match(/\w+/);
   const key = matches ? matches[0] : undefined;
+  const utility = new Utility(className);
   if (key && key in dynamicUtilities) {
-    const utility = new Utility(className);
-    let style = dynamicUtilities[key](utility, utils);
+    let style = dynamicUtilities[key](utility, processor.pluginUtils);
     if (!style) return;
     if (style instanceof Property) style = style.toStyle(utility.class);
     if (addComment)
@@ -32,5 +32,16 @@ export default function extract(
         ? style.map((i) => i.property.forEach((p) => (p.comment = className)))
         : style.property.forEach((p) => (p.comment = className));
     return style;
+  }
+  for (const [key, func] of Object.entries(processor._plugin.dynamic)) {
+     if (className.startsWith(key)) {
+       let style = func(utility);
+       if (style instanceof Property) style = style.toStyle(utility.class);
+       if (style && addComment)
+        Array.isArray(style)
+          ? style.map((i) => i.property.forEach((p) => (p.comment = className)))
+          : style.property.forEach((p) => (p.comment = className));
+       if (style) return style;
+     }
   }
 }

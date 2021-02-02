@@ -1,7 +1,7 @@
 import plugin from "../index";
 import type { PluginUtilOptions } from "../../interfaces";
 
-module.exports = plugin(
+export default plugin(
   function ({ addDynamic, theme, variants }) {
     addDynamic("filter", ({ Utility }) => {
       return Utility.handler
@@ -9,11 +9,11 @@ module.exports = plugin(
         .createProperty(["-webkit-filter", "filter"]);
       }, variants('filter') as PluginUtilOptions);
 
-    addDynamic("backdrop-filter", ({ Utility }) => {
+    addDynamic("backdrop", ({ Utility }) => {
       return Utility.handler
-        .handleStatic(theme("backdrop-filter"))
+        .handleStatic(theme("backdropFilter"))
         .createProperty(["-webkit-backdrop-filter", "backdrop-filter"]);
-      }, variants('backdrop-filter') as PluginUtilOptions);
+      }, variants('backdropFilter') as PluginUtilOptions);
 
     addDynamic("blur", ({ Utility }) => {
       return Utility.handler

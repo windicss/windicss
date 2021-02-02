@@ -198,6 +198,7 @@ export default [
       output: [
         {
           file: dump(`plugin/${dir}/index.js`),
+          exports: "default",
           format: "cjs",
         }
       ],

@@ -9,7 +9,7 @@ const [baseFontSize, { lineHeight: baseLineHeight }] = defaultTheme.fontSize.bas
 const { borderWidth, borderRadius, outline } = defaultTheme;
 const spacing = (num:number) => `${num/4}rem`;
 
-const forms = plugin(function ({ addBase, theme }) {
+export default plugin(function ({ addBase, theme }) {
   addBase({
     [`
       [type='text'],
@@ -204,5 +204,3 @@ const forms = plugin(function ({ addBase, theme }) {
     },
   })
 })
-
-module.exports = forms
