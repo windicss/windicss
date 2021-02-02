@@ -18,11 +18,11 @@ export default plugin(
     addDynamic("blur", ({ Utility }) => {
       return Utility.handler
         .handleStatic(theme("blur"))
-        .handleNumber(0, undefined, "float")
+        .handleNumber(0, undefined, "float", (number)=>`${number}px`)
         .handleSize()
         .createProperty(
           ["-webkit-backdrop-filter", "backdrop-filter"],
-          (value: string) => `${value}px`
+          (value: string) => value
         );
       }, variants('blur') as PluginUtilOptions);
   },
