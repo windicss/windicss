@@ -11,23 +11,25 @@ const spacing = (num:number) => `${num/4}rem`;
 
 export default plugin(function ({ addBase, theme }) {
   addBase({
-    [`
-      [type='text'],
-      [type='email'],
-      [type='url'],
-      [type='password'],
-      [type='number'],
-      [type='date'],
-      [type='datetime-local'],
-      [type='month'],
-      [type='search'],
-      [type='tel'],
-      [type='time'],
-      [type='week'],
-      [multiple],
-      textarea,
-      select
-    `]: {
+[`
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select
+`]: {
+      '-webkit-appearance': 'none',
+      '-moz-appearance': 'none',
       appearance: 'none',
       'background-color': '#fff',
       'border-color': theme('colors.gray.500', colors.gray['500']) as string,
@@ -51,6 +53,16 @@ export default plugin(function ({ addBase, theme }) {
         'box-shadow': `var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)`,
         'border-color': theme('colors.blue.600', colors.blue[600]) as string,
       },
+    },
+
+    'input::-moz-placeholder, textarea::-moz-placeholder': {
+      color: theme('colors.gray.500', colors.gray[500]) as string,
+      opacity: '1',
+    },
+
+    'input::-ms-input-placeholder, textarea::-ms-input-placeholder': {
+      color: theme('colors.gray.500', colors.gray[500]) as string,
+      opacity: '1',
     },
 
     'input::placeholder, textarea::placeholder': {
@@ -80,6 +92,7 @@ export default plugin(function ({ addBase, theme }) {
       'background-repeat': `no-repeat`,
       'background-size': `1.5em 1.5em`,
       'padding-right': spacing(10),
+      '-webkit-print-color-adjust': 'exact',
       'color-adjust': `exact`,
     },
 
@@ -89,19 +102,26 @@ export default plugin(function ({ addBase, theme }) {
       'background-repeat': 'unset',
       'background-size': 'initial',
       'padding-right': spacing(3),
+      '-webkit-print-color-adjust': 'unset',
       'color-adjust': 'unset',
     },
 
     [`
-      [type='checkbox'],
-      [type='radio']
-    `]: {
+[type='checkbox'],
+[type='radio']
+`]: {
+      '-webkit-appearance': 'none',
+      '-moz-appearance': 'none',
       appearance: 'none',
       padding: '0',
+      '-webkit-print-color-adjust': 'exact',
       'color-adjust': 'exact',
       display: 'inline-block',
       'vertical-align': 'middle',
       'background-origin': 'border-box',
+      '-webkit-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-ms-user-select': 'none',
       'user-select': 'none',
       'flex-shrink': '0',
       height: spacing(4),
@@ -121,8 +141,8 @@ export default plugin(function ({ addBase, theme }) {
     },
 
     [`
-      [type='checkbox']:focus,
-      [type='radio']:focus
+[type='checkbox']:focus,
+[type='radio']:focus
     `]: {
       outline: outline.none[0],
       'outline-offset': outline.none[1],
@@ -137,8 +157,8 @@ export default plugin(function ({ addBase, theme }) {
     },
 
     [`
-      [type='checkbox']:checked,
-      [type='radio']:checked
+[type='checkbox']:checked,
+[type='radio']:checked
     `]: {
       'border-color': `transparent`,
       'background-color': `currentColor`,
@@ -160,10 +180,10 @@ export default plugin(function ({ addBase, theme }) {
     },
 
     [`
-      [type='checkbox']:checked:hover,
-      [type='checkbox']:checked:focus,
-      [type='radio']:checked:hover,
-      [type='radio']:checked:focus
+[type='checkbox']:checked:hover,
+[type='checkbox']:checked:focus,
+[type='radio']:checked:hover,
+[type='radio']:checked:focus
     `]: {
       'border-color': 'transparent',
       'background-color': 'currentColor',
@@ -181,8 +201,8 @@ export default plugin(function ({ addBase, theme }) {
     },
 
     [`
-      [type='checkbox']:indeterminate:hover,
-      [type='checkbox']:indeterminate:focus
+[type='checkbox']:indeterminate:hover,
+[type='checkbox']:indeterminate:focus
     `]: {
       'border-color': 'transparent',
       'background-color': 'currentColor',

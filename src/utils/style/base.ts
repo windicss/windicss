@@ -240,6 +240,7 @@ export class Style {
                 (/&/.test(key) ? key : `& ${key}`).replace("&", selector);
               wrap.wrapSelector((selector) =>
                 selector
+                  .trim()
                   .replace(/\\/g, "")
                   .split(/\s*,\s*/g)
                   .map((s) =>
