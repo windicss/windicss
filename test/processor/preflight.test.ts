@@ -1,31 +1,22 @@
 import { Processor } from "../../src/lib";
 import { readFileSync } from "fs";
 
+const html = readFileSync("./test/assets/example.html").toString();
 const processor = new Processor();
 
 describe("Preflight", () => {
   it("some tags", () => {
     expect(
       processor
-        .preflight([
-          "div",
-          "img",
-          "p",
-          "ul",
-          "li",
-          "span",
-          "svg",
-          "path",
-          "code",
-          "a",
-        ])
+        .preflight(html)
         .build()
     ).toEqual(readFileSync("./test/assets/examplePreflight.css").toString());
 
     expect(
       processor
         .preflight(
-          ["div", "img", "p", "ul", "li", "span", "svg", "path", "code", "a"],
+          html,
+          true,
           false
         )
         .build()
@@ -59,9 +50,7 @@ ul {
     expect(
       processor
         .preflight(
-          ["div", "img", "p", "ul", "li", "span", "svg", "path", "code", "a"],
-          false,
-          true
+          html, false, false, false
         )
         .build()
     ).toEqual("");

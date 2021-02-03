@@ -1,11 +1,16 @@
+import purgeBase from "../utils/algorithm/purgeBase";
 import { baseUtilities } from "./utilities";
 import { Style, Property, StyleSheet } from "../utils/style";
+
 import type { ThemeUtil } from "../interfaces";
+import type { Processor } from "./index";
 
 export default function preflight(
-  theme: ThemeUtil,
-  tags?: string[],
-  global = true
+  processor: Processor,
+  html?: string,
+  includeBase = true,
+  includeGlobal = true,
+  includePlugins = true,
 ): StyleSheet {
   // Generate preflight style based on html tags.
   const globalSheet = new StyleSheet();
@@ -24,32 +29,52 @@ export default function preflight(
           ? value.map((v) => new Property(key, v))
           : new Property(
               key,
-              typeof value === "function" ? value(theme) : value
+              typeof value === "function" ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value
             )
       );
     }
     return style;
   };
 
-  baseUtilities.forEach((p) => {
-    if (global && p.global) {
-      globalSheet.add(createStyle(p.selector, p.properties));
-    } else if (tags) {
-      const includeTags = tags.filter((i) => p.keys.includes(i));
-      if (includeTags.length > 0)
+  const tags = html
+    ? Array.from(new Set(html.match(/<\w+/g))).map((i) => i.substring(1))
+    : undefined;
+
+  // handle base style
+  includeBase &&
+    baseUtilities.forEach((p) => {
+      if (includeGlobal && p.global) {
+        // global style, such as * or html, body
+        globalSheet.add(createStyle(p.selector, p.properties));
+      } else if (tags !== undefined) {
+        // only generate matched styles
+        const includeTags = tags.filter((i) => p.keys.includes(i));
+        if (includeTags.length > 0)
+          styleSheet.add(
+            createStyle(
+              p.selector ? p.selector : includeTags.join(", "),
+              p.properties
+            )
+          );
+      } else {
+        // if no tags input, generate all styles
         styleSheet.add(
-          createStyle(
-            p.selector ? p.selector : includeTags.join(", "),
-            p.properties
-          )
+          createStyle(p.selector ? p.selector : p.keys.join(", "), p.properties)
         );
-    } else {
-      styleSheet.add(
-        createStyle(p.selector ? p.selector : p.keys.join(", "), p.properties)
-      );
-    }
-  });
+      }
+    });
+
+  // handle plugin style
+  if (includePlugins) {
+    let pluginList: Style[] = [];
+    Object.values(processor._plugin.preflights).forEach((styles) => {
+      pluginList = pluginList.concat(styles);
+    });
+    styleSheet.add(html ? purgeBase(html, pluginList) : pluginList);
+  }
 
   const result = styleSheet.combine().sort();
-  return global ? result.extend(globalSheet.combine().sort(), false) : result;
+  return includeGlobal
+    ? result.extend(globalSheet.combine().sort(), false)
+    : result;
 }

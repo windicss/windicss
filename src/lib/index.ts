@@ -33,11 +33,11 @@ export class Processor {
   private _theme: Config["theme"];
   private _variants: { [key: string]: () => Style } = {};
   private _cache: {
-    tags: string[];
+    html: string[];
     classes: string[];
     utilities: string[];
   } = {
-    tags: [],
+    html: [],
     classes: [],
     utilities: [],
   };
@@ -218,16 +218,19 @@ export class Processor {
   }
 
   preflight(
-    tags?: string[],
-    global = true,
-    ignoreProcessed = false
+    html?: string,
+    includeBase = true,
+    includeGlobal = true,
+    includePlugins = true,
+    ignoreProcessed = false,
   ): StyleSheet {
-    if (ignoreProcessed && tags)
-      tags = tags.filter((i) => !this._cache.tags.includes(i));
-    const theme = (path: string, defaultValue?: unknown) =>
-      this.theme(path, defaultValue);
-    this._cache.tags = [...this._cache.tags, ...(tags ?? [])];
-    return preflight(theme, tags, global);
+    let id;
+    if (html) {
+      id = hash(html);
+      if (ignoreProcessed && this._cache.html.includes(id)) return new StyleSheet();
+    }
+    id && this._cache.html.push(id);
+    return preflight(this, html, includeBase, includeGlobal, includePlugins);
   }
 
   interpret(
