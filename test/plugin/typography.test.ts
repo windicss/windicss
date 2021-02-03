@@ -1,7 +1,7 @@
 import { Processor } from "../../src/lib";
 import { writeFileSync } from "fs";
 import typography from "../../src/plugin/typography";
-import type { Config, ThemeUtil } from "../../src/interfaces";
+import type { Config } from "../../src/interfaces";
 
 const userConfig:Config = {
   theme: {

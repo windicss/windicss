@@ -18,8 +18,6 @@ import {
   connectList,
   deepCopy,
   toType,
-  isPlainObject,
-  castArray,
 } from "../../src/utils";
 
 import { Property, Style} from "../../src/utils/style";
@@ -203,34 +201,4 @@ describe("Tools", () => {
     const style = new Style('.test', [new Property('font-size', '1em'), new Property('color', 'black')]);
     expect(deepCopy(style)).toEqual(style);
   });
-
-  it("isPlainObject", () => {
-    function Foo(this:{a: number}):void {
-      this.a = 1;
-    }
-    class Joe {
-      a: number;
-      constructor(a:number) {
-        this.a = a;
-      }
-    }
-    expect(isPlainObject(Foo)).toBeFalse();
-    expect(isPlainObject(Joe)).toBeFalse();
-    expect(isPlainObject(new Joe(1))).toBeFalse();
-    expect(isPlainObject(3)).toBeFalse();
-    expect(isPlainObject([1, 2, 3])).toBeFalse();
-    expect(isPlainObject({ 'x': 0, 'y': 0 })).toBeTrue();
-    expect(isPlainObject(Object.create(null))).toBeTrue();
-  })
-
-  it("castArray", () => {
-    expect(castArray(1)).toEqual([1]);
-    expect(castArray({ 'a': 1 })).toEqual([{ 'a': 1 }]);
-    expect(castArray('abc')).toEqual(['abc']);
-    expect(castArray(null)).toEqual([null]);
-    expect(castArray(undefined)).toEqual([undefined]);
-    expect(castArray()).toEqual([]);
-    const array = [1, 2, 3];
-    expect(castArray(array)).toEqual(array);
-  })
 });

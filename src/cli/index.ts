@@ -141,7 +141,7 @@ if (args["--compile"]) {
     Console.log(`${file} -> ${outputFile}`);
 
     if (args["--preflight"])
-      preflights.push(processor.preflight(parser.parseTags()));
+      preflights.push(processor.preflight(parser.html));
   });
 } else {
   // interpretation mode
@@ -157,7 +157,7 @@ if (args["--compile"]) {
     ignoredClasses = [...ignoredClasses, ...utility.ignored];
 
     if (args["--preflight"])
-      preflights.push(processor.preflight(parser.parseTags()));
+      preflights.push(processor.preflight(parser.html));
   });
 }
 
