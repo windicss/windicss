@@ -50,7 +50,19 @@ export type PluginUtilOptions =
 export type withOptions = (
   pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void),
   configFunction?: (options: DictStr) => Config,
-) => {
+) => PluginWithOptionsOutput;
+
+export interface Plugin {
+  (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
+  withOptions: withOptions;
+}
+
+export interface PluginOutput {
+  handler: (utils: PluginUtils) => void;
+  config?: Config;
+}
+
+export interface PluginWithOptionsOutput {
   (options: DictStr): {
     __options: DictStr;
     handler: ((utils: PluginUtils) => void);
@@ -59,14 +71,6 @@ export type withOptions = (
   __isOptionsFunction: boolean;
   __pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void);
   __configFunction: (options: DictStr) => Config;
-};
-
-export interface Plugin {
-  (handler: (utils: PluginUtils) => void, config?: Config): {
-    handler: (utils: PluginUtils) => void;
-    config?: Config;
-  };
-  withOptions: withOptions;
 }
 
 export interface Theme {

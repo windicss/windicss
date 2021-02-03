@@ -12,6 +12,7 @@ import baseConfig from "../config/base";
 
 import type {
   Config,
+  DictStr,
   DefaultConfig,
   ConfigUtil,
   Theme,
@@ -20,6 +21,8 @@ import type {
   Element,
   PluginUtils,
   PluginUtilOptions,
+  PluginOutput,
+  PluginWithOptionsOutput,
   NestObject,
   DeepNestObject,
   UtilityGenerator,
@@ -42,7 +45,7 @@ export class Processor {
     utilities: [],
   };
   readonly _plugin: {
-    dynamic: { [key: string]: (utility: Utility) => Output };
+    dynamic: { [key: string]: ((utility: Utility) => Output)};
     utilities: { [key: string]: Style[] };
     components: { [key: string]: Style[] };
     preflights: { [key: string]: Style[] };
@@ -56,8 +59,11 @@ export class Processor {
   };
 
   public pluginUtils: PluginUtils = {
-    addDynamic: (key: string, generator: UtilityGenerator, options?: PluginUtilOptions) =>
-      this.addDynamic(key, generator, options),
+    addDynamic: (
+      key: string,
+      generator: UtilityGenerator,
+      options?: PluginUtilOptions
+    ) => this.addDynamic(key, generator, options),
     addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
     addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
@@ -151,7 +157,8 @@ export class Processor {
             ? require(resolve(config))
             : config
           : {}
-      ), presets
+      ),
+      presets
     ); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
@@ -222,12 +229,13 @@ export class Processor {
     includeBase = true,
     includeGlobal = true,
     includePlugins = true,
-    ignoreProcessed = false,
+    ignoreProcessed = false
   ): StyleSheet {
     let id;
     if (html) {
       id = hash(html);
-      if (ignoreProcessed && this._cache.html.includes(id)) return new StyleSheet();
+      if (ignoreProcessed && this._cache.html.includes(id))
+        return new StyleSheet();
     }
     id && this._cache.html.push(id);
     return preflight(this, html, includeBase, includeGlobal, includePlugins);
@@ -401,16 +409,25 @@ export class Processor {
     };
   }
 
-  loadPlugin({ handler, config }:{ handler: (utils: PluginUtils) => void,
-    config?: Config
-  }): void {
+  loadPlugin({
+    handler,
+    config,
+  }: PluginOutput): void {
     if (config) {
       config = this._resolveFunction(config);
-      this._config = combineConfig(config as {[key:string]:unknown}, this._config as {[key:string]:unknown});
+      this._config = combineConfig(
+        config as { [key: string]: unknown },
+        this._config as { [key: string]: unknown }
+      );
       this._theme = this._config.theme;
       this._variants = this.resolveVariants();
     }
     handler(this.pluginUtils);
+  }
+
+  loadPluginWithOptions(optionsFunction: PluginWithOptionsOutput, userOptions?:DictStr): void {
+    const plugin = optionsFunction(userOptions ?? {});
+    this.loadPlugin(plugin);
   }
 
   // tailwind interfaces
@@ -485,8 +502,13 @@ export class Processor {
       important = false
     ) => new Property(name, value, comment, important);
     prop.parse = Property.parse;
-    this._plugin.dynamic[key] = (Utility: Utility) =>
-      generator({ Utility, Style: style, Property: prop });
+    if (key in this._plugin.dynamic) {
+      // handle duplicated key;
+      const oldGenerator = deepCopy(this._plugin.dynamic[key]);
+      this._plugin.dynamic[key] = (Utility: Utility) => oldGenerator(Utility) || generator({ Utility, Style: style, Property: prop });
+    } else {
+      this._plugin.dynamic[key] = (Utility: Utility) => generator({ Utility, Style: style, Property: prop });
+    }
     return generator;
   }
 
