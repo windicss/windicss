@@ -149,6 +149,20 @@ export class Processor {
     // not support yet
   }
 
+  private _replaceStyleVariants(styles: Style[]) {
+    // @screen sm -> @screen (min-width: 640px)
+    styles.forEach(style => {
+      style.atRules = style.atRules?.map(i => {
+        if (i.match(/@screen/)) {
+          const variant = i.replace(/\s*@screen\s*/, "");
+          const atRule = this._variants[variant]().atRules?.[0];
+          return atRule ?? i;
+        }
+        return i;
+      })
+    })
+  }
+
   resolveConfig(config: string | Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig(
       deepCopy(
@@ -474,6 +488,7 @@ export class Processor {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key, value);
+
       output = [...output, ...styles];
       this._plugin.utilities[key] = styles;
     }
@@ -519,6 +534,7 @@ export class Processor {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key, value);
+      this._replaceStyleVariants(styles);
       output = [...output, ...styles];
       this._plugin.components[key] = styles;
     }
@@ -529,6 +545,7 @@ export class Processor {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
       const styles = Style.generate(key, value);
+      this._replaceStyleVariants(styles);
       output = [...output, ...styles];
       this._plugin.preflights[key] = styles;
     }

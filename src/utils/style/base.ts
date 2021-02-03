@@ -132,6 +132,7 @@ export class Style {
   selector?: string;
   important: boolean;
   property: Property[];
+  atRules?: string[];
   private _pseudoClasses?: string[];
   private _pseudoElements?: string[];
   private _parentSelectors?: string[];
@@ -140,7 +141,6 @@ export class Style {
   private _wrapProperties?: ((property: string) => string)[];
   private _wrapSelectors?: ((selector: string) => string)[];
   private _wrapRules?: ((rule: string) => string)[];
-  private _atRules?: string[];
 
   constructor(
     selector?: string,
@@ -168,10 +168,6 @@ export class Style {
     this._childSelectors && (result += ` ${this._childSelectors.join(" ")}`);
     (this._wrapRules ?? []).forEach((func) => (result = func(result)));
     return result;
-  }
-
-  get atRules(): string[] | undefined {
-    return this._atRules;
   }
 
   get pseudoClasses(): string[] | undefined {
@@ -266,10 +262,10 @@ export class Style {
 
   atRule(atrule?: string, append = true): this {
     if (!atrule) return this;
-    if (this._atRules) {
-      append ? this._atRules.push(atrule) : this._atRules.unshift(atrule);
+    if (this.atRules) {
+      append ? this.atRules.push(atrule) : this.atRules.unshift(atrule);
     } else {
-      this._atRules = [atrule];
+      this.atRules = [atrule];
     }
     return this;
   }
@@ -376,8 +372,8 @@ export class Style {
     }
     if (onlyProperty) return this;
     item.selector && (this.selector = item.selector);
-    item._atRules &&
-      (this._atRules = connectList(item._atRules, this._atRules, append)); // atrule is build in reverse
+    item.atRules &&
+      (this.atRules = connectList(item.atRules, this.atRules, append)); // atrule is build in reverse
     item._brotherSelectors &&
       (this._brotherSelectors = connectList(
         this._brotherSelectors,
@@ -478,7 +474,7 @@ export class Style {
           : p.build(minify);
       })
       .join(minify ? "" : "\n");
-    if (!this.selector && !this._atRules) return result.replace(/;}/g, "}");
+    if (!this.selector && !this.atRules) return result.replace(/;}/g, "}");
     if (this.selector)
       result =
         (minify ? this.rule.replace(/,\s/g, ",") : this.rule + " ") +
@@ -489,8 +485,8 @@ export class Style {
           undefined,
           result !== "" ? minify : true
         );
-    if (this._atRules) {
-      for (const rule of this._atRules) {
+    if (this.atRules) {
+      for (const rule of this.atRules) {
         result = minify
           ? `${rule.replace(/\s/g, "")}${wrapit(
               result,
