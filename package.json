@@ -1,6 +1,6 @@
 {
   "name": "windicss",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Next generation tailwindcss compiler.",
   "main": "index.js",
   "module": "index.mjs",
@@ -47,6 +47,26 @@
     "./plugin": {
       "import": "./plugin/index.mjs",
       "require": "./plugin/index.js"
+    },
+    "./plugin/aspect-ratio": {
+      "import": "./plugin/aspect-ratio/index.js",
+      "require": "./plugin/aspect-ratio/index.js"
+    },
+    "./plugin/filters": {
+      "import": "./plugin/filters/index.js",
+      "require": "./plugin/filters/index.js"
+    },
+    "./plugin/forms": {
+      "import": "./plugin/forms/index.js",
+      "require": "./plugin/forms/index.js"
+    },
+    "./plugin/line-clamp": {
+      "import": "./plugin/line-clamp/index.js",
+      "require": "./plugin/line-clamp/index.js"
+    },
+    "./plugin/typography": {
+      "import": "./plugin/typography/index.js",
+      "require": "./plugin/typography/index.js"
     },
     "./utils": {
       "import": "./utils/index.mjs",
