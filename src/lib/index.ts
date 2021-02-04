@@ -1,14 +1,15 @@
 import { resolve } from "path";
-import { cssEscape, combineConfig } from "../utils/algorithm";
 import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Property, Style, StyleSheet } from "../utils/style";
-import { ClassParser } from "../utils/parser";
 import { resolveVariants } from "./variants";
 
 import extract from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
+import cssEscape from "../utils/algorithm/cssEscape";
+import combineConfig from "../utils/algorithm/combineConfig";
+import ClassParser from "../utils/parser/class";
 
 import type {
   Config,

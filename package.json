@@ -96,7 +96,6 @@
     "htmlparser2": "^6.0.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
-    "lodash.merge": "^4.6.2",
     "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
     "rollup": "^2.37.0",
