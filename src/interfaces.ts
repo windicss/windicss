@@ -128,7 +128,7 @@ export interface PluginUtils {
     options?: PluginUtilOptions
   ) => Style[];
   addComponents: (
-    components: DeepNestObject,
+    components: DeepNestObject | DeepNestObject[],
     options?: PluginUtilOptions
   ) => Style[];
   addBase: (baseStyles: DeepNestObject) => Style[];

@@ -66,7 +66,7 @@ export class Processor {
     ) => this.addDynamic(key, generator, options),
     addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
       this.addUtilities(utilities, options),
-    addComponents: (components: DeepNestObject, options?: PluginUtilOptions) =>
+    addComponents: (components: DeepNestObject | DeepNestObject[], options?: PluginUtilOptions) =>
       this.addComponents(components, options),
     addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
     addVariant: (
@@ -529,10 +529,15 @@ export class Processor {
   }
 
   addComponents(
-    components: DeepNestObject,
+    components: DeepNestObject | DeepNestObject[],
     options: PluginUtilOptions = { variants: [], respectPrefix: true }
   ): Style[] {
     let output: Style[] = [];
+    if (Array.isArray(components)) {
+      components = components.reduce((previous: {[key:string]:unknown}, current) => {
+        return combineConfig(previous, current);
+      }, {}) as DeepNestObject;
+    }
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key, value);
       this._replaceStyleVariants(styles);
