@@ -176,6 +176,7 @@ export class Processor {
     ); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
+    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i) );
     this._variants = this.resolveVariants();
     return this._config;
   }

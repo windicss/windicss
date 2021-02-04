@@ -27,7 +27,7 @@ createPlugin.withOptions = function (
     };
   };
 
-  optionsFunction.__isOptionsFunction = true;
+  optionsFunction.__isOptionsFunction = true as const;
 
   // Expose plugin dependencies so that `object-hash` returns a different
   // value if anything here changes, to ensure a rebuild is triggered.

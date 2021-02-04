@@ -60,6 +60,7 @@ export interface Plugin {
 export interface PluginOutput {
   handler: (utils: PluginUtils) => void;
   config?: Config;
+  __isOptionsFunction?: false;
 }
 
 export interface PluginWithOptionsOutput {
@@ -68,7 +69,7 @@ export interface PluginWithOptionsOutput {
     handler: ((utils: PluginUtils) => void);
     config: Config;
   };
-  __isOptionsFunction: boolean;
+  __isOptionsFunction: true;
   __pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void);
   __configFunction: (options: DictStr) => Config;
 }
@@ -85,7 +86,7 @@ export interface Config {
   theme?: Theme;
   variantOrder?: string[];
   variants?: { [key: string]: string[] };
-  plugins?: Plugin[];
+  plugins?: (PluginOutput|PluginWithOptionsOutput)[];
   corePlugins?: string[];
   prefix?: string;
 }
@@ -113,7 +114,7 @@ export interface DefaultConfig {
   theme: DefaultTheme;
   variantOrder: string[];
   variants: { [key: string]: string[] };
-  plugins: Plugin[];
+  plugins: (PluginOutput|PluginWithOptionsOutput)[];
 }
 
 export interface StaticUtility {
