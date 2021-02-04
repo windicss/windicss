@@ -24,7 +24,6 @@ import type {
   PluginUtilOptions,
   PluginOutput,
   PluginWithOptionsOutput,
-  NestObject,
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
@@ -50,7 +49,7 @@ export class Processor {
     utilities: { [key: string]: Style[] };
     components: { [key: string]: Style[] };
     preflights: { [key: string]: Style[] };
-    variants: { [key: string]: Style[] };
+    variants: { [key: string]: () => Style };
   } = {
     dynamic: {},
     utilities: {},
@@ -72,9 +71,8 @@ export class Processor {
     addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
     addVariant: (
       name: string,
-      generator: VariantGenerator,
-      options?: NestObject
-    ) => this.addVariant(name, generator, options),
+      generator: VariantGenerator
+    ) => this.addVariant(name, generator),
     e: (selector: string) => this.e(selector),
     prefix: (selector: string) => this.prefix(selector),
     config: (path: string, defaultValue?: unknown) =>
@@ -204,10 +202,11 @@ export class Processor {
     // apply variant to style
     if (!Array.isArray(styles)) styles = [styles];
     if (variants.length === 0) return styles;
+    const allVariants = { ...this._variants, ...this._plugin.variants };
     return styles.map((style) => {
       return variants
-        .filter((i) => i in this._variants)
-        .map((i) => this._variants[i]())
+        .filter((i) => i in allVariants)
+        .map((i) => allVariants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           return previousValue.extend(currentValue);
         }, new Style())
@@ -487,10 +486,11 @@ export class Processor {
       respectImportant: true,
     }
   ): Style[] {
+    if (Array.isArray(options)) options = { variants: options };
     let output: Style[] = [];
     for (const [key, value] of Object.entries(utilities)) {
-      const styles = Style.generate(key, value);
-
+      const styles = Style.generate(options.respectPrefix?this.prefix(key):key, value);
+      if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       output = [...output, ...styles];
       this._plugin.utilities[key] = styles;
     }
@@ -506,23 +506,23 @@ export class Processor {
       respectImportant: true,
     }
   ): UtilityGenerator {
+    const uOptions = Array.isArray(options)? { variants:options } : options;
     const style = (
       selector: string,
       property?: Property | Property[],
-      important = false
+      important:boolean = uOptions.respectImportant && this._config.important ? true : false
     ) => new Style(selector, property, important);
-    style.generate = Style.generate;
     const prop = (
       name: string | string[],
       value?: string,
       comment?: string,
-      important = false
+      important = uOptions.respectImportant && this._config.important ? true : false
     ) => new Property(name, value, comment, important);
+    style.generate = Style.generate;
     prop.parse = Property.parse;
     if (key in this._plugin.dynamic) {
       // handle duplicated key;
-      const oldGenerator = deepCopy(this._plugin.dynamic[key]);
-      this._plugin.dynamic[key] = (Utility: Utility) => oldGenerator(Utility) || generator({ Utility, Style: style, Property: prop });
+      this._plugin.dynamic[key] = (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop });
     } else {
       this._plugin.dynamic[key] = (Utility: Utility) => generator({ Utility, Style: style, Property: prop });
     }
@@ -531,8 +531,9 @@ export class Processor {
 
   addComponents(
     components: DeepNestObject | DeepNestObject[],
-    options: PluginUtilOptions = { variants: [], respectPrefix: true }
+    options: PluginUtilOptions = { variants: [], respectPrefix: false }
   ): Style[] {
+    if (Array.isArray(options)) options = { variants: options };
     let output: Style[] = [];
     if (Array.isArray(components)) {
       components = components.reduce((previous: {[key:string]:unknown}, current) => {
@@ -540,10 +541,11 @@ export class Processor {
       }, {}) as DeepNestObject;
     }
     for (const [key, value] of Object.entries(components)) {
-      const styles = Style.generate(key, value);
+      const pkey = options.respectPrefix ? this.prefix(key): key;
+      const styles = Style.generate(pkey, value);
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
-      this._plugin.components[key] = styles;
+      this._plugin.components[pkey] = styles;
     }
     return output;
   }
@@ -562,7 +564,6 @@ export class Processor {
   addVariant(
     name: string,
     generator: VariantGenerator,
-    options = {}
   ): Style | Style[] {
     // name && generator && options;
     const style = generator({
@@ -570,7 +571,7 @@ export class Processor {
       separator: this.config("separator", ":") as string,
       style: new Style(),
     });
-    this._plugin.variants[name] = Array.isArray(style) ? style : [style];
+    this._plugin.variants[name] = () => style;
     return style;
   }
 }

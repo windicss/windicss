@@ -135,7 +135,6 @@ export interface PluginUtils {
   addVariant: (
     name: string,
     generator: VariantGenerator,
-    options?: NestObject
   ) => Style | Style[];
   e: (selector: string) => string;
   prefix: (selector: string) => string;
@@ -155,7 +154,7 @@ export type VariantGenerator = (generator: {
   child: (name: string) => Style;
   separator: string;
   style: Style;
-}) => Style | Style[];
+}) => Style;
 
 export type UtilityGenerator = (generator: {
   Utility: Utility;

@@ -53,10 +53,11 @@ describe("Plugin Method", () => {
 
   it("addVariant pseudoClass", () => {
     const test = new Style('.float-right', new Property('float', 'right'));
-    const style = processor.addVariant('disabled', ({ pseudoClass }) => {
+    const style = processor.addVariant('disable', ({ pseudoClass }) => {
       return pseudoClass('disabled');
     });
     expect(Array.isArray(style) || style.extend(test).build()).toBe('.float-right:disabled {\n  float: right;\n}');
+    expect(processor.interpret("disable:float-right").styleSheet.build()).toBe('.disable\\:float-right:disabled {\n  float: right;\n}')
   })
 
   it("addVariant modifySelectors", () => {
