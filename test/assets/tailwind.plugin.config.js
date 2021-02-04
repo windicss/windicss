@@ -69,7 +69,10 @@ module.exports = {
 
     require('../../dist/plugin/filters'),
     require('../../dist/plugin/forms'),
+    require('../../dist/plugin/aspect-ratio'),
     require('../../dist/plugin/line-clamp'),
-    require('../../dist/plugin/typography'),
+    require('../../dist/plugin/typography')({
+      modifiers: ['DEFAULT', 'sm', 'lg', 'red'],
+    }),
   ]
 };

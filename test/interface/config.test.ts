@@ -19,12 +19,12 @@ describe("Load Plugin", () => {
       blur-20
       aspect-w-4
       aspect-h-6
-      prose
-      prose-large
+      aspect-9/16
+      prose-red
     `;
     const result = processor.interpret(classes);
     expect(result.styleSheet.build()).toEqual(
-`.skew-10deg {
+String.raw`.skew-10deg {
   transform: skewY(-10deg);
 }
 .skew-15deg {
@@ -69,6 +69,31 @@ describe("Load Plugin", () => {
 .blur-20 {
   -webkit-backdrop-filter: 20px;
   backdrop-filter: 20px;
+}
+.aspect-w-4 {
+  --tw-aspect-w: 4;
+}
+.aspect-h-6 {
+  --tw-aspect-h: 6;
+}
+.aspect-9\/16 {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+.aspect-9\/16 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.prose-red a {
+  color: #dc2626;
+}
+.prose-red a code {
+  color: #dc2626;
 }`);
   });
 
