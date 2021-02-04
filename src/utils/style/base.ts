@@ -237,7 +237,7 @@ export class Style {
               wrap.wrapSelector((selector) =>
                 selector
                   .trim()
-                  .replace(/\\/g, "")
+                  // .replace(/\\/g, "")
                   .split(/\s*,\s*/g)
                   .map((s) =>
                     key
