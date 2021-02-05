@@ -1213,7 +1213,7 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
     const center = centerMatch[0].replace(/^-?skew-/, "");
     return utility.handler
       .handleStatic(theme("skew"))
-      .handleNumber(0, 360, "float", (number: number) => `${number}deg`)
+      .handleNumber(0, undefined, "float", (number: number) => `${number}deg`)
       .handleNegative()
       .handleVariable()
       .createProperty(`--tw-skew-${center}`);
