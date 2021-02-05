@@ -1167,13 +1167,17 @@ function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/scale
 function scale(utility: Utility, { theme }: PluginUtils): Output {
-  return utility.handler
+  const value = utility.handler
     .handleStatic(theme("scale"))
     .handleNumber(0, undefined, "int", (number: number) =>
       (number / 100).toString()
     )
     .handleVariable()
-    .createProperty(["--tw-scale-x", "--tw-scale-y"]);
+    .value;
+  if (!value) return;
+  if (utility.raw.startsWith('scale-x')) return new Property("--tw-scale-x", value);
+  if (utility.raw.startsWith('scale-y')) return new Property("--tw-scale-y", value);
+  return new Property(["--tw-scale-x", "--tw-scale-y"], value);
 }
 
 // https://tailwindcss.com/docs/rotate

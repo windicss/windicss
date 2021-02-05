@@ -1,3 +1,26 @@
+// function getTests() {
+//   const classes = [...document.querySelectorAll('.text-violet-600.whitespace-nowrap')].map(i=>i.innerText.replace(' > * + *', '').replace('::placeholder', ''));
+//   const properties = [...document.querySelectorAll('.text-light-blue-600.whitespace-pre')].map(i => i.innerText);
+//   const utilities = [];
+//   classes.forEach((className, index) => {
+//     utilities.push([className, properties[index]]);
+//   });
+//   return utilities;
+// }
+//
+// function getDoc() {
+//   const title = `## [${document.querySelector('h1').innerText}](${location.href})\n\n`;
+//   const description = document.querySelector('p.mt-1.text-lg.text-gray-500').innerText + '\n\n';
+//   const head = "| Class | Properties |\n| :---- | :--------- |\n";
+//   const classes = [...document.querySelectorAll('.text-violet-600.whitespace-nowrap')].map(i=>i.innerText.replace(' > * + *', '').replace('::placeholder', ''));
+//   const properties = [...document.querySelectorAll('.text-light-blue-600.whitespace-pre')].map(i => i.innerText.split('\n').join('<br>'));
+//   const lines = [];
+//   classes.forEach((className, index) => {
+//     lines.push(`| ${className} | ${properties[index]} |`);
+//   });
+//   return title + description + head + lines.join('\n');
+// }
+// JSON.stringify(getTests())
 // [...document.querySelectorAll('.text-violet-600.whitespace-nowrap')].map(i=>i.innerText.replace(' > * + *', '').replace('::placeholder', '')).join('", "')
 // run this command inside tailwindcss document page
 

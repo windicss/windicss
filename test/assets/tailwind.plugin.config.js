@@ -66,7 +66,14 @@ module.exports = {
       }
       addComponents(buttons)
     }),
-
+    plugin(function({ addDynamic, variants }) {
+      addDynamic("skew", ({ Utility, theme }) => {
+        return Utility.handler
+          .handleStatic(theme("skew"))
+          .handleNumber(0, 360, "int", (number) => `skewY(-${number}deg)`)
+          .createProperty('transform');
+        }, variants('skew'));
+    }),
     require('../../dist/plugin/filters'),
     require('../../dist/plugin/forms'),
     require('../../dist/plugin/aspect-ratio'),
