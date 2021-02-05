@@ -1184,7 +1184,7 @@ function scale(utility: Utility, { theme }: PluginUtils): Output {
 function rotate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme("rotate"))
-    .handleNumber(0, 360, "float", (number: number) => `${number}deg`)
+    .handleNumber(0, undefined, "float", (number: number) => `${number}deg`)
     .handleNegative()
     .handleVariable()
     .createProperty("--tw-rotate");
