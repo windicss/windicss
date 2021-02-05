@@ -492,9 +492,14 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/font-family
 // https://tailwindcss.com/docs/font-weight
 function font(utility: Utility, { theme }: PluginUtils): Output {
+  const fonts = theme("fontFamily") as {[key:string]:string|string[]};
+  const map:{[key:string]:string} = {};
+  for (const [key, value] of Object.entries(fonts)) {
+    map[key] = Array.isArray(value)? value.join(',') : value;
+  }
   return (
     utility.handler
-      .handleStatic(theme("fontFamily"))
+      .handleStatic(map)
       .createProperty("font-family") ||
     utility.handler
       .handleStatic(theme("fontWeight"))
