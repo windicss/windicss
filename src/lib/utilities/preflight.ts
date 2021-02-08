@@ -1,5 +1,5 @@
 // (Last Update: Aug 22 2020) [https://github.com/sindresorhus/modern-normalize/blob/master/modern-normalize.css]
-// (Last Update: Nov 4 2020) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
+// (Last Update: Jan 30 2021) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
 
 import { hex2RGB } from "../../utils/tools";
 import type { ThemeUtil } from "../../interfaces";
@@ -571,6 +571,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::webkit-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -579,6 +580,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-moz-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -587,6 +589,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input:-ms-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -595,6 +598,7 @@ Add the correct display in Chrome and Safari.
   keys: ['input'],
   selector: 'input::-ms-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -603,6 +607,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::webkit-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -611,6 +616,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-moz-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -619,6 +625,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea:-ms-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
@@ -627,6 +634,7 @@ Add the correct display in Chrome and Safari.
   keys: ['textarea'],
   selector: 'textarea::-ms-input-placeholder',
   properties: {
+    'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
   }
 },
