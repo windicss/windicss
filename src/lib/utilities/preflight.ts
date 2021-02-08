@@ -745,6 +745,16 @@ Add the correct display in Chrome and Safari.
     '--tw-ring-shadow': '0 0 #0000',
   }
 },
+
+// added by boxShadow
+{
+  keys: ['*'],
+  global: true,
+  selector: '*',
+  properties: {
+    '--tw-shadow': '0 0 #0000',
+  }
+}
 ];
 
 export default preflights;
