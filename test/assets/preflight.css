@@ -5,6 +5,15 @@
   border-style: solid;
   border-color: #e5e7eb;
 }
+* {
+  --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+}
 :root {
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -103,16 +112,24 @@ h1, h2, h3, h4, h5, h6 {
 img {
   border-style: solid;
 }
+input::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
 input::webkit-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 input::-moz-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 input:-ms-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 input::-ms-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 img, svg, video, canvas, audio, iframe, embed, object {
@@ -162,15 +179,23 @@ table {
 textarea {
   resize: vertical;
 }
+textarea::placeholder {
+  opacity: 1;
+  color: #9ca3af;
+}
 textarea::webkit-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 textarea::-moz-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 textarea:-ms-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }
 textarea::-ms-input-placeholder {
+  opacity: 1;
   color: #9ca3af;
 }

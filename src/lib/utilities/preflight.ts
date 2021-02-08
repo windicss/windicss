@@ -569,6 +569,15 @@ Add the correct display in Chrome and Safari.
 
 {
   keys: ['input'],
+  selector: 'input::placeholder',
+  properties: {
+    'opacity': '1',
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
+  }
+},
+
+{
+  keys: ['input'],
   selector: 'input::webkit-input-placeholder',
   properties: {
     'opacity': '1',
@@ -597,6 +606,15 @@ Add the correct display in Chrome and Safari.
 {
   keys: ['input'],
   selector: 'input::-ms-input-placeholder',
+  properties: {
+    'opacity': '1',
+    'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
+  }
+},
+
+{
+  keys: ['textarea'],
+  selector: 'textarea::placeholder',
   properties: {
     'opacity': '1',
     'color': (theme) => theme('colors.gray.400', '#a1a1aa') as string
