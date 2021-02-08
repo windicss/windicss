@@ -1,6 +1,7 @@
 // (Last Update: Aug 22 2020) [https://github.com/sindresorhus/modern-normalize/blob/master/modern-normalize.css]
 // (Last Update: Nov 4 2020) [https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/css/preflight.css]
 
+import { hex2RGB } from "../../utils/tools";
 import type { ThemeUtil } from "../../interfaces";
 
 const preflights: {
@@ -729,6 +730,21 @@ Add the correct display in Chrome and Safari.
   }
 },
 
+// added by ringWidth
+// https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/ringWidth.js
+{
+  keys: ['*'],
+  global: true,
+  selector: '*',
+  properties: {
+    '--tw-ring-inset': 'var(--tw-empty,/*!*/ /*!*/)',
+    '--tw-ring-offset-width': theme => theme('ringOffsetWidth.DEFAULT', '0px') as string,
+    '--tw-ring-offset-color': theme => theme('ringOffsetColor.DEFAULT', '#fff') as string,
+    '--tw-ring-color': theme => `rgba(${hex2RGB(theme('ringColor.DEFAULT', '#93C5FD') as string)?.join(', ')}, ${theme('ringOpacity.DEFAULT', '0.5') as string})`,
+    '--tw-ring-offset-shadow': '0 0 #0000',
+    '--tw-ring-shadow': '0 0 #0000',
+  }
+},
 ];
 
 export default preflights;

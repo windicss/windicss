@@ -924,16 +924,10 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
 function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   let value;
   // handle ring offset width variable
-  if (utility.raw.startsWith("ring-offset-width-$")) {
+  if (utility.raw.startsWith("ringOffset-width-$")) {
     value = utility.handler.handleVariable().value;
     if (value)
-      return new Style(utility.class.replace("ringOffset", "ring-offset"), [
-        new Property("--tw-ring-offset-width", value),
-        new Property(
-          ["-webkit-box-shadow", "box-shadow"],
-          "0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)"
-        ),
-      ]);
+      return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace("ringOffset", "ring-offset"));
   }
 
   // handle ring offset width
@@ -943,26 +937,13 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, "float", (number: number) => `${number}px`)
       .handleSize().value;
     if (value)
-      return new Style(utility.class.replace("ringOffset", "ring-offset"), [
-        new Property("--tw-ring-offset-width", value),
-        new Property(
-          ["-webkit-box-shadow", "box-shadow"],
-          "0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)"
-        ),
-      ]);
+      return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace("ringOffset", "ring-offset"));
   }
 
   // handle ring offset color
-  value = utility.handler.handleColor(theme("ringOffsetColor")).handleVariable()
-    .value;
+  value = utility.handler.handleColor(theme("ringOffsetColor")).handleVariable().value;
   if (value)
-    return new Style(utility.class.replace("ringOffset", "ring-offset"), [
-      new Property("--tw-ring-offset-color", value),
-      new Property(
-        ["-webkit-box-shadow", "box-shadow"],
-        "0 0 0 var(--ring-offset-width) var(--ring-offset-color), var(--ring-shadow)"
-      ),
-    ]);
+    return new Property('--tw-ring-offset-color', value).toStyle(utility.class.replace("ringOffset", "ring-offset"));
 }
 
 // https://tailwindcss.com/docs/ring-width
@@ -1007,10 +988,11 @@ function ring(utility: Utility, utils: PluginUtils): Output {
     .handleSize()
     .handleVariable().value;
   if (value)
-    return new Property(
-      ["-webkit-box-shadow", "box-shadow"],
-      `var(--tw-ring-inset) 0 0 0 calc(${value} + var(--tw-ring-offset-width)) var(--tw-ring-color)`
-    );
+    return new Style(utility.class, [
+      new Property('--tw-ring-offset-shadow', `var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)`),
+      new Property('--tw-ring-shadow', `var(--tw-ring-inset) 0 0 0 calc(${value} + var(--tw-ring-offset-width)) var(--tw-ring-color)`),
+      new Property(["-webkit-box-shadow", "box-shadow"], 'var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)')
+    ])
 }
 
 // https://tailwindcss.com/docs/box-shadow/
