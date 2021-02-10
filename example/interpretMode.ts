@@ -73,7 +73,7 @@ start from scratch if you know enough to be dangerous. Have fun!
 
 const parser = new HTMLParser(html); // Simple html parser, only has two methods.
 const processor = new Processor();
-const preflightSheet = processor.preflight(parser.parseTags()); // Parse all html tags, then generate preflight
+const preflightSheet = processor.preflight(html); // Parse all html tags, then generate preflight
 
 const result = processor.interpret(
   parser

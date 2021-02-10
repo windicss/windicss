@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Property, Style, StyleSheet } from "../utils/style";
@@ -99,7 +98,7 @@ export class Processor {
     child: (name: string): Style => new Style().child(name),
   };
 
-  constructor(config?: string | Config) {
+  constructor(config?: Config) {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
   }
@@ -162,17 +161,8 @@ export class Processor {
     })
   }
 
-  resolveConfig(config: string | Config | undefined, presets: Config): Config {
-    this._config = this._resolveConfig(
-      deepCopy(
-        config
-          ? typeof config === "string"
-            ? require(resolve(config))
-            : config
-          : {}
-      ),
-      presets
-    ); // deep copy
+  resolveConfig(config: Config | undefined, presets: Config): Config {
+    this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
     this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i) );

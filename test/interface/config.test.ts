@@ -4,7 +4,7 @@ import { Processor } from "../../src/lib";
 const configPath = resolve("./test/assets/tailwind.plugin.config.js");
 
 describe("Load Plugin", () => {
-  const processor = new Processor(configPath);
+  const processor = new Processor(require(resolve(configPath)));
   it("should load all plugins correctly", () => {
     const classes = `
       skew-10deg
