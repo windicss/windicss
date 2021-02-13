@@ -2,6 +2,16 @@
 
 Next generation tailwindcss compiler.
 
+## Plugins
+
+vue: [vue-windicss-preprocess](https://github.com/voorjaar/vue-windicss-preprocess)
+
+svelte: [svelte-windicss-preprocess](https://github.com/voorjaar/svelte-windicss-preprocess)
+
+vite: [vite-plugin-windicss](https://github.com/antfu/vite-plugin-windicss)
+
+react and angular: coming soon...
+
 ## Documentation
 
 View full documentation on [Github Wiki](https://github.com/voorjaar/windicss/wiki/Introduction).
