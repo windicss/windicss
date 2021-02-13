@@ -3,24 +3,26 @@ import { Style, Property } from "../utils/style";
 import { staticUtilities, dynamicUtilities } from "./utilities";
 import type { Processor } from "./index";
 
+export function generateStaticStyle(className:string, addComment = false): Style {
+  const style = new Style("." + className);
+  const comment = addComment ? className : undefined;
+  for (const [key, value] of Object.entries(staticUtilities[className])) {
+    style.add(
+      Array.isArray(value)
+        ? value.map((i) => new Property(key, i, comment))
+        : new Property(key, value, comment)
+    );
+  }
+  return style;
+}
+
 export default function extract(
   processor: Processor,
   className: string,
   addComment = false
 ): Style | Style[] | undefined {
   // handle static base utilities
-  if (className in staticUtilities) {
-    const style = new Style("." + className);
-    const comment = addComment ? className : undefined;
-    for (const [key, value] of Object.entries(staticUtilities[className])) {
-      style.add(
-        Array.isArray(value)
-          ? value.map((i) => new Property(key, i, comment))
-          : new Property(key, value, comment)
-      );
-    }
-    return style;
-  }
+  if (className in staticUtilities) return generateStaticStyle(className, addComment);
 
   const matches = className.match(/\w+/);
   const key = matches ? matches[0] : undefined;

@@ -8,7 +8,7 @@ import {
   expandDirection,
 } from "../../utils/helpers";
 
-import type { PluginUtils, FontSize, Output } from "../../interfaces";
+import type { PluginUtils, FontSize, Output, DynamicUtility } from "../../interfaces";
 
 // https://tailwindcss.com/docs/container
 function container(utility: Utility, { theme }: PluginUtils): Output {
@@ -1347,4 +1347,4 @@ export default {
   outline: outline,
   fill: fill,
   stroke: stroke,
-} as { [key: string]: (utility: Utility, { theme }: PluginUtils) => Output };
+} as DynamicUtility;

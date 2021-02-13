@@ -2,8 +2,9 @@ import { getNestedValue, hash, deepCopy } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Property, Style, StyleSheet } from "../utils/style";
 import { resolveVariants } from "./variants";
+import { staticUtilities, dynamicUtilities } from "./utilities";
 
-import extract from "./extract";
+import extract, { generateStaticStyle } from "./extract";
 import preflight from "./preflight";
 import baseConfig from "../config/base";
 import cssEscape from "../utils/algorithm/cssEscape";
@@ -14,6 +15,7 @@ import type {
   Config,
   DictStr,
   DefaultConfig,
+  DynamicUtility,
   ConfigUtil,
   Theme,
   DefaultTheme,
@@ -178,6 +180,20 @@ export class Processor {
       return variants[type];
     }
     return { ...variants.screen, ...variants.theme, ...variants.state };
+  }
+
+  resolveStaticUtilities(includePlugins = false): { [key: string]: Style[] } {
+    const staticStyles: { [key: string]: Style[] } = {};
+    for (const key in staticUtilities) {
+      staticStyles[key] = [generateStaticStyle(key, true)];
+    }
+    if (!includePlugins) return staticStyles;
+    return {...staticStyles, ...this._plugin.utilities, ...this._plugin.components};
+  }
+
+  resolveDynamicUtilities(includePlugins = false): DynamicUtility {
+    if (!includePlugins) return dynamicUtilities;
+    return {...dynamicUtilities, ...this._plugin.dynamic};
   }
 
   get allConfig(): DefaultConfig {

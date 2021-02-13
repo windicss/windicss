@@ -117,9 +117,9 @@ export interface DefaultConfig {
   plugins: (PluginOutput|PluginWithOptionsOutput)[];
 }
 
-export interface StaticUtility {
-  [key: string]: { [key: string]: string | string[] };
-}
+export interface StaticUtility { [key: string]: { [key: string]: string | string[] } }
+
+export interface DynamicUtility { [key: string]: (utility: Utility, { theme }: PluginUtils) => Output }
 
 export interface PluginUtils {
   addDynamic: (key: string, generator: UtilityGenerator, options?: PluginUtilOptions) => UtilityGenerator;
