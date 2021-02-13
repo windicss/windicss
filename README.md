@@ -4,7 +4,7 @@ Next generation tailwindcss compiler.
 
 ## Documentation
 
-View full documentation on [Github Wiki](https://github.com/voorjaar/windicss/wiki).
+View full documentation on [Github Wiki](https://github.com/voorjaar/windicss/wiki/Introduction).
 
 ## Discussions
 
