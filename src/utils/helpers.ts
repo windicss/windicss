@@ -2,6 +2,10 @@ import { negateValue } from "./tools";
 import { Property, GlobalStyle } from "./style";
 import type { FontSize } from "../interfaces";
 
+export function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
 export function negative(scale: {
   [key: string]: string;
 }): { [key: string]: string } {

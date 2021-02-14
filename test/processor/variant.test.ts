@@ -24,8 +24,13 @@ describe("Variants", () => {
     const screens = generateScreens({
       sm: "640px",
       lg: "1024px",
+      print: { raw: "print" },
+      narrow: { max: "768px" },
     });
     expect(_generateTestVariants(screens)).toEqual({
+      print: "@media print {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+      narrow:
+        "@media (max-width: 768px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
       sm:
         "@media (min-width: 640px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
       "-sm":
@@ -41,10 +46,14 @@ describe("Variants", () => {
     });
 
     const unsortedScreens = generateScreens({
+      print: { raw: "print" },
       lg: "1024px",
       sm: "640px",
+      narrow: { max: "768px" },
     });
     expect(Object.keys(unsortedScreens)).toEqual([
+      "print",
+      "narrow",
       "sm",
       "-sm",
       "+sm",
