@@ -7,7 +7,7 @@ describe("Compilation Mode", () => {
     const result = processor.compile(
       "font-bold \n\ttext-green-300 \nsm:dark:hover:text-lg sm:(bg-gray-100 hover:bg-gray-200) abc bg-cool-gray-300 bg-hex-fff"
     );
-    expect(result.className).toBe("windi-zesjek");
+    expect(result.className).toBe("windi-sarsyj");
     expect(result.ignored).toEqual(["abc"]);
     expect(result.success).toEqual([
       "font-bold",
@@ -19,7 +19,7 @@ describe("Compilation Mode", () => {
       "bg-hex-fff",
     ]);
     expect(result.styleSheet.build()).toBe(
-      `.windi-zesjek {
+      `.windi-sarsyj {
   font-weight: 700;
   --tw-text-opacity: 1;
   color: rgba(110, 231, 183, var(--tw-text-opacity));
@@ -28,15 +28,15 @@ describe("Compilation Mode", () => {
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
 }
 @media (min-width: 640px) {
-  .dark .windi-zesjek:hover {
+  .dark .windi-sarsyj:hover {
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
-  .windi-zesjek {
+  .windi-sarsyj {
     --tw-bg-opacity: 1;
     background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
   }
-  .windi-zesjek:hover {
+  .windi-sarsyj:hover {
     --tw-bg-opacity: 1;
     background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
   }
@@ -44,4 +44,12 @@ describe("Compilation Mode", () => {
     );
     expect(processor.compile("test wrong css").className).toBeUndefined();
   });
+
+  it("should generate same hash", () => {
+    expect(processor.compile('font-bold text-white').styleSheet.build()).toEqual(processor.compile(' font-bold\n\t text-white ').styleSheet.build())
+  })
+
+  it("order is important, so classes in different orders should generate different hashes", () => {
+    expect(processor.compile('font-bold text-white').styleSheet.build() === processor.compile('text-white font-bold').styleSheet.build()).toBeFalse();
+  })
 });

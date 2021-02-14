@@ -350,16 +350,11 @@ export class Processor {
     styleSheet: StyleSheet;
   } {
     // Compile tailwind css classes to one combined class.
-    const ast = new ClassParser(
-      classNames,
-      this.config("separator", ":") as string
-    ).parse();
+    const ast = new ClassParser(classNames, this.config("separator", ":") as string).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
-    let className: string | undefined =
-      prefix +
-      hash(JSON.stringify([...ast].sort((a, b) => (a.raw > b.raw ? 1 : -1))));
+    let className: string | undefined = prefix + hash(classNames.trim().split(/\s+/g).join(' '));
     if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = "." + className;
