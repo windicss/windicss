@@ -49,25 +49,16 @@ export default class ClassParser {
           if (!ignoreSpace) {
             if (groupStart !== this.index) {
               const raw = this.classNames.slice(classStart, this.index);
+              const start = classStart - 1;
+              const end = this.index - 1;
               if (Array.isArray(group)) {
-                parts.push({ raw, variants, content: group, type: "group" });
+                parts.push({ raw, start, end, variants, content: group, type: "group" });
                 group = undefined;
               } else if (func) {
-                parts.push({
-                  raw,
-                  variants,
-                  func,
-                  content: group,
-                  type: "func",
-                });
+                parts.push({ raw, start, end, variants, func, content: group, type: "func" });
                 func = undefined;
               } else {
-                parts.push({
-                  raw,
-                  variants,
-                  content: this.classNames.slice(variantStart, this.index),
-                  type: "utility",
-                });
+                parts.push({ raw, start, end, variants, content: this.classNames.slice(variantStart, this.index), type: "utility" });
               }
               variants = [];
             }
@@ -106,7 +97,12 @@ export default class ClassParser {
 
   parse(): Element[] {
     if (!this.classNames) return [];
-    this.classNames = "(" + this.classNames + ")"; // turn into group;
-    return this._handle_group();
+    // Turn classes into group;
+    this.classNames = "(" + this.classNames + ")";
+    const elements = this._handle_group();
+    // Initialization, convenient for next call
+    this.index = 0;
+    this.classNames = this.classNames.slice(1, -1);
+    return elements;
   }
 }

@@ -185,6 +185,8 @@ export type UtilityGenerator = (generator: {
 
 export interface Element {
   raw: string;
+  start: number;
+  end: number;
   variants: string[];
   content?: Element[] | string;
   func?: string;
