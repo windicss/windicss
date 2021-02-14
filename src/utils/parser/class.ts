@@ -11,7 +11,7 @@ export default class ClassParser {
     this.index = 0;
   }
 
-  private _handle_group(): Element[] {
+  private _handle_group(removeDuplicated = true): Element[] {
     if (!this.classNames) return [];
     let char;
     let group;
@@ -74,16 +74,19 @@ export default class ClassParser {
         break;
       }
     }
-    // remove duplicated class
-    const newParts: Element[] = [];
-    const cache: string[] = [];
-    parts.forEach((item) => {
-      if (!cache.includes(item.raw)) {
-        cache.push(item.raw);
-        newParts.push(item);
-      }
-    });
-    return newParts;
+
+    if (removeDuplicated) {
+      const newParts: Element[] = [];
+      const cache: string[] = [];
+      parts.forEach((item) => {
+        if (!cache.includes(item.raw)) {
+          cache.push(item.raw);
+          newParts.push(item);
+        }
+      });
+      return newParts;
+    }
+    return parts;
   }
 
   private _handle_function() {
@@ -95,11 +98,11 @@ export default class ClassParser {
     return this.classNames.slice(groupStart, this.index);
   }
 
-  parse(): Element[] {
+  parse(removeDuplicated = true): Element[] {
     if (!this.classNames) return [];
     // Turn classes into group;
     this.classNames = "(" + this.classNames + ")";
-    const elements = this._handle_group();
+    const elements = this._handle_group(removeDuplicated);
     // Initialization, convenient for next call
     this.index = 0;
     this.classNames = this.classNames.slice(1, -1);
