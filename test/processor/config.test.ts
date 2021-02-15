@@ -29,6 +29,73 @@ describe("Config", () => {
     });
   });
 
+  it("resolveConfig should extend correctly", () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          order: {
+            'lg': '44',
+          },
+          lineClamp: {
+            sm: '4',
+            lg: '9',
+          }
+        }
+      }
+    });
+    expect(processor.theme('order')).toEqual({
+      first: "-9999",
+      last: "9999",
+      none: "0",
+      lg: "44"
+    });
+    expect(processor.theme('lineClamp')).toEqual({ sm: '4', lg: '9' });
+  })
+
+  it("resolveConfig should not overwrite theme function", () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          width: {
+            '1/7': '14%',
+            '2/7': '28%',
+            '3/7': '42%',
+            '4/7': '57%',
+            '5/7': '71%',
+            '6/7': '85%',
+          }
+        }
+      }
+    });
+    expect(processor.theme('width')).toEqual({
+      auto: 'auto',
+      px: '1px',
+      xs: '20rem',
+      sm: '24rem',
+      md: '28rem',
+      lg: '32rem',
+      xl: '36rem',
+      '2xl': '42rem',
+      '3xl': '48rem',
+      full: '100%',
+      min: 'min-content',
+      max: 'max-content',
+      prose: '65ch',
+      screen: '100vw',
+      'screen-sm': '640px',
+      'screen-md': '768px',
+      'screen-lg': '1024px',
+      'screen-xl': '1280px',
+      'screen-2xl': '1536px',
+      '1/7': '14%',
+      '2/7': '28%',
+      '3/7': '42%',
+      '4/7': '57%',
+      '5/7': '71%',
+      '6/7': '85%'
+    })
+  });
+
   it("change separator test", () => {
     const processor = new Processor({ separator: "_" });
     expect(processor.interpret("sm_bg-black").styleSheet.build()).toBe(

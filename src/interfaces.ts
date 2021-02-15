@@ -75,7 +75,7 @@ export interface PluginWithOptionsOutput {
 }
 
 export interface Theme {
-  [key: string]: ConfigUtil | { [key: string]: unknown } | undefined;
+  [key: string]: ConfigUtil | { [ key:string ]: unknown } | undefined;
 }
 
 export interface Config {
