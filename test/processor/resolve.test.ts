@@ -48,24 +48,7 @@ describe("Resolve Tests", () => {
   })
 
   it("resolve dynamic utilities", () => {
-    const dynamicKeys = [
-      'container', 'object',  'inset',      'top',
-      'right',     'bottom',  'left',       'z',
-      'flex',      'order',   'grid',       'col',
-      'row',       'auto',    'gap',        'p',
-      'py',        'px',      'pt',         'pr',
-      'pb',        'pl',      'm',          'my',
-      'mx',        'mt',      'mr',         'mb',
-      'ml',        'space',   'w',          'h',
-      'min',       'max',     'text',       'font',
-      'tracking',  'leading', 'list',       'placeholder',
-      'bg',        'from',    'via',        'to',
-      'rounded',   'border',  'divide',     'ring',
-      'shadow',    'opacity', 'transition', 'duration',
-      'ease',      'delay',   'animate',    'origin',
-      'scale',     'rotate',  'translate',  'skew',
-      'cursor',    'outline', 'fill',       'stroke'
-    ];
+    const dynamicKeys = ["container", "space", "divide", "bg", "from", "via", "to", "border", "rounded", "cursor", "flex", "order", "font", "h", "leading", "list", "m", "my", "mx", "mt", "mr", "mb", "ml", "min", "max", "object", "opacity", "outline", "p", "py", "px", "pt", "pr", "pb", "pl", "placeholder", "inset", "top", "right", "bottom", "left", "shadow", "ring", "fill", "stroke", "text", "tracking", "w", "z", "gap", "auto", "grid", "col", "row", "origin", "scale", "rotate", "translate", "skew", "transition", "ease", "duration", "delay", "animate"];
     expect(Object.keys(processor.resolveDynamicUtilities(false))).toEqual(dynamicKeys);
     expect(Object.keys(processor.resolveDynamicUtilities(true))).toEqual([
       ...dynamicKeys,

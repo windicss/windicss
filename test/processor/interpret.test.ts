@@ -1,3 +1,4 @@
+import { writeFileSync } from "fs";
 import { Processor } from "../../src/lib";
 
 const processor = new Processor();
@@ -17,21 +18,22 @@ describe("Interpretation Mode", () => {
       "bg-cool-gray-300",
       "bg-hex-fff",
     ]);
+    writeFileSync('def.css',result.styleSheet.build())
     expect(result.styleSheet.build()).toBe(
-      String.raw`.font-bold {
-  font-weight: 700;
-}
-.text-green-300 {
-  --tw-text-opacity: 1;
-  color: rgba(110, 231, 183, var(--tw-text-opacity));
-}
-.bg-cool-gray-300 {
+String.raw`.bg-cool-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
 .bg-hex-fff {
   --tw-bg-opacity: 1;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+.font-bold {
+  font-weight: 700;
+}
+.text-green-300 {
+  --tw-text-opacity: 1;
+  color: rgba(110, 231, 183, var(--tw-text-opacity));
 }
 @media (min-width: 640px) {
   .dark .sm\:dark\:hover\:text-lg:hover {
