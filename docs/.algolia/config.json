@@ -1,0 +1,67 @@
+{
+  "index_name": "windicss",
+  "start_urls": [
+    {
+      "url": "https://windicss.github.io/config/",
+      "selectors_key": "config",
+      "tags": ["config"],
+      "page_rank": 3
+    },
+    {
+      "url": "https://windicss.github.io/guide/",
+      "tags": ["guide"],
+      "page_rank": 1
+    }
+  ],
+  "stop_urls": [
+    "https://windicss.github.io/config/index.html",
+    "https://windicss.github.io/guide/development.html",
+    "https://windicss.github.io/guide/deployment.html",
+    "https://windicss.github.io/guide/rails.html",
+    "https://windicss.github.io/guide/hanami.html",
+    "https://windicss.github.io/guide/index.html",
+    "https://windicss.github.io/guide/introduction.html"
+  ],
+  "selectors": {
+    "default": {
+      "lvl0": {
+        "selector": "p.sidebar-heading.open",
+        "global": true,
+        "default_value": "Guide"
+      },
+      "lvl1": ".content h1",
+      "lvl2": ".content h2",
+      "lvl3": ".content h3, .content li kbd",
+      "lvl4": ".content h4",
+      "lvl5": ".content h5",
+      "text": ".content p, .content li",
+      "lang": {
+        "selector": "/html/@lang",
+        "type": "xpath",
+        "global": true
+      }
+    },
+    "config": {
+      "lvl0": {
+        "selector": "p.sidebar-heading.open",
+        "global": true,
+        "default_value": "Configuration Options"
+      },
+      "lvl1": ".content h2",
+      "lvl2": ".content h3",
+      "text": ".content p, .content li",
+      "lang": {
+        "selector": "/html/@lang",
+        "type": "xpath",
+        "global": true
+      }
+    }
+  },
+  "scrape_start_urls": true,
+  "strip_chars": " .,;:#",
+  "custom_settings": {
+    "attributesForFaceting": [
+      "lang"
+    ]
+  }
+}

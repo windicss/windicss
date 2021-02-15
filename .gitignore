@@ -48,3 +48,9 @@ example/**/*.js
 # ignore yarn.lock
 yarn.lock
 .vscode
+
+# Vitepress
+dist
+
+# Algolia
+.algolia.env
