@@ -8,7 +8,7 @@ Next generation Tailwind CSS compiler.
 | --- | --- |
 | Vue | [vue-windicss-preprocess](https://github.com/windicss/vue-windicss-preprocess) |
 | Svelte | [svelte-windicss-preprocess](https://github.com/windicss/svelte-windicss-preprocess) |
-| Vite | [vite-plugin-windicss](https://github.com/antfu/vite-plugin-windicss) |
+| Vite | [vite-plugin-windicss](https://github.com/windicss/vite-plugin-windicss) |
 | React | Coming soon... |
 | Angular | Coming soon... |
 
