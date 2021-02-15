@@ -1,4 +1,4 @@
-# [windicss](https://github.com/voorjaar/windicss/wiki) &ensp; [![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/voorjaar/windicss/Node.js%20CI)](https://github.com/voorjaar/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/voorjaar/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/voorjaar/windicss)
+# [windicss](https://github.com/voorjaar/windicss/wiki) &ensp; [![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/voorjaar/windicss/Node.js%20CI)](https://github.com/voorjaar/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/voorjaar/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/windicss/windicss)
 
 Next generation Tailwind CSS compiler.
 
