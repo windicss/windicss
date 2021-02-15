@@ -177,7 +177,7 @@ describe("Tools", () => {
       new Date(),
       undefined,
       null,
-      { helllo: "world" },
+      { hello: "world" },
       () => 123,
     ];
     expect(deepCopy(a)).toEqual(a);
