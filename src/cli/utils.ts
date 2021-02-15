@@ -78,7 +78,7 @@ export function generateTemplate(
   if (!(fs.existsSync(folder) && fs.lstatSync(folder).isDirectory())) {
     fs.mkdirSync(folder);
     if (!fs.existsSync(folder))
-      throw new Error(`Folder ${folder} creatation failed.`);
+      throw new Error(`Folder ${folder} creation failed.`);
   }
   folder = path.resolve(folder);
   const template = `<!DOCTYPE html>
