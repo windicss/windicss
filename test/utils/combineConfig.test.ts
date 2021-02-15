@@ -5,7 +5,7 @@ describe("combineConfig", () => {
     expect(combineConfig({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
   });
 
-  it("should comine different nested keys", () => {
+  it("should combine different nested keys", () => {
     expect(
       combineConfig({ a: { b: 1, d: { e: 1 } } }, { a: { c: 2, d: { f: 2 } } })
     ).toEqual({
