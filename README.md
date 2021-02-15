@@ -1,24 +1,24 @@
 # [windicss](https://github.com/voorjaar/windicss/wiki) &ensp; [![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/voorjaar/windicss/Node.js%20CI)](https://github.com/voorjaar/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/voorjaar/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/voorjaar/windicss)
 
-Next generation tailwindcss compiler.
+Next generation Tailwind CSS compiler.
 
 ## Plugins
 
-vue: [vue-windicss-preprocess](https://github.com/voorjaar/vue-windicss-preprocess)
-
-svelte: [svelte-windicss-preprocess](https://github.com/voorjaar/svelte-windicss-preprocess)
-
-vite: [vite-plugin-windicss](https://github.com/antfu/vite-plugin-windicss)
-
-react and angular: coming soon...
+| | |
+| --- | --- |
+| Vue | [vue-windicss-preprocess](https://github.com/voorjaar/vue-windicss-preprocess) |
+| Svelte | [svelte-windicss-preprocess](https://github.com/voorjaar/svelte-windicss-preprocess) |
+| Vite | [vite-plugin-windicss](https://github.com/antfu/vite-plugin-windicss) |
+| React | Coming soon... |
+| Angular | Coming soon... |
 
 ## Documentation
 
-View full documentation on [Github Wiki](https://github.com/voorjaar/windicss/wiki/Introduction).
+View full documentation on [GitHub Wiki](https://github.com/voorjaar/windicss/wiki/Introduction).
 
 ## Discussions
 
-We’re using [Github Discussions](https://github.com/voorjaar/windicss/discussions) as a place to connect with other members of our community. You are free to ask questions and share ideas, so enjoy yourself.
+We’re using [GitHub Discussions](https://github.com/voorjaar/windicss/discussions) as a place to connect with other members of our community. You are free to ask questions and share ideas, so enjoy yourself.
 
 ## Development
 
