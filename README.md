@@ -1,20 +1,43 @@
 # [windicss](https://github.com/windicss/windicss/wiki) &ensp; [![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/windicss/windicss/Node.js%20CI)](https://github.com/windicss/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/windicss/windicss)
 
+[tailwind css]: https://tailwindcss.com/docs
+[windi css]: https://windicss.netlify.app/
+[website]: https://windicss.netlify.app/
+[video comparison]: https://twitter.com/antfu7/status/1361398324587163648
+
 Next generation Tailwind CSS compiler.
 
-## Plugins
+If you are already familiar with [Tailwind CSS], think about [Windi CSS] as an alternative to Tailwind, which provides faster load times, and supports all the features in Tailwind v2.0 and more.
 
-| | |
-| --- | --- |
-| Vue | [vue-windicss-preprocess](https://github.com/windicss/vue-windicss-preprocess) |
-| Svelte | [svelte-windicss-preprocess](https://github.com/windicss/svelte-windicss-preprocess) |
-| Vite | [vite-plugin-windicss](https://github.com/windicss/vite-plugin-windicss) |
-| React | Coming soon... |
-| Angular | Coming soon... |
+If you are not familiar with [Tailwind CSS], you can think of [Windi CSS] as a utility-first CSS library.
 
-## Documentation
+## Why Windi CSS? 🤔
 
-View [full documentation](http://windicss.netlify.app/) or [GitHub Wiki](https://github.com/windicss/windicss/wiki/Introduction).
+A quote from the author should illustrate his motivation to create [Windi CSS]:
+
+> When my project became larger and there were about dozens of components, the initial compilation time reached 3s, and hot updates took more than 1s. @voorjar
+
+By scanning your HTML and CSS and generating utilities on demand, [Windi CSS] is able to provide [faster load times][video comparison] and a speedy HMR in development, and does not require purging in production.
+
+Read more about it in the [Introduction](https://windicss.netlify.app/guide/introduction)
+
+## Installation 💿
+
+- [__CLI__](https://windicss.netlify.app/guide/cli)
+
+- Svelte: <kbd>[svelte-windicss-preprocess](https://windicss.netlify.app/guide/svelte)</kbd>
+
+- Vite: <kbd>[vite-plugin-windicss](https://windicss.netlify.app/guide/vite)</kbd>
+
+- Vue: <kbd>[vue-windicss-preprocess](https://windicss.netlify.app/guide/vue)</kbd>
+
+- React: Coming soon
+
+- Angular: Coming soon
+
+## Documentation 📖
+
+Check [the documentation website][website] or the [GitHub Wiki](https://github.com/windicss/windicss/wiki/Introduction).
 
 ## Discussions
 
