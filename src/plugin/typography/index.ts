@@ -5,18 +5,18 @@ import styles from "./styles";
 import combineConfig from "../../utils/algorithm/combineConfig";
 
 const computed: {
-  [key: string]: (color: string) => { [key: string]: unknown };
+  [key: string]: (color: string) => Record<string, unknown>;
 } = {
   // Reserved for future "magic properties", for example:
   // bulletColor: (color) => ({ 'ul > li::before': { backgroundColor: color } }),
 };
 
-function configToCss(config: { [key: string]: string } = {}): DeepNestObject {
+function configToCss(config: Record<string, string> = {}): DeepNestObject {
   return [
     ...Object.keys(config)
       .filter((key) => computed[key])
       .map((key) => computed[key](config[key])),
-    ...(castArray(config.css || {}) as { [key: string]: unknown }[]),
+    ...(castArray(config.css || {}) as Record<string, unknown>[]),
   ].reduce(
     (previous, current) => combineConfig(previous, current),
     {}
@@ -37,7 +37,7 @@ export default plugin.withOptions(
         "2xl",
         ...Object.entries(
           theme("colors") as {
-            [key: string]: string | { [key: string]: string };
+            [key: string]: string | Record<string, string>;
           }
         )
           .filter(([color, values]) => {
@@ -47,7 +47,7 @@ export default plugin.withOptions(
       ];
       modifiers = modifiers === undefined ? DEFAULT_MODIFIERS : modifiers;
       const config = theme("typography") as {
-        [key: string]: { [key: string]: string };
+        [key: string]: Record<string, string>;
       };
 
       const all: string[] = uniq([
