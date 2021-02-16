@@ -1,6 +1,6 @@
 import { Property } from "../../src/utils/style";
 import type { Style } from "../../src/utils/style";
-import { base } from "../../src/config";
+import { baseConfig } from "../../src/config";
 import {
   generateScreens,
   generateStates,
@@ -94,8 +94,8 @@ describe("Variants", () => {
   });
 
   it("generate states", () => {
-    const allStates = generateStates(base.variantOrder ?? []);
-    expect(Object.keys(allStates)).toEqual(base.variantOrder ?? []);
+    const allStates = generateStates(baseConfig.variantOrder ?? []);
+    expect(Object.keys(allStates)).toEqual(baseConfig.variantOrder ?? []);
 
     expect(_generateTestVariants(allStates)).toEqual({
       hover: ".test:hover {\n  background: #1C1C1E;\n}",
@@ -182,7 +182,7 @@ describe("Variants", () => {
   });
 
   it("resolve variants", () => {
-    const variants = resolveVariants(base);
+    const variants = resolveVariants(baseConfig);
     expect(Object.keys(variants)).toEqual(["screen", "theme", "state"]);
     expect(Object.keys(variants.screen)).toEqual([
       "sm",
@@ -209,7 +209,7 @@ describe("Variants", () => {
       "dark",
       "light",
     ]);
-    expect(Object.keys(variants.state)).toEqual(base.variantOrder ?? []);
+    expect(Object.keys(variants.state)).toEqual(baseConfig.variantOrder ?? []);
 
     const emptyVariants = resolveVariants({});
     expect(emptyVariants.screen).toEqual({});

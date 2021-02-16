@@ -1,10 +1,10 @@
 import plugin from "../index";
-import config from "../../config/base";
-import colors from "../../config/colors";
+import { baseConfig } from "../../config";
+import { colors } from "../../config";
 import svgToDataUri from "mini-svg-data-uri";
 import type { DefaultTheme } from "../../interfaces";
 
-const defaultTheme = config.theme as DefaultTheme;
+const defaultTheme = baseConfig.theme as DefaultTheme;
 const [baseFontSize, { lineHeight: baseLineHeight }] = defaultTheme.fontSize.base;
 const { borderWidth, borderRadius, outline } = defaultTheme;
 const spacing = (num:number) => `${num/4}rem`;
@@ -32,7 +32,7 @@ select
       '-moz-appearance': 'none',
       appearance: 'none',
       'background-color': '#fff',
-      'border-color': theme('colors.gray.500', colors.gray['500']) as string,
+      'border-color': theme('colors.gray.500', colors.gray[500]) as string,
       'border-width': borderWidth['DEFAULT'] as string,
       'border-radius': borderRadius.none as string,
       'padding-top': spacing(2),

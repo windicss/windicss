@@ -1,4 +1,4 @@
-import colors from "../../config/colors";
+import { colors } from "../../config/colors";
 import { Property } from "../../utils/style";
 import { camelToDash } from "../../utils/tools";
 import { cssEscape } from "../../utils/algorithm";

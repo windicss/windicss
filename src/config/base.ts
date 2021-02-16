@@ -1,8 +1,8 @@
-import colors from "./colors";
+import { colors } from "./colors";
 import { toType } from "../utils/tools";
 import type { Config } from "../interfaces";
 
-const config: Config = {
+export const baseConfig: Config = {
   // purge: [],
   presets: [],
   darkMode: "class", // or 'media'
@@ -683,5 +683,3 @@ const config: Config = {
   // },
   plugins: [],
 };
-
-export default config;

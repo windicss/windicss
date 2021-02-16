@@ -1,4 +1,35 @@
-export default {
+type Colors = 
+  'black'
+  | 'white'
+  | 'rose'
+  | 'pink'
+  | 'fuchsia'
+  | 'purple'
+  | 'violet'
+  | 'indigo'
+  | 'blue'
+  | 'lightBlue'
+  | 'cyan'
+  | 'teal'
+  | 'emerald'
+  | 'green'
+  | 'lime'
+  | 'yellow'
+  | 'amber'
+  | 'orange'
+  | 'red'
+  | 'warmGray'
+  | 'trueGray'
+  | 'gray'
+  | 'coolGray'
+  | 'blueGray'
+
+export type DefaultColors = {
+  [key in Colors]: string | Record<number | string, string>
+}
+
+
+export const colors: DefaultColors =  {
   black: "#000",
   white: "#fff",
   rose: {

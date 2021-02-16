@@ -6,7 +6,7 @@ import { staticUtilities, dynamicUtilities } from "./utilities";
 
 import extract, { generateStaticStyle } from "./extract";
 import preflight from "./preflight";
-import baseConfig from "../config/base";
+import { baseConfig } from "../config";
 import cssEscape from "../utils/algorithm/cssEscape";
 import combineConfig from "../utils/algorithm/combineConfig";
 import ClassParser from "../utils/parser/class";
@@ -28,7 +28,6 @@ import type {
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
-  ThemeUtil,
 } from "../interfaces";
 
 import type { Utility } from "./utilities/handler";

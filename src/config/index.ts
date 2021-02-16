@@ -1,2 +1,2 @@
-export { default as base } from "./base";
-export { default as colors } from "./colors";
+export { baseConfig } from "./base";
+export { colors } from "./colors";
