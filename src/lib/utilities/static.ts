@@ -13,7 +13,7 @@ const fontVariants = {
     "var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)",
 };
 
-const staticUtilities: StaticUtility = {
+export const staticUtilities: StaticUtility = {
   /**
    * ===========================================
    * Layout
@@ -819,5 +819,3 @@ const staticUtilities: StaticUtility = {
     "white-space": "normal",
   },
 };
-
-export default staticUtilities;

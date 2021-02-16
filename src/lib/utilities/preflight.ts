@@ -4,7 +4,7 @@
 import { hex2RGB } from "../../utils/tools";
 import type { ThemeUtil } from "../../interfaces";
 
-const preflights: {
+export const preflights: {
   keys: string[];
   properties: {
     [key: string]: string | string[] | ((theme: ThemeUtil) => string);
@@ -782,5 +782,3 @@ Add the correct display in Chrome and Safari.
   }
 }
 ];
-
-export default preflights;

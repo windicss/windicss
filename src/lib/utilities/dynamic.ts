@@ -1282,7 +1282,7 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
   );
 }
 
-export default {
+export const dynamicUtilities: DynamicUtility = {
   container: container,
   space: space,
   divide: divide,
@@ -1347,4 +1347,4 @@ export default {
   duration: duration,
   delay: delay,
   animate: animation,
-} as DynamicUtility;
+}
