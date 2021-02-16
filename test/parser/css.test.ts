@@ -303,4 +303,27 @@ video {
   }
 }`);
   });
+
+  it("apply chain", () => {
+    const css = `.base {
+      @apply w-9 h-9 rounded-md;
+    }
+    .extend-base {
+      @apply base bg-white;
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toEqual(
+`.base {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.375rem;
+}
+.extend-base {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}`);
+  });
 });

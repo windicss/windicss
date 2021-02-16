@@ -2,7 +2,7 @@ import plugin from "../index";
 import type { PluginUtilOptions } from "../../interfaces";
 
 export default plugin(
-  function ({ addBase, addUtilities, addDynamic, theme, variants }) {
+  function ({ addUtilities, addDynamic, theme, variants }) {
     addUtilities({
       '.aspect-none': {
         position: 'static',

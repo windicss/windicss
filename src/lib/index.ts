@@ -285,7 +285,8 @@ export class Processor {
 
   interpret(
     classNames: string,
-    ignoreProcessed = false
+    ignoreProcessed = false,
+    handleIgnored?: (ignored:string) => Style | Style[] | undefined
   ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     // Interpret tailwind class then generate raw tailwind css.
     const ast = new ClassParser(
@@ -295,6 +296,19 @@ export class Processor {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
+
+    const _hIgnored = (className:string) => {
+      if (handleIgnored) {
+        const style = handleIgnored(className);
+        if (style) {
+          styleSheet.add(style);
+          success.push(className);
+        } else {
+          ignored.push(className);
+        }
+      }
+      ignored.push(className);
+    };
 
     const _gStyle = (
       baseClass: string,
@@ -312,7 +326,7 @@ export class Processor {
           result.forEach((i) => this.markAsImportant(i));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
-        ignored.push(selector);
+        _hIgnored(selector);
       }
     };
 
@@ -347,7 +361,7 @@ export class Processor {
         } else if (obj.type === "group") {
           _hGroup(obj);
         } else {
-          ignored.push(obj.raw);
+          _hIgnored(obj.raw);
         }
       }
     });
@@ -363,7 +377,8 @@ export class Processor {
     classNames: string,
     prefix = "windi-",
     showComment = false,
-    ignoreGenerated = false
+    ignoreGenerated = false,
+    handleIgnored?: (ignored:string) => Style | Style[] | undefined
   ): {
     success: string[];
     ignored: string[];
@@ -379,6 +394,19 @@ export class Processor {
     if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = "." + className;
+
+    const _hIgnored = (className:string) => {
+      if (handleIgnored) {
+        const style = handleIgnored(className);
+        if (style) {
+          styleSheet.add(style);
+          success.push(className);
+        } else {
+          ignored.push(className);
+        }
+      }
+      ignored.push(className);
+    };
 
     const _gStyle = (
       baseClass: string,
@@ -399,7 +427,7 @@ export class Processor {
         }
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
-        ignored.push(selector);
+        _hIgnored(selector);
       }
     };
 
@@ -432,7 +460,7 @@ export class Processor {
       } else if (obj.type === "group") {
         _hGroup(obj);
       } else {
-        ignored.push(obj.raw);
+        _hIgnored(obj.raw);
       }
     });
 

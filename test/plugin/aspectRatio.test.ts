@@ -12,7 +12,6 @@ describe("aspect ratio plugin", () => {
       aspect-9/16
       `;
     const utility = processor.interpret(classes);
-    const preflight = processor.preflight(undefined, false, false, true);
     expect(utility.ignored.length).toEqual(0);
     expect(utility.styleSheet.build()).toEqual(
 String.raw`.aspect-none {

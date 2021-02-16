@@ -1,10 +1,12 @@
 import { Property, Style, StyleSheet, InlineAtRule } from "../style";
 import { searchFrom } from "../tools";
+import { deepCopy } from "../../utils";
 import type { Processor } from "../../lib";
 
 export default class CSSParser {
   css?: string;
   processor?: Processor;
+  private _cache: {[key:string]:Style[]} = {};
   constructor(css?: string, processor?: Processor) {
     this.css = css;
     this.processor = processor;
@@ -49,22 +51,28 @@ export default class CSSParser {
     const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === "apply" && i.value);
     if (this.processor && applies.length > 0) {
 
-      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(" ")).styleSheet;
-      notImportant.children.forEach((style) => {
+      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(" "), undefined, false, false, (ignored) => {
+        if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
+      });
+      notImportant.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => notImportant.styleSheet.add(this._cache[i]));
+      notImportant.styleSheet.children.forEach((style) => {
         style.selector = selector;
       });
 
-      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(" ")).styleSheet;
-      important.children.forEach((style) => {
+      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(" "), undefined, false, false, (ignored) => {
+        if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
+      });
+      important.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => important.styleSheet.add(this._cache[i]));
+      important.styleSheet.children.forEach((style) => {
         style.selector = selector;
         style.important = true;
       });
 
       return properties.length > 0
-        ? [new Style(selector, properties, false), ...notImportant.extend(important).children]
-        : notImportant.extend(important).children;
+        ? [new Style(selector, properties, false), ...notImportant.styleSheet.extend(important.styleSheet).children]
+        : notImportant.styleSheet.extend(important.styleSheet).children;
     }
-    return new Style(selector, this.processor ? properties : parsed, false);
+    return [ new Style(selector, this.processor ? properties : parsed, false) ];
   }
 
   private _handleDirectives(
@@ -150,12 +158,15 @@ export default class CSSParser {
           break;
         }
         // nested selector
-        styleSheet.add(
-          this._generateStyle(
-            css.substring(nestStart + 1, nestEnd),
-            css.substring(firstLetter, nestStart).trim()
-          )
+        const selector = css.substring(firstLetter, nestStart).trim();
+        const styles = this._generateStyle(
+          css.substring(nestStart + 1, nestEnd),
+          css.substring(firstLetter, nestStart).trim()
         );
+        if (styles) {
+          if (selector.startsWith('.')) this._cache[selector] = deepCopy(styles);
+          styleSheet.add(styles);
+        }
         index = nestEnd + 1;
       }
       firstLetter = searchFrom(css, /\S/, index);
