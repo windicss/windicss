@@ -1,4 +1,4 @@
-import colors from "../../config/colors";
+import { colors } from "../../config";
 import { isUsableColor } from "./utils";
 import type { ThemeUtil } from "../../interfaces";
 
