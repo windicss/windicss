@@ -126,4 +126,31 @@ describe("Config", () => {
       ".dark #app .dark\\:bg-white {\n  --tw-bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}"
     );
   });
+
+  it("color config test", () => {
+    const processor = new Processor({
+      darkMode: 'media', // or 'media' or 'class'
+      theme: {
+        extend: {
+          colors: {
+            darkTheme: {
+              600: '#262A34',
+              700: '#181A20',
+              800: '#1A1B20',
+            },
+          },
+        },
+      },
+    });
+    expect(processor.theme('colors.darkTheme')).toEqual({
+      600: '#262A34',
+      700: '#181A20',
+      800: '#1A1B20',
+    });
+    expect(processor.interpret('bg-darkTheme-600').styleSheet.build()).toEqual(
+`.bg-darkTheme-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
+}`);
+  });
 });
