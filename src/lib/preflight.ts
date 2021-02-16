@@ -66,11 +66,19 @@ export default function preflight(
 
   // handle plugin style
   if (includePlugins) {
-    let pluginList: Style[] = [];
+    // purged base Styles
+    let preflightList: Style[] = [];
     Object.values(processor._plugin.preflights).forEach((styles) => {
-      pluginList = pluginList.concat(styles);
+      preflightList = preflightList.concat(styles);
     });
-    styleSheet.add(html ? purgeBase(html, pluginList) : pluginList);
+    styleSheet.add(html ? purgeBase(html, preflightList) : preflightList);
+
+    // always generated styles
+    let staticList: Style[] = [];
+    Object.values(processor._plugin.static).forEach((styles) => {
+      staticList = staticList.concat(styles);
+    });
+    styleSheet.add(staticList);
   }
 
   const result = styleSheet.combine().sort();

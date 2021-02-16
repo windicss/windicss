@@ -43,6 +43,7 @@ type VariantTypes = "screen" | "theme" | "state"
 type StyleArrayObject = { [key: string]: Style[] }
 
 interface Plugin {
+  static: StyleArrayObject; // All styles that do not require purge
   dynamic: { [key: string]: ((utility: Utility) => Output)};
   utilities: StyleArrayObject;
   components: StyleArrayObject;
@@ -72,6 +73,7 @@ export class Processor {
   };
 
   readonly _plugin: Plugin = {
+    static: {},
     dynamic: {},
     utilities: {},
     components: {},
@@ -509,10 +511,10 @@ export class Processor {
     if (Array.isArray(options)) options = { variants: options };
     let output: Style[] = [];
     for (const [key, value] of Object.entries(utilities)) {
-      const styles = Style.generate(options.respectPrefix ? this.prefix(key) : key, value);
+      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       output = [...output, ...styles];
-      this._plugin.utilities[key] = styles;
+      (key.startsWith('.')? this._plugin.utilities: this._plugin.static)[key] = styles;
     }
     return output;
   }
@@ -561,22 +563,22 @@ export class Processor {
       }, {}) as DeepNestObject;
     }
     for (const [key, value] of Object.entries(components)) {
-      const pkey = options.respectPrefix ? this.prefix(key): key;
+      const pkey = key.startsWith('.') && options.respectPrefix ? this.prefix(key): key;
       const styles = Style.generate(pkey, value);
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
-      this._plugin.components[pkey] = styles;
+      (key.startsWith('.')? this._plugin.components: this._plugin.static)[pkey] = styles;
     }
     return output;
   }
 
-  addBase(baseStyles: DeepNestObject): Style[] {
+  addBase(baseStyles: DeepNestObject, autoPurge = true): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
       const styles = Style.generate(key, value);
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
-      this._plugin.preflights[key] = styles;
+      (autoPurge? this._plugin.preflights : this._plugin.static)[key] = styles;
     }
     return output;
   }

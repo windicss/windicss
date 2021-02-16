@@ -1,4 +1,3 @@
-import { writeFileSync } from "fs";
 import { Processor } from "../../src/lib";
 
 const processor = new Processor();
@@ -18,7 +17,6 @@ describe("Interpretation Mode", () => {
       "bg-cool-gray-300",
       "bg-hex-fff",
     ]);
-    writeFileSync('def.css',result.styleSheet.build())
     expect(result.styleSheet.build()).toBe(
 String.raw`.bg-cool-gray-300 {
   --tw-bg-opacity: 1;
