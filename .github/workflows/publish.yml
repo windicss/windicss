@@ -19,7 +19,7 @@ jobs:
       - run: npm run test
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_SECRET}}
       # - run: npx conventional-github-releaser -p angular
       #   env:
       #     CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
