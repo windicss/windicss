@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npm run build:prod
       - run: npm run test
-      - run: npm publish
+      - run: cd dist && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_SECRET}}
       - run: npx conventional-github-releaser -p angular
