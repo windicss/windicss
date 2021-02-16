@@ -72,6 +72,17 @@ String.raw`.skew-10deg {
 }
 .aspect-w-4 {
   --tw-aspect-w: 4;
+  position: relative;
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+}
+.aspect-w-4 > * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 .aspect-h-6 {
   --tw-aspect-h: 6;
