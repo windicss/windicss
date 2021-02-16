@@ -1,6 +1,6 @@
 import { Style } from "../../utils/style";
 
-export default function (
+export function generateThemes (
   darkMode?: "media" | "class" | false
 ): { [key: string]: () => Style } {
   if (!darkMode) return {};

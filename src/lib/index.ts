@@ -32,26 +32,46 @@ import type {
 
 import type { Utility } from "./utilities/handler";
 
+type Cache = {
+  html: string[];
+  classes: string[];
+  utilities: string[];
+}
+type ResolvedVariants = { [key: string]: () => Style }
+type VariantTypes = "screen" | "theme" | "state"
+
+type StyleArrayObject = { [key: string]: Style[] }
+
+interface Plugin {
+  dynamic: { [key: string]: ((utility: Utility) => Output)};
+  utilities: StyleArrayObject;
+  components: StyleArrayObject;
+  preflights: StyleArrayObject;
+  variants: { [key: string]: () => Style };
+}
+
+type VariantUtils = {
+  modifySelectors: (modifier: ({ className }: {
+      className: string;
+  }) => string) => Style;
+  atRule: (name: string) => Style;
+  pseudoClass: (name: string) => Style;
+  pseudoElement: (name: string) => Style;
+  parent: (name: string) => Style;
+  child: (name: string) => Style;
+}
+
 export class Processor {
   private _config: Config;
   private _theme: Config["theme"];
-  private _variants: { [key: string]: () => Style } = {};
-  private _cache: {
-    html: string[];
-    classes: string[];
-    utilities: string[];
-  } = {
+  private _variants: ResolvedVariants = {};
+  private _cache: Cache = {
     html: [],
     classes: [],
     utilities: [],
   };
-  readonly _plugin: {
-    dynamic: { [key: string]: ((utility: Utility) => Output)};
-    utilities: { [key: string]: Style[] };
-    components: { [key: string]: Style[] };
-    preflights: { [key: string]: Style[] };
-    variants: { [key: string]: () => Style };
-  } = {
+
+  readonly _plugin: Plugin = {
     dynamic: {},
     utilities: {},
     components: {},
@@ -60,44 +80,29 @@ export class Processor {
   };
 
   public pluginUtils: PluginUtils = {
-    addDynamic: (
-      key: string,
-      generator: UtilityGenerator,
-      options?: PluginUtilOptions
-    ) => this.addDynamic(key, generator, options),
-    addUtilities: (utilities: DeepNestObject, options?: PluginUtilOptions) =>
-      this.addUtilities(utilities, options),
-    addComponents: (components: DeepNestObject | DeepNestObject[], options?: PluginUtilOptions) =>
-      this.addComponents(components, options),
-    addBase: (baseStyles: DeepNestObject) => this.addBase(baseStyles),
-    addVariant: (
-      name: string,
-      generator: VariantGenerator
-    ) => this.addVariant(name, generator),
-    e: (selector: string) => this.e(selector),
-    prefix: (selector: string) => this.prefix(selector),
-    config: (path: string, defaultValue?: unknown) =>
-      this.config(path, defaultValue),
-    theme: (path: string, defaultValue?: unknown) =>
-      this.theme(path, defaultValue),
-    variants: (path: string, defaultValue?: string[]) =>
-      this.variants(path, defaultValue),
+    addDynamic: (...args) => this.addDynamic(...args),
+    addUtilities: (...args) => this.addUtilities(...args),
+    addComponents: (...args) => this.addComponents(...args),
+    addBase: (...args) => this.addBase(...args),
+    addVariant: (...args) => this.addVariant(...args),
+    e: (...args) => this.e(...args),
+    prefix: (...args) => this.prefix(...args),
+    config: (...args) => this.config(...args),
+    theme: (...args) => this.theme(...args),
+    variants: (...args) => this.variants(...args)
   };
 
-  public variantUtils = {
-    modifySelectors: (
-      modifier: ({ className }: { className: string }) => string
-    ): Style =>
-      new Style().wrapSelector((selector: string) =>
+  public variantUtils: VariantUtils = {
+    modifySelectors: (modifier) =>
+      new Style().wrapSelector((selector) =>
         modifier({
           className: /^[.#]/.test(selector) ? selector.substring(1) : selector,
-        })
-      ),
-    atRule: (name: string): Style => new Style().atRule(name),
-    pseudoClass: (name: string): Style => new Style().pseudoClass(name),
-    pseudoElement: (name: string): Style => new Style().pseudoElement(name),
-    parent: (name: string): Style => new Style().parent(name),
-    child: (name: string): Style => new Style().child(name),
+        })),
+    atRule: (name) => new Style().atRule(name),
+    pseudoClass: (name) => new Style().pseudoClass(name),
+    pseudoElement: (name) => new Style().pseudoElement(name),
+    parent: (name) => new Style().parent(name),
+    child: (name) => new Style().child(name),
   };
 
   constructor(config?: Config) {
@@ -181,14 +186,14 @@ export class Processor {
     this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
-    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i) );
+    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i))
     this._variants = this.resolveVariants();
     return this._config;
   }
 
   resolveVariants(
-    type?: "screen" | "theme" | "state"
-  ): { [key: string]: () => Style } {
+    type?: VariantTypes
+  ): ResolvedVariants {
     const variants = resolveVariants(this._config);
     if (type) {
       return variants[type];
@@ -196,8 +201,8 @@ export class Processor {
     return { ...variants.screen, ...variants.theme, ...variants.state };
   }
 
-  resolveStaticUtilities(includePlugins = false): { [key: string]: Style[] } {
-    const staticStyles: { [key: string]: Style[] } = {};
+  resolveStaticUtilities(includePlugins = false): StyleArrayObject {
+    const staticStyles: StyleArrayObject = {};
     for (const key in staticUtilities) {
       staticStyles[key] = [generateStaticStyle(key, true)];
     }
@@ -504,7 +509,7 @@ export class Processor {
     if (Array.isArray(options)) options = { variants: options };
     let output: Style[] = [];
     for (const [key, value] of Object.entries(utilities)) {
-      const styles = Style.generate(options.respectPrefix?this.prefix(key):key, value);
+      const styles = Style.generate(options.respectPrefix ? this.prefix(key) : key, value);
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       output = [...output, ...styles];
       this._plugin.utilities[key] = styles;
