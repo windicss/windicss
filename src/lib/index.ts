@@ -80,16 +80,16 @@ export class Processor {
   };
 
   public pluginUtils: PluginUtils = {
-    addDynamic: this.addDynamic,
-    addUtilities: this.addUtilities,
-    addComponents: this.addComponents,
-    addBase: this.addBase,
-    addVariant: this.addVariant,
-    e: this.e,
-    prefix: this.prefix,
-    config: this.config,
-    theme: this.theme,
-    variants: this.variants
+    addDynamic: (...args) => this.addDynamic(...args),
+    addUtilities: (...args) => this.addUtilities(...args),
+    addComponents: (...args) => this.addComponents(...args),
+    addBase: (...args) => this.addBase(...args),
+    addVariant: (...args) => this.addVariant(...args),
+    e: (...args) => this.e(...args),
+    prefix: (...args) => this.prefix(...args),
+    config: (...args) => this.config(...args),
+    theme: (...args) => this.theme(...args),
+    variants: (...args) => this.variants(...args)
   };
 
   public variantUtils: VariantUtils = {
@@ -495,8 +495,7 @@ export class Processor {
   }
 
   prefix(selector: string): string {
-    console.log(selector, this._config);
-    return selector.replace(/(?=[\w])/, this._config?.prefix ?? "");
+    return selector.replace(/(?=[\w])/, this._config.prefix ?? "");
   }
 
   addUtilities(
