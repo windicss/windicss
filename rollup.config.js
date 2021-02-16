@@ -10,9 +10,9 @@ import pkg from "./package.json";
 
 const output_dir = "./dist";
 
-const is_publish = !!process.env.PUBLISH;
+const prod = process.env.NODE_ENV === "production";
 
-const ts_plugin = is_publish
+const ts_plugin = prod
   ? typescript({
       target: "es5",
       include: "src/**",

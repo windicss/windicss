@@ -13,10 +13,10 @@
     "tsd": "tsc -p ./src --emitDeclarationOnly",
     "lint": "eslint . --ext .ts",
     "build": "rollup -c && npm run tsd",
-    "product": "PUBLISH=true npm run build",
-    "release": "npm run lint && npm run product && npm run test",
+    "build:prod": "cross-env NODE_ENV=production npm run build",
     "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
-    "coverage": "nyc --nycrc-path=.nycrc.json npm run test"
+    "coverage": "nyc --nycrc-path=.nycrc.json npm run test",
+    "release": "bumpp --tag --commit --push"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -96,7 +96,6 @@
   "author": "Veritas Raven",
   "license": "MIT",
   "homepage": "https://github.com/voorjaar/windicss",
-  "dependencies": {},
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -110,6 +109,8 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "arg": "^5.0.0",
+    "bumpp": "^6.0.6",
+    "cross-env": "^7.0.3",
     "css-select": "^3.1.2",
     "css-what": "^4.0.0",
     "eslint": "^7.18.0",
