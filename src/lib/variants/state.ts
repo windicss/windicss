@@ -4,7 +4,7 @@ import { Style } from "../../utils/style";
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
  */
 
-export default function (
+export function generateStates (
   variantOrder: string[]
 ): { [key: string]: () => Style } {
   const states: { [key: string]: () => Style } = {

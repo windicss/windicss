@@ -5,7 +5,7 @@ type RawBreakpoint = { raw: string }
 type MinMaxBreakpoint = { min?: string, max?: string }
 type ScreenBreakpoint = RawBreakpoint | MinMaxBreakpoint
 
-export default function generateScreens(screens: {
+export function generateScreens(screens: {
   [key: string]: string | ScreenBreakpoint;
 }): { [key: string]: () => Style } {
   const variants: { [key: string]: () => Style } = {};
