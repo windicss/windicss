@@ -14,7 +14,7 @@ Next generation Tailwind CSS compiler.
 
 ## Documentation
 
-View full documentation on [GitHub Wiki](https://github.com/windicss/windicss/wiki/Introduction).
+View [full documentation](http://windicss.netlify.app/) or [GitHub Wiki](https://github.com/windicss/windicss/wiki/Introduction).
 
 ## Discussions
 
