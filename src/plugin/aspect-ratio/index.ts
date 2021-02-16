@@ -18,29 +18,26 @@ export default plugin(
         }
       },
     })
-    addDynamic("aspect-w", ({ Utility }) => {
+    addDynamic("aspect-w", ({ Utility, Style }) => {
       const prop = Utility.handler
         .handleStatic(theme("aspectRatio"))
         .handleNumber(1, undefined, "float")
-        .createProperty('--tw-aspect-w');
-      if (prop) {
-        addBase({
-          [Utility.class]: {
-            position: 'relative',
-            paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%)`,
-            '> *': {
-              position: 'absolute',
-              height: '100%',
-              width: '100%',
-              top: '0',
-              right: '0',
-              bottom: '0',
-              left: '0',
-            },
-          }
-        });
-        return prop;
-      }
+        .value;
+      if (!prop) return;
+      return Style.generate(Utility.class, {
+        '--tw-aspect-w': prop,
+        position: 'relative',
+        paddingBottom: `calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%)`,
+        '> *': {
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          top: '0',
+          right: '0',
+          bottom: '0',
+          left: '0',
+        },
+      });
     }, variants('aspectRatio') as PluginUtilOptions);
 
     addDynamic("aspect-h", ({ Utility }) => {

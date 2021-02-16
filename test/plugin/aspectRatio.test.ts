@@ -15,7 +15,7 @@ describe("aspect ratio plugin", () => {
     const preflight = processor.preflight(undefined, false, false, true);
     expect(utility.ignored.length).toEqual(0);
     expect(utility.styleSheet.build()).toEqual(
-`.aspect-none {
+String.raw`.aspect-none {
   position: static;
   padding-bottom: 0;
 }
@@ -30,15 +30,10 @@ describe("aspect ratio plugin", () => {
 }
 .aspect-w-16 {
   --tw-aspect-w: 16;
-}
-.aspect-h-9 {
-  --tw-aspect-h: 9;
-}
-.aspect-9\\/16 {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
 }
-.aspect-9\\/16 > * {
+.aspect-w-16 > * {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -46,13 +41,15 @@ describe("aspect ratio plugin", () => {
   right: 0;
   bottom: 0;
   left: 0;
-}`);
-    expect(preflight.build()).toEqual(
-`.aspect-w-16 {
-  position: relative;
-  padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
 }
-.aspect-w-16 > * {
+.aspect-h-9 {
+  --tw-aspect-h: 9;
+}
+.aspect-9\/16 {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+.aspect-9\/16 > * {
   position: absolute;
   height: 100%;
   width: 100%;

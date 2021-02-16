@@ -2,7 +2,7 @@ import { Style } from '../../src/utils/style';
 import { sortSelector } from '../../src/utils/algorithm';
 
 describe("sort selector", () => {
-  it ("should sort correctly", () => {
+  it("should sort correctly", () => {
     const styles = [
       new Style(':root'),
       new Style('::moz-focus-inner'),
@@ -18,5 +18,18 @@ describe("sort selector", () => {
       new Style('.p-2'),
     ];
     expect(styles.sort(sortSelector).map(i => i.selector)).toEqual(['*', ':root', '::moz-focus-inner', '::-webkit-inner-spin-button', 'a', 'body', '.bg-red-500', '.p-4', '.p-2', '.pt-4', '.test', '#id']);
+  });
+
+  it("should sort transform correctly", () => {
+    const styles = [
+      new Style('.-translate-x-1/2'),
+      new Style('.-translate-y-1/2'),
+      new Style('.origin-top'),
+      new Style('.transform'),
+      new Style('.scale-50'),
+      new Style('.rotate-5'),
+      new Style('.-skew-x-4')
+    ];
+    expect(styles.sort(sortSelector).map(i => i.selector)).toEqual([ '.transform', '.origin-top', '.scale-50', '.rotate-5', '.-translate-x-1/2', '.-translate-y-1/2', '.-skew-x-4' ]);
   });
 })
