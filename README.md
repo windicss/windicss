@@ -28,7 +28,7 @@ By scanning your HTML and CSS and generating utilities on demand, [Windi CSS] is
 
 Read more about it in the [Introduction](https://windicss.netlify.app/guide/introduction).
 
-## Intergrations
+## Integrations
 
 | Frameworks | Package | Version |
 | --- | --- | --- |
