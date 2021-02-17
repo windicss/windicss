@@ -153,4 +153,42 @@ describe("Config", () => {
   background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
 }`);
   });
+
+  it("handle colors test", () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            discord: {
+              DEFAULT: '#7289da',
+              '100': '#7289da'
+            },
+            'primary-color-red': '#FF0000'
+          }
+        }
+      }
+    });
+    expect(processor.interpret('bg-discord bg-discord-100 bg-hex-7289da ring-offset-hex-1c1c1e ring-offset-gray-200 text-primary-color-red').styleSheet.build()).toEqual(`.bg-discord {
+  --tw-bg-opacity: 1;
+  background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+}
+.bg-discord-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+}
+.bg-hex-7289da {
+  --tw-bg-opacity: 1;
+  background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+}
+.ring-offset-hex-1c1c1e {
+  --tw-ring-offset-color: #1c1c1e;
+}
+.ring-offset-gray-200 {
+  --tw-ring-offset-color: #e5e7eb;
+}
+.text-primary-color-red {
+  --tw-text-opacity: 1;
+  color: rgba(255, 0, 0, var(--tw-text-opacity));
+}`);
+  });
 });

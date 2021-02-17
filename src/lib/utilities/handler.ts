@@ -1,6 +1,6 @@
 import { colors } from "../../config";
 import { Property } from "../../utils/style";
-import { camelToDash } from "../../utils/tools";
+import { camelToDash, flatColors } from "../../utils/tools";
 import { cssEscape } from "../../utils/algorithm";
 import {
   isNumber,
@@ -118,22 +118,18 @@ class Handler {
     if (this.value) return this;
     let color;
     if (map && typeof map === "object") {
-      const knownMap = map as { [key: string]: string | { [key: string]: string } };
-      if (this._amount in knownMap) color = knownMap[this._amount];
-      if (this._center in knownMap) color = knownMap[this._center];
-      if (this._center === "hex" && hex2RGB(this._amount))
-        color = "#" + this._amount;
-      if (typeof color === "string") {
-        this.value = callback ? callback(color) : color;
-      } else if (typeof color === "object") {
-        this.value = callback
-          ? callback(color[this._amount])
-          : color[this._amount];
+      const knownMap = flatColors(map as { [key: string]: string | { [key: string]: string } });
+      const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/,'');
+      if (body in knownMap) {
+        color = knownMap[body];
+      } else if (body.startsWith('hex-')) {
+        const hex = body.replace('hex-', '')
+        if(hex2RGB(hex)) color = '#' + hex;
       }
+      if (color) this.value = callback ? callback(color) : color;
     }
     return this;
   }
-
   handleNegative(
     callback: (value: string) => string | undefined = negateValue
   ) {
