@@ -68,6 +68,10 @@
       "import": "./plugin/typography/index.js",
       "require": "./plugin/typography/index.js"
     },
+    "./plugin/scroll-snap": {
+      "import": "./plugin/scroll-snap/index.js",
+      "require": "./plugin/scroll-snap/index.js"
+    },
     "./utils": {
       "import": "./utils/index.mjs",
       "require": "./utils/index.js"
