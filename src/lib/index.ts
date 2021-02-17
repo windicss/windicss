@@ -1,4 +1,4 @@
-import { getNestedValue, hash, deepCopy } from "../utils/tools";
+import { getNestedValue, hash, deepCopy, toArray } from "../utils/tools";
 import { negative, breakpoints } from "../utils/helpers";
 import { Property, Style, StyleSheet } from "../utils/style";
 import { resolveVariants } from "./variants";
@@ -14,11 +14,10 @@ import ClassParser from "../utils/parser/class";
 import type {
   Config,
   DictStr,
-  DefaultConfig,
   DynamicUtility,
   ConfigUtil,
   Theme,
-  DefaultTheme,
+  ExtendTheme,
   Output,
   Element,
   PluginUtils,
@@ -29,6 +28,8 @@ import type {
   UtilityGenerator,
   VariantGenerator,
 } from "../interfaces";
+
+import type { BaseConfig } from '../config'
 
 import type { Utility } from "./utilities/handler";
 
@@ -112,37 +113,42 @@ export class Processor {
     this._theme = this._config.theme;
   }
 
-  private _resolveConfig(userConfig: Config, presets: Config) {
-    if (userConfig.presets) presets = this._resolvePresets(userConfig.presets);
+  private _resolveConfig(userConfig: Config, presets: Config | BaseConfig) {
+    let resolvedPreset: Config = presets
+    if (userConfig.presets) resolvedPreset = this._resolvePresets(userConfig.presets);
     const userTheme = userConfig.theme;
-    if (userTheme) delete userConfig.theme;
-    const extendTheme = userTheme?.extend ?? ({} as { [key: string]: Theme });
-    if (userTheme && extendTheme) delete userTheme.extend;
-    const theme: Theme = { ...presets.theme, ...userTheme };
-    if (extendTheme && typeof extendTheme === 'object') {
-      for (const [key, value] of Object.entries(extendTheme)) {
-        const themeValue = theme[key];
-        if (typeof themeValue === 'function') {
-          theme[key] = (theme, { negative, breakpoints }) => {
-            return {
-              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints}) as {[key:string]:unknown},
-              ...value as {[key:string]:unknown}
-            }
-          };
-        } else if (typeof themeValue === 'object') {
-          theme[key] = { ...(themeValue ?? {}), ...value as {[key:string]:unknown} };
-        } else {
-          theme[key] = value as {[key:string]:unknown};
+    let theme: Theme = resolvedPreset.theme ?? {}
+    // resolve user config
+    if (userTheme) {
+      delete userConfig.theme;
+      const extendTheme = userTheme?.extend as ExtendTheme | undefined;
+      if (extendTheme) delete userTheme.extend;
+      theme = { ...theme, ...userTheme };
+      if (extendTheme && typeof extendTheme === 'object') {
+        for (const [key, value] of Object.entries(extendTheme)) {
+          const themeValue = theme[key];
+          if (typeof value === 'string'){
+            theme[key] = value;
+          } else if (typeof themeValue === 'function') {
+            (theme[key] as ConfigUtil) = (theme, { negative, breakpoints }) => {
+              return {
+                ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }),
+                ...value
+              }
+            };
+          } else if (typeof themeValue === 'object') {
+            theme[key] = { ...(themeValue ?? {}), ...value };
+          }
         }
       }
     }
-    return { ...presets, ...userConfig, theme };
+    return { ...resolvedPreset, ...userConfig, theme };
   }
 
   private _resolvePresets(presets: Config[]) {
     let config: Config = {};
-    presets.forEach((p) => {
-      config = this._resolveConfig(config, p);
+    presets.forEach((preset) => {
+      config = Object.assign(config, this._resolveConfig(config, preset));
     });
     return config;
   }
@@ -184,7 +190,7 @@ export class Processor {
     })
   }
 
-  resolveConfig(config: Config | undefined, presets: Config): Config {
+  resolveConfig(config: Config | undefined, presets: BaseConfig): Config {
     this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
@@ -217,24 +223,24 @@ export class Processor {
     return {...dynamicUtilities, ...this._plugin.dynamic};
   }
 
-  get allConfig(): DefaultConfig {
-    return this._config as DefaultConfig;
+  get allConfig(): Config {
+    return this._config;
   }
 
-  get allTheme(): DefaultTheme {
-    return (this._theme ?? {}) as DefaultTheme;
+  get allTheme(): Theme {
+    return this._theme ?? {};
   }
 
   wrapWithVariants(variants: string[], styles: Style | Style[]): Style[] {
     // apply variant to style
-    if (!Array.isArray(styles)) styles = [styles];
+    styles = toArray(styles);
     if (variants.length === 0) return styles;
     const allVariants = { ...this._variants, ...this._plugin.variants };
     return styles.map((style) => {
       return variants
         .filter((i) => i in allVariants)
         .map((i) => allVariants[i]())
-        .reduce((previousValue: Style, currentValue: Style) => {
+        .reduce((previousValue, currentValue) => {
           return previousValue.extend(currentValue);
         }, new Style())
         .extend(style);
@@ -496,11 +502,11 @@ export class Processor {
   }
 
   // tailwind interfaces
-  config(path: string, defaultValue?: unknown): unknown {
+  config(path: string, defaultValue?: unknown): any {
     return getNestedValue(this._config, path) ?? defaultValue;
   }
 
-  theme(path: string, defaultValue?: unknown): unknown {
+  theme(path: string, defaultValue?: unknown): any {
     return this._theme
       ? getNestedValue(this._theme, path) ?? defaultValue
       : undefined;

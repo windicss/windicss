@@ -2,7 +2,7 @@ import type { Utility } from "./lib/utilities/handler";
 
 import type { Property, Style, InlineAtRule } from "./utils/style";
 
-export type DictStr = { [key: string]: string };
+export type DictStr = Record<string, string>;
 
 export type NestObject = { [key: string]: string | string[] |NestObject };
 
@@ -26,7 +26,7 @@ export type DefaultFontSize = [
   options: { letterSpacing?: string; lineHeight: string }
 ];
 
-export type ThemeUtil = (path: string, defaultValue?: unknown) => unknown;
+export type ThemeUtil = (path: string, defaultValue?: unknown) => any;
 
 export type ConfigUtil = (
   theme: ThemeUtil,
@@ -37,7 +37,7 @@ export type ConfigUtil = (
     negative: (config: DictStr) => DictStr;
     breakpoints: (config: DictStr) => DictStr;
   }
-) => unknown;
+) => { [key:string]: any };
 
 export type PluginUtilOptions =
   | string[]
@@ -75,7 +75,11 @@ export interface PluginWithOptionsOutput {
 }
 
 export interface Theme {
-  [key: string]: ConfigUtil | { [ key:string ]: unknown } | undefined;
+  [key: string]: ConfigUtil | Record<string, any> | string | any;
+}
+
+export interface ExtendTheme {
+  [key: string]: Record<string, any> | string;
 }
 
 export interface Config {
@@ -85,26 +89,26 @@ export interface Config {
   darkMode?: "media" | "class" | false;
   theme?: Theme;
   variantOrder?: string[];
-  variants?: { [key: string]: string[] };
+  variants?: Record<string, string[]>;
   plugins?: (PluginOutput|PluginWithOptionsOutput)[];
   corePlugins?: string[];
   prefix?: string;
 }
 
 export interface DefaultTheme {
-  colors: { [key: string]: string | { [key: string]: string } };
-  container: { [key: string]: string | { [key: string]: string } };
-  fontFamily: { [key: string]: string[] };
+  colors: { [key: string]: string | Record<string, string> };
+  container: { [key: string]: string | Record<string, string> };
+  fontFamily: Record<string, string[]>;
   fontSize: { [key: string]: DefaultFontSize };
-  keyframes: { [key: string]: { [key: string]: string } };
+  keyframes: { [key: string]: Record<string, string> };
   outline: { [key: string]: [outline: string, outlineOffset: string] };
 }
 
 export interface DefaultTheme {
   [key: string]:
     | DictStr
-    | { [key: string]: string | { [key: string]: string } }
-    | { [key: string]: string[] }
+    | { [key: string]: string | Record<string, string> }
+    | Record<string, string[]>
     | { [key: string]: DefaultFontSize };
 }
 
@@ -113,7 +117,7 @@ export interface DefaultConfig {
   darkMode: "class" | "media" | false;
   theme: DefaultTheme;
   variantOrder: string[];
-  variants: { [key: string]: string[] };
+  variants: Record<string, string[]>;
   plugins: (PluginOutput|PluginWithOptionsOutput)[];
 }
 

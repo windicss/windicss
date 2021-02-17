@@ -156,6 +156,12 @@ export function toType(
   }
 }
 
+export function toArray<T>(arr: T | T[]): T[] {
+  if (Array.isArray(arr))
+    return arr
+  return [arr]
+}
+
 export function deepCopy<T>(source: T): T {
   return Array.isArray(source)
     ? source.map((item) => deepCopy(item))

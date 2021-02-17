@@ -7,7 +7,7 @@ describe("defaultConfig interface test", () => {
 
   it("extend", () => {
     expect(defaultConfig.darkMode).toBe('class');
-    expect(Object.keys(defaultConfig.theme.borderColor).length).toEqual(Object.keys(defaultConfig.theme.colors).length+1);
+    expect(Object.keys(defaultConfig.theme!.borderColor).length).toEqual(Object.keys(defaultConfig.theme!.colors).length+1);
   })
 
   it("require", () => {
