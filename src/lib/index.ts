@@ -390,7 +390,7 @@ export class Processor {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
-    let className: string | undefined = prefix + hash(classNames.trim().split(/\s+/g).join(' '));
+    let className: string | undefined = prefix + hash(classNames.trim().split(/\s+/g).sort().join(' '));
     if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = "." + className;
