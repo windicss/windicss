@@ -1,9 +1,8 @@
 import plugin from "../index";
-import { colors, baseConfig } from "../../config";
+import { colors, baseConfig, BaseTheme } from "../../config";
 import svgToDataUri from "mini-svg-data-uri";
-import type { DefaultTheme } from "../../interfaces";
 
-const defaultTheme = baseConfig.theme as DefaultTheme;
+const defaultTheme = baseConfig.theme as BaseTheme;
 const [baseFontSize, { lineHeight: baseLineHeight }] = defaultTheme.fontSize.base;
 const { borderWidth, borderRadius, outline } = defaultTheme;
 const spacing = (num:number) => `${num/4}rem`;

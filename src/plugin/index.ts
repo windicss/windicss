@@ -1,13 +1,13 @@
 import type {
   Plugin,
   PluginUtils,
-  Config,
   DictStr,
 } from "../interfaces";
+import type { BaseConfig } from '../config'
 
 const createPlugin: Plugin = (
   plugin: (utils: PluginUtils) => void,
-  config?: Config
+  config?: BaseConfig
 ) => {
   return {
     handler: plugin,
@@ -17,7 +17,7 @@ const createPlugin: Plugin = (
 
 createPlugin.withOptions = function (
   pluginFunction: (options: DictStr) => (utils: PluginUtils) => void,
-  configFunction: (options: DictStr) => Config = () => ({}),
+  configFunction: (options: DictStr) => BaseConfig = () => ({}),
 ) {
   const optionsFunction = function (options: DictStr) {
     return {

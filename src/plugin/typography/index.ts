@@ -16,7 +16,7 @@ function configToCss(config: Record<string, string> = {}): DeepNestObject {
     ...Object.keys(config)
       .filter((key) => computed[key])
       .map((key) => computed[key](config[key])),
-    ...(castArray(config.css || {}) as Record<string, unknown>[]),
+    ...(castArray(config.css || {}) as Record<string, any>[]),
   ].reduce(
     (previous, current) => combineConfig(previous, current),
     {}

@@ -2,6 +2,8 @@ import type { Utility } from "./lib/utilities/handler";
 
 import type { Property, Style, InlineAtRule } from "./utils/style";
 
+import type { BaseConfig } from './config'
+
 export type DictStr = Record<string, string>;
 
 export type NestObject = { [key: string]: string | string[] |NestObject };
@@ -49,17 +51,17 @@ export type PluginUtilOptions =
 
 export type withOptions = (
   pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void),
-  configFunction?: (options: DictStr) => Config,
+  configFunction?: (options: DictStr) => BaseConfig,
 ) => PluginWithOptionsOutput;
 
 export interface Plugin {
-  (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
+  (handler: (utils: PluginUtils) => void, config?: BaseConfig): PluginOutput;
   withOptions: withOptions;
 }
 
 export interface PluginOutput {
   handler: (utils: PluginUtils) => void;
-  config?: Config;
+  config?: BaseConfig;
   __isOptionsFunction?: false;
 }
 
@@ -67,58 +69,11 @@ export interface PluginWithOptionsOutput {
   (options: DictStr): {
     __options: DictStr;
     handler: ((utils: PluginUtils) => void);
-    config: Config;
+    config: BaseConfig;
   };
   __isOptionsFunction: true;
   __pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void);
-  __configFunction: (options: DictStr) => Config;
-}
-
-export interface Theme {
-  [key: string]: ConfigUtil | Record<string, any> | string | any;
-}
-
-export interface ExtendTheme {
-  [key: string]: Record<string, any> | string;
-}
-
-export interface Config {
-  presets?: Config[];
-  separator?: string;
-  important?: boolean | string;
-  darkMode?: "media" | "class" | false;
-  theme?: Theme;
-  variantOrder?: string[];
-  variants?: Record<string, string[]>;
-  plugins?: (PluginOutput|PluginWithOptionsOutput)[];
-  corePlugins?: string[];
-  prefix?: string;
-}
-
-export interface DefaultTheme {
-  colors: { [key: string]: string | Record<string, string> };
-  container: { [key: string]: string | Record<string, string> };
-  fontFamily: Record<string, string[]>;
-  fontSize: { [key: string]: DefaultFontSize };
-  keyframes: { [key: string]: Record<string, string> };
-  outline: { [key: string]: [outline: string, outlineOffset: string] };
-}
-
-export interface DefaultTheme {
-  [key: string]:
-    | DictStr
-    | { [key: string]: string | Record<string, string> }
-    | Record<string, string[]>
-    | { [key: string]: DefaultFontSize };
-}
-
-export interface DefaultConfig {
-  presets: string[];
-  darkMode: "class" | "media" | false;
-  theme: DefaultTheme;
-  variantOrder: string[];
-  variants: Record<string, string[]>;
-  plugins: (PluginOutput|PluginWithOptionsOutput)[];
+  __configFunction: (options: DictStr) => BaseConfig;
 }
 
 export interface StaticUtility { [key: string]: { [key: string]: string | string[] } }
