@@ -154,6 +154,7 @@ class Handler {
   ) {
     if (!this.value) return;
     const value = callback ? callback(this.value) : this.value;
+    // console.log(name, value);
     return new Property(name, value);
   }
 }

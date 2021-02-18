@@ -26,7 +26,7 @@ describe("Tools", () => {
   it("hash", () => {
     const a = hash("123456");
     const b = hash("123457");
-    expect(a === b).toBeFalse;
+    expect(a === b).toBeFalsy;
     expect(a).toEqual("232ebm");
     expect(b).toEqual("2ht3ft");
   });
@@ -58,37 +58,37 @@ describe("Tools", () => {
   });
 
   it("isNumber", () => {
-    expect(isNumber("3")).toBeTrue();
-    expect(isNumber("3px")).toBeFalse();
-    expect(isNumber("-4")).toBeTrue();
-    expect(isNumber("3.2", 0, 99, "float")).toBeTrue();
-    expect(isNumber("99.2", 0, 99, "float")).toBeFalse();
-    expect(isNumber("-3.2", -99, 99, "float")).toBeTrue();
+    expect(isNumber("3")).toBe(true);
+    expect(isNumber("3px")).toBe(false);
+    expect(isNumber("-4")).toBe(true);
+    expect(isNumber("3.2", 0, 99, "float")).toBe(true);
+    expect(isNumber("99.2", 0, 99, "float")).toBe(false);
+    expect(isNumber("-3.2", -99, 99, "float")).toBe(true);
   });
 
   it("isFraction", () => {
-    expect(isFraction("-32/4")).toBeFalse();
-    expect(isFraction("3/2")).toBeTrue();
-    expect(isFraction("3/2/4")).toBeFalse();
-    expect(isFraction("4")).toBeFalse();
+    expect(isFraction("-32/4")).toBe(false);
+    expect(isFraction("3/2")).toBe(true);
+    expect(isFraction("3/2/4")).toBe(false);
+    expect(isFraction("4")).toBe(false);
   });
 
   it("isSize", () => {
-    expect(isSize("3px")).toBeTrue();
-    expect(isSize("4rem")).toBeTrue();
-    expect(isSize("4pp")).toBeFalse();
-    expect(isSize("1em")).toBeTrue();
-    expect(isSize("50vh")).toBeTrue();
-    expect(isSize("30vw")).toBeTrue();
-    expect(isSize("30ch")).toBeTrue();
-    expect(isSize("30ex")).toBeTrue();
+    expect(isSize("3px")).toBe(true);
+    expect(isSize("4rem")).toBe(true);
+    expect(isSize("4pp")).toBe(false);
+    expect(isSize("1em")).toBe(true);
+    expect(isSize("50vh")).toBe(true);
+    expect(isSize("30vw")).toBe(true);
+    expect(isSize("30ch")).toBe(true);
+    expect(isSize("30ex")).toBe(true);
   });
 
   it("isSpace", () => {
-    expect(isSpace(" ")).toBeTrue();
-    expect(isSpace("")).toBeTrue();
-    expect(isSpace("\n  \t")).toBeTrue();
-    expect(isSpace(" 23 ")).toBeFalse();
+    expect(isSpace(" ")).toBe(true);
+    expect(isSpace("")).toBe(true);
+    expect(isSpace("\n  \t")).toBe(true);
+    expect(isSpace(" 23 ")).toBe(false);
   });
 
   it("roundUp", () => {

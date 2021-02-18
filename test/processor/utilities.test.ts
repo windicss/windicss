@@ -4,6 +4,8 @@ import classNames from "../assets/testClasses";
 
 const processor = new Processor();
 
+// console.log(processor.allConfig);
+
 function build(classNames: string[], addComment = false) {
   const success: string[] = [];
   const ignored: string[] = [];
@@ -44,16 +46,17 @@ describe("Utilities", () => {
     expect(processor.extract("*?")).toBeUndefined();
 
     const b = processor.extract("font-bold", true);
-    expect(b instanceof Style).toBeTrue();
+    // console.log(b instanceof Style);
+    expect(b instanceof Style).toBe(true);
 
     const c = processor.extract("container");
-    expect(Array.isArray(c)).toBeTrue();
+    expect(Array.isArray(c)).toBe(true);
 
     const d = processor.extract("container", true);
-    expect(Array.isArray(d)).toBeTrue();
+    expect(Array.isArray(d)).toBe(true);
 
     const e = processor.extract("sticky");
-    expect(Array.isArray(e)).toBeFalse();
+    expect(Array.isArray(e)).toBe(false);
 
     const f = processor.extract("static");
     expect(f instanceof Style);

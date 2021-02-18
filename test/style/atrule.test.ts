@@ -29,6 +29,6 @@ describe("AtRule", () => {
     expect(!v4 || v4.value).toBeUndefined();
 
     expect(!v5 || v5.value).toBe("font-bold text-md");
-    expect(!v5 || v5.important).toBeTrue();
+    expect(!v5 || v5.important).toBe(true);
   });
 });

@@ -2,11 +2,10 @@ import { resolve } from "path";
 import { toType } from "../../src/utils/tools";
 import { Processor } from "../../src/lib";
 
-const configPath = resolve("./test/assets/tailwind.config.js");
-const userConfig = require(configPath);
-
 describe("Config", () => {
   const baseConfig = new Processor();
+  const configPath = resolve("./test/assets/tailwind.config.js");
+  const userConfig = require(configPath);
 
   it("dict input", () => {
     const processor = new Processor(userConfig);
@@ -98,6 +97,7 @@ describe("Config", () => {
 
   it("change separator test", () => {
     const processor = new Processor({ separator: "_" });
+    // console.log(processor.allConfig);
     expect(processor.interpret("sm_bg-black").styleSheet.build()).toBe(
       "@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}"
     );

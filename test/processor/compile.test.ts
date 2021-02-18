@@ -50,6 +50,6 @@ describe("Compilation Mode", () => {
   })
 
   it("order is important, so classes in different orders should generate different hashes", () => {
-    expect(processor.compile('font-bold text-white').styleSheet.build() === processor.compile('text-white font-bold').styleSheet.build()).toBeFalse();
+    expect(processor.compile('font-bold text-white').styleSheet.build() === processor.compile('text-white font-bold').styleSheet.build()).toBe(false);
   })
 });
