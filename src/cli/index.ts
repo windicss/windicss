@@ -1,4 +1,5 @@
 import arg from 'arg';
+import { resolve } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFileSync } from 'fs';
 import { HTMLParser } from '../utils/parser';
@@ -36,6 +37,7 @@ Options:
   -m, --minify          Generate minimized css file.
   -p, --prefix PREFIX   Set the css class name prefix, only valid in compilation mode. The default prefix is 'windi-'.
   -o, --output PATH     Set output css file path.
+  -f, --config PATH     Set config file path.
 
   --init PATH           Start a new project on the path.
 `;
@@ -53,6 +55,7 @@ const args = arg({
   '--init': String,
   '--prefix': String,
   '--output': String,
+  '--config': String,
 
   // Aliases
   '-h': '--help',
@@ -66,6 +69,7 @@ const args = arg({
   '-m': '--minify',
   '-p': '--prefix',
   '-o': '--output',
+  '-f': '--config',
 });
 
 if (args['--help'] || (args._.length === 0 && Object.keys(args).length === 1)) {
@@ -106,7 +110,7 @@ for (const pt of args._) {
 let ignoredClasses: string[] = [];
 const preflights: StyleSheet[] = [];
 const styleSheets: StyleSheet[] = [];
-const processor = new Processor();
+const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
 
 if (args['--compile']) {
   // compilation mode

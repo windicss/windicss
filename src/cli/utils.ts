@@ -31,11 +31,13 @@ export function walk(
         path: itemPath,
       });
     } else {
-      result.push({
-        type: 'folder',
-        path: itemPath,
-      });
-      if (deep) result = [...result, ...walk(itemPath, deep)];
+      if (!itemPath.startsWith('node_modules')) {
+        result.push({
+          type: 'folder',
+          path: itemPath,
+        });
+        if (deep) result = [...result, ...walk(itemPath, deep)];
+      }
     }
   });
   return result;
