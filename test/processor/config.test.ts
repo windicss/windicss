@@ -149,7 +149,7 @@ describe("Config", () => {
     });
 
     const styleSheet = processor.interpret("bg-darkTheme-600").styleSheet;
-    expectToMatchSnapshot(styleSheet.build(), "css", __filename);
+    expect(styleSheet.build()).toMatchSnapshot("css", __filename);
   });
 
   it("handle colors test", () => {
@@ -169,6 +169,6 @@ describe("Config", () => {
     const styleSheet = processor.interpret(
       "bg-discord bg-discord-100 bg-hex-7289da ring-offset-hex-1c1c1e ring-offset-gray-200 text-primary-color-red"
     ).styleSheet;
-    expectToMatchSnapshot(styleSheet.build(), "css", __filename);
+    expect(styleSheet.build()).toMatchSnapshot("css", __filename);
   });
 });

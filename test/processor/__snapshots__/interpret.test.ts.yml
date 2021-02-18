@@ -1,14 +1,4 @@
-'Tools: interpret: success': |-
-  [
-    "font-bold",
-    "text-green-300",
-    "sm:dark:hover:text-lg",
-    "sm:bg-gray-100",
-    "sm:hover:bg-gray-200",
-    "bg-cool-gray-300",
-    "bg-hex-fff"
-  ]
-'Tools: interpret: css': |-
+Tools / interpret / css: |-
   .bg-cool-gray-300 {
     --tw-bg-opacity: 1;
     background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
@@ -38,3 +28,13 @@
       background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
     }
   }
+Tools / interpret / success: |-
+  [
+    "font-bold",
+    "text-green-300",
+    "sm:dark:hover:text-lg",
+    "sm:bg-gray-100",
+    "sm:hover:bg-gray-200",
+    "bg-cool-gray-300",
+    "bg-hex-fff"
+  ]

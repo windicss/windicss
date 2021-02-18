@@ -1,18 +1,19 @@
 {
-	"compilerOptions": {
-		"rootDir": ".",
-		"target": "es5",
-		"module": "esnext",
-		"moduleResolution": "node",
-		"lib": ["dom", "es2017", "dom.iterable", "scripthost"],
-		"allowJs": true,
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
+    "target": "es2017",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true
-	},
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
   "include": ["./src", "./test", "./example"],
   "exclude": ["./test/assets", "./test/helpers"]
 }

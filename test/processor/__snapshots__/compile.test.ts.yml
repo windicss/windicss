@@ -1,4 +1,4 @@
-'Tools: compile: css': |-
+Tools / compile / css: |-
   .windi-sarsyj {
     font-weight: 700;
     --tw-text-opacity: 1;

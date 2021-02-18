@@ -9,8 +9,8 @@ describe("Interpretation Mode", () => {
     );
     expect(result.ignored).toEqual(["abc"]);
 
-    expectToMatchSnapshot(result.success, "success", __filename);
-    expectToMatchSnapshot(result.styleSheet.build(), "css", __filename);
+    expect(result.success).toMatchSnapshot("success", __filename);
+    expect(result.styleSheet.build()).toMatchSnapshot("css", __filename);
 
     expect(processor.interpret("test wrong css").success).toEqual([]);
     expect(processor.interpret("test wrong css").ignored).toEqual([
