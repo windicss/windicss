@@ -1,7 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../node_modules/@types/jasmine/index.d.ts" />
+
 import Jasmine from "jasmine";
 import { basename, dirname, join, resolve } from "path";
 import fs from "fs-extra";
 import yaml from "js-yaml";
+import chalk from "chalk";
+import { diffLines } from "diff";
 
 /**
  * Test Snapshot usage:
@@ -13,12 +18,43 @@ import yaml from "js-yaml";
 
 const updateSnapshot = !!process.env.UPDATE_SNAPSHOT;
 
-const jasmine = new Jasmine(null);
+const jasmine = new Jasmine(undefined);
 
-jasmine.loadConfigFile(resolve(__dirname, "..", "jasmine.json"));
+beforeEach(() => {
+  jasmine.addMatchers({
+    toEqualDiff() {
+      return {
+        compare<T extends string>(actual: T, expected: T, reason: string) {
+          if (actual == expected) {
+            return {
+              pass: true,
+            };
+          } else {
+            const diff = diffLines(expected, actual);
+            let messages = chalk.yellow(reason) + "\n\n";
+            diff.forEach((part) => {
+              const color = part.added
+                ? "green"
+                : part.removed
+                ? "red"
+                : "gray";
+              messages += chalk.gray[color](part.value);
+            });
+            return {
+              pass: false,
+              message: messages,
+            };
+          }
+        },
+      };
+    },
+  });
+});
+
 jasmine.configureDefaultReporter({
   showColors: true,
 });
+jasmine.loadConfigFile(resolve(__dirname, "..", "jasmine.json"));
 
 let describe = "";
 let it = "";
@@ -38,7 +74,7 @@ jasmine.env.it = (msg, fn) => {
   });
 };
 
-type SnapshotData = Record<string, unknown>;
+type SnapshotData = Record<string, string>;
 
 interface SnapshotInfo {
   path: string;
@@ -52,15 +88,14 @@ const snapshotCache: Record<string, SnapshotInfo> = {};
 function prepreSnapshot(path: string) {
   if (!snapshotCache[path]) {
     let data: SnapshotData = {};
-    let changed = false
+    let changed = false;
 
     fs.ensureDirSync(dirname(path));
     if (fs.existsSync(path)) {
       // @ts-expect-error anyway
       data = yaml.load(fs.readFileSync(path, "utf-8")) || {};
-    }
-    else {
-      changed = true
+    } else {
+      changed = true;
     }
 
     snapshotCache[path] = {
@@ -104,24 +139,27 @@ global.expectToMatchSnapshot = jasmine.env.expectToMatchSnapshot = (
     "__snapshots__",
     basename(file) + ".yml"
   );
-  const snap = prepreSnapshot(snapPath)
+  const snap = prepreSnapshot(snapPath);
 
   if (typeof value !== "string") {
     value = JSON.stringify(value, null, 2);
   }
 
   if (snap.data[fullname] != null && !updateSnapshot) {
-    expect(snap.data[fullname]).toEqual(value, `Snapshot "${fullname}" mismatched`);
+    expect(snap.data[fullname]).toEqualDiff(
+      value as string,
+      `Snapshot "${fullname}" mismatched`
+    );
   } else {
-    snap.data[fullname] = value;
-    snap.changed = true
+    snap.data[fullname] = value as string;
+    snap.changed = true;
   }
 
-  snap.touched.add(fullname)
+  snap.touched.add(fullname);
 };
 
 jasmine.onComplete(() => {
-  finishSnapshots()
-})
+  finishSnapshots();
+});
 
 jasmine.execute();
