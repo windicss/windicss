@@ -124,4 +124,39 @@ describe('Plugin Method', () => {
     const css = Array.isArray(style) || style.extend(test).build();
     expect(css).toMatchSnapshot('css');
   });
+
+  it('#72 plugin test', () => {
+    const processor = new Processor({
+      plugins: [
+        {
+          handler: ({ addUtilities }) => {
+            addUtilities({});
+          },
+          config: {
+            theme: {
+              extend: {
+                colors: {
+                  active: 'var(--active)',
+                  primary: 'var(--primary)',
+                  'on-primary': 'var(--on-primary)',
+                  'on-primary-active': 'var(--on-primary-active)',
+                  frame: 'var(--frame)',
+                  'on-frame': 'var(--on-frame)',
+                  'on-frame-active': 'var(--on-frame-active)',
+                },
+              },
+            },
+          },
+        },
+      ],
+    });
+    expect(processor.theme('colors.white')).toEqual('#fff');
+    expect(processor.theme('colors.active')).toEqual('var(--active)');
+    expect(processor.interpret('bg-active bg-on-primary-active').styleSheet.build()).toEqual(`.bg-active {
+  background-color: var(--active);
+}
+.bg-on-primary-active {
+  background-color: var(--on-primary-active);
+}`);
+  });
 });

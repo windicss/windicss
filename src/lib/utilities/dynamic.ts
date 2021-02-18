@@ -480,7 +480,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   value = utility.handler.handleColor(theme('textColor')).handleVariable()
     .value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
       return new Property('color', value);
     return new Style(utility.class, [
       new Property('--tw-text-opacity', '1'),
@@ -562,7 +562,7 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('placeholderColor'))
     .handleVariable().value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
       return new Property('color', value);
     const rgb = value.startsWith('var') ? value : hex2RGB(value)?.join(', ');
     return [
@@ -639,15 +639,13 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('backgroundColor'))
     .handleVariable().value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
       return new Property('background-color', value);
     return new Style(utility.class, [
       new Property('--tw-bg-opacity', '1'),
       new Property(
         'background-color',
-        `rgba(${
-          value.startsWith('var') ? value : hex2RGB(value)?.join(', ')
-        }, var(--tw-bg-opacity))`
+        `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-bg-opacity))`
       ),
     ]);
   }
@@ -668,7 +666,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
       rgb = '255, 255, 255';
       break;
     default:
-      rgb = value.startsWith('var') ? value : hex2RGB(value)?.join(', ');
+      rgb = value.startsWith('var') ? '255, 255, 255' : hex2RGB(value)?.join(', ');
     }
     return new Style(utility.class, [
       new Property('--tw-gradient-from', value),
@@ -682,7 +680,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/gradient-color-stops via
 function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
-  let value = utility.handler
+  const value = utility.handler
     .handleColor(theme('gradientColorStops'))
     .handleVariable().value;
   if (value) {
@@ -695,12 +693,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
       rgb = '255, 255, 255';
       break;
     default:
-      if (value.startsWith('var')) {
-        rgb = value;
-        value = `rgb(${value})`;
-      } else {
-        rgb = hex2RGB(value)?.join(', ');
-      }
+      rgb = value.startsWith('var') ? '255, 255, 255' : hex2RGB(value)?.join(', ');
     }
     return new Property(
       '--tw-gradient-stops',
@@ -777,9 +770,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-border-opacity', '1'),
       new Property(
         'border-color',
-        `rgba(${
-          value.startsWith('var') ? value : hex2RGB(value)?.join(', ')
-        }, var(--tw-border-opacity))`
+        value.startsWith('var') ? value: `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`
       ),
     ]);
   }
@@ -843,9 +834,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-divide-opacity', '1'),
       new Property(
         'border-color',
-        `rgba(${
-          value.startsWith('var') ? value : hex2RGB(value)?.join(', ')
-        }, var(--tw-divide-opacity))`
+        value.startsWith('var') ? value : `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-divide-opacity))`
       ),
     ]).child('> :not([hidden]) ~ :not([hidden])');
   }
@@ -975,7 +964,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
       utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined
     ).value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
       return new Style(utility.class, [
         new Property('--tw-ring-color', value),
       ]);

@@ -112,7 +112,7 @@ export class Processor {
     this._theme = this._config.theme;
   }
 
-  private _resolveConfig(userConfig: Config, presets: Config) {
+  private _resolveConfig(userConfig: Config, presets: Config = {}) {
     if (userConfig.presets) presets = this._resolvePresets(userConfig.presets);
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
@@ -187,8 +187,8 @@ export class Processor {
   resolveConfig(config: Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
-    this._config = this._resolveFunction(this._config);
     this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
+    this._config = this._resolveFunction(this._config);
     this._variants = this.resolveVariants();
     return this._config;
   }
@@ -480,11 +480,24 @@ export class Processor {
   }: PluginOutput): void {
     if (config) {
       config = this._resolveFunction(config);
-      this._config = combineConfig(
+      config = combineConfig(
         config as { [key: string]: unknown },
         this._config as { [key: string]: unknown }
       );
-      this._theme = this._config.theme;
+      const pluginTheme = config.theme;
+      const extendTheme = pluginTheme?.extend as undefined | { [key:string] : unknown };
+      if (pluginTheme && extendTheme && typeof extendTheme === 'object') {
+        for (const [key, value] of Object.entries(extendTheme)) {
+          const themeValue = pluginTheme[key];
+          if (themeValue && typeof themeValue === 'object') {
+            pluginTheme[key] = { ...(themeValue ?? {}), ...value as { [key:string] : unknown } };
+          } else if (value && typeof value === 'object' ){
+            pluginTheme[key] = value as {[key:string] : unknown};
+          }
+        }
+      }
+      this._config = { ...config, theme: pluginTheme };
+      this._theme = pluginTheme;
       this._variants = this.resolveVariants();
     }
     handler(this.pluginUtils);
