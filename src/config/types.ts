@@ -141,6 +141,6 @@ export interface ResolvedConfig extends Omit<BaseConfig, 'theme'>, StringKey {
   theme: ResolvedTheme
 }
 
-export interface UserConfig extends Partial<Omit<BaseConfig, 'theme'>> {
+export interface UserConfig extends Omit<BaseConfig, 'theme'> {
   theme?: UserTheme
 }
