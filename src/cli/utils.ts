@@ -4,11 +4,11 @@ import path from 'path';
 export class Console {
   static log(...message: unknown[]): void {
     // eslint-disable-next-line no-console
-    console.log(message);
+    console.log(...message);
   }
   static error(...message: unknown[]): void {
     // eslint-disable-next-line no-console
-    console.error(message);
+    console.error(...message);
   }
 }
 

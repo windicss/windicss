@@ -13,7 +13,7 @@ import {
 } from './utils';
 
 const doc = `
-Generate css from text files containing tailwindcss class.
+Generate css from text files that containing tailwindcss classes.
 By default, it will use interpretation mode to generate a single css file.
 
 Usage:
