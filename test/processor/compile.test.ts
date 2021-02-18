@@ -19,7 +19,7 @@ describe("Compilation Mode", () => {
       "bg-hex-fff",
     ]);
 
-    expectToMatchSnapshot(result.styleSheet.build(), "css", __filename);
+    expect(result.styleSheet.build()).toMatchSnapshot();
 
     expect(processor.compile("test wrong css").className).toBeUndefined();
   });
