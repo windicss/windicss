@@ -1,12 +1,12 @@
-import { colors } from "../../config";
-import { isUsableColor } from "./utils";
-import type { ThemeUtil } from "../../interfaces";
+import { colors } from '../../config';
+import { isUsableColor } from './utils';
+import type { ThemeUtil } from '../../interfaces';
 
 const round = (num: number) =>
   num
     .toFixed(7)
-    .replace(/(\.[0-9]+?)0+$/, "$1")
-    .replace(/\.0$/, "");
+    .replace(/(\.[0-9]+?)0+$/, '$1')
+    .replace(/\.0$/, '');
 const rem = (px: number) => `${round(px / 16)}rem`;
 const em = (px: number, base: number) => `${round(px / base)}em`;
 
@@ -18,162 +18,162 @@ const styles: (
   DEFAULT: {
     css: [
       {
-        color: theme("colors.gray.700", colors.gray[700]),
-        maxWidth: "65ch",
+        color: theme('colors.gray.700', colors.gray[700]),
+        maxWidth: '65ch',
         '[class~="lead"]': {
-          color: theme("colors.gray.600", colors.gray[600]),
+          color: theme('colors.gray.600', colors.gray[600]),
         },
         a: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          textDecoration: "underline",
-          fontWeight: "500",
+          color: theme('colors.gray.900', colors.gray[900]),
+          textDecoration: 'underline',
+          fontWeight: '500',
         },
         strong: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "600",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '600',
         },
         'ol[type="A"]': {
-          "--list-counter-style": "upper-alpha",
+          '--list-counter-style': 'upper-alpha',
         },
         'ol[type="a"]': {
-          "--list-counter-style": "lower-alpha",
+          '--list-counter-style': 'lower-alpha',
         },
         'ol[type="A s"]': {
-          "--list-counter-style": "upper-alpha",
+          '--list-counter-style': 'upper-alpha',
         },
         'ol[type="a s"]': {
-          "--list-counter-style": "lower-alpha",
+          '--list-counter-style': 'lower-alpha',
         },
         'ol[type="I"]': {
-          "--list-counter-style": "upper-roman",
+          '--list-counter-style': 'upper-roman',
         },
         'ol[type="i"]': {
-          "--list-counter-style": "lower-roman",
+          '--list-counter-style': 'lower-roman',
         },
         'ol[type="I s"]': {
-          "--list-counter-style": "upper-roman",
+          '--list-counter-style': 'upper-roman',
         },
         'ol[type="i s"]': {
-          "--list-counter-style": "lower-roman",
+          '--list-counter-style': 'lower-roman',
         },
         'ol[type="1"]': {
-          "--list-counter-style": "decimal",
+          '--list-counter-style': 'decimal',
         },
-        "ol > li": {
-          position: "relative",
+        'ol > li': {
+          position: 'relative',
         },
-        "ol > li::before": {
+        'ol > li::before': {
           content: 'counter(list-item, var(--list-counter-style, decimal)) "."',
-          position: "absolute",
-          fontWeight: "400",
-          color: theme("colors.gray.500", colors.gray[500]),
+          position: 'absolute',
+          fontWeight: '400',
+          color: theme('colors.gray.500', colors.gray[500]),
         },
-        "ul > li": {
-          position: "relative",
+        'ul > li': {
+          position: 'relative',
         },
-        "ul > li::before": {
+        'ul > li::before': {
           content: '""',
-          position: "absolute",
-          backgroundColor: theme("colors.gray.300", colors.gray[300]),
-          borderRadius: "50%",
+          position: 'absolute',
+          backgroundColor: theme('colors.gray.300', colors.gray[300]),
+          borderRadius: '50%',
         },
         hr: {
-          borderColor: theme("colors.gray.200", colors.gray[200]),
+          borderColor: theme('colors.gray.200', colors.gray[200]),
           borderTopWidth: 1,
         },
         blockquote: {
-          fontWeight: "500",
-          fontStyle: "italic",
-          color: theme("colors.gray.900", colors.gray[900]),
-          borderLeftWidth: "0.25rem",
-          borderLeftColor: theme("colors.gray.200", colors.gray[200]),
+          fontWeight: '500',
+          fontStyle: 'italic',
+          color: theme('colors.gray.900', colors.gray[900]),
+          borderLeftWidth: '0.25rem',
+          borderLeftColor: theme('colors.gray.200', colors.gray[200]),
           quotes: '"\\201C""\\201D""\\2018""\\2019"',
         },
-        "blockquote p:first-of-type::before": {
-          content: "open-quote",
+        'blockquote p:first-of-type::before': {
+          content: 'open-quote',
         },
-        "blockquote p:last-of-type::after": {
-          content: "close-quote",
+        'blockquote p:last-of-type::after': {
+          content: 'close-quote',
         },
         h1: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "800",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '800',
         },
         h2: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "700",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '700',
         },
         h3: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "600",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '600',
         },
         h4: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "600",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '600',
         },
-        "figure figcaption": {
-          color: theme("colors.gray.500", colors.gray[500]),
+        'figure figcaption': {
+          color: theme('colors.gray.500', colors.gray[500]),
         },
         code: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "600",
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '600',
         },
-        "code::before": {
+        'code::before': {
           content: '"`"',
         },
-        "code::after": {
+        'code::after': {
           content: '"`"',
         },
-        "a code": {
-          color: theme("colors.gray.900", colors.gray[900]),
+        'a code': {
+          color: theme('colors.gray.900', colors.gray[900]),
         },
         pre: {
-          color: theme("colors.gray.200", colors.gray[200]),
-          backgroundColor: theme("colors.gray.800", colors.gray[800]),
-          overflowX: "auto",
+          color: theme('colors.gray.200', colors.gray[200]),
+          backgroundColor: theme('colors.gray.800', colors.gray[800]),
+          overflowX: 'auto',
         },
-        "pre code": {
-          backgroundColor: "transparent",
-          borderWidth: "0",
-          borderRadius: "0",
-          padding: "0",
-          fontWeight: "400",
-          color: "inherit",
-          fontSize: "inherit",
-          fontFamily: "inherit",
-          lineHeight: "inherit",
+        'pre code': {
+          backgroundColor: 'transparent',
+          borderWidth: '0',
+          borderRadius: '0',
+          padding: '0',
+          fontWeight: '400',
+          color: 'inherit',
+          fontSize: 'inherit',
+          fontFamily: 'inherit',
+          lineHeight: 'inherit',
         },
-        "pre code::before": {
-          content: "none",
+        'pre code::before': {
+          content: 'none',
         },
-        "pre code::after": {
-          content: "none",
+        'pre code::after': {
+          content: 'none',
         },
         table: {
-          width: "100%",
-          tableLayout: "auto",
-          textAlign: "left",
+          width: '100%',
+          tableLayout: 'auto',
+          textAlign: 'left',
           marginTop: em(32, 16),
           marginBottom: em(32, 16),
         },
         thead: {
-          color: theme("colors.gray.900", colors.gray[900]),
-          fontWeight: "600",
-          borderBottomWidth: "1px",
-          borderBottomColor: theme("colors.gray.300", colors.gray[300]),
+          color: theme('colors.gray.900', colors.gray[900]),
+          fontWeight: '600',
+          borderBottomWidth: '1px',
+          borderBottomColor: theme('colors.gray.300', colors.gray[300]),
         },
-        "thead th": {
-          verticalAlign: "bottom",
+        'thead th': {
+          verticalAlign: 'bottom',
         },
-        "tbody tr": {
-          borderBottomWidth: "1px",
-          borderBottomColor: theme("colors.gray.200", colors.gray[200]),
+        'tbody tr': {
+          borderBottomWidth: '1px',
+          borderBottomColor: theme('colors.gray.200', colors.gray[200]),
         },
-        "tbody tr:last-child": {
-          borderBottomWidth: "0",
+        'tbody tr:last-child': {
+          borderBottomWidth: '0',
         },
-        "tbody td": {
-          verticalAlign: "top",
+        'tbody td': {
+          verticalAlign: 'top',
         },
       },
       {
@@ -196,7 +196,7 @@ const styles: (
         },
         h1: {
           fontSize: em(36, 16),
-          marginTop: "0",
+          marginTop: '0',
           marginBottom: em(32, 36),
           lineHeight: round(40 / 36),
         },
@@ -229,11 +229,11 @@ const styles: (
           marginTop: em(32, 16),
           marginBottom: em(32, 16),
         },
-        "figure > *": {
-          marginTop: "0",
-          marginBottom: "0",
+        'figure > *': {
+          marginTop: '0',
+          marginBottom: '0',
         },
-        "figure figcaption": {
+        'figure figcaption': {
           fontSize: em(14, 16),
           lineHeight: round(20 / 14),
           marginTop: em(12, 14),
@@ -241,10 +241,10 @@ const styles: (
         code: {
           fontSize: em(14, 16),
         },
-        "h2 code": {
+        'h2 code': {
           fontSize: em(21, 24),
         },
-        "h3 code": {
+        'h3 code': {
           fontSize: em(18, 20),
         },
         pre: {
@@ -270,38 +270,38 @@ const styles: (
           marginTop: em(8, 16),
           marginBottom: em(8, 16),
         },
-        "ol > li": {
+        'ol > li': {
           paddingLeft: em(28, 16),
         },
-        "ol > li::before": {
-          left: "0",
+        'ol > li::before': {
+          left: '0',
         },
-        "ul > li": {
+        'ul > li': {
           paddingLeft: em(28, 16),
         },
-        "ul > li::before": {
+        'ul > li::before': {
           width: em(6, 16),
           height: em(6, 16),
           top: `calc(${em(28 / 2, 16)} - ${em(3, 16)})`,
           left: em(4, 16),
         },
-        "> ul > li p": {
+        '> ul > li p': {
           marginTop: em(12, 16),
           marginBottom: em(12, 16),
         },
-        "> ul > li > *:first-child": {
+        '> ul > li > *:first-child': {
           marginTop: em(20, 16),
         },
-        "> ul > li > *:last-child": {
+        '> ul > li > *:last-child': {
           marginBottom: em(20, 16),
         },
-        "> ol > li > *:first-child": {
+        '> ol > li > *:first-child': {
           marginTop: em(20, 16),
         },
-        "> ol > li > *:last-child": {
+        '> ol > li > *:last-child': {
           marginBottom: em(20, 16),
         },
-        "ul ul, ul ol, ol ul, ol ol": {
+        'ul ul, ul ol, ol ul, ol ol': {
           marginTop: em(12, 16),
           marginBottom: em(12, 16),
         },
@@ -309,52 +309,52 @@ const styles: (
           marginTop: em(48, 16),
           marginBottom: em(48, 16),
         },
-        "hr + *": {
-          marginTop: "0",
+        'hr + *': {
+          marginTop: '0',
         },
-        "h2 + *": {
-          marginTop: "0",
+        'h2 + *': {
+          marginTop: '0',
         },
-        "h3 + *": {
-          marginTop: "0",
+        'h3 + *': {
+          marginTop: '0',
         },
-        "h4 + *": {
-          marginTop: "0",
+        'h4 + *': {
+          marginTop: '0',
         },
         table: {
           fontSize: em(14, 16),
           lineHeight: round(24 / 14),
         },
-        "thead th": {
+        'thead th': {
           paddingRight: em(8, 14),
           paddingBottom: em(8, 14),
           paddingLeft: em(8, 14),
         },
-        "thead th:first-child": {
-          paddingLeft: "0",
+        'thead th:first-child': {
+          paddingLeft: '0',
         },
-        "thead th:last-child": {
-          paddingRight: "0",
+        'thead th:last-child': {
+          paddingRight: '0',
         },
-        "tbody td": {
+        'tbody td': {
           paddingTop: em(8, 14),
           paddingRight: em(8, 14),
           paddingBottom: em(8, 14),
           paddingLeft: em(8, 14),
         },
-        "tbody td:first-child": {
-          paddingLeft: "0",
+        'tbody td:first-child': {
+          paddingLeft: '0',
         },
-        "tbody td:last-child": {
-          paddingRight: "0",
+        'tbody td:last-child': {
+          paddingRight: '0',
         },
       },
       {
-        "> :first-child": {
-          marginTop: "0",
+        '> :first-child': {
+          marginTop: '0',
         },
-        "> :last-child": {
-          marginBottom: "0",
+        '> :last-child': {
+          marginBottom: '0',
         },
       },
     ],
@@ -381,7 +381,7 @@ const styles: (
         },
         h1: {
           fontSize: em(30, 14),
-          marginTop: "0",
+          marginTop: '0',
           marginBottom: em(24, 30),
           lineHeight: round(36 / 30),
         },
@@ -414,11 +414,11 @@ const styles: (
           marginTop: em(24, 14),
           marginBottom: em(24, 14),
         },
-        "figure > *": {
-          marginTop: "0",
-          marginBottom: "0",
+        'figure > *': {
+          marginTop: '0',
+          marginBottom: '0',
         },
-        "figure figcaption": {
+        'figure figcaption': {
           fontSize: em(12, 14),
           lineHeight: round(16 / 12),
           marginTop: em(8, 12),
@@ -426,10 +426,10 @@ const styles: (
         code: {
           fontSize: em(12, 14),
         },
-        "h2 code": {
+        'h2 code': {
           fontSize: em(18, 20),
         },
-        "h3 code": {
+        'h3 code': {
           fontSize: em(16, 18),
         },
         pre: {
@@ -455,38 +455,38 @@ const styles: (
           marginTop: em(4, 14),
           marginBottom: em(4, 14),
         },
-        "ol > li": {
+        'ol > li': {
           paddingLeft: em(22, 14),
         },
-        "ol > li::before": {
-          left: "0",
+        'ol > li::before': {
+          left: '0',
         },
-        "ul > li": {
+        'ul > li': {
           paddingLeft: em(22, 14),
         },
-        "ul > li::before": {
+        'ul > li::before': {
           height: em(5, 14),
           width: em(5, 14),
           top: `calc(${em(24 / 2, 14)} - ${em(2.5, 14)})`,
           left: em(3, 14),
         },
-        "> ul > li p": {
+        '> ul > li p': {
           marginTop: em(8, 14),
           marginBottom: em(8, 14),
         },
-        "> ul > li > *:first-child": {
+        '> ul > li > *:first-child': {
           marginTop: em(16, 14),
         },
-        "> ul > li > *:last-child": {
+        '> ul > li > *:last-child': {
           marginBottom: em(16, 14),
         },
-        "> ol > li > *:first-child": {
+        '> ol > li > *:first-child': {
           marginTop: em(16, 14),
         },
-        "> ol > li > *:last-child": {
+        '> ol > li > *:last-child': {
           marginBottom: em(16, 14),
         },
-        "ul ul, ul ol, ol ul, ol ol": {
+        'ul ul, ul ol, ol ul, ol ol': {
           marginTop: em(8, 14),
           marginBottom: em(8, 14),
         },
@@ -494,52 +494,52 @@ const styles: (
           marginTop: em(40, 14),
           marginBottom: em(40, 14),
         },
-        "hr + *": {
-          marginTop: "0",
+        'hr + *': {
+          marginTop: '0',
         },
-        "h2 + *": {
-          marginTop: "0",
+        'h2 + *': {
+          marginTop: '0',
         },
-        "h3 + *": {
-          marginTop: "0",
+        'h3 + *': {
+          marginTop: '0',
         },
-        "h4 + *": {
-          marginTop: "0",
+        'h4 + *': {
+          marginTop: '0',
         },
         table: {
           fontSize: em(12, 14),
           lineHeight: round(18 / 12),
         },
-        "thead th": {
+        'thead th': {
           paddingRight: em(12, 12),
           paddingBottom: em(8, 12),
           paddingLeft: em(12, 12),
         },
-        "thead th:first-child": {
-          paddingLeft: "0",
+        'thead th:first-child': {
+          paddingLeft: '0',
         },
-        "thead th:last-child": {
-          paddingRight: "0",
+        'thead th:last-child': {
+          paddingRight: '0',
         },
-        "tbody td": {
+        'tbody td': {
           paddingTop: em(8, 12),
           paddingRight: em(12, 12),
           paddingBottom: em(8, 12),
           paddingLeft: em(12, 12),
         },
-        "tbody td:first-child": {
-          paddingLeft: "0",
+        'tbody td:first-child': {
+          paddingLeft: '0',
         },
-        "tbody td:last-child": {
-          paddingRight: "0",
+        'tbody td:last-child': {
+          paddingRight: '0',
         },
       },
       {
-        "> :first-child": {
-          marginTop: "0",
+        '> :first-child': {
+          marginTop: '0',
         },
-        "> :last-child": {
-          marginBottom: "0",
+        '> :last-child': {
+          marginBottom: '0',
         },
       },
     ],
@@ -566,7 +566,7 @@ const styles: (
         },
         h1: {
           fontSize: em(48, 18),
-          marginTop: "0",
+          marginTop: '0',
           marginBottom: em(40, 48),
           lineHeight: round(48 / 48),
         },
@@ -599,11 +599,11 @@ const styles: (
           marginTop: em(32, 18),
           marginBottom: em(32, 18),
         },
-        "figure > *": {
-          marginTop: "0",
-          marginBottom: "0",
+        'figure > *': {
+          marginTop: '0',
+          marginBottom: '0',
         },
-        "figure figcaption": {
+        'figure figcaption': {
           fontSize: em(16, 18),
           lineHeight: round(24 / 16),
           marginTop: em(16, 16),
@@ -611,10 +611,10 @@ const styles: (
         code: {
           fontSize: em(16, 18),
         },
-        "h2 code": {
+        'h2 code': {
           fontSize: em(26, 30),
         },
-        "h3 code": {
+        'h3 code': {
           fontSize: em(21, 24),
         },
         pre: {
@@ -640,38 +640,38 @@ const styles: (
           marginTop: em(12, 18),
           marginBottom: em(12, 18),
         },
-        "ol > li": {
+        'ol > li': {
           paddingLeft: em(30, 18),
         },
-        "ol > li::before": {
-          left: "0",
+        'ol > li::before': {
+          left: '0',
         },
-        "ul > li": {
+        'ul > li': {
           paddingLeft: em(30, 18),
         },
-        "ul > li::before": {
+        'ul > li::before': {
           width: em(6, 18),
           height: em(6, 18),
           top: `calc(${em(32 / 2, 18)} - ${em(3, 18)})`,
           left: em(4, 18),
         },
-        "> ul > li p": {
+        '> ul > li p': {
           marginTop: em(16, 18),
           marginBottom: em(16, 18),
         },
-        "> ul > li > *:first-child": {
+        '> ul > li > *:first-child': {
           marginTop: em(24, 18),
         },
-        "> ul > li > *:last-child": {
+        '> ul > li > *:last-child': {
           marginBottom: em(24, 18),
         },
-        "> ol > li > *:first-child": {
+        '> ol > li > *:first-child': {
           marginTop: em(24, 18),
         },
-        "> ol > li > *:last-child": {
+        '> ol > li > *:last-child': {
           marginBottom: em(24, 18),
         },
-        "ul ul, ul ol, ol ul, ol ol": {
+        'ul ul, ul ol, ol ul, ol ol': {
           marginTop: em(16, 18),
           marginBottom: em(16, 18),
         },
@@ -679,52 +679,52 @@ const styles: (
           marginTop: em(56, 18),
           marginBottom: em(56, 18),
         },
-        "hr + *": {
-          marginTop: "0",
+        'hr + *': {
+          marginTop: '0',
         },
-        "h2 + *": {
-          marginTop: "0",
+        'h2 + *': {
+          marginTop: '0',
         },
-        "h3 + *": {
-          marginTop: "0",
+        'h3 + *': {
+          marginTop: '0',
         },
-        "h4 + *": {
-          marginTop: "0",
+        'h4 + *': {
+          marginTop: '0',
         },
         table: {
           fontSize: em(16, 18),
           lineHeight: round(24 / 16),
         },
-        "thead th": {
+        'thead th': {
           paddingRight: em(12, 16),
           paddingBottom: em(12, 16),
           paddingLeft: em(12, 16),
         },
-        "thead th:first-child": {
-          paddingLeft: "0",
+        'thead th:first-child': {
+          paddingLeft: '0',
         },
-        "thead th:last-child": {
-          paddingRight: "0",
+        'thead th:last-child': {
+          paddingRight: '0',
         },
-        "tbody td": {
+        'tbody td': {
           paddingTop: em(12, 16),
           paddingRight: em(12, 16),
           paddingBottom: em(12, 16),
           paddingLeft: em(12, 16),
         },
-        "tbody td:first-child": {
-          paddingLeft: "0",
+        'tbody td:first-child': {
+          paddingLeft: '0',
         },
-        "tbody td:last-child": {
-          paddingRight: "0",
+        'tbody td:last-child': {
+          paddingRight: '0',
         },
       },
       {
-        "> :first-child": {
-          marginTop: "0",
+        '> :first-child': {
+          marginTop: '0',
         },
-        "> :last-child": {
-          marginBottom: "0",
+        '> :last-child': {
+          marginBottom: '0',
         },
       },
     ],
@@ -751,7 +751,7 @@ const styles: (
         },
         h1: {
           fontSize: em(56, 20),
-          marginTop: "0",
+          marginTop: '0',
           marginBottom: em(48, 56),
           lineHeight: round(56 / 56),
         },
@@ -784,11 +784,11 @@ const styles: (
           marginTop: em(40, 20),
           marginBottom: em(40, 20),
         },
-        "figure > *": {
-          marginTop: "0",
-          marginBottom: "0",
+        'figure > *': {
+          marginTop: '0',
+          marginBottom: '0',
         },
-        "figure figcaption": {
+        'figure figcaption': {
           fontSize: em(18, 20),
           lineHeight: round(28 / 18),
           marginTop: em(18, 18),
@@ -796,10 +796,10 @@ const styles: (
         code: {
           fontSize: em(18, 20),
         },
-        "h2 code": {
+        'h2 code': {
           fontSize: em(31, 36),
         },
-        "h3 code": {
+        'h3 code': {
           fontSize: em(27, 30),
         },
         pre: {
@@ -825,38 +825,38 @@ const styles: (
           marginTop: em(12, 20),
           marginBottom: em(12, 20),
         },
-        "ol > li": {
+        'ol > li': {
           paddingLeft: em(36, 20),
         },
-        "ol > li::before": {
-          left: "0",
+        'ol > li::before': {
+          left: '0',
         },
-        "ul > li": {
+        'ul > li': {
           paddingLeft: em(36, 20),
         },
-        "ul > li::before": {
+        'ul > li::before': {
           width: em(7, 20),
           height: em(7, 20),
           top: `calc(${em(36 / 2, 20)} - ${em(3.5, 20)})`,
           left: em(5, 20),
         },
-        "> ul > li p": {
+        '> ul > li p': {
           marginTop: em(16, 20),
           marginBottom: em(16, 20),
         },
-        "> ul > li > *:first-child": {
+        '> ul > li > *:first-child': {
           marginTop: em(24, 20),
         },
-        "> ul > li > *:last-child": {
+        '> ul > li > *:last-child': {
           marginBottom: em(24, 20),
         },
-        "> ol > li > *:first-child": {
+        '> ol > li > *:first-child': {
           marginTop: em(24, 20),
         },
-        "> ol > li > *:last-child": {
+        '> ol > li > *:last-child': {
           marginBottom: em(24, 20),
         },
-        "ul ul, ul ol, ol ul, ol ol": {
+        'ul ul, ul ol, ol ul, ol ol': {
           marginTop: em(16, 20),
           marginBottom: em(16, 20),
         },
@@ -864,57 +864,57 @@ const styles: (
           marginTop: em(56, 20),
           marginBottom: em(56, 20),
         },
-        "hr + *": {
-          marginTop: "0",
+        'hr + *': {
+          marginTop: '0',
         },
-        "h2 + *": {
-          marginTop: "0",
+        'h2 + *': {
+          marginTop: '0',
         },
-        "h3 + *": {
-          marginTop: "0",
+        'h3 + *': {
+          marginTop: '0',
         },
-        "h4 + *": {
-          marginTop: "0",
+        'h4 + *': {
+          marginTop: '0',
         },
         table: {
           fontSize: em(18, 20),
           lineHeight: round(28 / 18),
         },
-        "thead th": {
+        'thead th': {
           paddingRight: em(12, 18),
           paddingBottom: em(16, 18),
           paddingLeft: em(12, 18),
         },
-        "thead th:first-child": {
-          paddingLeft: "0",
+        'thead th:first-child': {
+          paddingLeft: '0',
         },
-        "thead th:last-child": {
-          paddingRight: "0",
+        'thead th:last-child': {
+          paddingRight: '0',
         },
-        "tbody td": {
+        'tbody td': {
           paddingTop: em(16, 18),
           paddingRight: em(12, 18),
           paddingBottom: em(16, 18),
           paddingLeft: em(12, 18),
         },
-        "tbody td:first-child": {
-          paddingLeft: "0",
+        'tbody td:first-child': {
+          paddingLeft: '0',
         },
-        "tbody td:last-child": {
-          paddingRight: "0",
+        'tbody td:last-child': {
+          paddingRight: '0',
         },
       },
       {
-        "> :first-child": {
-          marginTop: "0",
+        '> :first-child': {
+          marginTop: '0',
         },
-        "> :last-child": {
-          marginBottom: "0",
+        '> :last-child': {
+          marginBottom: '0',
         },
       },
     ],
   },
-  "2xl": {
+  '2xl': {
     css: [
       {
         fontSize: rem(24),
@@ -936,7 +936,7 @@ const styles: (
         },
         h1: {
           fontSize: em(64, 24),
-          marginTop: "0",
+          marginTop: '0',
           marginBottom: em(56, 64),
           lineHeight: round(64 / 64),
         },
@@ -969,11 +969,11 @@ const styles: (
           marginTop: em(48, 24),
           marginBottom: em(48, 24),
         },
-        "figure > *": {
-          marginTop: "0",
-          marginBottom: "0",
+        'figure > *': {
+          marginTop: '0',
+          marginBottom: '0',
         },
-        "figure figcaption": {
+        'figure figcaption': {
           fontSize: em(20, 24),
           lineHeight: round(32 / 20),
           marginTop: em(20, 20),
@@ -981,10 +981,10 @@ const styles: (
         code: {
           fontSize: em(20, 24),
         },
-        "h2 code": {
+        'h2 code': {
           fontSize: em(42, 48),
         },
-        "h3 code": {
+        'h3 code': {
           fontSize: em(32, 36),
         },
         pre: {
@@ -1010,38 +1010,38 @@ const styles: (
           marginTop: em(12, 24),
           marginBottom: em(12, 24),
         },
-        "ol > li": {
+        'ol > li': {
           paddingLeft: em(40, 24),
         },
-        "ol > li::before": {
-          left: "0",
+        'ol > li::before': {
+          left: '0',
         },
-        "ul > li": {
+        'ul > li': {
           paddingLeft: em(40, 24),
         },
-        "ul > li::before": {
+        'ul > li::before': {
           width: em(8, 24),
           height: em(8, 24),
           top: `calc(${em(40 / 2, 24)} - ${em(4, 24)})`,
           left: em(6, 24),
         },
-        "> ul > li p": {
+        '> ul > li p': {
           marginTop: em(20, 24),
           marginBottom: em(20, 24),
         },
-        "> ul > li > *:first-child": {
+        '> ul > li > *:first-child': {
           marginTop: em(32, 24),
         },
-        "> ul > li > *:last-child": {
+        '> ul > li > *:last-child': {
           marginBottom: em(32, 24),
         },
-        "> ol > li > *:first-child": {
+        '> ol > li > *:first-child': {
           marginTop: em(32, 24),
         },
-        "> ol > li > *:last-child": {
+        '> ol > li > *:last-child': {
           marginBottom: em(32, 24),
         },
-        "ul ul, ul ol, ol ul, ol ol": {
+        'ul ul, ul ol, ol ul, ol ol': {
           marginTop: em(16, 24),
           marginBottom: em(16, 24),
         },
@@ -1049,52 +1049,52 @@ const styles: (
           marginTop: em(72, 24),
           marginBottom: em(72, 24),
         },
-        "hr + *": {
-          marginTop: "0",
+        'hr + *': {
+          marginTop: '0',
         },
-        "h2 + *": {
-          marginTop: "0",
+        'h2 + *': {
+          marginTop: '0',
         },
-        "h3 + *": {
-          marginTop: "0",
+        'h3 + *': {
+          marginTop: '0',
         },
-        "h4 + *": {
-          marginTop: "0",
+        'h4 + *': {
+          marginTop: '0',
         },
         table: {
           fontSize: em(20, 24),
           lineHeight: round(28 / 20),
         },
-        "thead th": {
+        'thead th': {
           paddingRight: em(12, 20),
           paddingBottom: em(16, 20),
           paddingLeft: em(12, 20),
         },
-        "thead th:first-child": {
-          paddingLeft: "0",
+        'thead th:first-child': {
+          paddingLeft: '0',
         },
-        "thead th:last-child": {
-          paddingRight: "0",
+        'thead th:last-child': {
+          paddingRight: '0',
         },
-        "tbody td": {
+        'tbody td': {
           paddingTop: em(16, 20),
           paddingRight: em(12, 20),
           paddingBottom: em(16, 20),
           paddingLeft: em(12, 20),
         },
-        "tbody td:first-child": {
-          paddingLeft: "0",
+        'tbody td:first-child': {
+          paddingLeft: '0',
         },
-        "tbody td:last-child": {
-          paddingRight: "0",
+        'tbody td:last-child': {
+          paddingRight: '0',
         },
       },
       {
-        "> :first-child": {
-          marginTop: "0",
+        '> :first-child': {
+          marginTop: '0',
         },
-        "> :last-child": {
-          marginBottom: "0",
+        '> :last-child': {
+          marginBottom: '0',
         },
       },
     ],
@@ -1113,7 +1113,7 @@ const styles: (
           css: [
             {
               a: { color: values[600] },
-              "a code": { color: values[600] },
+              'a code': { color: values[600] },
             },
           ],
         },

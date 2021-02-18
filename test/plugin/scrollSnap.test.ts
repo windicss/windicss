@@ -1,8 +1,8 @@
-import { Processor } from "../../src/lib";
-import scrollSnap from "../../src/plugin/scroll-snap";
+import { Processor } from '../../src/lib';
+import scrollSnap from '../../src/plugin/scroll-snap';
 
-describe("Scroll Snap plugin", () => {
-  it("interpret test", () => {
+describe('Scroll Snap plugin', () => {
+  it('interpret test', () => {
     const processor = new Processor();
     processor.loadPlugin(scrollSnap);
     const classes = `
@@ -27,7 +27,7 @@ describe("Scroll Snap plugin", () => {
     expect(result.ignored.length).toEqual(0);
   });
 
-  it("dynamic utility test", () => {
+  it('dynamic utility test', () => {
     const processor = new Processor();
     processor.loadPlugin(scrollSnap);
 

@@ -1,5 +1,5 @@
-import { Processor } from "../../src/lib";
-import { CSSParser } from "../../src/utils/parser";
+import { Processor } from '../../src/lib';
+import { CSSParser } from '../../src/utils/parser';
 
 const CSS = String.raw`
 @charset "utf-8";
@@ -111,15 +111,15 @@ html {
 
 const PROCESSOR = new Processor();
 
-describe("CSSParser", () => {
-  it("parse empty", () => {
-    expect(new CSSParser().parse().build()).toEqual("");
-    expect(new CSSParser(undefined, PROCESSOR).parse().build()).toEqual("");
-    expect(new CSSParser().parse().build(true)).toEqual("");
-    expect(new CSSParser(undefined, PROCESSOR).parse().build(true)).toEqual("");
+describe('CSSParser', () => {
+  it('parse empty', () => {
+    expect(new CSSParser().parse().build()).toEqual('');
+    expect(new CSSParser(undefined, PROCESSOR).parse().build()).toEqual('');
+    expect(new CSSParser().parse().build(true)).toEqual('');
+    expect(new CSSParser(undefined, PROCESSOR).parse().build(true)).toEqual('');
   });
 
-  it("transform parse", () => {
+  it('transform parse', () => {
     const parser = new CSSParser(CSS, PROCESSOR);
     const styleSheet = parser.parse();
     expect(styleSheet.build()).toEqual(String.raw`@charset "utf-8";
@@ -219,7 +219,7 @@ video {
 }`);
   });
 
-  it("normal parse", () => {
+  it('normal parse', () => {
     const parser = new CSSParser(CSS);
     const styleSheet = parser.parse();
     expect(styleSheet.build()).toEqual(String.raw`@charset "utf-8";
@@ -304,7 +304,7 @@ video {
 }`);
   });
 
-  it("apply chain", () => {
+  it('apply chain', () => {
     const css = `.base {
       @apply w-9 h-9 rounded-md;
     }
@@ -313,7 +313,7 @@ video {
     }`;
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toEqual(
-`.base {
+      `.base {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 0.375rem;

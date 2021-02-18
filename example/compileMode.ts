@@ -1,7 +1,7 @@
-import fs from "fs";
-import { Processor } from "../src/lib";
-import { HTMLParser } from "../src/utils/parser";
-import { StyleSheet } from "../src/utils/style";
+import fs from 'fs';
+import { Processor } from '../src/lib';
+import { HTMLParser } from '../src/utils/parser';
+import { StyleSheet } from '../src/utils/style';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
 const html = `<!--
@@ -84,17 +84,17 @@ let indexStart = 0;
 // Match tailwind ClassName then replace with new ClassName
 parser.parseClasses().forEach((p) => {
   outputHTML.push(html.substring(indexStart, p.start));
-  const result = processor.compile(p.result, "windi-", true); // Set third argument to false to hide comments;
+  const result = processor.compile(p.result, 'windi-', true); // Set third argument to false to hide comments;
   outputCSS.push(result.styleSheet);
   ignoredClass = [...ignoredClass, ...result.ignored];
-  outputHTML.push([result.className, ...result.ignored].join(" "));
+  outputHTML.push([result.className, ...result.ignored].join(' '));
   indexStart = p.end;
 });
 outputHTML.push(html.substring(indexStart));
 
-fs.writeFileSync("compile_test.html", outputHTML.join(""));
+fs.writeFileSync('compile_test.html', outputHTML.join(''));
 fs.writeFileSync(
-  "compile_test.css",
+  'compile_test.css',
   outputCSS
     .reduce(
       (previousValue: StyleSheet, currentValue: StyleSheet) =>

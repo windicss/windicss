@@ -1,5 +1,2 @@
 node_modules
 dist
-test/**/*.test.js
-test/helpers/*.js
-rollup.config.js

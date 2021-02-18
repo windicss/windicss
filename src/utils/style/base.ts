@@ -5,9 +5,9 @@ import {
   camelToDash,
   deepCopy,
   isTagName,
-} from "../tools";
+} from '../tools';
 
-import type { NestObject } from "../../interfaces";
+import type { NestObject } from '../../interfaces';
 
 export class Property {
   name: string | string[];
@@ -32,15 +32,15 @@ export class Property {
   ): Property | InlineAtRule | undefined {
     css = css.trim();
     if (!css) return;
-    if (css.charAt(0) === "@") return InlineAtRule.parse(css);
-    const split = css.search(":");
-    const end = css.search(";");
+    if (css.charAt(0) === '@') return InlineAtRule.parse(css);
+    const split = css.search(':');
+    const end = css.search(';');
     if (split === -1) return;
     let important = false;
     let prop = css.substring(split + 1, end === -1 ? undefined : end).trim();
     if (/!important;?$/.test(prop)) {
       important = true;
-      prop = prop.replace(/!important/, "").trimRight();
+      prop = prop.replace(/!important/, '').trimRight();
     }
     return new Property(
       css.substring(0, split).trim(),
@@ -53,17 +53,17 @@ export class Property {
   static parse(
     css: string
   ): Property | InlineAtRule | (Property | InlineAtRule)[] | undefined {
-    if (!/;\s*$/.test(css)) css += ";"; // Fix for the situation where the last semicolon is omitted
+    if (!/;\s*$/.test(css)) css += ';'; // Fix for the situation where the last semicolon is omitted
     const properties: (Property | InlineAtRule)[] = [];
     let index = 0;
-    let end = searchFrom(css, ";", index);
+    let end = searchFrom(css, ';', index);
     while (end !== -1) {
       const parsed = this._singleParse(
         css.substring(searchFrom(css, /\S/, index), end + 1)
       );
       if (parsed) properties.push(parsed);
       index = end + 1;
-      end = searchFrom(css, ";", index);
+      end = searchFrom(css, ';', index);
     }
     const count = properties.length;
     if (count > 1) return properties;
@@ -77,18 +77,18 @@ export class Property {
   build(minify = false): string {
     const createProperty = (name: string, value?: string) => {
       if (minify) {
-        return `${name}:${value}${this.important ? "!important" : ""};`;
+        return `${name}:${value}${this.important ? '!important' : ''};`;
       } else {
-        const p = `${name}: ${value}${this.important ? " !important" : ""};`;
+        const p = `${name}: ${value}${this.important ? ' !important' : ''};`;
         return this.comment ? p + ` /* ${this.comment} */` : p;
       }
     };
-    if (!this.value) return "";
-    return typeof this.name === "string"
+    if (!this.value) return '';
+    return typeof this.name === 'string'
       ? createProperty(this.name, this.value)
       : this.name
-          .map((i) => createProperty(i, this.value))
-          .join(minify ? "" : "\n");
+        .map((i) => createProperty(i, this.value))
+        .join(minify ? '' : '\n');
   }
 }
 
@@ -106,25 +106,25 @@ export class InlineAtRule extends Property {
       let expression =
         matchName.index !== undefined
           ? css
-              .substring(matchName.index + name.length + 1)
-              .match(/[^;]*/)?.[0]
-              .trim()
+            .substring(matchName.index + name.length + 1)
+            .match(/[^;]*/)?.[0]
+            .trim()
           : undefined;
       if (expression && /!important;?$/.test(expression)) {
         important = true;
-        expression = expression.replace(/!important/, "").trimRight();
+        expression = expression.replace(/!important/, '').trimRight();
       }
       return new InlineAtRule(
         name,
-        expression === "" ? undefined : expression,
+        expression === '' ? undefined : expression,
         important
       );
     }
   }
   build(): string {
     return this.value
-      ? `@${this.name} ${this.value}${this.important ? " !important" : ""};`
-      : `@${this.name}${this.important ? " !important" : ""};`;
+      ? `@${this.name} ${this.value}${this.important ? ' !important' : ''};`
+      : `@${this.name}${this.important ? ' !important' : ''};`;
   }
 }
 
@@ -157,15 +157,15 @@ export class Style {
   }
 
   get rule(): string {
-    let result = this.selector ?? "";
+    let result = this.selector ?? '';
     (this._wrapSelectors ?? []).forEach((func) => (result = func(result)));
     this._parentSelectors &&
-      (result = `${this._parentSelectors.join(" ")} ${result}`);
-    this._pseudoClasses && (result += `:${this._pseudoClasses.join(":")}`);
-    this._pseudoElements && (result += `::${this._pseudoElements.join("::")}`);
+      (result = `${this._parentSelectors.join(' ')} ${result}`);
+    this._pseudoClasses && (result += `:${this._pseudoClasses.join(':')}`);
+    this._pseudoElements && (result += `::${this._pseudoElements.join('::')}`);
     this._brotherSelectors &&
-      (result += `.${this._brotherSelectors.join(".")}`);
-    this._childSelectors && (result += ` ${this._childSelectors.join(" ")}`);
+      (result += `.${this._brotherSelectors.join('.')}`);
+    this._childSelectors && (result += ` ${this._childSelectors.join(' ')}`);
     (this._wrapRules ?? []).forEach((func) => (result = func(result)));
     return result;
   }
@@ -208,12 +208,12 @@ export class Style {
     root?: Style
   ): Style[] {
     if (!root)
-      root = parent?.startsWith("@")
+      root = parent?.startsWith('@')
         ? new Style().atRule(parent)
         : new Style(parent);
     let output: Style[] = [];
     for (const [key, value] of Object.entries(property ?? {})) {
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         root.add(new Property(camelToDash(key), value));
       } else if (Array.isArray(value)) {
         value.map(i => root?.add(new Property(camelToDash(key), i)));
@@ -221,7 +221,7 @@ export class Style {
         const wrap = deepCopy(root);
         wrap.property = [];
         let child: Style | undefined;
-        if (key.startsWith("@")) {
+        if (key.startsWith('@')) {
           child = wrap.atRule(key, false);
         } else {
           if (wrap.selector === undefined) {
@@ -233,7 +233,7 @@ export class Style {
               child = wrap;
             } else {
               const _hKey = (selector: string, key: string) =>
-                (/&/.test(key) ? key : `& ${key}`).replace("&", selector);
+                (/&/.test(key) ? key : `& ${key}`).replace('&', selector);
               wrap.wrapSelector((selector) =>
                 selector
                   .trim()
@@ -243,16 +243,16 @@ export class Style {
                     key
                       .split(/\s*,\s*/g)
                       .map((i) => _hKey(s, i))
-                      .join(", ")
+                      .join(', ')
                   )
-                  .join(", ")
+                  .join(', ')
               );
               child = wrap;
             }
           }
         }
         output = output.concat(
-          Style.generate(key.startsWith("@") ? undefined : key, value, child)
+          Style.generate(key.startsWith('@') ? undefined : key, value, child)
         );
       }
     }
@@ -473,38 +473,38 @@ export class Style {
           ? new Property(p.name, p.value, p.comment, true).build(minify)
           : p.build(minify);
       })
-      .join(minify ? "" : "\n");
-    if (!this.selector && !this.atRules) return result.replace(/;}/g, "}");
+      .join(minify ? '' : '\n');
+    if (!this.selector && !this.atRules) return result.replace(/;}/g, '}');
     if (this.selector)
       result =
-        (minify ? this.rule.replace(/,\s/g, ",") : this.rule + " ") +
+        (minify ? this.rule.replace(/,\s/g, ',') : this.rule + ' ') +
         wrapit(
           result,
           undefined,
           undefined,
           undefined,
-          result !== "" ? minify : true
+          result !== '' ? minify : true
         );
     if (this.atRules) {
       for (const rule of this.atRules) {
         result = minify
-          ? `${rule.replace(/\s/g, "")}${wrapit(
-              result,
-              undefined,
-              undefined,
-              undefined,
-              minify
-            )}`
+          ? `${rule.replace(/\s/g, '')}${wrapit(
+            result,
+            undefined,
+            undefined,
+            undefined,
+            minify
+          )}`
           : `${rule} ${wrapit(
-              result,
-              undefined,
-              undefined,
-              undefined,
-              result !== "" ? minify : true
-            )}`;
+            result,
+            undefined,
+            undefined,
+            undefined,
+            result !== '' ? minify : true
+          )}`;
       }
     }
-    return minify ? result.replace(/;}/g, "}") : result;
+    return minify ? result.replace(/;}/g, '}') : result;
   }
 }
 

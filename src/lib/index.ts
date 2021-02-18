@@ -1,15 +1,15 @@
-import { getNestedValue, hash, deepCopy } from "../utils/tools";
-import { negative, breakpoints } from "../utils/helpers";
-import { Property, Style, StyleSheet } from "../utils/style";
-import { resolveVariants } from "./variants";
-import { staticUtilities, dynamicUtilities } from "./utilities";
+import { getNestedValue, hash, deepCopy } from '../utils/tools';
+import { negative, breakpoints } from '../utils/helpers';
+import { Property, Style, StyleSheet } from '../utils/style';
+import { resolveVariants } from './variants';
+import { staticUtilities, dynamicUtilities } from './utilities';
 
-import extract, { generateStaticStyle } from "./extract";
-import preflight from "./preflight";
-import { baseConfig } from "../config";
-import cssEscape from "../utils/algorithm/cssEscape";
-import combineConfig from "../utils/algorithm/combineConfig";
-import ClassParser from "../utils/parser/class";
+import extract, { generateStaticStyle } from './extract';
+import preflight from './preflight';
+import { baseConfig } from '../config';
+import cssEscape from '../utils/algorithm/cssEscape';
+import combineConfig from '../utils/algorithm/combineConfig';
+import ClassParser from '../utils/parser/class';
 
 import type {
   Config,
@@ -28,9 +28,9 @@ import type {
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
-} from "../interfaces";
+} from '../interfaces';
 
-import type { Utility } from "./utilities/handler";
+import type { Utility } from './utilities/handler';
 
 type Cache = {
   html: string[];
@@ -38,7 +38,7 @@ type Cache = {
   utilities: string[];
 }
 type ResolvedVariants = { [key: string]: () => Style }
-type VariantTypes = "screen" | "theme" | "state"
+type VariantTypes = 'screen' | 'theme' | 'state'
 
 type StyleArrayObject = { [key: string]: Style[] }
 
@@ -64,7 +64,7 @@ type VariantUtils = {
 
 export class Processor {
   private _config: Config;
-  private _theme: Config["theme"];
+  private _theme: Config['theme'];
   private _variants: ResolvedVariants = {};
   private _cache: Cache = {
     html: [],
@@ -91,7 +91,7 @@ export class Processor {
     prefix: (...args) => this.prefix(...args),
     config: (...args) => this.config(...args),
     theme: (...args) => this.theme(...args),
-    variants: (...args) => this.variants(...args)
+    variants: (...args) => this.variants(...args),
   };
 
   public variantUtils: VariantUtils = {
@@ -126,8 +126,8 @@ export class Processor {
           theme[key] = (theme, { negative, breakpoints }) => {
             return {
               ...(themeValue as ConfigUtil)(theme, { negative, breakpoints}) as {[key:string]:unknown},
-              ...value as {[key:string]:unknown}
-            }
+              ...value as {[key:string]:unknown},
+            };
           };
         } else if (typeof themeValue === 'object') {
           theme[key] = { ...(themeValue ?? {}), ...value as {[key:string]:unknown} };
@@ -152,7 +152,7 @@ export class Processor {
     const theme = (path: string, defaultValue?: unknown) =>
       this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
-      if (typeof value === "function") {
+      if (typeof value === 'function') {
         config.theme[key] = value(theme, {
           negative,
           breakpoints,
@@ -175,20 +175,20 @@ export class Processor {
     styles.forEach(style => {
       style.atRules = style.atRules?.map(i => {
         if (i.match(/@screen/)) {
-          const variant = i.replace(/\s*@screen\s*/, "");
+          const variant = i.replace(/\s*@screen\s*/, '');
           const atRule = this._variants[variant]().atRules?.[0];
           return atRule ?? i;
         }
         return i;
-      })
-    })
+      });
+    });
   }
 
   resolveConfig(config: Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config = this._resolveFunction(this._config);
-    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i))
+    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
     this._variants = this.resolveVariants();
     return this._config;
   }
@@ -242,18 +242,18 @@ export class Processor {
   }
 
   removePrefix(className: string): string {
-    const prefix = this.config("prefix") as string | undefined;
-    return prefix ? className.replace(new RegExp(`^${prefix}`), "") : className;
+    const prefix = this.config('prefix') as string | undefined;
+    return prefix ? className.replace(new RegExp(`^${prefix}`), '') : className;
   }
 
   markAsImportant(style: Style, force: boolean | string = false): Style {
-    const _important = force ? force : this.config("important", false);
+    const _important = force ? force : this.config('important', false);
     const important =
-      typeof _important === "string"
+      typeof _important === 'string'
         ? (_important as string)
         : (_important as boolean);
     if (important) {
-      if (typeof important === "string") {
+      if (typeof important === 'string') {
         style.parent(important);
       } else {
         style.important = true;
@@ -291,7 +291,7 @@ export class Processor {
     // Interpret tailwind class then generate raw tailwind css.
     const ast = new ClassParser(
       classNames,
-      this.config("separator", ":") as string
+      this.config('separator', ':') as string
     ).parse();
     const success: string[] = [];
     const ignored: string[] = [];
@@ -319,7 +319,7 @@ export class Processor {
       if (result) {
         success.push(selector);
         if (result instanceof Style) {
-          result.selector = "." + cssEscape(selector);
+          result.selector = '.' + cssEscape(selector);
           this.markAsImportant(result);
         }
         if (Array.isArray(result))
@@ -333,7 +333,7 @@ export class Processor {
     const _hGroup = (obj: Element, parentVariants: string[] = []) => {
       Array.isArray(obj.content) &&
         obj.content.forEach((u: Element) => {
-          if (u.type === "group") {
+          if (u.type === 'group') {
             _hGroup(u, obj.variants);
           } else {
             // utility
@@ -342,8 +342,8 @@ export class Processor {
               ...obj.variants,
               ...u.variants,
             ];
-            const selector = [...variants, u.content].join(":");
-            typeof u.content === "string" &&
+            const selector = [...variants, u.content].join(':');
+            typeof u.content === 'string' &&
               _gStyle(this.removePrefix(u.content), variants, selector);
           }
         });
@@ -352,13 +352,13 @@ export class Processor {
     ast.forEach((obj) => {
       if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
         this._cache.utilities.push(obj.raw);
-        if (obj.type === "utility") {
+        if (obj.type === 'utility') {
           if (Array.isArray(obj.content)) {
             // #functions stuff
           } else if (obj.content) {
             _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
           }
-        } else if (obj.type === "group") {
+        } else if (obj.type === 'group') {
           _hGroup(obj);
         } else {
           _hIgnored(obj.raw);
@@ -375,7 +375,7 @@ export class Processor {
 
   compile(
     classNames: string,
-    prefix = "windi-",
+    prefix = 'windi-',
     showComment = false,
     ignoreGenerated = false,
     handleIgnored?: (ignored:string) => Style | Style[] | undefined
@@ -386,14 +386,14 @@ export class Processor {
     styleSheet: StyleSheet;
   } {
     // Compile tailwind css classes to one combined class.
-    const ast = new ClassParser(classNames, this.config("separator", ":") as string).parse();
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
     let className: string | undefined = prefix + hash(classNames.trim().split(/\s+/g).join(' '));
     if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
-    const buildSelector = "." + className;
+    const buildSelector = '.' + className;
 
     const _hIgnored = (className:string) => {
       if (handleIgnored) {
@@ -434,7 +434,7 @@ export class Processor {
     const _hGroup = (obj: Element, parentVariants: string[] = []) => {
       Array.isArray(obj.content) &&
         obj.content.forEach((u) => {
-          if (u.type === "group") {
+          if (u.type === 'group') {
             _hGroup(u, obj.variants);
           } else {
             // utility
@@ -443,21 +443,21 @@ export class Processor {
               ...obj.variants,
               ...u.variants,
             ];
-            const selector = [...variants, u.content].join(":");
-            typeof u.content === "string" &&
+            const selector = [...variants, u.content].join(':');
+            typeof u.content === 'string' &&
               _gStyle(this.removePrefix(u.content), variants, selector);
           }
         });
     };
 
     ast.forEach((obj) => {
-      if (obj.type === "utility") {
+      if (obj.type === 'utility') {
         if (Array.isArray(obj.content)) {
           // #functions stuff
         } else if (obj.content) {
           _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
         }
-      } else if (obj.type === "group") {
+      } else if (obj.type === 'group') {
         _hGroup(obj);
       } else {
         _hIgnored(obj.raw);
@@ -525,7 +525,7 @@ export class Processor {
   }
 
   prefix(selector: string): string {
-    return selector.replace(/(?=[\w])/, this._config.prefix ?? "");
+    return selector.replace(/(?=[\w])/, this._config.prefix ?? '');
   }
 
   addUtilities(
@@ -618,7 +618,7 @@ export class Processor {
     // name && generator && options;
     const style = generator({
       ...this.variantUtils,
-      separator: this.config("separator", ":") as string,
+      separator: this.config('separator', ':') as string,
       style: new Style(),
     });
     this._plugin.variants[name] = () => style;

@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 export class Console {
   static log(...message: unknown[]): void {
@@ -27,12 +27,12 @@ export function walk(
 
     if (fs.lstatSync(itemPath).isFile()) {
       result.push({
-        type: "file",
+        type: 'file',
         path: itemPath,
       });
     } else {
       result.push({
-        type: "folder",
+        type: 'folder',
         path: itemPath,
       });
       if (deep) result = [...result, ...walk(itemPath, deep)];
@@ -53,27 +53,28 @@ export class FilePattern {
 
   private _transform(pattern: string) {
     // if (!pattern.startsWith('^')) pattern = '^' + pattern;
-    if (!pattern.endsWith("$")) pattern += "$";
+    if (!pattern.endsWith('$')) pattern += '$';
     const backSlash = String.fromCharCode(92);
     const anyText = `[${backSlash}s${backSlash}S]+`;
     pattern = pattern
-      .replace(/^\.\//, "")
+      .replace(/^\.\//, '')
       .replace(/\*\*\/\*/g, anyText)
-      .replace(/\*\*/g, "[^/]+")
-      .replace(/\*/g, "[^/]+")
-      .replace(/\./g, backSlash + ".")
-      .replace(/\//g, backSlash + "/");
+      .replace(/\*\*/g, '[^/]+')
+      .replace(/\*/g, '[^/]+')
+      .replace(/\./g, backSlash + '.')
+      .replace(/\//g, backSlash + '/');
     return new RegExp(pattern);
   }
 }
 
 export function getVersion(): string {
+  // eslint-disable-next-line quotes
   return `__NAME__ __VERSION__`; // replace by rollup
 }
 
 export function generateTemplate(
   folder: string,
-  outputPath = "windi.output.css"
+  outputPath = 'windi.output.css'
 ): { html: string; css: string } {
   if (!(fs.existsSync(folder) && fs.lstatSync(folder).isDirectory())) {
     fs.mkdirSync(folder);
@@ -126,9 +127,9 @@ export function generateTemplate(
       </div>
   </body>
   </html>`;
-  const inputPath = path.join(folder, "index.html");
+  const inputPath = path.join(folder, 'index.html');
   outputPath = path.join(folder, outputPath);
   fs.writeFileSync(inputPath, template);
-  fs.writeFileSync(outputPath, "");
+  fs.writeFileSync(outputPath, '');
   return { html: inputPath, css: outputPath };
 }

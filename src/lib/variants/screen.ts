@@ -1,5 +1,5 @@
-import { Style } from "../../utils/style";
-import { isString } from "../../utils/helpers";
+import { Style } from '../../utils/style';
+import { isString } from '../../utils/helpers';
 
 type RawBreakpoint = { raw: string }
 type MinMaxBreakpoint = { min?: string, max?: string }
@@ -16,14 +16,14 @@ export function generateScreens(screens: {
 
   breakpoints.forEach(([name, size], index) => {
     if (isString(size)) {
-      const [, nextSize] = breakpoints[index + 1] || []
-      variants[name] = styleForBreakpoint({ min: size })
-      variants[`-${name}`] = styleForBreakpoint({ max: size })
+      const [, nextSize] = breakpoints[index + 1] || [];
+      variants[name] = styleForBreakpoint({ min: size });
+      variants[`-${name}`] = styleForBreakpoint({ max: size });
       variants[`+${name}`] = styleForBreakpoint(
         nextSize ? { min: size, max: nextSize as string } : { min: size }
-      )
+      );
     } else {
-      variants[name] = styleForBreakpoint(size)
+      variants[name] = styleForBreakpoint(size);
     }
   });
 
@@ -34,7 +34,7 @@ function styleForBreakpoint(rule: ScreenBreakpoint) {
   const mediaConditions = 'raw' in rule ? rule.raw : [
     rule.min && `(min-width: ${rule.min})`,
     rule.max && `(max-width: ${rule.max})`,
-  ].filter(condition => condition).join(' and ')
+  ].filter(condition => condition).join(' and ');
   return () => new Style().atRule(`@media ${mediaConditions}`);
 }
 

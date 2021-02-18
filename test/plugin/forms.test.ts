@@ -1,16 +1,16 @@
-import forms from "../../src/plugin/forms";
-import { Processor } from "../../src/lib";
-import { writeFileSync } from "fs";
+import forms from '../../src/plugin/forms';
+import { Processor } from '../../src/lib';
+import { writeFileSync } from 'fs';
 
-describe("forms plugin", () => {
-  it("preflight", () => {
+describe('forms plugin', () => {
+  it('preflight', () => {
     const processor = new Processor();
     processor.loadPlugin(forms);
     const css = processor.preflight(undefined, false, false, true).build();
     writeFileSync('forms.css', css);
-  })
+  });
 
-  it("purge", () => {
+  it('purge', () => {
     const processor = new Processor();
     processor.loadPlugin(forms);
     const html = `
@@ -274,5 +274,5 @@ describe("forms plugin", () => {
 </html>
     `;
     writeFileSync('forms.purged.css', (processor.preflight(html, false, false, true).build()));
-  })
-})
+  });
+});

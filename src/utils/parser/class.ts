@@ -1,11 +1,11 @@
-import type { Element } from "../../interfaces";
+import type { Element } from '../../interfaces';
 
 export default class ClassParser {
   index: number;
   separator: string;
   classNames?: string;
 
-  constructor(classNames?: string, separator = ":") {
+  constructor(classNames?: string, separator = ':') {
     this.classNames = classNames;
     this.separator = separator;
     this.index = 0;
@@ -27,50 +27,50 @@ export default class ClassParser {
       this.index++;
       char = this.classNames.charAt(this.index);
       switch (char) {
-        case this.separator:
-          variants.push(this.classNames.slice(variantStart, this.index));
-          variantStart = this.index + 1;
-          ignoreSpace = true;
-          break;
-        case "(":
-          if (ignoreSpace) {
-            group = this._handle_group();
-          } else {
-            func = this.classNames.slice(groupStart, this.index);
-            group = this._handle_function();
-          }
-          ignoreSpace = false;
-          break;
-        case ")":
-        case " ":
-        case "\n":
-        case "\t":
-        case "\r":
-          if (!ignoreSpace) {
-            if (groupStart !== this.index) {
-              const raw = this.classNames.slice(classStart, this.index);
-              const start = classStart - 1;
-              const end = this.index - 1;
-              if (Array.isArray(group)) {
-                parts.push({ raw, start, end, variants, content: group, type: "group" });
-                group = undefined;
-              } else if (func) {
-                parts.push({ raw, start, end, variants, func, content: group, type: "func" });
-                func = undefined;
-              } else {
-                parts.push({ raw, start, end, variants, content: this.classNames.slice(variantStart, this.index), type: "utility" });
-              }
-              variants = [];
+      case this.separator:
+        variants.push(this.classNames.slice(variantStart, this.index));
+        variantStart = this.index + 1;
+        ignoreSpace = true;
+        break;
+      case '(':
+        if (ignoreSpace) {
+          group = this._handle_group();
+        } else {
+          func = this.classNames.slice(groupStart, this.index);
+          group = this._handle_function();
+        }
+        ignoreSpace = false;
+        break;
+      case ')':
+      case ' ':
+      case '\n':
+      case '\t':
+      case '\r':
+        if (!ignoreSpace) {
+          if (groupStart !== this.index) {
+            const raw = this.classNames.slice(classStart, this.index);
+            const start = classStart - 1;
+            const end = this.index - 1;
+            if (Array.isArray(group)) {
+              parts.push({ raw, start, end, variants, content: group, type: 'group' });
+              group = undefined;
+            } else if (func) {
+              parts.push({ raw, start, end, variants, func, content: group, type: 'func' });
+              func = undefined;
+            } else {
+              parts.push({ raw, start, end, variants, content: this.classNames.slice(variantStart, this.index), type: 'utility' });
             }
-            groupStart = this.index + 1;
-            classStart = this.index + 1;
+            variants = [];
           }
-          variantStart = this.index + 1;
-          break;
-        default:
-          ignoreSpace = false;
+          groupStart = this.index + 1;
+          classStart = this.index + 1;
+        }
+        variantStart = this.index + 1;
+        break;
+      default:
+        ignoreSpace = false;
       }
-      if (char === ")") {
+      if (char === ')') {
         break;
       }
     }
@@ -92,7 +92,7 @@ export default class ClassParser {
   private _handle_function() {
     if (!this.classNames) return;
     const groupStart = this.index + 1;
-    while (this.classNames.charAt(this.index) !== ")") {
+    while (this.classNames.charAt(this.index) !== ')') {
       this.index++;
     }
     return this.classNames.slice(groupStart, this.index);
@@ -101,7 +101,7 @@ export default class ClassParser {
   parse(removeDuplicated = true): Element[] {
     if (!this.classNames) return [];
     // Turn classes into group;
-    this.classNames = "(" + this.classNames + ")";
+    this.classNames = '(' + this.classNames + ')';
     const elements = this._handle_group(removeDuplicated);
     // Initialization, convenient for next call
     this.index = 0;

@@ -1,10 +1,10 @@
-import { Utility } from "./utilities/handler";
-import { Style, Property } from "../utils/style";
-import { staticUtilities, dynamicUtilities } from "./utilities";
-import type { Processor } from "./index";
+import { Utility } from './utilities/handler';
+import { Style, Property } from '../utils/style';
+import { staticUtilities, dynamicUtilities } from './utilities';
+import type { Processor } from './index';
 
 export function generateStaticStyle(className:string, addComment = false): Style {
-  const style = new Style("." + className);
+  const style = new Style('.' + className);
   const comment = addComment ? className : undefined;
   for (const [key, value] of Object.entries(staticUtilities[className])) {
     style.add(
@@ -34,15 +34,15 @@ export default function extract(
 
   // handle dynamic plugin utilities
   for (const [key, generator] of Object.entries(processor._plugin.dynamic)) {
-     if (className.match(new RegExp(`^-?${key}`))) {
-       let style = generator(utility);
-       if (style instanceof Property) style = style.toStyle(utility.class);
-       if (style && addComment)
+    if (className.match(new RegExp(`^-?${key}`))) {
+      let style = generator(utility);
+      if (style instanceof Property) style = style.toStyle(utility.class);
+      if (style && addComment)
         Array.isArray(style)
           ? style.map((i) => i.property.forEach((p) => (p.comment = className)))
           : style.property.forEach((p) => (p.comment = className));
-       if (style) return style;
-     }
+      if (style) return style;
+    }
   }
   // handle dynamic base utilities
   if (key && key in dynamicUtilities) {

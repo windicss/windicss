@@ -13,8 +13,15 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "semi": [2, "always"],
+    "quotes": [2, "single"],
+    "indent": [2, 2],
     "no-console": 2,
     "no-constant-condition": 2,
-    "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-unused-vars": "warn",
+    "comma-dangle": [2, "always-multiline"],
+    "no-var": 2,
+    "eqeqeq": [2, "allow-null"]
   }
 }

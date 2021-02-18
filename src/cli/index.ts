@@ -1,8 +1,8 @@
-import arg from "arg";
-import { Processor } from "../lib";
-import { readFileSync, writeFileSync } from "fs";
-import { HTMLParser } from "../utils/parser";
-import { StyleSheet } from "../utils/style";
+import arg from 'arg';
+import { Processor } from '../lib';
+import { readFileSync, writeFileSync } from 'fs';
+import { HTMLParser } from '../utils/parser';
+import { StyleSheet } from '../utils/style';
 import {
   getVersion,
   FilePattern,
@@ -10,7 +10,7 @@ import {
   isFile,
   generateTemplate,
   Console,
-} from "./utils";
+} from './utils';
 
 const doc = `
 Generate css from text files containing tailwindcss class.
@@ -42,50 +42,50 @@ Options:
 
 const args = arg({
   // Types
-  "--help": Boolean,
-  "--version": Boolean,
-  "--compile": Boolean,
-  "--interpret": Boolean,
-  "--preflight": Boolean,
-  "--combine": Boolean,
-  "--separate": Boolean,
-  "--minify": Boolean,
-  "--init": String,
-  "--prefix": String,
-  "--output": String,
+  '--help': Boolean,
+  '--version': Boolean,
+  '--compile': Boolean,
+  '--interpret': Boolean,
+  '--preflight': Boolean,
+  '--combine': Boolean,
+  '--separate': Boolean,
+  '--minify': Boolean,
+  '--init': String,
+  '--prefix': String,
+  '--output': String,
 
   // Aliases
-  "-h": "--help",
-  "-v": "--version",
-  "-i": "--interpret",
-  "-c": "--compile",
-  "-t": "--preflight",
-  "-b": "--combine",
-  "-s": "--separate",
+  '-h': '--help',
+  '-v': '--version',
+  '-i': '--interpret',
+  '-c': '--compile',
+  '-t': '--preflight',
+  '-b': '--combine',
+  '-s': '--separate',
 
-  "-m": "--minify",
-  "-p": "--prefix",
-  "-o": "--output",
+  '-m': '--minify',
+  '-p': '--prefix',
+  '-o': '--output',
 });
 
-if (args["--help"] || (args._.length === 0 && Object.keys(args).length === 1)) {
+if (args['--help'] || (args._.length === 0 && Object.keys(args).length === 1)) {
   Console.log(doc);
   process.exit();
 }
 
-if (args["--version"]) {
+if (args['--version']) {
   Console.log(getVersion());
   process.exit();
 }
 
-if (args["--init"]) {
-  const template = generateTemplate(args["--init"], args["--output"]);
+if (args['--init']) {
+  const template = generateTemplate(args['--init'], args['--output']);
   args._.push(template.html);
-  args["--preflight"] = true;
-  args["--output"] = template.css;
+  args['--preflight'] = true;
+  args['--output'] = template.css;
 }
 
-const localFiles = walk(".", true).filter((i) => i.type === "file");
+const localFiles = walk('.', true).filter((i) => i.type === 'file');
 
 const matchFiles: string[] = [];
 for (const pt of args._) {
@@ -108,9 +108,9 @@ const preflights: StyleSheet[] = [];
 const styleSheets: StyleSheet[] = [];
 const processor = new Processor();
 
-if (args["--compile"]) {
+if (args['--compile']) {
   // compilation mode
-  const prefix = args["--prefix"] ?? "windi-";
+  const prefix = args['--prefix'] ?? 'windi-';
   matchFiles.forEach((file) => {
     let indexStart = 0;
     const outputStyle: StyleSheet[] = [];
@@ -124,7 +124,7 @@ if (args["--compile"]) {
       const utility = processor.compile(p.result, prefix, true); // Set third argument to false to hide comments;
       outputStyle.push(utility.styleSheet);
       ignoredClasses = [...ignoredClasses, ...utility.ignored];
-      outputHTML.push([utility.className, ...utility.ignored].join(" "));
+      outputHTML.push([utility.className, ...utility.ignored].join(' '));
       indexStart = p.end;
     });
     outputHTML.push(html.substring(indexStart));
@@ -136,11 +136,11 @@ if (args["--compile"]) {
       )
     );
 
-    const outputFile = file.replace(/(?=\.\w+$)/, ".windi");
-    writeFileSync(outputFile, outputHTML.join(""));
+    const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
+    writeFileSync(outputFile, outputHTML.join(''));
     Console.log(`${file} -> ${outputFile}`);
 
-    if (args["--preflight"])
+    if (args['--preflight'])
       preflights.push(processor.preflight(parser.html));
   });
 } else {
@@ -151,21 +151,21 @@ if (args["--compile"]) {
       parser
         .parseClasses()
         .map((i) => i.result)
-        .join(" ")
+        .join(' ')
     );
     styleSheets.push(utility.styleSheet);
     ignoredClasses = [...ignoredClasses, ...utility.ignored];
 
-    if (args["--preflight"])
+    if (args['--preflight'])
       preflights.push(processor.preflight(parser.html));
   });
 }
 
-if (args["--separate"]) {
+if (args['--separate']) {
   styleSheets.forEach((style, index) => {
-    const filePath = matchFiles[index].replace(/\.\w+$/, ".windi.css");
-    if (args["--preflight"]) style = preflights[index].extend(style);
-    writeFileSync(filePath, style.build(args["--minify"]));
+    const filePath = matchFiles[index].replace(/\.\w+$/, '.windi.css');
+    if (args['--preflight']) style = preflights[index].extend(style);
+    writeFileSync(filePath, style.build(args['--minify']));
     Console.log(`${matchFiles[index]} -> ${filePath}`);
   });
 } else {
@@ -177,7 +177,7 @@ if (args["--separate"]) {
     )
     .combine()
     .sort();
-  if (args["--preflight"])
+  if (args['--preflight'])
     outputStyle = preflights
       .reduce(
         (previousValue: StyleSheet, currentValue: StyleSheet) =>
@@ -187,10 +187,10 @@ if (args["--separate"]) {
       .combine()
       .sort()
       .extend(outputStyle);
-  const filePath = args["--output"] ?? "windi.output.css";
-  writeFileSync(filePath, outputStyle.build(args["--minify"]));
-  Console.log("matched files:", matchFiles);
-  Console.log("output file:", filePath);
+  const filePath = args['--output'] ?? 'windi.output.css';
+  writeFileSync(filePath, outputStyle.build(args['--minify']));
+  Console.log('matched files:', matchFiles);
+  Console.log('output file:', filePath);
 }
 
-Console.log("ignored classes:", ignoredClasses);
+Console.log('ignored classes:', ignoredClasses);

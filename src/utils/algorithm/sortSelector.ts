@@ -1,10 +1,10 @@
-import type { Style } from "../style";
-import { keyOrder } from "../../config/order";
+import type { Style } from '../style';
+import { keyOrder } from '../../config/order';
 
 function getWeights(a: string): number {
   const first = a.charAt(0);
   const second = a.charAt(1);
-  if (first === ":" && second === ":") return 59; // ::moz ...
+  if (first === ':' && second === ':') return 59; // ::moz ...
   if (first === '#') return 500; // #id ...
   if (first !== '.') return first.charCodeAt(0); // html, body ...
   const matches = a.match(/\w+/);

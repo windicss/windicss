@@ -1,7 +1,7 @@
-import { parseDocument } from "htmlparser2";
-import { selectOne } from "css-select";
-import { Style, StyleSheet } from "../style";
-import type { Document } from "domhandler";
+import { parseDocument } from 'htmlparser2';
+import { selectOne } from 'css-select';
+import { Style, StyleSheet } from '../style';
+import type { Document } from 'domhandler';
 
 function _matchSelector(selector: string, dom: Document): boolean {
   if (/^[:*]/.test(selector)) {
@@ -41,7 +41,7 @@ export default function purgeBase(
         const multiSelector = selector
           .split(/\s*,\s*/g)
           .filter((i) => _matchSelector(i, dom))
-          .join(minify ? "," : ",\n");
+          .join(minify ? ',' : ',\n');
         if (multiSelector) {
           style.selector = multiSelector;
           output.push(style);

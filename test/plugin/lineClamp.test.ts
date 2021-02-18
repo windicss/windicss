@@ -1,8 +1,8 @@
-import { Processor } from "../../src/lib";
-import lineClamp from "../../src/plugin/line-clamp";
+import { Processor } from '../../src/lib';
+import lineClamp from '../../src/plugin/line-clamp';
 
-describe("line clamp plugin", () => {
-  it("interpret test", () => {
+describe('line clamp plugin', () => {
+  it('interpret test', () => {
     const processor = new Processor();
     processor.loadPlugin(lineClamp);
     const classes = `
@@ -15,7 +15,7 @@ describe("line clamp plugin", () => {
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
-`.line-clamp-1 {
+      `.line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -39,9 +39,9 @@ describe("line clamp plugin", () => {
   }
 }`);
   });
-  it("customize test", () => {
+  it('customize test', () => {
     const processor = new Processor({
-      theme: { extend: { lineClamp: { sm: "4", md: "6" } } },
+      theme: { extend: { lineClamp: { sm: '4', md: '6' } } },
     });
     processor.loadPlugin(lineClamp);
     const classes = `
@@ -53,7 +53,7 @@ describe("line clamp plugin", () => {
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
-`.line-clamp-1 {
+      `.line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;

@@ -1,9 +1,9 @@
-import { generateScreens } from "./screen";
-import { generateThemes } from "./theme";
-import { generateStates } from "./state";
+import { generateScreens } from './screen';
+import { generateThemes } from './theme';
+import { generateStates } from './state';
 
-import type { Style } from "../../utils/style";
-import type { Config, DictStr } from "../../interfaces";
+import type { Style } from '../../utils/style';
+import type { Config, DictStr } from '../../interfaces';
 
 export type Variants = {
   screen: { [key: string]: () => Style };
@@ -22,5 +22,5 @@ export function resolveVariants(config: Config): Variants {
 export { 
   generateScreens,
   generateThemes,
-  generateStates
-}
+  generateStates,
+};

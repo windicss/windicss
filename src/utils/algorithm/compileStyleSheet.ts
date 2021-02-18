@@ -1,8 +1,8 @@
-import sortMediaQuery from "./sortMediaQuery";
-import sortSelector from "./sortSelector";
-import { Style } from "../style/base";
-import { wrapit, hash, isSpace } from "../../utils/tools";
-import type { AnyObject } from "../../interfaces";
+import sortMediaQuery from './sortMediaQuery';
+import sortSelector from './sortSelector';
+import { Style } from '../style/base';
+import { wrapit, hash, isSpace } from '../../utils/tools';
+import type { AnyObject } from '../../interfaces';
 
 export function combineObject(
   a: { [key: string]: unknown },
@@ -62,8 +62,8 @@ export function handleNest(item: unknown): unknown[] {
       output = [...output, ...handleNest(i)];
     });
   } else {
-    if ((item as { build?: () => "" }).build)
-      output.push((item as { build: () => "" }).build());
+    if ((item as { build?: () => '' }).build)
+      output.push((item as { build: () => '' }).build());
   }
   return output;
 }
@@ -80,19 +80,19 @@ export function buildMap(obj: unknown, minify = false): string {
         if (item.build) output.push(item.build(minify));
       }
     });
-  } else if (obj && typeof obj === "object") {
+  } else if (obj && typeof obj === 'object') {
     for (const [key, value] of Object.entries(obj)) {
       const _gstyle = (v: string) =>
-        (minify ? key.replace(/\n/g, "") : key + " ") +
+        (minify ? key.replace(/\n/g, '') : key + ' ') +
         wrapit(v, undefined, undefined, undefined, minify);
       if (value instanceof Style) {
         output.push(_gstyle(value.build(minify)));
-      } else if (value && typeof value === "object") {
+      } else if (value && typeof value === 'object') {
         output.push(_gstyle(buildMap(value, minify)));
       }
     }
   }
-  return output.join(minify ? "" : "\n");
+  return output.join(minify ? '' : '\n');
 }
 
 export function combineSelector(styleList: Style[]): Style[] {
@@ -123,7 +123,7 @@ export default function compileStyleSheet(
   )
     .sort(sortSelector)
     .map((i) => i.build(minify))
-    .join(minify ? "" : "\n");
+    .join(minify ? '' : '\n');
   const body = buildMap(
     styleList
       .filter((i) => i.selector && i.atRules)
@@ -132,8 +132,8 @@ export default function compileStyleSheet(
           ...(i.atRules ?? []).sort(sortMediaQuery).reverse(),
           i.rule,
         ];
-        const style = new Style(undefined, i.property, i.important)
-        i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap))
+        const style = new Style(undefined, i.property, i.important);
+        i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap));
         return deepList(list, style);
       })
       .sort((a, b) => {
@@ -149,6 +149,6 @@ export default function compileStyleSheet(
     minify
   );
   return minify
-    ? (head + body).replace(/;\}/g, "}")
-    : [head, body].filter((i) => !isSpace(i)).join("\n");
+    ? (head + body).replace(/;\}/g, '}')
+    : [head, body].filter((i) => !isSpace(i)).join('\n');
 }

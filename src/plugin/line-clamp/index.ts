@@ -1,4 +1,4 @@
-import plugin from "../index";
+import plugin from '../index';
 
 export default plugin(
   function ({ addDynamic, theme }) {
@@ -12,9 +12,9 @@ export default plugin(
           display: '-webkit-box',
           '-webkit-box-orient': 'vertical',
           '-webkit-line-clamp': value,
-        })
+        });
       }
-    })
+    });
   },
   {
     theme: {
@@ -25,4 +25,4 @@ export default plugin(
       lineClamp: ['responsive'],
     },
   }
-)
+);

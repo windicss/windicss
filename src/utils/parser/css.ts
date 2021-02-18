@@ -1,7 +1,7 @@
-import { Property, Style, StyleSheet, InlineAtRule } from "../style";
-import { searchFrom } from "../tools";
-import { deepCopy } from "../../utils";
-import type { Processor } from "../../lib";
+import { Property, Style, StyleSheet, InlineAtRule } from '../style';
+import { searchFrom } from '../tools';
+import { deepCopy } from '../../utils';
+import type { Processor } from '../../lib';
 
 export default class CSSParser {
   css?: string;
@@ -25,18 +25,18 @@ export default class CSSParser {
 
   private _searchGroup(text: string, startIndex = 0) {
     let level = 1;
-    let endBracket = searchFrom(text, "}", startIndex);
+    let endBracket = searchFrom(text, '}', startIndex);
     while (endBracket !== -1) {
-      const nextBracket = searchFrom(text, "{", startIndex);
+      const nextBracket = searchFrom(text, '{', startIndex);
       if (endBracket < nextBracket || nextBracket === -1) {
         level--;
         startIndex = endBracket + 1;
-        if (level == 0) return endBracket;
+        if (level === 0) return endBracket;
       } else {
         level++;
         startIndex = nextBracket + 1;
       }
-      endBracket = searchFrom(text, "}", startIndex);
+      endBracket = searchFrom(text, '}', startIndex);
     }
     return -1;
   }
@@ -48,10 +48,10 @@ export default class CSSParser {
     const properties: Property[] = parsed.filter(
       (i) => !(i instanceof InlineAtRule)
     );
-    const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === "apply" && i.value);
+    const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === 'apply' && i.value);
     if (this.processor && applies.length > 0) {
 
-      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(" "), undefined, false, false, (ignored) => {
+      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(' '), undefined, false, false, (ignored) => {
         if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
       });
       notImportant.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => notImportant.styleSheet.add(this._cache[i]));
@@ -59,7 +59,7 @@ export default class CSSParser {
         style.selector = selector;
       });
 
-      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(" "), undefined, false, false, (ignored) => {
+      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(' '), undefined, false, false, (ignored) => {
         if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
       });
       important.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => important.styleSheet.add(this._cache[i]));
@@ -81,16 +81,16 @@ export default class CSSParser {
     if (!this.processor) return { atrule };
     const iatrule = InlineAtRule.parse(atrule);
     if (!iatrule) return;
-    if (["tailwind", "responsive"].includes(iatrule.name)) return;
-    if (iatrule.name === "variants" && iatrule.value)
+    if (['tailwind', 'responsive'].includes(iatrule.name)) return;
+    if (iatrule.name === 'variants' && iatrule.value)
       return {
-        variants: iatrule.value.split(",").map((i) => i.trim().split(":")),
+        variants: iatrule.value.split(',').map((i) => i.trim().split(':')),
       };
-    if (iatrule.name === "screen" && iatrule.value) {
-      const screens = this.processor.resolveVariants("screen");
+    if (iatrule.name === 'screen' && iatrule.value) {
+      const screens = this.processor.resolveVariants('screen');
       if (iatrule.value in screens)
         return { atrule: screens[iatrule.value]().atRules?.[0] };
-      if (["dark", "light"].includes(iatrule.value))
+      if (['dark', 'light'].includes(iatrule.value))
         return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
     }
     return { atrule };
@@ -105,10 +105,10 @@ export default class CSSParser {
     css = this._removeComment(css);
 
     while (firstLetter !== -1) {
-      if (css.charAt(firstLetter) === "@") {
+      if (css.charAt(firstLetter) === '@') {
         // atrule
-        const ruleEnd = searchFrom(css, ";", firstLetter);
-        const nestStart = searchFrom(css, "{", firstLetter);
+        const ruleEnd = searchFrom(css, ';', firstLetter);
+        const nestStart = searchFrom(css, '{', firstLetter);
 
         if (nestStart === -1 || (ruleEnd !== -1 && ruleEnd < nestStart)) {
           // inline atrule
@@ -150,7 +150,7 @@ export default class CSSParser {
           index = nestEnd + 1;
         }
       } else {
-        const nestStart = searchFrom(css, "{", firstLetter);
+        const nestStart = searchFrom(css, '{', firstLetter);
         const nestEnd = this._searchGroup(css, nestStart + 1);
         if (nestStart === -1) {
           // inline properties

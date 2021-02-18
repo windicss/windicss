@@ -1,6 +1,6 @@
-import fs from "fs";
-import { Processor } from "../src/lib";
-import { HTMLParser } from "../src/utils/parser";
+import fs from 'fs';
+import { Processor } from '../src/lib';
+import { HTMLParser } from '../src/utils/parser';
 
 // Example from [Tailwind Playground](https://play.tailwindcss.com/)
 const html = `<!--
@@ -79,9 +79,9 @@ const result = processor.interpret(
   parser
     .parseClasses()
     .map((i) => i.result)
-    .join(" ")
+    .join(' ')
 ); // Combine all classes into one line to simplify operations
 fs.writeFileSync(
-  "interpret_test.css",
+  'interpret_test.css',
   result.styleSheet.extend(preflightSheet, false).build(false)
 ); // Build css, set true to minify build

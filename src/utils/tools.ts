@@ -1,5 +1,5 @@
 export function hash(str: string): string {
-  str = str.replace(/\r/g, "");
+  str = str.replace(/\r/g, '');
   let hash = 5381;
   let i = str.length;
 
@@ -9,24 +9,24 @@ export function hash(str: string): string {
 
 export function type(val: unknown): string {
   return val === null
-    ? "Null"
+    ? 'Null'
     : val === undefined
-    ? "Undefined"
-    : Object.prototype.toString.call(val).slice(8, -1);
+      ? 'Undefined'
+      : Object.prototype.toString.call(val).slice(8, -1);
 }
 
 export function indent(code: string, tab = 2): string {
-  const spaces = Array(tab).fill(" ").join("");
+  const spaces = Array(tab).fill(' ').join('');
   return code
-    .split("\n")
+    .split('\n')
     .map((line) => spaces + line)
-    .join("\n");
+    .join('\n');
 }
 
 export function wrapit(
   code: string,
-  start = "{",
-  end = "}",
+  start = '{',
+  end = '}',
   tab = 2,
   minify = false
 ): string {
@@ -38,10 +38,10 @@ export function isNumber(
   amount: string,
   start = -Infinity,
   end = Infinity,
-  type: "int" | "float" = "int"
+  type: 'int' | 'float' = 'int'
 ): boolean {
   const isInt = /^-?\d+$/.test(amount);
-  if (type === "int") {
+  if (type === 'int') {
     if (!isInt) return false;
   } else {
     const isFloat = /^-?\d+\.\d+$/.test(amount);
@@ -73,7 +73,7 @@ export function fracToPercent(amount: string): string | undefined {
   if (!matches || matches.length < 2) return;
   const a = +matches[0];
   const b = +matches[1];
-  return roundUp((a / b) * 100, 6) + "%";
+  return roundUp((a / b) * 100, 6) + '%';
 }
 
 export function hex2RGB(hex: string): number[] | undefined {
@@ -91,7 +91,7 @@ export function hex2RGB(hex: string): number[] | undefined {
 }
 
 export function camelToDash(str: string): string {
-  return str.replace(/([a-zA-Z])(?=[A-Z])/g, "$1-").toLowerCase();
+  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 }
 
 export function dashToCamel(str: string): string {
@@ -101,7 +101,7 @@ export function dashToCamel(str: string): string {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getNestedValue(obj: { [key: string]: any }, key: string): any {
-  const keys = key.split(".");
+  const keys = key.split('.');
   let result = obj;
   const end = keys.length - 1;
   keys.forEach((value, index) => {
@@ -113,7 +113,7 @@ export function getNestedValue(obj: { [key: string]: any }, key: string): any {
 
 export function negateValue(value: string): string {
   if (/(^0\w)|(^-)|(^0$)/.test(value)) return value;
-  return "-" + value;
+  return '-' + value;
 }
 
 export function searchFrom(
@@ -134,25 +134,25 @@ export function connectList<T = string>(a?: T[], b?: T[], append = true): T[] {
 
 export function toType(
   value: unknown,
-  type: "object"
+  type: 'object'
 ): { [key: string]: unknown } | undefined;
-export function toType(value: unknown, type: "string"): string | undefined;
-export function toType(value: unknown, type: "number"): number | undefined;
+export function toType(value: unknown, type: 'string'): string | undefined;
+export function toType(value: unknown, type: 'number'): number | undefined;
 export function toType(
   value: unknown,
-  type: "object" | "string" | "number"
+  type: 'object' | 'string' | 'number'
 ): unknown {
   switch (type) {
-    case "object":
-      if (value && typeof value === "object")
-        return value as { [key: string]: unknown };
-      break;
-    case "string":
-      if (typeof value === "string") return value as string;
-      break;
-    case "number":
-      if (typeof value === "number") return value as number;
-      break;
+  case 'object':
+    if (value && typeof value === 'object')
+      return value as { [key: string]: unknown };
+    break;
+  case 'string':
+    if (typeof value === 'string') return value as string;
+    break;
+  case 'number':
+    if (typeof value === 'number') return value as number;
+    break;
   }
 }
 
@@ -160,21 +160,21 @@ export function deepCopy<T>(source: T): T {
   return Array.isArray(source)
     ? source.map((item) => deepCopy(item))
     : source instanceof Date
-    ? new Date(source.getTime())
-    : source && typeof source === "object"
-    ? Object.getOwnPropertyNames(source).reduce((o, prop) => {
-        const descriptor = Object.getOwnPropertyDescriptor(source, prop);
-        if (descriptor) {
-          Object.defineProperty(o, prop, descriptor);
-          if (source && typeof source === "object") {
-            o[prop] = deepCopy(
-              ((source as unknown) as { [key: string]: unknown })[prop]
-            );
+      ? new Date(source.getTime())
+      : source && typeof source === 'object'
+        ? Object.getOwnPropertyNames(source).reduce((o, prop) => {
+          const descriptor = Object.getOwnPropertyDescriptor(source, prop);
+          if (descriptor) {
+            Object.defineProperty(o, prop, descriptor);
+            if (source && typeof source === 'object') {
+              o[prop] = deepCopy(
+                ((source as unknown) as { [key: string]: unknown })[prop]
+              );
+            }
           }
-        }
-        return o;
-      }, Object.create(Object.getPrototypeOf(source)))
-    : (source as T);
+          return o;
+        }, Object.create(Object.getPrototypeOf(source)))
+        : (source as T);
 }
 
 export function isTagName(name: string): boolean {

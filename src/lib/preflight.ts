@@ -1,9 +1,9 @@
-import purgeBase from "../utils/algorithm/purgeBase";
-import { baseUtilities } from "./utilities";
-import { Style, Property, StyleSheet } from "../utils/style";
+import purgeBase from '../utils/algorithm/purgeBase';
+import { baseUtilities } from './utilities';
+import { Style, Property, StyleSheet } from '../utils/style';
 
-import type { ThemeUtil } from "../interfaces";
-import type { Processor } from "./index";
+import type { ThemeUtil } from '../interfaces';
+import type { Processor } from './index';
 
 export default function preflight(
   processor: Processor,
@@ -28,9 +28,9 @@ export default function preflight(
         Array.isArray(value)
           ? value.map((v) => new Property(key, v))
           : new Property(
-              key,
-              typeof value === "function" ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value
-            )
+            key,
+            typeof value === 'function' ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value
+          )
       );
     }
     return style;
@@ -52,14 +52,14 @@ export default function preflight(
         if (includeTags.length > 0)
           styleSheet.add(
             createStyle(
-              p.selector ? p.selector : includeTags.join(", "),
+              p.selector ? p.selector : includeTags.join(', '),
               p.properties
             )
           );
       } else {
         // if no tags input, generate all styles
         styleSheet.add(
-          createStyle(p.selector ? p.selector : p.keys.join(", "), p.properties)
+          createStyle(p.selector ? p.selector : p.keys.join(', '), p.properties)
         );
       }
     });

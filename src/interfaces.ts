@@ -1,6 +1,6 @@
-import type { Utility } from "./lib/utilities/handler";
+import type { Utility } from './lib/utilities/handler';
 
-import type { Property, Style, InlineAtRule } from "./utils/style";
+import type { Property, Style, InlineAtRule } from './utils/style';
 
 export type DictStr = { [key: string]: string };
 
@@ -82,7 +82,7 @@ export interface Config {
   presets?: Config[];
   separator?: string;
   important?: boolean | string;
-  darkMode?: "media" | "class" | false;
+  darkMode?: 'media' | 'class' | false;
   theme?: Theme;
   variantOrder?: string[];
   variants?: { [key: string]: string[] };
@@ -110,7 +110,7 @@ export interface DefaultTheme {
 
 export interface DefaultConfig {
   presets: string[];
-  darkMode: "class" | "media" | false;
+  darkMode: 'class' | 'media' | false;
   theme: DefaultTheme;
   variantOrder: string[];
   variants: { [key: string]: string[] };
@@ -190,5 +190,5 @@ export interface Element {
   variants: string[];
   content?: Element[] | string;
   func?: string;
-  type: "group" | "func" | "utility";
+  type: 'group' | 'func' | 'utility';
 }

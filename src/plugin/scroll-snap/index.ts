@@ -1,6 +1,6 @@
-import plugin from "../index";
-import type { PluginUtilOptions } from "../../interfaces";
-import { dashToCamel, expandDirection } from "../../utils";
+import plugin from '../index';
+import type { PluginUtilOptions } from '../../interfaces';
+import { dashToCamel, expandDirection } from '../../utils';
 
 // TODO: tsconfig -> ES2019 (node 12+)
 // https://node.green/#ES2019-features--Object-fromEntries
@@ -20,57 +20,57 @@ export default plugin(
   function ({ addUtilities, addDynamic, theme, variants }) {
     addUtilities({
       // visual hide scrollbar
-      ".scrollbar-hide": {
+      '.scrollbar-hide': {
         /* Firefox */
-        "scrollbar-width": "none",
+        'scrollbar-width': 'none',
 
         /* Safari and Chrome */
-        "&::-webkit-scrollbar": {
-          display: "none",
+        '&::-webkit-scrollbar': {
+          display: 'none',
         },
       },
 
       // scroll-snap-align,
       ...fromEntries(
-        ["start", "end", "center"].map((align) => [
+        ['start', 'end', 'center'].map((align) => [
           `.snap-${align}`,
-          { "scroll-snap-align": align },
+          { 'scroll-snap-align': align },
         ])
       ),
 
       // scroll-snap-type
-      ".snap": {
-        "scroll-snap-type":
-          "var(--scroll-snap-axis, both) var(--scroll-snap-strictness, mandatory)",
+      '.snap': {
+        'scroll-snap-type':
+          'var(--scroll-snap-axis, both) var(--scroll-snap-strictness, mandatory)',
       },
 
       // strictness
       // https://www.w3.org/TR/css-scroll-snap-1/#snap-strictness
       ...fromEntries(
-        ["none", "mandatory", "proximity"].map((strictness) => [
+        ['none', 'mandatory', 'proximity'].map((strictness) => [
           `.snap-${strictness}`,
-          { "--scroll-snap-strictness": strictness },
+          { '--scroll-snap-strictness': strictness },
         ])
       ),
 
       // axis
       ...fromEntries(
-        ["x", "y", "block", "inline", "both"].map((axis) => [
+        ['x', 'y', 'block', 'inline', 'both'].map((axis) => [
           `.snap-${axis}`,
-          { "--scroll-snap-axis": axis },
+          { '--scroll-snap-axis': axis },
         ])
       ),
 
       // stop limits
       ...fromEntries(
-        ["normal", "always"].map((limit) => [
+        ['normal', 'always'].map((limit) => [
           `.snap-${limit}`,
-          { "scroll-snap-stop": limit },
+          { 'scroll-snap-stop': limit },
         ])
       ),
     });
 
-    ["margin", "padding"].forEach((name) => {
+    ['margin', 'padding'].forEach((name) => {
       const n = name.charAt(0);
       const tn = dashToCamel(`snap-${name}`);
 
@@ -86,15 +86,15 @@ export default plugin(
 
           if (!value) return;
 
-          const suf = Utility.raw.split("-");
+          const suf = Utility.raw.split('-');
 
           const directions = expandDirection(
-            suf.length ? suf[1].substring(1) : "",
+            suf.length ? suf[1].substring(1) : '',
             false
           );
 
           if (directions) {
-            if (directions[0] === "*") return Property(`scroll-${name}`, value);
+            if (directions[0] === '*') return Property(`scroll-${name}`, value);
             return Property(
               directions.map((i) => `scroll-${name}-${i}`),
               value
@@ -111,8 +111,8 @@ export default plugin(
       snapPadding: {},
     },
     variants: {
-      snapMargin: ["responsive"],
-      snapPadding: ["responsive"],
+      snapMargin: ['responsive'],
+      snapPadding: ['responsive'],
     },
   }
 );

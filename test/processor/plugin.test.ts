@@ -1,11 +1,11 @@
-import { FontSize } from "../../dist/types/interfaces";
-import { Property, Style } from "../../src/utils/style";
-import { Processor } from "../../src/lib";
+import { FontSize } from '../../dist/types/interfaces';
+import { Property, Style } from '../../src/utils/style';
+import { Processor } from '../../src/lib';
 
 const processor = new Processor();
 
-describe("Plugin Method", () => {
-  it("addUtilities", () => {
+describe('Plugin Method', () => {
+  it('addUtilities', () => {
     const utilities = {
       '.skew-10deg': {
         transform: 'skewY(-10deg)',
@@ -13,11 +13,11 @@ describe("Plugin Method", () => {
       '.skew-15deg': {
         transform: 'skewY(-15deg)',
       },
-    }
+    };
     expect(processor.addUtilities(utilities).map(i=>i.build()).join('\n')).toBe('.skew-10deg {\n  transform: skewY(-10deg);\n}\n.skew-15deg {\n  transform: skewY(-15deg);\n}');
-  })
+  });
 
-  it("addUtilities with non-class styles", () => {
+  it('addUtilities with non-class styles', () => {
     const utilities = {
       '.skew-10deg': {
         transform: 'skewY(-10deg)',
@@ -30,12 +30,12 @@ describe("Plugin Method", () => {
     processor.addUtilities(utilities);
     expect(processor.interpret('skew-10deg').styleSheet.build()).toEqual('.skew-10deg {\n  transform: skewY(-10deg);\n}');
     expect(processor.preflight('test', false, false, true).build()).toEqual(
-`[data-theme] {
+      `[data-theme] {
   --active: #0099FF;
 }`);
   });
 
-  it("addComponents", () => {
+  it('addComponents', () => {
     const buttons = {
       '.btn': {
         padding: '.5rem 1rem',
@@ -46,22 +46,22 @@ describe("Plugin Method", () => {
         backgroundColor: '#3490dc',
         color: '#fff',
         '&:hover': {
-          backgroundColor: '#2779bd'
+          backgroundColor: '#2779bd',
         },
       },
       '.btn-red': {
         backgroundColor: '#e3342f',
         color: '#fff',
         '&:hover': {
-          backgroundColor: '#cc1f1a'
+          backgroundColor: '#cc1f1a',
         },
       },
-    }
+    };
 
-    expect(processor.addComponents(buttons).map(i=>i.build()).join('\n')).toBe(".btn {\n  padding: .5rem 1rem;\n  border-radius: .25rem;\n  font-weight: 600;\n}\n.btn-blue {\n  background-color: #3490dc;\n  color: #fff;\n}\n.btn-blue:hover {\n  background-color: #2779bd;\n}\n.btn-red {\n  background-color: #e3342f;\n  color: #fff;\n}\n.btn-red:hover {\n  background-color: #cc1f1a;\n}");
-  })
+    expect(processor.addComponents(buttons).map(i=>i.build()).join('\n')).toBe('.btn {\n  padding: .5rem 1rem;\n  border-radius: .25rem;\n  font-weight: 600;\n}\n.btn-blue {\n  background-color: #3490dc;\n  color: #fff;\n}\n.btn-blue:hover {\n  background-color: #2779bd;\n}\n.btn-red {\n  background-color: #e3342f;\n  color: #fff;\n}\n.btn-red:hover {\n  background-color: #cc1f1a;\n}');
+  });
 
-  it("addComponents with non-class styles ", () => {
+  it('addComponents with non-class styles ', () => {
     const processor = new Processor();
     const components = {
       '[data-theme]': { '--active': '#0099FF' },
@@ -71,7 +71,7 @@ describe("Plugin Method", () => {
         '--on-primary-active': '#F2F2F2',
         '--frame': '#1E1E1E',
         '--on-frame': '#808080',
-        '--on-frame-active': 'var(--on-primary)'
+        '--on-frame-active': 'var(--on-primary)',
       },
       '[data-theme="light"]': {
         '--primary': '#FFFFFF',
@@ -79,12 +79,12 @@ describe("Plugin Method", () => {
         '--on-primary-active': '#333333',
         '--frame': '#EFEFEF',
         '--on-frame': '#808080',
-        '--on-frame-active': 'var(--on-primary)'
-      }
+        '--on-frame-active': 'var(--on-primary)',
+      },
     };
     processor.addComponents(components);
     expect(processor.preflight('test', false, false, true).build()).toEqual(
-`[data-theme] {
+      `[data-theme] {
   --active: #0099FF;
 }
 [data-theme="dark"] {
@@ -103,9 +103,9 @@ describe("Plugin Method", () => {
   --on-frame: #808080;
   --on-frame-active: var(--on-primary);
 }`);
-  })
+  });
 
-  it("addBase", () => {
+  it('addBase', () => {
     expect(processor.addBase({
       'h1': { fontSize: (processor.theme('fontSize.2xl') as FontSize)[0] ?? '1.5rem' },
       'h2': { fontSize: (processor.theme('fontSize.xl') as FontSize)[0] ?? '1.25rem' },
@@ -113,7 +113,7 @@ describe("Plugin Method", () => {
     }).map(i=>i.build()).join('\n')).toBe('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}\nh3 {\n  font-size: 1.125rem;\n}');
   });
 
-  it("add static base styles", () => {
+  it('add static base styles', () => {
     const processor = new Processor();
     processor.addBase({
       'h1': { fontSize: (processor.theme('fontSize.2xl') as FontSize)[0] ?? '1.5rem' },
@@ -123,16 +123,16 @@ describe("Plugin Method", () => {
     expect(processor.preflight('<h1>Hello World</h1>', false, false, true).build()).toEqual('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}');
   });
 
-  it("addVariant pseudoClass", () => {
+  it('addVariant pseudoClass', () => {
     const test = new Style('.float-right', new Property('float', 'right'));
     const style = processor.addVariant('disable', ({ pseudoClass }) => {
       return pseudoClass('disabled');
     });
     expect(Array.isArray(style) || style.extend(test).build()).toBe('.float-right:disabled {\n  float: right;\n}');
-    expect(processor.interpret("disable:float-right").styleSheet.build()).toBe('.disable\\:float-right:disabled {\n  float: right;\n}')
-  })
+    expect(processor.interpret('disable:float-right').styleSheet.build()).toBe('.disable\\:float-right:disabled {\n  float: right;\n}');
+  });
 
-  it("addVariant modifySelectors", () => {
+  it('addVariant modifySelectors', () => {
     const test = new Style('.float-right', new Property('float', 'right'));
     const style = processor.addVariant('disabled', ({ modifySelectors, separator }) => {
       return modifySelectors(({className}) => {
@@ -140,5 +140,5 @@ describe("Plugin Method", () => {
       });
     });
     expect(Array.isArray(style) || style.extend(test).build()).toBe('.disabled\\:float-right:disabled {\n  float: right;\n}');
-  })
-})
+  });
+});

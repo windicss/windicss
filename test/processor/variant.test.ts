@@ -1,107 +1,107 @@
-import { Property } from "../../src/utils/style";
-import type { Style } from "../../src/utils/style";
-import { baseConfig } from "../../src/config";
+import { Property } from '../../src/utils/style';
+import type { Style } from '../../src/utils/style';
+import { baseConfig } from '../../src/config';
 import {
   generateScreens,
   generateStates,
   generateThemes,
   resolveVariants,
-} from "../../src/lib/variants";
+} from '../../src/lib/variants';
 
 function _generateTestVariants(variants: { [key: string]: () => Style }) {
   const output: { [key: string]: string } = {};
   for (const [name, func] of Object.entries(variants)) {
     const style = func();
-    style.selector = ".test";
-    style.add(new Property("background", "#1C1C1E"));
+    style.selector = '.test';
+    style.add(new Property('background', '#1C1C1E'));
     output[name] = style.build();
   }
   return output;
 }
 
-describe("Variants", () => {
-  it("generate screens", () => {
+describe('Variants', () => {
+  it('generate screens', () => {
     const screens = generateScreens({
-      sm: "640px",
-      lg: "1024px",
-      print: { raw: "print" },
-      narrow: { max: "768px" },
+      sm: '640px',
+      lg: '1024px',
+      print: { raw: 'print' },
+      narrow: { max: '768px' },
     });
-    expect(_generateTestVariants(screens)).toMatchSnapshot('vars', __filename)
+    expect(_generateTestVariants(screens)).toMatchSnapshot('vars', __filename);
 
     const unsortedScreens = generateScreens({
-      print: { raw: "print" },
-      lg: "1024px",
-      sm: "640px",
-      narrow: { max: "768px" },
+      print: { raw: 'print' },
+      lg: '1024px',
+      sm: '640px',
+      narrow: { max: '768px' },
     });
     expect(Object.keys(unsortedScreens)).toEqual([
-      "print",
-      "narrow",
-      "sm",
-      "-sm",
-      "+sm",
-      "lg",
-      "-lg",
-      "+lg",
+      'print',
+      'narrow',
+      'sm',
+      '-sm',
+      '+sm',
+      'lg',
+      '-lg',
+      '+lg',
     ]);
   });
 
-  it("generate themes with darkMode class", () => {
-    const themes = generateThemes("class");
-    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename)
-  })
-
-  it("generate themes with darkMode media", () => {
-    const themes = generateThemes("media");
-    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename)
+  it('generate themes with darkMode class', () => {
+    const themes = generateThemes('class');
+    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename);
   });
 
-  it("generate states", () => {
+  it('generate themes with darkMode media', () => {
+    const themes = generateThemes('media');
+    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename);
+  });
+
+  it('generate states', () => {
     const allStates = generateStates(baseConfig.variantOrder ?? []);
     expect(Object.keys(allStates)).toEqual(baseConfig.variantOrder ?? []);
 
-    expect(_generateTestVariants(allStates)).toMatchSnapshot('all', __filename)
+    expect(_generateTestVariants(allStates)).toMatchSnapshot('all', __filename);
 
     const someStates = generateStates([
-      "focus",
-      "hover",
-      "before",
-      "svg",
-      "group-hover",
-      "motion-safe",
-      "wrong",
+      'focus',
+      'hover',
+      'before',
+      'svg',
+      'group-hover',
+      'motion-safe',
+      'wrong',
     ]);
-    expect(_generateTestVariants(someStates)).toMatchSnapshot('some', __filename)
+    expect(_generateTestVariants(someStates)).toMatchSnapshot('some', __filename);
   });
 
-  it("resolve variants", () => {
+  it('resolve variants', () => {
     const variants = resolveVariants(baseConfig);
-    expect(Object.keys(variants)).toEqual(["screen", "theme", "state"]);
+    expect(Object.keys(variants)).toEqual(['screen', 'theme', 'state']);
     expect(Object.keys(variants.screen)).toEqual([
-      "sm",
-      "-sm",
-      "+sm",
-      "md",
-      "-md",
-      "+md",
-      "lg",
-      "-lg",
-      "+lg",
-      "xl",
-      "-xl",
-      "+xl",
-      "2xl",
-      "-2xl",
-      "+2xl",
+      'sm',
+      '-sm',
+      '+sm',
+      'md',
+      '-md',
+      '+md',
+      'lg',
+      '-lg',
+      '+lg',
+      'xl',
+      '-xl',
+      '+xl',
+      '2xl',
+      '-2xl',
+      '+2xl',
     ]);
     expect(Object.keys(variants.theme)).toEqual([
-      "@dark",
-      "@light",
-      ".dark",
-      ".light",
-      "dark",
-      "light",
+      '@dark',
+      '@light',
+      '.dark',
+      '.light',
+      'dark',
+      'light',
     ]);
     expect(Object.keys(variants.state)).toEqual(baseConfig.variantOrder ?? []);
 

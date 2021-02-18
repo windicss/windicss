@@ -1,3 +1,3 @@
-import { Processor } from "./lib";
+import { Processor } from './lib';
 
 export default new Processor().allConfig;

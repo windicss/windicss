@@ -1,8 +1,8 @@
-import plugin from "../../dist/plugin";
-import type { PluginUtils } from "../../dist/types/interfaces";
+import plugin from '../../dist/plugin';
+import type { PluginUtils } from '../../dist/types/interfaces';
 
-describe("color interface test", () => {
-  it("import", () => {
+describe('color interface test', () => {
+  it('import', () => {
     plugin(function({ addUtilities }) {
       const newUtilities = {
         '.skew-10deg': {
@@ -11,14 +11,14 @@ describe("color interface test", () => {
         '.skew-15deg': {
           transform: 'skewY(-15deg)',
         },
-      }
+      };
 
-      addUtilities(newUtilities)
-    })
+      addUtilities(newUtilities);
+    });
   });
 
-  it("require", () => {
-    const plugin = require("../../dist/plugin");
+  it('require', () => {
+    const plugin = require('../../dist/plugin');
     plugin(function({ addUtilities }: PluginUtils) {
       const newUtilities = {
         '.skew-10deg': {
@@ -27,10 +27,10 @@ describe("color interface test", () => {
         '.skew-15deg': {
           transform: 'skewY(-15deg)',
         },
-      }
+      };
 
-      addUtilities(newUtilities)
-    })
+      addUtilities(newUtilities);
+    });
     expect(plugin.withOptions).toBeDefined();
-  })
-})
+  });
+});

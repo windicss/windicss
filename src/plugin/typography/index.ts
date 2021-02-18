@@ -1,8 +1,8 @@
-import { DeepNestObject } from "../../interfaces";
-import { uniq, castArray, isUsableColor } from "./utils";
-import plugin from "../index";
-import styles from "./styles";
-import combineConfig from "../../utils/algorithm/combineConfig";
+import { DeepNestObject } from '../../interfaces';
+import { uniq, castArray, isUsableColor } from './utils';
+import plugin from '../index';
+import styles from './styles';
+import combineConfig from '../../utils/algorithm/combineConfig';
 
 const computed: {
   [key: string]: (color: string) => Record<string, unknown>;
@@ -26,17 +26,17 @@ function configToCss(config: Record<string, string> = {}): DeepNestObject {
 export default plugin.withOptions(
   ({
     modifiers,
-    className = "prose",
+    className = 'prose',
   }: { modifiers?: string[]; className?: string } = {}) => {
     return function ({ addComponents, theme, variants }) {
       const DEFAULT_MODIFIERS = [
-        "DEFAULT",
-        "sm",
-        "lg",
-        "xl",
-        "2xl",
+        'DEFAULT',
+        'sm',
+        'lg',
+        'xl',
+        '2xl',
         ...Object.entries(
-          theme("colors") as {
+          theme('colors') as {
             [key: string]: string | Record<string, string>;
           }
         )
@@ -46,12 +46,12 @@ export default plugin.withOptions(
           .map(([color]) => color),
       ];
       modifiers = modifiers === undefined ? DEFAULT_MODIFIERS : modifiers;
-      const config = theme("typography") as {
+      const config = theme('typography') as {
         [key: string]: Record<string, string>;
       };
 
       const all: string[] = uniq([
-        "DEFAULT",
+        'DEFAULT',
         ...modifiers,
         ...Object.keys(config).filter(
           (modifier) => !DEFAULT_MODIFIERS.includes(modifier)
@@ -60,16 +60,16 @@ export default plugin.withOptions(
 
       addComponents(
         all.map((modifier) => ({
-          [modifier === "DEFAULT"
+          [modifier === 'DEFAULT'
             ? `.${className}`
             : `.${className}-${modifier}`]: configToCss(config[modifier]),
         })),
-        variants("typography")
+        variants('typography')
       );
     };
   },
   () => ({
     theme: { typography: styles },
-    variants: { typography: ["responsive"] },
+    variants: { typography: ['responsive'] },
   })
 );

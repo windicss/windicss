@@ -32,15 +32,15 @@ function _getQueryLength(length: string) {
   const unit = result[2];
 
   switch (unit) {
-    case "ch":
-      return parseFloat(number) * 8.8984375;
-    case "em":
-    case "rem":
-      return parseFloat(number) * 16;
-    case "ex":
-      return parseFloat(number) * 8.296875;
-    case "px":
-      return parseFloat(number);
+  case 'ch':
+    return parseFloat(number) * 8.8984375;
+  case 'em':
+  case 'rem':
+    return parseFloat(number) * 16;
+  case 'ex':
+    return parseFloat(number) * 8.296875;
+  case 'px':
+    return parseFloat(number);
   }
 
   return +number;

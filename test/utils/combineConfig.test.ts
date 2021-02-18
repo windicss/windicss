@@ -1,11 +1,11 @@
-import { combineConfig } from "../../src/utils/algorithm";
+import { combineConfig } from '../../src/utils/algorithm';
 
-describe("combineConfig", () => {
-  it("should combine different keys", () => {
+describe('combineConfig', () => {
+  it('should combine different keys', () => {
     expect(combineConfig({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
   });
 
-  it("should combine different nested keys", () => {
+  it('should combine different nested keys', () => {
     expect(
       combineConfig({ a: { b: 1, d: { e: 1 } } }, { a: { c: 2, d: { f: 2 } } })
     ).toEqual({
@@ -13,7 +13,7 @@ describe("combineConfig", () => {
     });
   });
 
-  it("b should overwrite a when a and b has same key", () => {
+  it('b should overwrite a when a and b has same key', () => {
     expect(
       combineConfig(
         { a: { b: 1, c: { d: 3 } }, e: 2 },
@@ -24,13 +24,13 @@ describe("combineConfig", () => {
     });
   });
 
-  it("should combine two arrays", () => {
+  it('should combine two arrays', () => {
     expect(combineConfig({ a: [1, 2] }, { a: [3, 4] })).toEqual({
       a: [1, 2, 3, 4],
     });
   });
 
-  it("should combine deep nested two arrays", () => {
+  it('should combine deep nested two arrays', () => {
     expect(
       combineConfig({ a: { b: { c: [1, 2] } } }, { a: { b: { c: [3, 4] } } })
     ).toEqual({ a: { b: { c: [1, 2, 3, 4] } } });

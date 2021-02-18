@@ -3,7 +3,7 @@ import type {
   PluginUtils,
   Config,
   DictStr,
-} from "../interfaces";
+} from '../interfaces';
 
 const createPlugin: Plugin = (
   plugin: (utils: PluginUtils) => void,

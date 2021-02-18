@@ -1,8 +1,8 @@
-import { Processor } from "../../src/lib";
-import aspectRatio from "../../src/plugin/aspect-ratio";
+import { Processor } from '../../src/lib';
+import aspectRatio from '../../src/plugin/aspect-ratio';
 
-describe("aspect ratio plugin", () => {
-  it("interpret test", () => {
+describe('aspect ratio plugin', () => {
+  it('interpret test', () => {
     const processor = new Processor();
     processor.loadPlugin(aspectRatio);
     const classes = `
@@ -14,7 +14,7 @@ describe("aspect ratio plugin", () => {
     const utility = processor.interpret(classes);
     expect(utility.ignored.length).toEqual(0);
     expect(utility.styleSheet.build()).toEqual(
-String.raw`.aspect-none {
+      String.raw`.aspect-none {
   position: static;
   padding-bottom: 0;
 }
@@ -57,5 +57,5 @@ String.raw`.aspect-none {
   bottom: 0;
   left: 0;
 }`);
-  })
+  });
 });

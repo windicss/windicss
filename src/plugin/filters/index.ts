@@ -1,50 +1,50 @@
-import plugin from "../index";
-import type { PluginUtilOptions } from "../../interfaces";
+import plugin from '../index';
+import type { PluginUtilOptions } from '../../interfaces';
 
 export default plugin(
   function ({ addDynamic, theme, variants }) {
-    addDynamic("filter", ({ Utility }) => {
+    addDynamic('filter', ({ Utility }) => {
       return Utility.handler
-        .handleStatic(theme("filter"))
-        .createProperty(["-webkit-filter", "filter"]);
-      }, variants('filter') as PluginUtilOptions);
+        .handleStatic(theme('filter'))
+        .createProperty(['-webkit-filter', 'filter']);
+    }, variants('filter') as PluginUtilOptions);
 
-    addDynamic("backdrop", ({ Utility }) => {
+    addDynamic('backdrop', ({ Utility }) => {
       return Utility.handler
-        .handleStatic(theme("backdropFilter"))
-        .createProperty(["-webkit-backdrop-filter", "backdrop-filter"]);
-      }, variants('backdropFilter') as PluginUtilOptions);
+        .handleStatic(theme('backdropFilter'))
+        .createProperty(['-webkit-backdrop-filter', 'backdrop-filter']);
+    }, variants('backdropFilter') as PluginUtilOptions);
 
-    addDynamic("blur", ({ Utility }) => {
+    addDynamic('blur', ({ Utility }) => {
       return Utility.handler
-        .handleStatic(theme("blur"))
-        .handleNumber(0, undefined, "float", (number)=>`${number}px`)
+        .handleStatic(theme('blur'))
+        .handleNumber(0, undefined, 'float', (number)=>`${number}px`)
         .handleSize()
         .createProperty(
-          ["-webkit-backdrop-filter", "backdrop-filter"],
+          ['-webkit-backdrop-filter', 'backdrop-filter'],
           (value: string) => value
         );
-      }, variants('blur') as PluginUtilOptions);
+    }, variants('blur') as PluginUtilOptions);
   },
   {
     theme: {
       filter: {
-        none: "none",
-        grayscale: "grayscale(1)",
-        invert: "invert(1)",
-        sepia: "sepia(1)",
+        none: 'none',
+        grayscale: 'grayscale(1)',
+        invert: 'invert(1)',
+        sepia: 'sepia(1)',
       },
       backdropFilter: {
-        none: "none",
-        blur: "blur(20px)",
+        none: 'none',
+        blur: 'blur(20px)',
       },
       blur: {
-        none: "none",
-      }
+        none: 'none',
+      },
     },
     variants: {
-      filter: ["responsive"],
-      backdropFilter: ["responsive"],
+      filter: ['responsive'],
+      backdropFilter: ['responsive'],
     },
   }
 );

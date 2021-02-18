@@ -1,21 +1,21 @@
-import { writeFileSync } from "fs";
-import { Processor } from "../../src/lib";
-import typography from "../../src/plugin/typography";
+import { writeFileSync } from 'fs';
+import { Processor } from '../../src/lib';
+import typography from '../../src/plugin/typography';
 
-describe("aspect ratio plugin", () => {
-  it("interpret test", () => {
+describe('aspect ratio plugin', () => {
+  it('interpret test', () => {
     const processor = new Processor({
       theme: {
         extend: {
           typography: {
             DEFAULT: {
               css: {
-                color: 'red'
-              }
-            }
-          }
-        }
-      }
+                color: 'red',
+              },
+            },
+          },
+        },
+      },
     });
     processor.loadPluginWithOptions(typography);
     const classes = `
@@ -42,6 +42,6 @@ describe("aspect ratio plugin", () => {
       `;
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
-    writeFileSync("typography.css", result.styleSheet.build())
-  })
-})
+    writeFileSync('typography.css', result.styleSheet.build());
+  });
+});

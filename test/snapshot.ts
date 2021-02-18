@@ -1,8 +1,8 @@
-import { basename, dirname, join } from "path";
-import fs from "fs-extra";
-import yaml from "js-yaml";
-import chalk from "chalk";
-import { diffLines } from "diff";
+import { basename, dirname, join } from 'path';
+import fs from 'fs-extra';
+import yaml from 'js-yaml';
+import chalk from 'chalk';
+import { diffLines } from 'diff';
 
 /**
  * Test Snapshot usage:
@@ -23,8 +23,8 @@ interface SnapshotInfo {
 
 export const updateSnapshot = !!process.env.UPDATE_SNAPSHOT;
 export const context = {
-  describe: "",
-  it: "",
+  describe: '',
+  it: '',
   count: 0,
 };
 
@@ -33,16 +33,16 @@ const snapshotCache: Record<string, SnapshotInfo> = {};
 export function compareDiff<T extends string>(
   actual: T,
   expected: T,
-  reason = "mismatch"
+  reason = 'mismatch'
 ): jasmine.CustomMatcherResult {
   if (actual === expected) {
     return { pass: true };
   }
 
   const diff = diffLines(expected, actual);
-  let messages = chalk.yellow(reason) + "\n\n";
+  let messages = chalk.yellow(reason) + '\n\n';
   diff.forEach((part) => {
-    const color = part.added ? "green" : part.removed ? "red" : "gray";
+    const color = part.added ? 'green' : part.removed ? 'red' : 'gray';
     messages += chalk.gray[color](part.value);
   });
   return {
@@ -57,17 +57,17 @@ export function compareSnapshot(
   file: string
 ): jasmine.CustomMatcherResult {
   const fullname = [context.describe, context.it, name, context.count].join(
-    " / "
+    ' / '
   );
   context.count += 1;
   const snapPath = join(
     dirname(file),
-    "__snapshots__",
-    basename(file) + ".yml"
+    '__snapshots__',
+    basename(file) + '.yml'
   );
   const snap = prepreSnapshot(snapPath);
 
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     value = JSON.stringify(value, null, 2);
   }
   snap.touched.add(fullname);
@@ -94,7 +94,7 @@ export function prepreSnapshot(path: string): SnapshotInfo {
     fs.ensureDirSync(dirname(path));
     if (fs.existsSync(path)) {
       // @ts-expect-error anyway
-      data = yaml.load(fs.readFileSync(path, "utf-8")) || {};
+      data = yaml.load(fs.readFileSync(path, 'utf-8')) || {};
     } else {
       changed = true;
     }
@@ -125,6 +125,6 @@ export function finishSnapshots(): void {
       data[key] = snap.data[key];
     }
 
-    fs.writeFile(snap.path, yaml.dump(data), "utf-8");
+    fs.writeFile(snap.path, yaml.dump(data), 'utf-8');
   }
 }

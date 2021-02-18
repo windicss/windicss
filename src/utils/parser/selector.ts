@@ -1,4 +1,4 @@
-import { parse, stringify, isTraversal } from "css-what";
+import { parse, stringify, isTraversal } from 'css-what';
 
 export default class SelectorParser {
   parse(selector: string, options?: Options): Selector[][] {
@@ -21,7 +21,7 @@ export interface Options {
 }
 export type Selector = PseudoSelector | PseudoElement | AttributeSelector | TagSelector | UniversalSelector | Traversal;
 export interface AttributeSelector {
-  type: "attribute";
+  type: 'attribute';
   name: string;
   action: AttributeAction;
   value: string;
@@ -30,25 +30,25 @@ export interface AttributeSelector {
 }
 export type DataType = Selector[][] | null | string;
 export interface PseudoSelector {
-  type: "pseudo";
+  type: 'pseudo';
   name: string;
   data: DataType;
 }
 export interface PseudoElement {
-  type: "pseudo-element";
+  type: 'pseudo-element';
   name: string;
 }
 export interface TagSelector {
-  type: "tag";
+  type: 'tag';
   name: string;
   namespace: string | null;
 }
 export interface UniversalSelector {
-  type: "universal";
+  type: 'universal';
   namespace: string | null;
 }
 export interface Traversal {
   type: TraversalType;
 }
-export type AttributeAction = "any" | "element" | "end" | "equals" | "exists" | "hyphen" | "not" | "start";
-export type TraversalType = "adjacent" | "child" | "descendant" | "parent" | "sibling";
+export type AttributeAction = 'any' | 'element' | 'end' | 'equals' | 'exists' | 'hyphen' | 'not' | 'start';
+export type TraversalType = 'adjacent' | 'child' | 'descendant' | 'parent' | 'sibling';

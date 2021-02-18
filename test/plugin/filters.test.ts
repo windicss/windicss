@@ -1,8 +1,8 @@
-import { Processor } from "../../src/lib";
-import filters from "../../src/plugin/filters";
+import { Processor } from '../../src/lib';
+import filters from '../../src/plugin/filters';
 
-describe("filter plugin", () => {
-  it("interpret test", () => {
+describe('filter plugin', () => {
+  it('interpret test', () => {
     const processor = new Processor();
     processor.loadPlugin(filters);
     const classes = `
@@ -18,7 +18,7 @@ describe("filter plugin", () => {
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
-`.filter-none {
+      `.filter-none {
   -webkit-filter: none;
   filter: none;
 }
@@ -52,9 +52,9 @@ describe("filter plugin", () => {
     filter: grayscale(1);
   }
 }`);
-  })
+  });
 
-  it("customize test", () => {
+  it('customize test', () => {
     const processor = new Processor({ theme: {
       filter: {
         'none': 'none',
@@ -68,14 +68,14 @@ describe("filter plugin", () => {
       },
       blur: {
         'none': 'none',
-      }
+      },
     }});
     processor.loadPlugin(filters);
-    const classes = `filter-invert backdrop-blur blur-none`;
+    const classes = 'filter-invert backdrop-blur blur-none';
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
-`.filter-invert {
+      `.filter-invert {
   -webkit-filter: invert(2);
   filter: invert(2);
 }
@@ -87,16 +87,16 @@ describe("filter plugin", () => {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }`);
-  })
+  });
 
-  it("dynamic utility test", () => {
+  it('dynamic utility test', () => {
     const processor = new Processor();
     processor.loadPlugin(filters);
-    const classes = `blur-none blur-12 blur-3rem blur-6px`;
+    const classes = 'blur-none blur-12 blur-3rem blur-6px';
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
-`.blur-none {
+      `.blur-none {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
@@ -112,5 +112,5 @@ describe("filter plugin", () => {
   -webkit-backdrop-filter: 6px;
   backdrop-filter: 6px;
 }`);
-  })
-})
+  });
+});

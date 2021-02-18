@@ -1,7 +1,7 @@
-import { colors } from "../../config";
-import { Property } from "../../utils/style";
-import { camelToDash, flatColors } from "../../utils/tools";
-import { cssEscape } from "../../utils/algorithm";
+import { colors } from '../../config';
+import { Property } from '../../utils/style';
+import { camelToDash, flatColors } from '../../utils/tools';
+import { cssEscape } from '../../utils/algorithm';
 import {
   isNumber,
   isFraction,
@@ -10,11 +10,11 @@ import {
   fracToPercent,
   hex2RGB,
   negateValue,
-} from "../../utils/tools";
+} from '../../utils/tools';
 
 const DEFAULT_COLORS: { [key: string]: string | { [key: string]: string } } = {
-  transparent: "transparent",
-  current: "currentColor",
+  transparent: 'transparent',
+  current: 'currentColor',
   ...colors,
 };
 
@@ -39,7 +39,7 @@ class Handler {
     callback?: (str: string) => string | undefined
   ) {
     if (this.value) return this;
-    if (map && typeof map === "object") {
+    if (map && typeof map === 'object') {
       const knownMap = map as { [key: string]: string | string[] };
       if (knownMap.DEFAULT) knownMap[this.utility.raw] = knownMap.DEFAULT;
       if (this._amount in knownMap)
@@ -54,7 +54,7 @@ class Handler {
     callback?: (str: string) => string | undefined
   ) {
     if (this.value) return this;
-    if (map && typeof map === "object") {
+    if (map && typeof map === 'object') {
       const knownMap = map as { [key: string]: string | string[] };
       if (knownMap.DEFAULT) knownMap[this.utility.raw] = knownMap.DEFAULT;
       const body = this.utility.body;
@@ -66,7 +66,7 @@ class Handler {
   handleNumber(
     start = -Infinity,
     end = Infinity,
-    type: "int" | "float" = "int",
+    type: 'int' | 'float' = 'int',
     callback?: (number: number) => string | undefined
   ) {
     if (this.value) return this;
@@ -76,15 +76,15 @@ class Handler {
   }
   handleSpacing() {
     // just a short-hand for handle spacing.
-    return this.handleNumber(0, undefined, "float", (number: number) =>
-      number === 0 ? "0px" : `${roundUp(number / 4, 6)}rem`
+    return this.handleNumber(0, undefined, 'float', (number: number) =>
+      number === 0 ? '0px' : `${roundUp(number / 4, 6)}rem`
     );
   }
   handleNxl(callback?: (number: number) => string | undefined) {
     if (this.value) return this;
     if (/^\d*xl$/.test(this._amount))
       this.value = callback
-        ? callback(this._amount === "xl" ? 1 : parseInt(this._amount))
+        ? callback(this._amount === 'xl' ? 1 : parseInt(this._amount))
         : parseInt(this._amount).toString();
     return this;
   }
@@ -117,13 +117,13 @@ class Handler {
   ) {
     if (this.value) return this;
     let color;
-    if (map && typeof map === "object") {
+    if (map && typeof map === 'object') {
       const knownMap = flatColors(map as { [key: string]: string | { [key: string]: string } });
       const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/,'');
       if (body in knownMap) {
         color = knownMap[body];
       } else if (body.startsWith('hex-')) {
-        const hex = body.replace('hex-', '')
+        const hex = body.replace('hex-', '');
         if(hex2RGB(hex)) color = '#' + hex;
       }
       if (color) this.value = callback ? callback(color) : color;
@@ -161,13 +161,13 @@ export class Utility {
   }
   match(expression: RegExp): string {
     const match = this.absolute.match(expression);
-    return match ? match[0] : "";
+    return match ? match[0] : '';
   }
   get class(): string {
-    return "." + cssEscape(this.raw); // .-placeholder-real-gray-300
+    return '.' + cssEscape(this.raw); // .-placeholder-real-gray-300
   }
   get isNegative(): boolean {
-    return this.raw[0] === "-"; // true
+    return this.raw[0] === '-'; // true
   }
   get absolute(): string {
     return this.isNegative ? this.raw.substring(1) : this.raw;

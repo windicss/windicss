@@ -1,11 +1,11 @@
-import { resolve } from "path";
-import { Processor } from "../../src/lib";
+import { resolve } from 'path';
+import { Processor } from '../../src/lib';
 
-const configPath = resolve("./test/assets/tailwind.plugin.config.js");
+const configPath = resolve('./test/assets/tailwind.plugin.config.js');
 
-describe("Load Plugin", () => {
+describe('Load Plugin', () => {
   const processor = new Processor(require(resolve(configPath)));
-  it("should load all plugins correctly", () => {
+  it('should load all plugins correctly', () => {
     const classes = `
       skew-10deg
       skew-15deg
@@ -24,7 +24,7 @@ describe("Load Plugin", () => {
     `;
     const result = processor.interpret(classes);
     expect(result.styleSheet.build()).toEqual(
-String.raw`.skew-10deg {
+      String.raw`.skew-10deg {
   transform: skewY(-10deg);
 }
 .skew-15deg {
