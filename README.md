@@ -5,7 +5,14 @@
   Windi CSS
 </h1>
 
-[![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/windicss/windicss/Node.js%20CI)](https://github.com/windicss/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/windicss/windicss) [![Discord Chat](https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord)](https://discord.gg/aRYWm8r8Eq)
+<p align="center">
+  <a href="https://www.npmjs.com/package/windicss"><img src="https://img.shields.io/npm/v/windicss.svg" alt="Npm Version"></a>
+  <a href="https://www.npmjs.com/package/windicss"><img src="https://img.shields.io/npm/dt/windicss.svg" alt="Total Downloads"></a>
+  <a href="https://github.com/windicss/windicss/actions"><img src="https://img.shields.io/github/workflow/status/windicss/windicss/Node.js%20CI" alt="Build Status"></a>
+  <a href="https://codecov.io/gh/windicss/windicss"><img src="https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true" alt="Coverage"></a>
+  <a href="https://discord.gg/aRYWm8r8Eq"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="Discord Chat"></a>
+  <br>
+</p>
 
 [tailwind css]: https://tailwindcss.com/docs
 [windi css]: https://windicss.netlify.app
