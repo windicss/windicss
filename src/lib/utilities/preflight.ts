@@ -736,8 +736,7 @@ Add the correct display in Chrome and Safari.
     keys: ['img', 'svg', 'video', 'canvas', 'audio', 'iframe', 'embed', 'object'],
     properties: {
       'display': 'block',
-    // 'vertical-align': 'middle'
-    // Property is ignored due to the display. With 'display: block', vertical-align should not be used.css(propertyIgnoredDueToDisplay)
+      'vertical-align': 'middle',
     },
   },
 
