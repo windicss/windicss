@@ -44,7 +44,6 @@ describe("Utilities", () => {
     expect(processor.extract("*?")).toBeUndefined();
 
     const b = processor.extract("font-bold", true);
-    
     expect(b instanceof Style).toBe(true);
 
     const c = processor.extract("container");
