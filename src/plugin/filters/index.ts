@@ -10,7 +10,6 @@ export default plugin(
       }, variants('filter') as PluginUtilOptions);
 
     addDynamic("backdrop", ({ Utility }) => {
-      // console.log(theme("backdropFilter"));
       return Utility.handler
         .handleStatic(theme("backdropFilter"))
         .createProperty(["-webkit-backdrop-filter", "backdrop-filter"]);

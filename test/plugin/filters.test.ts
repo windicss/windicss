@@ -70,11 +70,9 @@ describe("filter plugin", () => {
         'none': 'none',
       }
     }});
-    // console.log(processor.allConfig);
     processor.loadPlugin(filters);
     const classes = `filter-invert backdrop-blur blur-none`;
     const result = processor.interpret(classes);
-    // console.log(result);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toEqual(
 `.filter-invert {

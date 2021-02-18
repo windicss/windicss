@@ -110,23 +110,19 @@ export class Processor {
   }
 
   private _resolveConfig(userConfig: UserConfig, preset: BaseConfig) {
-    // console.log(userConfig);
     // set default preset
     let resolvedPreset: BaseConfig = Object.assign({}, preset)
     if (userConfig.presets) resolvedPreset = this._resolvePresets(userConfig.presets);
     const userTheme = Object.assign({}, userConfig.theme);
     const resolveTheme: BaseConfig['theme'] = resolvedPreset.theme ?? {}
-    // console.log(userTheme)
     // resolve user config
     if (userTheme) {
       delete userConfig.theme;
-      // console.log(userTheme);
       const extendTheme = userTheme?.extend as UserTheme | undefined;
       delete userTheme.extend;
       for (const key of Object.keys(userTheme)) {
         resolveTheme[key] = userTheme[key];
       }
-      // console.log(resolveTheme.filter);
       if (extendTheme) {
         for (const [key, value] of Object.entries(extendTheme)) {
           const themeValue = resolveTheme[key];
@@ -145,7 +141,6 @@ export class Processor {
           } else {
             resolveTheme[key] = value;
           }
-          // console.log("extend", key, resolveTheme[key]);
         }
       }
     }
@@ -164,7 +159,7 @@ export class Processor {
   }
 
   private _resolveFunction(config: BaseConfig): ResolvedConfig {
-    // console.log(config);
+    
     if (!config.theme) return config as ResolvedConfig
     
     const theme: ThemeUtil = (path, defaultValue) => 
@@ -174,7 +169,7 @@ export class Processor {
         // if (key === 'backgroundColor') {
         //   console.log(theme('colors'));
         // }
-        // console.log(key);
+        
         config.theme[key] = value(theme, {
           negative,
           breakpoints,
@@ -221,7 +216,7 @@ export class Processor {
     if (type) {
       return variants[type];
     }
-    // console.log(this._config);
+    
     return { ...variants.screen, ...variants.theme, ...variants.state };
   }
 

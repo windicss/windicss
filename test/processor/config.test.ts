@@ -97,7 +97,6 @@ describe("Config", () => {
 
   it("change separator test", () => {
     const processor = new Processor({ separator: "_" });
-    // console.log(processor.allConfig);
     expect(processor.interpret("sm_bg-black").styleSheet.build()).toBe(
       "@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}"
     );

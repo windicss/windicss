@@ -13,7 +13,6 @@ export type Variants = {
 }
 
 export function resolveVariants(config: BaseConfig): Variants {
-  // console.log(config.theme?.screens);
   return {
     screen: generateScreens((config.theme?.screens ?? {}) as DictStr),
     theme: generateThemes(config.darkMode),
