@@ -16,7 +16,10 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     const className = utility.class;
     const baseStyle = new Property("width", "100%").toStyle(utility.class);
     const paddingDefault = toType(theme("container.padding.DEFAULT"), "string");
-    if (paddingDefault) baseStyle.add(new Property("padding", paddingDefault));
+    if (paddingDefault) {
+      baseStyle.add(new Property("padding-left", paddingDefault));
+      baseStyle.add(new Property("padding-right", paddingDefault));
+    }
     if (theme("container.center"))
       baseStyle.add(new Property(["margin-left", "margin-right"], "auto"));
     const output: Style[] = [baseStyle];
@@ -24,8 +27,10 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property("max-width", `${size}`)];
       const padding = theme(`container.padding.${screen}`);
-      if (padding && typeof padding === "string")
-        props.push(new Property("padding", padding));
+      if (padding && typeof padding === "string") {
+        props.push(new Property("padding-left", padding));
+        props.push(new Property("padding-right", padding));
+      }
       output.push(
         new Style(className, props).atRule(`@media (min-width: ${size})`)
       );
