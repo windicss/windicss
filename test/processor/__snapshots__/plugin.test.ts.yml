@@ -1,0 +1,32 @@
+Tools / addComponents with non-class styles  / css / 0: |-
+  [data-theme] {
+    --active: #0099FF;
+  }
+  [data-theme="dark"] {
+    --primary: #111111;
+    --on-primary: #B4B4B4;
+    --on-primary-active: #F2F2F2;
+    --frame: #1E1E1E;
+    --on-frame: #808080;
+    --on-frame-active: var(--on-primary);
+  }
+  [data-theme="light"] {
+    --primary: #FFFFFF;
+    --on-primary: #888888;
+    --on-primary-active: #333333;
+    --frame: #EFEFEF;
+    --on-frame: #808080;
+    --on-frame-active: var(--on-primary);
+  }
+Tools / addVariant modifySelectors / css / 0: |-
+  .disabled\:float-right:disabled {
+    float: right;
+  }
+Tools / addVariant pseudoClass / extend / 0: |-
+  .float-right:disabled {
+    float: right;
+  }
+Tools / addVariant pseudoClass / float / 1: |-
+  .disable\:float-right:disabled {
+    float: right;
+  }

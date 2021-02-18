@@ -83,26 +83,8 @@ describe('Plugin Method', () => {
       },
     };
     processor.addComponents(components);
-    expect(processor.preflight('test', false, false, true).build()).toEqual(
-      `[data-theme] {
-  --active: #0099FF;
-}
-[data-theme="dark"] {
-  --primary: #111111;
-  --on-primary: #B4B4B4;
-  --on-primary-active: #F2F2F2;
-  --frame: #1E1E1E;
-  --on-frame: #808080;
-  --on-frame-active: var(--on-primary);
-}
-[data-theme="light"] {
-  --primary: #FFFFFF;
-  --on-primary: #888888;
-  --on-primary-active: #333333;
-  --frame: #EFEFEF;
-  --on-frame: #808080;
-  --on-frame-active: var(--on-primary);
-}`);
+    const css = processor.preflight('test', false, false, true).build();
+    expect(css).toMatchSnapshot('css', __filename);
   });
 
   it('addBase', () => {
@@ -128,8 +110,8 @@ describe('Plugin Method', () => {
     const style = processor.addVariant('disable', ({ pseudoClass }) => {
       return pseudoClass('disabled');
     });
-    expect(Array.isArray(style) || style.extend(test).build()).toBe('.float-right:disabled {\n  float: right;\n}');
-    expect(processor.interpret('disable:float-right').styleSheet.build()).toBe('.disable\\:float-right:disabled {\n  float: right;\n}');
+    expect(Array.isArray(style) || style.extend(test).build()).toMatchSnapshot('extend', __filename);
+    expect(processor.interpret('disable:float-right').styleSheet.build()).toMatchSnapshot('float', __filename);
   });
 
   it('addVariant modifySelectors', () => {
@@ -139,6 +121,7 @@ describe('Plugin Method', () => {
         return `.${processor.e(`disabled${separator}${className}`)}:disabled`;
       });
     });
-    expect(Array.isArray(style) || style.extend(test).build()).toBe('.disabled\\:float-right:disabled {\n  float: right;\n}');
+    const css = Array.isArray(style) || style.extend(test).build();
+    expect(css).toMatchSnapshot('css', __filename);
   });
 });
