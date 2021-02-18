@@ -14,7 +14,8 @@
     "lint": "eslint . --ext .ts",
     "build": "rollup -c && npm run tsd",
     "build:prod": "cross-env NODE_ENV=production npm run build",
-    "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
+    "test": "esno test/run.ts",
+    "test:update": "cross-env UPDATE_SNAPSHOT=true esno test/run.ts",
     "coverage": "nyc --nycrc-path=.nycrc.json npm run test",
     "release": "bumpp --tag --commit --push"
   },
@@ -107,6 +108,7 @@
     "@rollup/plugin-replace": "^2.3.4",
     "@rollup/plugin-sucrase": "^3.1.0",
     "@rollup/plugin-typescript": "^8.1.0",
+    "@types/fs-extra": "^9.0.7",
     "@types/jasmine": "^3.6.3",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^14.14.14",
@@ -119,14 +121,19 @@
     "css-what": "^4.0.0",
     "domhandler": "^4.0.0",
     "eslint": "^7.18.0",
+    "esno": "^0.4.3",
+    "fs-extra": "^9.1.0",
     "htmlparser2": "^6.0.0",
     "jasmine": "^3.6.4",
     "jasmine-spec-reporter": "^6.0.0",
+    "js-yaml": "^3.14.1",
     "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
     "rollup": "^2.37.0",
-    "ts-node": "^9.1.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^4.0.0"
   }
 }
