@@ -166,10 +166,6 @@ export class Processor {
       this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === "function") {
-        // if (key === 'backgroundColor') {
-        //   console.log(theme('colors'));
-        // }
-        
         config.theme[key] = value(theme, {
           negative,
           breakpoints,
