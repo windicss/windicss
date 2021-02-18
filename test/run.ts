@@ -32,14 +32,14 @@ const _it = jasmine.env.it.bind(jasmine.env);
 jasmine.env.describe = (msg, fn) =>
   _describe(msg, () => {
     context.describe = msg;
+    context.count = 0;
     return fn();
   });
-jasmine.env.it = (msg, fn) =>
-  _it(msg, () => {
+jasmine.env.it = (msg, fn) => _it(msg, () => {
     context.it = msg;
+    context.count = 0;
     return fn();
   });
-
 
 jasmine.configureDefaultReporter({ showColors: true });
 jasmine.loadConfigFile(resolve(__dirname, "..", "jasmine.json"));

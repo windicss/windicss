@@ -25,6 +25,7 @@ export const updateSnapshot = !!process.env.UPDATE_SNAPSHOT;
 export const context = {
   describe: "",
   it: "",
+  count: 0,
 };
 
 const snapshotCache: Record<string, SnapshotInfo> = {};
@@ -55,7 +56,10 @@ export function compareSnapshot(
   name: string,
   file: string
 ): jasmine.CustomMatcherResult {
-  const fullname = [context.describe, context.it, name].join(" / ");
+  const fullname = [context.describe, context.it, name, context.count].join(
+    " / "
+  );
+  context.count += 1;
   const snapPath = join(
     dirname(file),
     "__snapshots__",

@@ -1,0 +1,8 @@
+Tools / ring opacity / css / 0: |-
+  .ring-transparent {
+    --tw-ring-color: transparent;
+  }
+  .focus\:ring-purple-800:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
+  }
