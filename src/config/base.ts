@@ -1,6 +1,6 @@
 import { colors } from "./colors";
 import { toType } from "../utils/tools";
-import { BaseConfig } from './types'
+import type { BaseConfig } from './types'
 
 
 
