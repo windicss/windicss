@@ -14,8 +14,7 @@
     "lint": "eslint . --ext .ts",
     "build": "rollup -c && npm run tsd",
     "build:prod": "cross-env NODE_ENV=production npm run build",
-    "test": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/jasmine/bin/jasmine --config=jasmine.json",
-    "coverage": "nyc --nycrc-path=.nycrc.json npm run test",
+    "test": "jest",
     "release": "bumpp --tag --commit --push"
   },
   "exports": {
@@ -120,11 +119,8 @@
     "domhandler": "^4.0.0",
     "eslint": "^7.18.0",
     "htmlparser2": "^6.0.0",
-    "jasmine": "^3.6.4",
-    "jasmine-spec-reporter": "^6.0.0",
     "jest": "^26.6.3",
     "mini-svg-data-uri": "^1.2.3",
-    "nyc": "^15.1.0",
     "rollup": "^2.37.0",
     "ts-jest": "^26.5.1",
     "ts-node": "^9.1.1",
