@@ -2,7 +2,7 @@ import { DisplayProcessor, SpecReporter } from 'jasmine-spec-reporter';
 
 class CustomProcessor extends DisplayProcessor {
   public displayJasmineStarted(): string {
-    return `TypeScript test started`;
+    return 'TypeScript test started';
   }
 }
 
