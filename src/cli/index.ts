@@ -85,7 +85,7 @@ if (args['--init']) {
   args['--output'] = template.css;
 }
 
-const localFiles = walk('.', true).filter((i) => i.type === 'file');
+const localFiles = walk('.', true).filter((i) => i.type === 'file').map(i=> ({ type: i.type, path: i.path.replace(/\\/g, '/')}) );
 
 const matchFiles: string[] = [];
 for (const pt of args._) {
