@@ -4,7 +4,19 @@ import typography from "../../src/plugin/typography";
 
 describe("aspect ratio plugin", () => {
   it("interpret test", () => {
-    const processor = new Processor();
+    const processor = new Processor({
+      theme: {
+        extend: {
+          typography: {
+            DEFAULT: {
+              css: {
+                color: 'red'
+              }
+            }
+          }
+        }
+      }
+    });
     processor.loadPluginWithOptions(typography);
     const classes = `
       prose

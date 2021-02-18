@@ -5,7 +5,7 @@
   Windi CSS
 </h1>
 
-[![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/windicss/windicss/Node.js%20CI)](https://github.com/windicss/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/windicss/windicss)
+[![npm version](https://img.shields.io/npm/v/windicss.svg)](https://www.npmjs.com/package/windicss) [![Total downloads](https://img.shields.io/npm/dt/windicss.svg)](https://www.npmjs.com/package/windicss) [![Build status](https://img.shields.io/github/workflow/status/windicss/windicss/Node.js%20CI)](https://github.com/windicss/windicss/actions) [![Coverage](https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true)](https://codecov.io/gh/windicss/windicss) [![Discord Chat](https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord)](https://discord.gg/aRYWm8r8Eq)
 
 [tailwind css]: https://tailwindcss.com/docs
 [windi css]: https://windicss.netlify.app

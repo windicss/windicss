@@ -54,3 +54,5 @@ dist
 
 # Algolia
 .algolia.env
+
+!test/extend.d.ts

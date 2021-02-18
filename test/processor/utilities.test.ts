@@ -65,4 +65,16 @@ describe("Utilities", () => {
     // expect(!(c instanceof Style) || e.build(true)).toBe(".font-bold{font-weight:700}");
     // expect(processor.extract('*?')).toBeUndefined();
   });
+
+  it("ring opacity", () => {
+    const result = processor.interpret(`ring-transparent focus:ring-purple-800`);
+    expect(result.styleSheet.build()).toEqual(
+String.raw`.ring-transparent {
+  --tw-ring-color: transparent;
+}
+.focus\:ring-purple-800:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
+}`);
+  })
 });

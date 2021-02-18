@@ -16,7 +16,10 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     const className = utility.class;
     const baseStyle = new Property("width", "100%").toStyle(utility.class);
     const paddingDefault = toType(theme("container.padding.DEFAULT"), "string");
-    if (paddingDefault) baseStyle.add(new Property("padding", paddingDefault));
+    if (paddingDefault) {
+      baseStyle.add(new Property("padding-left", paddingDefault));
+      baseStyle.add(new Property("padding-right", paddingDefault));
+    }
     if (theme("container.center"))
       baseStyle.add(new Property(["margin-left", "margin-right"], "auto"));
     const output: Style[] = [baseStyle];
@@ -24,8 +27,10 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property("max-width", `${size}`)];
       const padding = theme(`container.padding.${screen}`);
-      if (padding && typeof padding === "string")
-        props.push(new Property("padding", padding));
+      if (padding && typeof padding === "string") {
+        props.push(new Property("padding-left", padding));
+        props.push(new Property("padding-right", padding));
+      }
       output.push(
         new Style(className, props).atRule(`@media (min-width: ${size})`)
       );
@@ -971,10 +976,15 @@ function ring(utility: Utility, utils: PluginUtils): Output {
     ).value;
   if (value) {
     if (["transparent", "currentColor"].includes(value))
-      return new Property("--tw-ring-color", value);
-    return new Property(
-      "--tw-ring-color",
-      `rgba(${hex2RGB(value)?.join(", ")}, var(--tw-ring-opacity))`
+      return new Style(utility.class, [
+        new Property("--tw-ring-color", value)
+      ]);
+    return new Style(utility.class, [
+      new Property("--tw-ring-opacity", '1'),
+      new Property(
+        "--tw-ring-color",
+        `rgba(${hex2RGB(value)?.join(", ")}, var(--tw-ring-opacity))`)
+      ]
     );
   }
   // handle ring width

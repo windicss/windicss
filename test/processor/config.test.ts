@@ -33,66 +33,66 @@ describe("Config", () => {
       theme: {
         extend: {
           order: {
-            'lg': '44',
+            lg: "44",
           },
           lineClamp: {
-            sm: '4',
-            lg: '9',
-          }
-        }
-      }
+            sm: "4",
+            lg: "9",
+          },
+        },
+      },
     });
-    expect(processor.theme('order')).toEqual({
+    expect(processor.theme("order")).toEqual({
       first: "-9999",
       last: "9999",
       none: "0",
-      lg: "44"
+      lg: "44",
     });
-    expect(processor.theme('lineClamp')).toEqual({ sm: '4', lg: '9' });
-  })
+    expect(processor.theme("lineClamp")).toEqual({ sm: "4", lg: "9" });
+  });
 
   it("resolveConfig should not overwrite theme function", () => {
     const processor = new Processor({
       theme: {
         extend: {
           width: {
-            '1/7': '14%',
-            '2/7': '28%',
-            '3/7': '42%',
-            '4/7': '57%',
-            '5/7': '71%',
-            '6/7': '85%',
-          }
-        }
-      }
+            "1/7": "14%",
+            "2/7": "28%",
+            "3/7": "42%",
+            "4/7": "57%",
+            "5/7": "71%",
+            "6/7": "85%",
+          },
+        },
+      },
     });
-    expect(processor.theme('width')).toEqual({
-      auto: 'auto',
-      px: '1px',
-      xs: '20rem',
-      sm: '24rem',
-      md: '28rem',
-      lg: '32rem',
-      xl: '36rem',
-      '2xl': '42rem',
-      '3xl': '48rem',
-      full: '100%',
-      min: 'min-content',
-      max: 'max-content',
-      prose: '65ch',
-      screen: '100vw',
-      'screen-sm': '640px',
-      'screen-md': '768px',
-      'screen-lg': '1024px',
-      'screen-xl': '1280px',
-      'screen-2xl': '1536px',
-      '1/7': '14%',
-      '2/7': '28%',
-      '3/7': '42%',
-      '4/7': '57%',
-      '5/7': '71%',
-      '6/7': '85%'
-    })
+    expect(processor.theme("width")).toEqual({
+      auto: "auto",
+      px: "1px",
+      xs: "20rem",
+      sm: "24rem",
+      md: "28rem",
+      lg: "32rem",
+      xl: "36rem",
+      "2xl": "42rem",
+      "3xl": "48rem",
+      full: "100%",
+      min: "min-content",
+      max: "max-content",
+      prose: "65ch",
+      screen: "100vw",
+      "screen-sm": "640px",
+      "screen-md": "768px",
+      "screen-lg": "1024px",
+      "screen-xl": "1280px",
+      "screen-2xl": "1536px",
+      "1/7": "14%",
+      "2/7": "28%",
+      "3/7": "42%",
+      "4/7": "57%",
+      "5/7": "71%",
+      "6/7": "85%",
+    });
   });
 
   it("change separator test", () => {
@@ -128,28 +128,46 @@ describe("Config", () => {
 
   it("color config test", () => {
     const processor = new Processor({
-      darkMode: 'media', // or 'media' or 'class'
+      darkMode: "media", // or 'media' or 'class'
       theme: {
         extend: {
           colors: {
             darkTheme: {
-              600: '#262A34',
-              700: '#181A20',
-              800: '#1A1B20',
+              600: "#262A34",
+              700: "#181A20",
+              800: "#1A1B20",
             },
           },
         },
       },
     });
-    expect(processor.theme('colors.darkTheme')).toEqual({
-      600: '#262A34',
-      700: '#181A20',
-      800: '#1A1B20',
+    expect(processor.theme("colors.darkTheme")).toEqual({
+      600: "#262A34",
+      700: "#181A20",
+      800: "#1A1B20",
     });
-    expect(processor.interpret('bg-darkTheme-600').styleSheet.build()).toEqual(
-`.bg-darkTheme-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
-}`);
+
+    const styleSheet = processor.interpret("bg-darkTheme-600").styleSheet;
+    expectToMatchSnapshot(styleSheet.build(), "css", __filename);
+  });
+
+  it("handle colors test", () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            discord: {
+              DEFAULT: "#7289da",
+              "100": "#7289da",
+            },
+            "primary-color-red": "#FF0000",
+          },
+        },
+      },
+    });
+    const styleSheet = processor.interpret(
+      "bg-discord bg-discord-100 bg-hex-7289da ring-offset-hex-1c1c1e ring-offset-gray-200 text-primary-color-red"
+    ).styleSheet;
+    expectToMatchSnapshot(styleSheet.build(), "css", __filename);
   });
 });

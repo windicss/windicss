@@ -1,0 +1,28 @@
+'Tools: color config test: css': |-
+  .bg-darkTheme-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
+  }
+'Tools: handle colors test: css': |-
+  .bg-discord {
+    --tw-bg-opacity: 1;
+    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+  }
+  .bg-discord-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+  }
+  .bg-hex-7289da {
+    --tw-bg-opacity: 1;
+    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
+  }
+  .ring-offset-hex-1c1c1e {
+    --tw-ring-offset-color: #1c1c1e;
+  }
+  .ring-offset-gray-200 {
+    --tw-ring-offset-color: #e5e7eb;
+  }
+  .text-primary-color-red {
+    --tw-text-opacity: 1;
+    color: rgba(255, 0, 0, var(--tw-text-opacity));
+  }
