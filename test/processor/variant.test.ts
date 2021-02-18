@@ -27,7 +27,7 @@ describe('Variants', () => {
       print: { raw: 'print' },
       narrow: { max: '768px' },
     });
-    expect(_generateTestVariants(screens)).toMatchSnapshot('vars', __filename);
+    expect(_generateTestVariants(screens)).toMatchSnapshot('vars');
 
     const unsortedScreens = generateScreens({
       print: { raw: 'print' },
@@ -49,19 +49,19 @@ describe('Variants', () => {
 
   it('generate themes with darkMode class', () => {
     const themes = generateThemes('class');
-    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename);
+    expect(_generateTestVariants(themes)).toMatchSnapshot('vars');
   });
 
   it('generate themes with darkMode media', () => {
     const themes = generateThemes('media');
-    expect(_generateTestVariants(themes)).toMatchSnapshot('vars', __filename);
+    expect(_generateTestVariants(themes)).toMatchSnapshot('vars');
   });
 
   it('generate states', () => {
     const allStates = generateStates(baseConfig.variantOrder ?? []);
     expect(Object.keys(allStates)).toEqual(baseConfig.variantOrder ?? []);
 
-    expect(_generateTestVariants(allStates)).toMatchSnapshot('all', __filename);
+    expect(_generateTestVariants(allStates)).toMatchSnapshot('all');
 
     const someStates = generateStates([
       'focus',
@@ -72,7 +72,7 @@ describe('Variants', () => {
       'motion-safe',
       'wrong',
     ]);
-    expect(_generateTestVariants(someStates)).toMatchSnapshot('some', __filename);
+    expect(_generateTestVariants(someStates)).toMatchSnapshot('some');
   });
 
   it('resolve variants', () => {

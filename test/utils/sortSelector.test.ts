@@ -18,7 +18,7 @@ describe('sort selector', () => {
       new Style('.p-2'),
     ];
     const selectors = styles.sort(sortSelector).map((i) => i.selector);
-    expect(selectors).toMatchSnapshot('selector', __filename);
+    expect(selectors).toMatchSnapshot('selector');
   });
 
   it('should sort transform correctly', () => {
@@ -32,6 +32,6 @@ describe('sort selector', () => {
       new Style('.-skew-x-4'),
     ];
     const selectors = styles.sort(sortSelector).map((i) => i.selector);
-    expect(selectors).toMatchSnapshot('selector', __filename);
+    expect(selectors).toMatchSnapshot('selector');
   });
 });

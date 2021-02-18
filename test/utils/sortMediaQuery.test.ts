@@ -30,6 +30,6 @@ const screens = [
 
 describe('sortMediaQuery', () => {
   it('sort', () => {
-    expect(screens.sort(sortMediaQuery)).toMatchSnapshot('query', __filename);
+    expect(screens.sort(sortMediaQuery)).toMatchSnapshot('query');
   });
 });

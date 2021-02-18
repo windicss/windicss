@@ -8,7 +8,7 @@ import { diffLines } from 'diff';
  * Test Snapshot usage:
  *
  * ```ts
- * expect(styleSheet.build()).toMatchSnapshot("css", __filename);
+ * expect(styleSheet.build()).toMatchSnapshot("css");
  * ```
  */
 

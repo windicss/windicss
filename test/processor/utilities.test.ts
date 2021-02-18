@@ -68,6 +68,6 @@ describe('Utilities', () => {
 
   it('ring opacity', () => {
     const result = processor.interpret('ring-transparent focus:ring-purple-800');
-    expect(result.styleSheet.build()).toMatchSnapshot('css', __filename);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 });

@@ -2,6 +2,7 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
 
 import Jasmine from 'jasmine';
+import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import {
   finishSnapshots,
@@ -12,6 +13,13 @@ import {
 
 const jasmine = new Jasmine(undefined);
 
+const onComplete = () => {
+  jasmine.specFiles.forEach(file => {
+    writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
+  });
+  finishSnapshots();
+};
+
 beforeEach(() => {
   jasmine.addMatchers({
     toEqualDiff() {
@@ -21,7 +29,9 @@ beforeEach(() => {
     },
     toMatchSnapshot() {
       return {
-        compare: compareSnapshot,
+        compare: (value: unknown, name: string, file: string) => {
+          return compareSnapshot(value, name, file);
+        },
       };
     },
   });
@@ -40,7 +50,11 @@ jasmine.env.it = (msg, fn) => _it(msg, () => {
   return fn();
 });
 
-jasmine.configureDefaultReporter({ showColors: true });
 jasmine.loadConfigFile(resolve(__dirname, '..', 'jasmine.json'));
-jasmine.onComplete(finishSnapshots);
+jasmine.configureDefaultReporter({ showColors: true });
+jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
+jasmine.specFiles.forEach(file => {
+  writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^,)]+)\)/g, ', __filename)'));
+});
+jasmine.onComplete(onComplete);
 jasmine.execute();
