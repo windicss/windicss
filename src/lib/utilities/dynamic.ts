@@ -976,10 +976,15 @@ function ring(utility: Utility, utils: PluginUtils): Output {
     ).value;
   if (value) {
     if (["transparent", "currentColor"].includes(value))
-      return new Property("--tw-ring-color", value);
-    return new Property(
-      "--tw-ring-color",
-      `rgba(${hex2RGB(value)?.join(", ")}, var(--tw-ring-opacity))`
+      return new Style(utility.class, [
+        new Property("--tw-ring-color", value)
+      ]);
+    return new Style(utility.class, [
+      new Property("--tw-ring-opacity", '1'),
+      new Property(
+        "--tw-ring-color",
+        `rgba(${hex2RGB(value)?.join(", ")}, var(--tw-ring-opacity))`)
+      ]
     );
   }
   // handle ring width
