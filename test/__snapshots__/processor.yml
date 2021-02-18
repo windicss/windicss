@@ -14,6 +14,7 @@ Tools / some tags / css / 0: |-
   }
   img, svg {
     display: block;
+    vertical-align: middle;
   }
   p {
     margin: 0;

@@ -3,6 +3,18 @@ Tools / color config test / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
   }
+  .bg-active {
+    --tw-bg-opacity: 1;
+    background-color: rgba(var(--active), var(--tw-bg-opacity));
+  }
+  .bg-on-primary {
+    --tw-bg-opacity: 1;
+    background-color: rgba(var(--on-primary), var(--tw-bg-opacity));
+  }
+  .bg-on-frame-active {
+    --tw-bg-opacity: 1;
+    background-color: rgba(var(--on-frame-active), var(--tw-bg-opacity));
+  }
 Tools / handle colors test / css / 0: |-
   .bg-discord {
     --tw-bg-opacity: 1;

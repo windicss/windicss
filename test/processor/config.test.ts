@@ -133,6 +133,13 @@ describe('Config', () => {
       theme: {
         extend: {
           colors: {
+            active: 'var(--active)',
+            primary: 'var(--primary)',
+            'on-primary': 'var(--on-primary)',
+            'on-primary-active': 'var(--on-primary-active)',
+            frame: 'var(--frame)',
+            'on-frame': 'var(--on-frame)',
+            'on-frame-active': 'var(--on-frame-active)',
             darkTheme: {
               600: '#262A34',
               700: '#181A20',
@@ -148,7 +155,9 @@ describe('Config', () => {
       800: '#1A1B20',
     });
 
-    const styleSheet = processor.interpret('bg-darkTheme-600').styleSheet;
+    expect(processor.theme('colors.frame')).toEqual('var(--frame)');
+
+    const styleSheet = processor.interpret('bg-darkTheme-600 bg-active bg-on-primary bg-on-frame-active').styleSheet;
     expect(styleSheet.build()).toMatchSnapshot('css');
   });
 

@@ -72,6 +72,7 @@ img {
 }
 img, svg {
   display: block;
+  vertical-align: middle;
 }
 p {
   margin: 0;

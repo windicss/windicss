@@ -84,7 +84,7 @@ describe('Plugin Method', () => {
     };
     processor.addComponents(components);
     const css = processor.preflight('test', false, false, true).build();
-    expect(css).toMatchSnapshot('css', __filename);
+    expect(css).toMatchSnapshot('css');
   });
 
   it('addBase', () => {
@@ -110,8 +110,8 @@ describe('Plugin Method', () => {
     const style = processor.addVariant('disable', ({ pseudoClass }) => {
       return pseudoClass('disabled');
     });
-    expect(Array.isArray(style) || style.extend(test).build()).toMatchSnapshot('extend', __filename);
-    expect(processor.interpret('disable:float-right').styleSheet.build()).toMatchSnapshot('float', __filename);
+    expect(Array.isArray(style) || style.extend(test).build()).toMatchSnapshot('extend');
+    expect(processor.interpret('disable:float-right').styleSheet.build()).toMatchSnapshot('float');
   });
 
   it('addVariant modifySelectors', () => {
@@ -122,6 +122,6 @@ describe('Plugin Method', () => {
       });
     });
     const css = Array.isArray(style) || style.extend(test).build();
-    expect(css).toMatchSnapshot('css', __filename);
+    expect(css).toMatchSnapshot('css');
   });
 });
