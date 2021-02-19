@@ -2,7 +2,7 @@
 /// <reference path="../node_modules/@types/jasmine/index.d.ts" />
 
 import Jasmine from 'jasmine';
-import { readFileSync, writeFileSync } from 'fs';
+import fs from 'fs-extra';
 import { resolve } from 'path';
 import {
   finishSnapshots,
@@ -11,14 +11,9 @@ import {
   context,
 } from './snapshot';
 
-const jasmine = new Jasmine(undefined);
+const INJECT_SNIPPET = 'snapshotContext(__filename)';
 
-const onComplete = () => {
-  jasmine.specFiles.forEach(file => {
-    writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
-  });
-  finishSnapshots();
-};
+const jasmine = new Jasmine(undefined);
 
 beforeEach(() => {
   jasmine.addMatchers({
@@ -49,12 +44,21 @@ jasmine.env.it = (msg, fn) => _it(msg, () => {
   context.count = 0;
   return fn();
 });
+global.snapshotContext = (filepath) => context.filepath = filepath;
 
 jasmine.loadConfigFile(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.configureDefaultReporter({ showColors: true });
 jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
-jasmine.specFiles.forEach(file => {
-  writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^,)]+)\)/g, ', __filename)'));
+
+const reverts: (() => void)[] = [];
+jasmine.specFiles.map(file => {
+  const content = fs.readFileSync(file, 'utf-8');
+  fs.writeFileSync(file, content.trimEnd() +';' +INJECT_SNIPPET, 'utf-8');
+  reverts.push(() => fs.writeFileSync(file, content, 'utf-8'));
 });
-jasmine.onComplete(onComplete);
+
+jasmine.onComplete(()=>{
+  finishSnapshots();
+  reverts.forEach(t => t());
+});
 jasmine.execute();
