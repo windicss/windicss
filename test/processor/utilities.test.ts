@@ -28,7 +28,7 @@ function build(classNames: string[], addComment = false) {
 describe('Utilities', () => {
   it('build', () => {
     const result = build(classNames, true);
-    expect(result.ignored.length).toBe(0);
+    expect(result.ignored.length).toBe(1);
     // expect(result)
     // writeFileSync('output.css', result.styleSheet.build());
   });

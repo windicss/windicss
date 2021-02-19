@@ -25,7 +25,7 @@
 // run this command inside tailwindcss document page
 
 const classNames = [
-  'hi', 
+  'my-custom-one', 
   'container', 
   'box-border', 'box-content', 
   'block', 
