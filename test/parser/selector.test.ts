@@ -73,3 +73,5 @@ describe('SelectorParser', () => {
     ]);
   });
 });
+
+snapshotContext(__filename);

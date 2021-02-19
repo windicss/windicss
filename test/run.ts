@@ -11,14 +11,9 @@ import {
   context,
 } from './snapshot';
 
-const jasmine = new Jasmine(undefined);
+const INJECT_SNIPPET = 'snapshotContext(__filename)';
 
-const onComplete = () => {
-  jasmine.specFiles.forEach(file => {
-    writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
-  });
-  finishSnapshots();
-};
+const jasmine = new Jasmine(undefined);
 
 beforeEach(() => {
   jasmine.addMatchers({
@@ -49,12 +44,15 @@ jasmine.env.it = (msg, fn) => _it(msg, () => {
   context.count = 0;
   return fn();
 });
+global.snapshotContext = (filepath) => context.filepath = filepath;
 
 jasmine.loadConfigFile(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.configureDefaultReporter({ showColors: true });
 jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.specFiles.forEach(file => {
-  writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^,)]+)\)/g, ', __filename)'));
+  const content = readFileSync(file, 'utf-8');
+  if (!content.includes(INJECT_SNIPPET))
+    writeFileSync(file, content.trimEnd() + `\n\n${INJECT_SNIPPET};\n`, 'utf-8');
 });
-jasmine.onComplete(onComplete);
+jasmine.onComplete(finishSnapshots);
 jasmine.execute();

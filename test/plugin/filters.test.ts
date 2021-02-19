@@ -114,3 +114,5 @@ describe('filter plugin', () => {
 }`);
   });
 });
+
+snapshotContext(__filename);

@@ -30,3 +30,5 @@ describe('compileStyleSheet', () => {
     expect(handleNest([new Style('.test', new Property('font-size', '1em'))])).toEqual(['.test {\n  font-size: 1em;\n}']);
   });
 });
+
+snapshotContext(__filename);

@@ -45,3 +45,5 @@ describe('aspect ratio plugin', () => {
     writeFileSync('typography.css', result.styleSheet.build());
   });
 });
+
+snapshotContext(__filename);

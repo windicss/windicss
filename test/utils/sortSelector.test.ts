@@ -35,3 +35,5 @@ describe('sort selector', () => {
     expect(selectors).toMatchSnapshot('selector');
   });
 });
+
+snapshotContext(__filename);

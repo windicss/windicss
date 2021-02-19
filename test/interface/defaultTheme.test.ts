@@ -23,3 +23,5 @@ describe('defaultTheme interface test', () => {
     );
   });
 });
+
+snapshotContext(__filename);

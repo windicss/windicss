@@ -21,3 +21,5 @@ describe('CSS Escape', () => {
     expect(cssEscape('-')).toBe('\\-');
   });
 });
+
+snapshotContext(__filename);

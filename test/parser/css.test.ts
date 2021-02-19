@@ -327,3 +327,5 @@ video {
 }`);
   });
 });
+
+snapshotContext(__filename);

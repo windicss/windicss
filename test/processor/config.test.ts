@@ -181,3 +181,5 @@ describe('Config', () => {
     expect(styleSheet.build()).toMatchSnapshot('css');
   });
 });
+
+snapshotContext(__filename);

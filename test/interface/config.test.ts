@@ -109,3 +109,5 @@ describe('Load Plugin', () => {
   });
 
 });
+
+snapshotContext(__filename);

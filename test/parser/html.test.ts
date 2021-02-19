@@ -55,3 +55,5 @@ describe('HTMLParser', () => {
     ]);
   });
 });
+
+snapshotContext(__filename);

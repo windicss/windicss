@@ -232,3 +232,5 @@ describe('ClassParser', () => {
     ]);
   });
 });
+
+snapshotContext(__filename);

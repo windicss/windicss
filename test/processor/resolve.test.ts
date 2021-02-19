@@ -57,3 +57,5 @@ describe('Resolve Tests', () => {
     ]);
   });
 });
+
+snapshotContext(__filename);

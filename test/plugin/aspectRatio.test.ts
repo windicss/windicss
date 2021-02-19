@@ -59,3 +59,5 @@ describe('aspect ratio plugin', () => {
 }`);
   });
 });
+
+snapshotContext(__filename);

@@ -276,3 +276,5 @@ describe('forms plugin', () => {
     writeFileSync('forms.purged.css', (processor.preflight(html, false, false, true).build()));
   });
 });
+
+snapshotContext(__filename);

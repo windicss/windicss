@@ -98,3 +98,5 @@ describe('Property', () => {
     );
   });
 });
+
+snapshotContext(__filename);

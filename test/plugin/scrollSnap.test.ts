@@ -51,3 +51,5 @@ describe('Scroll Snap plugin', () => {
 }`);
   });
 });
+
+snapshotContext(__filename);

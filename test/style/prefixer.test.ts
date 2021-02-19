@@ -34,3 +34,5 @@ describe('minMaxContent', () => {
     expect(p).toEqual('background-color');
   });
 });
+
+snapshotContext(__filename);

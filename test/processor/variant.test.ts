@@ -111,3 +111,5 @@ describe('Variants', () => {
     expect(emptyVariants.state).toEqual({});
   });
 });
+
+snapshotContext(__filename);

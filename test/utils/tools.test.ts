@@ -202,3 +202,5 @@ describe('Tools', () => {
     expect(deepCopy(style)).toEqual(style);
   });
 });
+
+snapshotContext(__filename);
