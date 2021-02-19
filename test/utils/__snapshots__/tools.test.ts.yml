@@ -30,6 +30,31 @@ Tools / addVariant pseudoClass / float / 1: |-
   .disable\:float-right:disabled {
     float: right;
   }
+Tools / animation config test / animate: |-
+  .animate-skbounce {
+    -webkit-animation: skbounce 2.0s infinite ease-in-out;
+    animation: skbounce 2.0s infinite ease-in-out;
+  }
+  @keyframes skbounce {
+    0%, 100% {
+      -webkit-transform: scale(0.0);
+      transform: scale(0.0);
+    }
+    50% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+  }
+  @-webkit-keyframes skbounce {
+    0%, 100% {
+      -webkit-transform: scale(0.0);
+      transform: scale(0.0);
+    }
+    50% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+  }
 Tools / color config test / css: |-
   .bg-darkTheme-600 {
     --tw-bg-opacity: 1;
@@ -185,6 +210,23 @@ Tools / handle colors test / css: |-
   .text-primary-color-red {
     --tw-text-opacity: 1;
     color: rgba(255, 0, 0, var(--tw-text-opacity));
+  }
+Tools / handle nest colors / colors: |-
+  .bg-my-custom-red {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
+  }
+  .bg-my {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  }
+  .bg-my-custom {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+  }
+  .text-my-custom {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
 Tools / interpret / css / 1: |-
   .bg-cool-gray-300 {

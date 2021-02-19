@@ -127,6 +127,25 @@ describe('Config', () => {
     );
   });
 
+  it('animation config test', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          animation: {
+            skbounce: 'skbounce 2.0s infinite ease-in-out',
+          },
+          keyframes: {
+            skbounce: {
+              '0%, 100%': { transform: 'scale(0.0)' },
+              '50%': { transform: 'scale(1.0)' },
+            },
+          },
+        },
+      },
+    });
+    expect(processor.interpret('animate-skbounce').styleSheet.build()).toMatchSnapshot('animate');
+  });
+
   it('color config test', () => {
     const processor = new Processor({
       darkMode: 'media', // or 'media' or 'class'
@@ -179,5 +198,26 @@ describe('Config', () => {
       'bg-discord bg-discord-100 bg-hex-7289da ring-offset-hex-1c1c1e ring-offset-gray-200 text-primary-color-red'
     ).styleSheet;
     expect(styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('handle nest colors', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            my: {
+              DEFAULT: '#000',
+              custom: {
+                red: '#ff0000',
+                DEFAULT: '#fff',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const styleSheet = processor.interpret('bg-my-custom-red bg-my bg-my-custom text-my-custom').styleSheet;
+    expect(styleSheet.build()).toMatchSnapshot('colors');
   });
 });

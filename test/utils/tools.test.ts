@@ -18,6 +18,7 @@ import {
   connectList,
   deepCopy,
   toType,
+  flatColors,
 } from '../../src/utils';
 
 import { Property, Style} from '../../src/utils/style';
@@ -167,6 +168,22 @@ describe('Tools', () => {
     expect(toType(123, 'number')).toEqual(123);
     expect(toType('hello', 'string')).toEqual('hello');
     expect(toType({ hello: 123 }, 'object')).toEqual({ hello: 123 });
+  });
+
+  it('flatColors', () => {
+    expect(flatColors({
+      my: {
+        customred: '#ff0000',
+      },
+    })).toEqual({ 'my-customred': '#ff0000' });
+
+    expect(flatColors({
+      my: {
+        custom: {
+          red: '#ff0000',
+        },
+      },
+    })).toEqual({ 'my-custom-red': '#ff0000' });
   });
 
   it('deepCopy', () => {

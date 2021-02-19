@@ -1,3 +1,5 @@
+import type { DeepNestDictStr, DictStr } from '../interfaces';
+
 export function hash(str: string): string {
   str = str.replace(/\r/g, '');
   let hash = 5381;
@@ -181,15 +183,13 @@ export function isTagName(name: string): boolean {
   return ['a', 'abbr', 'address', 'area', 'article', 'aside', 'audio', 'b', 'base', 'bdi', 'bdo', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'dd', 'del', 'details', 'dfn', 'dialog', 'div', 'dl', 'dt', 'em', 'embd', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'link', 'main', 'map', 'mark', 'meta', 'meter', 'nav', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strong', 'style', 'sub', 'summary', 'sup', 'svg', 'table', 'tbody', 'td', 'template', 'textarea','tfoot', 'th','thead','time','title','tr','track','u','ul','var','video','wbr'].includes(name);
 }
 
-export function flatColors(colors: {[key:string]:string|{[key:string]:string}}): {[key:string]:string} {
-  const flatten: {[key:string]:string} = {};
+export function flatColors(colors: DeepNestDictStr, head?: string): DictStr {
+  let flatten: { [ key:string ]: string } = {};
   for (const [key, value] of Object.entries(colors)) {
     if (typeof value === 'string') {
-      flatten[key] = value;
+      flatten[(head && key === 'DEFAULT') ? head : head ? `${head}-${key}`: key] = value;
     } else {
-      for (const [skey, svalue] of Object.entries(value)) {
-        flatten[skey === 'DEFAULT' ? key : `${key}-${skey}`] = svalue;
-      }
+      flatten = { ...flatten, ...flatColors(value, head ? `${head}-${key}`: key) };
     }
   }
   return flatten;
