@@ -10,5 +10,3 @@ describe('color interface test', () => {
     expect(colors.black).toEqual('#000');
   });
 });
-
-snapshotContext(__filename);

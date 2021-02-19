@@ -20,5 +20,3 @@ describe('defaultConfig interface test', () => {
     expect(Object.keys(defaultConfig.theme.borderColor).length).toEqual(Object.keys(defaultConfig.theme.colors).length+1);
   });
 });
-
-snapshotContext(__filename);

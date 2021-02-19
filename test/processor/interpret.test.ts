@@ -20,5 +20,3 @@ describe('Interpretation Mode', () => {
     ]);
   });
 });
-
-snapshotContext(__filename);

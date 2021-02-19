@@ -20,5 +20,3 @@ describe('purgeBase', () => {
     ]);
   });
 });
-
-snapshotContext(__filename);

@@ -327,5 +327,3 @@ video {
 }`);
   });
 });
-
-snapshotContext(__filename);

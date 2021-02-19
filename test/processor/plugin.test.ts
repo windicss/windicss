@@ -160,5 +160,3 @@ describe('Plugin Method', () => {
 }`);
   });
 });
-
-snapshotContext(__filename);

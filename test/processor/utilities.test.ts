@@ -71,5 +71,3 @@ describe('Utilities', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 });
-
-snapshotContext(__filename);

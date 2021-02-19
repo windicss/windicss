@@ -34,5 +34,3 @@ describe('color interface test', () => {
     expect(plugin.withOptions).toBeDefined();
   });
 });
-
-snapshotContext(__filename);

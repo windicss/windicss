@@ -33,5 +33,3 @@ describe('sortMediaQuery', () => {
     expect(screens.sort(sortMediaQuery)).toMatchSnapshot('query');
   });
 });
-
-snapshotContext(__filename);

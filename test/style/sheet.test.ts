@@ -87,5 +87,3 @@ describe('StyleSheet', () => {
     );
   });
 });
-
-snapshotContext(__filename);

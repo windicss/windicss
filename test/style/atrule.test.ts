@@ -32,5 +32,3 @@ describe('AtRule', () => {
     expect(!v5 || v5.important).toBeTrue();
   });
 });
-
-snapshotContext(__filename);

@@ -18,5 +18,3 @@ describe('Preflight', () => {
     );
   });
 });
-
-snapshotContext(__filename);

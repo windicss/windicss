@@ -451,5 +451,3 @@ describe('Global Style', () => {
     expect(s.build(true)).toBe('.test{padding:1rem;color:#1C1C1E}');
   });
 });
-
-snapshotContext(__filename);

@@ -158,5 +158,3 @@ describe('Helpers', () => {
     expect(expandDirection('br')).toEqual(['bottom-right']);
   });
 });
-
-snapshotContext(__filename);

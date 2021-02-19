@@ -79,5 +79,3 @@ describe('line clamp plugin', () => {
 }`);
   });
 });
-
-snapshotContext(__filename);

@@ -38,5 +38,3 @@ describe('Compilation Mode', () => {
     ).toBeFalse();
   });
 });
-
-snapshotContext(__filename);

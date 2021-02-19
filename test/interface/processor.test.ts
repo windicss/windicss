@@ -12,5 +12,3 @@ describe('Processor interface test', () => {
     expect(processor.interpret('bg-white').styleSheet.build()).toEqual('.bg-white {\n  --tw-bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}');
   });
 });
-
-snapshotContext(__filename);
