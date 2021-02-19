@@ -26,7 +26,6 @@ export const context = {
   describe: '',
   it: '',
   count: 0,
-  filepath: '',
 };
 
 const snapshotCache: Record<string, SnapshotInfo> = {};
@@ -54,17 +53,17 @@ export function compareDiff<T extends string>(
 
 export function compareSnapshot(
   value: unknown,
-  name = 'anonymous',
-  filepath: string = context.filepath
+  name: string,
+  file: string
 ): jasmine.CustomMatcherResult {
-  const fullname = [context.describe, context.it, name, context.count]
-    .filter(Boolean)
-    .join(' / ');
+  const fullname = [context.describe, context.it, name, context.count].join(
+    ' / '
+  );
   context.count += 1;
   const snapPath = join(
-    dirname(filepath),
+    dirname(file),
     '__snapshots__',
-    basename(filepath) + '.yml'
+    basename(file) + '.yml'
   );
   const snap = prepreSnapshot(snapPath);
 

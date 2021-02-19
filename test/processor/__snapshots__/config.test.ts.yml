@@ -60,3 +60,20 @@ Tools / handle colors test / css / 0: |-
     --tw-text-opacity: 1;
     color: rgba(255, 0, 0, var(--tw-text-opacity));
   }
+Tools / handle nest colors / colors / 0: |-
+  .bg-my-custom-red {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
+  }
+  .bg-my {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  }
+  .bg-my-custom {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+  }
+  .text-my-custom {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
