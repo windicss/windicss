@@ -28,9 +28,16 @@ function build(classNames: string[], addComment = false) {
 
 describe('Utilities', () => {
   it('build', () => {
+<<<<<<< HEAD
     const utilities = build(classNames, true);
     expect(utilities.ignored.length).toBe(0);
     writeFileSync('tailwind.css', [processor.preflight().build(), utilities.styleSheet.build()].join('\n'));
+=======
+    const result = build(classNames, true);
+    expect(result.ignored.length).toBe(1);
+    // expect(result)
+    // writeFileSync('output.css', result.styleSheet.build());
+>>>>>>> 0137d3dcff942b7d569aa6e35849dc16db671a13
   });
 
   it('extract', () => {

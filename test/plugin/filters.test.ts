@@ -69,7 +69,7 @@ describe('filter plugin', () => {
       blur: {
         'none': 'none',
       },
-    }});
+    } });
     processor.loadPlugin(filters);
     const classes = 'filter-invert backdrop-blur blur-none';
     const result = processor.interpret(classes);

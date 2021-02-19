@@ -21,7 +21,7 @@ import {
   flatColors,
 } from '../../src/utils';
 
-import { Property, Style} from '../../src/utils/style';
+import { Property, Style } from '../../src/utils/style';
 
 describe('Tools', () => {
   it('hash', () => {
