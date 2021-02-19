@@ -119,7 +119,7 @@ class Handler {
     let color;
     if (map && typeof map === 'object') {
       const knownMap = flatColors(map as { [key: string]: string | { [key: string]: string } });
-      const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/,'');
+      const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/, '');
       if (body in knownMap) {
         color = knownMap[body];
       } else if (body.startsWith('hex-')) {

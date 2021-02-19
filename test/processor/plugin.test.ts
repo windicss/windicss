@@ -117,7 +117,7 @@ describe('Plugin Method', () => {
   it('addVariant modifySelectors', () => {
     const test = new Style('.float-right', new Property('float', 'right'));
     const style = processor.addVariant('disabled', ({ modifySelectors, separator }) => {
-      return modifySelectors(({className}) => {
+      return modifySelectors(({ className }) => {
         return `.${processor.e(`disabled${separator}${className}`)}:disabled`;
       });
     });

@@ -125,7 +125,7 @@ export class Processor {
         if (typeof themeValue === 'function') {
           theme[key] = (theme, { negative, breakpoints }) => {
             return {
-              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints}) as {[key:string]:unknown},
+              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }) as {[key:string]:unknown},
               ...value as {[key:string]:unknown},
             };
           };
@@ -209,12 +209,12 @@ export class Processor {
       staticStyles[key] = [generateStaticStyle(key, true)];
     }
     if (!includePlugins) return staticStyles;
-    return {...staticStyles, ...this._plugin.utilities, ...this._plugin.components};
+    return { ...staticStyles, ...this._plugin.utilities, ...this._plugin.components };
   }
 
   resolveDynamicUtilities(includePlugins = false): DynamicUtility {
     if (!includePlugins) return dynamicUtilities;
-    return {...dynamicUtilities, ...this._plugin.dynamic};
+    return { ...dynamicUtilities, ...this._plugin.dynamic };
   }
 
   get allConfig(): DefaultConfig {

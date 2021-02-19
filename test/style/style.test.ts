@@ -430,10 +430,10 @@ describe('Style', () => {
       '.accordion {\n  max-width: 600px;\n}\n.accordion__copy {\n  display: none;\n}\n.accordion__copy--open {\n  display: block;\n}'
     );
 
-    const style14 = Style.generate('.enlarge', {'font-size': '14px', 'transition': {'property': 'font-size', 'duration': '4s', 'delay': '2s'}});
+    const style14 = Style.generate('.enlarge', { 'font-size': '14px', 'transition': { 'property': 'font-size', 'duration': '4s', 'delay': '2s' } });
     expect(new StyleSheet(style14).build()).toBe('.enlarge {\n  font-size: 14px;\n  transition-property: font-size;\n  transition-duration: 4s;\n  transition-delay: 2s;\n}');
 
-    const style15 = Style.generate('.test', {'outline': ['1px solid ButtonText', '1px auto -webkit-focus-ring-color']});
+    const style15 = Style.generate('.test', { 'outline': ['1px solid ButtonText', '1px auto -webkit-focus-ring-color'] });
     expect(style15[0].build()).toBe('.test {\n  outline: 1px solid ButtonText;\n  outline: 1px auto -webkit-focus-ring-color;\n}');
   });
 });
