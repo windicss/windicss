@@ -1,5 +1,5 @@
 import { negateValue } from './tools';
-import { Property, GlobalStyle } from './style';
+import { Property, Keyframes } from './style';
 import type { FontSize } from '../interfaces';
 
 export function isString(value: unknown): value is string {
@@ -37,11 +37,11 @@ export function breakpoints(
 export function generateKeyframe(
   name: string,
   children: { [key: string]: { [key: string]: string } }
-): GlobalStyle[] {
-  const output: GlobalStyle[] = [];
+): Keyframes[] {
+  const output: Keyframes[] = [];
   for (const [key, value] of Object.entries(children)) {
-    const style = new GlobalStyle(key).atRule(`@keyframes ${name}`);
-    const webkitStyle = new GlobalStyle(key).atRule(
+    const style = new Keyframes(key).atRule(`@keyframes ${name}`);
+    const webkitStyle = new Keyframes(key).atRule(
       `@-webkit-keyframes ${name}`
     );
     for (const [pkey, pvalue] of Object.entries(value)) {

@@ -1,8 +1,4 @@
 Tools / animation config test / animate / 0: |-
-  .animate-skbounce {
-    -webkit-animation: skbounce 2.0s infinite ease-in-out;
-    animation: skbounce 2.0s infinite ease-in-out;
-  }
   @keyframes skbounce {
     0%, 100% {
       -webkit-transform: scale(0.0);
@@ -22,6 +18,10 @@ Tools / animation config test / animate / 0: |-
       -webkit-transform: scale(1.0);
       transform: scale(1.0);
     }
+  }
+  .animate-skbounce {
+    -webkit-animation: skbounce 2.0s infinite ease-in-out;
+    animation: skbounce 2.0s infinite ease-in-out;
   }
 Tools / color config test / css / 0: |-
   .bg-darkTheme-600 {

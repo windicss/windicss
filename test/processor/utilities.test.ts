@@ -1,6 +1,7 @@
 import { Processor } from '../../src/lib';
 import { Style, StyleSheet } from '../../src/utils/style';
 import classNames from '../assets/testClasses';
+import { writeFileSync } from 'fs';
 
 const processor = new Processor();
 
@@ -27,10 +28,9 @@ function build(classNames: string[], addComment = false) {
 
 describe('Utilities', () => {
   it('build', () => {
-    const result = build(classNames, true);
-    expect(result.ignored.length).toBe(0);
-    // expect(result)
-    // writeFileSync('output.css', result.styleSheet.build());
+    const utilities = build(classNames, true);
+    expect(utilities.ignored.length).toBe(0);
+    writeFileSync('tailwind.css', [processor.preflight().build(), utilities.styleSheet.build()].join('\n'));
   });
 
   it('extract', () => {
@@ -60,14 +60,15 @@ describe('Utilities', () => {
 
     const g = processor.extract('bg-wrong-color');
     expect(g).toBeUndefined();
-
-    // expect(!(Array.isArray(c)) || e.build()).toBe(".font-bold {\n  font-weight: 700;\n}");
-    // expect(!(c instanceof Style) || e.build(true)).toBe(".font-bold{font-weight:700}");
-    // expect(processor.extract('*?')).toBeUndefined();
   });
 
   it('ring opacity', () => {
     const result = processor.interpret('ring-transparent focus:ring-purple-800');
     expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('animation test', () => {
+    expect(processor.interpret('animate-ping').styleSheet.build()).toMatchSnapshot('animate-ping');
+    expect(processor.interpret('sm:animate-ping').styleSheet.build()).toMatchSnapshot('sm:animate-ping');
   });
 });

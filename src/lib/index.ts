@@ -1,6 +1,6 @@
 import { getNestedValue, hash, deepCopy } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
-import { Property, Style, StyleSheet } from '../utils/style';
+import { Keyframes, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
 
@@ -231,6 +231,7 @@ export class Processor {
     if (variants.length === 0) return styles;
     const allVariants = { ...this._variants, ...this._plugin.variants };
     return styles.map((style) => {
+      if (style instanceof Keyframes) return style;
       return variants
         .filter((i) => i in allVariants)
         .map((i) => allVariants[i]())
@@ -322,8 +323,7 @@ export class Processor {
           result.selector = '.' + cssEscape(selector);
           this.markAsImportant(result);
         }
-        if (Array.isArray(result))
-          result.forEach((i) => this.markAsImportant(i));
+        if (Array.isArray(result)) result.forEach((i) => this.markAsImportant(i));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
         _hIgnored(selector);

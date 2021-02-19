@@ -1,6 +1,6 @@
 import sortMediaQuery from './sortMediaQuery';
 import sortSelector from './sortSelector';
-import { Style } from '../style/base';
+import { Keyframes, Style } from '../style/base';
 import { wrapit, hash, isSpace } from '../../utils/tools';
 import type { AnyObject } from '../../interfaces';
 
@@ -114,19 +114,9 @@ export function combineSelector(styleList: Style[]): Style[] {
   return [...passed, ...Object.values(styleMap).map((style) => style.clean())];
 }
 
-export default function compileStyleSheet(
-  styleList: Style[],
-  minify = false
-): string {
-  const head = combineSelector(
-    styleList.filter((i) => !(i.selector && i.atRules))
-  )
-    .sort(sortSelector)
-    .map((i) => i.build(minify))
-    .join(minify ? '' : '\n');
-  const body = buildMap(
+export function buildAtRule(styleList: Style[], minify = false): string {
+  return buildMap(
     styleList
-      .filter((i) => i.selector && i.atRules)
       .map((i) => {
         const list = [
           ...(i.atRules ?? []).sort(sortMediaQuery).reverse(),
@@ -148,7 +138,16 @@ export default function compileStyleSheet(
       ),
     minify
   );
+}
+
+export default function compileStyleSheet(
+  styleList: Style[],
+  minify = false
+): string {
+  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules)).sort(sortSelector)).map((i) => i.build(minify)).join(minify ? '' : '\n');
+  const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify);
+  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes)).sort(sortSelector), minify);
   return minify
-    ? (head + body).replace(/;\}/g, '}')
-    : [head, body].filter((i) => !isSpace(i)).join('\n');
+    ? (keyframes + head + body).replace(/;\}/g, '}')
+    : [keyframes, head, body].filter((i) => !isSpace(i)).join('\n');
 }

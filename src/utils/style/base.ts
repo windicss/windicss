@@ -512,7 +512,17 @@ export class GlobalStyle extends Style {
   constructor(
     selector?: string,
     property?: Property | Property[],
-    important?: boolean
+    important?: boolean,
+  ) {
+    super(selector, property, important);
+  }
+}
+
+export class Keyframes extends Style {
+  constructor(
+    selector?: string,
+    property?: Property | Property[],
+    important?: boolean,
   ) {
     super(selector, property, important);
   }
