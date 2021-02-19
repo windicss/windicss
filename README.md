@@ -12,12 +12,12 @@
   <a href="https://codecov.io/gh/windicss/windicss"><img src="https://img.shields.io/codecov/c/github/windicss/windicss/dev.svg?sanitize=true" alt="Coverage"></a>
   <a href="https://discord.gg/aRYWm8r8Eq"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="Discord Chat"></a>
   <br>
-   
-  <p align="center">Next-generation Tailwind CSS compiler.</p>
-  <p align="center">If you are already familiar with [Tailwind CSS], think about [Windi CSS] as an alternative to Tailwind, which provides faster load times, and supports all the features in Tailwind v2.0 and more.</p>
-
-  <p align="center">If you are not familiar with [Tailwind CSS], you can think of [Windi CSS] as a utility-first CSS library.</p>
 </p>
+
+<p align="center">Next-generation <a href="https://tailwindcss.com/docs">Tailwind CSS</a> compiler.</p>
+
+<p>If you are already familiar with Tailwind CSS, think about Windi CSS as an alternative to it. Which provides faster load time, full compatibility with Tailwind v2.0 with even more features.</p>
+<p>Otherwise, you can think of Windi CSS as a utility-first CSS library.</p>
 
 [tailwind css]: https://tailwindcss.com/docs
 [windi css]: https://windicss.netlify.app
