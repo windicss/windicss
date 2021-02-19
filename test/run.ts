@@ -5,20 +5,13 @@ import Jasmine from 'jasmine';
 import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import {
-  finishSnapshots,
   compareDiff,
   compareSnapshot,
   context,
+  finishSnapshots,
 } from './snapshot';
 
 const jasmine = new Jasmine(undefined);
-
-const onComplete = () => {
-  jasmine.specFiles.forEach(file => {
-    writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
-  });
-  finishSnapshots();
-};
 
 beforeEach(() => {
   jasmine.addMatchers({
@@ -56,5 +49,11 @@ jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.specFiles.forEach(file => {
   writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^,)]+)\)/g, ', __filename)'));
 });
-jasmine.onComplete(onComplete);
+jasmine.onComplete((passed)=>{
+  jasmine.specFiles.forEach(file => {
+    writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
+  });
+  finishSnapshots();
+  if (!passed) setTimeout(() => process.exit(1));
+});
 jasmine.execute();

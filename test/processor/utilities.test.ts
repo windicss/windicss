@@ -29,7 +29,7 @@ function build(classNames: string[], addComment = false) {
 describe('Utilities', () => {
   it('build', () => {
     const utilities = build(classNames, true);
-    expect(utilities.ignored.length).toBe(0);
+    expect(utilities.ignored).toEqual([]);
     writeFileSync('tailwind.css', [processor.preflight().build(), utilities.styleSheet.build()].join('\n'));
   });
 
