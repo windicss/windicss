@@ -40,9 +40,7 @@ export default plugin.withOptions(
             [key: string]: string | Record<string, string>;
           }
         )
-          .filter(([color, values]) => {
-            return isUsableColor(color, values);
-          })
+          .filter(([color, values]) => isUsableColor(color, values))
           .map(([color]) => color),
       ];
       modifiers = modifiers === undefined ? DEFAULT_MODIFIERS : modifiers;
