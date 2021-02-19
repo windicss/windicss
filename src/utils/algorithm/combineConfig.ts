@@ -24,6 +24,11 @@ export default function combineConfig(
             value_of_a as { [key: string]: unknown },
             value_of_b as { [key: string]: unknown }
           );
+        } else if (Array.isArray(value_of_a)){
+          output[key_of_b] = [
+            ...value_of_a,
+            ...Array.isArray(value_of_b) ? value_of_b : [value_of_b],
+          ];
         } else {
           output[key_of_b] = [
             value_of_a,
