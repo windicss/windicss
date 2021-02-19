@@ -2,21 +2,9 @@ import { writeFileSync } from 'fs';
 import { Processor } from '../../src/lib';
 import typography from '../../src/plugin/typography';
 
-describe('aspect ratio plugin', () => {
+describe('typography plugin', () => {
   it('interpret test', () => {
-    const processor = new Processor({
-      theme: {
-        extend: {
-          typography: {
-            DEFAULT: {
-              css: {
-                color: 'red',
-              },
-            },
-          },
-        },
-      },
-    });
+    const processor = new Processor();
     processor.loadPluginWithOptions(typography);
     const classes = `
       prose
@@ -42,6 +30,30 @@ describe('aspect ratio plugin', () => {
       `;
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
-    writeFileSync('typography.css', result.styleSheet.build());
+    const css = result.styleSheet.build();
+    expect(css).toMatchSnapshot('css');
+  });
+
+  it('with extend', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          typography: {
+            DEFAULT: {
+              css: {
+                color: 'red',
+              },
+            },
+          },
+        },
+      },
+    });
+    processor.loadPluginWithOptions(typography);
+    const classes = 'prose';
+    const result = processor.interpret(classes);
+    expect(result.ignored.length).toEqual(0);
+    const css = result.styleSheet.build();
+    expect(css).toMatchSnapshot('css');
+    writeFileSync('typography.css', css);
   });
 });
