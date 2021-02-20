@@ -24,14 +24,14 @@ export function walk(
 
   fs.readdirSync(dir).forEach((item) => {
     const itemPath = path.join(dir, item);
-
-    if (fs.lstatSync(itemPath).isFile()) {
+    const stat = fs.statSync(itemPath);
+    if (stat.isFile()) {
       result.push({
         type: 'file',
         path: itemPath,
       });
     } else {
-      if (!itemPath.startsWith('node_modules')) {
+      if (!itemPath.startsWith('node_modules') && stat.isDirectory()) {
         result.push({
           type: 'folder',
           path: itemPath,
