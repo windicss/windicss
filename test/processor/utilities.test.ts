@@ -84,4 +84,17 @@ describe('Utilities', () => {
     });
     expect(processor.interpret('grid-cols-list').styleSheet.build()).toMatchSnapshot('grid-cols-list');
   });
+
+  it('fontsize config test', () => {
+    const processor = new Processor({
+      theme: {
+        fontSize: {
+          main: '1.25rem',
+          array: ['1.25rem', '2rem'],
+          object: ['1.25rem', { 'lineHeight': '2rem' }],
+        },
+      },
+    });
+    expect(processor.interpret('text-main text-array text-object').styleSheet.build()).toMatchSnapshot('fontSize');
+  });
 });

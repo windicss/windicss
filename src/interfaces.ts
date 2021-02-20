@@ -4,7 +4,7 @@ import type { Property, Style, InlineAtRule } from './utils/style';
 
 export type DictStr = { [key: string]: string };
 
-export type DeepNestDictStr = { [key:string]: string | DeepNestDictStr };
+export type DeepNestDictStr = { [key: string]: string | DeepNestDictStr };
 
 export type NestObject = { [key: string]: string | string[] | NestObject };
 
@@ -18,10 +18,13 @@ export type AnyValue<T> = T;
 
 export type Output = Property | Style | Style[] | undefined;
 
-export type FontSize = [
-  fontSize?: string,
-  options?: { letterSpacing?: string; lineHeight?: string }
-];
+export type FontSize =
+  | string
+  | [fontSize: string, letterSpacing?: string]
+  | [
+      fontSize?: string,
+      options?: { letterSpacing?: string; lineHeight?: string }
+    ];
 
 export type DefaultFontSize = [
   fontSize: string,
@@ -52,8 +55,8 @@ export type PluginUtilOptions =
 export interface PluginBuilder {
   (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
   withOptions: <T = DictStr>(
-    pluginFunction: (options: T) => ((utils: PluginUtils) => void),
-    configFunction?: (options: T) => Config,
+    pluginFunction: (options: T) => (utils: PluginUtils) => void,
+    configFunction?: (options: T) => Config
   ) => PluginWithOptions<T>;
 }
 
@@ -63,10 +66,10 @@ export interface PluginOutput {
   __isOptionsFunction?: false;
 }
 
-export interface PluginWithOptions<T = DictStr>{
-  (options?: T): PluginOutputWithOptions<T>
+export interface PluginWithOptions<T = DictStr> {
+  (options?: T): PluginOutputWithOptions<T>;
   __isOptionsFunction: true;
-  __pluginFunction: (options: T) => ((utils: PluginUtils) => void);
+  __pluginFunction: (options: T) => (utils: PluginUtils) => void;
   __configFunction: (options: T) => Config;
 }
 
@@ -75,10 +78,13 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
 }
 
 export interface Theme {
-  [key: string]: ConfigUtil | { [ key:string ]: unknown } | undefined;
+  [key: string]: ConfigUtil | { [key: string]: unknown } | undefined;
 }
 
-export type Plugin = PluginOutput | PluginWithOptions<unknown> | PluginOutputWithOptions<unknown>
+export type Plugin =
+  | PluginOutput
+  | PluginWithOptions<unknown>
+  | PluginOutputWithOptions<unknown>;
 
 export interface Config {
   presets?: Config[];
@@ -94,7 +100,7 @@ export interface Config {
   /**
    * @deprecated no longer needed for Windi CSS
    */
-  purge?: unknown
+  purge?: unknown;
   /**
    * @deprecated no longer needed for Windi CSS
    */
@@ -127,12 +133,20 @@ export interface DefaultConfig {
   plugins: Plugin[];
 }
 
-export interface StaticUtility { [key: string]: { [key: string]: string | string[] } }
+export interface StaticUtility {
+  [key: string]: { [key: string]: string | string[] };
+}
 
-export interface DynamicUtility { [key: string]: (utility: Utility, { theme }: PluginUtils) => Output }
+export interface DynamicUtility {
+  [key: string]: (utility: Utility, { theme }: PluginUtils) => Output;
+}
 
 export interface PluginUtils {
-  addDynamic: (key: string, generator: UtilityGenerator, options?: PluginUtilOptions) => UtilityGenerator;
+  addDynamic: (
+    key: string,
+    generator: UtilityGenerator,
+    options?: PluginUtilOptions
+  ) => UtilityGenerator;
   addUtilities: (
     utilities: DeepNestObject,
     options?: PluginUtilOptions
@@ -142,10 +156,7 @@ export interface PluginUtils {
     options?: PluginUtilOptions
   ) => Style[];
   addBase: (baseStyles: DeepNestObject) => Style[];
-  addVariant: (
-    name: string,
-    generator: VariantGenerator,
-  ) => Style | Style[];
+  addVariant: (name: string, generator: VariantGenerator) => Style | Style[];
   e: (selector: string) => string;
   prefix: (selector: string) => string;
   theme: (path: string, defaultValue?: unknown) => unknown;

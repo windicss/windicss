@@ -58,6 +58,18 @@ Tools / animation test / animate-ping / 0: |-
       animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     }
   }
+Tools / fontsize config test / fontSize / 0: |-
+  .text-main {
+    font-size: 1.25rem;
+  }
+  .text-array {
+    font-size: 1.25rem;
+    line-height: 2rem;
+  }
+  .text-object {
+    font-size: 1.25rem;
+    line-height: 2rem;
+  }
 Tools / grid template test / grid-cols-list / 0: |-
   .grid-cols-list {
     grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));

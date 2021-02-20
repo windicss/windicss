@@ -66,13 +66,16 @@ export function generateKeyframe(
 }
 
 export function generateFontSize(font: FontSize): Property[] {
-  const output: Property[] = [];
-  if (font[0]) output.push(new Property('font-size', font[0]));
-  if (font[1]?.lineHeight)
-    output.push(new Property('line-height', font[1].lineHeight));
-  if (font[1]?.letterSpacing)
-    output.push(new Property('letter-spacing', font[1].letterSpacing));
-  return output;
+  if (typeof font === 'string') return [ new Property('font-size', font) ];
+  const properties: Property[] = [];
+  if (font[0]) properties.push(new Property('font-size', font[0]));
+  if (typeof font[1] === 'string') {
+    properties.push(new Property('line-height', font[1]));
+  } else if (font[1]){
+    if (font[1].lineHeight) properties.push(new Property('line-height', font[1].lineHeight));
+    if (font[1].letterSpacing) properties.push(new Property('letter-spacing', font[1].letterSpacing));
+  }
+  return properties;
 }
 
 export function expandDirection(
