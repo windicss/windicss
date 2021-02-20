@@ -11,14 +11,12 @@ async function run() {
   });
 
   await Promise.all(
-    files.map(file => fs.move(
+    files.map(file => fs.copy(
       resolve(root, file),
       resolve(target, file),
       { overwrite: true }
     ))
   );
-
-  await fs.remove(root);
 }
 
 run();
