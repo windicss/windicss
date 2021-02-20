@@ -117,8 +117,13 @@ export class Processor {
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
     const extendTheme = userTheme?.extend ?? ({} as { [key: string]: Theme });
-    if (userTheme && extendTheme) delete userTheme.extend;
-    const theme: Theme = { ...presets.theme, ...userTheme };
+    const theme: Theme = presets.theme || {};
+    if (userTheme) {
+      delete userTheme.extend;
+      for (const [key, value] of Object.entries(userTheme)) {
+        theme[key] = { ...value };
+      }
+    }
     if (extendTheme && typeof extendTheme === 'object') {
       for (const [key, value] of Object.entries(extendTheme)) {
         const themeValue = theme[key];
@@ -185,7 +190,7 @@ export class Processor {
   }
 
   resolveConfig(config: Config | undefined, presets: Config): Config {
-    this._config = this._resolveConfig(deepCopy(config ? config : {}), presets); // deep copy
+    this._config = this._resolveConfig(deepCopy(config ? config : {}), deepCopy(presets)); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);

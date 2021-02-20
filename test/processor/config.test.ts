@@ -96,6 +96,19 @@ describe('Config', () => {
     });
   });
 
+  it('user theme should overwrite default theme', () => {
+    const processor = new Processor({
+      theme: {
+        color: {
+          white: '#ffffff',
+        },
+      },
+    });
+    expect(processor.theme('color')).toEqual({
+      white: '#ffffff',
+    });
+  });
+
   it('change separator test', () => {
     const processor = new Processor({ separator: '_' });
     expect(processor.interpret('sm_bg-black').styleSheet.build()).toBe(
