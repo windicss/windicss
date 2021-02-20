@@ -6,7 +6,7 @@ export type DictStr = { [key: string]: string };
 
 export type DeepNestDictStr = { [key:string]: string | DeepNestDictStr };
 
-export type NestObject = { [key: string]: string | string[] |NestObject };
+export type NestObject = { [key: string]: string | string[] | NestObject };
 
 export type DeepNestObject = { [key: string]: NestObject };
 

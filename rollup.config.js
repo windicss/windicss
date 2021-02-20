@@ -66,7 +66,7 @@ const pack = (dir, mjs = true) => {
   };
 };
 
-const inputs = [
+const types = [
   'index.ts',
   'colors.ts',
   'defaultConfig.ts',
@@ -76,7 +76,7 @@ const inputs = [
   'plugin/index.ts',
   ...fs.readdirSync('src/plugin').filter(dir => fs.statSync(`src/plugin/${dir}`).isDirectory()).map(dir => `plugin/${dir}/index.ts`),
   'utils/index.ts',
-  ...fs.readdirSync('src/utils').filter(dir => fs.statSync(`src/utils/${dir}`).isDirectory()).map(dir => `utils/${dir}/index.ts`),
+  ...fs.readdirSync('src/utils').filter(dir => dir !== 'algorithm' && fs.statSync(`src/utils/${dir}`).isDirectory()).map(dir => `utils/${dir}/index.ts`),
 ]
 
 export default [
@@ -292,7 +292,7 @@ export default [
       ],
     })),
 
-  ...inputs.map(entrypoint => {
+  ...types.map(entrypoint => {
     return {
       input: `src/${entrypoint}`,
       output: [

@@ -10,7 +10,6 @@
   },
   "scripts": {
     "dev": "rollup -cw",
-    "tsd": "tsc -p ./src --emitDeclarationOnly",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc -p ./src --noEmit",
     "build": "rollup -c",

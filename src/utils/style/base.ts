@@ -7,7 +7,7 @@ import {
   isTagName,
 } from '../tools';
 
-import type { NestObject } from '../../interfaces';
+type NestObject = { [key: string]: string | string[] | NestObject };
 
 export class Property {
   name: string | string[];
