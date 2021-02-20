@@ -13,11 +13,11 @@
     "tsd": "tsc -p ./src --emitDeclarationOnly",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc -p ./src --noEmit",
-    "build": "rollup -c && pnpm run tsd",
+    "build": "rollup -c && pnpm tsd",
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "test": "esno test/run.ts",
     "test:update": "cross-env UPDATE_SNAPSHOT=true esno test/run.ts",
-    "coverage": "nyc --nycrc-path=.nycrc.json npm run test",
+    "coverage": "nyc --nycrc-path=.nycrc.json pnpm test",
     "release": "bumpp --tag --commit --push"
   },
   "exports": {

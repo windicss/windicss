@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm i - g pnpm
+      - run: npm i -g pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:prod
       - run: pnpm test
