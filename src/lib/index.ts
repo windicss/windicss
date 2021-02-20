@@ -117,8 +117,13 @@ export class Processor {
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
     const extendTheme = userTheme?.extend ?? ({} as { [key: string]: Theme });
-    if (userTheme && extendTheme) delete userTheme.extend;
-    const theme: Theme = { ...presets.theme, ...userTheme };
+    const theme: Theme = presets.theme || {};
+    if (userTheme) {
+      delete userTheme.extend;
+      for (const [key, value] of Object.entries(userTheme)) {
+        theme[key] = value;
+      }
+    }
     if (extendTheme && typeof extendTheme === 'object') {
       for (const [key, value] of Object.entries(extendTheme)) {
         const themeValue = theme[key];
