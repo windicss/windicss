@@ -15,5 +15,5 @@
     "resolveJsonModule": true
   },
   "include": ["./src", "./test", "./example"],
-  "exclude": ["./test/assets", "./test/helpers"]
+  "exclude": ["./test/assets", "./test/helpers", "dist"]
 }
