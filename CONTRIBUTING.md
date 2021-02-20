@@ -40,7 +40,7 @@ $ git clone https://github.com/${username}/windicss.git
 
 ### Install dependencies
 
-This project uses [npm](https://www.npmjs.com/), a command-line tool bundled with Node.js, to maintain third-party dependencies.
+This project uses [pnpm](https://pnpm.js.org/), a command-line tool bundled with Node.js, to maintain third-party dependencies.
 
 First, navigate into the project's directory
 
@@ -48,9 +48,9 @@ First, navigate into the project's directory
 $ cd windicss
 ```
 
-Next, use `npm` to install the project' dependencies
+Next, use `pnpm` to install the project' dependencies
 ```
-$ npm install
+$ pnpm install
 ```
 
 ### Build the project
@@ -58,13 +58,13 @@ $ npm install
 Development Version
 
 ```
-$ npm run build
+$ pnpm build
 ```
 
 Production Version
 
 ```
-$ npm run build:prod
+$ pnpm build:prod
 ```
 
 ## Submit a Pull Request
@@ -92,7 +92,7 @@ Make sure your code is following [TypeScript Style Guide](https://google.github.
 
 Lint your code:
 ```
-$ npm run lint
+$ pnpm lint
 ```
 
 ### Test your changes
@@ -101,12 +101,12 @@ You should add a new test file for your changes into [test](/tree/main/test) fol
 
 Run tests:
 ```
-$ npm run test
+$ pnpm test
 ```
 
 Generate coverage report:
 ```
-$ npm run coverage
+$ pnpm coverage
 ```
 
 ### Push your changes

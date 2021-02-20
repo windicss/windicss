@@ -13,7 +13,7 @@
     "tsd": "tsc -p ./src --emitDeclarationOnly",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc -p ./src --noEmit",
-    "build": "rollup -c && npm run tsd",
+    "build": "rollup -c && pnpm run tsd",
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "test": "esno test/run.ts",
     "test:update": "cross-env UPDATE_SNAPSHOT=true esno test/run.ts",

@@ -26,12 +26,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      run: npm ci
+      run: npm install -g pnpm
+      run: pnpm install --frozen-lockfile
     - name: Lint code
-      run: npm run lint
+      run: pnpm lint
     - name: Build package
-      run: npm run build
+      run: pnpm build
     - name: Run tests and generate coverage report
-      run: npm run coverage
+      run: pnpm coverage
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
