@@ -24,7 +24,7 @@ import type {
   PluginUtils,
   PluginUtilOptions,
   PluginOutput,
-  PluginWithOptionsOutput,
+  PluginWithOptions,
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
@@ -503,7 +503,7 @@ export class Processor {
     handler(this.pluginUtils);
   }
 
-  loadPluginWithOptions(optionsFunction: PluginWithOptionsOutput, userOptions?:DictStr): void {
+  loadPluginWithOptions(optionsFunction: PluginWithOptions<unknown>, userOptions?:DictStr): void {
     const plugin = optionsFunction(userOptions ?? {});
     this.loadPlugin(plugin);
   }

@@ -1,11 +1,12 @@
 import type {
-  Plugin,
+  PluginBuilder,
   PluginUtils,
   Config,
   DictStr,
+  PluginWithOptions,
 } from '../interfaces';
 
-const createPlugin: Plugin = (
+const createPlugin: PluginBuilder = (
   plugin: (utils: PluginUtils) => void,
   config?: Config
 ) => {
@@ -15,11 +16,11 @@ const createPlugin: Plugin = (
   };
 };
 
-createPlugin.withOptions = function (
-  pluginFunction: (options: DictStr) => (utils: PluginUtils) => void,
-  configFunction: (options: DictStr) => Config = () => ({}),
-) {
-  const optionsFunction = function (options: DictStr) {
+createPlugin.withOptions = function<T = DictStr>(
+  pluginFunction: (options: T) => (utils: PluginUtils) => void,
+  configFunction: (options: T) => Config = () => ({}),
+): PluginWithOptions<T> {
+  const optionsFunction = function (options= {} as T) {
     return {
       __options: options,
       handler: pluginFunction(options),

@@ -49,14 +49,12 @@ export type PluginUtilOptions =
       respectImportant?: boolean;
     };
 
-export type withOptions = (
-  pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void),
-  configFunction?: (options: DictStr) => Config,
-) => PluginWithOptionsOutput;
-
-export interface Plugin {
+export interface PluginBuilder {
   (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
-  withOptions: withOptions;
+  withOptions: <T = DictStr>(
+    pluginFunction: (options: T) => ((utils: PluginUtils) => void),
+    configFunction?: (options: T) => Config,
+  ) => PluginWithOptions<T>;
 }
 
 export interface PluginOutput {
@@ -65,20 +63,22 @@ export interface PluginOutput {
   __isOptionsFunction?: false;
 }
 
-export interface PluginWithOptionsOutput {
-  (options: DictStr): {
-    __options: DictStr;
-    handler: ((utils: PluginUtils) => void);
-    config: Config;
-  };
+export interface PluginWithOptions<T = DictStr>{
+  (options?: T): PluginOutputWithOptions<T>
   __isOptionsFunction: true;
-  __pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void);
-  __configFunction: (options: DictStr) => Config;
+  __pluginFunction: (options: T) => ((utils: PluginUtils) => void);
+  __configFunction: (options: T) => Config;
+}
+
+export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
+  __options: T;
 }
 
 export interface Theme {
   [key: string]: ConfigUtil | { [ key:string ]: unknown } | undefined;
 }
+
+export type Plugin = PluginOutput | PluginWithOptions<unknown> | PluginOutputWithOptions<unknown>
 
 export interface Config {
   presets?: Config[];
@@ -87,10 +87,18 @@ export interface Config {
   darkMode?: 'media' | 'class' | false;
   theme?: Theme;
   variantOrder?: string[];
-  variants?: { [key: string]: string[] };
-  plugins?: (PluginOutput|PluginWithOptionsOutput)[];
+  plugins?: Plugin[];
   corePlugins?: string[];
   prefix?: string;
+
+  /**
+   * @deprecated no longer needed for Windi CSS
+   */
+  purge?: unknown
+  /**
+   * @deprecated no longer needed for Windi CSS
+   */
+  variants?: { [key: string]: string[] };
 }
 
 export interface DefaultTheme {
@@ -116,7 +124,7 @@ export interface DefaultConfig {
   theme: DefaultTheme;
   variantOrder: string[];
   variants: { [key: string]: string[] };
-  plugins: (PluginOutput|PluginWithOptionsOutput)[];
+  plugins: Plugin[];
 }
 
 export interface StaticUtility { [key: string]: { [key: string]: string | string[] } }
