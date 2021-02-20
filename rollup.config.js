@@ -48,6 +48,14 @@ const rmdir = (dir) => {
 const mkdir = (dir) =>
   !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
 
+const types = (dest = 'index.d.ts', src = '../types/index', module = '*') => {
+  return {
+    writeBundle() {
+      fs.writeFileSync(dump(dest), `export ${module} from "${src}";`);
+    },
+  };
+};
+
 const pack = (dir, mjs = true) => {
   return {
     writeBundle() {
@@ -90,6 +98,7 @@ export default [
       rmdir(output_dir),
       mkdir(output_dir),
       copy(['package.json', 'README.md', 'LICENSE']),
+      types('index.d.ts', './types/lib', '{ Processor as default }'),
     ],
   },
 
@@ -112,6 +121,7 @@ export default [
     external: (id) => id.startsWith('./'),
     plugins: [
       ts_plugin,
+      types('colors.d.ts', './types/config', '{ colors as default }'),
     ],
   },
 
@@ -132,7 +142,7 @@ export default [
       },
     ],
     external: (id) => id.startsWith('./'),
-    plugins: [ts_plugin],
+    plugins: [ts_plugin, types('defaultConfig.d.ts', './types/defaultConfig', '{ default }')],
   },
 
   // defaultTheme
@@ -152,7 +162,7 @@ export default [
       },
     ],
     external: (id) => id.startsWith('./'),
-    plugins: [ts_plugin],
+    plugins: [ts_plugin, types('defaultTheme.d.ts', './types/defaultTheme', '{ default }')],
   },
 
   // plugin
@@ -172,6 +182,7 @@ export default [
     plugins: [
       ts_plugin,
       resolve(),
+      types('plugin/index.d.ts', '../types/plugin/index', '{ default }'),
       pack('plugin'),
     ],
   },
@@ -194,6 +205,7 @@ export default [
       plugins: [
         ts_plugin,
         resolve(),
+        types(`plugin/${dir}/index.d.ts`, `../../types/plugin/${dir}`, '{ default }'),
         commonjs(),
       ],
     })),
@@ -245,6 +257,7 @@ export default [
         json(),
         resolve(),
         commonjs(),
+        types(`${dir}/index.d.ts`, `../types/${dir}/index`),
         pack(dir),
       ],
     })),
@@ -273,6 +286,7 @@ export default [
         json(),
         resolve(),
         commonjs(),
+        types(`utils/${dir}/index.d.ts`, `../../types/utils/${dir}/index`),
         pack(`utils/${dir}`),
       ],
     })),
