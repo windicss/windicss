@@ -71,4 +71,17 @@ describe('Utilities', () => {
     expect(processor.interpret('animate-ping').styleSheet.build()).toMatchSnapshot('animate-ping');
     expect(processor.interpret('sm:animate-ping').styleSheet.build()).toMatchSnapshot('sm:animate-ping');
   });
+
+  it('grid template test', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          gridTemplateColumns: {
+            list: 'repeat(auto-fit, minmax(16em, 1fr))',
+          },
+        },
+      },
+    });
+    expect(processor.interpret('grid-cols-list').styleSheet.build()).toMatchSnapshot('grid-cols-list');
+  });
 });
