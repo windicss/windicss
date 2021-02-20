@@ -1,11 +1,11 @@
 import type {
-  Plugin,
+  PluginBuilder,
   PluginUtils,
   Config,
   DictStr,
 } from '../interfaces';
 
-const createPlugin: Plugin = (
+const createPlugin: PluginBuilder = (
   plugin: (utils: PluginUtils) => void,
   config?: Config
 ) => {
