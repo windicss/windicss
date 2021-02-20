@@ -32,12 +32,12 @@ beforeEach(() => {
 
 const _describe = jasmine.env.describe.bind(jasmine.env);
 const _it = jasmine.env.it.bind(jasmine.env);
-jasmine.env.describe = (msg, fn) =>_describe(msg, () => {
+jasmine.env.describe = (msg: string, fn: () => void) => _describe(msg, () => {
   context.describe = msg;
   context.count = 0;
   return fn();
 });
-jasmine.env.it = (msg, fn) => _it(msg, () => {
+jasmine.env.it = (msg: string, fn: () => void) => _it(msg, () => {
   context.it = msg;
   context.count = 0;
   return fn();
