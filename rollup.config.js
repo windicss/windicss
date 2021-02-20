@@ -29,21 +29,7 @@ const dump = (file) => path.join(output_dir, file);
 
 const copy = (files) => files.forEach((file) => fs.copyFileSync(file, dump(file)));
 
-const rmdir = (dir) => {
-  if (fs.existsSync(dir)) {
-    const files = fs.readdirSync(dir);
-
-    if (files.length > 0) {
-      files.forEach((file) => {
-        if (fs.statSync(path.join(dir, file)).isDirectory()) {
-          rmdir(dir + '/' + file);
-        } else {
-          fs.unlinkSync(path.join(dir, file));
-        }
-      });
-    }
-  }
-};
+const rmdir = (dir) =>  fs.existsSync(dir) && fs.statSync(dir).isDirectory() && fs.rmdirSync(dir, { recursive: true });
 
 const mkdir = (dir) => !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
 
@@ -193,10 +179,7 @@ export default [
   },
 
   // plugin deep
-  ...fs.readdirSync('src/plugin')
-    .filter(
-      (dir) => fs.statSync(`src/plugin/${dir}`).isDirectory()
-    )
+  ...fs.readdirSync('src/plugin').filter(dir => fs.statSync(`src/plugin/${dir}`).isDirectory())
     .map((dir) => ({
       input: `src/plugin/${dir}/index.ts`,
       output: [
@@ -240,9 +223,7 @@ export default [
   },
 
   // utils
-  ...fs
-    .readdirSync('src/')
-    .filter((dir) => ['config', 'lib', 'utils'].includes(dir) && fs.statSync(`src/${dir}`).isDirectory())
+  ...fs.readdirSync('src/').filter((dir) => ['config', 'lib', 'utils'].includes(dir) && fs.statSync(`src/${dir}`).isDirectory())
     .map((dir) => ({
       input: `src/${dir}/index.ts`,
       output: [
@@ -292,7 +273,7 @@ export default [
       ],
     })),
 
-  ...types.map(entrypoint => {
+  ...prod ? types.map(entrypoint => {
     return {
       input: `src/${entrypoint}`,
       output: [
@@ -305,5 +286,5 @@ export default [
         dts(),
       ],
     }
-  })
+  }): []
 ];
