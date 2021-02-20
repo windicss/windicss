@@ -121,7 +121,7 @@ export class Processor {
     if (userTheme) {
       delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
-        theme[key] = value;
+        theme[key] = { ...value };
       }
     }
     if (extendTheme && typeof extendTheme === 'object') {
