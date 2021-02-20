@@ -16,6 +16,7 @@ devDependencies:
   arg: 5.0.0
   bumpp: 6.0.6
   caller-path: 3.0.0
+  chalk: 4.1.0
   cross-env: 7.0.3
   css-select: 3.1.2
   css-what: 4.0.0
@@ -2580,6 +2581,7 @@ specifiers:
   arg: ^5.0.0
   bumpp: ^6.0.6
   caller-path: ^3.0.0
+  chalk: ^4.1.0
   cross-env: ^7.0.3
   css-select: ^3.1.2
   css-what: ^4.0.0
