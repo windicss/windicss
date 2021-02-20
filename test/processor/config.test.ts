@@ -96,7 +96,7 @@ describe('Config', () => {
     });
   });
 
-  it('user config should overwrite default config', () => {
+  it('user theme should overwrite default theme', () => {
     const processor = new Processor({
       theme: {
         color: {
