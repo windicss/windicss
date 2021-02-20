@@ -51,10 +51,10 @@ export type PluginUtilOptions =
 
 export interface PluginBuilder {
   (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
-  withOptions: (
-    pluginFunction: (options: DictStr) => ((utils: PluginUtils) => void),
-    configFunction?: (options: DictStr) => Config,
-  ) => PluginWithOptions;
+  withOptions: <T = DictStr>(
+    pluginFunction: (options: T) => ((utils: PluginUtils) => void),
+    configFunction?: (options: T) => Config,
+  ) => PluginWithOptions<T>;
 }
 
 export interface PluginOutput {
@@ -64,7 +64,7 @@ export interface PluginOutput {
 }
 
 export interface PluginWithOptions<T = DictStr>{
-  (options: T): PluginOutputWithOptions<T>
+  (options?: T): PluginOutputWithOptions<T>
   __isOptionsFunction: true;
   __pluginFunction: (options: T) => ((utils: PluginUtils) => void);
   __configFunction: (options: T) => Config;
@@ -78,7 +78,7 @@ export interface Theme {
   [key: string]: ConfigUtil | { [ key:string ]: unknown } | undefined;
 }
 
-export type Plugin = PluginOutput|PluginWithOptions|PluginOutputWithOptions
+export type Plugin = PluginOutput | PluginWithOptions<unknown> | PluginOutputWithOptions<unknown>
 
 export interface Config {
   presets?: Config[];

@@ -23,11 +23,14 @@ function configToCss(config: Record<string, string> = {}): DeepNestObject {
   ) as DeepNestObject;
 }
 
-export default plugin.withOptions(
+export default plugin.withOptions<{
+  modifiers?: string[];
+  className?: string
+}>(
   ({
     modifiers,
     className = 'prose',
-  }: { modifiers?: string[]; className?: string } = {}) => {
+  } = {}) => {
     return function ({ addComponents, theme, variants }) {
       const DEFAULT_MODIFIERS = [
         'DEFAULT',

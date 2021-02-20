@@ -3,6 +3,7 @@ import type {
   PluginUtils,
   Config,
   DictStr,
+  PluginWithOptions,
 } from '../interfaces';
 
 const createPlugin: PluginBuilder = (
@@ -15,11 +16,11 @@ const createPlugin: PluginBuilder = (
   };
 };
 
-createPlugin.withOptions = function (
-  pluginFunction: (options: DictStr) => (utils: PluginUtils) => void,
-  configFunction: (options: DictStr) => Config = () => ({}),
-) {
-  const optionsFunction = function (options: DictStr) {
+createPlugin.withOptions = function<T = DictStr>(
+  pluginFunction: (options: T) => (utils: PluginUtils) => void,
+  configFunction: (options: T) => Config = () => ({}),
+): PluginWithOptions<T> {
+  const optionsFunction = function (options= {} as T) {
     return {
       __options: options,
       handler: pluginFunction(options),

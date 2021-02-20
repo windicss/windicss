@@ -503,7 +503,7 @@ export class Processor {
     handler(this.pluginUtils);
   }
 
-  loadPluginWithOptions(optionsFunction: PluginWithOptions, userOptions?:DictStr): void {
+  loadPluginWithOptions(optionsFunction: PluginWithOptions<unknown>, userOptions?:DictStr): void {
     const plugin = optionsFunction(userOptions ?? {});
     this.loadPlugin(plugin);
   }
