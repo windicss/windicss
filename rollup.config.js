@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import dts from 'rollup-plugin-dts';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
@@ -26,8 +27,7 @@ const ts_plugin = prod
 
 const dump = (file) => path.join(output_dir, file);
 
-const copy = (files) =>
-  files.forEach((file) => fs.copyFileSync(file, dump(file)));
+const copy = (files) => files.forEach((file) => fs.copyFileSync(file, dump(file)));
 
 const rmdir = (dir) => {
   if (fs.existsSync(dir)) {
@@ -45,16 +45,7 @@ const rmdir = (dir) => {
   }
 };
 
-const mkdir = (dir) =>
-  !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
-
-const types = (dest = 'index.d.ts', src = '../types/index', module = '*') => {
-  return {
-    writeBundle() {
-      fs.writeFileSync(dump(dest), `export ${module} from "${src}";`);
-    },
-  };
-};
+const mkdir = (dir) => !(fs.existsSync(dir) && fs.statSync(dir).isDirectory()) && fs.mkdirSync(dir);
 
 const pack = (dir, mjs = true) => {
   return {
@@ -74,6 +65,19 @@ const pack = (dir, mjs = true) => {
     },
   };
 };
+
+const inputs = [
+  'index.ts',
+  'colors.ts',
+  'defaultConfig.ts',
+  'defaultTheme.ts',
+  'config/index.ts',
+  'lib/index.ts',
+  'plugin/index.ts',
+  ...fs.readdirSync('src/plugin').filter(dir => fs.statSync(`src/plugin/${dir}`).isDirectory()).map(dir => `plugin/${dir}/index.ts`),
+  'utils/index.ts',
+  ...fs.readdirSync('src/utils').filter(dir => fs.statSync(`src/utils/${dir}`).isDirectory()).map(dir => `utils/${dir}/index.ts`),
+]
 
 export default [
   // main
@@ -98,7 +102,6 @@ export default [
       rmdir(output_dir),
       mkdir(output_dir),
       copy(['package.json', 'README.md', 'LICENSE']),
-      types('index.d.ts', './types/lib', '{ Processor as default }'),
     ],
   },
 
@@ -121,7 +124,6 @@ export default [
     external: (id) => id.startsWith('./'),
     plugins: [
       ts_plugin,
-      types('colors.d.ts', './types/config', '{ colors as default }'),
     ],
   },
 
@@ -142,7 +144,9 @@ export default [
       },
     ],
     external: (id) => id.startsWith('./'),
-    plugins: [ts_plugin, types('defaultConfig.d.ts', './types/defaultConfig', '{ default }')],
+    plugins: [
+      ts_plugin,
+    ],
   },
 
   // defaultTheme
@@ -162,7 +166,9 @@ export default [
       },
     ],
     external: (id) => id.startsWith('./'),
-    plugins: [ts_plugin, types('defaultTheme.d.ts', './types/defaultTheme', '{ default }')],
+    plugins: [
+      ts_plugin
+    ],
   },
 
   // plugin
@@ -182,14 +188,12 @@ export default [
     plugins: [
       ts_plugin,
       resolve(),
-      types('plugin/index.d.ts', '../types/plugin/index', '{ default }'),
       pack('plugin'),
     ],
   },
 
   // plugin deep
-  ...fs
-    .readdirSync('src/plugin')
+  ...fs.readdirSync('src/plugin')
     .filter(
       (dir) => fs.statSync(`src/plugin/${dir}`).isDirectory()
     )
@@ -205,7 +209,6 @@ export default [
       plugins: [
         ts_plugin,
         resolve(),
-        types(`plugin/${dir}/index.d.ts`, `../../types/plugin/${dir}`, '{ default }'),
         commonjs(),
       ],
     })),
@@ -257,7 +260,6 @@ export default [
         json(),
         resolve(),
         commonjs(),
-        types(`${dir}/index.d.ts`, `../types/${dir}/index`),
         pack(dir),
       ],
     })),
@@ -286,8 +288,22 @@ export default [
         json(),
         resolve(),
         commonjs(),
-        types(`utils/${dir}/index.d.ts`, `../../types/utils/${dir}/index`),
         pack(`utils/${dir}`),
       ],
     })),
+
+  ...inputs.map(entrypoint => {
+    return {
+      input: `src/${entrypoint}`,
+      output: [
+        {
+          file: dump(entrypoint.replace(/.ts$/, '.d.ts')),
+          format: 'es',
+        },
+      ],
+      plugins: [
+        dts(),
+      ],
+    }
+  })
 ];

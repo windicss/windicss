@@ -13,7 +13,7 @@
     "tsd": "tsc -p ./src --emitDeclarationOnly",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc -p ./src --noEmit",
-    "build": "rollup -c && npm run tsd",
+    "build": "rollup -c",
     "build:prod": "cross-env NODE_ENV=production npm run build",
     "test": "esno test/run.ts",
     "test:update": "cross-env UPDATE_SNAPSHOT=true esno test/run.ts",
@@ -135,6 +135,7 @@
     "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
     "rollup": "^2.37.0",
+    "rollup-plugin-dts": "^2.0.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   }
