@@ -1,325 +1,56 @@
-Tools / addComponents with non-class styles  / css: |-
-  [data-theme] {
-    --active: #0099FF;
-  }
-  [data-theme="dark"] {
-    --primary: #111111;
-    --on-primary: #B4B4B4;
-    --on-primary-active: #F2F2F2;
-    --frame: #1E1E1E;
-    --on-frame: #808080;
-    --on-frame-active: var(--on-primary);
-  }
-  [data-theme="light"] {
-    --primary: #FFFFFF;
-    --on-primary: #888888;
-    --on-primary-active: #333333;
-    --frame: #EFEFEF;
-    --on-frame: #808080;
-    --on-frame-active: var(--on-primary);
-  }
-Tools / addVariant modifySelectors / css: |-
-  .disabled\:float-right:disabled {
-    float: right;
-  }
-Tools / addVariant pseudoClass / extend: |-
-  .float-right:disabled {
-    float: right;
-  }
-Tools / addVariant pseudoClass / float / 1: |-
-  .disable\:float-right:disabled {
-    float: right;
-  }
-Tools / animation config test / animate: |-
-  .animate-skbounce {
-    -webkit-animation: skbounce 2.0s infinite ease-in-out;
-    animation: skbounce 2.0s infinite ease-in-out;
-  }
-  @keyframes skbounce {
-    0%, 100% {
-      -webkit-transform: scale(0.0);
-      transform: scale(0.0);
-    }
-    50% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
-    }
-  }
-  @-webkit-keyframes skbounce {
-    0%, 100% {
-      -webkit-transform: scale(0.0);
-      transform: scale(0.0);
-    }
-    50% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
-    }
-  }
-Tools / color config test / css: |-
-  .bg-darkTheme-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
-  }
-  .bg-active {
-    background-color: var(--active);
-  }
-  .bg-on-primary {
-    background-color: var(--on-primary);
-  }
-  .bg-on-frame-active {
-    background-color: var(--on-frame-active);
-  }
-Tools / compile / css: |-
-  .windi-sarsyj {
-    font-weight: 700;
-    --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
-    --tw-bg-opacity: 1;
-    background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-  }
-  @media (min-width: 640px) {
-    .dark .windi-sarsyj:hover {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
-    }
-    .windi-sarsyj {
-      --tw-bg-opacity: 1;
-      background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
-    }
-    .windi-sarsyj:hover {
-      --tw-bg-opacity: 1;
-      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
-    }
-  }
-Tools / generate screens / vars: |-
-  {
-    "print": "@media print {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "narrow": "@media (max-width: 768px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "sm": "@media (min-width: 640px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "-sm": "@media (max-width: 640px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "+sm": "@media (min-width: 640px) and (max-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "lg": "@media (min-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "-lg": "@media (max-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "+lg": "@media (min-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
-  }
-Tools / generate states / all: |-
-  {
-    "hover": ".test:hover {\n  background: #1C1C1E;\n}",
-    "focus": ".test:focus {\n  background: #1C1C1E;\n}",
-    "active": ".test:active {\n  background: #1C1C1E;\n}",
-    "visited": ".test:visited {\n  background: #1C1C1E;\n}",
-    "link": ".test:link {\n  background: #1C1C1E;\n}",
-    "target": ".test:target {\n  background: #1C1C1E;\n}",
-    "focus-visible": ".test:focus-visible {\n  background: #1C1C1E;\n}",
-    "focus-within": ".test:focus-within {\n  background: #1C1C1E;\n}",
-    "checked": ".test:checked {\n  background: #1C1C1E;\n}",
-    "not-checked": ".test:not(:checked) {\n  background: #1C1C1E;\n}",
-    "default": ".test:default {\n  background: #1C1C1E;\n}",
-    "disabled": ".test:disabled {\n  background: #1C1C1E;\n}",
-    "enabled": ".test:enabled {\n  background: #1C1C1E;\n}",
-    "indeterminate": ".test:indeterminate {\n  background: #1C1C1E;\n}",
-    "invalid": ".test:invalid {\n  background: #1C1C1E;\n}",
-    "valid": ".test:valid {\n  background: #1C1C1E;\n}",
-    "optional": ".test:optional {\n  background: #1C1C1E;\n}",
-    "required": ".test:required {\n  background: #1C1C1E;\n}",
-    "placeholder-shown": ".test:placeholder-shown {\n  background: #1C1C1E;\n}",
-    "read-only": ".test:read-only {\n  background: #1C1C1E;\n}",
-    "read-write": ".test:read-write {\n  background: #1C1C1E;\n}",
-    "not-disabled": ".test:not(:disabled) {\n  background: #1C1C1E;\n}",
-    "first-of-type": ".test:first-of-type {\n  background: #1C1C1E;\n}",
-    "not-first-of-type": ".test:not(:first-of-type) {\n  background: #1C1C1E;\n}",
-    "last-of-type": ".test:last-of-type {\n  background: #1C1C1E;\n}",
-    "not-last-of-type": ".test:not(:last-of-type) {\n  background: #1C1C1E;\n}",
-    "first": ".test:first-child {\n  background: #1C1C1E;\n}",
-    "last": ".test:last-child {\n  background: #1C1C1E;\n}",
-    "not-first": ".test:not(:first-child) {\n  background: #1C1C1E;\n}",
-    "not-last": ".test:not(:last-child) {\n  background: #1C1C1E;\n}",
-    "only-child": ".test:only-child {\n  background: #1C1C1E;\n}",
-    "not-only-child": ".test:not(:only-child) {\n  background: #1C1C1E;\n}",
-    "only-of-type": ".test:only-of-type {\n  background: #1C1C1E;\n}",
-    "not-only-of-type": ".test:not(:only-of-type) {\n  background: #1C1C1E;\n}",
-    "even": ".test:nth-child(even) {\n  background: #1C1C1E;\n}",
-    "odd": ".test:nth-child(odd) {\n  background: #1C1C1E;\n}",
-    "even-of-type": ".test:nth-of-type(even) {\n  background: #1C1C1E;\n}",
-    "odd-of-type": ".test:nth-of-type(odd) {\n  background: #1C1C1E;\n}",
-    "root": ".test:root {\n  background: #1C1C1E;\n}",
-    "empty": ".test:empty {\n  background: #1C1C1E;\n}",
-    "before": ".test::before {\n  background: #1C1C1E;\n}",
-    "after": ".test::after {\n  background: #1C1C1E;\n}",
-    "first-letter": ".test::first-letter {\n  background: #1C1C1E;\n}",
-    "first-line": ".test::first-line {\n  background: #1C1C1E;\n}",
-    "selection": ".test::selection {\n  background: #1C1C1E;\n}",
-    "svg": ".test svg {\n  background: #1C1C1E;\n}",
-    "all": ".test * {\n  background: #1C1C1E;\n}",
-    "all-child": ".test > * {\n  background: #1C1C1E;\n}",
-    "sibling": ".test ~ * {\n  background: #1C1C1E;\n}",
-    "group-hover": ".group:hover .test {\n  background: #1C1C1E;\n}",
-    "group-focus": ".group:focus .test {\n  background: #1C1C1E;\n}",
-    "group-active": ".group:active .test {\n  background: #1C1C1E;\n}",
-    "group-visited": ".group:visited .test {\n  background: #1C1C1E;\n}",
-    "motion-safe": "@media (prefers-reduced-motion: no-preference) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "motion-reduce": "@media (prefers-reduced-motion: reduce) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
-  }
-Tools / generate states / some / 1: |-
-  {
-    "focus": ".test:focus {\n  background: #1C1C1E;\n}",
-    "hover": ".test:hover {\n  background: #1C1C1E;\n}",
-    "before": ".test::before {\n  background: #1C1C1E;\n}",
-    "svg": ".test svg {\n  background: #1C1C1E;\n}",
-    "group-hover": ".group:hover .test {\n  background: #1C1C1E;\n}",
-    "motion-safe": "@media (prefers-reduced-motion: no-preference) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
-  }
-Tools / generate themes with darkMode class / vars: |-
-  {
-    "@dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
-    ".light": ".light .test {\n  background: #1C1C1E;\n}",
-    "dark": ".dark .test {\n  background: #1C1C1E;\n}",
-    "light": ".light .test {\n  background: #1C1C1E;\n}"
-  }
-Tools / generate themes with darkMode media / vars: |-
-  {
-    "@dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
-    ".light": ".light .test {\n  background: #1C1C1E;\n}",
-    "dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
-    "light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
-  }
-Tools / handle colors test / css: |-
-  .bg-discord {
-    --tw-bg-opacity: 1;
-    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
-  }
-  .bg-discord-100 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
-  }
-  .bg-hex-7289da {
-    --tw-bg-opacity: 1;
-    background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
-  }
-  .ring-offset-hex-1c1c1e {
-    --tw-ring-offset-color: #1c1c1e;
-  }
-  .ring-offset-gray-200 {
-    --tw-ring-offset-color: #e5e7eb;
-  }
-  .text-primary-color-red {
-    --tw-text-opacity: 1;
-    color: rgba(255, 0, 0, var(--tw-text-opacity));
-  }
-Tools / handle nest colors / colors: |-
-  .bg-my-custom-red {
-    --tw-bg-opacity: 1;
-    background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
-  }
-  .bg-my {
-    --tw-bg-opacity: 1;
-    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
-  }
-  .bg-my-custom {
-    --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-  }
-  .text-my-custom {
-    --tw-text-opacity: 1;
-    color: rgba(255, 255, 255, var(--tw-text-opacity));
-  }
-Tools / interpret / css / 1: |-
-  .bg-cool-gray-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-  }
-  .bg-hex-fff {
-    --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-  }
-  .font-bold {
-    font-weight: 700;
-  }
-  .text-green-300 {
-    --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
-  }
-  @media (min-width: 640px) {
-    .dark .sm\:dark\:hover\:text-lg:hover {
-      font-size: 1.125rem;
-      line-height: 1.75rem;
-    }
-    .sm\:bg-gray-100 {
-      --tw-bg-opacity: 1;
-      background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
-    }
-    .sm\:hover\:bg-gray-200:hover {
-      --tw-bg-opacity: 1;
-      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
-    }
-  }
-Tools / interpret / success: |-
-  [
-    "font-bold",
-    "text-green-300",
-    "sm:dark:hover:text-lg",
-    "sm:bg-gray-100",
-    "sm:hover:bg-gray-200",
-    "bg-cool-gray-300",
-    "bg-hex-fff"
-  ]
-Tools / ring opacity / css: |-
-  .ring-transparent {
-    --tw-ring-color: transparent;
-  }
-  .focus\:ring-purple-800:focus {
-    --tw-ring-opacity: 1;
-    --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
-  }
-Tools / should sort correctly / selector: |-
-  [
-    "*",
-    ":root",
-    "::moz-focus-inner",
-    "::-webkit-inner-spin-button",
-    "a",
-    "body",
-    ".bg-red-500",
-    ".p-4",
-    ".p-2",
-    ".pt-4",
-    ".test",
-    "#id"
-  ]
-Tools / should sort transform correctly / selector: |-
-  [
-    ".transform",
-    ".origin-top",
-    ".scale-50",
-    ".rotate-5",
-    ".-translate-x-1/2",
-    ".-translate-y-1/2",
-    ".-skew-x-4"
-  ]
-Tools / sort / query: |-
-  [
-    "@media (min-width: 320px) and (max-width: 767px)",
-    "@media (min-height: 480px)",
-    "@media (min-height: 480px) and (min-width: 320px)",
-    "@media (min-width: 640px)",
-    "@media (min-width: 1024px)",
-    "@media (min-width: 1280px)",
-    "@media (min-device-width: 320px) and (max-device-width: 767px)",
-    "@media (max-width: 1023px)",
-    "@media (max-height: 767px) and (min-height: 320px)",
-    "@media (max-width: 767px) and (min-width: 320px)",
-    "@media (max-width: 639px)",
-    "@media (orientation: landscape)",
-    "@media (orientation: portrait)",
-    "@media (prefers-color-schemes: dark)",
-    "@media (prefers-color-schemes: light)",
-    "@media tv",
-    "@media only print",
-    "@media print",
-    "@keyframes spin"
-  ]
+Tools / transform file / plugin / 0: |
+  const plugin = require('tailwindcss/plugin');
+
+  module.exports = plugin(function({ addComponents }) {
+    const buttons = {
+      '.btn': {
+        padding: '.5rem 1rem',
+        borderRadius: '.25rem',
+        fontWeight: '600',
+      },
+      '.btn-blue': {
+        backgroundColor: '#3490dc',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#2779bd',
+        },
+      },
+      '.btn-red': {
+        backgroundColor: '#e3342f',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#cc1f1a',
+        },
+      },
+    };
+
+    addComponents(buttons);
+  });
+Tools / transfrom module / plugin / 0: |
+  const plugin = require('tailwindcss/plugin');
+
+  module.exports = plugin(function({ addComponents }) {
+    const buttons = {
+      '.btn': {
+        padding: '.5rem 1rem',
+        borderRadius: '.25rem',
+        fontWeight: '600',
+      },
+      '.btn-blue': {
+        backgroundColor: '#3490dc',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#2779bd',
+        },
+      },
+      '.btn-red': {
+        backgroundColor: '#e3342f',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#cc1f1a',
+        },
+      },
+    };
+
+    addComponents(buttons);
+  });

@@ -19,9 +19,12 @@ import {
   deepCopy,
   toType,
   flatColors,
+  transform,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
+
+import { readFileSync } from 'fs';
 
 describe('Tools', () => {
   it('hash', () => {
@@ -217,5 +220,15 @@ describe('Tools', () => {
 
     const style = new Style('.test', [new Property('font-size', '1em'), new Property('color', 'black')]);
     expect(deepCopy(style)).toEqual(style);
+  });
+
+  it('transform file', () => {
+    const path = transform('./test/assets/plugin.js');
+    expect(readFileSync(path).toString()).toMatchSnapshot('plugin');
+  });
+
+  it('transfrom module', () => {
+    const path = transform('./test/assets/plugin');
+    expect(readFileSync(path).toString()).toMatchSnapshot('plugin');
   });
 });

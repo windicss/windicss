@@ -194,3 +194,30 @@ export function flatColors(colors: DeepNestDictStr, head?: string): DictStr {
   }
   return flatten;
 }
+
+export function transform(path: string, _cache_folder = './node_modules/@windicss'): string {
+  // support add tailwind extension
+  // usage: require(transform('plugin-package'))
+  const fs = require('fs');
+  const ipath = require('path');
+
+  // if (path.endsWith('.js')) {
+  //   // if is a package, transform all package files; if not, only tranform input file.
+  // } else {
+  //   // package, transform all files;
+
+  // }
+  if (!path.endsWith('.js')) {
+    const pkg = ipath.resolve(ipath.join(path, 'package.json'));
+    let entrypoint;
+    if (fs.existsSync(pkg) && fs.statSync(pkg).isFile()) entrypoint = require(pkg)?.main;
+    path = ipath.join(path, entrypoint? entrypoint.endsWith('.js') ? entrypoint : entrypoint + '.js' : 'index.js');
+  }
+
+  const script = fs.readFileSync(ipath.resolve(path)).toString();
+  const shadow = script;
+  const dest = ipath.resolve(ipath.join(_cache_folder, hash(script) + '.js'));
+  !(fs.existsSync(_cache_folder) && fs.statSync(_cache_folder).isDirectory()) && fs.mkdirSync(_cache_folder);
+  fs.writeFileSync(dest, shadow);
+  return dest;
+}

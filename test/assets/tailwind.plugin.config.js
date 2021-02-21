@@ -1,14 +1,14 @@
 // tailwind.config.js
 const plugin = require('../../dist/plugin');
-const colors = require("../../dist/colors");
+const colors = require('../../dist/colors');
 
 module.exports = {
   theme: {
     screens: {
-      sm: "480px",
-      md: "768px",
-      lg: "976px",
-      xl: "1440px",
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
     },
     colors: {
       gray: colors.coolGray,
@@ -17,16 +17,16 @@ module.exports = {
       pink: colors.fuchsia,
     },
     fontFamily: {
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
     },
     extend: {
       spacing: {
-        128: "32rem",
-        144: "36rem",
+        128: '32rem',
+        144: '36rem',
       },
       borderRadius: {
-        "4xl": "2rem",
+        '4xl': '2rem',
       },
     },
   },
@@ -39,8 +39,8 @@ module.exports = {
         '.skew-15deg': {
           transform: 'skewY(-15deg)',
         },
-      }
-      addUtilities(newUtilities)
+      };
+      addUtilities(newUtilities);
     }),
     plugin(function({ addComponents }) {
       const buttons = {
@@ -53,26 +53,26 @@ module.exports = {
           backgroundColor: '#3490dc',
           color: '#fff',
           '&:hover': {
-            backgroundColor: '#2779bd'
+            backgroundColor: '#2779bd',
           },
         },
         '.btn-red': {
           backgroundColor: '#e3342f',
           color: '#fff',
           '&:hover': {
-            backgroundColor: '#cc1f1a'
+            backgroundColor: '#cc1f1a',
           },
         },
-      }
-      addComponents(buttons)
+      };
+      addComponents(buttons);
     }),
     plugin(function({ addDynamic, variants }) {
-      addDynamic("skew", ({ Utility, theme }) => {
+      addDynamic('skew', ({ Utility, theme }) => {
         return Utility.handler
-          .handleStatic(theme("skew"))
-          .handleNumber(0, 360, "int", (number) => `skewY(-${number}deg)`)
+          .handleStatic(theme('skew'))
+          .handleNumber(0, 360, 'int', (number) => `skewY(-${number}deg)`)
           .createProperty('transform');
-        }, variants('skew'));
+      }, variants('skew'));
     }),
     require('../../dist/plugin/filters'),
     require('../../dist/plugin/forms'),
@@ -81,5 +81,5 @@ module.exports = {
     require('../../dist/plugin/typography')({
       modifiers: ['DEFAULT', 'sm', 'lg', 'red'],
     }),
-  ]
+  ],
 };
