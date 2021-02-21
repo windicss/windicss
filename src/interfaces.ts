@@ -96,6 +96,7 @@ export interface Config {
   plugins?: Plugin[];
   corePlugins?: string[];
   prefix?: string;
+  exclude?: RegExp[];
 
   /**
    * @deprecated no longer needed for Windi CSS

@@ -1,4 +1,4 @@
-import { getNestedValue, hash, deepCopy } from '../utils/tools';
+import { getNestedValue, hash, deepCopy, testRegexr } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
 import { Keyframes, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
@@ -190,7 +190,7 @@ export class Processor {
   }
 
   resolveConfig(config: Config | undefined, presets: Config): Config {
-    this._config = this._resolveConfig(deepCopy(config ? config : {}), deepCopy(presets)); // deep copy
+    this._config = this._resolveConfig({ ...deepCopy(config ? config : {}), exclude: config?.exclude }, deepCopy(presets)); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
@@ -321,6 +321,11 @@ export class Processor {
       variants: string[],
       selector: string
     ) => {
+      if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
+        // filter exclude className
+        ignored.push(selector);
+        return;
+      }
       const result = this.extract(baseClass);
       if (result) {
         success.push(selector);
@@ -418,6 +423,11 @@ export class Processor {
       variants: string[],
       selector: string
     ) => {
+      if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
+        // filter exclude className
+        ignored.push(selector);
+        return;
+      }
       const result = this.extract(baseClass, showComment);
       if (result) {
         success.push(selector);

@@ -160,7 +160,7 @@ export function toType(
 
 export function deepCopy<T>(source: T): T {
   return Array.isArray(source)
-    ? source.map((item) => deepCopy(item))
+    ? (source as unknown[]).map((item: unknown) => deepCopy(item))
     : source instanceof Date
       ? new Date(source.getTime())
       : source && typeof source === 'object'
@@ -220,4 +220,11 @@ export function transform(path: string, _cache_folder = './node_modules/@windics
   !(fs.existsSync(_cache_folder) && fs.statSync(_cache_folder).isDirectory()) && fs.mkdirSync(_cache_folder);
   fs.writeFileSync(dest, shadow);
   return dest;
+}
+
+export function testRegexr(text: string, expressions: RegExp[]): boolean {
+  for (const exp of expressions) {
+    if (exp.test(text)) return true;
+  }
+  return false;
 }

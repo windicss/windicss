@@ -233,4 +233,28 @@ describe('Config', () => {
     const styleSheet = processor.interpret('bg-my-custom-red bg-my bg-my-custom text-my-custom').styleSheet;
     expect(styleSheet.build()).toMatchSnapshot('colors');
   });
+
+  it('exclude config', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            discord: {
+              DEFAULT: '#7289da',
+              '100': '#7289da',
+            },
+          },
+        },
+      },
+      exclude: [
+        /-hex-/, // disable hex color
+        /-\$/, // disable variable
+        /(rem|em|px|vh|vw|ch|ex)$/, // disable size
+        /-\d*[13579]$/, // disable odd number
+        /([0-9]{1,}[.][0-9]*)$/, // disable float
+        /^first-letter:/, // disable first letter variant
+      ],
+    });
+    expect(processor.interpret('bg-hex-1c1c1e bg-$test-variable p-1rem p-4px p-3 p-4.2 sm:p-4.5 first-letter:bg-red-500').ignored.length).toEqual(8);
+  });
 });
