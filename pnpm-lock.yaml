@@ -32,7 +32,6 @@ devDependencies:
   mini-svg-data-uri: 1.2.3
   nyc: 15.1.0
   rollup: 2.39.0
-  rollup-plugin-dts: 2.0.1_rollup@2.39.0+typescript@4.1.5
   tslib: 2.1.0
   typescript: 4.1.5
 lockfileVersion: 5.2
@@ -2119,19 +2118,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
-  /rollup-plugin-dts/2.0.1_rollup@2.39.0+typescript@4.1.5:
-    dependencies:
-      magic-string: 0.25.7
-      rollup: 2.39.0
-      typescript: 4.1.5
-    dev: true
-    optionalDependencies:
-      '@babel/code-frame': 7.12.13
-    peerDependencies:
-      rollup: ^2.34.2
-      typescript: ^4.1.2
-    resolution:
-      integrity: sha512-y38NSXIY37YExCumbGBTL5dXg7pL7XD+Kbe98iEHWFN9yiKJf7t4kKBOkml5ylUDjQIXBnNClGDeRktc1T5dmA==
   /rollup/2.39.0:
     dev: true
     engines:
@@ -2597,6 +2583,5 @@ specifiers:
   mini-svg-data-uri: ^1.2.3
   nyc: ^15.1.0
   rollup: ^2.37.0
-  rollup-plugin-dts: ^2.0.1
   tslib: ^2.1.0
   typescript: ^4.1.3

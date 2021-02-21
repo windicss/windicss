@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import dts from 'rollup-plugin-dts';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
@@ -52,18 +51,13 @@ const pack = (dir, mjs = true) => {
   };
 };
 
-const types = [
-  'index.ts',
-  'colors.ts',
-  'defaultConfig.ts',
-  'defaultTheme.ts',
-  'config/index.ts',
-  'lib/index.ts',
-  'plugin/index.ts',
-  ...fs.readdirSync('src/plugin').filter(dir => fs.statSync(`src/plugin/${dir}`).isDirectory()).map(dir => `plugin/${dir}/index.ts`),
-  'utils/index.ts',
-  ...fs.readdirSync('src/utils').filter(dir => dir !== 'algorithm' && fs.statSync(`src/utils/${dir}`).isDirectory()).map(dir => `utils/${dir}/index.ts`),
-]
+const types = (dest = "index.d.ts", src = "../types/index", module = "*") => {
+  return {
+    writeBundle() {
+      fs.writeFileSync(dump(dest), `export ${module} from "${src}";`);
+    },
+  };
+};
 
 export default [
   // main
@@ -88,6 +82,7 @@ export default [
       rmdir(output_dir),
       mkdir(output_dir),
       copy(['package.json', 'README.md', 'LICENSE']),
+      types("index.d.ts", "./types/lib", "{ Processor as default }"),
     ],
   },
 
@@ -110,6 +105,7 @@ export default [
     external: (id) => id.startsWith('./'),
     plugins: [
       ts_plugin,
+      types("colors.d.ts", "./types/config", "{ colors as default }"),
     ],
   },
 
@@ -132,7 +128,8 @@ export default [
     external: (id) => id.startsWith('./'),
     plugins: [
       ts_plugin,
-    ],
+      types("defaultConfig.d.ts", "./types/defaultConfig", "{ default }")],
+
   },
 
   // defaultTheme
@@ -153,7 +150,8 @@ export default [
     ],
     external: (id) => id.startsWith('./'),
     plugins: [
-      ts_plugin
+      ts_plugin,
+      types("defaultTheme.d.ts", "./types/defaultTheme", "{ default }")
     ],
   },
 
@@ -175,6 +173,7 @@ export default [
       ts_plugin,
       resolve(),
       pack('plugin'),
+      types(`plugin/index.d.ts`, `../types/plugin/index`, "{ default }"),
     ],
   },
 
@@ -193,6 +192,7 @@ export default [
         ts_plugin,
         resolve(),
         commonjs(),
+        types(`plugin/${dir}/index.d.ts`, `../types/plugin/${dir}/index`, "{ default }"),
       ],
     })),
 
@@ -242,6 +242,7 @@ export default [
         resolve(),
         commonjs(),
         pack(dir),
+        types(`${dir}/index.d.ts`, `../types/${dir}/index`),
       ],
     })),
 
@@ -270,21 +271,7 @@ export default [
         resolve(),
         commonjs(),
         pack(`utils/${dir}`),
+        types(`utils/${dir}/index.d.ts`, `../../types/utils/${dir}/index`),
       ],
     })),
-
-  ...prod ? types.map(entrypoint => {
-    return {
-      input: `src/${entrypoint}`,
-      output: [
-        {
-          file: dump(entrypoint.replace(/.ts$/, '.d.ts')),
-          format: 'es',
-        },
-      ],
-      plugins: [
-        dts(),
-      ],
-    }
-  }): []
 ];
