@@ -58,6 +58,31 @@ Tools / animation test / animate-ping / 0: |-
       animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     }
   }
+Tools / animation test / spin-slow / 0: |-
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  .animate-spin-slow {
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;

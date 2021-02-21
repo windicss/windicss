@@ -1117,9 +1117,9 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
   const animations = (toType(theme('animation'), 'object') ?? {}) as {
     [key: string]: string;
   };
-  const amount = utility.amount;
-  if (Object.keys(animations).includes(amount)) {
-    const value = animations[amount];
+  if (Object.keys(animations).includes(utility.body)) {
+    const value = animations[utility.body];
+    const keyframe = value.match(/^\w+/)?.[0];
     if (value === 'none')
       return new Property(['-webkit-animation', 'animation'], 'none');
     return [
@@ -1127,12 +1127,12 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
         utility.class,
         new Property(['-webkit-animation', 'animation'], value)
       ),
-      ...generateKeyframe(
-        amount,
-        (toType(theme(`keyframes.${amount}`), 'object') ?? {}) as {
+      ... keyframe ? generateKeyframe(
+        keyframe,
+        (toType(theme(`keyframes.${keyframe}`), 'object') ?? {}) as {
           [key: string]: { [key: string]: string };
         }
-      ),
+      ) : [],
     ];
   }
 }

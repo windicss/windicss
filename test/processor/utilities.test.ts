@@ -72,6 +72,18 @@ describe('Utilities', () => {
     expect(processor.interpret('sm:animate-ping').styleSheet.build()).toMatchSnapshot('sm:animate-ping');
   });
 
+  it('animation test', () => {
+    const processor = new Processor({ theme: {
+      extend: {
+        animation: {
+          'spin-slow': 'spin 3s linear infinite',
+        },
+      },
+    },
+    });
+    expect(processor.interpret('animate-spin-slow').styleSheet.build()).toMatchSnapshot('spin-slow');
+  });
+
   it('grid template test', () => {
     const processor = new Processor({
       theme: {
