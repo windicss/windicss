@@ -148,7 +148,7 @@ export default function compileStyleSheet(
   });
   const topStyles = Object.values(containers).map(i => buildAtRule(i, minify, true));
   const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify);
-  if (keyframes) topStyles.push(keyframes);
+  if (keyframes) topStyles.unshift(keyframes);
   const top = topStyles.join(minify? '' : '\n');
   const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortSelector), minify);
   return minify
