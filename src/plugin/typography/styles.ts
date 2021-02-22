@@ -261,10 +261,12 @@ const styles: (
         ol: {
           marginTop: em(20, 16),
           marginBottom: em(20, 16),
+          'list-style-type': 'none'
         },
         ul: {
           marginTop: em(20, 16),
           marginBottom: em(20, 16),
+          'list-style-type': 'none'
         },
         li: {
           marginTop: em(8, 16),
