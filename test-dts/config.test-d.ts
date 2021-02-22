@@ -1,0 +1,34 @@
+import { Config } from '../src/interfaces';
+
+declare function defineConfig(config: Config): Config
+
+defineConfig({
+  theme: {
+    // @ts-expect-error disallow coexist of theme and extend
+    extend: {},
+    animation: {},
+  },
+});
+
+defineConfig({
+  theme: {
+    // @ts-expect-error disallow nested configs
+    extend: {
+      extend: {},
+    },
+  },
+});
+
+// works
+defineConfig({
+  theme: {
+    extend: {
+      animation: {},
+    },
+  },
+});
+
+// works
+defineConfig({
+  theme: {},
+});

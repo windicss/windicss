@@ -33,6 +33,8 @@ jobs:
       run: pnpm lint
     - name: Build package
       run: pnpm build
+    - name: Test types
+      run: pnpm test:dts
     - name: Run tests and generate coverage report
       run: pnpm coverage
     - name: Upload coverage to Codecov
