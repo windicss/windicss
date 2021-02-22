@@ -109,4 +109,20 @@ describe('Utilities', () => {
     });
     expect(processor.interpret('text-main text-array text-object').styleSheet.build()).toMatchSnapshot('fontSize');
   });
+
+  it('backgroundImage config test', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          backgroundImage: (theme) => {
+            return {
+              ...theme('backgroudImage') as {[key:string]:string},
+              'home-pattern': 'url(\'./src/assets/home.svg\')',
+            };
+          },
+        },
+      },
+    });
+    expect(processor.interpret('bg-home-pattern').styleSheet.build()).toMatchSnapshot('Background Image');
+  });
 });

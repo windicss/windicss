@@ -121,7 +121,7 @@ export class Processor {
     if (userTheme) {
       delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
-        theme[key] = { ...value };
+        theme[key] = typeof value === 'function' ? value: { ...value };
       }
     }
     if (extendTheme && typeof extendTheme === 'object') {
@@ -130,14 +130,23 @@ export class Processor {
         if (typeof themeValue === 'function') {
           theme[key] = (theme, { negative, breakpoints }) => {
             return {
-              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }) as {[key:string]:unknown},
-              ...value as {[key:string]:unknown},
+              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }) as { [key:string]: unknown },
+              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ? value : {}) as { [key:string]: unknown },
             };
           };
         } else if (typeof themeValue === 'object') {
-          theme[key] = { ...(themeValue ?? {}), ...value as {[key:string]:unknown} };
+          if (typeof value === 'function') {
+            theme[key] = (theme, { negative, breakpoints }) => {
+              return {
+                ...(themeValue ?? {}),
+                ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ? value : {}) as { [key:string]: unknown },
+              };
+            };
+          } else {
+            theme[key] = { ...(themeValue ?? {}), ...(value ? value: {}) as {[key:string]:unknown} };
+          }
         } else {
-          theme[key] = value as {[key:string]:unknown};
+          theme[key] = value;
         }
       }
     }
@@ -154,10 +163,18 @@ export class Processor {
 
   private _resolveFunction(config: Config) {
     if (!config.theme) return config;
-    const theme = (path: string, defaultValue?: unknown) =>
-      this.theme(path, defaultValue);
+    const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
-      if (typeof value === 'function') {
+      if (key === 'extend' && typeof value === 'object') {
+        // for (const [k, v] of Object.entries(value)) {
+        //   if (config.theme.extend && typeof v === 'function') {
+        //     config.theme.extend[k] = v(theme, {
+        //       negative,
+        //       breakpoints,
+        //     }) as ConfigUtil;
+        //   }
+        // }
+      } else if (typeof value === 'function') {
         config.theme[key] = value(theme, {
           negative,
           breakpoints,

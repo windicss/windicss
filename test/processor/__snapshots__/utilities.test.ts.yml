@@ -83,6 +83,10 @@ Tools / animation test / spin-slow / 0: |-
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
   }
+Tools / backgroundImage config test / Background Image / 0: |-
+  .bg-home-pattern {
+    background-image: url('./src/assets/home.svg');
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;

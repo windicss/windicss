@@ -79,6 +79,7 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
 
 export interface Theme {
   [key: string]: ConfigUtil | { [key: string]: unknown } | undefined;
+  extend?: Theme;
 }
 
 export type Plugin =
