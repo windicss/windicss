@@ -91,10 +91,13 @@ describe('Utilities', () => {
           gridTemplateColumns: {
             list: 'repeat(auto-fit, minmax(16em, 1fr))',
           },
+          gridTemplateRows: {
+            list: 'repeat(auto-fit, minmax(16em, 1fr))',
+          },
         },
       },
     });
-    expect(processor.interpret('grid-cols-list').styleSheet.build()).toMatchSnapshot('grid-cols-list');
+    expect(processor.interpret('grid-cols-list grid-rows-list grid-cols-4 grid-rows-4').styleSheet.build()).toMatchSnapshot('grid template');
   });
 
   it('fontsize config test', () => {

@@ -99,9 +99,18 @@ Tools / fontsize config test / fontSize / 0: |-
     font-size: 1.25rem;
     line-height: 2rem;
   }
-Tools / grid template test / grid-cols-list / 0: |-
+Tools / grid template test / grid template / 0: |-
   .grid-cols-list {
     grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+  }
+  .grid-rows-list {
+    grid-template-rows: repeat(auto-fit, minmax(16em, 1fr));
+  }
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));;
+  }
+  .grid-rows-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));;
   }
 Tools / ring opacity / css / 0: |-
   .ring-transparent {
