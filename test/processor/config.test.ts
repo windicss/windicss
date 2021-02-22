@@ -251,4 +251,30 @@ describe('Config', () => {
     });
     expect(processor.interpret('bg-hex-1c1c1e bg-$test-variable p-1rem p-4px p-3 p-4.2 sm:p-4.5').ignored.length).toEqual(7);
   });
+
+  it('shortcuts config string', () => {
+    const processor = new Processor({
+      shortcuts: {
+        'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
+        'btn-green': 'text-white bg-green-500 hover:bg-green-700',
+      },
+    });
+    expect(processor.interpret('btn btn-green lg:btn').styleSheet.build()).toMatchSnapshot('shortcuts string');
+  });
+
+  it('shortcuts config object', () => {
+    const processor = new Processor({
+      shortcuts: {
+        'btn': {
+          'color': 'white',
+          '@apply': 'py-2 px-4 font-semibold rounded-lg',
+          '&:hover': {
+            '@apply': 'bg-green-700',
+            'color': 'black',
+          },
+        },
+      },
+    });
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('shortcuts object');
+  });
 });

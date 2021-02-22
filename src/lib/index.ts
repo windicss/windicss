@@ -21,6 +21,7 @@ import type {
   DefaultTheme,
   Output,
   Element,
+  Shortcut,
   PluginUtils,
   PluginUtilOptions,
   PluginOutput,
@@ -48,6 +49,7 @@ interface Plugin {
   utilities: StyleArrayObject;
   components: StyleArrayObject;
   preflights: StyleArrayObject;
+  shortcuts: StyleArrayObject;
   variants: { [key: string]: () => Style };
 }
 
@@ -79,6 +81,7 @@ export class Processor {
     components: {},
     preflights: {},
     variants: {},
+    shortcuts: {},
   };
 
   public pluginUtils: PluginUtils = {
@@ -110,6 +113,7 @@ export class Processor {
   constructor(config?: Config) {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
+    this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
@@ -398,7 +402,8 @@ export class Processor {
     prefix = 'windi-',
     showComment = false,
     ignoreGenerated = false,
-    handleIgnored?: (ignored:string) => Style | Style[] | undefined
+    handleIgnored?: (ignored:string) => Style | Style[] | undefined,
+    outputClassName?: string
   ): {
     success: string[];
     ignored: string[];
@@ -410,7 +415,7 @@ export class Processor {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
-    let className: string | undefined = prefix + hash(classNames.trim().split(/\s+/g).join(' '));
+    let className: string | undefined = outputClassName ?? prefix + hash(classNames.trim().split(/\s+/g).join(' '));
     if (ignoreGenerated && this._cache.classes.includes(className))
       return { success, ignored, styleSheet, className };
     const buildSelector = '.' + className;
@@ -532,6 +537,26 @@ export class Processor {
   loadPluginWithOptions(optionsFunction: PluginWithOptions<unknown>, userOptions?:DictStr): void {
     const plugin = optionsFunction(userOptions ?? {});
     this.loadPlugin(plugin);
+  }
+
+  loadShortcuts(shortcuts: { [ key:string ]: Shortcut }): void {
+    for (const [key, value] of Object.entries(shortcuts)) {
+      const name = '.' + cssEscape(key);
+      if (typeof value === 'string') {
+        this._plugin.shortcuts[name] = this.compile(value, undefined, undefined, false, undefined, cssEscape(key)).styleSheet.children;
+      } else {
+        let styles = Style.generate(name, value);
+        // styles.map(i => console.log(i.property));
+        styles.forEach(style => {
+          const applies = style.property.filter(i => i.name === '@apply').map(i => i.value).join(' ');
+          if (applies[0] && style.selector) {
+            styles = styles.concat(this.compile(applies, undefined, undefined, false, undefined, style.rule.slice(1,)).styleSheet.children);
+            style.property = style.property.filter(i => i.name !== '@apply');
+          }
+        });
+        this._plugin.shortcuts[name] = styles;
+      }
+    }
   }
 
   // tailwind interfaces

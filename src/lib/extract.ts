@@ -29,7 +29,7 @@ export default function extract(
   const utility = new Utility(className);
 
   // handle static plugin utilities & components
-  const staticPlugins = { ...processor._plugin.utilities, ...processor._plugin.components };
+  const staticPlugins = { ...processor._plugin.utilities, ...processor._plugin.components, ...processor._plugin.shortcuts };
   if (utility.class in staticPlugins) return staticPlugins[utility.class];
 
   // handle dynamic plugin utilities

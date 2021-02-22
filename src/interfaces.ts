@@ -87,6 +87,10 @@ export type Plugin =
   | PluginWithOptions<unknown>
   | PluginOutputWithOptions<unknown>;
 
+export type Shortcut = string | NestObject;
+// '@apply': 'font-bold hover:bg-red-500',
+// 'background': 'white',
+
 export interface Config {
   presets?: Config[];
   separator?: string;
@@ -98,6 +102,7 @@ export interface Config {
   corePlugins?: string[];
   prefix?: string;
   exclude?: RegExp[];
+  shortcuts?: {[key:string]: Shortcut};
 
   /**
    * @deprecated no longer needed for Windi CSS
