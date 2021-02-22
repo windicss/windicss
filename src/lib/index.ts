@@ -165,16 +165,7 @@ export class Processor {
     if (!config.theme) return config;
     const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
-      if (key === 'extend' && typeof value === 'object') {
-        // for (const [k, v] of Object.entries(value)) {
-        //   if (config.theme.extend && typeof v === 'function') {
-        //     config.theme.extend[k] = v(theme, {
-        //       negative,
-        //       breakpoints,
-        //     }) as ConfigUtil;
-        //   }
-        // }
-      } else if (typeof value === 'function') {
+      if (typeof value === 'function') {
         config.theme[key] = value(theme, {
           negative,
           breakpoints,
