@@ -29,6 +29,7 @@ import type {
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
+  ThemeType,
 } from '../interfaces';
 
 import type { Utility } from './utilities/handler';
@@ -121,7 +122,7 @@ export class Processor {
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
     const extendTheme: Theme = userTheme?.extend ?? {};
-    const theme: Theme = presets.theme || {};
+    const theme = (presets.theme || {}) as Record<string, ThemeType>;
     if (userTheme) {
       delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
@@ -166,7 +167,7 @@ export class Processor {
     const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === 'function') {
-        config.theme[key] = value(theme, {
+        (config.theme as Record<string, ThemeType>)[key] = value(theme, {
           negative,
           breakpoints,
         }) as ConfigUtil;
@@ -511,8 +512,8 @@ export class Processor {
         config as { [key: string]: unknown },
         this._config as { [key: string]: unknown }
       );
-      const pluginTheme = config.theme;
-      const extendTheme = pluginTheme?.extend as undefined | { [key:string] : unknown };
+      const pluginTheme = config.theme as Record<string, ThemeType>;
+      const extendTheme = pluginTheme?.extend as undefined | Record<string, ThemeType>;
       if (pluginTheme && extendTheme && typeof extendTheme === 'object') {
         for (const [key, value] of Object.entries(extendTheme)) {
           const themeValue = pluginTheme[key];

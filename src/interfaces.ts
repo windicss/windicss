@@ -77,9 +77,9 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
   __options: T;
 }
 
-type ThemeType = ConfigUtil | Record<string, any>
+export type ThemeType = ConfigUtil | Record<string, any> | undefined
 
-interface BaseTheme {
+export interface BaseTheme {
   screens: ThemeType
   colors: ThemeType
   spacing: ThemeType
@@ -157,9 +157,21 @@ interface BaseTheme {
   textOpacity: ThemeType
   translate: ThemeType
   width: ThemeType
+
+  // contributed by extensions
+  aspectRatio: ThemeType
+  filter: ThemeType,
+  backdropFilter: ThemeType,
+  blur: ThemeType,
+  lineClamp: ThemeType
+  snapMargin: ThemeType
+  snapPadding:ThemeType
+  typography: ThemeType
 }
 
-export type Theme = { extend: Partial<BaseTheme> } | (Partial<BaseTheme> & { extend?: undefined })
+export type ResolvedTheme = Partial<BaseTheme>
+
+export type Theme = { extend: ResolvedTheme } | (ResolvedTheme & { extend?: undefined })
 
 export type Plugin =
   | PluginOutput

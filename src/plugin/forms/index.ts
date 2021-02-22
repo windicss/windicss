@@ -3,7 +3,7 @@ import { colors, baseConfig } from '../../config';
 import svgToDataUri from 'mini-svg-data-uri';
 import type { DefaultTheme } from '../../interfaces';
 
-const defaultTheme = baseConfig.theme as DefaultTheme;
+const defaultTheme = baseConfig.theme as unknown as DefaultTheme;
 const [baseFontSize, { lineHeight: baseLineHeight }] = defaultTheme.fontSize.base;
 const { borderWidth, borderRadius, outline } = defaultTheme;
 const spacing = (num:number) => `${num/4}rem`;
