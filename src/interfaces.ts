@@ -113,6 +113,7 @@ export interface BaseTheme {
   opacity: ThemeType
   order: ThemeType
   outline: ThemeType
+  outlineColor: ThemeType
   ringOffsetWidth: ThemeType
   ringWidth: ThemeType
   rotate: ThemeType
