@@ -16,19 +16,25 @@ export default class ClassParser {
     let char;
     let group;
     let func;
+    let variant;
     let variants = [];
     let variantStart = this.index + 1;
     let classStart = this.index + 1;
     let groupStart = this.index + 1;
     let ignoreSpace = false;
+    let important = false;
     const parts: Element[] = [];
     const length = this.classNames.length;
     while (this.index < length) {
       this.index++;
       char = this.classNames.charAt(this.index);
       switch (char) {
+      case '!':
+        important = true;
+        break;
       case this.separator:
-        variants.push(this.classNames.slice(variantStart, this.index));
+        variant = this.classNames.slice(variantStart, this.index);
+        variants.push(variant.charAt(0) === '!' ? variant.slice(1,): variant);
         variantStart = this.index + 1;
         ignoreSpace = true;
         break;
@@ -52,15 +58,17 @@ export default class ClassParser {
             const start = classStart - 1;
             const end = this.index - 1;
             if (Array.isArray(group)) {
-              parts.push({ raw, start, end, variants, content: group, type: 'group' });
+              parts.push({ raw, start, end, variants, content: group, type: 'group', important });
               group = undefined;
             } else if (func) {
-              parts.push({ raw, start, end, variants, func, content: group, type: 'func' });
+              parts.push({ raw, start, end, variants, func, content: group, type: 'func', important });
               func = undefined;
             } else {
-              parts.push({ raw, start, end, variants, content: this.classNames.slice(variantStart, this.index), type: 'utility' });
+              const utility = this.classNames.slice(variantStart, this.index);
+              parts.push({ raw, start, end, variants, content: utility.charAt(0) === '!' ? utility.slice(1,): utility, type: 'utility', important });
             }
             variants = [];
+            important = false;
           }
           groupStart = this.index + 1;
           classStart = this.index + 1;

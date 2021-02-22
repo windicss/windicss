@@ -4,9 +4,7 @@ const processor = new Processor();
 
 describe('Interpretation Mode', () => {
   it('interpret', () => {
-    const result = processor.interpret(
-      'font-bold \n\ttext-green-300 \nsm:dark:hover:text-lg sm:(bg-gray-100 hover:bg-gray-200) abc bg-cool-gray-300 bg-hex-fff'
-    );
+    const result = processor.interpret('font-bold \n\ttext-green-300 \nsm:dark:hover:text-lg sm:(bg-gray-100 hover:bg-gray-200) abc bg-cool-gray-300 bg-hex-fff');
     expect(result.ignored).toEqual(['abc']);
 
     expect(result.success).toMatchSnapshot('success');
@@ -18,5 +16,11 @@ describe('Interpretation Mode', () => {
       'wrong',
       'css',
     ]);
+  });
+
+  it('interpret important', () => {
+    const result = processor.interpret('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right)');
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
 });

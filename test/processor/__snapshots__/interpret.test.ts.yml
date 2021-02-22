@@ -38,3 +38,24 @@ Tools / interpret / success / 0: |-
     "bg-cool-gray-300",
     "bg-hex-fff"
   ]
+Tools / interpret important / important / 0: |-
+  .font-bold {
+    font-weight: 700;
+  }
+  .\!text-green-300 {
+    --tw-text-opacity: 1 !important;
+    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+  }
+  .\!hover\:p-4:hover {
+    padding: 1rem !important;
+  }
+  .\!hover\:bg-red-500:hover {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
+  }
+  .\!focus\:border:focus {
+    border-width: 1px !important;
+  }
+  .focus\:float-right:focus {
+    float: right;
+  }

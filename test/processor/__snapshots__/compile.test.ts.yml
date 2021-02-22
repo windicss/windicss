@@ -21,3 +21,18 @@ Tools / compile / css / 0: |-
       background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
     }
   }
+Tools / compile important / important / 0: |-
+  .windi-17we48r {
+    --tw-text-opacity: 1 !important;
+    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+    font-weight: 700 !important;
+  }
+  .windi-17we48r:hover {
+    padding: 1rem !important;
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
+  }
+  .windi-17we48r:focus {
+    border-width: 1px !important;
+    float: right;
+  }

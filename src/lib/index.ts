@@ -327,7 +327,8 @@ export class Processor {
     const _gStyle = (
       baseClass: string,
       variants: string[],
-      selector: string
+      selector: string,
+      important = false,
     ) => {
       if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
         // filter exclude className
@@ -339,9 +340,9 @@ export class Processor {
         success.push(selector);
         if (result instanceof Style) {
           result.selector = '.' + cssEscape(selector);
-          this.markAsImportant(result);
+          this.markAsImportant(result, important);
         }
-        if (Array.isArray(result)) result.forEach((i) => this.markAsImportant(i));
+        if (Array.isArray(result)) result.forEach((i) => this.markAsImportant(i, important));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
         _hIgnored(selector);
@@ -360,9 +361,10 @@ export class Processor {
               ...obj.variants,
               ...u.variants,
             ];
-            const selector = [...variants, u.content].join(':');
+            const important = obj.important || u.important;
+            const selector = (important ? '!' : '') + [...variants, u.content].join(':');
             typeof u.content === 'string' &&
-              _gStyle(this.removePrefix(u.content), variants, selector);
+              _gStyle(this.removePrefix(u.content), variants, selector, important);
           }
         });
     };
@@ -374,7 +376,7 @@ export class Processor {
           if (Array.isArray(obj.content)) {
             // #functions stuff
           } else if (obj.content) {
-            _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
+            _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw, obj.important);
           }
         } else if (obj.type === 'group') {
           _hGroup(obj);
@@ -429,7 +431,8 @@ export class Processor {
     const _gStyle = (
       baseClass: string,
       variants: string[],
-      selector: string
+      selector: string,
+      important = false
     ) => {
       if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
         // filter exclude className
@@ -442,11 +445,11 @@ export class Processor {
         if (Array.isArray(result)) {
           result.forEach((i) => {
             i.selector = buildSelector;
-            this.markAsImportant(i);
+            this.markAsImportant(i, important);
           });
         } else {
           result.selector = buildSelector;
-          this.markAsImportant(result);
+          this.markAsImportant(result, important);
         }
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
@@ -468,7 +471,7 @@ export class Processor {
             ];
             const selector = [...variants, u.content].join(':');
             typeof u.content === 'string' &&
-              _gStyle(this.removePrefix(u.content), variants, selector);
+              _gStyle(this.removePrefix(u.content), variants, selector, obj.important || u.important);
           }
         });
     };
@@ -478,7 +481,7 @@ export class Processor {
         if (Array.isArray(obj.content)) {
           // #functions stuff
         } else if (obj.content) {
-          _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw);
+          _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw, obj.important);
         }
       } else if (obj.type === 'group') {
         _hGroup(obj);

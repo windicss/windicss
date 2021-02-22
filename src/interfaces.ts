@@ -214,4 +214,5 @@ export interface Element {
   content?: Element[] | string;
   func?: string;
   type: 'group' | 'func' | 'utility';
+  important: boolean;
 }

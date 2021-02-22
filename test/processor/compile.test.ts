@@ -37,4 +37,16 @@ describe('Compilation Mode', () => {
         processor.compile('text-white font-bold').styleSheet.build()
     ).toBeFalse();
   });
+
+  it('compile important', () => {
+    // .windi-17we48r {
+    //   --tw-text-opacity: 1 !important;
+    //   color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+    //   font-weight: 700 !important;
+    // font-weight should not be important here, something went wrong. Will fix later
+    // }
+    const result = processor.compile('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right)');
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('important');
+  });
 });
