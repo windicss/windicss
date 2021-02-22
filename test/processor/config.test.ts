@@ -100,12 +100,12 @@ describe('Config', () => {
   it('user theme should overwrite default theme', () => {
     const processor = new Processor({
       theme: {
-        color: {
+        colors: {
           white: '#ffffff',
         },
       },
     });
-    expect(processor.theme('color')).toEqual({
+    expect(processor.theme('colors')).toEqual({
       white: '#ffffff',
     });
   });
