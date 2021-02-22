@@ -527,3 +527,13 @@ export class Keyframes extends Style {
     super(selector, property, important);
   }
 }
+
+export class Container extends Style {
+  constructor(
+    selector?: string,
+    property?: Property | Property[],
+    important?: boolean,
+  ) {
+    super(selector, property, important);
+  }
+}

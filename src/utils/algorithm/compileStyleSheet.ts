@@ -1,6 +1,6 @@
 import sortMediaQuery from './sortMediaQuery';
 import sortSelector from './sortSelector';
-import { Keyframes, Style } from '../style/base';
+import { Keyframes, Container, Style } from '../style/base';
 import { wrapit, hash, isSpace } from '../../utils/tools';
 import type { AnyObject } from '../../interfaces';
 
@@ -114,40 +114,44 @@ export function combineSelector(styleList: Style[]): Style[] {
   return [...passed, ...Object.values(styleMap).map((style) => style.clean())];
 }
 
-export function buildAtRule(styleList: Style[], minify = false): string {
-  return buildMap(
-    styleList
-      .map((i) => {
-        const list = [
-          ...(i.atRules ?? []).sort(sortMediaQuery).reverse(),
-          i.rule,
-        ];
-        const style = new Style(undefined, i.property, i.important);
-        i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap));
-        return deepList(list, style);
-      })
-      .sort((a, b) => {
-        const akey = Object.keys(a)[0];
-        const bkey = Object.keys(b)[0];
-        return sortMediaQuery(akey, bkey);
-      })
-      .reduce(
-        (previousValue, currentValue) =>
-          combineObject(previousValue, currentValue),
-        {}
-      ),
-    minify
-  );
+export function buildAtRule(styleList: Style[], minify = false, reverse = false): string {
+  const ruleMap = styleList
+    .map((i) => {
+      const list = [
+        ...reverse ? (i.atRules ?? []).sort(sortMediaQuery) : (i.atRules ?? []).sort(sortMediaQuery).reverse(),
+        i.rule,
+      ];
+      const style = new Style(undefined, i.property, i.important);
+      i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap));
+      return deepList(list, style);
+    })
+    .sort((a, b) => {
+      const akey = Object.keys(a)[0];
+      const bkey = Object.keys(b)[0];
+      return sortMediaQuery(akey, bkey);
+    });
+  return buildMap(ruleMap.reduce((previousValue, currentValue) => combineObject(previousValue, currentValue), {}), minify);
 }
 
 export default function compileStyleSheet(
   styleList: Style[],
   minify = false
 ): string {
-  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules)).sort(sortSelector)).map((i) => i.build(minify)).join(minify ? '' : '\n');
+  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules) && !(i instanceof Container)).sort(sortSelector)).map((i) => i.build(minify)).join(minify ? '' : '\n');
+  const containers: {[key:string]: Container[]} = {};
+  styleList.filter(i => i instanceof Container).forEach(i => {
+    if (i.selector && i.selector in containers) {
+      containers[i.selector].push(i);
+    } else if (i.selector) {
+      containers[i.selector] = [i];
+    }
+  });
+  const topStyles = Object.values(containers).map(i => buildAtRule(i, minify, true));
   const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify);
-  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes)).sort(sortSelector), minify);
+  if (keyframes) topStyles.push(keyframes);
+  const top = topStyles.join(minify? '' : '\n');
+  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortSelector), minify);
   return minify
-    ? (keyframes + head + body).replace(/;\}/g, '}')
-    : [keyframes, head, body].filter((i) => !isSpace(i)).join('\n');
+    ? (top + head + body).replace(/;\}/g, '}')
+    : [top, head, body].filter((i) => !isSpace(i)).join('\n');
 }

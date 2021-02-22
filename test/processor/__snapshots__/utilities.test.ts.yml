@@ -87,6 +87,105 @@ Tools / backgroundImage config test / Background Image / 0: |-
   .bg-home-pattern {
     background-image: url('./src/assets/home.svg');
   }
+Tools / container max-width test / container / 0: |-
+  .container {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
+    }
+  }
+  @media (min-width: 768px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1536px;
+    }
+  }
+  .max-w-md {
+    max-width: 28rem;
+  }
+Tools / container max-width test / reponsive container / 1: |-
+  .container {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
+    }
+  }
+  @media (min-width: 768px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1536px;
+    }
+  }
+  @media (min-width: 640px) {
+    .sm\:container {
+      width: 100%;
+    }
+    @media (min-width: 640px) {
+      .sm\:container {
+        max-width: 640px;
+      }
+    }
+    @media (min-width: 768px) {
+      .sm\:container {
+        max-width: 768px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .sm\:container {
+        max-width: 1024px;
+      }
+    }
+    @media (min-width: 1280px) {
+      .sm\:container {
+        max-width: 1280px;
+      }
+    }
+    @media (min-width: 1536px) {
+      .sm\:container {
+        max-width: 1536px;
+      }
+    }
+  }
+  .max-w-md {
+    max-width: 28rem;
+  }
+  @media (min-width: 640px) {
+    .sm\:max-w-md {
+      max-width: 28rem;
+    }
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;
@@ -119,4 +218,35 @@ Tools / ring opacity / css / 0: |-
   .focus\:ring-purple-800:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
+  }
+Tools / wrap container / small container / 0: |-
+  @media (min-width: 640px) {
+    .sm\:container {
+      width: 100%;
+    }
+    @media (min-width: 640px) {
+      .sm\:container {
+        max-width: 640px;
+      }
+    }
+    @media (min-width: 768px) {
+      .sm\:container {
+        max-width: 768px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .sm\:container {
+        max-width: 1024px;
+      }
+    }
+    @media (min-width: 1280px) {
+      .sm\:container {
+        max-width: 1280px;
+      }
+    }
+    @media (min-width: 1536px) {
+      .sm\:container {
+        max-width: 1536px;
+      }
+    }
   }

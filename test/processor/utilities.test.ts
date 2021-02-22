@@ -128,4 +128,16 @@ describe('Utilities', () => {
     });
     expect(processor.interpret('bg-home-pattern').styleSheet.build()).toMatchSnapshot('Background Image');
   });
+
+  it('wrap container', () => {
+    const processor = new Processor();
+    expect(processor.interpret('sm:container').styleSheet.build()).toMatchSnapshot('small container');
+  });
+
+  it('container max-width test', () => {
+    const processor = new Processor();
+    expect(processor.interpret('container max-w-md').styleSheet.build()).toEqual(processor.interpret('max-w-md container').styleSheet.build());
+    expect(processor.interpret('container max-w-md').styleSheet.build()).toMatchSnapshot('container');
+    expect(processor.interpret('container max-w-md sm:container sm:max-w-md').styleSheet.build()).toMatchSnapshot('reponsive container');
+  });
 });

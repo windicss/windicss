@@ -1,6 +1,6 @@
 import { getNestedValue, hash, deepCopy, testRegexr } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
-import { Keyframes, Property, Style, StyleSheet } from '../utils/style';
+import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
 
@@ -246,13 +246,14 @@ export class Processor {
     const allVariants = { ...this._variants, ...this._plugin.variants };
     return styles.map((style) => {
       if (style instanceof Keyframes) return style;
-      return variants
+      const wrapped = variants
         .filter((i) => i in allVariants)
         .map((i) => allVariants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           return previousValue.extend(currentValue);
         }, new Style())
         .extend(style);
+      return (style instanceof Container) ? new Container().extend(wrapped) : wrapped;
     });
   }
 
@@ -339,11 +340,16 @@ export class Processor {
       const result = this.extract(baseClass);
       if (result) {
         success.push(selector);
+        const escapedSelector = '.' + cssEscape(selector);
         if (result instanceof Style) {
-          result.selector = '.' + cssEscape(selector);
+          result.selector = escapedSelector;
           this.markAsImportant(result, important);
+        } else if (Array.isArray(result)) {
+          result.forEach(i => {
+            if (i instanceof Container) i.selector = escapedSelector;
+            this.markAsImportant(i, important);
+          });
         }
-        if (Array.isArray(result)) result.forEach((i) => this.markAsImportant(i, important));
         styleSheet.add(this.wrapWithVariants(variants, result));
       } else {
         _hIgnored(selector);

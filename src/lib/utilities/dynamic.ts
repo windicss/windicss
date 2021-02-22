@@ -1,6 +1,6 @@
 import { Utility } from './handler';
 import { hex2RGB, dashToCamel, toType } from '../../utils/tools';
-import { Property, Style } from '../../utils/style';
+import { Property, Style, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
   generateKeyframe,
@@ -14,15 +14,14 @@ import type { PluginUtils, FontSize, Output, DynamicUtility } from '../../interf
 function container(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'container') {
     const className = utility.class;
-    const baseStyle = new Property('width', '100%').toStyle(utility.class);
+    const baseStyle = new Container(utility.class, new Property('width', '100%'));
     const paddingDefault = toType(theme('container.padding.DEFAULT'), 'string');
     if (paddingDefault) {
       baseStyle.add(new Property('padding-left', paddingDefault));
       baseStyle.add(new Property('padding-right', paddingDefault));
     }
-    if (theme('container.center'))
-      baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
-    const output: Style[] = [baseStyle];
+    if (theme('container.center')) baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
+    const output: Container[] = [baseStyle];
     const screens = toType(theme('screens'), 'object') ?? {};
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property('max-width', `${size}`)];
@@ -31,7 +30,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
         props.push(new Property('padding-left', padding));
         props.push(new Property('padding-right', padding));
       }
-      output.push(new Style(className, props).atRule(`@media (min-width: ${size})`));
+      output.push(new Container(className, props).atRule(`@media (min-width: ${size})`));
     }
     return output;
   }
