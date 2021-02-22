@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { toType } from '../../src/utils/tools';
 import { Processor } from '../../src/lib';
+import { twExclude } from '../../src/config';
 
 const configPath = resolve('./test/assets/tailwind.config.js');
 const userConfig = require(configPath);
@@ -246,15 +247,8 @@ describe('Config', () => {
           },
         },
       },
-      exclude: [
-        /-hex-/, // disable hex color
-        /-\$/, // disable variable
-        /(rem|em|px|vh|vw|ch|ex)$/, // disable size
-        /-\d*[13579]$/, // disable odd number
-        /([0-9]{1,}[.][0-9]*)$/, // disable float
-        /^first-letter:/, // disable first letter variant
-      ],
+      exclude: twExclude,
     });
-    expect(processor.interpret('bg-hex-1c1c1e bg-$test-variable p-1rem p-4px p-3 p-4.2 sm:p-4.5 first-letter:bg-red-500').ignored.length).toEqual(8);
+    expect(processor.interpret('bg-hex-1c1c1e bg-$test-variable p-1rem p-4px p-3 p-4.2 sm:p-4.5').ignored.length).toEqual(7);
   });
 });
