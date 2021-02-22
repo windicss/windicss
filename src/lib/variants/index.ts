@@ -3,7 +3,7 @@ import { generateThemes } from './theme';
 import { generateStates } from './state';
 
 import type { Style } from '../../utils/style';
-import type { Config, DictStr } from '../../interfaces';
+import type { BaseTheme, Config, DictStr } from '../../interfaces';
 
 export type Variants = {
   screen: { [key: string]: () => Style };
@@ -13,13 +13,13 @@ export type Variants = {
 
 export function resolveVariants(config: Config): Variants {
   return {
-    screen: generateScreens((config.theme?.screens ?? {}) as DictStr),
+    screen: generateScreens(((config.theme as BaseTheme)?.screens ?? {}) as DictStr),
     theme: generateThemes(config.darkMode),
     state: generateStates(config.variantOrder ?? []),
   };
 }
 
-export { 
+export {
   generateScreens,
   generateThemes,
   generateStates,

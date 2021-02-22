@@ -14,6 +14,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["./src", "./test", "./example"],
+  "include": ["./src", "./test", "./test-dts", "./example"],
   "exclude": ["./test/assets", "./test/helpers", "dist"]
 }

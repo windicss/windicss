@@ -31,7 +31,7 @@ export type DefaultFontSize = [
   options: { letterSpacing?: string; lineHeight: string }
 ];
 
-export type ThemeUtil = (path: string, defaultValue?: unknown) => unknown;
+export type ThemeUtil = (path: string, defaultValue?: unknown) => any;
 
 export type ConfigUtil = (
   theme: ThemeUtil,
@@ -42,7 +42,7 @@ export type ConfigUtil = (
     negative: (config: DictStr) => DictStr;
     breakpoints: (config: DictStr) => DictStr;
   }
-) => unknown;
+) => { [key:string]: any };
 
 export type PluginUtilOptions =
   | string[]
@@ -77,10 +77,101 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
   __options: T;
 }
 
-export interface Theme {
-  [key: string]: ConfigUtil | { [key: string]: unknown } | undefined;
-  extend?: Theme;
+export type ThemeType = ConfigUtil | Record<string, any> | undefined
+
+export interface BaseTheme {
+  screens: ThemeType
+  colors: ThemeType
+  spacing: ThemeType
+  animation: ThemeType
+  backgroundImage: ThemeType
+  backgroundPosition: ThemeType
+  backgroundSize: ThemeType
+  borderRadius: ThemeType
+  borderWidth: ThemeType
+  boxShadow: ThemeType
+  cursor: ThemeType
+  flex: ThemeType
+  flexGrow: ThemeType
+  flexShrink: ThemeType
+  fontWeight: ThemeType
+  gridAutoColumns: ThemeType
+  gridAutoRows: ThemeType
+  gridColumn: ThemeType
+  gridColumnEnd: ThemeType
+  gridColumnStart: ThemeType
+  gridRow: ThemeType
+  gridRowStart: ThemeType
+  gridRowEnd: ThemeType
+  transformOrigin: ThemeType
+  gridTemplateColumns: ThemeType
+  gridTemplateRows: ThemeType
+  letterSpacing: ThemeType
+  lineHeight: ThemeType
+  listStyleType: ThemeType
+  objectPosition: ThemeType
+  opacity: ThemeType
+  order: ThemeType
+  outline: ThemeType
+  ringOffsetWidth: ThemeType
+  ringWidth: ThemeType
+  rotate: ThemeType
+  scale: ThemeType
+  skew: ThemeType
+  strokeWidth: ThemeType
+  transitionDuration: ThemeType
+  transitionDelay: ThemeType
+  transitionProperty: ThemeType
+  transitionTimingFunction: ThemeType
+  zIndex: ThemeType
+  container: ThemeType
+  fontFamily: ThemeType
+  fontSize: ThemeType
+  keyframes: ThemeType
+  backgroundColor: ThemeType
+  backgroundOpacity: ThemeType
+  borderColor: ThemeType
+  borderOpacity: ThemeType
+  divideColor: ThemeType
+  divideOpacity: ThemeType
+  divideWidth: ThemeType
+  fill: ThemeType
+  gap: ThemeType
+  gradientColorStops: ThemeType
+  height: ThemeType
+  inset: ThemeType
+  margin: ThemeType
+  maxHeight: ThemeType
+  maxWidth: ThemeType
+  minHeight: ThemeType
+  minWidth: ThemeType
+  padding: ThemeType
+  placeholderColor: ThemeType
+  placeholderOpacity: ThemeType
+  ringColor: ThemeType
+  ringOffsetColor: ThemeType
+  ringOpacity: ThemeType
+  space: ThemeType
+  stroke: ThemeType
+  textColor: ThemeType
+  textOpacity: ThemeType
+  translate: ThemeType
+  width: ThemeType
+
+  // contributed by extensions
+  aspectRatio: ThemeType
+  filter: ThemeType,
+  backdropFilter: ThemeType,
+  blur: ThemeType,
+  lineClamp: ThemeType
+  snapMargin: ThemeType
+  snapPadding:ThemeType
+  typography: ThemeType
 }
+
+export type ResolvedTheme = Partial<BaseTheme>
+
+export type Theme = { extend: ResolvedTheme } | (ResolvedTheme & { extend?: undefined })
 
 export type Plugin =
   | PluginOutput

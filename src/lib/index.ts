@@ -29,6 +29,7 @@ import type {
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
+  ThemeType,
 } from '../interfaces';
 
 import type { Utility } from './utilities/handler';
@@ -120,12 +121,12 @@ export class Processor {
     if (userConfig.presets) presets = this._resolvePresets(userConfig.presets);
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
-    const extendTheme = userTheme?.extend ?? ({} as { [key: string]: Theme });
-    const theme: Theme = presets.theme || {};
+    const extendTheme: Theme = userTheme?.extend ?? {};
+    const theme = (presets.theme || {}) as Record<string, ThemeType>;
     if (userTheme) {
       delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
-        theme[key] = typeof value === 'function' ? value: { ...value };
+        theme[key] = typeof value === 'function' ? value : { ...value };
       }
     }
     if (extendTheme && typeof extendTheme === 'object') {
@@ -134,21 +135,17 @@ export class Processor {
         if (typeof themeValue === 'function') {
           theme[key] = (theme, { negative, breakpoints }) => {
             return {
-              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }) as { [key:string]: unknown },
-              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ? value : {}) as { [key:string]: unknown },
+              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }),
+              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
             };
           };
         } else if (typeof themeValue === 'object') {
-          if (typeof value === 'function') {
-            theme[key] = (theme, { negative, breakpoints }) => {
-              return {
-                ...(themeValue ?? {}),
-                ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ? value : {}) as { [key:string]: unknown },
-              };
+          theme[key] = (theme, { negative, breakpoints }) => {
+            return {
+              ...themeValue,
+              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
             };
-          } else {
-            theme[key] = { ...(themeValue ?? {}), ...(value ? value: {}) as {[key:string]:unknown} };
-          }
+          };
         } else {
           theme[key] = value;
         }
@@ -170,7 +167,7 @@ export class Processor {
     const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
     for (const [key, value] of Object.entries(config.theme)) {
       if (typeof value === 'function') {
-        config.theme[key] = value(theme, {
+        (config.theme as Record<string, ThemeType>)[key] = value(theme, {
           negative,
           breakpoints,
         }) as ConfigUtil;
@@ -515,8 +512,8 @@ export class Processor {
         config as { [key: string]: unknown },
         this._config as { [key: string]: unknown }
       );
-      const pluginTheme = config.theme;
-      const extendTheme = pluginTheme?.extend as undefined | { [key:string] : unknown };
+      const pluginTheme = config.theme as Record<string, ThemeType>;
+      const extendTheme = pluginTheme?.extend as undefined | Record<string, ThemeType>;
       if (pluginTheme && extendTheme && typeof extendTheme === 'object') {
         for (const [key, value] of Object.entries(extendTheme)) {
           const themeValue = pluginTheme[key];
