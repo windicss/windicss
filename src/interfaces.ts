@@ -80,7 +80,6 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
 type ThemeType = ConfigUtil | Record<string, any>
 
 interface BaseTheme {
-  [key: string]: ThemeType
   screens: ThemeType
   colors: ThemeType
   spacing: ThemeType
@@ -160,9 +159,7 @@ interface BaseTheme {
   width: ThemeType
 }
 
-export interface Theme extends Partial<BaseTheme> {
-  extend?: Theme;
-}
+export type Theme = { extend: Partial<BaseTheme> } | (Partial<BaseTheme> & { extend?: undefined })
 
 export type Plugin =
   | PluginOutput
