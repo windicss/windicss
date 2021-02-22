@@ -31,9 +31,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
         props.push(new Property('padding-left', padding));
         props.push(new Property('padding-right', padding));
       }
-      output.push(
-        new Style(className, props).atRule(`@media (min-width: ${size})`)
-      );
+      output.push(new Style(className, props).atRule(`@media (min-width: ${size})`));
     }
     return output;
   }
@@ -162,9 +160,7 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   }
 
   return utility.handler
-    .handleStatic(
-      type === 'rows' ? theme('gridTemplateRows') : theme('gridTemplateColumns')
-    )
+    .handleStatic(type === 'rows' ? theme('gridTemplateRows') : theme('gridTemplateColumns'))
     .handleNumber(1, undefined, 'int')
     .handleVariable()
     .createProperty(`grid-template-${type}`, (value: string) =>
@@ -453,9 +449,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('text-opacity'))
     return utility.handler
       .handleStatic(theme('textOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-text-opacity');
   // handle font sizes
@@ -528,12 +522,7 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
 function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('lineHeight'))
-    .handleNumber(
-      0,
-      undefined,
-      'int',
-      (number: number) => `${number * 0.25}rem`
-    )
+    .handleNumber(0, undefined, 'int', (number: number) => `${number * 0.25}rem`)
     .handleSize()
     .handleVariable()
     .createProperty('line-height');
@@ -553,9 +542,7 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('placeholder-opacity'))
     return utility.handler
       .handleStatic(theme('placeholderOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-placeholder-opacity');
   const value = utility.handler
@@ -629,9 +616,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('bg-opacity'))
     return utility.handler
       .handleStatic(theme('backgroundOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-bg-opacity');
   // handle background color
@@ -751,18 +736,14 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('border-opacity'))
     return utility.handler
       .handleStatic(theme('borderOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-border-opacity');
 
   // handle border color
   const value = utility.handler
     .handleColor(theme('borderColor'))
-    .handleVariable((variable: string) =>
-      utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined
-    ).value;
+    .handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined).value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value))
       return new Property('border-color', value);
@@ -816,9 +797,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('divide-opacity'))
     return utility.handler
       .handleStatic(theme('divideOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-divide-opacity');
   // handle divide color
@@ -952,9 +931,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
   if (utility.raw.startsWith('ring-opacity'))
     return utility.handler
       .handleStatic(utils.theme('ringOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) =>
-        (number / 100).toString()
-      )
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-ring-opacity');
   // handle ring color
