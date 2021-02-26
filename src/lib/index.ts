@@ -347,9 +347,7 @@ export class Processor {
         } else if (Array.isArray(result)) {
           result = result.map(i => {
             if (i instanceof Keyframes) return i;
-            const copy = new (i instanceof Container ? Container : Style)();
-            copy.extend(i);
-            if (i instanceof Keyframes) return copy;
+            const copy = deepCopy(i);
             copy.selector = escapedSelector;
             this.markAsImportant(copy, important);
             return copy;
