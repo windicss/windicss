@@ -348,7 +348,14 @@ export class Processor {
           result = result.map(i => {
             if (i instanceof Keyframes) return i;
             const copy = deepCopy(i);
-            copy.selector = escapedSelector;
+            if (i.selector!.indexOf(':') > -1) {
+              copy.selector = i.selector!.split(':')
+                .map((part, idx) => idx === 0 ? escapedSelector : part)
+                .join(':');
+            }
+            else {
+              copy.selector = escapedSelector;
+            }
             this.markAsImportant(copy, important);
             return copy;
           });
