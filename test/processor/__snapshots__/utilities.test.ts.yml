@@ -53,7 +53,7 @@ Tools / animation test / animate-ping / 0: |-
     }
   }
   @media (min-width: 640px) {
-    .animate-ping {
+    .sm\:animate-ping {
       -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
       animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     }

@@ -277,4 +277,18 @@ describe('Config', () => {
     });
     expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('shortcuts object');
   });
+  it('allows to use prefix with shortcuts', () => {
+    const processor = new Processor({
+      prefix: 'windi-',
+      shortcuts: {
+        'btn': 'py-2 px-4 font-semibold rounded-lg shadow-md',
+        'btn-green': {
+          '@apply': 'text-white bg-green-500 hover:bg-green-700',
+        },
+      },
+    });
+    const result = processor.interpret('windi-btn windi-btn-green');
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('shortcuts with prefix');
+  });
 });
