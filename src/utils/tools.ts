@@ -228,3 +228,28 @@ export function testRegexr(text: string, expressions: RegExp[]): boolean {
   }
   return false;
 }
+
+export function searchPropEnd(text: string, startIndex = 0): number {
+  let index = startIndex;
+  let output = -1;
+  let openSingleQuote = false;
+  let openDoubleQuote = false;
+  while (index < text.length) {
+    switch (text.charAt(index)) {
+    case '\'':
+      if (text.charAt(index - 1) !== '\\') openSingleQuote = !openSingleQuote;
+      break;
+    case '"':
+      if (text.charAt(index - 1) !== '\\') openDoubleQuote = !openDoubleQuote;
+      break;
+    case ';':
+      if (openSingleQuote === false && openDoubleQuote === false) output = index;
+      break;
+    default:
+      break;
+    }
+    if (output !== -1) break;
+    index++;
+  }
+  return output;
+}

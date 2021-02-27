@@ -48,6 +48,7 @@ describe('Property', () => {
     const p5 = Property.parse('padding;');
     const p6 = Property.parse('@apply font-bold text-lg ;');
     const p7 = Property.parse('padding:1rem;@apply font-bold;');
+    const p8 = Property.parse('src: url(\'data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy\') format(\'woff2\');');
 
     expect(!(p1 instanceof Property) || [p1.name, p1.value]).toEqual([
       'padding-left',
@@ -76,16 +77,12 @@ describe('Property', () => {
       'font-bold text-lg',
     ]);
 
-    expect(
-      !(
-        Array.isArray(p7) &&
-        p7[0] instanceof Property &&
-        p7[1] instanceof InlineAtRule
-      ) || p7.map((i) => [i.name, i.value])
-    ).toEqual([
+    expect(!(Array.isArray(p7) && p7[0] instanceof Property && p7[1] instanceof InlineAtRule) || p7.map((i) => [i.name, i.value])).toEqual([
       ['padding', '1rem'],
       ['apply', 'font-bold'],
     ]);
+
+    expect(p8 && !(Array.isArray(p8)) && p8.build()).toEqual(String.raw`src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');`);
   });
 
   it('toStyle', () => {

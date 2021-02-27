@@ -11,6 +11,11 @@ Tools / apply chain / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   }
+Tools / do not trunc data url / data url / 0: |-
+  @font-face {
+    font-family: "iconfont";
+    src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');
+  }
 Tools / normal parse / css / 0: |-
   @charset "utf-8";
   @tailwind base;

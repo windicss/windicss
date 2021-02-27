@@ -20,6 +20,7 @@ import {
   toType,
   flatColors,
   transform,
+  searchPropEnd,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
@@ -230,5 +231,10 @@ describe('Tools', () => {
   it('transfrom module', () => {
     const path = transform('./test/assets/plugin');
     expect(readFileSync(path).toString()).toMatchSnapshot('plugin');
+  });
+
+  it('search property end', () => {
+    expect(searchPropEnd('font-family: "iconfont";')).toEqual(23);
+    expect(searchPropEnd(String.raw`src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');`)).toEqual(105);
   });
 });
