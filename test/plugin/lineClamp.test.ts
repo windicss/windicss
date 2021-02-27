@@ -14,30 +14,7 @@ describe('line clamp plugin', () => {
     `;
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
-    expect(result.styleSheet.build()).toEqual(
-      `.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-.line-clamp-4 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-.line-clamp-none {
-  -webkit-line-clamp: unset;
-}
-.hover\\:line-clamp-none:hover {
-  -webkit-line-clamp: unset;
-}
-@media (min-width: 640px) {
-  .sm\\:line-clamp-none {
-    -webkit-line-clamp: unset;
-  }
-}`);
+    expect(result.styleSheet.build()).toMatchSnapshot('line-clamp');
   });
   it('customize test', () => {
     const processor = new Processor({
@@ -52,30 +29,20 @@ describe('line clamp plugin', () => {
     `;
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
-    expect(result.styleSheet.build()).toEqual(
-      `.line-clamp-1 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-.line-clamp-4 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-.line-clamp-sm {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-.line-clamp-md {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-}`);
+    expect(result.styleSheet.build()).toMatchSnapshot('line-clamp customized');
+  });
+  it('works with prefix', () => {
+    const processor = new Processor({ prefix: 'windi-' });
+    processor.loadPlugin(lineClamp);
+    const classes = `
+      windi-line-clamp-1
+      windi-line-clamp-4
+      windi-line-clamp-none
+      sm:windi-line-clamp-none
+      md:windi-line-clamp-4
+    `;
+    const result = processor.interpret(classes);
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('line-clamp with prefix');
   });
 });

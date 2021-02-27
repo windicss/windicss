@@ -337,7 +337,7 @@ export class Processor {
         ignored.push(selector);
         return;
       }
-      const result = this.extract(baseClass);
+      let result = this.extract(baseClass);
       if (result) {
         success.push(selector);
         const escapedSelector = '.' + cssEscape(selector);
@@ -345,9 +345,19 @@ export class Processor {
           result.selector = escapedSelector;
           this.markAsImportant(result, important);
         } else if (Array.isArray(result)) {
-          result.forEach(i => {
-            if (i instanceof Container) i.selector = escapedSelector;
-            this.markAsImportant(i, important);
+          result = result.map(i => {
+            if (i instanceof Keyframes) return i;
+            const copy = deepCopy(i);
+            if (i.selector && i.selector.indexOf(':') > -1) {
+              copy.selector = i.selector.split(':')
+                .map((part, idx) => idx === 0 ? escapedSelector : part)
+                .join(':');
+            }
+            else {
+              copy.selector = escapedSelector;
+            }
+            this.markAsImportant(copy, important);
+            return copy;
           });
         }
         styleSheet.add(this.wrapWithVariants(variants, result));
