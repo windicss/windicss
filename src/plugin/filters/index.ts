@@ -18,7 +18,7 @@ export default plugin(
     addDynamic('blur', ({ Utility }) => {
       return Utility.handler
         .handleStatic(theme('blur'))
-        .handleNumber(0, undefined, 'float', (number)=>`${number}px`)
+        .handleNumber(0, undefined, 'float', (number) => `${number}px`)
         .handleSize()
         .createProperty(
           ['-webkit-backdrop-filter', 'backdrop-filter'],

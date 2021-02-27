@@ -49,7 +49,7 @@ jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.specFiles.forEach(file => {
   writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^,)]+)\)/g, ', __filename)'));
 });
-jasmine.onComplete((passed)=>{
+jasmine.onComplete((passed) => {
   jasmine.specFiles.forEach(file => {
     writeFileSync(file, readFileSync(file).toString().replace(/(?<=toMatchSnapshot\([^)]+), __filename\)/g, ')'));
   });

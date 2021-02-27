@@ -25,6 +25,8 @@
     "comma-dangle": [2, "always-multiline"],
     "no-var": 2,
     "eqeqeq": [2, "allow-null"],
+    "no-trailing-spaces": 2,
+    "arrow-spacing": 2,
     "object-curly-spacing": [2, "always"]
   }
 }

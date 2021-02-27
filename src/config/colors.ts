@@ -1,4 +1,4 @@
-type Colors = 
+type Colors =
   'black'
   | 'white'
   | 'rose'
