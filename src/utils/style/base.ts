@@ -1,6 +1,7 @@
 import {
   wrapit,
   searchFrom,
+  searchPropEnd,
   connectList,
   camelToDash,
   deepCopy,
@@ -34,7 +35,7 @@ export class Property {
     if (!css) return;
     if (css.charAt(0) === '@') return InlineAtRule.parse(css);
     const split = css.search(':');
-    const end = css.search(';');
+    const end = searchPropEnd(css);
     if (split === -1) return;
     let important = false;
     let prop = css.substring(split + 1, end === -1 ? undefined : end).trim();
@@ -56,14 +57,12 @@ export class Property {
     if (!/;\s*$/.test(css)) css += ';'; // Fix for the situation where the last semicolon is omitted
     const properties: (Property | InlineAtRule)[] = [];
     let index = 0;
-    let end = searchFrom(css, ';', index);
+    let end = searchPropEnd(css, index);
     while (end !== -1) {
-      const parsed = this._singleParse(
-        css.substring(searchFrom(css, /\S/, index), end + 1)
-      );
+      const parsed = this._singleParse(css.substring(searchFrom(css, /\S/, index), end + 1));
       if (parsed) properties.push(parsed);
       index = end + 1;
-      end = searchFrom(css, ';', index);
+      end = searchPropEnd(css, index);
     }
     const count = properties.length;
     if (count > 1) return properties;

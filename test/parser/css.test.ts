@@ -149,6 +149,6 @@ describe('CSSParser', () => {
   src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');
 }`;
     const parser = new CSSParser(css, PROCESSOR);
-    expect(parser.parse().build()).toEqualDiff(css);
+    expect(parser.parse().build()).toMatchSnapshot('data url');
   });
 });
