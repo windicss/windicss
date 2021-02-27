@@ -327,6 +327,11 @@ describe('Style', () => {
     );
   });
 
+  it('multiple selector', () => {
+    const style = new Style('.a, .b').pseudoClass('hover');
+    expect(style.rule).toEqual('.a:hover, .b:hover');
+  });
+
   it('Generate Style From css-in-js', () => {
     const style1 = Style.generate('.card', { backgroundColor: '#fff' });
     expect(style1[0].build()).toBe('.card {\n  background-color: #fff;\n}');
