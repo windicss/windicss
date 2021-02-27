@@ -156,17 +156,15 @@ export class Style {
   }
 
   get rule(): string {
-    let result = this.selector ?? '';
-    (this._wrapSelectors ?? []).forEach((func) => (result = func(result)));
-    this._parentSelectors &&
-      (result = `${this._parentSelectors.join(' ')} ${result}`);
-    this._pseudoClasses && (result += `:${this._pseudoClasses.join(':')}`);
-    this._pseudoElements && (result += `::${this._pseudoElements.join('::')}`);
-    this._brotherSelectors &&
-      (result += `.${this._brotherSelectors.join('.')}`);
-    this._childSelectors && (result += ` ${this._childSelectors.join(' ')}`);
-    (this._wrapRules ?? []).forEach((func) => (result = func(result)));
-    return result;
+    let selectors = (this.selector ?? '').trim().split(/\s*,\s*/g);
+    (this._wrapSelectors ?? []).forEach((func) => (selectors = selectors.map(i => func(i))));
+    this._parentSelectors && (selectors = selectors.map(i => `${this._parentSelectors?.join(' ')} ${i}`));
+    this._pseudoClasses && (selectors = selectors.map(i => i + `:${this._pseudoClasses?.join(':')}`));
+    this._pseudoElements && (selectors = selectors.map(i => i + `::${this._pseudoElements?.join('::')}`));
+    this._brotherSelectors && (selectors = selectors.map(i => i + `.${this._brotherSelectors?.join('.')}`));
+    this._childSelectors && (selectors = selectors.map(i => i + ` ${this._childSelectors?.join(' ')}`));
+    (this._wrapRules ?? []).forEach((func) => (selectors = selectors.map(i => func(i))));
+    return selectors.join(', ');
   }
 
   get pseudoClasses(): string[] | undefined {

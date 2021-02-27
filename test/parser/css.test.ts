@@ -142,13 +142,11 @@ describe('CSSParser', () => {
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
 
-  it('do not trunc data url', () => {
-    const css = `
-@font-face {
-  font-family: "iconfont";
-  src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');
-}`;
+  it('apply hover with multiple selector', () => {
+    const css = `.a, .b {
+      @apply hover:text-red-200;
+    }`;
     const parser = new CSSParser(css, PROCESSOR);
-    expect(parser.parse().build()).toMatchSnapshot('data url');
+    expect(parser.parse().build()).toMatchSnapshot('css');
   });
 });
