@@ -45,9 +45,7 @@ export default class CSSParser {
     let parsed = Property.parse(css);
     if (!parsed) return;
     if (!Array.isArray(parsed)) parsed = [parsed];
-    const properties: Property[] = parsed.filter(
-      (i) => !(i instanceof InlineAtRule)
-    );
+    const properties: Property[] = parsed.filter(i => !(i instanceof InlineAtRule));
     const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === 'apply' && i.value);
     if (this.processor && applies.length > 0) {
 
@@ -84,7 +82,7 @@ export default class CSSParser {
     if (['tailwind', 'responsive'].includes(iatrule.name)) return;
     if (iatrule.name === 'variants' && iatrule.value)
       return {
-        variants: iatrule.value.split(',').map((i) => i.trim().split(':')),
+        variants: iatrule.value.split(',').map(i => i.trim().split(':')),
       };
     if (iatrule.name === 'screen' && iatrule.value) {
       const screens = this.processor.resolveVariants('screen');
@@ -159,10 +157,7 @@ export default class CSSParser {
         }
         // nested selector
         const selector = css.substring(firstLetter, nestStart).trim();
-        const styles = this._generateStyle(
-          css.substring(nestStart + 1, nestEnd),
-          css.substring(firstLetter, nestStart).trim()
-        );
+        const styles = this._generateStyle(css.substring(nestStart + 1, nestEnd), selector);
         if (styles) {
           if (selector.startsWith('.')) this._cache[selector] = deepCopy(styles);
           styleSheet.add(styles);

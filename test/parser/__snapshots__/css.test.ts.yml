@@ -11,6 +11,11 @@ Tools / apply chain / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   }
+Tools / apply hover with multiple selector / css / 0: |-
+  .a:hover, .b:hover {
+    --tw-text-opacity: 1;
+    color: rgba(254, 202, 202, var(--tw-text-opacity));
+  }
 Tools / normal parse / css / 0: |-
   @charset "utf-8";
   @tailwind base;
@@ -23,8 +28,7 @@ Tools / normal parse / css / 0: |-
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
   }
-  img,
-  video {
+  img, video {
     max-width: 100%;
     height: auto;
   }
@@ -104,8 +108,7 @@ Tools / transform parse / css / 0: |-
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
   }
-  img,
-  video {
+  img, video {
     max-width: 100%;
     height: auto;
   }

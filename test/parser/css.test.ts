@@ -141,4 +141,12 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  it('apply hover with multiple selector', () => {
+    const css = `.a, .b {
+      @apply hover:text-red-200;
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toMatchSnapshot('css');
+  });
 });
