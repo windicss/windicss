@@ -160,4 +160,18 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  it('theme function', () => {
+    const css = `.btn-blue {
+      background-color: theme('colors.blue.500');
+    }
+    .content-area {
+      height: calc(100vh - theme('spacing[2.5]', '0.625rem')) + theme('spacing.2', '0.5rem');
+    }
+    .content-area2 {
+      height: calc(100vh - theme('spacing.a', '4rem'));
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toMatchSnapshot('css');
+  });
 });

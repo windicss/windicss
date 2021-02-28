@@ -41,6 +41,22 @@ export default class CSSParser {
     return -1;
   }
 
+  private _loadTheme(prop: string): string | undefined {
+    if (!this.processor) return;
+    let index = 0;
+    const output:string[] = [];
+    while (index < prop.length) {
+      const matched = prop.slice(index,).match(/theme\([^)]*?\)/);
+      if (!matched || matched.index === undefined) break;
+      output.push(prop.slice(index, index + matched.index));
+      const args = matched[0].slice(6, -1).split(/\s*,\s*/).map(i => i.trim().replace(/^['"]+|['"]+$/g, ''));
+      output.push(this.processor.theme(args[0], args[1]) as string);
+      index += matched.index + matched[0].length;
+    }
+    output.push(prop.slice(index,));
+    return output.join('');
+  }
+
   private _generateStyle(css: string, selector?: string): Style[] | undefined {
     let parsed = Property.parse(css);
     if (!parsed) return;
@@ -68,6 +84,7 @@ export default class CSSParser {
           return i.property;
         }).reduce((prev, current) => [...prev, ...current], []));
       } else {
+        if (!(prop instanceof InlineAtRule) && prop.value?.match(/theme\([^)]*\)/)) prop.value = this._loadTheme(prop.value);
         style.add(prop);
       }
     }

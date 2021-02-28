@@ -104,6 +104,16 @@ Tools / normal parse / css / 0: |-
       @apply text-green-300;
     }
   }
+Tools / theme function / css / 0: |-
+  .btn-blue {
+    background-color: #3b82f6;
+  }
+  .content-area {
+    height: calc(100vh - 0.625rem) + 0.5rem;
+  }
+  .content-area2 {
+    height: calc(100vh - 4rem);
+  }
 Tools / transform parse / css / 0: |-
   @charset "utf-8";
   @tailwind base;
