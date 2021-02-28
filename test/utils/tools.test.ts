@@ -135,12 +135,12 @@ describe('Tools', () => {
   it('getNestedValue', () => {
     expect(getNestedValue({ test: 'hello' }, 'hello')).toBeUndefined();
     expect(getNestedValue({ test: 'hello' }, 'test')).toBe('hello');
-    expect(getNestedValue({ test: { wrap: 'hello' } }, 'test.wrap')).toBe(
-      'hello'
-    );
-    expect(
-      getNestedValue({ test: { wrap: 'hello' } }, 'test.c')
-    ).toBeUndefined();
+    expect(getNestedValue({ test: { wrap: 'hello' } }, 'test.wrap')).toBe('hello');
+    expect(getNestedValue({ test: { wrap: 'hello' } }, 'test.c')).toBeUndefined();
+    expect(getNestedValue({ test: { wrap: 'hello' } }, 'test[wrap]')).toBe('hello');
+    expect(getNestedValue({ test: { wrap: { hello: 'world' } } }, 'test[wrap][\'hello\']')).toBe('world');
+    expect(getNestedValue({ test: { wrap: 'hello' } }, 'test')).toEqual({ wrap: 'hello' });
+    expect(getNestedValue({ test: { wrap: { hello: 'world' } } }, 'test.wrap.hello')).toBe('world');
   });
 
   it('negateValue', () => {

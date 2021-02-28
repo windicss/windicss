@@ -34,7 +34,7 @@ export function hsl2rgb(h: number, s: number, l: number): [number, number, numbe
   return [r, g, b];
 }
 
-export function hwb2rgb (h: number, w: number, b: number): [number, number, number] {
+export function hwb2rgb(h: number, w: number, b: number): [number, number, number] {
   const rgb = hsl2rgb(h, 100, 50);
 
   for (let i = 0; i < 3; ++i) {

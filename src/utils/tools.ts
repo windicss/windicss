@@ -103,14 +103,27 @@ export function dashToCamel(str: string): string {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getNestedValue(obj: { [key: string]: any }, key: string): any {
-  const keys = key.split('.');
-  let result = obj;
-  const end = keys.length - 1;
-  keys.forEach((value, index) => {
-    result = result[value];
-    if (index !== end && !result) result = {};
-  });
-  return result;
+  const topKey = key.match(/^\w+/);
+  if (!topKey) return;
+  let topValue = obj[topKey[0]];
+  if (!topValue) return;
+  let index = topKey[0].length;
+  while(index < key.length) {
+    const square = key.slice(index, ).match(/\[[^\s\]]+?\]/);
+    const dot = key.slice(index, ).match(/\.\w+$|\.\w+(?=\.)/);
+    if (( !square && !dot ) || ( square?.index === undefined && dot?.index === undefined )) return topValue;
+    if (typeof topValue !== 'object') return;
+    if (dot && dot.index !== undefined && (square?.index === undefined || dot.index < square.index)) {
+      const arg = dot[0].slice(1,);
+      topValue = topValue[arg];
+      index += dot.index + dot[0].length;
+    } else if (square && square.index !== undefined) {
+      const arg = square[0].slice(1, -1).trim().replace(/^['"]+|['"]+$/g, '');
+      topValue = topValue[arg];
+      index += square.index + square[0].length;
+    }
+  }
+  return topValue;
 }
 
 export function negateValue(value: string): string {
