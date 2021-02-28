@@ -41,36 +41,37 @@ export default class CSSParser {
     return -1;
   }
 
-  private _generateStyle(css: string, selector?: string) {
+  private _generateStyle(css: string, selector?: string): Style[] | undefined {
     let parsed = Property.parse(css);
     if (!parsed) return;
-    if (!Array.isArray(parsed)) parsed = [parsed];
-    const properties: Property[] = parsed.filter(i => !(i instanceof InlineAtRule));
-    const applies = parsed.filter((i) => i instanceof InlineAtRule && i.name === 'apply' && i.value);
-    if (this.processor && applies.length > 0) {
+    if (!Array.isArray(parsed)) parsed = [ parsed ];
+    if (!this.processor) return [ new Style(selector, parsed, false) ];
+    const style = new Style(selector);
+    let atrules: Style[] = [];
+    for (const prop of parsed) {
+      if (prop instanceof InlineAtRule && prop.name === 'apply' && prop.value) {
+        const result = this.processor.compile(prop.value, undefined, false, false, (ignored) => {
+          if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
+        });
 
-      const notImportant = this.processor.compile(applies.filter(i => !i.important).map(i => i.value).join(' '), undefined, false, false, (ignored) => {
-        if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
-      });
-      notImportant.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => notImportant.styleSheet.add(this._cache[i]));
-      notImportant.styleSheet.children.forEach((style) => {
-        style.selector = selector;
-      });
+        atrules = atrules.concat(result.styleSheet.children.filter(i => !i.simple).map(i => {
+          i.selector = selector;
+          i.important = prop.important ?? false;
+          return i;
+        }));
 
-      const important = this.processor.compile(applies.filter(i => i.important).map(i => i.value).join(' '), undefined, false, false, (ignored) => {
-        if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
-      });
-      important.ignored.map(i => '.' + i).filter(i => i in this._cache).map(i => important.styleSheet.add(this._cache[i]));
-      important.styleSheet.children.forEach((style) => {
-        style.selector = selector;
-        style.important = true;
-      });
-
-      return properties.length > 0
-        ? [new Style(selector, properties, false), ...notImportant.styleSheet.extend(important.styleSheet).children]
-        : notImportant.styleSheet.extend(important.styleSheet).children;
+        style.add(result.styleSheet.children.filter(i => i.simple).map(i => {
+          if (prop.important) return i.property.map(i => {
+            i.important = true;
+            return i;
+          });
+          return i.property;
+        }).reduce((prev, current) => [...prev, ...current], []));
+      } else {
+        style.add(prop);
+      }
     }
-    return [ new Style(selector, this.processor ? properties : parsed, false) ];
+    return style.property[0]? [style, ...atrules]: atrules;
   }
 
   private _handleDirectives(

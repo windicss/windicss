@@ -199,6 +199,11 @@ export class Style {
     return this._wrapRules;
   }
 
+  get simple(): boolean {
+    // is this style only has property and no wrap?
+    return !(this.atRules || this._pseudoClasses || this._pseudoElements || this._parentSelectors || this._childSelectors || this._brotherSelectors || this._wrapProperties || this._wrapSelectors || this._wrapRules);
+  }
+
   static generate(
     parent?: string,
     property?: NestObject,
