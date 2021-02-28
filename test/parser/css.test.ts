@@ -149,4 +149,15 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  it('do not change apply order', () => {
+    const css = `.test-border {
+      @apply border-red-500;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toMatchSnapshot('css');
+  });
 });

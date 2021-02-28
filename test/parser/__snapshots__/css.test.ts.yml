@@ -16,6 +16,14 @@ Tools / apply hover with multiple selector / css / 0: |-
     --tw-text-opacity: 1;
     color: rgba(254, 202, 202, var(--tw-text-opacity));
   }
+Tools / do not change apply order / css / 0: |-
+  .test-border {
+    --tw-border-opacity: 1;
+    border-color: rgba(239, 68, 68, var(--tw-border-opacity));
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
 Tools / normal parse / css / 0: |-
   @charset "utf-8";
   @tailwind base;
