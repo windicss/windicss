@@ -18,11 +18,11 @@ Tools / apply hover with multiple selector / css / 0: |-
   }
 Tools / do not change apply order / css / 0: |-
   .test-border {
-    --tw-border-opacity: 1;
-    border-color: rgba(239, 68, 68, var(--tw-border-opacity));
     border-right-color: transparent;
     border-bottom-color: transparent;
     border-left-color: transparent;
+    --tw-border-opacity: 1;
+    border-color: rgba(239, 68, 68, var(--tw-border-opacity));
   }
 Tools / normal parse / css / 0: |-
   @charset "utf-8";

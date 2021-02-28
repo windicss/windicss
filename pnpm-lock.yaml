@@ -5,6 +5,7 @@ devDependencies:
   '@rollup/plugin-replace': 2.3.4_rollup@2.39.0
   '@rollup/plugin-sucrase': 3.1.0_rollup@2.39.0
   '@rollup/plugin-typescript': 8.2.0_1219a9f9985ee12b9322d5007b6c7049
+  '@types/color-string': 1.5.0
   '@types/diff': 5.0.0
   '@types/fs-extra': 9.0.7
   '@types/jasmine': 3.6.4
@@ -17,6 +18,7 @@ devDependencies:
   bumpp: 6.0.6
   caller-path: 3.0.0
   chalk: 4.1.0
+  color-string: 1.5.4
   cross-env: 7.0.3
   css-select: 3.1.2
   css-what: 4.0.0
@@ -365,6 +367,10 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
+  /@types/color-string/1.5.0:
+    dev: true
+    resolution:
+      integrity: sha512-17/8LWbkfvoKgfnnBvKbUnPTzPtzBlSELf5FPvVt9dRTQW88igOYZZ78us9dmbY1301VtTBEnuPTKspvmtGDxA==
   /@types/diff/5.0.0:
     dev: true
     resolution:
@@ -813,6 +819,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+  /color-string/1.5.4:
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: true
+    resolution:
+      integrity: sha512-57yF5yt8Xa3czSEW1jfQDE79Idk0+AkN/4KWad6tbdxUmAs3MvjxlWSWD4deYytcRfoZ9nhKyFl1kj5tBvidbw==
   /colors/1.4.0:
     dev: true
     engines:
@@ -1503,6 +1516,10 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==
+  /is-arrayish/0.3.2:
+    dev: true
+    resolution:
+      integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
   /is-core-module/2.2.0:
     dependencies:
       has: 1.0.3
@@ -2196,6 +2213,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
+  /simple-swizzle/0.2.2:
+    dependencies:
+      is-arrayish: 0.3.2
+    dev: true
+    resolution:
+      integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
   /slash/3.0.0:
     dev: true
     engines:
@@ -2556,6 +2579,7 @@ specifiers:
   '@rollup/plugin-replace': ^2.3.4
   '@rollup/plugin-sucrase': ^3.1.0
   '@rollup/plugin-typescript': ^8.1.0
+  '@types/color-string': ^1.5.0
   '@types/diff': ^5.0.0
   '@types/fs-extra': ^9.0.7
   '@types/jasmine': ^3.6.3
@@ -2568,6 +2592,7 @@ specifiers:
   bumpp: ^6.0.6
   caller-path: ^3.0.0
   chalk: ^4.1.0
+  color-string: ^1.5.4
   cross-env: ^7.0.3
   css-select: ^3.1.2
   css-what: ^4.0.0

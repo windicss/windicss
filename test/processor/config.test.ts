@@ -277,6 +277,7 @@ describe('Config', () => {
     });
     expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('shortcuts object');
   });
+
   it('allows to use prefix with shortcuts', () => {
     const processor = new Processor({
       prefix: 'windi-',
@@ -290,5 +291,25 @@ describe('Config', () => {
     const result = processor.interpret('windi-btn windi-btn-green');
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('shortcuts with prefix');
+  });
+
+  it('different colors', () => {
+    const processor = new Processor({
+      theme: {
+        colors: {
+          name: 'blue',
+          hex: '#1c1c1e',
+          hexa: '#0000ff00',
+          rgb: 'rgb(23, 23, 24)',
+          rgba: 'rgba(23, 23, 25, 0.5)',
+          hsl: 'hsl(120, 100%, 50%)',
+          hsla: 'hsla(120, 100%, 75%, 0.3)',
+          hwb: 'hwb(280, 40%, 60%)',
+          hwba: 'hwb(280, 40%, 60%, 0)',
+          srgb: 'rgb(69.99%, 32%, 32%)',
+        },
+      },
+    });
+    expect(processor.interpret('bg-name bg-hex bg-hexa bg-rgb bg-rgba bg-hsl bg-hsla bg-hwb bg-hwba bg-srgb').styleSheet.build()).toMatchSnapshot('colors');
   });
 });

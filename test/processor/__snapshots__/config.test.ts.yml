@@ -59,6 +59,47 @@ Tools / color config test / css / 0: |-
   .bg-on-frame-active {
     background-color: var(--on-frame-active);
   }
+Tools / different colors / colors / 0: |-
+  .bg-name {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 255, var(--tw-bg-opacity));
+  }
+  .bg-hex {
+    --tw-bg-opacity: 1;
+    background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
+  }
+  .bg-hexa {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 255, var(--tw-bg-opacity));
+  }
+  .bg-rgb {
+    --tw-bg-opacity: 1;
+    background-color: rgba(23, 23, 24, var(--tw-bg-opacity));
+  }
+  .bg-rgba {
+    --tw-bg-opacity: 1;
+    background-color: rgba(23, 23, 25, var(--tw-bg-opacity));
+  }
+  .bg-hsl {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 255, 0, var(--tw-bg-opacity));
+  }
+  .bg-hsla {
+    --tw-bg-opacity: 1;
+    background-color: rgba(128, 255, 128, var(--tw-bg-opacity));
+  }
+  .bg-hwb {
+    --tw-bg-opacity: 1;
+    background-color: rgba(102, 102, 102, var(--tw-bg-opacity));
+  }
+  .bg-hwba {
+    --tw-bg-opacity: 1;
+    background-color: rgba(102, 102, 102, var(--tw-bg-opacity));
+  }
+  .bg-srgb {
+    --tw-bg-opacity: 1;
+    background-color: rgba(178, 82, 82, var(--tw-bg-opacity));
+  }
 Tools / handle colors test / css / 0: |-
   .bg-discord {
     --tw-bg-opacity: 1;

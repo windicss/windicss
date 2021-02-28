@@ -1,5 +1,6 @@
 import { Utility } from './handler';
-import { hex2RGB, dashToCamel, toType } from '../../utils/tools';
+import { dashToCamel, toType } from '../../utils/tools';
+import { toRGB } from '../../utils/color';
 import { Property, Style, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
@@ -480,7 +481,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       new Property(
         'color',
         `rgba(${
-          value.startsWith('var') ? value : hex2RGB(value)?.join(', ')
+          value.startsWith('var') ? value : toRGB(value)?.join(', ')
         }, var(--tw-text-opacity))`
       ),
     ]);
@@ -550,7 +551,7 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
   if (value) {
     if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
       return new Property('color', value);
-    const rgb = value.startsWith('var') ? value : hex2RGB(value)?.join(', ');
+    const rgb = value.startsWith('var') ? value : toRGB(value)?.join(', ');
     return [
       new Style(utility.class, [
         new Property('--tw-placeholder-opacity', '1'),
@@ -629,7 +630,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-bg-opacity', '1'),
       new Property(
         'background-color',
-        `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-bg-opacity))`
+        `rgba(${toRGB(value)?.join(', ')}, var(--tw-bg-opacity))`
       ),
     ]);
   }
@@ -650,7 +651,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
       rgb = '255, 255, 255';
       break;
     default:
-      rgb = value.startsWith('var') ? '255, 255, 255' : hex2RGB(value)?.join(', ');
+      rgb = value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
     }
     return new Style(utility.class, [
       new Property('--tw-gradient-from', value),
@@ -677,7 +678,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
       rgb = '255, 255, 255';
       break;
     default:
-      rgb = value.startsWith('var') ? '255, 255, 255' : hex2RGB(value)?.join(', ');
+      rgb = value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
     }
     return new Property(
       '--tw-gradient-stops',
@@ -750,7 +751,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-border-opacity', '1'),
       new Property(
         'border-color',
-        value.startsWith('var') ? value: `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-border-opacity))`
+        value.startsWith('var') ? value: `rgba(${toRGB(value)?.join(', ')}, var(--tw-border-opacity))`
       ),
     ]);
   }
@@ -812,7 +813,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-divide-opacity', '1'),
       new Property(
         'border-color',
-        value.startsWith('var') ? value : `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-divide-opacity))`
+        value.startsWith('var') ? value : `rgba(${toRGB(value)?.join(', ')}, var(--tw-divide-opacity))`
       ),
     ]).child('> :not([hidden]) ~ :not([hidden])');
   }
@@ -948,7 +949,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
       new Property('--tw-ring-opacity', '1'),
       new Property(
         '--tw-ring-color',
-        `rgba(${hex2RGB(value)?.join(', ')}, var(--tw-ring-opacity))`),
+        `rgba(${toRGB(value)?.join(', ')}, var(--tw-ring-opacity))`),
     ]
     );
   }
