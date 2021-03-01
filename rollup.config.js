@@ -155,6 +155,26 @@ export default [
     ],
   },
 
+  // template
+  {
+    input: 'src/template.ts',
+    output: [
+      {
+        file: dump('template.js'),
+        format: 'cjs',
+        exports: 'default',
+      },
+      {
+        file: dump('template.mjs'),
+        format: 'esm',
+      },
+    ],
+    plugins: [
+      ts_plugin,
+      types("template.d.ts", "./types/template", "{ default }")
+    ],
+  },
+
   // plugin
   {
     input: 'src/plugin/index.ts',

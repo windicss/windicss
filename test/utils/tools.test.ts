@@ -21,7 +21,6 @@ import {
   flatColors,
   transform,
   searchPropEnd,
-  windi,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
@@ -237,11 +236,5 @@ describe('Tools', () => {
   it('search property end', () => {
     expect(searchPropEnd('font-family: "iconfont";')).toEqual(23);
     expect(searchPropEnd(String.raw`src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');`)).toEqual(105);
-  });
-
-  it('template literal', () => {
-    const color = 'red-500';
-    const style = windi`bg-gray-100 text-${color} rounded`;
-    expect(style).toEqual('bg-gray-100 text-red-500 rounded');
   });
 });
