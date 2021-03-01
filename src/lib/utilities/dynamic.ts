@@ -164,7 +164,7 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(1, undefined, 'int')
     .handleVariable()
     .createProperty(`grid-template-${type}`, (value: string) =>
-      value === 'none' ? 'none' : value.startsWith('repeat') ? value : `repeat(${value}, minmax(0, 1fr));`
+      value === 'none' ? 'none' : value.startsWith('repeat') ? value : `repeat(${value}, minmax(0, 1fr))`
     );
 }
 
