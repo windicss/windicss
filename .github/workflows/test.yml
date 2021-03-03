@@ -30,9 +30,9 @@ jobs:
       id: pnpm-cache
       with:
         path: ~/.pnpm-store
-        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        key: ${{ runner.os }}-${{ matrix.node-version }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-
+          ${{ runner.os }}-${{ matrix.node-version }}-pnpm-
     - name: Install pnpm
       run: npm install -g pnpm
     - name: Install dependencies
