@@ -16,8 +16,8 @@
     "typecheck": "tsc -p ./src --noEmit",
     "build": "rollup -c && pnpm tsd",
     "build:prod": "cross-env NODE_ENV=production && pnpm build",
-    "test": "esno test/run.ts",
-    "test:update": "cross-env UPDATE_SNAPSHOT=true esno test/run.ts",
+    "test": "sucrase-node test/run.ts",
+    "test:update": "cross-env UPDATE_SNAPSHOT=true sucrase-node test/run.ts",
     "test:dts": "tsc -p ./test-dts --noEmit",
     "coverage": "nyc --nycrc-path=.nycrc.json pnpm test",
     "release": "bumpp --tag --commit --push"
@@ -131,7 +131,6 @@
     "diff": "^5.0.0",
     "domhandler": "^4.0.0",
     "eslint": "^7.18.0",
-    "esno": "^0.4.3",
     "fs-extra": "^9.1.0",
     "htmlparser2": "^6.0.0",
     "jasmine": "^3.6.4",
@@ -140,6 +139,7 @@
     "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
     "rollup": "^2.37.0",
+    "sucrase": "^3.17.1",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   }

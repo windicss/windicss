@@ -25,7 +25,6 @@ devDependencies:
   diff: 5.0.0
   domhandler: 4.0.0
   eslint: 7.20.0
-  esno: 0.4.4
   fs-extra: 9.1.0
   htmlparser2: 6.0.0
   jasmine: 3.6.4
@@ -34,6 +33,7 @@ devDependencies:
   mini-svg-data-uri: 1.2.3
   nyc: 15.1.0
   rollup: 2.39.0
+  sucrase: 3.17.1
   tslib: 2.1.0
   typescript: 4.1.5
 lockfileVersion: 5.2
@@ -677,10 +677,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
-  /buffer-from/1.1.1:
-    dev: true
-    resolution:
-      integrity: sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
   /builtin-modules/3.2.0:
     dev: true
     engines:
@@ -1019,24 +1015,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Um/+FxMr9CISWh0bi5Zv0iOD+4cFh5qLeks1qhAopKVAJw3drgKbKySikp7wGhDL0HPeaja0P5ULZrxLkniUVg==
-  /esbuild-register/2.0.0_esbuild@0.8.49:
-    dependencies:
-      esbuild: 0.8.49
-      joycon: 2.2.5
-      pirates: 4.0.1
-      source-map-support: 0.5.19
-      strip-json-comments: 3.1.1
-    dev: true
-    peerDependencies:
-      esbuild: '>=0.8.31'
-    resolution:
-      integrity: sha512-98i1+7OnCURCbKaWw5wnY05e4v7uknFEER7LtVxi/lCs8U+sl6/LnITvfeoDLrsqxlA3O6BjxK8QqsirfYULfA==
-  /esbuild/0.8.49:
-    dev: true
-    hasBin: true
-    requiresBuild: true
-    resolution:
-      integrity: sha512-itiFVYv5UZz4NooO7/Y0bRGVDGz/M/cxKbl6zyNI5pnKaz1mZjvZXAFhhDVz6rGCmcdTKj5oag6rh8DaaSSmfQ==
   /escape-string-regexp/1.0.5:
     dev: true
     engines:
@@ -1117,14 +1095,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-qGi0CTcOGP2OtCQBgWZlQjcTuP0XkIpYFj25XtRTQSHC+umNnp7UMshr2G8SLsRFYDdAPFeHOsiteadmMH02Yw==
-  /esno/0.4.4:
-    dependencies:
-      esbuild: 0.8.49
-      esbuild-register: 2.0.0_esbuild@0.8.49
-    dev: true
-    hasBin: true
-    resolution:
-      integrity: sha512-YthG7d+wodPWKkJTdQPMrKZCbJgtyWsel6UBekjZw8AahUTtkqvtLXcMnRXeZ5YIcjviLXw3Cmq7hVlvB7dFyw==
   /espree/7.3.1:
     dependencies:
       acorn: 7.4.1
@@ -1668,12 +1638,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-hIeOou6y0BgCOKYgXYveQvlY+PTHgDPajFf+vLCYbMTQ+VjAP9+EQv0nuC9+gyCAAWISRFauB1XUb9kFuOKtcQ==
-  /joycon/2.2.5:
-    dev: true
-    engines:
-      node: '>=6'
-    resolution:
-      integrity: sha512-YqvUxoOcVPnCp0VU1/56f+iKSdvIRJYPznH22BdXV3xMk75SFXhWeJkZ8C9XxUWt1b5x2X1SxuFygW1U0FmkEQ==
   /js-tokens/4.0.0:
     dev: true
     resolution:
@@ -2235,13 +2199,6 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==
-  /source-map-support/0.5.19:
-    dependencies:
-      buffer-from: 1.1.1
-      source-map: 0.6.1
-    dev: true
-    resolution:
-      integrity: sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==
   /source-map/0.5.7:
     dev: true
     engines:
@@ -2599,7 +2556,6 @@ specifiers:
   diff: ^5.0.0
   domhandler: ^4.0.0
   eslint: ^7.18.0
-  esno: ^0.4.3
   fs-extra: ^9.1.0
   htmlparser2: ^6.0.0
   jasmine: ^3.6.4
@@ -2608,5 +2564,6 @@ specifiers:
   mini-svg-data-uri: ^1.2.3
   nyc: ^15.1.0
   rollup: ^2.37.0
+  sucrase: ^3.17.1
   tslib: ^2.1.0
   typescript: ^4.1.3
