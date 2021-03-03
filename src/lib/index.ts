@@ -232,7 +232,7 @@ export class Processor {
   }
 
   get allConfig(): DefaultConfig {
-    return this._config as DefaultConfig;
+    return this._config as unknown as DefaultConfig;
   }
 
   get allTheme(): DefaultTheme {

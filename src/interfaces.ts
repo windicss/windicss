@@ -170,7 +170,7 @@ export interface BaseTheme {
   typography: ThemeType
 }
 
-export type ResolvedTheme = Partial<BaseTheme>
+export type ResolvedTheme = Partial<BaseTheme> | { [key:string]: ThemeType }
 
 export type Theme = { extend: ResolvedTheme } | (ResolvedTheme & { extend?: undefined })
 
@@ -195,7 +195,7 @@ export interface Config {
   prefix?: string;
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
-
+  [key:string]: any;
   /**
    * @deprecated no longer needed for Windi CSS
    */
