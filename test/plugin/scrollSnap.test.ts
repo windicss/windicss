@@ -7,6 +7,7 @@ describe('Scroll Snap plugin', () => {
     processor.loadPlugin(scrollSnap);
     const classes = `
       scrollbar-hide
+      no-snap
       snap
       snap-start
       snap-end
