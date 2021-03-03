@@ -155,6 +155,29 @@ export default [
     ],
   },
 
+  // resolveConfig
+  {
+    input: 'src/resolveConfig.ts',
+    output: [
+      {
+        file: dump('resolveConfig.js'),
+        format: 'cjs',
+        exports: 'default',
+        paths: (id) => `./${path.relative('./src', id)}/index.js`,
+      },
+      {
+        file: dump('resolveConfig.mjs'),
+        format: 'esm',
+        paths: (id) => `./${path.relative('./src', id)}/index.mjs`,
+      },
+    ],
+    external: (id) => id.startsWith('./'),
+    plugins: [
+      ts_plugin,
+      types("resolveConfig.d.ts", "./types/resolveConfig", "{ default }")
+    ],
+  },
+
   // template
   {
     input: 'src/template.ts',
