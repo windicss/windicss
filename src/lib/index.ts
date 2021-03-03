@@ -607,7 +607,7 @@ export class Processor {
   }
 
   addUtilities(
-    utilities: DeepNestObject,
+    utilities: DeepNestObject | DeepNestObject[],
     options: PluginUtilOptions = {
       variants: [],
       respectPrefix: true,
@@ -616,6 +616,11 @@ export class Processor {
   ): Style[] {
     if (Array.isArray(options)) options = { variants: options };
     let output: Style[] = [];
+    if (Array.isArray(utilities)) {
+      utilities = utilities.reduce((previous: {[key:string]:unknown}, current) => {
+        return combineConfig(previous, current);
+      }, {}) as DeepNestObject;
+    }
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
