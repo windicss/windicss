@@ -17,16 +17,13 @@ import {
   searchFrom,
   connectList,
   deepCopy,
+  convert,
   toType,
   flatColors,
-  convert,
-  transform,
   searchPropEnd,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
-
-import { readFileSync } from 'fs';
 
 describe('Tools', () => {
   it('hash', () => {
@@ -236,16 +233,6 @@ describe('Tools', () => {
       const defaultTheme = require('windicss/defaultTheme');
       const typography = require('windicss/plugin/typography');
     `);
-  });
-
-  it('transform file', () => {
-    const path = transform('./test/assets/plugin.js');
-    expect(readFileSync(path).toString()).toMatchSnapshot('plugin');
-  });
-
-  it('transfrom module', () => {
-    const path = transform('./test/assets/plugin');
-    expect(readFileSync(path).toString()).toMatchSnapshot('plugin');
   });
 
   it('search property end', () => {

@@ -138,6 +138,7 @@
     "js-yaml": "^3.14.1",
     "mini-svg-data-uri": "^1.2.3",
     "nyc": "^15.1.0",
+    "pirates": "^4.0.1",
     "rollup": "^2.37.0",
     "sucrase": "^3.17.1",
     "tslib": "^2.1.0",
