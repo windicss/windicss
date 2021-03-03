@@ -12,7 +12,7 @@ Tools / interpret / css / 1: |-
   }
   .text-green-300 {
     --tw-text-opacity: 1;
-    color: rgba(134, 239, 172, var(--tw-text-opacity));
+    color: rgba(110, 231, 183, var(--tw-text-opacity));
   }
   @media (min-width: 640px) {
     .dark .sm\:dark\:hover\:text-lg:hover {
@@ -21,11 +21,11 @@ Tools / interpret / css / 1: |-
     }
     .sm\:bg-gray-100 {
       --tw-bg-opacity: 1;
-      background-color: rgba(244, 244, 245, var(--tw-bg-opacity));
+      background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
     }
     .sm\:hover\:bg-gray-200:hover {
       --tw-bg-opacity: 1;
-      background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
     }
   }
 Tools / interpret / success / 0: |-
@@ -44,7 +44,7 @@ Tools / interpret important / important / 0: |-
   }
   .\!text-green-300 {
     --tw-text-opacity: 1 !important;
-    color: rgba(134, 239, 172, var(--tw-text-opacity)) !important;
+    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
   .\!hover\:p-4:hover {
     padding: 1rem !important;

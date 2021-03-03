@@ -14,11 +14,11 @@ Tools / allows to use prefix with shortcuts / shortcuts with prefix / 0: |-
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
     --tw-bg-opacity: 1;
-    background-color: rgba(34, 197, 94, var(--tw-bg-opacity));
+    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
   }
   .windi-btn-green:hover {
     --tw-bg-opacity: 1;
-    background-color: rgba(21, 128, 61, var(--tw-bg-opacity));
+    background-color: rgba(4, 120, 87, var(--tw-bg-opacity));
   }
 Tools / animation config test / animate / 0: |-
   @keyframes skbounce {
@@ -117,7 +117,7 @@ Tools / handle colors test / css / 0: |-
     --tw-ring-offset-color: #1c1c1e;
   }
   .ring-offset-gray-200 {
-    --tw-ring-offset-color: #e4e4e7;
+    --tw-ring-offset-color: #e5e7eb;
   }
   .text-primary-color-red {
     --tw-text-opacity: 1;
@@ -264,7 +264,7 @@ Tools / shortcuts config object / shortcuts object / 0: |-
   .btn:hover {
     color: black;
     --tw-bg-opacity: 1;
-    background-color: rgba(21, 128, 61, var(--tw-bg-opacity));
+    background-color: rgba(4, 120, 87, var(--tw-bg-opacity));
   }
 Tools / shortcuts config string / shortcuts string / 0: |-
   .btn {
@@ -282,11 +282,11 @@ Tools / shortcuts config string / shortcuts string / 0: |-
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
     --tw-bg-opacity: 1;
-    background-color: rgba(34, 197, 94, var(--tw-bg-opacity));
+    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
   }
   .btn-green:hover {
     --tw-bg-opacity: 1;
-    background-color: rgba(21, 128, 61, var(--tw-bg-opacity));
+    background-color: rgba(4, 120, 87, var(--tw-bg-opacity));
   }
   @media (min-width: 1024px) {
     .lg\:btn {

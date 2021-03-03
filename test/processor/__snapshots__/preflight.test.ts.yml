@@ -4,7 +4,7 @@ Tools / all tags / tags / 0: |-
     box-sizing: border-box;
     border-width: 0;
     border-style: solid;
-    border-color: #e4e4e7;
+    border-color: #e5e7eb;
   }
   * {
     --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
@@ -115,23 +115,23 @@ Tools / all tags / tags / 0: |-
   }
   input::placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   input::webkit-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   input::-moz-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   input:-ms-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   input::-ms-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   img, svg, video, canvas, audio, iframe, embed, object {
     display: block;
@@ -183,23 +183,23 @@ Tools / all tags / tags / 0: |-
   }
   textarea::placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   textarea::webkit-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   textarea::-moz-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   textarea:-ms-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
   textarea::-ms-input-placeholder {
     opacity: 1;
-    color: #a1a1aa;
+    color: #9ca3af;
   }
 Tools / some tags / css / 1: |-
   a {
@@ -233,7 +233,7 @@ Tools / some tags / tags / 0: |-
     box-sizing: border-box;
     border-width: 0;
     border-style: solid;
-    border-color: #e4e4e7;
+    border-color: #e5e7eb;
   }
   * {
     --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
