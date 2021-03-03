@@ -32,3 +32,24 @@ defineConfig({
 defineConfig({
   theme: {},
 });
+
+// works
+defineConfig({
+  theme: {
+    random: [],
+  },
+});
+
+// works
+defineConfig({
+  theme: {
+    extend: {
+      random: [],
+    },
+  },
+});
+
+// works
+defineConfig({
+  random: [],
+});
