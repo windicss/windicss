@@ -211,6 +211,9 @@ Tools / grid template test / grid template / 0: |-
   .grid-rows-4 {
     grid-template-rows: repeat(4, minmax(0, 1fr));
   }
+  .grid-cols-layout {
+    grid-template-columns: 200px minmax(900px, 1fr) 100px;
+  }
 Tools / ring opacity / css / 0: |-
   .ring-transparent {
     --tw-ring-color: transparent;

@@ -90,6 +90,7 @@ describe('Utilities', () => {
         extend: {
           gridTemplateColumns: {
             list: 'repeat(auto-fit, minmax(16em, 1fr))',
+            'layout': '200px minmax(900px, 1fr) 100px',
           },
           gridTemplateRows: {
             list: 'repeat(auto-fit, minmax(16em, 1fr))',
@@ -97,7 +98,7 @@ describe('Utilities', () => {
         },
       },
     });
-    expect(processor.interpret('grid-cols-list grid-rows-list grid-cols-4 grid-rows-4').styleSheet.build()).toMatchSnapshot('grid template');
+    expect(processor.interpret('grid-cols-list grid-rows-list grid-cols-4 grid-rows-4 grid-cols-layout').styleSheet.build()).toMatchSnapshot('grid template');
   });
 
   it('fontsize config test', () => {

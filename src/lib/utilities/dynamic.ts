@@ -159,13 +159,14 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
     return;
   }
 
-  return utility.handler
+  const value = utility.handler
     .handleStatic(type === 'rows' ? theme('gridTemplateRows') : theme('gridTemplateColumns'))
+    .createProperty(`grid-template-${type}`, (value: string) => value === 'none' ? 'none' : value);
+  if (value) return value;
+  return utility.handler
     .handleNumber(1, undefined, 'int')
     .handleVariable()
-    .createProperty(`grid-template-${type}`, (value: string) =>
-      value === 'none' ? 'none' : value.startsWith('repeat') ? value : `repeat(${value}, minmax(0, 1fr))`
-    );
+    .createProperty(`grid-template-${type}`, (value: string) => `repeat(${value}, minmax(0, 1fr))`);
 }
 
 // https://tailwindcss.com/docs/grid-column
