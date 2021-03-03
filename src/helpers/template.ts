@@ -1,4 +1,4 @@
-export default function windi(strings: TemplateStringsArray, ...values: unknown[]): string {
+export function windi(strings: TemplateStringsArray, ...values: unknown[]): string {
   // windi template literal
   return strings.reduce((query, queryPart, i) => {
     const valueExists = i < values.length;

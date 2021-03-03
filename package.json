@@ -76,6 +76,10 @@
       "import": "./plugin/scroll-snap/index.js",
       "require": "./plugin/scroll-snap/index.js"
     },
+    "./helpers": {
+      "import": "./helpers/index.mjs",
+      "require": "./helpers/index.js"
+    },
     "./utils": {
       "import": "./utils/index.mjs",
       "require": "./utils/index.js"

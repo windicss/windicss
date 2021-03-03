@@ -1,4 +1,4 @@
-import windi from '../../src/template';
+import { windi } from '../../src/helpers';
 
 describe('template', () => {
   it('template literal', () => {
