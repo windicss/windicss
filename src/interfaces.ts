@@ -44,6 +44,8 @@ export type ConfigUtil = (
   }
 ) => { [key:string]: any };
 
+export type PluginFunction = (utils: PluginUtils) => void;
+
 export type PluginUtilOptions =
   | string[]
   | {
@@ -53,15 +55,15 @@ export type PluginUtilOptions =
     };
 
 export interface PluginBuilder {
-  (handler: (utils: PluginUtils) => void, config?: Config): PluginOutput;
+  (handler: PluginFunction, config?: Config): PluginOutput;
   withOptions: <T = DictStr>(
-    pluginFunction: (options: T) => (utils: PluginUtils) => void,
+    pluginFunction: (options: T) => PluginFunction,
     configFunction?: (options: T) => Config
   ) => PluginWithOptions<T>;
 }
 
 export interface PluginOutput {
-  handler: (utils: PluginUtils) => void;
+  handler: PluginFunction;
   config?: Config;
   __isOptionsFunction?: false;
 }
@@ -69,7 +71,7 @@ export interface PluginOutput {
 export interface PluginWithOptions<T = DictStr> {
   (options?: T): PluginOutputWithOptions<T>;
   __isOptionsFunction: true;
-  __pluginFunction: (options: T) => (utils: PluginUtils) => void;
+  __pluginFunction: (options: T) => PluginFunction;
   __configFunction: (options: T) => Config;
 }
 
@@ -175,6 +177,7 @@ export type ResolvedTheme = Partial<BaseTheme> | { [key:string]: ThemeType }
 export type Theme = { extend: ResolvedTheme } | (ResolvedTheme & { extend?: undefined })
 
 export type Plugin =
+  | PluginFunction
   | PluginOutput
   | PluginWithOptions<unknown>
   | PluginOutputWithOptions<unknown>;

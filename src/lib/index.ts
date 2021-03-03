@@ -6,6 +6,7 @@ import { staticUtilities, dynamicUtilities } from './utilities';
 
 import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
+import plugin from '../plugin/index';
 import { baseConfig } from '../config';
 import cssEscape from '../utils/algorithm/cssEscape';
 import combineConfig from '../utils/algorithm/combineConfig';
@@ -201,7 +202,7 @@ export class Processor {
   resolveConfig(config: Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig({ ...deepCopy(config ? config : {}), exclude: config?.exclude }, deepCopy(presets)); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
-    this._config.plugins?.map(i => i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
+    this._config.plugins?.map(i => typeof i === 'function' ? this.loadPlugin(plugin(i)) : i.__isOptionsFunction ? this.loadPluginWithOptions(i) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
     this._variants = this.resolveVariants();
     return this._config;
