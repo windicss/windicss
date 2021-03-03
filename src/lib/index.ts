@@ -645,13 +645,19 @@ export class Processor {
       comment?: string,
       important = uOptions.respectImportant && this._config.important ? true : false
     ) => new Property(name, value, comment, important);
+    const keyframes = (
+      selector: string,
+      property?: Property | Property[],
+      important:boolean = uOptions.respectImportant && this._config.important ? true : false
+    ) => new Keyframes(selector, property, important);
+    keyframes.generate = Keyframes.generate;
     style.generate = Style.generate;
     prop.parse = Property.parse;
     if (key in this._plugin.dynamic) {
       // handle duplicated key;
-      this._plugin.dynamic[key] = (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop });
+      this._plugin.dynamic[key] = (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
     } else {
-      this._plugin.dynamic[key] = (Utility: Utility) => generator({ Utility, Style: style, Property: prop });
+      this._plugin.dynamic[key] = (Utility: Utility) => generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
     }
     return generator;
   }

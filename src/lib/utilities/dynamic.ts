@@ -1,10 +1,9 @@
 import { Utility } from './handler';
 import { dashToCamel, toType } from '../../utils/tools';
 import { toRGB } from '../../utils/color';
-import { Property, Style, Container } from '../../utils/style';
+import { Property, Style, Keyframes, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
-  generateKeyframe,
   generateFontSize,
   expandDirection,
 } from '../../utils/helpers';
@@ -1105,7 +1104,7 @@ function animation(utility: Utility, { theme }: PluginUtils): Output {
         utility.class,
         new Property(['-webkit-animation', 'animation'], value)
       ),
-      ... keyframe ? generateKeyframe(
+      ... keyframe ? Keyframes.generate(
         keyframe,
         (toType(theme(`keyframes.${keyframe}`), 'object') ?? {}) as {
           [key: string]: { [key: string]: string };

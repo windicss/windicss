@@ -1,7 +1,6 @@
 import {
   negative,
   breakpoints,
-  generateKeyframe,
   generateFontSize,
   expandDirection,
 } from '../../src/utils';
@@ -41,33 +40,6 @@ describe('Helpers', () => {
       'screen-xl': '1280px',
       'screen-2xl': '1536px',
     });
-  });
-
-  it('generateKeyframes', () => {
-    const bounce = {
-      '0%, 100%': {
-        transform: 'translateY(-25%)',
-        animationTimingFunction: 'cubic-bezier(0.8,0,1,1)',
-      },
-      '50%': {
-        transform: 'translateY(0)',
-        animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
-      },
-    };
-
-    const spin = {
-      from: {
-        transform: 'rotate(0deg)',
-      },
-      to: {
-        transform: 'rotate(360deg)',
-      },
-    };
-
-    expect(new StyleSheet(generateKeyframe('spin', spin)).build())
-      .toMatchSnapshot('spin');
-    expect(new StyleSheet(generateKeyframe('bounce', bounce)).build())
-      .toMatchSnapshot('bounce');
   });
 
   it('generateFontSize', () => {

@@ -34,37 +34,6 @@ export function breakpoints(
     );
 }
 
-export function generateKeyframe(
-  name: string,
-  children: { [key: string]: { [key: string]: string } }
-): Keyframes[] {
-  const output: Keyframes[] = [];
-  for (const [key, value] of Object.entries(children)) {
-    const style = new Keyframes(key).atRule(`@keyframes ${name}`);
-    const webkitStyle = new Keyframes(key).atRule(
-      `@-webkit-keyframes ${name}`
-    );
-    for (const [pkey, pvalue] of Object.entries(value)) {
-      let prop: string | string[] = pkey;
-      if (pkey === 'transform') {
-        prop = ['-webkit-transform', 'transform'];
-      } else if (
-        ['animationTimingFunction', 'animation-timing-function'].includes(pkey)
-      ) {
-        prop = [
-          '-webkit-animation-timing-function',
-          'animation-timing-function',
-        ];
-      }
-      style.add(new Property(prop, pvalue));
-      webkitStyle.add(new Property(prop, pvalue));
-    }
-    output.push(style);
-    output.push(webkitStyle);
-  }
-  return output;
-}
-
 export function generateFontSize(font: FontSize): Property[] {
   if (typeof font === 'string') return [ new Property('font-size', font) ];
   const properties: Property[] = [];

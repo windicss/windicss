@@ -1,6 +1,7 @@
 import {
   Property,
   Style,
+  Keyframes,
   GlobalStyle,
   StyleSheet,
   InlineAtRule,
@@ -454,5 +455,35 @@ describe('Global Style', () => {
 
   it('minimized build', () => {
     expect(s.build(true)).toBe('.test{padding:1rem;color:#1C1C1E}');
+  });
+});
+
+
+describe('Keyframes', () => {
+  it('generate', () => {
+    const bounce = {
+      '0%, 100%': {
+        transform: 'translateY(-25%)',
+        animationTimingFunction: 'cubic-bezier(0.8,0,1,1)',
+      },
+      '50%': {
+        transform: 'translateY(0)',
+        animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
+      },
+    };
+
+    const spin = {
+      from: {
+        transform: 'rotate(0deg)',
+      },
+      to: {
+        transform: 'rotate(360deg)',
+      },
+    };
+
+    expect(new StyleSheet(Keyframes.generate('spin', spin)).build())
+      .toMatchSnapshot('spin');
+    expect(new StyleSheet(Keyframes.generate('bounce', bounce)).build())
+      .toMatchSnapshot('bounce');
   });
 });

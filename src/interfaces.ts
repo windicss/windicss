@@ -1,6 +1,6 @@
 import type { Utility } from './lib/utilities/handler';
 
-import type { Property, Style, InlineAtRule } from './utils/style';
+import type { Property, Style, InlineAtRule, Keyframes } from './utils/style';
 
 export type DictStr = { [key: string]: string };
 
@@ -279,16 +279,20 @@ export type VariantGenerator = (generator: {
 export type UtilityGenerator = (generator: {
   Utility: Utility;
   Style: {
-    (
-      selector: string,
-      property?: Property | Property[] | undefined,
-      important?: boolean
-    ): Style;
+    (selector: string, property?: Property | Property[] | undefined, important?: boolean): Style;
     generate: (
       parent?: string | undefined,
       property?: NestObject | undefined,
       root?: Style | undefined
     ) => Style[];
+  };
+  Keyframes: {
+    (selector: string, property?: Property | Property[] | undefined, important?: boolean): Keyframes;
+    generate: (name: string, children: {
+        [key: string]: {
+            [key: string]: string;
+        };
+    }) => Keyframes[];
   };
   Property: {
     (
