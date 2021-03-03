@@ -44,6 +44,11 @@ export default plugin(
           'var(--scroll-snap-axis, both) var(--scroll-snap-strictness, mandatory)',
       },
 
+      // scroll-snap-type to none
+      '.no-snap': {
+        'scroll-snap-type': 'none',
+      },
+
       // strictness
       // https://www.w3.org/TR/css-scroll-snap-1/#snap-strictness
       ...fromEntries(
