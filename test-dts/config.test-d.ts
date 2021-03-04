@@ -1,6 +1,4 @@
-import { Config } from '../src/interfaces';
-
-declare function defineConfig(config: Config): Config
+import { defineConfig } from '../src';
 
 defineConfig({
   theme: {
