@@ -320,3 +320,7 @@ export interface Element {
   type: 'group' | 'func' | 'utility';
   important: boolean;
 }
+
+export function defineConfig(config: Config): Config {
+  return config;
+}
