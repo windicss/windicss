@@ -1,5 +1,4 @@
 import { addHook } from 'pirates';
-import { resolve } from 'path';
 
 export function convert(code: string): string {
   const map = {
@@ -19,13 +18,13 @@ export function convert(code: string): string {
   return code;
 }
 
-export function transform(path: string): string {
-  const matcher = (filename: string) => true;
+export function transform(path: string): any {
+  const matcher = (filename: string) => !/\/windicss\//.test(filename);
   const revert = addHook(
-    (code, filename) => matcher(filename) ? convert(code) : code,
-    { exts: ['.js'], matcher }
+    (code, ) => convert(code),
+    { exts: ['.js'], matcher, ignoreNodeModules: false }
   );
-  const mod = require(resolve(path));
+  const mod = require(path);
   revert();
   return mod;
 }
