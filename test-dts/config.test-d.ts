@@ -1,4 +1,4 @@
-import { defineConfig } from '../src/interfaces';
+import { defineConfig } from '../src/helpers';
 
 defineConfig({
   theme: {
