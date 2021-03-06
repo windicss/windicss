@@ -22,7 +22,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     }
     if (theme('container.center')) baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
     const output: Container[] = [baseStyle];
-    const screens = toType(theme('screens'), 'object') ?? {};
+    const screens = toType(theme('container.screens', theme('screens')), 'object') ?? {};
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property('max-width', `${size}`)];
       const padding = theme(`container.padding.${screen}`);
