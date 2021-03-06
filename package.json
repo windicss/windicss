@@ -18,7 +18,7 @@
     "build:prod": "cross-env NODE_ENV=production && pnpm build",
     "test": "sucrase-node test/run.ts",
     "test:update": "cross-env UPDATE_SNAPSHOT=true sucrase-node test/run.ts",
-    "test:dts": "tsc -p ./test-dts --noEmit",
+    "test:dts": "tsc -p ./test/dts --noEmit",
     "coverage": "nyc --nycrc-path=.nycrc.json pnpm test",
     "release": "bumpp --tag --commit --push"
   },
