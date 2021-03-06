@@ -5,7 +5,7 @@ import {
   expandDirection,
 } from '../../src/utils';
 
-import { Style, StyleSheet } from '../../src/utils/style';
+import { Style } from '../../src/utils/style';
 
 describe('Helpers', () => {
   it('negative', () => {

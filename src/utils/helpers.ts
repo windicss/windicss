@@ -1,5 +1,5 @@
 import { negateValue } from './tools';
-import { Property, Keyframes } from './style';
+import { Property } from './style';
 import type { FontSize } from '../interfaces';
 
 export function isString(value: unknown): value is string {
