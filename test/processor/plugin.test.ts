@@ -1,6 +1,8 @@
 import { FontSize } from '../../dist/types/interfaces';
 import { Property, Style } from '../../src/utils/style';
 import { Processor } from '../../src/lib';
+import { hex2RGB } from '../../src/utils';
+import plugin from '../../src/plugin';
 
 const processor = new Processor();
 
@@ -158,5 +160,31 @@ describe('Plugin Method', () => {
 .bg-on-primary-active {
   background-color: var(--on-primary-active);
 }`);
+  });
+
+  it('syntax for hex colors', () => {
+    const processor = new Processor({
+      plugins: [
+        plugin(function ({ addDynamic }) {
+          addDynamic('bg', ({ Utility, Style, Property }) => {
+            if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(Utility.body)) {
+              return Style(Utility.class, [
+                Property('--tw-bg-opacity', '1'),
+                Property(
+                  'background-color',
+                  `rgba(${hex2RGB(Utility.body)?.join(', ')}, var(--tw-bg-opacity))`
+                ),
+              ]);
+            }
+          });
+        }),
+      ],
+    });
+    expect(processor.interpret('bg-#1c1c1e').styleSheet.build()).toEqual(
+      `.bg-\\#1c1c1e {
+  --tw-bg-opacity: 1;
+  background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
+}`);
+
   });
 });
