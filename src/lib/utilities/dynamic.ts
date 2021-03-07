@@ -266,7 +266,7 @@ function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://tailwindcss.com/docs/gap
-function gap(utility: Utility, { theme }: PluginUtils): Output {
+function gap(utility: Utility, { theme, config }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('gap'))
     .handleSpacing()
@@ -275,13 +275,19 @@ function gap(utility: Utility, { theme }: PluginUtils): Output {
   if (!value) return;
   if (utility.raw.match(/^gap-x-/)) {
     return new Property(
-      ['-webkit-column-gap', '-moz-column-gap', 'column-gap'],
+      config('prefixer') ? ['-webkit-column-gap', '-moz-column-gap', 'grid-column-gap', 'column-gap'] : 'column-gap',
       value
     );
   } else if (utility.raw.match(/^gap-y-/)) {
-    return new Property('row-gap', value);
+    return new Property(
+      config('prefixer') ? ['-webkit-row-gap', '-moz-row-gap', 'grid-row-gap', 'row-gap'] : 'row-gap',
+      value
+    );
   } else {
-    return new Property('gap', value);
+    return new Property(
+      config('prefixer') ? ['grid-gap', 'gap'] : 'gap',
+      value
+    );
   }
 }
 
