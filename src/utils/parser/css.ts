@@ -184,6 +184,7 @@ export default class CSSParser {
       }
       firstLetter = searchFrom(css, /\S/, index);
     }
+    this._cache = {};
     return styleSheet;
   }
 }

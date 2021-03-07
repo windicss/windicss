@@ -293,10 +293,9 @@ export class Processor {
     let id;
     if (html) {
       id = hash(html);
-      if (ignoreProcessed && this._cache.html.includes(id))
-        return new StyleSheet();
+      if (ignoreProcessed && this._cache.html.includes(id)) return new StyleSheet();
     }
-    id && this._cache.html.push(id);
+    id && ignoreProcessed && this._cache.html.push(id);
     return preflight(this, html, includeBase, includeGlobal, includePlugins);
   }
 
@@ -387,9 +386,9 @@ export class Processor {
         });
     };
 
-    ast.forEach((obj) => {
+    ast.forEach(obj => {
       if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
-        this._cache.utilities.push(obj.raw);
+        if (ignoreProcessed) this._cache.utilities.push(obj.raw);
         if (obj.type === 'utility') {
           if (Array.isArray(obj.content)) {
             // #functions stuff
@@ -512,7 +511,7 @@ export class Processor {
     });
 
     className = success.length > 0 ? className : undefined;
-    if (className) this._cache.classes.push(className);
+    if (ignoreGenerated && className) this._cache.classes.push(className);
     if (!this.config('prefixer')) styleSheet.prefixer = false;
     return {
       success,
