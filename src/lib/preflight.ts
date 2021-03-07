@@ -41,28 +41,27 @@ export default function preflight(
     : undefined;
 
   // handle base style
-  includeBase &&
-    baseUtilities.forEach((p) => {
-      if (includeGlobal && p.global) {
-        // global style, such as * or html, body
-        globalSheet.add(createStyle(p.selector, p.properties));
-      } else if (tags !== undefined) {
-        // only generate matched styles
-        const includeTags = tags.filter((i) => p.keys.includes(i));
-        if (includeTags.length > 0)
-          styleSheet.add(
-            createStyle(
-              p.selector ? p.selector : includeTags.join(', '),
-              p.properties
-            )
-          );
-      } else {
-        // if no tags input, generate all styles
+  includeBase && (processor.config('prefixer') ? baseUtilities : baseUtilities.filter(i => !i.selector || !/::?(webkit-input|-moz|-ms-input)-placeholder$/.test(i.selector))).forEach(p => {
+    if (includeGlobal && p.global) {
+      // global style, such as * or html, body
+      globalSheet.add(createStyle(p.selector, p.properties));
+    } else if (tags !== undefined) {
+      // only generate matched styles
+      const includeTags = tags.filter((i) => p.keys.includes(i));
+      if (includeTags.length > 0)
         styleSheet.add(
-          createStyle(p.selector ? p.selector : p.keys.join(', '), p.properties)
+          createStyle(
+            p.selector ? p.selector : includeTags.join(', '),
+            p.properties
+          )
         );
-      }
-    });
+    } else {
+      // if no tags input, generate all styles
+      styleSheet.add(
+        createStyle(p.selector ? p.selector : p.keys.join(', '), p.properties)
+      );
+    }
+  });
 
   // handle plugin style
   if (includePlugins) {

@@ -537,7 +537,7 @@ function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/placeholder-color
 // https://tailwindcss.com/docs/placeholder-opacity
-function placeholder(utility: Utility, { theme }: PluginUtils): Output {
+function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   // handle placeholder opacity
   if (utility.raw.startsWith('placeholder-opacity'))
     return utility.handler
@@ -553,22 +553,24 @@ function placeholder(utility: Utility, { theme }: PluginUtils): Output {
       return new Property('color', value);
     const rgb = value.startsWith('var') ? value : toRGB(value)?.join(', ');
     return [
-      new Style(utility.class, [
-        new Property('--tw-placeholder-opacity', '1'),
-        new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-      ]).pseudoElement('-webkit-input-placeholder'),
-      new Style(utility.class, [
-        new Property('--tw-placeholder-opacity', '1'),
-        new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-      ]).pseudoElement('-moz-placeholder'),
-      new Style(utility.class, [
-        new Property('--tw-placeholder-opacity', '1'),
-        new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-      ]).pseudoClass('-ms-input-placeholder'),
-      new Style(utility.class, [
-        new Property('--tw-placeholder-opacity', '1'),
-        new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-      ]).pseudoElement('-ms-input-placeholder'),
+      ...config('prefixer') ? [
+        new Style(utility.class, [
+          new Property('--tw-placeholder-opacity', '1'),
+          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
+        ]).pseudoElement('-webkit-input-placeholder'),
+        new Style(utility.class, [
+          new Property('--tw-placeholder-opacity', '1'),
+          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
+        ]).pseudoElement('-moz-placeholder'),
+        new Style(utility.class, [
+          new Property('--tw-placeholder-opacity', '1'),
+          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
+        ]).pseudoClass('-ms-input-placeholder'),
+        new Style(utility.class, [
+          new Property('--tw-placeholder-opacity', '1'),
+          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
+        ]).pseudoElement('-ms-input-placeholder'),
+      ]: [],
       new Style(utility.class, [
         new Property('--tw-placeholder-opacity', '1'),
         new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
@@ -1090,25 +1092,24 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://tailwindcss.com/docs/animation
-function animation(utility: Utility, { theme }: PluginUtils): Output {
+function animation(utility: Utility, { theme, config }: PluginUtils): Output {
   const animations = (toType(theme('animation'), 'object') ?? {}) as {
     [key: string]: string;
   };
   if (Object.keys(animations).includes(utility.body)) {
     const value = animations[utility.body];
     const keyframe = value.match(/^\w+/)?.[0];
-    if (value === 'none')
-      return new Property(['-webkit-animation', 'animation'], 'none');
+    const prop = config('prefixer') ? ['-webkit-animation', 'animation'] : 'animation';
+    if (value === 'none') return new Property(prop, 'none');
     return [
-      new Style(
-        utility.class,
-        new Property(['-webkit-animation', 'animation'], value)
-      ),
+      new Style(utility.class, new Property(prop, value)),
       ... keyframe ? Keyframes.generate(
         keyframe,
-        (toType(theme(`keyframes.${keyframe}`), 'object') ?? {}) as {
+        (theme(`keyframes.${keyframe}`) ?? {}) as {
           [key: string]: { [key: string]: string };
-        }
+        },
+        undefined,
+        config('prefixer', false) as boolean
       ) : [],
     ];
   }

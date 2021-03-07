@@ -1,4 +1,5 @@
-import { linearGradient, minMaxContent } from '../../src/utils/style';
+import { Processor } from '../../src/lib';
+import { linearGradient, minMaxContent, Property, Style, StyleSheet } from '../../src/utils/style';
 
 describe('linearGradient', () => {
   it('gradient input', () => {
@@ -32,5 +33,50 @@ describe('minMaxContent', () => {
   it('others', () => {
     const p = minMaxContent('background-color');
     expect(p).toEqual('background-color');
+  });
+});
+
+describe('closePrefixer', () => {
+  it('style prefix', () => {
+    const style = new Style('.flex', [
+      new Property('display', '-webkit-box'),
+      new Property('dispaly', '-ms-flexbox'),
+      new Property('display', '-webkit-flex'),
+      new Property('display', 'flex'),
+    ]);
+    expect(style.build(false, false)).toEqual(
+      `.flex {
+  display: flex;
+}`);
+  });
+
+  it('styleSheet prefix', () => {
+    const styleSheet = new StyleSheet();
+    styleSheet.add(new Style('.flex', [
+      new Property('display', '-webkit-box'),
+      new Property('dispaly', '-ms-flexbox'),
+      new Property('display', '-webkit-flex'),
+      new Property('display', 'flex'),
+    ]));
+    styleSheet.add(new Style('.bg-clip-padding', [
+      new Property('-webkit-background-clip', 'padding-box'),
+      new Property('background-clip', 'padding-box'),
+    ]));
+    styleSheet.prefixer = false;
+    expect(styleSheet.build()).toEqual(
+      `.bg-clip-padding {
+  background-clip: padding-box;
+}
+.flex {
+  display: flex;
+}`);
+  });
+
+  it('processor prefix', () => {
+    const processor = new Processor({
+      prefixer: false,
+    });
+    expect(processor.preflight(undefined, true, true).build()).toMatchSnapshot('preflight');
+    expect(processor.interpret('bg-clip-padding flex bg-gradient-to-bl animate-ping placeholder-gray-200').styleSheet.build()).toMatchSnapshot('css');
   });
 });

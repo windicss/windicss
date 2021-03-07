@@ -68,7 +68,7 @@ export function handleNest(item: unknown): unknown[] {
   return output;
 }
 
-export function buildMap(obj: unknown, minify = false): string {
+export function buildMap(obj: unknown, minify = false, prefixer = true): string {
   let output: unknown[] = [];
   if (Array.isArray(obj)) {
     obj.forEach((item) => {
@@ -86,9 +86,9 @@ export function buildMap(obj: unknown, minify = false): string {
         (minify ? key.replace(/\n/g, '') : key + ' ') +
         wrapit(v, undefined, undefined, undefined, minify);
       if (value instanceof Style) {
-        output.push(_gstyle(value.build(minify)));
+        output.push(_gstyle(value.build(minify, prefixer)));
       } else if (value && typeof value === 'object') {
-        output.push(_gstyle(buildMap(value, minify)));
+        output.push(_gstyle(buildMap(value, minify, prefixer)));
       }
     }
   }
@@ -114,9 +114,9 @@ export function combineSelector(styleList: Style[]): Style[] {
   return [...passed, ...Object.values(styleMap).map((style) => style.clean())];
 }
 
-export function buildAtRule(styleList: Style[], minify = false, reverse = false): string {
+export function buildAtRule(styleList: Style[], minify = false, prefixer = true, reverse = false): string {
   const ruleMap = styleList
-    .map((i) => {
+    .map(i => {
       const list = [
         ...reverse ? (i.atRules ?? []).sort(sortMediaQuery) : (i.atRules ?? []).sort(sortMediaQuery).reverse(),
         i.rule,
@@ -130,14 +130,15 @@ export function buildAtRule(styleList: Style[], minify = false, reverse = false)
       const bkey = Object.keys(b)[0];
       return sortMediaQuery(akey, bkey);
     });
-  return buildMap(ruleMap.reduce((previousValue, currentValue) => combineObject(previousValue, currentValue), {}), minify);
+  return buildMap(ruleMap.reduce((previousValue, currentValue) => combineObject(previousValue, currentValue), {}), minify, prefixer);
 }
 
 export default function compileStyleSheet(
   styleList: Style[],
-  minify = false
+  minify = false,
+  prefixer = true,
 ): string {
-  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules) && !(i instanceof Container)).sort(sortSelector)).map((i) => i.build(minify)).join(minify ? '' : '\n');
+  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules) && !(i instanceof Container)).sort(sortSelector)).map((i) => i.build(minify, prefixer)).join(minify ? '' : '\n');
   const containers: {[key:string]: Container[]} = {};
   styleList.filter(i => i instanceof Container).forEach(i => {
     if (i.selector && i.selector in containers) {
@@ -146,11 +147,11 @@ export default function compileStyleSheet(
       containers[i.selector] = [i];
     }
   });
-  const topStyles = Object.values(containers).map(i => buildAtRule(i, minify, true));
-  const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify);
+  const topStyles = Object.values(containers).map(i => buildAtRule(i, minify, prefixer, true));
+  const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify, prefixer);
   if (keyframes) topStyles.unshift(keyframes);
   const top = topStyles.join(minify? '' : '\n');
-  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortSelector), minify);
+  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortSelector), minify, prefixer);
   return minify
     ? (top + head + body).replace(/;\}/g, '}')
     : [top, head, body].filter((i) => !isSpace(i)).join('\n');

@@ -188,6 +188,7 @@ export type Shortcut = string | NestObject;
 
 export interface Config {
   presets?: Config[];
+  prefixer?: boolean;
   separator?: string;
   important?: boolean | string;
   darkMode?: 'media' | 'class' | false;

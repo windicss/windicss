@@ -404,6 +404,8 @@ export class Processor {
       }
     });
 
+    if (!this.config('prefixer')) styleSheet.prefixer = false;
+
     return {
       success,
       ignored,
@@ -511,6 +513,7 @@ export class Processor {
 
     className = success.length > 0 ? className : undefined;
     if (className) this._cache.classes.push(className);
+    if (!this.config('prefixer')) styleSheet.prefixer = false;
     return {
       success,
       ignored,

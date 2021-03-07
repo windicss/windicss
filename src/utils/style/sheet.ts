@@ -5,6 +5,7 @@ import compileStyleSheet from '../algorithm/compileStyleSheet';
 
 export class StyleSheet {
   children: Style[];
+  prefixer = true;
 
   constructor(children?: Style[]) {
     this.children = children || [];
@@ -48,6 +49,6 @@ export class StyleSheet {
   }
 
   build(minify = false): string {
-    return compileStyleSheet(this.children, minify);
+    return compileStyleSheet(this.children, minify, this.prefixer);
   }
 }

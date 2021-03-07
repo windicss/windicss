@@ -207,7 +207,7 @@ export class Style {
   static generate(
     parent?: string,
     property?: NestObject,
-    root?: Style
+    root?: Style,
   ): Style[] {
     if (!root)
       root = parent?.startsWith('@')
@@ -455,55 +455,28 @@ export class Style {
     return this;
   }
 
-  build(minify = false): string {
-    let result = this.property
-      .map((p) => {
-        if (this._wrapProperties) {
-          let name = p.name;
-          this._wrapProperties.forEach(
-            (w) =>
-              (name = Array.isArray(name) ? name.map((n) => w(n)) : w(name))
-          );
-          return new Property(
-            name,
-            p.value,
-            p.comment,
-            this.important ? true : p.important
-          ).build(minify);
-        }
-        return this.important
-          ? new Property(p.name, p.value, p.comment, true).build(minify)
-          : p.build(minify);
-      })
-      .join(minify ? '' : '\n');
+  build(minify = false, prefixer = true): string {
+    let properties = this.property;
+    if (!prefixer) properties = properties.filter(p => {
+      if (p.value && /-(webkit|ms|moz|o)-/.test(p.value)) return false;
+      if (Array.isArray(p.name)) {
+        return p.name.filter(i => !/^-(webkit|ms|moz|o)-/.test(i));
+      }
+      return !/^-(webkit|ms|moz|o)-/.test(p.name);
+    });
+    let result = properties.map(p => {
+      if (this._wrapProperties) {
+        let name = p.name;
+        this._wrapProperties.forEach(w => (name = Array.isArray(name) ? name.map(n => w(n)) : w(name)));
+        return new Property(name, p.value, p.comment, this.important ? true : p.important).build(minify);
+      }
+      return this.important ? new Property(p.name, p.value, p.comment, true).build(minify) : p.build(minify);
+    }).join(minify ? '' : '\n');
     if (!this.selector && !this.atRules) return result.replace(/;}/g, '}');
-    if (this.selector)
-      result =
-        (minify ? this.rule.replace(/,\s/g, ',') : this.rule + ' ') +
-        wrapit(
-          result,
-          undefined,
-          undefined,
-          undefined,
-          result !== '' ? minify : true
-        );
+    if (this.selector) result = (minify ? this.rule.replace(/,\s/g, ',') : this.rule + ' ') + wrapit(result, undefined, undefined, undefined, result !== '' ? minify : true);
     if (this.atRules) {
       for (const rule of this.atRules) {
-        result = minify
-          ? `${rule.replace(/\s/g, '')}${wrapit(
-            result,
-            undefined,
-            undefined,
-            undefined,
-            minify
-          )}`
-          : `${rule} ${wrapit(
-            result,
-            undefined,
-            undefined,
-            undefined,
-            result !== '' ? minify : true
-          )}`;
+        result = minify ? `${rule.replace(/\s/g, '')}${wrapit(result, undefined, undefined, undefined, minify)}` : `${rule} ${wrapit(result, undefined, undefined, undefined, result !== '' ? minify : true)}`;
       }
     }
     return minify ? result.replace(/;}/g, '}') : result;
@@ -529,7 +502,9 @@ export class Keyframes extends Style {
     super(selector, property, important);
   }
 
-  static generate(name: string, children: { [key: string]: { [key: string]: string } }): Keyframes[] {
+  // root param only for consist with style
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static generate(name: string, children: { [key: string]: { [key: string]: string } }, root = undefined, prefixer = true): Keyframes[] {
     const output: Keyframes[] = [];
     for (const [key, value] of Object.entries(children)) {
       const style = new Keyframes(key).atRule(`@keyframes ${name}`);
@@ -539,20 +514,20 @@ export class Keyframes extends Style {
       for (const [pkey, pvalue] of Object.entries(value)) {
         let prop: string | string[] = pkey;
         if (pkey === 'transform') {
-          prop = ['-webkit-transform', 'transform'];
+          prop = prefixer ? ['-webkit-transform', 'transform'] : 'transform';
         } else if (
           ['animationTimingFunction', 'animation-timing-function'].includes(pkey)
         ) {
-          prop = [
+          prop = prefixer ? [
             '-webkit-animation-timing-function',
             'animation-timing-function',
-          ];
+          ] : 'animation-timing-function';
         }
         style.add(new Property(prop, pvalue));
         webkitStyle.add(new Property(prop, pvalue));
       }
       output.push(style);
-      output.push(webkitStyle);
+      if (prefixer) output.push(webkitStyle);
     }
     return output;
   }
