@@ -174,4 +174,14 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  // https://github.com/windicss/vite-plugin-windicss/issues/63
+  it('does not cause infinity loop', () => {
+    const css = `
+    .title[data-v-2c11fd19]:before {
+      content: '{';
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toMatchSnapshot('css');
+  });
 });
