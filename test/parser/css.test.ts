@@ -1,134 +1,234 @@
 import { Processor } from '../../src/lib';
 import { CSSParser } from '../../src/utils/parser';
 
-const CSS = String.raw`
-@charset "utf-8";
-
-@tailwind base;
-
-@font-face {
-  font-family: Proxima Nova;
-  font-weight: 400;
-  src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
-}
-
-@screen sm {
-  * {
-    padding-top: 1px;
-  }
-}
-
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
-
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  @apply font-bold lg:bg-green-300 md:text-lg;
-  @apply text-gray-900;
-}
-
-.dtest {
-  @apply font-light !important;
-}
-
-.container {
-  padding: 1rem;
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px; /* this is comment */
-  }
-}
-
-@media (min-width: 640px) {
-  .container {
-    min-width: 640px;
-  }
-}
-
-html {
-  line-height: 1.15; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 640px) {
-  @media (prefers-color-scheme: dark) {
-    @keyframes ping {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-        @apply font-bold;
-      }
-      75%, 100% {
-        transform: scale(2);
-        opacity: 0;
-        @apply bg-yellow-300 md:bg-red-500;
-      }
-    }
-  }
-}
-
-@screen dark {
-  .test {
-    @apply bg-gray-300;
-  }
-}
-
-@variants dark {
-  .test {
-    @apply font-medium;
-  }
-}
-
-@variants lg:hover, focus {
-  .button {
-    @apply text-green-300;
-  }
-}
-
-.link:hover {
-  @apply bg-red-500;
-}
-
-.link:hover {
-  opacity: 1;
-}
-`;
-
 const PROCESSOR = new Processor();
+const PARSER = new CSSParser();
 
 describe('CSSParser', () => {
-  it('parse empty', () => {
-    expect(new CSSParser().parse().build()).toEqual('');
-    expect(new CSSParser(undefined, PROCESSOR).parse().build()).toEqual('');
-    expect(new CSSParser().parse().build(true)).toEqual('');
-    expect(new CSSParser(undefined, PROCESSOR).parse().build(true)).toEqual('');
+  it('Most Simple', () => {
+    const css = 'font-size: 12px;';
+    expect(PARSER.parse(css).build()).toEqual('font-size: 12px;');
   });
 
-  it('transform parse', () => {
-    const parser = new CSSParser(CSS, PROCESSOR);
-    const styleSheet = parser.parse();
-    expect(styleSheet.build()).toMatchSnapshot('css');
+  it('Single Level', () => {
+    const css = `
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+    .navigation {
+      font-size: 12px;
+    }
+    .logo {
+      width: 300px;
+    }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
   });
 
-  it('normal parse', () => {
-    const parser = new CSSParser(CSS);
-    const styleSheet = parser.parse();
-    expect(styleSheet.build()).toMatchSnapshot('css');
+  it('Nesting', () => {
+    const css = `
+      #header {
+        color: black;
+        .navigation {
+          font-size: 12px;
+        }
+        .logo {
+          width: 300px;
+        }
+      }`;
+    // here has a sort error.
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Deep Nesting', () => {
+    const css = `
+      #header {
+        color: black;
+        .navigation {
+          font-size: 12px;
+          .logo {
+            width: 300px;
+            .abc {
+              color: white;
+            }
+            height: 200px;
+          }
+        }
+      }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Pseudo Classes', () => {
+    const css = `
+    #bundle {
+      .button {
+        display: block;
+        border: 1px solid black;
+        background-color: grey;
+        &:hover {
+          background-color: white;
+        }
+        &::first-line {
+          color: red;
+        }
+        &__abc {
+          &:focus {
+            color: blue;
+          }
+        }
+      }
+      .logo {
+        width: 300px;
+      }
+    }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('One line AtRule', () => {
+    const css = `
+      @import "library";
+      @import "typo.css";
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('AtRule wrap properties', () => {
+    const css = `
+    @font-face {
+      font-family: Proxima Nova;
+      font-weight: 400;
+      src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
+    }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Simple atRule', () => {
+    const css = `
+    @media (min-width: 768px) {
+      .test {
+        color: red;
+      }
+    }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Nested At-Rules and Bubbling', () => {
+    const css = `
+      .component {
+        width: 300px;
+        @media (min-width: 768px) {
+          width: 600px;
+          @media (min-resolution: 192dpi) {
+            background-image: url(/img/retina2x.png);
+          }
+        }
+        @media (min-width: 1280px) {
+          width: 800px;
+        }
+      }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Nested At-Rules', () => {
+    const css = `
+      @media (min-width: 768px) {
+        .test {
+          width: 300px !important;
+        }
+        @media (min-resolution: 192dpi) {
+          .component {
+            background-image: url(/img/retina2x.png);
+          }
+        }
+      }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Keyframes', () => {
+    const css = `
+    @media (min-width: 640px) {
+      @media (prefers-color-scheme: dark) {
+        @keyframes ping {
+          0% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          75%, 100% {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+      }
+    }`;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('Directives and Functions', () => {
+    const css = `
+    @screen sm {
+      .test {
+        padding-top: 1px;
+      }
+    }
+
+    .container {
+      width: 100%;
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      @apply font-bold lg:bg-green-300 md:text-lg !important;
+      @apply text-gray-900;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        max-width: 640px; /* this is comment */
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 768px;
+      }
+    }
+
+    @screen dark {
+      .test {
+        @apply bg-gray-300;
+      }
+    }
+
+    @variants dark {
+      .test {
+        @apply font-medium;
+      }
+    }
+
+    @variants lg:hover, focus {
+      .button {
+        @apply text-green-300;
+      }
+    }
+
+    .link:hover {
+      @apply bg-red-500;
+    }
+
+    .link:hover {
+      opacity: 1;
+    }`;
+
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toMatchSnapshot('css');
   });
 
   it('apply chain', () => {
