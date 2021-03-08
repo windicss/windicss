@@ -1,18 +1,26 @@
 import { Utility } from './utilities/handler';
 import { Style, Property } from '../utils/style';
+import { pluginOrder } from '../config/order';
 import { staticUtilities, dynamicUtilities } from './utilities';
 import type { Processor } from './index';
 
 export function generateStaticStyle(className:string, addComment = false): Style {
   const style = new Style('.' + className);
   const comment = addComment ? className : undefined;
-  for (const [key, value] of Object.entries(staticUtilities[className].utility)) {
+  const { utility, meta } = staticUtilities[className];
+  for (const [key, value] of Object.entries(utility)) {
     style.add(
       Array.isArray(value)
         ? value.map((i) => new Property(key, i, comment))
         : new Property(key, value, comment)
     );
   }
+  style.meta = {
+    type: 'utilities',
+    corePlugin: true,
+    group: meta.group,
+    order: pluginOrder[meta.group] + meta.order,
+  };
   return style;
 }
 

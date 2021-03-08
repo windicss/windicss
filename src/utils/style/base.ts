@@ -128,6 +128,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
+  meta: { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group?: string, order?: number } = { type: 'components', corePlugin: false }
   selector?: string;
   important: boolean;
   property: Property[];
