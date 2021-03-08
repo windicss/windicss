@@ -1,6 +1,5 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
-import { searchFrom } from '../tools';
-import { deepCopy } from '../../utils';
+import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
 import type { Processor } from '../../lib';
 
 export default class CSSParser {
@@ -12,7 +11,13 @@ export default class CSSParser {
     this.processor = processor;
   }
 
-  private _removeComment(css: string) {
+  private _addCache(style: Style) {
+    const rule = style.rule;
+    if (['.', '#'].includes(rule.charAt(0))) this._cache[rule] = (rule in this._cache) ? [...this._cache[rule], deepCopy(style)] : [ deepCopy(style) ];
+  }
+
+  private _removeComment(css: string | undefined) {
+    if (!css) return css;
     let commentOpen = css.search(/\/\*/);
     let commentClose = css.search(/\*\//);
     while (commentOpen !== -1 && commentClose !== -1) {
@@ -41,8 +46,9 @@ export default class CSSParser {
     return -1;
   }
 
-  private _loadTheme(prop: string): string | undefined {
-    if (!this.processor) return;
+  private _loadTheme(prop?: string): string | undefined {
+    if (!prop) return;
+    if (!this.processor) return prop;
     let index = 0;
     const output:string[] = [];
     while (index < prop.length) {
@@ -57,134 +63,136 @@ export default class CSSParser {
     return output.join('');
   }
 
-  private _generateStyle(css: string, selector?: string): Style[] | undefined {
-    let parsed = Property.parse(css);
-    if (!parsed) return;
-    if (!Array.isArray(parsed)) parsed = [ parsed ];
-    if (!this.processor) return [ new Style(selector, parsed, false) ];
-    const style = new Style(selector);
-    let atrules: Style[] = [];
-    for (const prop of parsed) {
-      if (prop instanceof InlineAtRule && prop.name === 'apply' && prop.value) {
-        const result = this.processor.compile(prop.value, undefined, false, false, (ignored) => {
-          if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
-        });
-
-        atrules = atrules.concat(result.styleSheet.children.filter(i => !i.simple).map(i => {
-          i.selector = selector;
-          i.important = prop.important ?? false;
-          return i;
-        }));
-
-        style.add(result.styleSheet.children.filter(i => i.simple).map(i => {
-          if (prop.important) return i.property.map(i => {
-            i.important = true;
-            return i;
-          });
-          return i.property;
-        }).reduce((prev, current) => [...prev, ...current], []));
-      } else {
-        if (!(prop instanceof InlineAtRule) && prop.value?.match(/theme\([^)]*\)/)) prop.value = this._loadTheme(prop.value);
-        style.add(prop);
-      }
-    }
-    return style.property[0]? [style, ...atrules]: atrules;
-  }
-
-  private _handleDirectives(
-    atrule: string
-  ): { atrule?: string; variants?: string[][] } | undefined {
+  private _handleDirectives(atrule: string): { atrule: string } | { variants: string[][] } | { apply?: string, important?: boolean } | undefined {
     if (!this.processor) return { atrule };
     const iatrule = InlineAtRule.parse(atrule);
     if (!iatrule) return;
-    if (['tailwind', 'responsive'].includes(iatrule.name)) return;
+    if (iatrule.name === 'apply') return { apply: iatrule.value, important: iatrule.important };
     if (iatrule.name === 'variants' && iatrule.value)
-      return {
-        variants: iatrule.value.split(',').map(i => i.trim().split(':')),
-      };
+      return { variants: iatrule.value.split(',').map(i => i.trim().split(':')) };
     if (iatrule.name === 'screen' && iatrule.value) {
       const screens = this.processor.resolveVariants('screen');
-      if (iatrule.value in screens)
-        return { atrule: screens[iatrule.value]().atRules?.[0] };
-      if (['dark', 'light'].includes(iatrule.value))
-        return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
+      if (iatrule.value in screens) return { atrule: screens[iatrule.value]().atRules?.[0] ?? atrule };
+      if (['dark', 'light'].includes(iatrule.value)) return { atrule: `@media (prefers-color-scheme: ${iatrule.value})` };
     }
     return { atrule };
   }
 
-  parse(css = this.css): StyleSheet {
-    const styleSheet = new StyleSheet();
+  private _generateNestProperty(props: Property | InlineAtRule | (Property | InlineAtRule)[], parent?: string, parentType?:('atRule' | 'selector')): Style | Style[] {
+    const style = new Style(undefined, props);
+    if (!parent || !parentType) return style;
+    if (parentType === 'selector') {
+      style.selector = parent;
+      return style;
+    }
+    return style.atRule(parent);
+  }
 
-    if (!css) return styleSheet;
+  private _generateNestStyle(styles: Style[], parent?: string, parentType?:('atRule' | 'selector')): Style[] {
+    if (!parent) return styles;
+    if (parentType === 'selector') {
+      styles.forEach(i => {
+        if (!i.selector) {
+          i.selector = parent;
+        } else {
+          i.wrapSelector((selector) => (/&/.test(selector) ? selector : `& ${selector}`).replace('&', parent));
+        }
+        this._addCache(i);
+      });
+    } else if (parentType === 'atRule') {
+      let atrule = parent;
+      if (this.processor) {
+        // handle directives
+        const directives = this._handleDirectives(parent);
+        if (directives) {
+          if ('atrule' in directives) atrule = directives.atrule; // @screen
+          if ('variants' in directives) {
+            // @variants
+            let output: Style[] = [];
+            for (const variant of directives.variants) {
+              output = output.concat(this.processor.wrapWithVariants(variant, styles));
+            }
+            output.map(i => this._addCache(i));
+            return output;
+          }
+        }
+      }
+      styles.forEach(i => {
+        i.atRule(atrule);
+        this._addCache(i);
+      });
+    }
+    return styles;
+  }
+
+  parse(css = this.css, parent?:string, parentType?:('atRule' | 'selector')): StyleSheet {
+    const styleSheet = new StyleSheet();
+    css = this._removeComment(css);
+    if (!css || isSpace(css)) return styleSheet;
     let index = 0;
     let firstLetter = searchFrom(css, /\S/, index);
-    css = this._removeComment(css);
 
     while (firstLetter !== -1) {
-      if (css.charAt(firstLetter) === '@') {
-        // atrule
-        const ruleEnd = searchFrom(css, ';', firstLetter);
-        const nestStart = searchFrom(css, '{', firstLetter);
+      const propEnd = searchPropEnd(css, index);
+      const nestStart = searchFrom(css, '{', firstLetter);
 
-        if (nestStart === -1 || (ruleEnd !== -1 && ruleEnd < nestStart)) {
-          // inline atrule
-          let atrule = css.substring(firstLetter, ruleEnd).trim();
-          if (this.processor) {
-            const directives = this._handleDirectives(atrule);
-            if (directives?.atrule) atrule = directives.atrule;
-          }
-          const parsed = InlineAtRule.parse(atrule);
-          if (parsed) styleSheet.add(parsed.toStyle(undefined));
-          index = ruleEnd + 1;
-        } else {
-          // nested atrule
-          const nestEnd = this._searchGroup(css, nestStart + 1);
-          const atrule = css.substring(firstLetter, nestStart).trim();
-          if (this.processor) {
-            const directives = this._handleDirectives(atrule);
-            if (directives?.atrule) {
-              styleSheet.add(
-                this.parse(
-                  css.substring(nestStart + 1, nestEnd)
-                ).children.map((i) => i.atRule(directives.atrule))
-              );
-            } else if (directives?.variants) {
-              const variants = directives.variants;
-              const style = this.parse(css.substring(nestStart + 1, nestEnd))
-                .children;
-              variants
-                .map((i) => this.processor?.wrapWithVariants(i, style))
-                .forEach((i) => i && styleSheet.add(i));
-            }
-          } else {
-            styleSheet.add(
-              this.parse(
-                css.substring(nestStart + 1, nestEnd)
-              ).children.map((i) => i.atRule(atrule))
-            );
-          }
-          index = nestEnd + 1;
-        }
-      } else {
-        const nestStart = searchFrom(css, '{', firstLetter);
-        const nestEnd = this._searchGroup(css, nestStart + 1);
-        if (nestStart === -1) {
-          // inline properties
-          styleSheet.add(this._generateStyle(css, undefined));
-          break;
-        }
-        // nested selector
+      if (propEnd === -1 || (nestStart !== -1 && propEnd > nestStart)) {
+        // nested AtRule or Selector
         const selector = css.substring(firstLetter, nestStart).trim();
-        const styles = this._generateStyle(css.substring(nestStart + 1, nestEnd), selector);
-        if (styles) {
-          if (selector.startsWith('.')) this._cache[selector] = deepCopy(styles);
-          styleSheet.add(styles);
-        }
+        index = nestStart + 1;
+        const nestEnd = this._searchGroup(css, index);
+        if (nestEnd === -1) break; // doesn't close block
+        const content = this.parse(css.slice(index, nestEnd), selector);
         index = nestEnd + 1;
+        styleSheet.add(this._generateNestStyle(content.children, selector, css.charAt(firstLetter) === '@' ? 'atRule': 'selector'));
+
+      } else if (css.charAt(firstLetter) === '@') {
+        // inline AtRule
+        const data = css.slice(firstLetter, propEnd);
+        if (this.processor) {
+          // handle directives
+          const directives = this._handleDirectives(data.trim());
+          if (directives) {
+            if ('atrule' in directives) {
+              const atRule = InlineAtRule.parse(directives.atrule);
+              if (atRule) styleSheet.add(this._generateNestProperty(atRule, parent, parentType));
+            } else if ('apply' in directives && directives.apply) {
+              const result = this.processor.compile(directives.apply, undefined, false, false, (ignored) => {
+                if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
+              });
+
+              styleSheet.add(result.styleSheet.children.map(i => {
+                i.selector = undefined;
+                i.important = directives.important ?? false;
+                return i;
+              }));
+            }
+          }
+        } else {
+          // normal atrule
+          const atRule = InlineAtRule.parse(data);
+          if (atRule) styleSheet.add(this._generateNestProperty(atRule, parent, parentType));
+        }
+        index = propEnd + 1;
+
+      } else {
+        // inline Property
+        const prop = Property.parse(css.slice(firstLetter, propEnd));
+        index = propEnd + 1;
+        if (prop) {
+          // handle theme function
+          if (Array.isArray(prop)) {
+            prop.filter(p => p.value?.match(/theme\([^)]*\)/)).forEach(p => p.value = this._loadTheme(p.value));
+          } else if (prop.value?.match(/theme\([^)]*\)/)) {
+            prop.value = this._loadTheme(prop.value);
+          }
+          styleSheet.add(this._generateNestProperty(prop, parent, parentType));
+        }
       }
+
       firstLetter = searchFrom(css, /\S/, index);
     }
-    this._cache = {};
-    return styleSheet;
+    if (!parent) this._cache = {};
+    return styleSheet.combine();
   }
 }
