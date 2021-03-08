@@ -1,4 +1,3 @@
-import { writeFileSync } from 'fs';
 import { Processor } from '../../src/lib';
 import typography from '../../src/plugin/typography';
 
@@ -54,6 +53,5 @@ describe('typography plugin', () => {
     expect(result.ignored.length).toEqual(0);
     const css = result.styleSheet.build();
     expect(css).toMatchSnapshot('css');
-    writeFileSync('typography.css', css);
   });
 });
