@@ -237,7 +237,10 @@ export interface DefaultConfig {
 }
 
 export interface StaticUtility {
-  [key: string]: { [key: string]: string | string[] };
+  [key: string]: {
+    meta: { group: string, order: number },
+    utility: { [key: string]: string | string[] };
+  }
 }
 
 export interface DynamicUtility {

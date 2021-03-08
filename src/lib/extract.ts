@@ -6,7 +6,7 @@ import type { Processor } from './index';
 export function generateStaticStyle(className:string, addComment = false): Style {
   const style = new Style('.' + className);
   const comment = addComment ? className : undefined;
-  for (const [key, value] of Object.entries(staticUtilities[className])) {
+  for (const [key, value] of Object.entries(staticUtilities[className].utility)) {
     style.add(
       Array.isArray(value)
         ? value.map((i) => new Property(key, i, comment))
