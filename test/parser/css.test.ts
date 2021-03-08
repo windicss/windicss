@@ -274,4 +274,10 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  it('allow last rule without semicolon', () => {
+    const css = '.btn-red {background-color: red   }';
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().build()).toEqual('.btn-red {\n  background-color: red;\n}');
+  });
 });
