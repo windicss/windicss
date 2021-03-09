@@ -52,6 +52,11 @@ describe('Config', () => {
     const processor = new Processor({
       theme: {
         extend: {
+          colors: {
+            red: {
+              custom: '#ea1851',
+            },
+          },
           width: {
             '1/7': '14%',
             '2/7': '28%',
@@ -63,7 +68,9 @@ describe('Config', () => {
         },
       },
     });
-    expect(processor.theme('width')).toMatchSnapshot('extend');
+    expect(processor.theme('width')).toMatchSnapshot('extend-width');
+    // theme.extend.colors overwrites defaults #141
+    expect(processor.theme('colors.red')).toMatchSnapshot('extend-colors-red');
   });
 
   it('user theme should overwrite default theme', () => {

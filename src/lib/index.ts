@@ -135,17 +135,17 @@ export class Processor {
         const themeValue = theme[key];
         if (typeof themeValue === 'function') {
           theme[key] = (theme, { negative, breakpoints }) => {
-            return {
-              ...(themeValue as ConfigUtil)(theme, { negative, breakpoints }),
-              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
-            };
+            return combineConfig(
+              (themeValue as ConfigUtil)(theme, { negative, breakpoints }),
+              (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
+            );
           };
         } else if (typeof themeValue === 'object') {
           theme[key] = (theme, { negative, breakpoints }) => {
-            return {
-              ...themeValue,
-              ...(typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
-            };
+            return combineConfig(
+              themeValue,
+              (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
+            );
           };
         } else {
           theme[key] = value;
