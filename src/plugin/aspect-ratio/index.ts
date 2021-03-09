@@ -1,5 +1,4 @@
 import plugin from '../index';
-import type { PluginUtilOptions } from '../../interfaces';
 
 export default plugin(
   function ({ addUtilities, addDynamic, theme, variants }) {
@@ -17,7 +16,7 @@ export default plugin(
           left: 'auto',
         },
       },
-    });
+    }, { layer: 'components' });
     addDynamic('aspect-w', ({ Utility, Style }) => {
       const prop = Utility.handler
         .handleStatic(theme('aspectRatio'))
@@ -38,14 +37,20 @@ export default plugin(
           left: '0',
         },
       });
-    }, variants('aspectRatio') as PluginUtilOptions);
+    }, {
+      layer: 'components',
+      variants: variants('aspectRatio'),
+    });
 
     addDynamic('aspect-h', ({ Utility }) => {
       return Utility.handler
         .handleStatic(theme('aspectRatio'))
         .handleNumber(1, undefined, 'float')
         .createProperty('--tw-aspect-h');
-    }, variants('aspectRatio') as PluginUtilOptions);
+    }, {
+      layer: 'components',
+      variants: variants('aspectRatio'),
+    });
 
     addDynamic('aspect', ({ Utility, Style }) => {
       // aspect-h/w
@@ -65,6 +70,8 @@ export default plugin(
           },
         });
       }
+    }, {
+      layer: 'components',
     });
   },
   {

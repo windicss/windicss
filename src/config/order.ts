@@ -15,6 +15,13 @@ export enum variantOrder {
   'disabled',
 }
 
+export const layerOrder: { [ key:string ] : number } = {
+  'base': 10,
+  'components': 150,
+  'shortcuts': 160,
+  'utilities': 50000,
+};
+
 export const pluginOrder: { [ key:string ] : number } = {
   'container': 100,
   'space': 200,

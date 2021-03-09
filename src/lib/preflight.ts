@@ -58,14 +58,14 @@ export default function preflight(
     Object.values(processor._plugin.preflights).forEach((styles) => {
       preflightList = preflightList.concat(styles);
     });
-    styleSheet.add((html ? purgeBase(html, preflightList) : preflightList).map(i => i.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 3 })));
+    styleSheet.add((html ? purgeBase(html, preflightList) : preflightList));
 
     // always generated styles
     let staticList: Style[] = [];
     Object.values(processor._plugin.static).forEach((styles) => {
       staticList = staticList.concat(styles);
     });
-    styleSheet.add(staticList.map(i => i.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 4 })));
+    styleSheet.add(staticList);
   }
 
   const result = styleSheet.combine().sort();

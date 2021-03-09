@@ -52,6 +52,7 @@ export type PluginUtilOptions =
       variants?: string[];
       respectPrefix?: boolean;
       respectImportant?: boolean;
+      layer?: 'base' | 'utilities' | 'components';
     };
 
 export interface PluginBuilder {

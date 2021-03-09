@@ -8,6 +8,7 @@ import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
 import plugin from '../plugin/index';
 import { baseConfig } from '../config';
+import { layerOrder } from '../config/order';
 import cssEscape from '../utils/algorithm/cssEscape';
 import combineConfig from '../utils/algorithm/combineConfig';
 import ClassParser from '../utils/parser/class';
@@ -559,10 +560,9 @@ export class Processor {
     for (const [key, value] of Object.entries(shortcuts)) {
       const name = '.' + cssEscape(key);
       if (typeof value === 'string') {
-        this._plugin.shortcuts[name] = this.compile(value, undefined, undefined, false, undefined, cssEscape(key)).styleSheet.children;
+        this._plugin.shortcuts[name] = this.compile(value, undefined, undefined, false, undefined, cssEscape(key)).styleSheet.children.map(i => i.updateMeta({ type: 'components', corePlugin: false, group: 'shortcuts', order: layerOrder['shortcuts'] }));
       } else {
         let styles = Style.generate(name, value);
-        // styles.map(i => console.log(i.property));
         styles.forEach(style => {
           const applies = style.property.filter(i => i.name === '@apply').map(i => i.value).join(' ');
           if (applies[0] && style.selector) {
@@ -570,7 +570,7 @@ export class Processor {
             style.property = style.property.filter(i => i.name !== '@apply');
           }
         });
-        this._plugin.shortcuts[name] = styles;
+        this._plugin.shortcuts[name] = styles.map(i => i.updateMeta({ type: 'components', corePlugin: false, group: 'shortcuts', order: layerOrder['shortcuts'] }));
       }
     }
   }
@@ -611,12 +611,15 @@ export class Processor {
   addUtilities(
     utilities: DeepNestObject | DeepNestObject[],
     options: PluginUtilOptions = {
+      layer: 'utilities',
       variants: [],
       respectPrefix: true,
       respectImportant: true,
     }
   ): Style[] {
     if (Array.isArray(options)) options = { variants: options };
+    const layer = options.layer ?? 'utilities';
+    const order = layerOrder[layer];
     let output: Style[] = [];
     if (Array.isArray(utilities)) {
       utilities = utilities.reduce((previous: {[key:string]:unknown}, current) => {
@@ -625,6 +628,11 @@ export class Processor {
     }
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
+      if (options.layer) {
+        for (const style of styles) {
+          style.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order });
+        }
+      }
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       output = [...output, ...styles];
       (key.startsWith('.')? this._plugin.utilities: this._plugin.static)[key] = styles;
@@ -636,28 +644,18 @@ export class Processor {
     key: string,
     generator: UtilityGenerator,
     options: PluginUtilOptions = {
+      layer: 'utilities',
       variants: [],
       respectPrefix: true,
       respectImportant: true,
     }
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
-    const style = (
-      selector: string,
-      property?: Property | Property[],
-      important:boolean = uOptions.respectImportant && this._config.important ? true : false
-    ) => new Style(selector, property, important);
-    const prop = (
-      name: string | string[],
-      value?: string,
-      comment?: string,
-      important = uOptions.respectImportant && this._config.important ? true : false
-    ) => new Property(name, value, comment, important);
-    const keyframes = (
-      selector: string,
-      property?: Property | Property[],
-      important:boolean = uOptions.respectImportant && this._config.important ? true : false
-    ) => new Keyframes(selector, property, important);
+    const layer = uOptions.layer ?? 'utilities';
+    const order = layerOrder[layer];
+    const style = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Style(selector, property, important);
+    const prop = (name: string | string[], value?: string, comment?: string, important = uOptions.respectImportant && this._config.important ? true : false) => new Property(name, value, comment, important);
+    const keyframes = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Keyframes(selector, property, important);
     keyframes.generate = Keyframes.generate;
     style.generate = Style.generate;
     prop.parse = Property.parse;
@@ -665,16 +663,23 @@ export class Processor {
       // handle duplicated key;
       this._plugin.dynamic[key] = (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
     } else {
-      this._plugin.dynamic[key] = (Utility: Utility) => generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
+      this._plugin.dynamic[key] = (Utility: Utility) => {
+        const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
+        if (!output) return;
+        if (Array.isArray(output)) return output.map(i => i.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
+        return output.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order });
+      };
     }
     return generator;
   }
 
   addComponents(
     components: DeepNestObject | DeepNestObject[],
-    options: PluginUtilOptions = { variants: [], respectPrefix: false }
+    options: PluginUtilOptions = { layer: 'components', variants: [], respectPrefix: false }
   ): Style[] {
     if (Array.isArray(options)) options = { variants: options };
+    const layer = options.layer ?? 'components';
+    const order = layerOrder[layer];
     let output: Style[] = [];
     if (Array.isArray(components)) {
       components = components.reduce((previous: {[key:string]:unknown}, current) => {
@@ -683,7 +688,7 @@ export class Processor {
     }
     for (const [key, value] of Object.entries(components)) {
       const pkey = key.startsWith('.') && options.respectPrefix ? this.prefix(key): key;
-      const styles = Style.generate(pkey, value);
+      const styles = Style.generate(pkey, value).map(i => i.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
       (key.startsWith('.')? this._plugin.components: this._plugin.static)[pkey] = styles;
@@ -694,7 +699,7 @@ export class Processor {
   addBase(baseStyles: DeepNestObject, autoPurge = true): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
-      const styles = Style.generate(key, value);
+      const styles = Style.generate(key, value).map(i => i.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 10 }));
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
       (autoPurge? this._plugin.preflights : this._plugin.static)[key] = styles;
