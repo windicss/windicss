@@ -195,6 +195,20 @@ Tools / do not change apply order / css / 0: |-
     border-bottom-color: transparent;
     border-left-color: transparent;
   }
+Tools / layer directive / css / 0: |-
+  base {
+    margin-left: auto;
+  }
+  .components {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  }
+  .normal {
+    marign-right: auto;
+  }
+  .utilities {
+    max-width: 768px;
+  }
 Tools / theme function / css / 0: |-
   .btn-blue {
     background-color: #3b82f6;

@@ -280,4 +280,32 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toEqual('.btn-red {\n  background-color: red;\n}');
   });
+
+  it('layer directive', () => {
+    const css = `
+    @layer components {
+      .components {
+        @apply bg-red-500;
+      }
+    }
+
+    @layer utilities {
+      .utilities {
+        max-width: 768px;
+      }
+    }
+
+    @layer base {
+      base {
+        margin-left: auto;
+      }
+    }
+
+    .normal {
+      marign-right: auto; /* components by default */
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().sort(true).children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
+  });
 });
