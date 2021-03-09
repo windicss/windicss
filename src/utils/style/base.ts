@@ -8,9 +8,12 @@ import {
   isTagName,
 } from '../tools';
 
+type Meta = { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group?: string, order?: number };
+
 type NestObject = { [key: string]: string | string[] | NestObject };
 
 export class Property {
+  meta: Meta = { type: 'utilities', corePlugin: false };
   name: string | string[];
   value?: string;
   comment?: string;
@@ -70,7 +73,7 @@ export class Property {
   }
 
   toStyle(selector?: string): Style {
-    return new Style(selector, this, this.important);
+    return new Style(selector, this, this.important).updateMeta(this.meta);
   }
 
   build(minify = false): string {
@@ -88,6 +91,11 @@ export class Property {
       : this.name
         .map((i) => createProperty(i, this.value))
         .join(minify ? '' : '\n');
+  }
+
+  updateMeta(meta: Meta): Property {
+    this.meta = meta;
+    return this;
   }
 }
 
@@ -128,7 +136,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
-  meta: { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group?: string, order?: number } = { type: 'components', corePlugin: false }
+  meta: Meta = { type: 'components', corePlugin: false };
   selector?: string;
   important: boolean;
   property: Property[];
@@ -481,6 +489,11 @@ export class Style {
       }
     }
     return minify ? result.replace(/;}/g, '}') : result;
+  }
+
+  updateMeta(meta: Meta): Style {
+    this.meta = meta;
+    return this;
   }
 }
 
