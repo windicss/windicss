@@ -43,8 +43,10 @@ export class StyleSheet {
     return this;
   }
 
-  sort(): this {
-    this.children = this.children.sort(sortSelector);
+  sort(meta = false): this {
+    this.children = meta ? this.children.sort((a, b) => {
+      return a.meta.order - b.meta.order;
+    }) : this.children.sort(sortSelector);
     return this;
   }
 

@@ -8,12 +8,12 @@ import {
   isTagName,
 } from '../tools';
 
-type Meta = { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group?: string, order?: number };
+type Meta = { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group: string, order: number };
 
 type NestObject = { [key: string]: string | string[] | NestObject };
 
 export class Property {
-  meta: Meta = { type: 'utilities', corePlugin: false };
+  meta: Meta = { type: 'utilities', corePlugin: false, group: 'plugin', order: 99999 };
   name: string | string[];
   value?: string;
   comment?: string;
@@ -136,7 +136,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
-  meta: Meta = { type: 'components', corePlugin: false };
+  meta: Meta = { type: 'components', corePlugin: false, group: 'plugin', order: 99999 };
   selector?: string;
   important: boolean;
   property: Property[];

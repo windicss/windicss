@@ -1,5 +1,5 @@
 import { negateValue } from './tools';
-import { Property } from './style';
+import { Property, Style } from './style';
 import type { FontSize } from '../interfaces';
 
 export function isString(value: unknown): value is string {
@@ -65,4 +65,15 @@ export function expandDirection(
     bl: ['bottom-left'],
   };
   if (value in map) return map[value];
+}
+
+export function generatePlaceholder(selector: string, property: Property | Property[], prefixer = false) : Style[] {
+  if (!prefixer) return [ new Style(selector, property).pseudoElement('placeholder') ];
+  return [
+    new Style(selector, property).pseudoElement('-webkit-input-placeholder'),
+    new Style(selector, property).pseudoElement('-moz-placeholder'),
+    new Style(selector, property).pseudoClass('-ms-input-placeholder'),
+    new Style(selector, property).pseudoElement('-ms-input-placeholder'),
+    new Style(selector, property).pseudoElement('placeholder'),
+  ];
 }

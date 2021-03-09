@@ -15,13 +15,12 @@ export function generateStaticStyle(className:string, addComment = false): Style
         : new Property(key, value, comment)
     );
   }
-  style.meta = {
+  return style.updateMeta({
     type: 'utilities',
     corePlugin: true,
     group: meta.group,
     order: pluginOrder[meta.group] + meta.order,
-  };
-  return style;
+  });
 }
 
 export default function extract(

@@ -133,7 +133,8 @@ export const pluginOrder: { [ key:string ] : number } = {
   'transitionTimingFunction': 11500,
   'transitionDuration': 11600,
   'transitionDelay': 11700,
-  'animation': 11800,
+  'keyframes': 11800,
+  'animation': 11900,
 };
 
 export const keyOrder: { [key: string]: number } = {
