@@ -43,6 +43,20 @@ export class StyleSheet {
     return this;
   }
 
+  layer(type : 'base' | 'components' | 'utilities'): StyleSheet {
+    const styleSheet = new StyleSheet(this.children.filter(i => i.meta.type === type));
+    styleSheet.prefixer = this.prefixer;
+    return styleSheet;
+  }
+
+  split(): { base: StyleSheet, components: StyleSheet, utilities: StyleSheet } {
+    return {
+      base: this.layer('base'),
+      components: this.layer('components'),
+      utilities: this.layer('utilities'),
+    };
+  }
+
   sort(meta = false): this {
     this.children = meta ? this.children.sort((a, b) => {
       return a.meta.order - b.meta.order;
