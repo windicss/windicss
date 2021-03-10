@@ -48,7 +48,7 @@ type StyleArrayObject = { [key: string]: Style[] }
 
 interface Plugin {
   core?: { [key:string]:boolean };
-  static: StyleArrayObject; // All styles that do not require purge
+  static: StyleArrayObject; // utilities that don't need dynamically generated
   dynamic: { [key: string]: ((utility: Utility) => Output)};
   utilities: StyleArrayObject;
   components: StyleArrayObject;
@@ -699,13 +699,13 @@ export class Processor {
     return output;
   }
 
-  addBase(baseStyles: DeepNestObject, autoPurge = true): Style[] {
+  addBase(baseStyles: DeepNestObject): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
       const styles = Style.generate(key, value).map(i => i.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 10 }));
       this._replaceStyleVariants(styles);
       output = [...output, ...styles];
-      (autoPurge? this._plugin.preflights : this._plugin.static)[key] = styles;
+      this._plugin.preflights[key] = styles;
     }
     return output;
   }

@@ -1,4 +1,3 @@
-import purgeBase from '../utils/algorithm/purgeBase';
 import { baseUtilities } from './utilities';
 import { Style, Property, StyleSheet } from '../utils/style';
 import type { ThemeUtil } from '../interfaces';
@@ -53,12 +52,12 @@ export default function preflight(
 
   // handle plugin style
   if (includePlugins) {
-    // purged base Styles
+    // base Styles
     let preflightList: Style[] = [];
     Object.values(processor._plugin.preflights).forEach((styles) => {
       preflightList = preflightList.concat(styles);
     });
-    styleSheet.add((html ? purgeBase(html, preflightList) : preflightList));
+    styleSheet.add(preflightList);
 
     // always generated styles
     let staticList: Style[] = [];
