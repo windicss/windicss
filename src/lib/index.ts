@@ -8,7 +8,7 @@ import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
 import plugin from '../plugin/index';
 import { baseConfig } from '../config';
-import { layerOrder } from '../config/order';
+import { layerOrder, pluginOrder } from '../config/order';
 import cssEscape from '../utils/algorithm/cssEscape';
 import combineConfig from '../utils/algorithm/combineConfig';
 import ClassParser from '../utils/parser/class';
@@ -47,6 +47,7 @@ type VariantTypes = 'screen' | 'theme' | 'state'
 type StyleArrayObject = { [key: string]: Style[] }
 
 interface Plugin {
+  core?: { [key:string]:boolean };
   static: StyleArrayObject; // All styles that do not require purge
   dynamic: { [key: string]: ((utility: Utility) => Output)};
   utilities: StyleArrayObject;
@@ -206,6 +207,7 @@ export class Processor {
     this._config.plugins?.map(i => typeof i === 'function' ? ('__isOptionsFunction' in i ? this.loadPluginWithOptions(i): this.loadPlugin(plugin(i))) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
     this._variants = this.resolveVariants();
+    if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).map(i => ({ [i]: true }))), ...this._config.corePlugins };
     return this._config;
   }
 
@@ -222,7 +224,8 @@ export class Processor {
   resolveStaticUtilities(includePlugins = false): StyleArrayObject {
     const staticStyles: StyleArrayObject = {};
     for (const key in staticUtilities) {
-      staticStyles[key] = [generateStaticStyle(key, true)];
+      const style = generateStaticStyle(this, key, true);
+      if (style) staticStyles[key] = [ style ];
     }
     if (!includePlugins) return staticStyles;
     return { ...staticStyles, ...this._plugin.utilities, ...this._plugin.components };
@@ -588,7 +591,7 @@ export class Processor {
 
   corePlugins(path: string): boolean {
     if (Array.isArray(this._config.corePlugins)) {
-      return this._config.corePlugins.includes(path);
+      return (this._config.corePlugins as string[]).includes(path);
     }
     return (this.config(`corePlugins.${path}`, true) as boolean) ?? false;
   }

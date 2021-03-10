@@ -196,7 +196,7 @@ export interface Config {
   theme?: Theme;
   variantOrder?: string[];
   plugins?: Plugin[];
-  corePlugins?: string[];
+  corePlugins?: (keyof BaseTheme)[] | string[] | { [ T in keyof BaseTheme ] : boolean } | { [ key:string ] : boolean };
   prefix?: string;
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
