@@ -15,7 +15,7 @@
     "lint:fix": "npm run lint -- --fix",
     "typecheck": "tsc -p ./src --noEmit",
     "build": "rollup -c && pnpm tsd",
-    "build:prod": "cross-env NODE_ENV=production && pnpm build",
+    "build:prod": "cross-env NODE_ENV=production pnpm build",
     "test": "sucrase-node test/run.ts",
     "test:update": "cross-env UPDATE_SNAPSHOT=true sucrase-node test/run.ts",
     "test:dts": "tsc -p ./test/dts --noEmit",
