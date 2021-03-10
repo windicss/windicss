@@ -383,6 +383,7 @@ export class Style {
     }
     if (onlyProperty) return this;
     item.selector && (this.selector = item.selector);
+    this.meta = item.meta;
     item.atRules &&
       (this.atRules = connectList(item.atRules, this.atRules, append)); // atrule is build in reverse
     item._brotherSelectors &&

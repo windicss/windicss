@@ -38,7 +38,6 @@ describe('CSSParser', () => {
           width: 300px;
         }
       }`;
-    // here has a sort error.
     expect(PARSER.parse(css).build()).toMatchSnapshot('css');
   });
 
@@ -276,7 +275,7 @@ describe('CSSParser', () => {
   });
 
   it('allow last rule without semicolon', () => {
-    const css = '.btn-red {background-color: red   }';
+    const css = '.btn-red {background-color: red  }';
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().build()).toEqual('.btn-red {\n  background-color: red;\n}');
   });

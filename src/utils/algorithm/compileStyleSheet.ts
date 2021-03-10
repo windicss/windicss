@@ -1,5 +1,5 @@
 import sortMediaQuery from './sortMediaQuery';
-import sortSelector from './sortSelector';
+import { sortMeta } from './sortSelector';
 import { Keyframes, Container, Style } from '../style/base';
 import { wrapit, hash, isSpace } from '../../utils/tools';
 import type { AnyObject } from '../../interfaces';
@@ -121,7 +121,7 @@ export function buildAtRule(styleList: Style[], minify = false, prefixer = true,
         ...reverse ? (i.atRules ?? []).sort(sortMediaQuery) : (i.atRules ?? []).sort(sortMediaQuery).reverse(),
         i.rule,
       ];
-      const style = new Style(undefined, i.property, i.important);
+      const style = new Style(undefined, i.property, i.important).updateMeta(i.meta);
       i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap));
       return deepList(list, style);
     })
@@ -138,7 +138,7 @@ export default function compileStyleSheet(
   minify = false,
   prefixer = true,
 ): string {
-  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules) && !(i instanceof Container)).sort(sortSelector)).map((i) => i.build(minify, prefixer)).join(minify ? '' : '\n');
+  const head = combineSelector(styleList.filter((i) => !(i.selector && i.atRules) && !(i instanceof Container)).sort(sortMeta)).map((i) => i.build(minify, prefixer)).join(minify ? '' : '\n');
   const containers: {[key:string]: Container[]} = {};
   styleList.filter(i => i instanceof Container).forEach(i => {
     if (i.selector && i.selector in containers) {
@@ -151,7 +151,7 @@ export default function compileStyleSheet(
   const keyframes = buildAtRule(styleList.filter(i => i instanceof Keyframes), minify, prefixer);
   if (keyframes) topStyles.unshift(keyframes);
   const top = topStyles.join(minify? '' : '\n');
-  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortSelector), minify, prefixer);
+  const body = buildAtRule(styleList.filter((i) => i.selector && i.atRules && !(i instanceof Keyframes || i instanceof Container)).sort(sortMeta), minify, prefixer);
   return minify
     ? (top + head + body).replace(/;\}/g, '}')
     : [top, head, body].filter((i) => !isSpace(i)).join('\n');

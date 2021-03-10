@@ -17,41 +17,7 @@ describe('filter plugin', () => {
     `;
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
-    expect(result.styleSheet.build()).toEqual(
-      `.filter-none {
-  -webkit-filter: none;
-  filter: none;
-}
-.filter-grayscale {
-  -webkit-filter: grayscale(1);
-  filter: grayscale(1);
-}
-.hover\\:filter-none:hover {
-  -webkit-filter: none;
-  filter: none;
-}
-.hover\\:filter-grayscale:hover {
-  -webkit-filter: grayscale(1);
-  filter: grayscale(1);
-}
-.backdrop-none {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-.backdrop-blur {
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-}
-@media (min-width: 640px) {
-  .sm\\:filter-none {
-    -webkit-filter: none;
-    filter: none;
-  }
-  .sm\\:filter-grayscale {
-    -webkit-filter: grayscale(1);
-    filter: grayscale(1);
-  }
-}`);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('customize test', () => {

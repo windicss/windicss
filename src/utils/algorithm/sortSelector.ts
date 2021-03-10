@@ -13,6 +13,10 @@ function getWeights(a: string): number {
   return 499;
 }
 
+export function sortMeta(a: Style, b: Style): number {
+  return a.meta.order - b.meta.order;
+}
+
 export default function sortSelector(a: Style, b: Style): number {
   if (a.selector && b.selector) {
     return getWeights(a.selector) - getWeights(b.selector);

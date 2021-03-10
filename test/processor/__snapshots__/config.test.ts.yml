@@ -46,10 +46,6 @@ Tools / animation config test / animate / 0: |-
     animation: skbounce 2.0s infinite ease-in-out;
   }
 Tools / color config test / css / 0: |-
-  .bg-darkTheme-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
-  }
   .bg-active {
     background-color: var(--active);
   }
@@ -58,6 +54,10 @@ Tools / color config test / css / 0: |-
   }
   .bg-on-frame-active {
     background-color: var(--on-frame-active);
+  }
+  .bg-darkTheme-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
   }
 Tools / different colors / colors / 0: |-
   .bg-name {
