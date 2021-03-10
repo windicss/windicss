@@ -393,6 +393,36 @@ Tools / should load all plugins correctly / css / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
+  .aspect-w-4 {
+    --tw-aspect-w: 4;
+    position: relative;
+    padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+  }
+  .aspect-w-4 > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .aspect-h-6 {
+    --tw-aspect-h: 6;
+  }
+  .aspect-9\/16 {
+    position: relative;
+    padding-bottom: 56.25%;
+  }
+  .aspect-9\/16 > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
   .prose-red a {
     color: #dc2626;
   }
@@ -433,36 +463,6 @@ Tools / should load all plugins correctly / css / 0: |-
   .blur-20 {
     -webkit-backdrop-filter: 20px;
     backdrop-filter: 20px;
-  }
-  .aspect-w-4 {
-    --tw-aspect-w: 4;
-    position: relative;
-    padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
-  }
-  .aspect-w-4 > * {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-  .aspect-h-6 {
-    --tw-aspect-h: 6;
-  }
-  .aspect-9\/16 {
-    position: relative;
-    padding-bottom: 56.25%;
-  }
-  .aspect-9\/16 > * {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
   }
   @media (min-width: 768px) {
     .md\:prose-lg {
@@ -644,10 +644,6 @@ Tools / should load all plugins correctly / css / 0: |-
     .md\:prose-lg > :last-child {
       margin-bottom: 0;
     }
-    .md\:bg-gray-300 {
-      --tw-bg-opacity: 1;
-      background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-    }
     .md\:aspect-3\/4 {
       position: relative;
       padding-bottom: 75%;
@@ -660,5 +656,9 @@ Tools / should load all plugins correctly / css / 0: |-
       right: 0;
       bottom: 0;
       left: 0;
+    }
+    .md\:bg-gray-300 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
     }
   }
