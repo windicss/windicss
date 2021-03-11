@@ -48,8 +48,7 @@ describe('typography plugin', () => {
       },
     });
     processor.loadPluginWithOptions(typography);
-    const classes = 'prose';
-    const result = processor.interpret(classes);
+    const result = processor.interpret('prose');
     expect(result.ignored.length).toEqual(0);
     const css = result.styleSheet.build();
     expect(css).toMatchSnapshot('css');

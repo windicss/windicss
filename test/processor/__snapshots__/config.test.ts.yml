@@ -276,9 +276,9 @@ Tools / shortcuts config object / shortcuts object / 0: |-
     border-radius: 0.5rem;
   }
   .btn:hover {
-    color: black;
     --tw-bg-opacity: 1;
     background-color: rgba(4, 120, 87, var(--tw-bg-opacity));
+    color: black;
   }
 Tools / shortcuts config string / shortcuts string / 0: |-
   .btn {

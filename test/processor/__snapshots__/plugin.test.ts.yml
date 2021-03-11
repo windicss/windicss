@@ -1,3 +1,46 @@
+Tools / add duplicated components / css / 0: |-
+  .btn {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    font-weight: 600;
+  }
+Tools / add duplicated utilities / css / 0: |-
+  .btn {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    font-weight: 600;
+  }
+Tools / add multi utilities / a / 1: |-
+  .a {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+Tools / add multi utilities / b / 2: |-
+  .b:hover {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+Tools / add multi utilities / preflight / 0: |-
+  [type='button'] {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+Tools / add pseudo components / css / 0: |-
+  .btn {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+  .btn:hover {
+    color: #fff;
+  }
+Tools / add pseudo utilities / css / 0: |-
+  .btn {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+  }
+  .btn:hover {
+    color: #fff;
+  }
 Tools / addComponents with non-class styles  / css / 0: |-
   [data-theme] {
     --active: #0099FF;
@@ -22,11 +65,11 @@ Tools / addVariant modifySelectors / css / 0: |-
   .disabled\:float-right:disabled {
     float: right;
   }
-Tools / addVariant pseudoClass / extend / 0: |-
-  .float-right:disabled {
+Tools / addVariant pseudoClass / css / 1: |-
+  .hocus\:float-right:hover:focus {
     float: right;
   }
-Tools / addVariant pseudoClass / float / 1: |-
-  .disable\:float-right:disabled {
+Tools / addVariant pseudoClass / extend / 0: |-
+  .float-right:hover:focus {
     float: right;
   }

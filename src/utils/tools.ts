@@ -239,3 +239,18 @@ export function searchPropEnd(text: string, startIndex = 0): number {
   }
   return output;
 }
+
+export function searchNotEscape(text:string, char = '{'): number {
+  if (text.charAt(0) === char) return 0;
+  const index = text.search(new RegExp(String.raw`([^\\]${char})`));
+  if (index === -1) return -1;
+  return index + 1;
+}
+
+export function guessClassName(selector: string): { selector: string, isClass: boolean, pseudo?: string } | { selector: string, isClass: boolean, pseudo?: string }[] {
+  if (/\s*,\s*/.test(selector)) return selector.split(/\s*,\s*/g).map(i => guessClassName(i) as { selector: string, isClass: boolean });
+  if (selector.charAt(0) !== '.') return { selector, isClass: false };
+  const pos = searchNotEscape(selector, ':');
+  if (pos === -1) return { selector: selector.slice(1, ).replace(/\\/g, ''), isClass: true };
+  return { selector: selector.slice(1, pos).replace(/\\/g, ''), isClass: true, pseudo: selector.slice(pos,) };
+}

@@ -1,4 +1,5 @@
 import { Utility } from './utilities/handler';
+import { deepCopy } from '../utils/tools';
 import { Style, Property } from '../utils/style';
 import { pluginOrder } from '../config/order';
 import { staticUtilities, dynamicUtilities } from './utilities';
@@ -32,14 +33,11 @@ export default function extract(
   // handle static base utilities
   if (className in staticUtilities) return generateStaticStyle(processor, className, addComment);
 
-  const matches = className.match(/\w+/);
-  const key = matches ? matches[0] : undefined;
-  const utility = new Utility(className);
-
   // handle static plugin utilities & components
   const staticPlugins = { ...processor._plugin.utilities, ...processor._plugin.components, ...processor._plugin.shortcuts };
-  if (utility.class in staticPlugins) return staticPlugins[utility.class];
+  if (className in staticPlugins) return deepCopy(staticPlugins[className]);
 
+  const utility = new Utility(className);
   // handle dynamic plugin utilities
   for (const [key, generator] of Object.entries(processor._plugin.dynamic)) {
     if (className.match(new RegExp(`^-?${key}`))) {
@@ -52,7 +50,10 @@ export default function extract(
       if (style) return style;
     }
   }
+
   // handle dynamic base utilities
+  const matches = className.match(/\w+/);
+  const key = matches ? matches[0] : undefined;
   if (key && key in dynamicUtilities) {
     let style = dynamicUtilities[key](utility, processor.pluginUtils);
     if (!style) return;

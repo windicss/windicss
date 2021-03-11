@@ -37,6 +37,55 @@ describe('Plugin Method', () => {
 }`);
   });
 
+  it('add duplicated utilities', () => {
+    const a = {
+      '.btn': {
+        padding: '.5rem 1rem',
+      },
+    };
+
+    const b = {
+      '.btn': {
+        borderRadius: '.25rem',
+        fontWeight: '600',
+      },
+    };
+
+    const processor = new Processor();
+    processor.addUtilities(a);
+    processor.addUtilities(b);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('add pseudo utilities', () => {
+    const utilities = {
+      '.btn': {
+        padding: '.5rem 1rem',
+        borderRadius: '.25rem',
+      },
+      '.btn:hover': {
+        color: '#fff',
+      },
+    };
+    const processor = new Processor();
+    processor.addUtilities(utilities);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('add multi utilities', () => {
+    const utilities = {
+      '.a, .b:hover, [type=\'button\']': {
+        padding: '.5rem 1rem',
+        borderRadius: '.25rem',
+      },
+    };
+    const processor = new Processor();
+    processor.addUtilities(utilities);
+    expect(processor.preflight(undefined, false, false, true).build()).toMatchSnapshot('preflight');
+    expect(processor.interpret('a').styleSheet.build()).toMatchSnapshot('a');
+    expect(processor.interpret('b').styleSheet.build()).toMatchSnapshot('b');
+  });
+
   it('addComponents', () => {
     const buttons = {
       '.btn': {
@@ -89,6 +138,41 @@ describe('Plugin Method', () => {
     expect(css).toMatchSnapshot('css');
   });
 
+  it('add duplicated components', () => {
+    const a = {
+      '.btn': {
+        padding: '.5rem 1rem',
+      },
+    };
+
+    const b = {
+      '.btn': {
+        borderRadius: '.25rem',
+        fontWeight: '600',
+      },
+    };
+
+    const processor = new Processor();
+    processor.addComponents(a);
+    processor.addComponents(b);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('add pseudo components', () => {
+    const utilities = {
+      '.btn': {
+        padding: '.5rem 1rem',
+        borderRadius: '.25rem',
+      },
+      '.btn:hover': {
+        color: '#fff',
+      },
+    };
+    const processor = new Processor();
+    processor.addComponents(utilities);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('addBase', () => {
     const processor = new Processor();
     expect(processor.addBase({
@@ -110,11 +194,11 @@ describe('Plugin Method', () => {
 
   it('addVariant pseudoClass', () => {
     const test = new Style('.float-right', new Property('float', 'right'));
-    const style = processor.addVariant('disable', ({ pseudoClass }) => {
-      return pseudoClass('disabled');
+    const style = processor.addVariant('hocus', ({ pseudoClass }) => {
+      return pseudoClass('hover:focus');
     });
     expect(Array.isArray(style) || style.extend(test).build()).toMatchSnapshot('extend');
-    expect(processor.interpret('disable:float-right').styleSheet.build()).toMatchSnapshot('float');
+    expect(processor.interpret('hocus:float-right').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('addVariant modifySelectors', () => {

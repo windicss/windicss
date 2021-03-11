@@ -20,6 +20,8 @@ import {
   toType,
   flatColors,
   searchPropEnd,
+  searchNotEscape,
+  guessClassName,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
@@ -223,5 +225,17 @@ describe('Tools', () => {
   it('search property end', () => {
     expect(searchPropEnd('font-family: "iconfont";')).toEqual(23);
     expect(searchPropEnd(String.raw`src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');`)).toEqual(105);
+  });
+
+  it('search not escape', () => {
+    expect(searchNotEscape(String.raw`.test\{ {`)).toEqual(8);
+    expect(searchNotEscape(String.raw`.{ {`)).toEqual(1);
+    expect(searchNotEscape('hover:bg-white', ':')).toEqual(5);
+  });
+
+  it('guess className by selector', () => {
+    expect(guessClassName('[type=\'text\']')).toEqual({ selector: '[type=\'text\']', isClass: false });
+    expect(guessClassName('.test')).toEqual({ selector: 'test', isClass: true });
+    expect(guessClassName(String.raw`.hover\:bg-black:hover`)).toEqual({ selector: 'hover:bg-black', isClass: true, pseudo: ':hover' });
   });
 });
