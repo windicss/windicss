@@ -348,20 +348,7 @@ export class Processor {
         } else if (Array.isArray(result)) {
           result = result.map(i => {
             if (i instanceof Keyframes) return i;
-            // console.log(i.selector, escapedSelector);
-            // console.log(i.selector);
-            // console.log(escapedSelector);
-            // if (i.selector && i.selector.indexOf(':') > -1) {
-            // i.selector = i.selector.split(':').map((part, idx) => idx === 0 ? escapedSelector : part).join(':');
-            // }
-            // else {
-            //   copy.selector = escapedSelector;
-            // }
-            // if (i.meta.group === 'shortcuts') {
-            //   console.log(i.selector, escapedSelector);
-            // } else {
             i.selector = escapedSelector;
-            // }
             this.markAsImportant(i, important);
             return i;
           });
