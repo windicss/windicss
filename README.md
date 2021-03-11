@@ -1,6 +1,6 @@
 <h1 align="center">
 <a href="https://github.com/windicss/windicss/wiki">
-  <img src="https://windicss.netlify.app/assets/logo.svg" alt="Windi CSS Logo" height="120" width="120"/><br>
+  <img src="https://windicss.org/assets/logo.svg" alt="Windi CSS Logo" height="120" width="120"/><br>
 </a>
   Windi CSS
 </h1>
@@ -21,8 +21,8 @@
 <p>Otherwise, you can think of Windi CSS as a utility-first CSS library.</p>
 
 [tailwind css]: https://tailwindcss.com/docs
-[windi css]: https://windicss.netlify.app
-[website]: https://windicss.netlify.app
+[windi css]: https://windicss.org
+[website]: https://windicss.org
 [video comparison]: https://twitter.com/antfu7/status/1361398324587163648
 
 ## Why Windi CSS? 🤔
@@ -33,13 +33,13 @@ A quote from the author should illustrate his motivation to create [Windi CSS]:
 
 By scanning your HTML and CSS and generating utilities on demand, [Windi CSS] is able to provide [faster load times][video comparison] and a speedy HMR in development, and does not require purging in production.
 
-Read more about it in the [Introduction](https://windicss.netlify.app/guide/introduction).
+Read more about it in the [Introduction](https://windicss.org/guide/introduction).
 
 ## Integrations
 
 | Frameworks | Package | Version |
 | --- | --- | --- |
-| CLI | [Built-in](https://windicss.netlify.app/guide/cli) | ![](https://img.shields.io/npm/v/windicss?label=&color=0EA5E9) |
+| CLI | [Built-in](https://windicss.org/guide/cli) | ![](https://img.shields.io/npm/v/windicss?label=&color=0EA5E9) |
 | VSCode Extension | [windicss-intellisense](https://github.com/windicss/windicss-intellisense) | ![](https://img.shields.io/visual-studio-marketplace/v/voorjaar.windicss-intellisense.svg?label=&color=1388bd) |
 | Vite | [vite-plugin-windicss](https://github.com/windicss/vite-plugin-windicss) | ![](https://img.shields.io/npm/v/vite-plugin-windicss?label=&color=0EA5E9) |
 | Rollup | [rollup-plugin-windicss](https://github.com/windicss/vite-plugin-windicss/tree/main/packages/rollup-plugin-windicss) | ![](https://img.shields.io/npm/v/rollup-plugin-windicss?label=&color=1388bd) |
