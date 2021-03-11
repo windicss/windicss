@@ -5,6 +5,9 @@ Tools / AtRule wrap properties / css / 0: |-
     src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
   }
 Tools / Deep Nesting / css / 0: |-
+  #header {
+    color: black;
+  }
   #header .navigation {
     font-size: 12px;
   }
@@ -14,9 +17,6 @@ Tools / Deep Nesting / css / 0: |-
   }
   #header .navigation .logo .abc {
     color: white;
-  }
-  #header {
-    color: black;
   }
 Tools / Directives and Functions / css / 0: |-
   .container {
@@ -42,11 +42,11 @@ Tools / Directives and Functions / css / 0: |-
     opacity: 1;
   }
   @media (min-width: 640px) {
-    .container {
-      max-width: 640px;
-    }
     .test {
       padding-top: 1px;
+    }
+    .container {
+      max-width: 640px;
     }
   }
   @media (min-width: 768px) {
@@ -122,19 +122,24 @@ Tools / Nested At-Rules and Bubbling / css / 0: |-
     }
   }
 Tools / Nesting / css / 0: |-
+  #header {
+    color: black;
+  }
   #header .navigation {
     font-size: 12px;
   }
   #header .logo {
     width: 300px;
   }
-  #header {
-    color: black;
-  }
 Tools / One line AtRule / css / 0: |-
   @import "library";
   @import "typo.css";
 Tools / Pseudo Classes / css / 0: |-
+  #bundle .button {
+    display: block;
+    border: 1px solid black;
+    background-color: grey;
+  }
   #bundle .button:hover {
     background-color: white;
   }
@@ -143,11 +148,6 @@ Tools / Pseudo Classes / css / 0: |-
   }
   #bundle .button__abc:focus {
     color: blue;
-  }
-  #bundle .button {
-    display: block;
-    border: 1px solid black;
-    background-color: grey;
   }
   #bundle .logo {
     width: 300px;
@@ -194,6 +194,20 @@ Tools / do not change apply order / css / 0: |-
     border-right-color: transparent;
     border-bottom-color: transparent;
     border-left-color: transparent;
+  }
+Tools / layer directive / css / 0: |-
+  base {
+    margin-left: auto;
+  }
+  .components {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  }
+  .normal {
+    marign-right: auto;
+  }
+  .utilities {
+    max-width: 768px;
   }
 Tools / theme function / css / 0: |-
   .btn-blue {

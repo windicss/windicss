@@ -288,4 +288,25 @@ describe('Config', () => {
     });
     expect(processor.interpret('bg-name bg-hex bg-hexa bg-rgb bg-rgba bg-hsl bg-hsla bg-hwb bg-hwba bg-srgb').styleSheet.build()).toMatchSnapshot('colors');
   });
+
+  it('close corePlugins', () => {
+    const processor = new Processor({
+      corePlugins: {
+        container: false,
+        animation: false,
+      },
+    });
+    expect(processor.interpret('container sm:container animate-ping bg-red-200').ignored.length).toEqual(3);
+    expect(processor.interpret('bg-red-500').success.length).toEqual(1);
+  });
+
+  it('set corePlugins', () => {
+    const processor = new Processor({
+      corePlugins: [
+        'cursor',
+        'backgroundColor',
+      ],
+    });
+    expect(processor.interpret('cursor-pointer bg-red-200 bg-green-300 font-bold container').success.length).toEqual(3);
+  });
 });

@@ -63,13 +63,7 @@ describe('closePrefixer', () => {
       new Property('background-clip', 'padding-box'),
     ]));
     styleSheet.prefixer = false;
-    expect(styleSheet.build()).toEqual(
-      `.bg-clip-padding {
-  background-clip: padding-box;
-}
-.flex {
-  display: flex;
-}`);
+    expect(styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('processor prefix', () => {

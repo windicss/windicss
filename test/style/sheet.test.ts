@@ -14,6 +14,10 @@ describe('StyleSheet', () => {
     new Property(['padding-top', 'padding-bottom'], '2.5rem')
   );
 
+  s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
+  s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
+  s3.updateMeta({ type: 'utilities', corePlugin: false, group: 'plugin', order: 2 });
+
   it('initial', () => {
     const ss = new StyleSheet([s1, s2, s3]);
     expect(ss.children.length).toBe(3);
@@ -85,5 +89,39 @@ describe('StyleSheet', () => {
     expect(ss.build(true)).toBe(
       '.bg-white{--bg-opacity:1;background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}'
     );
+  });
+});
+
+describe('meta', () => {
+  const s1 = new Style('.bg-white', new Property('--bg-opacity', '1'));
+  const s2 = new Style(
+    '.bg-white',
+    new Property(
+      'background-color',
+      'rgba(255, 255, 255, var(--tw-bg-opacity))'
+    )
+  );
+  const s3 = new Style(
+    '.py-10',
+    new Property(['padding-top', 'padding-bottom'], '2.5rem')
+  );
+
+  s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
+  s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
+  s3.updateMeta({ type: 'utilities', corePlugin: false, group: 'plugin', order: 2 });
+
+  it('layer function', () => {
+    const ss = new StyleSheet([s1, s2, s3]);
+    expect(ss.layer('base').build(true)).toEqual('.bg-white{--bg-opacity:1}');
+    expect(ss.layer('components').build(true)).toEqual('.bg-white{background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}');
+    expect(ss.layer('utilities').build(true)).toEqual('.py-10{padding-top:2.5rem;padding-bottom:2.5rem}');
+
+  });
+
+  it('split function', () => {
+    const sss = new StyleSheet([s1, s2, s3]).split();
+    expect(sss.base.build(true)).toEqual('.bg-white{--bg-opacity:1}');
+    expect(sss.components.build(true)).toEqual('.bg-white{background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}');
+    expect(sss.utilities.build(true)).toEqual('.py-10{padding-top:2.5rem;padding-bottom:2.5rem}');
   });
 });

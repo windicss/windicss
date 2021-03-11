@@ -9,8 +9,7 @@ const fontVariants = {
   '--tw-numeric-figure': 'var(--tw-empty,/*!*/ /*!*/)',
   '--tw-numeric-spacing': 'var(--tw-empty,/*!*/ /*!*/)',
   '--tw-numeric-fraction': 'var(--tw-empty,/*!*/ /*!*/)',
-  'font-variant-numeric':
-    'var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)',
+  'font-variant-numeric': 'var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)',
 };
 
 export const staticUtilities: StaticUtility = {
@@ -24,113 +23,605 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/box-sizing
   'box-border': {
-    '-webkit-box-sizing': 'border-box',
-    'box-sizing': 'border-box',
+    'utility': {
+      '-webkit-box-sizing': 'border-box',
+      'box-sizing': 'border-box',
+    },
+    'meta': {
+      'group': 'boxSizing',
+      'order': 1,
+    },
   },
   'box-content': {
-    '-webkit-box-sizing': 'content-box',
-    'box-sizing': 'content-box',
+    'utility': {
+      '-webkit-box-sizing': 'content-box',
+      'box-sizing': 'content-box',
+    },
+    'meta': {
+      'group': 'boxSizing',
+      'order': 2,
+    },
   },
 
   // https://tailwindcss.com/docs/display
-  block: { display: 'block' },
-  'inline-block': { display: 'inline-block' },
-  inline: { display: 'inline' },
-  flex: { display: ['-webkit-box', '-ms-flexbox', '-webkit-flex', 'flex'] },
-  'inline-flex': {
-    display: [
-      '-webkit-inline-box',
-      '-ms-inline-flexbox',
-      '-webkit-inline-flex',
-      'inline-flex',
-    ],
+  'block': {
+    'utility': {
+      'display': 'block',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 1,
+    },
   },
-  table: { display: 'table' },
-  'table-caption': { display: 'table-caption' },
-  'table-cell': { display: 'table-cell' },
-  'table-column': { display: 'table-column' },
-  'table-column-group': { display: 'table-column-group' },
-  'table-footer-group': { display: 'table-footer-group' },
-  'table-header-group': { display: 'table-header-group' },
-  'table-row-group': { display: 'table-row-group' },
-  'table-row': { display: 'table-row' },
-  'flow-root': { display: 'flow-root' },
-  grid: { display: ['-ms-grid', 'grid'] },
-  'inline-grid': { display: ['-ms-inline-grid', 'inline-grid'] },
-  contents: { display: 'contents' },
-  hidden: { display: 'none' },
+  'inline-block': {
+    'utility': {
+      'display': 'inline-block',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 2,
+    },
+  },
+  'inline': {
+    'utility': {
+      'display': 'inline',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 3,
+    },
+  },
+  'flex': {
+    'utility': {
+      'display': [
+        '-webkit-box',
+        '-ms-flexbox',
+        '-webkit-flex',
+        'flex',
+      ],
+    },
+    'meta': {
+      'group': 'display',
+      'order': 4,
+    },
+  },
+  'inline-flex': {
+    'utility': {
+      'display': [
+        '-webkit-inline-box',
+        '-ms-inline-flexbox',
+        '-webkit-inline-flex',
+        'inline-flex',
+      ],
+    },
+    'meta': {
+      'group': 'display',
+      'order': 5,
+    },
+  },
+  'table': {
+    'utility': {
+      'display': 'table',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 6,
+    },
+  },
+  'table-caption': {
+    'utility': {
+      'display': 'table-caption',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 7,
+    },
+  },
+  'table-cell': {
+    'utility': {
+      'display': 'table-cell',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 8,
+    },
+  },
+  'table-column': {
+    'utility': {
+      'display': 'table-column',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 9,
+    },
+  },
+  'table-column-group': {
+    'utility': {
+      'display': 'table-column-group',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 10,
+    },
+  },
+  'table-footer-group': {
+    'utility': {
+      'display': 'table-footer-group',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 11,
+    },
+  },
+  'table-header-group': {
+    'utility': {
+      'display': 'table-header-group',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 12,
+    },
+  },
+  'table-row-group': {
+    'utility': {
+      'display': 'table-row-group',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 13,
+    },
+  },
+  'table-row': {
+    'utility': {
+      'display': 'table-row',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 14,
+    },
+  },
+  'flow-root': {
+    'utility': {
+      'display': 'flow-root',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 15,
+    },
+  },
+  'grid': {
+    'utility': {
+      'display': [
+        '-ms-grid',
+        'grid',
+      ],
+    },
+    'meta': {
+      'group': 'display',
+      'order': 16,
+    },
+  },
+  'inline-grid': {
+    'utility': {
+      'display': [
+        '-ms-inline-grid',
+        'inline-grid',
+      ],
+    },
+    'meta': {
+      'group': 'display',
+      'order': 17,
+    },
+  },
+  'contents': {
+    'utility': {
+      'display': 'contents',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 18,
+    },
+  },
+  'hidden': {
+    'utility': {
+      'display': 'none',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 19,
+    },
+  },
 
   // https://tailwindcss.com/docs/float
-  'float-right': { float: 'right' },
-  'float-left': { float: 'left' },
-  'float-none': { float: 'none' },
+  'float-right': {
+    'utility': {
+      'float': 'right',
+    },
+    'meta': {
+      'group': 'float',
+      'order': 1,
+    },
+  },
+  'float-left': {
+    'utility': {
+      'float': 'left',
+    },
+    'meta': {
+      'group': 'float',
+      'order': 2,
+    },
+  },
+  'float-none': {
+    'utility': {
+      'float': 'none',
+    },
+    'meta': {
+      'group': 'float',
+      'order': 3,
+    },
+  },
 
   // https://tailwindcss.com/docs/clear
-  'clear-left': { clear: 'left' },
-  'clear-right': { clear: 'right' },
-  'clear-both': { clear: 'both' },
-  'clear-none': { clear: 'none' },
+  'clear-left': {
+    'utility': {
+      'clear': 'left',
+    },
+    'meta': {
+      'group': 'clear',
+      'order': 1,
+    },
+  },
+  'clear-right': {
+    'utility': {
+      'clear': 'right',
+    },
+    'meta': {
+      'group': 'clear',
+      'order': 2,
+    },
+  },
+  'clear-both': {
+    'utility': {
+      'clear': 'both',
+    },
+    'meta': {
+      'group': 'clear',
+      'order': 3,
+    },
+  },
+  'clear-none': {
+    'utility': {
+      'clear': 'none',
+    },
+    'meta': {
+      'group': 'clear',
+      'order': 4,
+    },
+  },
 
   // https://tailwindcss.com/docs/object-fit
-  'object-contain': { '-o-object-fit': 'contain', 'object-fit': 'contain' },
-  'object-cover': { '-o-object-fit': 'cover', 'object-fit': 'cover' },
-  'object-fill': { '-o-object-fit': 'fill', 'object-fit': 'fill' },
-  'object-none': { '-o-object-fit': 'none', 'object-fit': 'none' },
+  'object-contain': {
+    'utility': {
+      '-o-object-fit': 'contain',
+      'object-fit': 'contain',
+    },
+    'meta': {
+      'group': 'objectFit',
+      'order': 1,
+    },
+  },
+  'object-cover': {
+    'utility': {
+      '-o-object-fit': 'cover',
+      'object-fit': 'cover',
+    },
+    'meta': {
+      'group': 'objectFit',
+      'order': 2,
+    },
+  },
+  'object-fill': {
+    'utility': {
+      '-o-object-fit': 'fill',
+      'object-fit': 'fill',
+    },
+    'meta': {
+      'group': 'objectFit',
+      'order': 3,
+    },
+  },
+  'object-none': {
+    'utility': {
+      '-o-object-fit': 'none',
+      'object-fit': 'none',
+    },
+    'meta': {
+      'group': 'objectFit',
+      'order': 4,
+    },
+  },
   'object-scale-down': {
-    '-o-object-fit': 'scale-down',
-    'object-fit': 'scale-down',
+    'utility': {
+      '-o-object-fit': 'scale-down',
+      'object-fit': 'scale-down',
+    },
+    'meta': {
+      'group': 'objectFit',
+      'order': 5,
+    },
   },
 
   // https://tailwindcss.com/docs/object-position
   // dynamic
 
   // https://tailwindcss.com/docs/overflow
-  'overflow-auto': { overflow: 'auto' },
-  'overflow-hidden': { overflow: 'hidden' },
-  'overflow-visible': { overflow: 'visible' },
-  'overflow-scroll': { overflow: 'scroll' },
-  'overflow-x-auto': { 'overflow-x': 'auto' },
-  'overflow-y-auto': { 'overflow-y': 'auto' },
-  'overflow-x-hidden': { 'overflow-x': 'hidden' },
-  'overflow-y-hidden': { 'overflow-y': 'hidden' },
-  'overflow-x-visible': { 'overflow-x': 'visible' },
-  'overflow-y-visible': { 'overflow-y': 'visible' },
-  'overflow-x-scroll': { 'overflow-x': 'scroll' },
-  'overflow-y-scroll': { 'overflow-y': 'scroll' },
+  'overflow-auto': {
+    'utility': {
+      'overflow': 'auto',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 1,
+    },
+  },
+  'overflow-hidden': {
+    'utility': {
+      'overflow': 'hidden',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 2,
+    },
+  },
+  'overflow-visible': {
+    'utility': {
+      'overflow': 'visible',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 3,
+    },
+  },
+  'overflow-scroll': {
+    'utility': {
+      'overflow': 'scroll',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 4,
+    },
+  },
+  'overflow-x-auto': {
+    'utility': {
+      'overflow-x': 'auto',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 5,
+    },
+  },
+  'overflow-y-auto': {
+    'utility': {
+      'overflow-y': 'auto',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 6,
+    },
+  },
+  'overflow-x-hidden': {
+    'utility': {
+      'overflow-x': 'hidden',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 7,
+    },
+  },
+  'overflow-y-hidden': {
+    'utility': {
+      'overflow-y': 'hidden',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 8,
+    },
+  },
+  'overflow-x-visible': {
+    'utility': {
+      'overflow-x': 'visible',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 9,
+    },
+  },
+  'overflow-y-visible': {
+    'utility': {
+      'overflow-y': 'visible',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 10,
+    },
+  },
+  'overflow-x-scroll': {
+    'utility': {
+      'overflow-x': 'scroll',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 11,
+    },
+  },
+  'overflow-y-scroll': {
+    'utility': {
+      'overflow-y': 'scroll',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 12,
+    },
+  },
 
   // https://tailwindcss.com/docs/overscroll-behavior
   'overscroll-auto': {
-    'overscroll-behavior': 'auto',
-    '-ms-scroll-chaining': 'chained',
+    'utility': {
+      'overscroll-behavior': 'auto',
+      '-ms-scroll-chaining': 'chained',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 1,
+    },
   },
   'overscroll-contain': {
-    'overscroll-behavior': 'contain',
-    '-ms-scroll-chaining': 'none',
+    'utility': {
+      'overscroll-behavior': 'contain',
+      '-ms-scroll-chaining': 'none',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 2,
+    },
   },
   'overscroll-none': {
-    'overscroll-behavior': 'none',
-    '-ms-scroll-chaining': 'none',
+    'utility': {
+      'overscroll-behavior': 'none',
+      '-ms-scroll-chaining': 'none',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 3,
+    },
   },
-  'overscroll-y-auto': { 'overscroll-behavior-y': 'auto' },
-  'overscroll-y-contain': { 'overscroll-behavior-y': 'contain' },
-  'overscroll-y-none': { 'overscroll-behavior-y': 'none' },
-  'overscroll-x-auto': { 'overscroll-behavior-x': 'auto' },
-  'overscroll-x-contain': { 'overscroll-behavior-x': 'contain' },
-  'overscroll-x-none': { 'overscroll-behavior-x': 'none' },
+  'overscroll-y-auto': {
+    'utility': {
+      'overscroll-behavior-y': 'auto',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 4,
+    },
+  },
+  'overscroll-y-contain': {
+    'utility': {
+      'overscroll-behavior-y': 'contain',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 5,
+    },
+  },
+  'overscroll-y-none': {
+    'utility': {
+      'overscroll-behavior-y': 'none',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 6,
+    },
+  },
+  'overscroll-x-auto': {
+    'utility': {
+      'overscroll-behavior-x': 'auto',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 7,
+    },
+  },
+  'overscroll-x-contain': {
+    'utility': {
+      'overscroll-behavior-x': 'contain',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 8,
+    },
+  },
+  'overscroll-x-none': {
+    'utility': {
+      'overscroll-behavior-x': 'none',
+    },
+    'meta': {
+      'group': 'overscrollBehavior',
+      'order': 9,
+    },
+  },
 
   // https://tailwindcss.com/docs/position
-  static: { position: 'static' },
-  fixed: { position: 'fixed' },
-  absolute: { position: 'absolute' },
-  relative: { position: 'relative' },
-  sticky: { position: ['sticky', '-webkit-sticky'] },
+  'static': {
+    'utility': {
+      'position': 'static',
+    },
+    'meta': {
+      'group': 'position',
+      'order': 1,
+    },
+  },
+  'fixed': {
+    'utility': {
+      'position': 'fixed',
+    },
+    'meta': {
+      'group': 'position',
+      'order': 2,
+    },
+  },
+  'absolute': {
+    'utility': {
+      'position': 'absolute',
+    },
+    'meta': {
+      'group': 'position',
+      'order': 3,
+    },
+  },
+  'relative': {
+    'utility': {
+      'position': 'relative',
+    },
+    'meta': {
+      'group': 'position',
+      'order': 4,
+    },
+  },
+  'sticky': {
+    'utility': {
+      'position': [
+        'sticky',
+        '-webkit-sticky',
+      ],
+    },
+    'meta': {
+      'group': 'position',
+      'order': 5,
+    },
+  },
 
   // https://tailwindcss.com/docs/top-right-bottom-left
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/visibility
-  visible: { visibility: 'visible' },
-  invisible: { visibility: 'hidden' },
+  'visible': {
+    'utility': {
+      'visibility': 'visible',
+    },
+    'meta': {
+      'group': 'visibility',
+      'order': 1,
+    },
+  },
+  'invisible': {
+    'utility': {
+      'visibility': 'hidden',
+    },
+    'meta': {
+      'group': 'visibility',
+      'order': 2,
+    },
+  },
 
   // https://tailwindcss.com/docs/z-index
   // See dynamic.ts
@@ -142,49 +633,91 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/flex-direction
   'flex-row': {
-    '-webkit-box-orient': 'horizontal',
-    '-webkit-box-direction': 'normal',
-    '-ms-flex-direction': 'row',
-    '-webkit-flex-direction': 'row',
-    'flex-direction': 'row',
+    'utility': {
+      '-webkit-box-orient': 'horizontal',
+      '-webkit-box-direction': 'normal',
+      '-ms-flex-direction': 'row',
+      '-webkit-flex-direction': 'row',
+      'flex-direction': 'row',
+    },
+    'meta': {
+      'group': 'flexDirection',
+      'order': 1,
+    },
   },
   'flex-row-reverse': {
-    '-webkit-box-orient': 'horizontal',
-    '-webkit-box-direction': 'reverse',
-    '-ms-flex-direction': 'row-reverse',
-    '-webkit-flex-direction': 'row-reverse',
-    'flex-direction': 'row-reverse',
+    'utility': {
+      '-webkit-box-orient': 'horizontal',
+      '-webkit-box-direction': 'reverse',
+      '-ms-flex-direction': 'row-reverse',
+      '-webkit-flex-direction': 'row-reverse',
+      'flex-direction': 'row-reverse',
+    },
+    'meta': {
+      'group': 'flexDirection',
+      'order': 2,
+    },
   },
   'flex-col': {
-    '-webkit-box-orient': 'vertical',
-    '-webkit-box-direction': 'normal',
-    '-ms-flex-direction': 'column',
-    '-webkit-flex-direction': 'column',
-    'flex-direction': 'column',
+    'utility': {
+      '-webkit-box-orient': 'vertical',
+      '-webkit-box-direction': 'normal',
+      '-ms-flex-direction': 'column',
+      '-webkit-flex-direction': 'column',
+      'flex-direction': 'column',
+    },
+    'meta': {
+      'group': 'flexDirection',
+      'order': 3,
+    },
   },
   'flex-col-reverse': {
-    '-webkit-box-orient': 'vertical',
-    '-webkit-box-direction': 'reverse',
-    '-ms-flex-direction': 'column-reverse',
-    '-webkit-flex-direction': 'column-reverse',
-    'flex-direction': 'column-reverse',
+    'utility': {
+      '-webkit-box-orient': 'vertical',
+      '-webkit-box-direction': 'reverse',
+      '-ms-flex-direction': 'column-reverse',
+      '-webkit-flex-direction': 'column-reverse',
+      'flex-direction': 'column-reverse',
+    },
+    'meta': {
+      'group': 'flexDirection',
+      'order': 4,
+    },
   },
 
   // https://tailwindcss.com/docs/flex-wrap
   'flex-wrap': {
-    '-ms-flex-wrap': 'wrap',
-    '-webkit-flex-wrap': 'wrap',
-    'flex-wrap': 'wrap',
+    'utility': {
+      '-ms-flex-wrap': 'wrap',
+      '-webkit-flex-wrap': 'wrap',
+      'flex-wrap': 'wrap',
+    },
+    'meta': {
+      'group': 'flexWrap',
+      'order': 1,
+    },
   },
   'flex-wrap-reverse': {
-    '-ms-flex-wrap': 'wrap-reverse',
-    '-webkit-flex-wrap': 'wrap-reverse',
-    'flex-wrap': 'wrap-reverse',
+    'utility': {
+      '-ms-flex-wrap': 'wrap-reverse',
+      '-webkit-flex-wrap': 'wrap-reverse',
+      'flex-wrap': 'wrap-reverse',
+    },
+    'meta': {
+      'group': 'flexWrap',
+      'order': 2,
+    },
   },
   'flex-nowrap': {
-    '-ms-flex-wrap': 'nowrap',
-    '-webkit-flex-wrap': 'nowrap',
-    'flex-wrap': 'nowrap',
+    'utility': {
+      '-ms-flex-wrap': 'nowrap',
+      '-webkit-flex-wrap': 'nowrap',
+      'flex-wrap': 'nowrap',
+    },
+    'meta': {
+      'group': 'flexWrap',
+      'order': 3,
+    },
   },
 
   // https://tailwindcss.com/docs/flex
@@ -200,16 +733,65 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/grid-template-columns
   // https://tailwindcss.com/docs/grid-column
-  'col-auto': { 'grid-column': 'auto' },
+  'col-auto': {
+    'utility': {
+      'grid-column': 'auto',
+    },
+    'meta': {
+      'group': 'gridColumn',
+      'order': 1,
+    },
+  },
+
   // https://tailwindcss.com/docs/grid-template-rows
   // https://tailwindcss.com/docs/grid-row
-  'row-auto': { 'grid-row': 'auto' },
+  'row-auto': {
+    'utility': {
+      'grid-row': 'auto',
+    },
+    'meta': {
+      'group': 'gridRow',
+      'order': 1,
+    },
+  },
 
   // https://tailwindcss.com/docs/grid-auto-flow
-  'grid-flow-row': { 'grid-auto-flow': 'row' },
-  'grid-flow-col': { 'grid-auto-flow': 'column' },
-  'grid-flow-row-dense': { 'grid-auto-flow': 'row dense' },
-  'grid-flow-col-dense': { 'grid-auto-flow': 'col dense' },
+  'grid-flow-row': {
+    'utility': {
+      'grid-auto-flow': 'row',
+    },
+    'meta': {
+      'group': 'gridAutoFlow',
+      'order': 1,
+    },
+  },
+  'grid-flow-col': {
+    'utility': {
+      'grid-auto-flow': 'column',
+    },
+    'meta': {
+      'group': 'gridAutoFlow',
+      'order': 2,
+    },
+  },
+  'grid-flow-row-dense': {
+    'utility': {
+      'grid-auto-flow': 'row dense',
+    },
+    'meta': {
+      'group': 'gridAutoFlow',
+      'order': 3,
+    },
+  },
+  'grid-flow-col-dense': {
+    'utility': {
+      'grid-auto-flow': 'col dense',
+    },
+    'meta': {
+      'group': 'gridAutoFlow',
+      'order': 4,
+    },
+  },
 
   // https://tailwindcss.com/docs/grid-auto-columns
   // https://tailwindcss.com/docs/grid-auto-rows
@@ -218,202 +800,531 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/justify-content
   'justify-start': {
-    '-webkit-box-pack': 'start',
-    '-ms-flex-pack': 'start',
-    '-webkit-justify-content': 'flex-start',
-    'justify-content': 'flex-start',
+    'utility': {
+      '-webkit-box-pack': 'start',
+      '-ms-flex-pack': 'start',
+      '-webkit-justify-content': 'flex-start',
+      'justify-content': 'flex-start',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 1,
+    },
   },
   'justify-end': {
-    '-webkit-box-pack': 'end',
-    '-ms-flex-pack': 'end',
-    '-webkit-justify-content': 'flex-end',
-    'justify-content': 'flex-end',
+    'utility': {
+      '-webkit-box-pack': 'end',
+      '-ms-flex-pack': 'end',
+      '-webkit-justify-content': 'flex-end',
+      'justify-content': 'flex-end',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 2,
+    },
   },
   'justify-center': {
-    '-webkit-box-pack': 'center',
-    '-ms-flex-pack': 'center',
-    '-webkit-justify-content': 'center',
-    'justify-content': 'center',
+    'utility': {
+      '-webkit-box-pack': 'center',
+      '-ms-flex-pack': 'center',
+      '-webkit-justify-content': 'center',
+      'justify-content': 'center',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 3,
+    },
   },
   'justify-between': {
-    '-webkit-box-pack': 'justify',
-    '-ms-flex-pack': 'justify',
-    '-webkit-justify-content': 'space-between',
-    'justify-content': 'space-between',
+    'utility': {
+      '-webkit-box-pack': 'justify',
+      '-ms-flex-pack': 'justify',
+      '-webkit-justify-content': 'space-between',
+      'justify-content': 'space-between',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 4,
+    },
   },
   'justify-around': {
-    '-ms-flex-pack': 'distribute',
-    '-webkit-justify-content': 'space-around',
-    'justify-content': 'space-around',
+    'utility': {
+      '-ms-flex-pack': 'distribute',
+      '-webkit-justify-content': 'space-around',
+      'justify-content': 'space-around',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 5,
+    },
   },
   'justify-evenly': {
-    '-webkit-box-pack': 'space-evenly',
-    '-ms-flex-pack': 'space-evenly',
-    '-webkit-justify-content': 'space-evenly',
-    'justify-content': 'space-evenly',
+    'utility': {
+      '-webkit-box-pack': 'space-evenly',
+      '-ms-flex-pack': 'space-evenly',
+      '-webkit-justify-content': 'space-evenly',
+      'justify-content': 'space-evenly',
+    },
+    'meta': {
+      'group': 'justifyContent',
+      'order': 6,
+    },
   },
 
   // https://tailwindcss.com/docs/justify-items
-  'justify-items-auto': { 'justify-items': 'auto' },
-  'justify-items-start': { 'justify-items': 'start' },
-  'justify-items-end': { 'justify-items': 'end' },
-  'justify-items-center': { 'justify-items': 'center' },
-  'justify-items-stretch': { 'justify-items': 'stretch' },
+  'justify-items-auto': {
+    'utility': {
+      'justify-items': 'auto',
+    },
+    'meta': {
+      'group': 'justifyItems',
+      'order': 1,
+    },
+  },
+  'justify-items-start': {
+    'utility': {
+      'justify-items': 'start',
+    },
+    'meta': {
+      'group': 'justifyItems',
+      'order': 2,
+    },
+  },
+  'justify-items-end': {
+    'utility': {
+      'justify-items': 'end',
+    },
+    'meta': {
+      'group': 'justifyItems',
+      'order': 3,
+    },
+  },
+  'justify-items-center': {
+    'utility': {
+      'justify-items': 'center',
+    },
+    'meta': {
+      'group': 'justifyItems',
+      'order': 4,
+    },
+  },
+  'justify-items-stretch': {
+    'utility': {
+      'justify-items': 'stretch',
+    },
+    'meta': {
+      'group': 'justifyItems',
+      'order': 5,
+    },
+  },
 
   // https://tailwindcss.com/docs/justify-self
   'justify-self-auto': {
-    '-ms-grid-column-align': 'auto',
-    'justify-self': 'auto',
+    'utility': {
+      '-ms-grid-column-align': 'auto',
+      'justify-self': 'auto',
+    },
+    'meta': {
+      'group': 'justifySelf',
+      'order': 1,
+    },
   },
   'justify-self-start': {
-    '-ms-grid-column-align': 'start',
-    'justify-self': 'start',
+    'utility': {
+      '-ms-grid-column-align': 'start',
+      'justify-self': 'start',
+    },
+    'meta': {
+      'group': 'justifySelf',
+      'order': 2,
+    },
   },
-  'justify-self-end': { '-ms-grid-column-align': 'end', 'justify-self': 'end' },
+  'justify-self-end': {
+    'utility': {
+      '-ms-grid-column-align': 'end',
+      'justify-self': 'end',
+    },
+    'meta': {
+      'group': 'justifySelf',
+      'order': 3,
+    },
+  },
   'justify-self-center': {
-    '-ms-grid-column-align': 'center',
-    'justify-self': 'center',
+    'utility': {
+      '-ms-grid-column-align': 'center',
+      'justify-self': 'center',
+    },
+    'meta': {
+      'group': 'justifySelf',
+      'order': 4,
+    },
   },
   'justify-self-stretch': {
-    '-ms-grid-column-align': 'stretch',
-    'justify-self': 'stretch',
+    'utility': {
+      '-ms-grid-column-align': 'stretch',
+      'justify-self': 'stretch',
+    },
+    'meta': {
+      'group': 'justifySelf',
+      'order': 5,
+    },
   },
 
   // https://tailwindcss.com/docs/align-content
   'content-center': {
-    '-ms-flex-line-pack': 'center',
-    '-webkit-align-content': 'center',
-    'align-content': 'center',
+    'utility': {
+      '-ms-flex-line-pack': 'center',
+      '-webkit-align-content': 'center',
+      'align-content': 'center',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 1,
+    },
   },
   'content-start': {
-    '-ms-flex-line-pack': 'start',
-    '-webkit-align-content': 'flex-start',
-    'align-content': 'flex-start',
+    'utility': {
+      '-ms-flex-line-pack': 'start',
+      '-webkit-align-content': 'flex-start',
+      'align-content': 'flex-start',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 2,
+    },
   },
   'content-end': {
-    '-ms-flex-line-pack': 'end',
-    '-webkit-align-content': 'flex-end',
-    'align-content': 'flex-end',
+    'utility': {
+      '-ms-flex-line-pack': 'end',
+      '-webkit-align-content': 'flex-end',
+      'align-content': 'flex-end',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 3,
+    },
   },
   'content-between': {
-    '-ms-flex-line-pack': 'justify',
-    '-webkit-align-content': 'space-between',
-    'align-content': 'space-between',
+    'utility': {
+      '-ms-flex-line-pack': 'justify',
+      '-webkit-align-content': 'space-between',
+      'align-content': 'space-between',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 4,
+    },
   },
   'content-around': {
-    '-ms-flex-line-pack': 'distribute',
-    '-webkit-align-content': 'space-around',
-    'align-content': 'space-around',
+    'utility': {
+      '-ms-flex-line-pack': 'distribute',
+      '-webkit-align-content': 'space-around',
+      'align-content': 'space-around',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 5,
+    },
   },
   'content-evenly': {
-    '-ms-flex-line-pack': 'space-evenly',
-    '-webkit-align-content': 'space-evenly',
-    'align-content': 'space-evenly',
+    'utility': {
+      '-ms-flex-line-pack': 'space-evenly',
+      '-webkit-align-content': 'space-evenly',
+      'align-content': 'space-evenly',
+    },
+    'meta': {
+      'group': 'alignContent',
+      'order': 6,
+    },
   },
 
   // https://tailwindcss.com/docs/align-items
   'items-start': {
-    '-webkit-box-align': 'start',
-    '-ms-flex-align': 'start',
-    '-webkit-align-items': 'flex-start',
-    'align-items': 'flex-start',
+    'utility': {
+      '-webkit-box-align': 'start',
+      '-ms-flex-align': 'start',
+      '-webkit-align-items': 'flex-start',
+      'align-items': 'flex-start',
+    },
+    'meta': {
+      'group': 'alignItems',
+      'order': 1,
+    },
   },
   'items-end': {
-    '-webkit-box-align': 'end',
-    '-ms-flex-align': 'end',
-    '-webkit-align-items': 'flex-end',
-    'align-items': 'flex-end',
+    'utility': {
+      '-webkit-box-align': 'end',
+      '-ms-flex-align': 'end',
+      '-webkit-align-items': 'flex-end',
+      'align-items': 'flex-end',
+    },
+    'meta': {
+      'group': 'alignItems',
+      'order': 2,
+    },
   },
   'items-center': {
-    '-webkit-box-align': 'center',
-    '-ms-flex-align': 'center',
-    '-webkit-align-items': 'center',
-    'align-items': 'center',
+    'utility': {
+      '-webkit-box-align': 'center',
+      '-ms-flex-align': 'center',
+      '-webkit-align-items': 'center',
+      'align-items': 'center',
+    },
+    'meta': {
+      'group': 'alignItems',
+      'order': 3,
+    },
   },
   'items-baseline': {
-    '-webkit-box-align': 'baseline',
-    '-ms-flex-align': 'baseline',
-    '-webkit-align-items': 'baseline',
-    'align-items': 'baseline',
+    'utility': {
+      '-webkit-box-align': 'baseline',
+      '-ms-flex-align': 'baseline',
+      '-webkit-align-items': 'baseline',
+      'align-items': 'baseline',
+    },
+    'meta': {
+      'group': 'alignItems',
+      'order': 4,
+    },
   },
   'items-stretch': {
-    '-webkit-box-align': 'stretch',
-    '-ms-flex-align': 'stretch',
-    '-webkit-align-items': 'stretch',
-    'align-items': 'stretch',
+    'utility': {
+      '-webkit-box-align': 'stretch',
+      '-ms-flex-align': 'stretch',
+      '-webkit-align-items': 'stretch',
+      'align-items': 'stretch',
+    },
+    'meta': {
+      'group': 'alignItems',
+      'order': 5,
+    },
   },
 
   // https://tailwindcss.com/docs/align-self
   'self-auto': {
-    '-ms-flex-item-align': 'auto',
-    '-ms-grid-row-align': 'auto',
-    '-webkit-align-self': 'auto',
-    'align-self': 'auto',
+    'utility': {
+      '-ms-flex-item-align': 'auto',
+      '-ms-grid-row-align': 'auto',
+      '-webkit-align-self': 'auto',
+      'align-self': 'auto',
+    },
+    'meta': {
+      'group': 'alignSelf',
+      'order': 1,
+    },
   },
   'self-start': {
-    '-ms-flex-item-align': 'start',
-    '-webkit-align-self': 'flex-start',
-    'align-self': 'flex-start',
+    'utility': {
+      '-ms-flex-item-align': 'start',
+      '-webkit-align-self': 'flex-start',
+      'align-self': 'flex-start',
+    },
+    'meta': {
+      'group': 'alignSelf',
+      'order': 2,
+    },
   },
   'self-end': {
-    '-ms-flex-item-align': 'end',
-    '-webkit-align-self': 'flex-end',
-    'align-self': 'flex-end',
+    'utility': {
+      '-ms-flex-item-align': 'end',
+      '-webkit-align-self': 'flex-end',
+      'align-self': 'flex-end',
+    },
+    'meta': {
+      'group': 'alignSelf',
+      'order': 3,
+    },
   },
   'self-center': {
-    '-ms-flex-item-align': 'center',
-    '-ms-grid-row-align': 'center',
-    '-webkit-align-self': 'center',
-    'align-self': 'center',
+    'utility': {
+      '-ms-flex-item-align': 'center',
+      '-ms-grid-row-align': 'center',
+      '-webkit-align-self': 'center',
+      'align-self': 'center',
+    },
+    'meta': {
+      'group': 'alignSelf',
+      'order': 4,
+    },
   },
   'self-stretch': {
-    '-ms-flex-item-align': 'stretch',
-    '-ms-grid-row-align': 'stretch',
-    '-webkit-align-self': 'stretch',
-    'align-self': 'stretch',
+    'utility': {
+      '-ms-flex-item-align': 'stretch',
+      '-ms-grid-row-align': 'stretch',
+      '-webkit-align-self': 'stretch',
+      'align-self': 'stretch',
+    },
+    'meta': {
+      'group': 'alignSelf',
+      'order': 5,
+    },
   },
 
   // https://tailwindcss.com/docs/place-content
-  'place-content-center': { 'place-content': 'center' },
-  'place-content-start': { 'place-content': 'start' },
-  'place-content-end': { 'place-content': 'end' },
-  'place-content-between': { 'place-content': 'space-between' },
-  'place-content-around': { 'place-content': 'space-around' },
-  'place-content-evenly': { 'place-content': 'space-evenly' },
-  'place-content-stretch': { 'place-content': 'stretch' },
+  'place-content-center': {
+    'utility': {
+      'place-content': 'center',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 1,
+    },
+  },
+  'place-content-start': {
+    'utility': {
+      'place-content': 'start',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 2,
+    },
+  },
+  'place-content-end': {
+    'utility': {
+      'place-content': 'end',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 3,
+    },
+  },
+  'place-content-between': {
+    'utility': {
+      'place-content': 'space-between',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 4,
+    },
+  },
+  'place-content-around': {
+    'utility': {
+      'place-content': 'space-around',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 5,
+    },
+  },
+  'place-content-evenly': {
+    'utility': {
+      'place-content': 'space-evenly',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 6,
+    },
+  },
+  'place-content-stretch': {
+    'utility': {
+      'place-content': 'stretch',
+    },
+    'meta': {
+      'group': 'placeContent',
+      'order': 7,
+    },
+  },
 
   // https://tailwindcss.com/docs/place-items
-  'place-items-auto': { 'place-items': 'auto' },
-  'place-items-start': { 'place-items': 'start' },
-  'place-items-end': { 'place-items': 'end' },
-  'place-items-center': { 'place-items': 'center' },
-  'place-items-stretch': { 'place-items': 'stretch' },
-
-  // https://tailwindcss.com/docs/place-self
+  'place-items-auto': {
+    'utility': {
+      'place-items': 'auto',
+    },
+    'meta': {
+      'group': 'placeItems',
+      'order': 1,
+    },
+  },
+  'place-items-start': {
+    'utility': {
+      'place-items': 'start',
+    },
+    'meta': {
+      'group': 'placeItems',
+      'order': 2,
+    },
+  },
+  'place-items-end': {
+    'utility': {
+      'place-items': 'end',
+    },
+    'meta': {
+      'group': 'placeItems',
+      'order': 3,
+    },
+  },
+  'place-items-center': {
+    'utility': {
+      'place-items': 'center',
+    },
+    'meta': {
+      'group': 'placeItems',
+      'order': 4,
+    },
+  },
+  'place-items-stretch': {
+    'utility': {
+      'place-items': 'stretch',
+    },
+    'meta': {
+      'group': 'placeItems',
+      'order': 5,
+    },
+  },
   'place-self-auto': {
-    '-ms-grid-row-align': 'auto',
-    '-ms-grid-column-align': 'auto',
-    'place-self': 'auto',
+    'utility': {
+      '-ms-grid-row-align': 'auto',
+      '-ms-grid-column-align': 'auto',
+      'place-self': 'auto',
+    },
+    'meta': {
+      'group': 'placeSelf',
+      'order': 1,
+    },
   },
   'place-self-start': {
-    '-ms-grid-row-align': 'start',
-    '-ms-grid-column-align': 'start',
-    'place-self': 'start',
+    'utility': {
+      '-ms-grid-row-align': 'start',
+      '-ms-grid-column-align': 'start',
+      'place-self': 'start',
+    },
+    'meta': {
+      'group': 'placeSelf',
+      'order': 2,
+    },
   },
   'place-self-end': {
-    '-ms-grid-row-align': 'end',
-    '-ms-grid-column-align': 'end',
-    'place-self': 'end',
+    'utility': {
+      '-ms-grid-row-align': 'end',
+      '-ms-grid-column-align': 'end',
+      'place-self': 'end',
+    },
+    'meta': {
+      'group': 'placeSelf',
+      'order': 3,
+    },
   },
   'place-self-center': {
-    '-ms-grid-row-align': 'center',
-    '-ms-grid-column-align': 'center',
-    'place-self': 'center',
+    'utility': {
+      '-ms-grid-row-align': 'center',
+      '-ms-grid-column-align': 'center',
+      'place-self': 'center',
+    },
+    'meta': {
+      'group': 'placeSelf',
+      'order': 4,
+    },
   },
   'place-self-stretch': {
-    '-ms-grid-row-align': 'stretch',
-    '-ms-grid-column-align': 'stretch',
-    'place-self': 'stretch',
+    'utility': {
+      '-ms-grid-row-align': 'stretch',
+      '-ms-grid-column-align': 'stretch',
+      'place-self': 'stretch',
+    },
+    'meta': {
+      'group': 'placeSelf',
+      'order': 5,
+    },
   },
 
   /**
@@ -449,52 +1360,139 @@ export const staticUtilities: StaticUtility = {
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/font-smoothing
-  antialiased: {
-    '-webkit-font-smoothing': 'antialiased',
-    '-moz-osx-font-smoothing': 'grayscale',
+  'antialiased': {
+    'utility': {
+      '-webkit-font-smoothing': 'antialiased',
+      '-moz-osx-font-smoothing': 'grayscale',
+    },
+    'meta': {
+      'group': 'fontSmoothing',
+      'order': 1,
+    },
   },
-
   'subpixel-antialiased': {
-    '-webkit-font-smoothing': 'auto',
-    '-moz-osx-font-smoothing': 'auto',
+    'utility': {
+      '-webkit-font-smoothing': 'auto',
+      '-moz-osx-font-smoothing': 'auto',
+    },
+    'meta': {
+      'group': 'fontSmoothing',
+      'order': 2,
+    },
   },
 
   // https://tailwindcss.com/docs/font-style
-  italic: { 'font-style': 'italic' },
-  'not-italic': { 'font-style': 'normal' },
+  'italic': {
+    'utility': {
+      'font-style': 'italic',
+    },
+    'meta': {
+      'group': 'fontStyle',
+      'order': 1,
+    },
+  },
+  'not-italic': {
+    'utility': {
+      'font-style': 'normal',
+    },
+    'meta': {
+      'group': 'fontStyle',
+      'order': 2,
+    },
+  },
 
   // https://tailwindcss.com/docs/font-weight
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/font-variant-numeric
-  'normal-nums': { 'font-variant-numeric': 'normal' },
-  ordinal: { ...fontVariants, '--tw-ordinal': 'ordinal' },
-
-  'slashed-zero': {
-    ...fontVariants,
-    '--tw-slashed-zero': 'slashed-zero',
+  'normal-nums': {
+    'utility': {
+      'font-variant-numeric': 'normal',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 1,
+    },
   },
-  'lining-nums': { ...fontVariants, '--tw-numeric-figure': 'lining-nums' },
-
+  'ordinal': {
+    'utility': {
+      ...fontVariants,
+      '--tw-ordinal': 'ordinal',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 2,
+    },
+  },
+  'slashed-zero': {
+    'utility': {
+      ...fontVariants,
+      '--tw-slashed-zero': 'slashed-zero',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 3,
+    },
+  },
+  'lining-nums': {
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-figure': 'lining-nums',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 4,
+    },
+  },
   'oldstyle-nums': {
-    ...fontVariants,
-    '--tw-numeric-figure': 'oldstyle-nums',
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-figure': 'oldstyle-nums',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 5,
+    },
   },
   'proportional-nums': {
-    ...fontVariants,
-    '--tw-numeric-spacing': 'proportional-nums',
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-spacing': 'proportional-nums',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 6,
+    },
   },
   'tabular-nums': {
-    ...fontVariants,
-    '--tw-numeric-spacing': 'tabular-nums',
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-spacing': 'tabular-nums',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 7,
+    },
   },
   'diagonal-fractions': {
-    ...fontVariants,
-    '--tw-numeric-fraction': 'diagonal-fractions',
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-fraction': 'diagonal-fractions',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 8,
+    },
   },
   'stacked-fractions': {
-    ...fontVariants,
-    '--tw-numeric-fraction': 'stacked-fractions',
+    'utility': {
+      ...fontVariants,
+      '--tw-numeric-fraction': 'stacked-fractions',
+    },
+    'meta': {
+      'group': 'fontVariantNumeric',
+      'order': 9,
+    },
   },
 
   // https://tailwindcss.com/docs/letter-spacing
@@ -503,67 +1501,304 @@ export const staticUtilities: StaticUtility = {
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/list-style-position
-  'list-inside': { 'list-style-position': 'inside' },
-  'list-outside': { 'list-style-position': 'outside' },
+  'list-inside': {
+    'utility': {
+      'list-style-position': 'inside',
+    },
+    'meta': {
+      'group': 'listStylePosition',
+      'order': 1,
+    },
+  },
+  'list-outside': {
+    'utility': {
+      'list-style-position': 'outside',
+    },
+    'meta': {
+      'group': 'listStylePosition',
+      'order': 2,
+    },
+  },
 
   // https://tailwindcss.com/docs/placeholder-color
   // https://tailwindcss.com/docs/placeholder-opacity
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/text-align
-  'text-left': { 'text-align': 'left' },
-  'text-center': { 'text-align': 'center' },
-  'text-right': { 'text-align': 'right' },
-  'text-justify': { 'text-align': 'justify' },
+  'text-left': {
+    'utility': {
+      'text-align': 'left',
+    },
+    'meta': {
+      'group': 'textAlign',
+      'order': 1,
+    },
+  },
+  'text-center': {
+    'utility': {
+      'text-align': 'center',
+    },
+    'meta': {
+      'group': 'textAlign',
+      'order': 2,
+    },
+  },
+  'text-right': {
+    'utility': {
+      'text-align': 'right',
+    },
+    'meta': {
+      'group': 'textAlign',
+      'order': 3,
+    },
+  },
+  'text-justify': {
+    'utility': {
+      'text-align': 'justify',
+    },
+    'meta': {
+      'group': 'textAlign',
+      'order': 4,
+    },
+  },
 
   // https://tailwindcss.com/docs/text-color
   // https://tailwindcss.com/docs/text-opacity
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/text-decoration
-  underline: { 'text-decoration': 'underline' },
-  'line-through': { 'text-decoration': 'line-through' },
-  'no-underline': { 'text-decoration': 'none' },
+  'underline': {
+    'utility': {
+      'text-decoration': 'underline',
+    },
+    'meta': {
+      'group': 'textDecoration',
+      'order': 1,
+    },
+  },
+  'line-through': {
+    'utility': {
+      'text-decoration': 'line-through',
+    },
+    'meta': {
+      'group': 'textDecoration',
+      'order': 2,
+    },
+  },
+  'no-underline': {
+    'utility': {
+      'text-decoration': 'none',
+    },
+    'meta': {
+      'group': 'textDecoration',
+      'order': 3,
+    },
+  },
 
   // https://tailwindcss.com/docs/text-transform
-  uppercase: { 'text-transform': 'uppercase' },
-  lowercase: { 'text-transform': 'lowercase' },
-  capitalize: { 'text-transform': 'capitalize' },
-  'normal-case': { 'text-transform': 'none' },
+  'uppercase': {
+    'utility': {
+      'text-transform': 'uppercase',
+    },
+    'meta': {
+      'group': 'textTransform',
+      'order': 1,
+    },
+  },
+  'lowercase': {
+    'utility': {
+      'text-transform': 'lowercase',
+    },
+    'meta': {
+      'group': 'textTransform',
+      'order': 2,
+    },
+  },
+  'capitalize': {
+    'utility': {
+      'text-transform': 'capitalize',
+    },
+    'meta': {
+      'group': 'textTransform',
+      'order': 3,
+    },
+  },
+  'normal-case': {
+    'utility': {
+      'text-transform': 'none',
+    },
+    'meta': {
+      'group': 'textTransform',
+      'order': 4,
+    },
+  },
 
   // https://tailwindcss.com/docs/text-overflow
-  truncate: {
-    overflow: 'hidden',
-    '-o-text-overflow': 'ellipsis',
-    'text-overflow': 'ellipsis',
-    'white-space': 'nowrap',
+  'truncate': {
+    'utility': {
+      'overflow': 'hidden',
+      '-o-text-overflow': 'ellipsis',
+      'text-overflow': 'ellipsis',
+      'white-space': 'nowrap',
+    },
+    'meta': {
+      'group': 'textOverflow',
+      'order': 1,
+    },
   },
-
   'overflow-ellipsis': {
-    '-o-text-overflow': 'ellipsis',
-    'text-overflow': 'ellipsis',
+    'utility': {
+      '-o-text-overflow': 'ellipsis',
+      'text-overflow': 'ellipsis',
+    },
+    'meta': {
+      'group': 'textOverflow',
+      'order': 2,
+    },
   },
-  'overflow-clip': { '-o-text-overflow': 'clip', 'text-overflow': 'clip' },
+  'overflow-clip': {
+    'utility': {
+      '-o-text-overflow': 'clip',
+      'text-overflow': 'clip',
+    },
+    'meta': {
+      'group': 'textOverflow',
+      'order': 3,
+    },
+  },
 
   // https://tailwindcss.com/docs/vertical-align
-  'align-baseline': { 'vertical-align': 'baseline' },
-  'align-top': { 'vertical-align': 'top' },
-  'align-middle': { 'vertical-align': 'middle' },
-  'align-bottom': { 'vertical-align': 'bottom' },
-  'align-text-top': { 'vertical-align': 'text-top' },
-  'align-text-bottom': { 'vertical-align': 'text-bottom' },
+  'align-baseline': {
+    'utility': {
+      'vertical-align': 'baseline',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 1,
+    },
+  },
+  'align-top': {
+    'utility': {
+      'vertical-align': 'top',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 2,
+    },
+  },
+  'align-middle': {
+    'utility': {
+      'vertical-align': 'middle',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 3,
+    },
+  },
+  'align-bottom': {
+    'utility': {
+      'vertical-align': 'bottom',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 4,
+    },
+  },
+  'align-text-top': {
+    'utility': {
+      'vertical-align': 'text-top',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 5,
+    },
+  },
+  'align-text-bottom': {
+    'utility': {
+      'vertical-align': 'text-bottom',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 6,
+    },
+  },
 
   // https://tailwindcss.com/docs/whitespace
-  'whitespace-normal': { 'white-space': 'normal' },
-  'whitespace-nowrap': { 'white-space': 'nowrap' },
-  'whitespace-pre': { 'white-space': 'pre' },
-  'whitespace-pre-line': { 'white-space': 'pre-line' },
-  'whitespace-pre-wrap': { 'white-space': 'pre-wrap' },
+  'whitespace-normal': {
+    'utility': {
+      'white-space': 'normal',
+    },
+    'meta': {
+      'group': 'whitespace',
+      'order': 1,
+    },
+  },
+  'whitespace-nowrap': {
+    'utility': {
+      'white-space': 'nowrap',
+    },
+    'meta': {
+      'group': 'whitespace',
+      'order': 2,
+    },
+  },
+  'whitespace-pre': {
+    'utility': {
+      'white-space': 'pre',
+    },
+    'meta': {
+      'group': 'whitespace',
+      'order': 3,
+    },
+  },
+  'whitespace-pre-line': {
+    'utility': {
+      'white-space': 'pre-line',
+    },
+    'meta': {
+      'group': 'whitespace',
+      'order': 4,
+    },
+  },
+  'whitespace-pre-wrap': {
+    'utility': {
+      'white-space': 'pre-wrap',
+    },
+    'meta': {
+      'group': 'whitespace',
+      'order': 5,
+    },
+  },
 
   // https://tailwindcss.com/docs/word-break
-  'break-normal': { 'word-break': 'normal', 'overflow-wrap': 'normal' },
-  'break-words': { 'overflow-wrap': 'break-word' },
-  'break-all': { 'word-break': 'break-all' },
+  'break-normal': {
+    'utility': {
+      'word-break': 'normal',
+      'overflow-wrap': 'normal',
+    },
+    'meta': {
+      'group': 'wordBreak',
+      'order': 1,
+    },
+  },
+  'break-words': {
+    'utility': {
+      'overflow-wrap': 'break-word',
+    },
+    'meta': {
+      'group': 'wordBreak',
+      'order': 2,
+    },
+  },
+  'break-all': {
+    'utility': {
+      'word-break': 'break-all',
+    },
+    'meta': {
+      'group': 'wordBreak',
+      'order': 3,
+    },
+  },
 
   /**
    * ===========================================
@@ -571,26 +1806,74 @@ export const staticUtilities: StaticUtility = {
    */
 
   // https://tailwindcss.com/docs/background-attachment
-  'bg-fixed': { 'background-attachment': 'fixed' },
-  'bg-local': { 'background-attachment': 'local' },
-  'bg-scroll': { 'background-attachment': 'scroll' },
+  'bg-fixed': {
+    'utility': {
+      'background-attachment': 'fixed',
+    },
+    'meta': {
+      'group': 'backgroundAttachment',
+      'order': 1,
+    },
+  },
+  'bg-local': {
+    'utility': {
+      'background-attachment': 'local',
+    },
+    'meta': {
+      'group': 'backgroundAttachment',
+      'order': 2,
+    },
+  },
+  'bg-scroll': {
+    'utility': {
+      'background-attachment': 'scroll',
+    },
+    'meta': {
+      'group': 'backgroundAttachment',
+      'order': 3,
+    },
+  },
 
   // https://tailwindcss.com/docs/background-clip
   'bg-clip-border': {
-    '-webkit-background-clip': 'border-box',
-    'background-clip': 'border-box',
+    'utility': {
+      '-webkit-background-clip': 'border-box',
+      'background-clip': 'border-box',
+    },
+    'meta': {
+      'group': 'backgroundClip',
+      'order': 1,
+    },
   },
   'bg-clip-padding': {
-    '-webkit-background-clip': 'padding-box',
-    'background-clip': 'padding-box',
+    'utility': {
+      '-webkit-background-clip': 'padding-box',
+      'background-clip': 'padding-box',
+    },
+    'meta': {
+      'group': 'backgroundClip',
+      'order': 2,
+    },
   },
   'bg-clip-content': {
-    '-webkit-background-clip': 'content-box',
-    'background-clip': 'content-box',
+    'utility': {
+      '-webkit-background-clip': 'content-box',
+      'background-clip': 'content-box',
+    },
+    'meta': {
+      'group': 'backgroundClip',
+      'order': 3,
+    },
   },
   'bg-clip-text': {
-    '-webkit-background-clip': 'text',
-    'background-clip': 'text',
+    'utility': {
+      '-webkit-background-clip': 'text',
+      'background-clip': 'text',
+    },
+    'meta': {
+      'group': 'backgroundClip',
+      'order': 4,
+    },
   },
 
   // https://tailwindcss.com/docs/background-color
@@ -599,12 +1882,60 @@ export const staticUtilities: StaticUtility = {
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/background-repeat
-  'bg-repeat': { 'background-repeat': 'repeat' },
-  'bg-no-repeat': { 'background-repeat': 'no-repeat' },
-  'bg-repeat-x': { 'background-repeat': 'repeat-x' },
-  'bg-repeat-y': { 'background-repeat': 'repeat-y' },
-  'bg-repeat-round': { 'background-repeat': 'round' },
-  'bg-repeat-space': { 'background-repeat': 'space' },
+  'bg-repeat': {
+    'utility': {
+      'background-repeat': 'repeat',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 1,
+    },
+  },
+  'bg-no-repeat': {
+    'utility': {
+      'background-repeat': 'no-repeat',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 2,
+    },
+  },
+  'bg-repeat-x': {
+    'utility': {
+      'background-repeat': 'repeat-x',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 3,
+    },
+  },
+  'bg-repeat-y': {
+    'utility': {
+      'background-repeat': 'repeat-y',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 4,
+    },
+  },
+  'bg-repeat-round': {
+    'utility': {
+      'background-repeat': 'round',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 5,
+    },
+  },
+  'bg-repeat-space': {
+    'utility': {
+      'background-repeat': 'space',
+    },
+    'meta': {
+      'group': 'backgroundRepeat',
+      'order': 6,
+    },
+  },
 
   // https://tailwindcss.com/docs/background-image
   // https://tailwindcss.com/docs/gradient-color-stops
@@ -626,11 +1957,51 @@ export const staticUtilities: StaticUtility = {
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/border-style
-  'border-solid': { 'border-style': 'solid' },
-  'border-dashed': { 'border-style': 'dashed' },
-  'border-dotted': { 'border-style': 'dotted' },
-  'border-double': { 'border-style': 'double' },
-  'border-none': { 'border-style': 'none' },
+  'border-solid': {
+    'utility': {
+      'border-style': 'solid',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 1,
+    },
+  },
+  'border-dashed': {
+    'utility': {
+      'border-style': 'dashed',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 2,
+    },
+  },
+  'border-dotted': {
+    'utility': {
+      'border-style': 'dotted',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 3,
+    },
+  },
+  'border-double': {
+    'utility': {
+      'border-style': 'double',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 4,
+    },
+  },
+  'border-none': {
+    'utility': {
+      'border-style': 'none',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 5,
+    },
+  },
 
   // https://tailwindcss.com/docs/divide-width
   // https://tailwindcss.com/docs/divide-color
@@ -659,12 +2030,44 @@ export const staticUtilities: StaticUtility = {
    */
 
   // https://tailwindcss.com/docs/border-collapse
-  'border-collapse': { 'border-collapse': 'collapse' },
-  'border-separate': { 'border-collapse': 'separate' },
+  'border-collapse': {
+    'utility': {
+      'border-collapse': 'collapse',
+    },
+    'meta': {
+      'group': 'borderCollapse',
+      'order': 1,
+    },
+  },
+  'border-separate': {
+    'utility': {
+      'border-collapse': 'separate',
+    },
+    'meta': {
+      'group': 'borderCollapse',
+      'order': 2,
+    },
+  },
 
   // https://tailwindcss.com/docs/table-layout
-  'table-auto': { 'table-layout': 'auto' },
-  'table-fixed': { 'table-layout': 'fixed' },
+  'table-auto': {
+    'utility': {
+      'table-layout': 'auto',
+    },
+    'meta': {
+      'group': 'tableLayout',
+      'order': 1,
+    },
+  },
+  'table-fixed': {
+    'utility': {
+      'table-layout': 'fixed',
+    },
+    'meta': {
+      'group': 'tableLayout',
+      'order': 2,
+    },
+  },
 
   /**
    * ===========================================
@@ -682,43 +2085,54 @@ export const staticUtilities: StaticUtility = {
    * Transforms
    */
   // https://tailwindcss.com/docs/transform
-  transform: {
-    '--tw-translate-x': '0',
-    '--tw-translate-y': '0',
-    '--tw-rotate': '0',
-    '--tw-skew-x': '0',
-    '--tw-skew-y': '0',
-    '--tw-scale-x': '1',
-    '--tw-scale-y': '1',
-    '-webkit-transform':
-      'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-    '-ms-transform':
-      'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-    transform:
-      'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+  'transform': {
+    'utility': {
+      '--tw-translate-x': '0',
+      '--tw-translate-y': '0',
+      '--tw-rotate': '0',
+      '--tw-skew-x': '0',
+      '--tw-skew-y': '0',
+      '--tw-scale-x': '1',
+      '--tw-scale-y': '1',
+      '-webkit-transform': 'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      '-ms-transform': 'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      'transform': 'translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+    },
+    'meta': {
+      'group': 'transform',
+      'order': 1,
+    },
   },
-
   'transform-gpu': {
-    '--tw-translate-x': '0',
-    '--tw-translate-y': '0',
-    '--tw-rotate': '0',
-    '--tw-skew-x': '0',
-    '--tw-skew-y': '0',
-    '--tw-scale-x': '1',
-    '--tw-scale-y': '1',
-    '-webkit-transform':
-      'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-    '-ms-transform':
-      'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-    transform:
-      'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+    'utility': {
+      '--tw-translate-x': '0',
+      '--tw-translate-y': '0',
+      '--tw-rotate': '0',
+      '--tw-skew-x': '0',
+      '--tw-skew-y': '0',
+      '--tw-scale-x': '1',
+      '--tw-scale-y': '1',
+      '-webkit-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      '-ms-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      'transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+    },
+    'meta': {
+      'group': 'transform',
+      'order': 2,
+    },
+  },
+  'transform-none': {
+    'utility': {
+      '-webkit-transform': 'none',
+      '-ms-transform': 'none',
+      'transform': 'none',
+    },
+    'meta': {
+      'group': 'transform',
+      'order': 3,
+    },
   },
 
-  'transform-none': {
-    '-webkit-transform': 'none',
-    '-ms-transform': 'none',
-    transform: 'none',
-  },
   // https://tailwindcss.com/docs/transform-origin
 
   // https://tailwindcss.com/docs/scale
@@ -734,9 +2148,15 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/appearance
   'appearance-none': {
-    '-webkit-appearance': 'none',
-    '-moz-appearance': 'none',
-    appearance: 'none',
+    'utility': {
+      '-webkit-appearance': 'none',
+      '-moz-appearance': 'none',
+      'appearance': 'none',
+    },
+    'meta': {
+      'group': 'appearance',
+      'order': 1,
+    },
   },
 
   // https://tailwindcss.com/docs/cursor
@@ -744,39 +2164,111 @@ export const staticUtilities: StaticUtility = {
   // See dynamic.ts
 
   // https://tailwindcss.com/docs/pointer-events
-  'pointer-events-none': { 'pointer-events': 'none' },
-  'pointer-events-auto': { 'pointer-events': 'auto' },
+  'pointer-events-none': {
+    'utility': {
+      'pointer-events': 'none',
+    },
+    'meta': {
+      'group': 'pointerEvents',
+      'order': 1,
+    },
+  },
+  'pointer-events-auto': {
+    'utility': {
+      'pointer-events': 'auto',
+    },
+    'meta': {
+      'group': 'pointerEvents',
+      'order': 2,
+    },
+  },
 
   // https://tailwindcss.com/docs/resize
-  'resize-none': { resize: 'none' },
-  'resize-y': { resize: 'vertical' },
-  'resize-x': { resize: 'horizontal' },
-  resize: { resize: 'both' },
+  'resize-none': {
+    'utility': {
+      'resize': 'none',
+    },
+    'meta': {
+      'group': 'resize',
+      'order': 1,
+    },
+  },
+  'resize-y': {
+    'utility': {
+      'resize': 'vertical',
+    },
+    'meta': {
+      'group': 'resize',
+      'order': 2,
+    },
+  },
+  'resize-x': {
+    'utility': {
+      'resize': 'horizontal',
+    },
+    'meta': {
+      'group': 'resize',
+      'order': 3,
+    },
+  },
+  'resize': {
+    'utility': {
+      'resize': 'both',
+    },
+    'meta': {
+      'group': 'resize',
+      'order': 4,
+    },
+  },
 
   // https://tailwindcss.com/docs/user-select
   'select-none': {
-    '-webkit-user-select': 'none',
-    '-moz-user-select': 'none',
-    '-ms-user-select': 'none',
-    'user-select': 'none',
+    'utility': {
+      '-webkit-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-ms-user-select': 'none',
+      'user-select': 'none',
+    },
+    'meta': {
+      'group': 'userSelect',
+      'order': 1,
+    },
   },
   'select-text': {
-    '-webkit-user-select': 'text',
-    '-moz-user-select': 'text',
-    '-ms-user-select': 'text',
-    'user-select': 'text',
+    'utility': {
+      '-webkit-user-select': 'text',
+      '-moz-user-select': 'text',
+      '-ms-user-select': 'text',
+      'user-select': 'text',
+    },
+    'meta': {
+      'group': 'userSelect',
+      'order': 2,
+    },
   },
   'select-all': {
-    '-webkit-user-select': 'all',
-    '-moz-user-select': 'all',
-    '-ms-user-select': 'all',
-    'user-select': 'all',
+    'utility': {
+      '-webkit-user-select': 'all',
+      '-moz-user-select': 'all',
+      '-ms-user-select': 'all',
+      'user-select': 'all',
+    },
+    'meta': {
+      'group': 'userSelect',
+      'order': 3,
+    },
   },
   'select-auto': {
-    '-webkit-user-select': 'auto',
-    '-moz-user-select': 'auto',
-    '-ms-user-select': 'auto',
-    'user-select': 'auto',
+    'utility': {
+      '-webkit-user-select': 'auto',
+      '-moz-user-select': 'auto',
+      '-ms-user-select': 'auto',
+      'user-select': 'auto',
+    },
+    'meta': {
+      'group': 'userSelect',
+      'order': 4,
+    },
   },
 
   /**
@@ -787,8 +2279,24 @@ export const staticUtilities: StaticUtility = {
   // https://tailwindcss.com/docs/fill
   // https://tailwindcss.com/docs/stroke
   // https://tailwindcss.com/docs/stroke-width
-  'fill-current': { fill: 'currentColor' },
-  'stroke-current': { stroke: 'currentColor' },
+  'fill-current': {
+    'utility': {
+      'fill': 'currentColor',
+    },
+    'meta': {
+      'group': 'fill',
+      'order': 1,
+    },
+  },
+  'stroke-current': {
+    'utility': {
+      'stroke': 'currentColor',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 1,
+    },
+  },
   // See dynamic.ts
 
   /**
@@ -798,24 +2306,36 @@ export const staticUtilities: StaticUtility = {
 
   // https://tailwindcss.com/docs/screen-readers
   'sr-only': {
-    position: 'absolute',
-    width: '1px',
-    height: '1px',
-    padding: '0',
-    margin: '-1px',
-    overflow: 'hidden',
-    clip: 'rect(0, 0, 0, 0)',
-    'white-space': 'nowrap',
-    'border-width': '0',
+    'utility': {
+      'position': 'absolute',
+      'width': '1px',
+      'height': '1px',
+      'padding': '0',
+      'margin': '-1px',
+      'overflow': 'hidden',
+      'clip': 'rect(0, 0, 0, 0)',
+      'white-space': 'nowrap',
+      'border-width': '0',
+    },
+    'meta': {
+      'group': 'accessibility',
+      'order': 1,
+    },
   },
   'not-sr-only': {
-    position: 'static',
-    width: 'auto',
-    height: 'auto',
-    padding: '0',
-    margin: '0',
-    overflow: 'visible',
-    clip: 'auto',
-    'white-space': 'normal',
+    'utility': {
+      'position': 'static',
+      'width': 'auto',
+      'height': 'auto',
+      'padding': '0',
+      'margin': '0',
+      'overflow': 'visible',
+      'clip': 'auto',
+      'white-space': 'normal',
+    },
+    'meta': {
+      'group': 'accessibility',
+      'order': 2,
+    },
   },
 };

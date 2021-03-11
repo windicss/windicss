@@ -1,9 +1,11 @@
 import { Utility } from './handler';
+import { pluginOrder } from '../../config/order';
 import { dashToCamel, toType } from '../../utils/tools';
 import { toRGB } from '../../utils/color';
 import { Property, Style, Keyframes, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
+  generatePlaceholder,
   generateFontSize,
   expandDirection,
 } from '../../utils/helpers';
@@ -32,6 +34,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
       }
       output.push(new Container(className, props).atRule(`@media (min-width: ${size})`));
     }
+    output.forEach((style, index) => style.meta = { type: 'utilities', corePlugin: true, group: 'container', order: pluginOrder['container'] + index + 1 } );
     return output;
   }
 }
@@ -40,7 +43,8 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
 function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('objectPosition'))
-    .createProperty(['-o-object-position', 'object-position']);
+    .createProperty(['-o-object-position', 'object-position'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'objectPosition', order: pluginOrder['objectPosition'] });
 }
 
 // https://tailwindcss.com/docs/top-right-bottom-left
@@ -58,14 +62,14 @@ function inset(utility: Utility, { theme }: PluginUtils): Output {
   case 'right':
   case 'bottom':
   case 'left':
-    return new Property(utility.identifier, value);
+    return new Property(utility.identifier, value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset']+ 4 });
   case 'inset':
     if (utility.raw.match(/^-?inset-x/)) {
-      return new Property(['right', 'left'], value);
+      return new Property(['right', 'left'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] +3 });
     } else if (utility.raw.match(/^-?inset-y/)) {
-      return new Property(['top', 'bottom'], value);
+      return new Property(['top', 'bottom'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] + 2 });
     } else {
-      return new Property(['top', 'right', 'bottom', 'left'], value);
+      return new Property(['top', 'right', 'bottom', 'left'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] + 1 });
     }
   }
 }
@@ -77,7 +81,8 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, 99999, 'int')
     .handleNegative()
     .handleVariable()
-    .createProperty('z-index');
+    .createProperty('z-index')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'zIndex', order: pluginOrder['zIndex'] + 1 });
 }
 
 // https://tailwindcss.com/docs/flex
@@ -86,42 +91,22 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
 function flex(utility: Utility, { theme }: PluginUtils): Output {
   const className = utility.raw;
   if (className.startsWith('flex-grow')) {
-    const map = (toType(theme('flexGrow'), 'object') ?? {}) as {
-      [key: string]: string;
-    };
+    const map = (toType(theme('flexGrow'), 'object') ?? {}) as { [key: string]: string };
     let amount = className.replace(/flex-grow-?/, '');
     if (amount === '') amount = 'DEFAULT';
-    if (Object.keys(map).includes(amount))
-      return new Property(
-        [
-          '-webkit-box-flex',
-          '-ms-flex-positive',
-          '-webkit-flex-grow',
-          'flex-grow',
-        ],
-        map[amount]
-      ).toStyle(utility.class);
+    if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexGrow', order: pluginOrder['flexGrow'] + 1 });
   } else if (className.startsWith('flex-shrink')) {
-    const map = (toType(theme('flexShrink'), 'object') ?? {}) as {
-      [key: string]: string;
-    };
+    const map = (toType(theme('flexShrink'), 'object') ?? {}) as { [key: string]: string };
     let amount = className.replace(/flex-shrink-?/, '');
     if (amount === '') amount = 'DEFAULT';
-    if (Object.keys(map).includes(amount))
-      return new Property(
-        ['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'],
-        map[amount]
-      ).toStyle(utility.class);
+    if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexShrink', order: pluginOrder['flexShrink'] + 1 });
   } else {
     const value = utility.handler.handleStatic(theme('flex')).value?.trim();
     if (value) {
       return new Style(utility.class, [
-        new Property(
-          '-webkit-box-flex',
-          value.startsWith('0') || value === 'none' ? '0' : '1'
-        ),
+        new Property('-webkit-box-flex', value.startsWith('0') || value === 'none' ? '0' : '1'),
         new Property(['-ms-flex', '-webkit-flex', 'flex'], value),
-      ]);
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'flex', order: pluginOrder['flex'] + 1 });
     }
   }
 }
@@ -133,39 +118,29 @@ function order(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(1, 9999, 'int')
     .handleNegative()
     .handleVariable().value;
-  if (value)
+  if (value) {
     return new Style(utility.class, [
-      new Property(
-        '-webkit-box-ordinal-group',
-        value.startsWith('var')
-          ? `calc(${value}+1)`
-          : (parseInt(value) + 1).toString()
-      ),
+      new Property('-webkit-box-ordinal-group', value.startsWith('var') ? `calc(${value}+1)` : (parseInt(value) + 1).toString()),
       new Property(['-webkit-order', '-ms-flex-order', 'order'], value),
-    ]);
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'order', order: pluginOrder['order'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
+  }
 }
 
 // https://tailwindcss.com/docs/grid-template-columns
 // https://tailwindcss.com/docs/grid-template-rows
 function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
-  let type;
-
-  if (utility.raw.match(/^grid-rows-/)) {
-    type = 'rows';
-  } else if (utility.raw.match(/^grid-cols-/)) {
-    type = 'columns';
-  } else {
-    return;
-  }
-
+  const type = utility.raw.match(/^grid-rows-/) ? 'rows' : utility.raw.match(/^grid-cols-/) ? 'columns' : undefined;
+  if (!type) return;
+  const group = type === 'rows'? 'gridTemplateRows' : 'gridTemplateColumns';
   const value = utility.handler
-    .handleStatic(type === 'rows' ? theme('gridTemplateRows') : theme('gridTemplateColumns'))
+    .handleStatic(theme(group))
     .createProperty(`grid-template-${type}`, (value: string) => value === 'none' ? 'none' : value);
-  if (value) return value;
+  if (value) return value.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
   return utility.handler
     .handleNumber(1, undefined, 'int')
     .handleVariable()
-    .createProperty(`grid-template-${type}`, (value: string) => `repeat(${value}, minmax(0, 1fr))`);
+    .createProperty(`grid-template-${type}`, (value: string) => `repeat(${value}, minmax(0, 1fr))`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
 }
 
 // https://tailwindcss.com/docs/grid-column
@@ -175,17 +150,13 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   const spans = (toType(theme('gridColumn'), 'object') ?? {}) as {
     [key: string]: string;
   };
-  if (Object.keys(spans).includes(body)) {
-    return new Property(['-ms-grid-column-span', 'grid-column'], spans[body]);
-  }
+  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-column-span', 'grid-column'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumn', order: pluginOrder['gridColumn'] + 1 });
   if (utility.raw.startsWith('col-span')) {
     return utility.handler
       .handleNumber(1, undefined, 'int')
       .handleVariable()
-      .createProperty(
-        ['-ms-grid-column-span', 'grid-column'],
-        (value: string) => `span ${value} / span ${value}`
-      );
+      .createProperty(['-ms-grid-column-span', 'grid-column'], (value: string) => `span ${value} / span ${value}`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumn', order: pluginOrder['gridColumn'] + 1 });
   }
   // col end
   if (utility.raw.startsWith('col-end')) {
@@ -193,7 +164,8 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('gridColumnEnd'))
       .handleNumber(1, undefined, 'int')
       .handleVariable()
-      .createProperty('grid-column-end');
+      .createProperty('grid-column-end')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumnEnd', order: pluginOrder['gridColumnEnd'] + 1 });
   }
   // col start
   if (utility.raw.startsWith('col-start')) {
@@ -201,7 +173,8 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('gridColumnStart'))
       .handleNumber(1, undefined, 'int')
       .handleVariable()
-      .createProperty('grid-column-start');
+      .createProperty('grid-column-start')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumnStart', order: pluginOrder['gridColumnStart'] + 1 });
   }
 }
 
@@ -209,12 +182,8 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
 function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // row span
-  const spans = (toType(theme('gridRow'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
-  if (Object.keys(spans).includes(body)) {
-    return new Property(['-ms-grid-row-span', 'grid-row'], spans[body]);
-  }
+  const spans = (toType(theme('gridRow'), 'object') ?? {}) as { [key: string]: string };
+  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-row-span', 'grid-row'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRow', order: pluginOrder['gridRow'] + 1 });
   if (utility.raw.startsWith('row-span')) {
     return utility.handler
       .handleNumber(1, undefined, 'int')
@@ -222,7 +191,8 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty(
         ['-ms-grid-row-span', 'grid-row'],
         (value: string) => `span ${value} / span ${value}`
-      );
+      )
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRow', order: pluginOrder['gridRow'] + 2 });
   }
   // row end
   if (utility.raw.startsWith('row-end')) {
@@ -230,7 +200,8 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('gridRowEnd'))
       .handleNumber(1, undefined, 'int')
       .handleVariable()
-      .createProperty('grid-row-end');
+      .createProperty('grid-row-end')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRowEnd', order: pluginOrder['gridRowEnd'] + 1 });
   }
   // row start
   if (utility.raw.startsWith('row-start')) {
@@ -238,30 +209,22 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('gridRowStart'))
       .handleNumber(1, undefined, 'int')
       .handleVariable()
-      .createProperty('grid-row-start');
+      .createProperty('grid-row-start')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRowStart', order: pluginOrder['gridRowStart'] + 1 });
   }
 }
 
 // https://tailwindcss.com/docs/grid-auto-columns
 // https://tailwindcss.com/docs/grid-auto-rows
 function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
-  const type = utility.raw.startsWith('auto-cols')
-    ? 'columns'
-    : utility.raw.startsWith('auto-rows')
-      ? 'rows'
-      : undefined;
+  const type = utility.raw.startsWith('auto-cols') ? 'columns' : utility.raw.startsWith('auto-rows') ? 'rows' : undefined;
   if (!type) return;
-  const value = utility.handler.handleStatic(
-    theme(type === 'columns' ? 'gridAutoColumns' : 'gridAutoRows')
-  ).value;
+  const group = type === 'columns' ? 'gridAutoColumns' : 'gridAutoRows';
+  const value = utility.handler.handleStatic(theme(group)).value;
   if (value) {
     const prefixer = minMaxContent(value);
-    if (typeof prefixer === 'string')
-      return new Property(`grid-auto-${type}`, prefixer);
-    return new Style(
-      utility.class,
-      prefixer.map((i) => new Property(`grid-auto-${type}`, i))
-    );
+    if (typeof prefixer === 'string') return new Property(`grid-auto-${type}`, prefixer).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
+    return new Style(utility.class, prefixer.map((i) => new Property(`grid-auto-${type}`, i))).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
   }
 }
 
@@ -273,22 +236,9 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
     .handleSize()
     .handleVariable().value;
   if (!value) return;
-  if (utility.raw.match(/^gap-x-/)) {
-    return new Property(
-      config('prefixer') ? ['-webkit-column-gap', '-moz-column-gap', 'grid-column-gap', 'column-gap'] : 'column-gap',
-      value
-    );
-  } else if (utility.raw.match(/^gap-y-/)) {
-    return new Property(
-      config('prefixer') ? ['-webkit-row-gap', '-moz-row-gap', 'grid-row-gap', 'row-gap'] : 'row-gap',
-      value
-    );
-  } else {
-    return new Property(
-      config('prefixer') ? ['grid-gap', 'gap'] : 'gap',
-      value
-    );
-  }
+  if (utility.raw.match(/^gap-x-/)) return new Property(config('prefixer') ? ['-webkit-column-gap', '-moz-column-gap', 'grid-column-gap', 'column-gap'] : 'column-gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 2 });
+  if (utility.raw.match(/^gap-y-/)) return new Property(config('prefixer') ? ['-webkit-row-gap', '-moz-row-gap', 'grid-row-gap', 'row-gap'] : 'row-gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 3 });
+  return new Property(config('prefixer') ? ['grid-gap', 'gap'] : 'gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 1 });
 }
 
 // https://tailwindcss.com/docs/padding
@@ -301,11 +251,8 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
   if (!value) return;
   const directions = expandDirection(utility.identifier.substring(1), false);
   if (directions) {
-    if (directions[0] === '*') return new Property('padding', value);
-    return new Property(
-      directions.map((i) => `padding-${i}`),
-      value
-    );
+    if (directions[0] === '*') return new Property('padding', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'padding', order: pluginOrder['padding'] - 4 });
+    return new Property(directions.map((i) => `padding-${i}`), value).updateMeta({ type: 'utilities', corePlugin: true, group: 'padding', order: pluginOrder['padding'] - directions.length });
   }
 }
 
@@ -320,20 +267,15 @@ function margin(utility: Utility, { theme }: PluginUtils): Output {
   if (!value) return;
   const directions = expandDirection(utility.identifier.substring(1), false);
   if (directions) {
-    if (directions[0] === '*') return new Property('margin', value);
-    return new Property(
-      directions.map((i) => `margin-${i}`),
-      value
-    );
+    if (directions[0] === '*') return new Property('margin', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'margin', order: pluginOrder['margin'] - 4 });
+    return new Property(directions.map((i) => `margin-${i}`), value).updateMeta({ type: 'utilities', corePlugin: true, group: 'margin', order: pluginOrder['margin'] - directions.length });
   }
 }
 
 // https://tailwindcss.com/docs/space
 function space(utility: Utility, { theme }: PluginUtils): Output {
-  if (utility.raw === 'space-x-reverse')
-    return new Property('--tw-space-x-reverse', '1');
-  if (utility.raw === 'space-y-reverse')
-    return new Property('--tw-space-y-reverse', '1');
+  if (utility.raw === 'space-x-reverse') return new Property('--tw-space-x-reverse', '1').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 6 });
+  if (utility.raw === 'space-y-reverse') return new Property('--tw-space-y-reverse', '1').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 5 });
   const value = utility.handler
     .handleStatic(theme('space'))
     .handleSpacing()
@@ -344,28 +286,16 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.match(/^-?space-x-/)) {
     return new Style(utility.class, [
       new Property('--tw-space-x-reverse', '0'),
-      new Property(
-        'margin-right',
-        `calc(${value} * var(--tw-space-x-reverse))`
-      ),
-      new Property(
-        'margin-left',
-        `calc(${value} * calc(1 - var(--tw-space-x-reverse)))`
-      ),
-    ]).child('> :not([hidden]) ~ :not([hidden])');
+      new Property('margin-right', `calc(${value} * var(--tw-space-x-reverse))`),
+      new Property('margin-left', `calc(${value} * calc(1 - var(--tw-space-x-reverse)))`),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + (utility.raw.charAt(0) === '-' ? 4 : 2) });
   }
   if (utility.raw.match(/^-?space-y-/)) {
     return new Style(utility.class, [
       new Property('--tw-space-y-reverse', '0'),
-      new Property(
-        'margin-top',
-        `calc(${value} * calc(1 - var(--tw-space-y-reverse)))`
-      ),
-      new Property(
-        'margin-bottom',
-        `calc(${value} * var(--tw-space-y-reverse))`
-      ),
-    ]).child('> :not([hidden]) ~ :not([hidden])');
+      new Property('margin-top', `calc(${value} * calc(1 - var(--tw-space-y-reverse)))`),
+      new Property('margin-bottom', `calc(${value} * var(--tw-space-y-reverse))`),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + (utility.raw.charAt(0) === '-' ? 3 : 1) });
   }
 }
 
@@ -374,9 +304,7 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
 function size(utility: Utility, { theme }: PluginUtils): Output {
   const name = utility.identifier === 'w' ? 'width' : 'height';
   const body = utility.body;
-  const sizes = (toType(theme(name), 'object') ?? {}) as {
-    [key: string]: string;
-  };
+  const sizes = (toType(theme(name), 'object') ?? {}) as { [key: string]: string };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -385,16 +313,16 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
         new Property(name, '-webkit-min-content'),
         new Property(name, '-moz-min-content'),
         new Property(name, 'min-content'),
-      ]);
-    } else if (value === 'max-content') {
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 2 });
+    }
+    if (value === 'max-content') {
       return new Style(utility.class, [
         new Property(name, '-webkit-max-content'),
         new Property(name, '-moz-max-content'),
         new Property(name, 'max-content'),
-      ]);
-    } else {
-      return new Style(utility.class, new Property(name, value));
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 3 });
     }
+    return new Style(utility.class, new Property(name, value)).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 1 });
   }
   return utility.handler
     .handleSpacing()
@@ -402,7 +330,8 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleNxl((number: number) => `${(number - 3) * 8 + 48}rem`)
     .handleVariable()
-    .createProperty(name);
+    .createProperty(name)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 4 });
 }
 
 // https://tailwindcss.com/docs/min-width
@@ -411,13 +340,9 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/max-height
 function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.raw.replace(/^(min|max)-[w|h]-/, '');
-  const prop = utility.raw
-    .substring(0, 5)
-    .replace('h', 'height')
-    .replace('w', 'width');
-  const sizes = (toType(theme(dashToCamel(prop)), 'object') ?? {}) as {
-    [key: string]: string;
-  };
+  const prop = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
+  const group = dashToCamel(prop);
+  const sizes = (toType(theme(group), 'object') ?? {}) as { [key: string]: string };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -426,16 +351,16 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
         new Property(prop, '-webkit-min-content'),
         new Property(prop, '-moz-min-content'),
         new Property(prop, 'min-content'),
-      ]);
-    } else if (value === 'max-content') {
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
+    }
+    if (value === 'max-content') {
       return new Style(utility.class, [
         new Property(prop, '-webkit-max-content'),
         new Property(prop, '-moz-max-content'),
         new Property(prop, 'max-content'),
-      ]);
-    } else {
-      return new Style(utility.class, new Property(prop, value));
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 3 });
     }
+    return new Style(utility.class, new Property(prop, value)).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
   }
 
   return utility.handler
@@ -444,7 +369,8 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleNxl((number: number) => `${(number - 3) * 8 + 48}rem`)
     .handleVariable()
-    .createProperty(prop);
+    .createProperty(prop)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 4 });
 }
 
 // https://tailwindcss.com/docs/font-size
@@ -452,65 +378,52 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/text-color
 function text(utility: Utility, { theme }: PluginUtils): Output {
   // handle font opacity
-  if (utility.raw.startsWith('text-opacity'))
+  if (utility.raw.startsWith('text-opacity')) {
     return utility.handler
       .handleStatic(theme('textOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-text-opacity');
+      .createProperty('--tw-text-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textOpacity', order: pluginOrder['textOpacity'] + 1 });
+  }
   // handle font sizes
   const amount = utility.amount;
-  const fontSizes = (toType(theme('fontSize'), 'object') ?? {}) as {
-    [key: string]: FontSize;
-  };
-  if (Object.keys(fontSizes).includes(amount))
-    return new Style(utility.class, generateFontSize(fontSizes[amount]));
-  let value = utility.handler
-    .handleNxl((number: number) => `${number}rem`)
-    .handleSize().value;
-  if (utility.raw.startsWith('text-size-$'))
-    value = utility.handler.handleVariable().value;
-  if (value)
-    return new Style(utility.class, [
-      new Property('font-size', value),
-      new Property('line-height', '1'),
-    ]);
+  const fontSizes = (toType(theme('fontSize'), 'object') ?? {}) as { [key: string]: FontSize };
+  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
+  let value = utility.handler.handleNxl((number: number) => `${number}rem`).handleSize().value;
+  if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
+  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
 
   // handle colors
-  value = utility.handler.handleColor(theme('textColor')).handleVariable()
-    .value;
+  value = utility.handler.handleColor(theme('textColor')).handleVariable().value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
-      return new Property('color', value);
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
     return new Style(utility.class, [
       new Property('--tw-text-opacity', '1'),
-      new Property(
-        'color',
-        `rgba(${
-          value.startsWith('var') ? value : toRGB(value)?.join(', ')
-        }, var(--tw-text-opacity))`
-      ),
-    ]);
+      new Property('color', `rgba(${value.startsWith('var') ? value : toRGB(value)?.join(', ')}, var(--tw-text-opacity))`),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 });
   }
 }
 
 // https://tailwindcss.com/docs/font-family
 // https://tailwindcss.com/docs/font-weight
 function font(utility: Utility, { theme }: PluginUtils): Output {
-  const fonts = theme('fontFamily') as {[key:string]:string|string[]};
-  const map:{[key:string]:string} = {};
+  const fonts = theme('fontFamily') as { [ key : string ] : string | string[] };
+  const map:{ [ key : string ] : string } = {};
   for (const [key, value] of Object.entries(fonts)) {
     map[key] = Array.isArray(value)? value.join(',') : value;
   }
   return (
     utility.handler
       .handleStatic(map)
-      .createProperty('font-family') ||
+      .createProperty('font-family')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fontFamily', order: pluginOrder['fontFamily'] + 1 }) ||
     utility.handler
       .handleStatic(theme('fontWeight'))
       .handleNumber(0, 900, 'int')
       .handleVariable()
       .createProperty('font-weight')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fontWeight', order: pluginOrder['fontWeight'] + 1 })
   );
 }
 
@@ -521,7 +434,8 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleNegative()
     .handleVariable()
-    .createProperty('letter-spacing');
+    .createProperty('letter-spacing')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'letterSpacing', order: pluginOrder['letterSpacing'] + 1 });
 }
 
 // https://tailwindcss.com/docs/line-height
@@ -531,58 +445,36 @@ function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int', (number: number) => `${number * 0.25}rem`)
     .handleSize()
     .handleVariable()
-    .createProperty('line-height');
+    .createProperty('line-height')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'lineHeight', order: pluginOrder['lineHeight'] + 1 });
 }
 
 // https://tailwindcss.com/docs/list-style-type
 function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('listStyleType'))
-    .createProperty('list-style-type');
+    .createProperty('list-style-type')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'listStyleType', order: pluginOrder['listStyleType'] + 1 });
 }
 
 // https://tailwindcss.com/docs/placeholder-color
 // https://tailwindcss.com/docs/placeholder-opacity
 function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   // handle placeholder opacity
-  if (utility.raw.startsWith('placeholder-opacity'))
+  if (utility.raw.startsWith('placeholder-opacity')) {
     return utility.handler
       .handleStatic(theme('placeholderOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-placeholder-opacity');
-  const value = utility.handler
-    .handleColor(theme('placeholderColor'))
-    .handleVariable().value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
-      return new Property('color', value);
-    const rgb = value.startsWith('var') ? value : toRGB(value)?.join(', ');
-    return [
-      ...config('prefixer') ? [
-        new Style(utility.class, [
-          new Property('--tw-placeholder-opacity', '1'),
-          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-        ]).pseudoElement('-webkit-input-placeholder'),
-        new Style(utility.class, [
-          new Property('--tw-placeholder-opacity', '1'),
-          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-        ]).pseudoElement('-moz-placeholder'),
-        new Style(utility.class, [
-          new Property('--tw-placeholder-opacity', '1'),
-          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-        ]).pseudoClass('-ms-input-placeholder'),
-        new Style(utility.class, [
-          new Property('--tw-placeholder-opacity', '1'),
-          new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-        ]).pseudoElement('-ms-input-placeholder'),
-      ]: [],
-      new Style(utility.class, [
-        new Property('--tw-placeholder-opacity', '1'),
-        new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`),
-      ]).pseudoElement('placeholder'),
-    ];
+      .createProperty('--tw-placeholder-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 });
   }
+  const value = utility.handler.handleColor(theme('placeholderColor')).handleVariable().value;
+  if (!value) return;
+  if (value.startsWith('var')) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
+  if (['transparent', 'currentColor'].includes(value)) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
+  const rgb = value.startsWith('var') ? value : toRGB(value)?.join(', ');
+  return generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', '1'), new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
 }
 
 // https://tailwindcss.com/docs/background-color
@@ -593,32 +485,17 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
 function background(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // handle background positions
-  const positions = toType(theme('backgroundPosition'), 'object') as {
-    [key: string]: string;
-  };
-  if (Object.keys(positions).includes(body)) {
-    return new Property('background-position', positions[body]);
-  }
+  const positions = toType(theme('backgroundPosition'), 'object') as { [key: string]: string };
+  if (Object.keys(positions).includes(body)) return new Property('background-position', positions[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundPosition', order: pluginOrder['backgroundPosition'] + 1 });
   // handle background sizes
-  const sizes = toType(theme('backgroundSize'), 'object') as {
-    [key: string]: string;
-  };
-  if (Object.keys(sizes).includes(body)) {
-    return new Property('background-size', sizes[body]);
-  }
+  const sizes = toType(theme('backgroundSize'), 'object') as { [key: string]: string };
+  if (Object.keys(sizes).includes(body)) return new Property('background-size', sizes[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundSize', order: pluginOrder['backgroundSize'] + 1 });
   // handle background image
-  const images = toType(theme('backgroundImage'), 'object') as {
-    [key: string]: string;
-  };
+  const images = toType(theme('backgroundImage'), 'object') as { [key: string]: string };
   if (Object.keys(images).includes(body)) {
     const prefixer = linearGradient(images[body]);
-    if (Array.isArray(prefixer)) {
-      return new Style(
-        utility.class,
-        prefixer.map((i) => new Property('background-image', i))
-      );
-    }
-    return new Property('background-image', prefixer);
+    if (Array.isArray(prefixer)) return new Style(utility.class, prefixer.map((i) => new Property('background-image', i))).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundImage', order: pluginOrder['backgroundImage'] + 2 });
+    return new Property('background-image', prefixer).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundImage', order: pluginOrder['backgroundImage'] + 1 });
   }
   // handle background opacity
   if (utility.raw.startsWith('bg-opacity'))
@@ -626,48 +503,30 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('backgroundOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-bg-opacity');
+      .createProperty('--tw-bg-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundOpacity', order: pluginOrder['backgroundOpacity'] + 1 });
   // handle background color
   const value = utility.handler
     .handleColor(theme('backgroundColor'))
     .handleVariable().value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
-      return new Property('background-color', value);
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('background-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
     return new Style(utility.class, [
       new Property('--tw-bg-opacity', '1'),
-      new Property(
-        'background-color',
-        `rgba(${toRGB(value)?.join(', ')}, var(--tw-bg-opacity))`
-      ),
-    ]);
+      new Property('background-color', `rgba(${toRGB(value)?.join(', ')}, var(--tw-bg-opacity))`),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 2 });
   }
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops from
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
-  const value = utility.handler
-    .handleColor(theme('gradientColorStops'))
-    .handleVariable().value;
+  const value = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().value;
   if (value) {
-    let rgb;
-    switch (value) {
-    case 'transparent':
-      rgb = '0, 0, 0';
-      break;
-    case 'current':
-      rgb = '255, 255, 255';
-      break;
-    default:
-      rgb = value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
-    }
+    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
     return new Style(utility.class, [
       new Property('--tw-gradient-from', value),
-      new Property(
-        '--tw-gradient-stops',
-        `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`
-      ),
-    ]);
+      new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 1 });
   }
 }
 
@@ -677,21 +536,9 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('gradientColorStops'))
     .handleVariable().value;
   if (value) {
-    let rgb;
-    switch (value) {
-    case 'transparent':
-      rgb = '0, 0, 0';
-      break;
-    case 'current':
-      rgb = '255, 255, 255';
-      break;
-    default:
-      rgb = value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
-    }
-    return new Property(
-      '--tw-gradient-stops',
-      `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`
-    );
+    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
+    return new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`
+    ).updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 });
   }
 }
 
@@ -700,40 +547,23 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleColor(theme('gradientColorStops'))
     .handleVariable()
-    .createProperty('--tw-gradient-to');
+    .createProperty('--tw-gradient-to')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 3 });
 }
 
 // https://tailwindcss.com/docs/border-radius
 function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
-  const raw = [
-    'rounded',
-    'rounded-t',
-    'rounded-l',
-    'rounded-r',
-    'rounded-b',
-    'rounded-tl',
-    'rounded-tr',
-    'rounded-br',
-    'rounded-bl',
-  ].includes(utility.raw)
-    ? utility.raw + '-DEFAULT'
-    : utility.raw;
+  const raw = [ 'rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl' ].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
   utility = new Utility(raw);
-  const directions = expandDirection(
-    utility.center.replace(/-?\$[\w-]+/, ''),
-    true
-  );
+  const directions = expandDirection(utility.center.replace(/-?\$[\w-]+/, ''), true);
   if (!directions) return;
   return utility.handler
     .handleStatic(theme('borderRadius'))
     .handleNxl((number: number) => `${number * 0.5}rem`)
     .handleSize()
     .handleVariable()
-    .createProperty(
-      directions[0] === '*'
-        ? 'border-radius'
-        : directions.map((i) => `border-${i}-radius`)
-    );
+    .createProperty(directions[0] === '*' ? 'border-radius' : directions.map((i) => `border-${i}-radius`))
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderRadius', order: pluginOrder['borderRadius'] - (directions[0] === '*' ? 3 : directions.length) });
 }
 
 // https://tailwindcss.com/docs/border-width
@@ -741,54 +571,34 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/border-opacity
 function border(utility: Utility, { theme }: PluginUtils): Output {
   // handle border opacity
-  if (utility.raw.startsWith('border-opacity'))
+  if (utility.raw.startsWith('border-opacity')) {
     return utility.handler
       .handleStatic(theme('borderOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-border-opacity');
-
+      .createProperty('--tw-border-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderOpacity', order: pluginOrder['borderOpacity'] + 1 });
+  }
   // handle border color
-  const value = utility.handler
-    .handleColor(theme('borderColor'))
-    .handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined).value;
+  const value = utility.handler.handleColor(theme('borderColor')).handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined).value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
-      return new Property('border-color', value);
+    if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
     return new Style(utility.class, [
       new Property('--tw-border-opacity', '1'),
-      new Property(
-        'border-color',
-        value.startsWith('var') ? value: `rgba(${toRGB(value)?.join(', ')}, var(--tw-border-opacity))`
-      ),
-    ]);
+      new Property('border-color', value.startsWith('var') ? value: `rgba(${toRGB(value)?.join(', ')}, var(--tw-border-opacity))`),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 });
   }
   // handle border width
-  const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [
-    '*',
-  ];
-  const borders = (toType(theme('borderWidth'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
-  const raw = [
-    'border',
-    'border-t',
-    'border-r',
-    'border-b',
-    'border-l',
-  ].includes(utility.raw)
-    ? `${utility.raw}-${borders.DEFAULT ?? '1px'}`
-    : utility.raw;
+  const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
+  const borders = (toType(theme('borderWidth'), 'object') ?? {}) as { [key: string]: string };
+  const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
   return new Utility(raw).handler
     .handleStatic(borders)
     .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
     .handleSize()
     .handleVariable()
-    .createProperty(
-      directions[0] === '*'
-        ? 'border-width'
-        : directions.map((i) => `border-${i}-width`)
-    );
+    .createProperty(directions[0] === '*' ? 'border-width' : directions.map((i) => `border-${i}-width`))
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderWidth', order: pluginOrder['borderWidth'] + (directions[0] === '*' ? 1 : (directions.length + 1)) });
 }
 
 // https://tailwindcss.com/docs/divide-width
@@ -797,70 +607,42 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/divide-style
 function divide(utility: Utility, { theme }: PluginUtils): Output {
   // handle divide style
-  if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount))
-    return new Property('border-style', utility.amount)
-      .toStyle(utility.class)
-      .child('> :not([hidden]) ~ :not([hidden])');
+  if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideStyle', order: pluginOrder['divideStyle'] + 1 });
   // handle divide opacity
   if (utility.raw.startsWith('divide-opacity'))
     return utility.handler
       .handleStatic(theme('divideOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-divide-opacity');
+      .createProperty('--tw-divide-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'divideOpacity', order: pluginOrder['divideOpacity'] + 1 });
   // handle divide color
-  let value = utility.handler
-    .handleColor(theme('divideColor'))
-    .handleVariable((variable: string) =>
-      utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined
-    ).value;
+  let value = utility.handler.handleColor(theme('divideColor')).handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined).value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value))
-      return new Property('border-color', value);
+    if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
     return new Style(utility.class, [
       new Property('--tw-divide-opacity', '1'),
-      new Property(
-        'border-color',
-        value.startsWith('var') ? value : `rgba(${toRGB(value)?.join(', ')}, var(--tw-divide-opacity))`
-      ),
-    ]).child('> :not([hidden]) ~ :not([hidden])');
+      new Property('border-color', value.startsWith('var') ? value : `rgba(${toRGB(value)?.join(', ')}, var(--tw-divide-opacity))`),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 2 });
   }
   // handle divide width
   switch (utility.raw) {
   case 'divide-x-reverse':
-    return new Style(
-      utility.class,
-      new Property('--tw-divide-x-reverse', '1')
-    ).child('> :not([hidden]) ~ :not([hidden])');
+    return new Style(utility.class, new Property('--tw-divide-x-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 6 });
   case 'divide-y-reverse':
-    return new Style(
-      utility.class,
-      new Property('--tw-divide-y-reverse', '1')
-    ).child('> :not([hidden]) ~ :not([hidden])');
+    return new Style(utility.class, new Property('--tw-divide-y-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 5 });
   case 'divide-y':
     return new Style(utility.class, [
       new Property('--tw-divide-y-reverse', '0'),
-      new Property(
-        'border-top-width',
-        'calc(1px * calc(1 - var(--tw-divide-y-reverse)))'
-      ),
-      new Property(
-        'border-bottom-width',
-        'calc(1px * var(--tw-divide-y-reverse))'
-      ),
-    ]).child('> :not([hidden]) ~ :not([hidden])');
+      new Property('border-top-width', 'calc(1px * calc(1 - var(--tw-divide-y-reverse)))'),
+      new Property('border-bottom-width', 'calc(1px * var(--tw-divide-y-reverse))'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 3 });
   case 'divide-x':
     return new Style(utility.class, [
       new Property('--tw-divide-x-reverse', '0'),
-      new Property(
-        'border-right-width',
-        'calc(1px * var(--tw-divide-x-reverse))'
-      ),
-      new Property(
-        'border-left-width',
-        'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'
-      ),
-    ]).child('> :not([hidden]) ~ :not([hidden])');
+      new Property('border-right-width', 'calc(1px * var(--tw-divide-x-reverse))'),
+      new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 4 });
   }
   value = utility.handler
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
@@ -874,27 +656,15 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       case 'x':
         return new Style(utility.class, [
           new Property('--tw-divide-x-reverse', '0'),
-          new Property(
-            'border-right-width',
-            `calc(${value} * var(--tw-divide-x-reverse))`
-          ),
-          new Property(
-            'border-left-width',
-            `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`
-          ),
-        ]).child('> :not([hidden]) ~ :not([hidden])');
+          new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`),
+          new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`),
+        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 2 });
       case 'y':
         return new Style(utility.class, [
           new Property('--tw-divide-y-reverse', '0'),
-          new Property(
-            'border-top-width',
-            `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`
-          ),
-          new Property(
-            'border-bottom-width',
-            `calc(${value} * var(--tw-divide-y-reverse))`
-          ),
-        ]).child('> :not([hidden]) ~ :not([hidden])');
+          new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`),
+          new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`),
+        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 1 });
       }
     }
   }
@@ -907,8 +677,7 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   // handle ring offset width variable
   if (utility.raw.startsWith('ringOffset-width-$')) {
     value = utility.handler.handleVariable().value;
-    if (value)
-      return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset'));
+    if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetWidth', order: pluginOrder['ringOffsetWidth'] + 2 });
   }
 
   // handle ring offset width
@@ -917,14 +686,12 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
       .handleStatic(theme('ringOffsetWidth'))
       .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
       .handleSize().value;
-    if (value)
-      return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset'));
+    if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetWidth', order: pluginOrder['ringOffsetWidth'] + 1 });
   }
 
   // handle ring offset color
   value = utility.handler.handleColor(theme('ringOffsetColor')).handleVariable().value;
-  if (value)
-    return new Property('--tw-ring-offset-color', value).toStyle(utility.class.replace('ringOffset', 'ring-offset'));
+  if (value) return new Property('--tw-ring-offset-color', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetColor', order: pluginOrder['ringOffsetColor'] + 1 });
 }
 
 // https://tailwindcss.com/docs/ring-width
@@ -932,68 +699,53 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/ring-opacity
 function ring(utility: Utility, utils: PluginUtils): Output {
   // handle ring offset
-  if (utility.raw.startsWith('ring-offset'))
-    return ringOffset(
-      new Utility(utility.raw.replace('ring-offset', 'ringOffset')), utils);
+  if (utility.raw.startsWith('ring-offset')) return ringOffset(new Utility(utility.raw.replace('ring-offset', 'ringOffset')), utils);
   // handle ring opacity
   if (utility.raw.startsWith('ring-opacity'))
     return utility.handler
       .handleStatic(utils.theme('ringOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-ring-opacity');
+      .createProperty('--tw-ring-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOpacity', order: pluginOrder['ringOpacity'] + 1 });
   // handle ring color
   let value = utility.handler
     .handleColor(utils.theme('ringColor'))
-    .handleVariable((variable: string) =>
-      utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined
-    ).value;
+    .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined).value;
   if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var'))
-      return new Style(utility.class, [
-        new Property('--tw-ring-color', value),
-      ]);
+    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Style(utility.class, [ new Property('--tw-ring-color', value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
     return new Style(utility.class, [
       new Property('--tw-ring-opacity', '1'),
-      new Property(
-        '--tw-ring-color',
-        `rgba(${toRGB(value)?.join(', ')}, var(--tw-ring-opacity))`),
-    ]
-    );
+      new Property('--tw-ring-color', `rgba(${toRGB(value)?.join(', ')}, var(--tw-ring-opacity))`),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 2 });
   }
   // handle ring width
-  if (utility.raw === 'ring-inset')
-    return new Property('--tw-ring-inset', 'inset');
-  if (utility.raw === 'ring')
-    value = toType(utils.theme('ringWidth.DEFAULT'), 'string') ?? '3px';
+  if (utility.raw === 'ring-inset') return new Property('--tw-ring-inset', 'inset').updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + 3 });
+  if (utility.raw === 'ring') value = toType(utils.theme('ringWidth.DEFAULT'), 'string') ?? '3px';
   value = utility.handler
     .handleStatic(utils.theme('ringWidth'))
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
     .handleSize()
     .handleVariable().value;
-  if (value)
+  if (value) {
     return new Style(utility.class, [
       new Property('--tw-ring-offset-shadow', 'var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)'),
       new Property('--tw-ring-shadow', `var(--tw-ring-inset) 0 0 0 calc(${value} + var(--tw-ring-offset-width)) var(--tw-ring-color)`),
       new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)'),
-    ]);
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + (utility.raw === 'ring' ? 1 : 2) });
+  }
 }
 
 // https://tailwindcss.com/docs/box-shadow/
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   let body = utility.body;
   if (body === '') body = 'DEFAULT';
-  const shadows = toType(theme('boxShadow'), 'object') as {
-    [key: string]: string;
-  };
+  const shadows = toType(theme('boxShadow'), 'object') as { [key: string]: string };
   if (Object.keys(shadows).includes(body)) {
     return new Style(utility.class, [
       new Property('--tw-shadow', shadows[body]),
-      new Property(
-        ['-webkit-box-shadow', 'box-shadow'],
-        'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'
-      ),
-    ]);
+      new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadow', order: pluginOrder['boxShadow'] + 1 });
   }
 }
 
@@ -1003,56 +755,24 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme('opacity'))
     .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
     .handleVariable()
-    .createProperty('opacity');
+    .createProperty('opacity')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'opacity', order: pluginOrder['opacity'] + 1 });
 }
 
 // https://tailwindcss.com/docs/transition-property
 function transition(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const props = (toType(theme('transitionProperty'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
+  const props = (toType(theme('transitionProperty'), 'object') ?? {}) as { [key: string]: string };
   for (const [key, value] of Object.entries(props)) {
     if (body === key || (body === '' && key === 'DEFAULT')) {
-      if (value === 'none')
-        return new Property(
-          [
-            '-webkit-transition-property',
-            '-o-transition-property',
-            'transition-property',
-          ],
-          'none'
-        );
+      if (value === 'none') return new Property(['-webkit-transition-property', '-o-transition-property', 'transition-property'], 'none').updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionProperty', order: pluginOrder['transitionProperty'] + 1 });
       return new Style(utility.class, [
-        new Property(
-          '-webkit-transition-property',
-          value.replace(/(?=(transform|box-shadow))/g, '-webkit-')
-        ),
+        new Property('-webkit-transition-property', value.replace(/(?=(transform|box-shadow))/g, '-webkit-')),
         new Property('-o-transition-property', value),
-        new Property(
-          'transition-property',
-          value
-            .replace(/transform/g, 'transform, -webkit-transform')
-            .replace(/box-shadow/g, 'box-shadow, -webkit-box-shadow')
-        ),
-        new Property(
-          [
-            '-webkit-transition-timing-function',
-            '-o-transition-timing-function',
-            'transition-timing-function',
-          ],
-          toType(theme('transitionTimingFunction.DEFAULT'), 'string') ??
-            'cubic-bezier(0.4, 0, 0.2, 1)'
-        ),
-        new Property(
-          [
-            '-webkit-transition-duration',
-            '-o-transition-duration',
-            'transition-duration',
-          ],
-          toType(theme('transitionDuration.DEFAULT'), 'string') ?? '150ms'
-        ),
-      ]);
+        new Property('transition-property', value.replace(/transform/g, 'transform, -webkit-transform').replace(/box-shadow/g, 'box-shadow, -webkit-box-shadow')),
+        new Property(['-webkit-transition-timing-function', '-o-transition-timing-function', 'transition-timing-function'], toType(theme('transitionTimingFunction.DEFAULT'), 'string') ?? 'cubic-bezier(0.4, 0, 0.2, 1)'),
+        new Property(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration' ], toType(theme('transitionDuration.DEFAULT'), 'string') ?? '150ms'),
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionProperty', order: pluginOrder['transitionProperty'] + 2 });
     }
   }
 }
@@ -1063,25 +783,16 @@ function duration(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme('transitionDuration'))
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
-    .createProperty([
-      '-webkit-transition-duration',
-      '-o-transition-duration',
-      'transition-duration',
-    ]);
+    .createProperty(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionDuration', order: pluginOrder['transitionDuration'] + 1 });
 }
 
 // https://tailwindcss.com/docs/transition-timing-function
-function transitionTimingFunction(
-  utility: Utility,
-  { theme }: PluginUtils
-): Output {
+function transitionTimingFunction(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('transitionTimingFunction'))
-    .createProperty([
-      '-webkit-transition-timing-function',
-      '-o-transition-timing-function',
-      'transition-timing-function',
-    ]);
+    .createProperty(['-webkit-transition-timing-function', '-o-transition-timing-function', 'transition-timing-function'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionTimingFunction', order: pluginOrder['transitionTimingFunction'] + 1 });
 }
 
 // https://tailwindcss.com/docs/transition-delay
@@ -1090,33 +801,26 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme('transitionDelay'))
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
-    .createProperty([
-      '-webkit-transition-delay',
-      '-o-transition-delay',
-      'transition-delay',
-    ]);
+    .createProperty(['-webkit-transition-delay', '-o-transition-delay', 'transition-delay'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionDelay', order: pluginOrder['transitionDelay'] + 1 });
 }
 
 // https://tailwindcss.com/docs/animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
-  const animations = (toType(theme('animation'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
+  const animations = (toType(theme('animation'), 'object') ?? {}) as { [key: string]: string };
   if (Object.keys(animations).includes(utility.body)) {
     const value = animations[utility.body];
     const keyframe = value.match(/^\w+/)?.[0];
     const prop = config('prefixer') ? ['-webkit-animation', 'animation'] : 'animation';
-    if (value === 'none') return new Property(prop, 'none');
+    if (value === 'none') return new Property(prop, 'none').updateMeta({ type: 'utilities', corePlugin: true, group: 'animation', order: pluginOrder['animation'] + 1 });
     return [
-      new Style(utility.class, new Property(prop, value)),
+      new Style(utility.class, new Property(prop, value)).updateMeta({ type: 'utilities', corePlugin: true, group: 'animation', order: pluginOrder['animation'] + 2 }),
       ... keyframe ? Keyframes.generate(
         keyframe,
-        (theme(`keyframes.${keyframe}`) ?? {}) as {
-          [key: string]: { [key: string]: string };
-        },
+        (theme(`keyframes.${keyframe}`) ?? {}) as { [key: string]: { [key: string]: string } },
         undefined,
         config('prefixer', false) as boolean
-      ) : [],
+      ).map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'keyframes', order: pluginOrder['keyframes'] + 1 })) : [],
     ];
   }
 }
@@ -1124,30 +828,21 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
 // https://tailwindcss.com/docs/transform-origin
 function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const origins = (toType(theme('transformOrigin'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
-  if (Object.keys(origins).includes(body)) {
-    return new Property(
-      ['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'],
-      origins[body]
-    );
-  }
+  const origins = (toType(theme('transformOrigin'), 'object') ?? {}) as { [key: string]: string };
+  if (Object.keys(origins).includes(body)) return new Property(['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'], origins[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'transformOrigin', order: pluginOrder['transformOrigin'] + 1 });
 }
 
 // https://tailwindcss.com/docs/scale
 function scale(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('scale'))
-    .handleNumber(0, undefined, 'int', (number: number) =>
-      (number / 100).toString()
-    )
+    .handleNumber(0, undefined, 'int', (number: number) => (number / 100).toString())
     .handleVariable()
     .value;
   if (!value) return;
-  if (utility.raw.startsWith('scale-x')) return new Property('--tw-scale-x', value);
-  if (utility.raw.startsWith('scale-y')) return new Property('--tw-scale-y', value);
-  return new Property(['--tw-scale-x', '--tw-scale-y'], value);
+  if (utility.raw.startsWith('scale-x')) return new Property('--tw-scale-x', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 2 });
+  if (utility.raw.startsWith('scale-y')) return new Property('--tw-scale-y', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 3 });
+  return new Property(['--tw-scale-x', '--tw-scale-y'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 1 });
 }
 
 // https://tailwindcss.com/docs/rotate
@@ -1157,7 +852,8 @@ function rotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'float', (number: number) => `${number}deg`)
     .handleNegative()
     .handleVariable()
-    .createProperty('--tw-rotate');
+    .createProperty('--tw-rotate')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
 }
 
 // https://tailwindcss.com/docs/translate
@@ -1172,7 +868,8 @@ function translate(utility: Utility, { theme }: PluginUtils): Output {
       .handleSize()
       .handleNegative()
       .handleVariable()
-      .createProperty(`--tw-translate-${center}`);
+      .createProperty(`--tw-translate-${center}`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'translate', order: pluginOrder['translate'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
   }
 }
 
@@ -1186,56 +883,44 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, 'float', (number: number) => `${number}deg`)
       .handleNegative()
       .handleVariable()
-      .createProperty(`--tw-skew-${center}`);
+      .createProperty(`--tw-skew-${center}`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'skew', order: pluginOrder['skew'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
   }
 }
 
 // https://tailwindcss.com/docs/cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const cursors = (toType(theme('cursor'), 'object') ?? {}) as {
-    [key: string]: string;
-  };
-  if (Object.keys(cursors).includes(body))
-    return new Property('cursor', cursors[body]);
+  const cursors = (toType(theme('cursor'), 'object') ?? {}) as { [key: string]: string };
+  if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'cursor', order: pluginOrder['cursor'] + 1 });
 }
 
 // https://tailwindcss.com/docs/outline
 function outline(utility: Utility, { theme }: PluginUtils): Output {
   const amount = utility.amount;
-  const staticMap = (toType(theme('outline'), 'object') ?? {}) as {
-    [key: string]: [outline: string, outlineOffset: string];
-  };
-  if (Object.keys(staticMap).includes(amount))
+  const staticMap = (toType(theme('outline'), 'object') ?? {}) as { [key: string]: [outline: string, outlineOffset: string] };
+  if (Object.keys(staticMap).includes(amount)) {
     return new Style(utility.class, [
       new Property('outline', staticMap[amount][0]),
       new Property('outline-offset', staticMap[amount][1]),
-    ]);
-
-  let value = utility.handler
-    .handleColor()
-    .handleVariable((variable: string) =>
-      utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined
-    ).value;
-  if (value)
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
+  }
+  let value = utility.handler.handleColor().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined).value;
+  if (value) {
     return new Style(utility.class, [
-      new Property(
-        'outline',
-        `2px ${value === 'transparent' ? 'solid' : 'dotted'} ${value}`
-      ),
+      new Property('outline', `2px ${value === 'transparent' ? 'solid' : 'dotted'} ${value}`),
       new Property('outline-offset', '2px'),
-    ]);
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 });
+  }
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
     const newUtility = new Utility(utility.raw.replace('outline-', ''));
-    value = newUtility.handler
-      .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
-      .handleColor()
-      .handleVariable().value;
-    if (value)
+    value = newUtility.handler.handleStatic({ none: 'transparent', white: 'white', black: 'black' }).handleColor().handleVariable().value;
+    if (value) {
       return new Style(utility.class, [
         new Property('outline', `2px ${newUtility.identifier} ${value}`),
         new Property('outline-offset', '2px'),
-      ]);
+      ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 3 });
+    }
   }
 }
 
@@ -1244,24 +929,23 @@ function fill(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleColor(theme('fill'))
     .handleVariable()
-    .createProperty('fill');
+    .createProperty('fill')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fill', order: pluginOrder['fill'] + 1 });
 }
 
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.raw.startsWith('stroke-$')
-    ? utility.handler.handleVariable().createProperty('stroke-width')
-    : utility.handler
-      .handleStatic(theme('strokeWidth'))
-      .handleNumber(0, undefined, 'int')
-      .createProperty('stroke-width');
+    ? utility.handler.handleVariable().createProperty('stroke-width')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 2 })
+    : utility.handler.handleStatic(theme('strokeWidth')).handleNumber(0, undefined, 'int').createProperty('stroke-width')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 1 });
   return (
     value ??
     utility.handler
       .handleColor(theme('stroke'))
       .handleVariable()
       .createProperty('stroke')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 })
   );
 }
 

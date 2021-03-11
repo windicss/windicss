@@ -1,5 +1,6 @@
 import { Property, Style, StyleSheet, InlineAtRule } from '../style';
 import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
+import { layerOrder } from '../../config/order';
 import type { Processor } from '../../lib';
 
 export default class CSSParser {
@@ -63,11 +64,12 @@ export default class CSSParser {
     return output.join('');
   }
 
-  private _handleDirectives(atrule: string): { atrule: string } | { variants: string[][] } | { apply?: string, important?: boolean } | undefined {
+  private _handleDirectives(atrule: string): { atrule: string } | { variants: string[][] } | { apply?: string, important?: boolean } | { layer: 'components' | 'utilities' | 'base' } | undefined {
     if (!this.processor) return { atrule };
     const iatrule = InlineAtRule.parse(atrule);
     if (!iatrule) return;
     if (iatrule.name === 'apply') return { apply: iatrule.value, important: iatrule.important };
+    if (iatrule.name === 'layer') return { layer: (iatrule.value ?? 'components') as 'components' | 'utilities' | 'base' };
     if (iatrule.name === 'variants' && iatrule.value)
       return { variants: iatrule.value.split(',').map(i => i.trim().split(':')) };
     if (iatrule.name === 'screen' && iatrule.value) {
@@ -78,7 +80,7 @@ export default class CSSParser {
     return { atrule };
   }
 
-  private _generateNestProperty(props: Property | InlineAtRule | (Property | InlineAtRule)[], parent?: string, parentType?:('atRule' | 'selector')): Style | Style[] {
+  private _generateNestProperty(props: Property | InlineAtRule | (Property | InlineAtRule)[], parent?: string, parentType?:('atRule' | 'selector')): Style {
     const style = new Style(undefined, props);
     if (!parent || !parentType) return style;
     if (parentType === 'selector') {
@@ -89,6 +91,8 @@ export default class CSSParser {
   }
 
   private _generateNestStyle(styles: Style[], parent?: string, parentType?:('atRule' | 'selector')): Style[] {
+    let layer: 'components' | 'utilities' | 'base' = 'components';
+    let order = layerOrder['components'];
     if (!parent) return styles;
     if (parentType === 'selector') {
       styles.forEach(i => {
@@ -97,28 +101,40 @@ export default class CSSParser {
         } else {
           i.wrapSelector((selector) => (/&/.test(selector) ? selector : `& ${selector}`).replace('&', parent));
         }
+        i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });
         this._addCache(i);
       });
     } else if (parentType === 'atRule') {
-      let atrule = parent;
+      let atrule: string | undefined = parent;
       if (this.processor) {
         // handle directives
         const directives = this._handleDirectives(parent);
         if (directives) {
-          if ('atrule' in directives) atrule = directives.atrule; // @screen
-          if ('variants' in directives) {
+          if ('atrule' in directives) {
+            // @screen
+            atrule = directives.atrule;
+          } else if ('layer' in directives) {
+            // @layer
+            atrule = undefined;
+            layer = directives.layer;
+            order = layerOrder[layer];
+          } else if ('variants' in directives) {
             // @variants
             let output: Style[] = [];
             for (const variant of directives.variants) {
               output = output.concat(this.processor.wrapWithVariants(variant, styles));
             }
-            output.map(i => this._addCache(i));
+            output.map(i => {
+              i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });
+              this._addCache(i);
+            });
             return output;
           }
         }
       }
       styles.forEach(i => {
         i.atRule(atrule);
+        i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });
         this._addCache(i);
       });
     }

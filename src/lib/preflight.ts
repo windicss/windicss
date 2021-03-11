@@ -1,7 +1,5 @@
-import purgeBase from '../utils/algorithm/purgeBase';
 import { baseUtilities } from './utilities';
 import { Style, Property, StyleSheet } from '../utils/style';
-
 import type { ThemeUtil } from '../interfaces';
 import type { Processor } from './index';
 
@@ -20,57 +18,46 @@ export default function preflight(
     selector: string | undefined,
     properties: {
       [key: string]: string | string[] | ((theme: ThemeUtil) => string);
-    }
+    },
+    isGlobal = false
   ) => {
     const style = new Style(selector, undefined, false);
     for (const [key, value] of Object.entries(properties)) {
       style.add(
         Array.isArray(value)
           ? value.map((v) => new Property(key, v))
-          : new Property(
-            key,
-            typeof value === 'function' ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value
-          )
+          : new Property(key, typeof value === 'function' ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value)
       );
     }
+    style.updateMeta({ type: 'base', corePlugin: true, group: 'preflight', order: isGlobal ? 1 : 2 });
     return style;
   };
 
-  const tags = html
-    ? Array.from(new Set(html.match(/<\w+/g))).map((i) => i.substring(1))
-    : undefined;
+  const tags = html ? Array.from(new Set(html.match(/<\w+/g))).map((i) => i.substring(1)) : undefined;
 
   // handle base style
   includeBase && (processor.config('prefixer') ? baseUtilities : baseUtilities.filter(i => !i.selector || !/::?(webkit-input|-moz|-ms-input)-placeholder$/.test(i.selector))).forEach(p => {
     if (includeGlobal && p.global) {
       // global style, such as * or html, body
-      globalSheet.add(createStyle(p.selector, p.properties));
+      globalSheet.add(createStyle(p.selector, p.properties, true));
     } else if (tags !== undefined) {
       // only generate matched styles
       const includeTags = tags.filter((i) => p.keys.includes(i));
-      if (includeTags.length > 0)
-        styleSheet.add(
-          createStyle(
-            p.selector ? p.selector : includeTags.join(', '),
-            p.properties
-          )
-        );
+      if (includeTags.length > 0) styleSheet.add(createStyle(p.selector ? p.selector : includeTags.join(', '), p.properties));
     } else {
       // if no tags input, generate all styles
-      styleSheet.add(
-        createStyle(p.selector ? p.selector : p.keys.join(', '), p.properties)
-      );
+      styleSheet.add(createStyle(p.selector ? p.selector : p.keys.join(', '), p.properties));
     }
   });
 
   // handle plugin style
   if (includePlugins) {
-    // purged base Styles
+    // base Styles
     let preflightList: Style[] = [];
     Object.values(processor._plugin.preflights).forEach((styles) => {
       preflightList = preflightList.concat(styles);
     });
-    styleSheet.add(html ? purgeBase(html, preflightList) : preflightList);
+    styleSheet.add(preflightList);
 
     // always generated styles
     let staticList: Style[] = [];
@@ -81,7 +68,5 @@ export default function preflight(
   }
 
   const result = styleSheet.combine().sort();
-  return includeGlobal
-    ? result.extend(globalSheet.combine().sort(), false)
-    : result;
+  return includeGlobal ? result.extend(globalSheet.combine().sort(), false) : result;
 }

@@ -31,7 +31,7 @@ describe('Plugin Method', () => {
     };
     processor.addUtilities(utilities);
     expect(processor.interpret('skew-10deg').styleSheet.build()).toEqual('.skew-10deg {\n  transform: skewY(-10deg);\n}');
-    expect(processor.preflight('test', false, false, true).build()).toEqual(
+    expect(processor.preflight(undefined, false, false, true).build()).toEqual(
       `[data-theme] {
   --active: #0099FF;
 }`);
@@ -90,6 +90,7 @@ describe('Plugin Method', () => {
   });
 
   it('addBase', () => {
+    const processor = new Processor();
     expect(processor.addBase({
       'h1': { fontSize: (processor.theme('fontSize.2xl') as FontSize)[0] ?? '1.5rem' },
       'h2': { fontSize: (processor.theme('fontSize.xl') as FontSize)[0] ?? '1.25rem' },
@@ -102,9 +103,9 @@ describe('Plugin Method', () => {
     processor.addBase({
       'h1': { fontSize: (processor.theme('fontSize.2xl') as FontSize)[0] ?? '1.5rem' },
       'h2': { fontSize: (processor.theme('fontSize.xl') as FontSize)[0] ?? '1.25rem' },
-    }, false);
+    });
 
-    expect(processor.preflight('<h1>Hello World</h1>', false, false, true).build()).toEqual('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}');
+    expect(processor.preflight(undefined, false, false, true).build()).toEqual('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}');
   });
 
   it('addVariant pseudoClass', () => {
