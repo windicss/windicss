@@ -486,4 +486,23 @@ describe('Keyframes', () => {
     expect(new StyleSheet(Keyframes.generate('bounce', bounce)).build())
       .toMatchSnapshot('bounce');
   });
+
+  it('clone', () => {
+    const p = new Property('padding', '1rem').toStyle('.test');
+    const clone = p.clone();
+    expect(clone.selector).toEqual(p.selector);
+    expect(clone.property).toEqual(p.property);
+    expect(clone.important).toEqual(p.important);
+    expect(clone.meta).toEqual(p.meta);
+    expect(clone.build()).toEqual(p.build());
+  });
+
+  it('clone and change data', () => {
+    const p = new Property('padding', '1rem').toStyle('.test');
+    const clone = p.clone('.c');
+    expect(clone.selector).toEqual('.c');
+    expect(clone.property).toEqual(p.property);
+    const clone2 = p.clone('.d', new Property('padding', '2rem'));
+    expect(clone2.property[0].build()).toEqual('padding: 2rem;');
+  });
 });

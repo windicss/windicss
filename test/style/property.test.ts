@@ -94,4 +94,15 @@ describe('Property', () => {
       '.sm:p-4 {\n  padding: 1rem;\n}'
     );
   });
+
+  it('clone', () => {
+    const p = new Property('padding', '1rem');
+    const clone = p.clone();
+    expect(clone.name).toEqual(p.name);
+    expect(clone.value).toEqual(p.value);
+    expect(clone.important).toEqual(p.important);
+    expect(clone.comment).toEqual(p.comment);
+    expect(clone.meta).toEqual(p.meta);
+    expect(clone.build()).toEqual(p.build());
+  });
 });

@@ -66,10 +66,28 @@ describe('Plugin Method', () => {
       '.btn:hover': {
         color: '#fff',
       },
+      '.hover\\:abc:hover': {
+        color: '#1c1c1e',
+      },
+      '@media (min-width: 640px)': {
+        '.hover\\:abc:hover': {
+          color: '#fff',
+        },
+      },
+      '@media (min-width: 768px)': {
+        '@keyframes ping': {
+          '.test': {
+            color: 'red',
+          },
+          '.btn': {
+            fontWeight: '600',
+          },
+        },
+      },
     };
     const processor = new Processor();
     processor.addUtilities(utilities);
-    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('btn hover:abc test').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('add multi utilities', () => {
@@ -166,6 +184,24 @@ describe('Plugin Method', () => {
       },
       '.btn:hover': {
         color: '#fff',
+      },
+      '.hover\\:abc:hover': {
+        color: '#1c1c1e',
+      },
+      '@media (min-width: 640px)': {
+        '.hover\\:abc:hover': {
+          color: '#fff',
+        },
+      },
+      '@media (min-width: 768px)': {
+        '@keyframes ping': {
+          '.test': {
+            color: 'red',
+          },
+          '.btn': {
+            fontWeight: '600',
+          },
+        },
       },
     };
     const processor = new Processor();

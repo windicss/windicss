@@ -201,6 +201,11 @@ export class Processor {
     });
   }
 
+  private _addPluginCache(type: 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts', key: string, styles: Style | Style[]) {
+    if (!Array.isArray(styles)) styles = [ styles ];
+    this._plugin[type][key] = key in this._plugin[type] ? [...this._plugin[type][key], ...styles] : styles;
+  }
+
   resolveConfig(config: Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig({ ...deepCopy(config ? config : {}), exclude: config?.exclude }, deepCopy(presets)); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
@@ -338,6 +343,12 @@ export class Processor {
         ignored.push(selector);
         return;
       }
+      if (variants[0] && selector in { ...this._plugin.utilities, ...this._plugin.components }) {
+        // handle special selector that conflict with class parser, such as 'hover:abc'
+        success.push(selector);
+        styleSheet.add(deepCopy(this._plugin.utilities[selector]));
+        return;
+      }
       let result = this.extract(baseClass);
       if (result) {
         success.push(selector);
@@ -401,7 +412,7 @@ export class Processor {
     return {
       success,
       ignored,
-      styleSheet, //.sort()
+      styleSheet,
     };
   }
 
@@ -450,6 +461,12 @@ export class Processor {
       if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
         // filter exclude className
         ignored.push(selector);
+        return;
+      }
+      if (variants[0] && selector in { ...this._plugin.utilities, ...this._plugin.components }) {
+        // handle special selector that conflict with class parser, such as 'hover:abc'
+        success.push(selector);
+        styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
       const result = this.extract(baseClass, showComment);
@@ -625,25 +642,26 @@ export class Processor {
     const order = layerOrder[layer];
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
-      if (options.layer) {
-        for (const style of styles) {
-          style.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order });
-        }
-      }
+      if (options.layer) styles.forEach(style => style.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
-      const className = guessClassName(key);
-      if (Array.isArray(className)) {
-        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => {
-          const newStyles = deepCopy(styles);
-          if (pseudo) newStyles.map(i => i.wrapSelector(selector => selector + pseudo));
-          this._plugin.utilities[selector] = selector in this._plugin.utilities ? [...this._plugin.utilities[selector], ...newStyles] : newStyles;
+      let className = guessClassName(key);
+      if (key.charAt(0) === '@') {
+        styles.forEach(style => {
+          if (style.selector) className = guessClassName(style.selector);
+          if (Array.isArray(className)) {
+            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('utilities', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
+            const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
+            if (base) this._addPluginCache('static', base, style.clone(base));
+          } else {
+            this._addPluginCache(className.isClass? 'utilities' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
+          }
         });
+      } else if (Array.isArray(className)) {
+        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('utilities', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
         const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-        if (base) this._plugin.static[base] = styles.map(i => { i.selector = base;return i; });
+        if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
       } else {
-        if (className.pseudo) styles.forEach(style => className.pseudo && style.wrapSelector(selector => selector + className.pseudo));
-        const storage = className.isClass? this._plugin.utilities: this._plugin.static;
-        storage[className.selector] = className.selector in storage ? [...storage[className.selector], ...styles] : styles;
+        this._addPluginCache(className.isClass? 'utilities': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
       }
       output = [...output, ...styles];
     }
@@ -669,17 +687,14 @@ export class Processor {
     keyframes.generate = Keyframes.generate;
     style.generate = Style.generate;
     prop.parse = Property.parse;
-    if (key in this._plugin.dynamic) {
-      // handle duplicated key;
-      this._plugin.dynamic[key] = (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
-    } else {
-      this._plugin.dynamic[key] = (Utility: Utility) => {
+    this._plugin.dynamic[key] = (key in this._plugin.dynamic)
+      ? (Utility: Utility) => deepCopy(this._plugin.dynamic[key])(Utility) || generator({ Utility, Style: style, Property: prop, Keyframes: keyframes })
+      : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
         if (Array.isArray(output)) return output.map(i => i.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
         return output.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order });
       };
-    }
     return generator;
   }
 
@@ -689,27 +704,31 @@ export class Processor {
   ): Style[] {
     if (Array.isArray(options)) options = { variants: options };
     if (Array.isArray(components)) components = components.reduce((previous: {[key:string]:unknown}, current) => combineConfig(previous, current), {}) as DeepNestObject;
+    let output: Style[] = [];
     const layer = options.layer ?? 'components';
     const order = layerOrder[layer];
-    let output: Style[] = [];
     for (const [key, value] of Object.entries(components)) {
-      const pkey = key.startsWith('.') && options.respectPrefix ? this.prefix(key): key;
-      const styles = Style.generate(pkey, value).map(i => i.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
-      this._replaceStyleVariants(styles);
-
-      const className = guessClassName(pkey);
-      if (Array.isArray(className)) {
-        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => {
-          const newStyles = deepCopy(styles);
-          if (pseudo) newStyles.map(i => i.wrapSelector(selector => selector + pseudo));
-          this._plugin.utilities[selector] = selector in this._plugin.utilities ? [...this._plugin.utilities[selector], ...newStyles] : newStyles;
+      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
+      styles.forEach(style => style.updateMeta({ type: layer, corePlugin: false, group: 'plugin', order }));
+      if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
+      let className = guessClassName(key);
+      if (key.charAt(0) === '@') {
+        styles.forEach(style => {
+          if (style.selector) className = guessClassName(style.selector);
+          if (Array.isArray(className)) {
+            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
+            const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
+            if (base) this._addPluginCache('static', base, style.clone(base));
+          } else {
+            this._addPluginCache(className.isClass? 'components' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
+          }
         });
+      } else if (Array.isArray(className)) {
+        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
         const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-        if (base) this._plugin.static[base] = styles.map(i => { i.selector = base;return i; });
+        if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
       } else {
-        if (className.pseudo) styles.forEach(style => className.pseudo && style.wrapSelector(selector => selector + className.pseudo));
-        const storage = className.isClass? this._plugin.utilities: this._plugin.static;
-        storage[className.selector] = className.selector in storage ? [...storage[className.selector], ...styles] : styles;
+        this._addPluginCache(className.isClass? 'components': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
       }
       output = [...output, ...styles];
     }

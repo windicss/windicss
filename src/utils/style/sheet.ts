@@ -1,5 +1,5 @@
 import type { Style } from './base';
-import { hash } from '../tools';
+import { hash, deepCopy } from '../tools';
 import sortSelector from '../algorithm/sortSelector';
 import compileStyleSheet from '../algorithm/compileStyleSheet';
 
@@ -55,6 +55,10 @@ export class StyleSheet {
       components: this.layer('components'),
       utilities: this.layer('utilities'),
     };
+  }
+
+  clone(): StyleSheet {
+    return deepCopy(this);
   }
 
   sort(meta = false): this {

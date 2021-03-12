@@ -2,17 +2,8 @@ import { Property, Style, StyleSheet } from '../../src/utils/style';
 
 describe('StyleSheet', () => {
   const s1 = new Style('.bg-white', new Property('--bg-opacity', '1'));
-  const s2 = new Style(
-    '.bg-white',
-    new Property(
-      'background-color',
-      'rgba(255, 255, 255, var(--tw-bg-opacity))'
-    )
-  );
-  const s3 = new Style(
-    '.py-10',
-    new Property(['padding-top', 'padding-bottom'], '2.5rem')
-  );
+  const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
+  const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
 
   s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
   s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
@@ -94,17 +85,8 @@ describe('StyleSheet', () => {
 
 describe('meta', () => {
   const s1 = new Style('.bg-white', new Property('--bg-opacity', '1'));
-  const s2 = new Style(
-    '.bg-white',
-    new Property(
-      'background-color',
-      'rgba(255, 255, 255, var(--tw-bg-opacity))'
-    )
-  );
-  const s3 = new Style(
-    '.py-10',
-    new Property(['padding-top', 'padding-bottom'], '2.5rem')
-  );
+  const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
+  const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
 
   s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
   s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
@@ -123,5 +105,13 @@ describe('meta', () => {
     expect(sss.base.build(true)).toEqual('.bg-white{--bg-opacity:1}');
     expect(sss.components.build(true)).toEqual('.bg-white{background-color:rgba(255, 255, 255, var(--tw-bg-opacity))}');
     expect(sss.utilities.build(true)).toEqual('.py-10{padding-top:2.5rem;padding-bottom:2.5rem}');
+  });
+
+  it('clone', () => {
+    const s1 = new Style('.bg-white', new Property('--bg-opacity', '1'));
+    const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
+    const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
+    const sss = new StyleSheet([s1, s2, s3]);
+    expect(sss.clone().build()).toEqual(sss.build());
   });
 });

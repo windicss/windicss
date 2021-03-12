@@ -72,6 +72,10 @@ export class Property {
     if (count === 1) return properties[0];
   }
 
+  clone(): Property {
+    return deepCopy(this);
+  }
+
   toStyle(selector?: string): Style {
     return new Style(selector, this, this.important).updateMeta(this.meta);
   }
@@ -455,6 +459,13 @@ export class Style {
     });
     this.property = properties;
     return this;
+  }
+
+  clone(selector?:string, property?:Property | Property[]): Style {
+    const newStyle = deepCopy(this);
+    if (selector) newStyle.selector = selector;
+    if (property) newStyle.property = Array.isArray(property) ? property: [ property ];
+    return newStyle;
   }
 
   sort(): this {

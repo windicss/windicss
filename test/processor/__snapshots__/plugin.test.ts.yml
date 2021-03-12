@@ -33,6 +33,13 @@ Tools / add pseudo components / css / 0: |-
   .btn:hover {
     color: #fff;
   }
+  @media (min-width: 768px) {
+    @keyframes ping {
+      .btn {
+        font-weight: 600;
+      }
+    }
+  }
 Tools / add pseudo utilities / css / 0: |-
   .btn {
     padding: .5rem 1rem;
@@ -40,6 +47,24 @@ Tools / add pseudo utilities / css / 0: |-
   }
   .btn:hover {
     color: #fff;
+  }
+  .hover\:abc:hover {
+    color: #1c1c1e;
+  }
+  @media (min-width: 640px) {
+    .hover\:abc:hover {
+      color: #fff;
+    }
+  }
+  @media (min-width: 768px) {
+    @keyframes ping {
+      .btn {
+        font-weight: 600;
+      }
+      .test {
+        color: red;
+      }
+    }
   }
 Tools / addComponents with non-class styles  / css / 0: |-
   [data-theme] {
