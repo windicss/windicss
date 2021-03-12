@@ -740,8 +740,8 @@ export class Processor {
     for (const [key, value] of Object.entries(baseStyles)) {
       const styles = Style.generate(key, value).map(i => i.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 10 }));
       this._replaceStyleVariants(styles);
+      this._addPluginCache('preflights', key, styles);
       output = [...output, ...styles];
-      this._plugin.preflights[key] = key in this._plugin.preflights ? [...this._plugin.preflights[key], ...styles]: styles;
     }
     return output;
   }
