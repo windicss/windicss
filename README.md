@@ -38,7 +38,7 @@ Read more about it in the [Introduction](https://windicss.org/guide/introduction
 ## Integrations
 
 | Frameworks | Package | Version |
-| --- | --- | --- |
+| :-- | :-- | :-- |
 | CLI | [Built-in](https://windicss.org/guide/cli) | ![](https://img.shields.io/npm/v/windicss?label=&color=0EA5E9) |
 | VSCode Extension | [windicss-intellisense](https://github.com/windicss/windicss-intellisense) | ![](https://img.shields.io/visual-studio-marketplace/v/voorjaar.windicss-intellisense.svg?label=&color=1388bd) |
 | Vite | [vite-plugin-windicss](https://github.com/windicss/vite-plugin-windicss) | ![](https://img.shields.io/npm/v/vite-plugin-windicss?label=&color=0EA5E9) |
@@ -47,6 +47,10 @@ Read more about it in the [Introduction](https://windicss.org/guide/introduction
 | Vue (Webpack) | [vue-windicss-preprocess](https://github.com/windicss/vue-windicss-preprocess) | ![](https://img.shields.io/npm/v/vue-windicss-preprocess?label=&color=0EA5E9) |
 | Nuxt | [nuxt-windicss-module](https://github.com/windicss/nuxt-windicss-module) | ![](https://img.shields.io/npm/v/nuxt-windicss-module?label=&color=1388bd) |
 | Svelte | [svelte-windicss-preprocess](https://github.com/windicss/svelte-windicss-preprocess) | ![](https://img.shields.io/npm/v/svelte-windicss-preprocess?label=&color=1388bd) |
+
+## Plugins 🛠
+
+Check out [plugins available for windicss](https://github.com/windicss/plugins).
 
 ## Documentation 📖
 
