@@ -168,12 +168,14 @@ export class Processor {
   private _resolveFunction(config: Config) {
     if (!config.theme) return config;
     const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
-    for (const [key, value] of Object.entries(config.theme)) {
-      if (typeof value === 'function') {
-        (config.theme as Record<string, ThemeType>)[key] = value(theme, {
-          negative,
-          breakpoints,
-        }) as ConfigUtil;
+    for (const dict of [config.theme, config.theme.extend ?? {}]) {
+      for (const [key, value] of Object.entries(dict)) {
+        if (typeof value === 'function') {
+          (dict as Record<string, ThemeType>)[key] = value(theme, {
+            negative,
+            breakpoints,
+          }) as ConfigUtil;
+        }
       }
     }
     return config;

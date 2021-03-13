@@ -308,4 +308,24 @@ describe('Plugin Method', () => {
 }`);
 
   });
+
+  it('plugin extend function', () => {
+    const processor = new Processor({
+      plugins: [
+        plugin(function() {
+          return;
+        }, {
+          theme: {
+            extend: {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              colors: theme => ({
+                'nord0': '#2E3440',
+              }),
+            },
+          },
+        }),
+      ],
+    });
+    expect(processor.theme('colors.nord0')).toEqual('#2E3440');
+  });
 });
