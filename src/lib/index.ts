@@ -181,14 +181,6 @@ export class Processor {
     return config;
   }
 
-  private _resolveCorePlugins() {
-    // not support yet
-  }
-
-  private _resolvePlugins() {
-    // not support yet
-  }
-
   private _replaceStyleVariants(styles: Style[]) {
     // @screen sm -> @screen (min-width: 640px)
     styles.forEach(style => {
@@ -599,6 +591,7 @@ export class Processor {
 
   // tailwind interfaces
   config(path: string, defaultValue?: unknown): unknown {
+    if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder);
     return getNestedValue(this._config, path) ?? defaultValue;
   }
 

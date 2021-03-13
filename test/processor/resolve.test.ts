@@ -56,4 +56,20 @@ describe('Resolve Tests', () => {
       'aspect-h',  'aspect',   'line-clamp',
     ]);
   });
+
+  it('get corePlugins', () => {
+    const processor = new Processor();
+    expect(processor.config('corePlugins')).toMatchSnapshot('list');
+    const processor2 = new Processor({
+      corePlugins: ['container', 'cursor'],
+    });
+    expect(processor2.config('corePlugins')).toMatchSnapshot('list2');
+    const processor3 = new Processor({
+      corePlugins: {
+        container: false,
+        cursor: false,
+      },
+    });
+    expect(processor3.config('corePlugins')).toMatchSnapshot('list3');
+  });
 });
