@@ -555,8 +555,10 @@ export class Processor {
       }
       this._config = { ...config, theme: pluginTheme };
       this._theme = pluginTheme;
-      this._variants = this.resolveVariants();
     }
+    this._config = this._resolveFunction(this._config);
+    this._theme = this._config.theme;
+    this._variants = this.resolveVariants();
     handler(this.pluginUtils);
   }
 
@@ -599,9 +601,7 @@ export class Processor {
   }
 
   theme(path: string, defaultValue?: unknown): unknown {
-    return this._theme
-      ? getNestedValue(this._theme, path) ?? defaultValue
-      : undefined;
+    return this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
   }
 
   corePlugins(path: string): boolean {
