@@ -106,6 +106,22 @@ describe('CSSParser', () => {
     expect(PARSER.parse(css).build()).toMatchSnapshot('css');
   });
 
+  it('keeps multiple @font-face', () => {
+    const css = `
+    @font-face {
+      font-family: Proxima Nova;
+      font-weight: 400;
+      src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
+    }
+    @font-face {
+      font-family: Proxima Nova;
+      font-weight: 700;
+      src: url(/fonts/proxima-nova/700-regular.woff) format("woff");
+    }
+    `;
+    expect(PARSER.parse(css).build()).toMatchSnapshot('css');
+  });
+
   it('Simple atRule', () => {
     const css = `
     @media (min-width: 768px) {

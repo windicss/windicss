@@ -32,7 +32,7 @@ export class StyleSheet {
   combine(): this {
     const styleMap: { [key: string]: Style } = {};
     this.children.forEach((v) => {
-      const hashValue = hash(v.atRules + v.rule);
+      const hashValue = hash(v.atRules + v.rule + v.unique);
       if (hashValue in styleMap) {
         styleMap[hashValue] = styleMap[hashValue].extend(v, true);
       } else {

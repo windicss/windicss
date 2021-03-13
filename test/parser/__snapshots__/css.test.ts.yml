@@ -195,6 +195,17 @@ Tools / do not change apply order / css / 0: |-
     border-bottom-color: transparent;
     border-left-color: transparent;
   }
+Tools / keeps multiple @font-face / css / 0: |-
+  @font-face {
+    font-family: Proxima Nova;
+    font-weight: 400;
+    src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
+  }
+  @font-face {
+    font-family: Proxima Nova;
+    font-weight: 700;
+    src: url(/fonts/proxima-nova/700-regular.woff) format("woff");
+  }
 Tools / layer directive / css / 0: |-
   base {
     margin-left: auto;

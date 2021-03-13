@@ -140,11 +140,13 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
+  static _uniqueBase = 0;
   meta: Meta = { type: 'components', corePlugin: false, group: 'plugin', order: 99999 };
   selector?: string;
   important: boolean;
   property: Property[];
   atRules?: string[];
+  unique?: number;
   private _pseudoClasses?: string[];
   private _pseudoElements?: string[];
   private _parentSelectors?: string[];
@@ -277,11 +279,19 @@ export class Style {
 
   atRule(atrule?: string, append = true): this {
     if (!atrule) return this;
+    if (atrule === '@font-face') {
+      this.markUnique();
+    }
     if (this.atRules) {
       append ? this.atRules.push(atrule) : this.atRules.unshift(atrule);
     } else {
       this.atRules = [atrule];
     }
+    return this;
+  }
+
+  markUnique(): this {
+    this.unique = Style._uniqueBase++;
     return this;
   }
 
