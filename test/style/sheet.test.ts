@@ -27,11 +27,17 @@ describe('StyleSheet', () => {
   });
 
   it('extend styleSheet', () => {
-    expect(
-      new StyleSheet([s1, s2]).extend(new StyleSheet([s2, s3])).children
-    ).toEqual([s1, s2, s2, s3]);
+    expect(new StyleSheet([s1, s2]).extend(new StyleSheet([s2, s3])).children).toEqual([s1, s2, s2, s3]);
     const ss = new StyleSheet();
     expect(ss.extend(undefined)).toBe(ss);
+  });
+
+  it('extend same style', () => {
+    const s1 = new Style('.a', new Property('color', 'red'));
+    const s2 = new Style('.b', new Property('color', 'blue'));
+    const ss1 = new StyleSheet([ s1, s2 ]);
+    const ss2 = new StyleSheet([ s1, s2 ]);
+    expect(ss1.extend(ss2, undefined, true).children.length).toEqual(2);
   });
 
   it('prepend styleSheet', () => {

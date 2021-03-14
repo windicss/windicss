@@ -21,11 +21,15 @@ export class StyleSheet {
     return this;
   }
 
-  extend(styleSheet: StyleSheet | undefined, append = true): this {
-    if (styleSheet)
-      this.children = append
-        ? [...this.children, ...styleSheet.children]
-        : [...styleSheet.children, ...this.children];
+  extend(styleSheet: StyleSheet | undefined, append = true, deDuplication = false): this {
+    if (styleSheet) {
+      let extended = styleSheet.children;
+      if (deDuplication) {
+        const hashes = extended.map(i => hash(i.build()));
+        extended = extended.filter(i => !hashes.includes(hash(i.build())));
+      }
+      this.children = append? [...this.children, ...extended]: [...extended, ...this.children];
+    }
     return this;
   }
 
