@@ -87,6 +87,16 @@ Tools / backgroundImage config test / Background Image / 0: |-
   .bg-home-pattern {
     background-image: url('./src/assets/home.svg');
   }
+Tools / border radius fraction / css / 0: |-
+  .rounded-1\/2 {
+    border-radius: 50%;
+  }
+  .rounded-1 {
+    border-radius: 100%;
+  }
+  .rounded-1\/4 {
+    border-radius: 25%;
+  }
 Tools / container max-width test / container / 0: |-
   .container {
     width: 100%;

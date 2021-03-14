@@ -131,6 +131,7 @@ export const baseConfig: Config = {
       '2xl': '1rem',
       '3xl': '1.5rem',
       // nxl
+      '1': '100%',
       full: '9999px',
     },
     borderWidth: {

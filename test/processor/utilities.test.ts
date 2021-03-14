@@ -141,4 +141,9 @@ describe('Utilities', () => {
     expect(processor.interpret('container max-w-md').styleSheet.build()).toMatchSnapshot('container');
     expect(processor.interpret('container max-w-md sm:container sm:max-w-md').styleSheet.build()).toMatchSnapshot('reponsive container');
   });
+
+  it('border radius fraction', () => {
+    const processor = new Processor();
+    expect(processor.interpret('rounded-1/2 rounded-1 rounded-1/4').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

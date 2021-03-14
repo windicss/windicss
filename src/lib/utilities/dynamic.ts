@@ -559,6 +559,7 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
   if (!directions) return;
   return utility.handler
     .handleStatic(theme('borderRadius'))
+    .handleFraction()
     .handleNxl((number: number) => `${number * 0.5}rem`)
     .handleSize()
     .handleVariable()
