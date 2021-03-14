@@ -31,12 +31,17 @@ export class StyleSheet {
 
   combine(): this {
     const styleMap: { [key: string]: Style } = {};
-    this.children.forEach((v) => {
-      const hashValue = hash(v.atRules + v.rule);
+    this.children.forEach((style, index) => {
+      const hashValue = hash(style.atRules + style.rule);
       if (hashValue in styleMap) {
-        styleMap[hashValue] = styleMap[hashValue].extend(v, true);
+        if (style.atRules?.includes('@font-face')) {
+          // keeps multiple @font-face
+          styleMap[hashValue + index] = style;
+        } else {
+          styleMap[hashValue] = styleMap[hashValue].extend(style, true);
+        }
       } else {
-        styleMap[hashValue] = v;
+        styleMap[hashValue] = style;
       }
     });
     this.children = Object.values(styleMap).map((i) => i.clean()); //.sort());

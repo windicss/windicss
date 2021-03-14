@@ -307,4 +307,21 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse().sort(true).children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
   });
+
+  it('keeps multiple @font-face', () => {
+    const css = `
+    @font-face {
+      font-family: Proxima Nova;
+      font-weight: 400;
+      src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
+    }
+    @font-face {
+      font-family: Proxima Nova;
+      font-weight: 700;
+      src: url(/fonts/proxima-nova/700-regular.woff) format("woff");
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });
