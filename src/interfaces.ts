@@ -83,6 +83,7 @@ export interface PluginOutputWithOptions<T = DictStr> extends PluginOutput {
 export type ThemeType = ConfigUtil | Record<string, any> | undefined
 
 export interface BaseTheme {
+  vars: ThemeType
   screens: ThemeType
   colors: ThemeType
   spacing: ThemeType

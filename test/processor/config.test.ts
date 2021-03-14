@@ -309,4 +309,15 @@ describe('Config', () => {
     });
     expect(processor.interpret('cursor-pointer bg-red-200 bg-green-300 font-bold container').success.length).toEqual(3);
   });
+
+  it('variables theme config', () => {
+    const processor = new Processor({
+      theme: {
+        vars: {
+          primary: '#6366f1',
+        },
+      },
+    });
+    expect(processor.preflight(undefined, false, false, true).build()).toMatchSnapshot('css');
+  });
 });

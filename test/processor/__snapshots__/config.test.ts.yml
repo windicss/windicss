@@ -315,3 +315,7 @@ Tools / shortcuts config string / shortcuts string / 0: |-
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
   }
+Tools / variables theme config / css / 0: |-
+  :root {
+    --primary: #6366f1;
+  }

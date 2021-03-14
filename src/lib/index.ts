@@ -32,6 +32,7 @@ import type {
   UtilityGenerator,
   VariantGenerator,
   ThemeType,
+  NestObject,
 } from '../interfaces';
 
 import type { Utility } from './utilities/handler';
@@ -200,12 +201,19 @@ export class Processor {
     this._plugin[type][key] = key in this._plugin[type] ? [...this._plugin[type][key], ...styles] : styles;
   }
 
+  private _loadVariables() {
+    const config = this.theme('vars') as NestObject | undefined;
+    if (!config) return;
+    this.addBase({ ':root': Object.assign({}, ...Object.keys(config).map(i => ({ [`--${i}`]: config[i] }))) as NestObject });
+  }
+
   resolveConfig(config: Config | undefined, presets: Config): Config {
     this._config = this._resolveConfig({ ...deepCopy(config ? config : {}), exclude: config?.exclude }, deepCopy(presets)); // deep copy
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config.plugins?.map(i => typeof i === 'function' ? ('__isOptionsFunction' in i ? this.loadPluginWithOptions(i): this.loadPlugin(plugin(i))) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
     this._variants = this.resolveVariants();
+    this._loadVariables();
     if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).map(i => ({ [i]: true }))), ...this._config.corePlugins };
     return this._config;
   }
