@@ -1,6 +1,6 @@
 <h1 align="center">
 <a href="https://github.com/windicss/windicss/wiki">
-  <img src="https://windicss.org/assets/logo.svg" alt="Windi CSS Logo" height="120" width="120"/><br>
+  <img src="https://next.windicss.org/assets/logo.svg" alt="Windi CSS Logo" height="120" width="120"/><br>
 </a>
   Windi CSS
 </h1>
