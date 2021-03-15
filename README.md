@@ -15,12 +15,8 @@
   <br>
 </p>
 
-<p align="center">Next-generation <a href="https://tailwindcss.com/docs">Tailwind CSS</a> compiler.</p>
+<p align="center">Next generation utility-first CSS framework.</p>
 
-<p>If you are already familiar with Tailwind CSS, think about Windi CSS as an alternative to it. Which provides faster load time, full compatibility with Tailwind v2.0 with even more features.</p>
-<p>Otherwise, you can think of Windi CSS as a utility-first CSS library.</p>
-
-[tailwind css]: https://tailwindcss.com/docs
 [windi css]: https://windicss.org
 [website]: https://windicss.org
 [video comparison]: https://twitter.com/antfu7/status/1361398324587163648
