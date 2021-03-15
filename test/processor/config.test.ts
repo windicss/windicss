@@ -336,4 +336,28 @@ describe('Config', () => {
   background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
 }`);
   });
+
+  it('presets test', () => {
+    const processor = new Processor({
+      presets: [
+        {
+          theme: {
+            colors: {
+              blue: {
+                light: '#85d7ff',
+                DEFAULT: '#1fb6ff',
+                dark: '#009eeb',
+              },
+              pink: {
+                light: '#ff7ce5',
+                DEFAULT: '#ff49db',
+                dark: '#ff16d1',
+              },
+            },
+          },
+        },
+      ],
+    });
+    expect(processor.interpret('bg-blue-light bg-blue-500').styleSheet.build()).toEqual('');
+  });
 });

@@ -122,7 +122,7 @@ export class Processor {
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
-    if (userConfig.presets) presets = this._resolvePresets(userConfig.presets);
+    if (userConfig.presets) presets = combineConfig(presets, this._resolvePresets(userConfig.presets));
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
     const extendTheme: Theme = userTheme?.extend ?? {};
@@ -160,7 +160,7 @@ export class Processor {
 
   private _resolvePresets(presets: Config[]) {
     let config: Config = {};
-    presets.forEach((p) => {
+    presets.forEach(p => {
       config = this._resolveConfig(config, p);
     });
     return config;
