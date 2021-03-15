@@ -201,6 +201,7 @@ export interface Config {
   prefix?: string;
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
+  switches?: {[key:string]: Theme};
   [key:string]: any;
   /**
    * @deprecated no longer needed for Windi CSS

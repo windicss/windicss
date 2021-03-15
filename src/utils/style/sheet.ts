@@ -21,10 +21,10 @@ export class StyleSheet {
     return this;
   }
 
-  extend(styleSheet: StyleSheet | undefined, append = true, deDuplication = false): this {
+  extend(styleSheet: StyleSheet | undefined, append = true, dedup = false): this {
     if (styleSheet) {
       let extended = styleSheet.children;
-      if (deDuplication) {
+      if (dedup) {
         const hashes = extended.map(i => hash(i.build()));
         extended = extended.filter(i => !hashes.includes(hash(i.build())));
       }

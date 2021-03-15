@@ -1,4 +1,4 @@
-import { colors } from './colors';
+import { colors, darkColors } from './colors';
 import type { Config } from '../interfaces';
 
 export const baseConfig: Config = {
@@ -824,6 +824,38 @@ export const baseConfig: Config = {
       50: '50',
       // int[0, 99999] ->  int[0, 99999]
       // ...negative
+    },
+  },
+  switches: {
+    'dark': {
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        black: darkColors.black,
+        white: darkColors.white,
+        gray: darkColors.coolGray,
+        red: darkColors.red,
+        yellow: darkColors.amber,
+        green: darkColors.emerald,
+        blue: darkColors.blue,
+        indigo: darkColors.indigo,
+        purple: darkColors.violet,
+        pink: darkColors.pink,
+        rose: darkColors.rose,
+        fuchsia: darkColors.fuchsia,
+        violet: darkColors.violet,
+        cyan: darkColors.cyan,
+        teal: darkColors.teal,
+        emerald: darkColors.emerald,
+        lime: darkColors.lime,
+        amber: darkColors.amber,
+        orange: darkColors.orange,
+        'light-blue': darkColors.lightBlue,
+        'warm-gray': darkColors.warmGray,
+        'true-gray': darkColors.trueGray,
+        'cool-gray': darkColors.coolGray,
+        'blue-gray': darkColors.blueGray,
+      },
     },
   },
   variantOrder: [
