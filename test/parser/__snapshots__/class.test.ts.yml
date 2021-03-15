@@ -1,0 +1,352 @@
+Tools / parse / class parser / 0: |-
+  [
+    {
+      "raw": "font-bold",
+      "start": 0,
+      "end": 9,
+      "variants": [],
+      "content": "font-bold",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "text-green-300",
+      "start": 10,
+      "end": 24,
+      "variants": [],
+      "content": "text-green-300",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "dark:font-medium",
+      "start": 25,
+      "end": 41,
+      "variants": [
+        "dark"
+      ],
+      "content": "font-medium",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "dark:p-4",
+      "start": 42,
+      "end": 50,
+      "variants": [
+        "dark"
+      ],
+      "content": "p-4",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "-sm:border",
+      "start": 51,
+      "end": 61,
+      "variants": [
+        "-sm"
+      ],
+      "content": "border",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "+sm:float-right",
+      "start": 62,
+      "end": 77,
+      "variants": [
+        "+sm"
+      ],
+      "content": "float-right",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "md: hover:  (bg-black-300 text-gray-200   text-lg dark:(bg-black-300 text-gray-200))",
+      "start": 78,
+      "end": 162,
+      "variants": [
+        "md",
+        "hover"
+      ],
+      "content": [
+        {
+          "raw": "bg-black-300",
+          "start": 91,
+          "end": 103,
+          "variants": [],
+          "content": "bg-black-300",
+          "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "text-gray-200",
+          "start": 104,
+          "end": 117,
+          "variants": [],
+          "content": "text-gray-200",
+          "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "text-lg",
+          "start": 120,
+          "end": 127,
+          "variants": [],
+          "content": "text-lg",
+          "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "dark:(bg-black-300 text-gray-200)",
+          "start": 128,
+          "end": 161,
+          "variants": [
+            "dark"
+          ],
+          "content": [
+            {
+              "raw": "bg-black-300",
+              "start": 134,
+              "end": 146,
+              "variants": [],
+              "content": "bg-black-300",
+              "type": "utility",
+              "important": false
+            },
+            {
+              "raw": "text-gray-200",
+              "start": 147,
+              "end": 160,
+              "variants": [],
+              "content": "text-gray-200",
+              "type": "utility",
+              "important": false
+            }
+          ],
+          "type": "group",
+          "important": false
+        }
+      ],
+      "type": "group",
+      "important": false
+    },
+    {
+      "raw": "md:text-red-500",
+      "start": 163,
+      "end": 178,
+      "variants": [
+        "md"
+      ],
+      "content": "text-red-500",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "hover:  text-red-300",
+      "start": 179,
+      "end": 199,
+      "variants": [
+        "hover"
+      ],
+      "content": "text-red-300",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "sm:hover:bg-red-500",
+      "start": 215,
+      "end": 234,
+      "variants": [
+        "sm",
+        "hover"
+      ],
+      "content": "bg-red-500",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "dark:hover:bg-black-300",
+      "start": 235,
+      "end": 258,
+      "variants": [
+        "dark",
+        "hover"
+      ],
+      "content": "bg-black-300",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "sm:dark:hover:bg-gray-300",
+      "start": 259,
+      "end": 284,
+      "variants": [
+        "sm",
+        "dark",
+        "hover"
+      ],
+      "content": "bg-gray-300",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "abc",
+      "start": 285,
+      "end": 288,
+      "variants": [],
+      "content": "abc",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-cool-gray-300",
+      "start": 289,
+      "end": 305,
+      "variants": [],
+      "content": "bg-cool-gray-300",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-hex-fff",
+      "start": 306,
+      "end": 316,
+      "variants": [],
+      "content": "bg-hex-fff",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-rgb(32,31,22)",
+      "start": 317,
+      "end": 333,
+      "variants": [],
+      "func": "bg-rgb",
+      "content": "32,31,22",
+      "type": "func",
+      "important": false
+    },
+    {
+      "raw": "bg-raw(#fff)",
+      "start": 334,
+      "end": 346,
+      "variants": [],
+      "func": "bg-raw",
+      "content": "#fff",
+      "type": "func",
+      "important": false
+    },
+    {
+      "raw": "bg-rgba(255, 0, 0, 0.3)",
+      "start": 347,
+      "end": 370,
+      "variants": [],
+      "func": "bg-rgba",
+      "content": "255, 0, 0, 0.3",
+      "type": "func",
+      "important": false
+    },
+    {
+      "raw": "bg-hsl(0, 100%, 25%)",
+      "start": 371,
+      "end": 391,
+      "variants": [],
+      "func": "bg-hsl",
+      "content": "0, 100%, 25%",
+      "type": "func",
+      "important": false
+    },
+    {
+      "raw": "bg-hsla(0, 100%, 50%, 0.5)",
+      "start": 392,
+      "end": 418,
+      "variants": [],
+      "func": "bg-hsla",
+      "content": "0, 100%, 50%, 0.5",
+      "type": "func",
+      "important": false
+    }
+  ]
+Tools / parse important / parse important / 0: |-
+  [
+    {
+      "raw": "!text-green-300",
+      "start": 0,
+      "end": 15,
+      "variants": [],
+      "content": "text-green-300",
+      "type": "utility",
+      "important": true
+    },
+    {
+      "raw": "font-bold",
+      "start": 16,
+      "end": 25,
+      "variants": [],
+      "content": "font-bold",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "!hover:(p-4 bg-red-500)",
+      "start": 26,
+      "end": 49,
+      "variants": [
+        "hover"
+      ],
+      "content": [
+        {
+          "raw": "p-4",
+          "start": 34,
+          "end": 37,
+          "variants": [],
+          "content": "p-4",
+          "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "bg-red-500",
+          "start": 38,
+          "end": 48,
+          "variants": [],
+          "content": "bg-red-500",
+          "type": "utility",
+          "important": false
+        }
+      ],
+      "type": "group",
+      "important": true
+    },
+    {
+      "raw": "focus:(!border float-right)",
+      "start": 50,
+      "end": 77,
+      "variants": [
+        "focus"
+      ],
+      "content": [
+        {
+          "raw": "!border",
+          "start": 57,
+          "end": 64,
+          "variants": [],
+          "content": "border",
+          "type": "utility",
+          "important": true
+        },
+        {
+          "raw": "float-right",
+          "start": 65,
+          "end": 76,
+          "variants": [],
+          "content": "float-right",
+          "type": "utility",
+          "important": false
+        }
+      ],
+      "type": "group",
+      "important": false
+    }
+  ]

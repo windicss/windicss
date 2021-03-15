@@ -358,6 +358,6 @@ describe('Config', () => {
         },
       ],
     });
-    expect(processor.interpret('bg-blue-light bg-blue-500').styleSheet.build()).toEqual('');
+    expect(processor.interpret('bg-blue-light bg-blue-500').styleSheet.build()).toMatchSnapshot('css');
   });
 });
