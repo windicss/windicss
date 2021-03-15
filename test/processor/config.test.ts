@@ -281,7 +281,7 @@ describe('Config', () => {
           hsl: 'hsl(120, 100%, 50%)',
           hsla: 'hsla(120, 100%, 75%, 0.3)',
           hwb: 'hwb(280, 40%, 60%)',
-          hwba: 'hwb(280, 40%, 60%, 0)',
+          hwba: 'hwb(280, 40%, 60%, 0.7)',
           srgb: 'rgb(69.99%, 32%, 32%)',
         },
       },
@@ -319,5 +319,21 @@ describe('Config', () => {
       },
     });
     expect(processor.preflight(undefined, false, false, true).build()).toMatchSnapshot('css');
+  });
+
+  it('config for alpha channel', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            background: 'rgba(255, 0, 0, 0.5)',
+          },
+        },
+      },
+    });
+    expect(processor.interpret('bg-background').styleSheet.build()).toEqual(`.bg-background {
+  --tw-bg-opacity: 0.5;
+  background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
+}`);
   });
 });

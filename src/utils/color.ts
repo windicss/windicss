@@ -65,3 +65,11 @@ export function toRGBA(color: string): Color | undefined {
 export function toRGB(color: string): number[] | undefined {
   return toRGBA(color)?.slice(0, 3);
 }
+
+export function toColor(color: string) : { color: string, opacity: string } {
+  const rgba = toRGBA(color) ?? [255, 255, 255, 1];
+  return {
+    color: rgba.slice(0, 3).join(', '),
+    opacity: rgba[3].toString(),
+  };
+}

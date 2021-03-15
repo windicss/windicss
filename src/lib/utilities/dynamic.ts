@@ -1,7 +1,7 @@
 import { Utility } from './handler';
 import { pluginOrder } from '../../config/order';
 import { dashToCamel, toType } from '../../utils/tools';
-import { toRGB } from '../../utils/color';
+import { toColor } from '../../utils/color';
 import { Property, Style, Keyframes, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
@@ -398,9 +398,10 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   value = utility.handler.handleColor(theme('textColor')).handleVariable().value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+    const { color, opacity } = toColor(value);
     return new Style(utility.class, [
-      new Property('--tw-text-opacity', '1'),
-      new Property('color', `rgba(${value.startsWith('var') ? value : toRGB(value)?.join(', ')}, var(--tw-text-opacity))`),
+      new Property('--tw-text-opacity', opacity),
+      new Property('color', `rgba(${value.startsWith('var') ? value : color}, var(--tw-text-opacity))`),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 });
   }
 }
@@ -473,8 +474,8 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   if (!value) return;
   if (value.startsWith('var')) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
   if (['transparent', 'currentColor'].includes(value)) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
-  const rgb = value.startsWith('var') ? value : toRGB(value)?.join(', ');
-  return generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', '1'), new Property('color', `rgba(${rgb}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
+  const { color, opacity } = toColor(value);
+  return generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
 }
 
 // https://tailwindcss.com/docs/background-color
@@ -506,14 +507,13 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-bg-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundOpacity', order: pluginOrder['backgroundOpacity'] + 1 });
   // handle background color
-  const value = utility.handler
-    .handleColor(theme('backgroundColor'))
-    .handleVariable().value;
+  const value = utility.handler.handleColor(theme('backgroundColor')).handleVariable().value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('background-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
+    const { color, opacity } = toColor(value);
     return new Style(utility.class, [
-      new Property('--tw-bg-opacity', '1'),
-      new Property('background-color', `rgba(${toRGB(value)?.join(', ')}, var(--tw-bg-opacity))`),
+      new Property('--tw-bg-opacity', opacity),
+      new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 2 });
   }
 }
@@ -522,7 +522,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().value;
   if (value) {
-    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
+    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toColor(value).color;
     return new Style(utility.class, [
       new Property('--tw-gradient-from', value),
       new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`),
@@ -536,7 +536,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('gradientColorStops'))
     .handleVariable().value;
   if (value) {
-    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toRGB(value)?.join(', ');
+    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toColor(value).color;
     return new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`
     ).updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 });
   }
@@ -584,9 +584,10 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler.handleColor(theme('borderColor')).handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined).value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
+    const { color, opacity } = toColor(value);
     return new Style(utility.class, [
-      new Property('--tw-border-opacity', '1'),
-      new Property('border-color', value.startsWith('var') ? value: `rgba(${toRGB(value)?.join(', ')}, var(--tw-border-opacity))`),
+      new Property('--tw-border-opacity', opacity),
+      new Property('border-color', value.startsWith('var') ? value: `rgba(${color}, var(--tw-border-opacity))`),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 });
   }
   // handle border width
@@ -621,9 +622,10 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
   let value = utility.handler.handleColor(theme('divideColor')).handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined).value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
+    const { color, opacity } = toColor(value);
     return new Style(utility.class, [
-      new Property('--tw-divide-opacity', '1'),
-      new Property('border-color', value.startsWith('var') ? value : `rgba(${toRGB(value)?.join(', ')}, var(--tw-divide-opacity))`),
+      new Property('--tw-divide-opacity', opacity),
+      new Property('border-color', value.startsWith('var') ? value : `rgba(${color}, var(--tw-divide-opacity))`),
     ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 2 });
   }
   // handle divide width
@@ -715,9 +717,10 @@ function ring(utility: Utility, utils: PluginUtils): Output {
     .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined).value;
   if (value) {
     if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Style(utility.class, [ new Property('--tw-ring-color', value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
+    const { color, opacity } = toColor(value);
     return new Style(utility.class, [
-      new Property('--tw-ring-opacity', '1'),
-      new Property('--tw-ring-color', `rgba(${toRGB(value)?.join(', ')}, var(--tw-ring-opacity))`),
+      new Property('--tw-ring-opacity', opacity),
+      new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 2 });
   }
   // handle ring width

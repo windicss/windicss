@@ -1,4 +1,4 @@
-import { toRGB, toRGBA } from '../../src/utils/color';
+import { toRGB, toRGBA, toColor } from '../../src/utils/color';
 
 describe('color utils', () => {
   it('convert color', () => {
@@ -28,5 +28,9 @@ describe('color utils', () => {
     ]);
 
     expect(toRGB('#1c1c1e')).toEqual([ 28, 28, 30]);
+    expect(toColor('rgba(23, 23, 25, 0.5)')).toEqual({
+      color: '23, 23, 25',
+      opacity: '0.5',
+    });
   });
 });
