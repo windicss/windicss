@@ -350,11 +350,40 @@ describe('Config', () => {
                 dark: '#ff16d1',
               },
             },
+            extend: {
+              flexGrow: {
+                2: '20',
+              },
+            },
+          },
+        },
+        {
+          theme: {
+            colors: {
+              pink: {
+                light: '#ff7ce5',
+                DEFAULT: '#ff49db',
+                dark: '#ff16d1',
+              },
+            },
           },
         },
       ],
+      theme: {
+        extend: {
+          minHeight: {
+            48: '12rem',
+          },
+        },
+      },
     });
-    expect(processor.interpret('bg-blue-light bg-blue-500').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.theme('colors.blue.light')).toEqual('#85d7ff');
+    expect(processor.theme('colors.blue.400')).toBeUndefined();
+    expect(processor.theme('minHeight.48')).toEqual('12rem');
+    expect(processor.theme('colors.pink.light')).toEqual('#ff7ce5');
+    expect(processor.theme('colors.pink.500')).toBeUndefined();
+    expect(processor.theme('flexGrow.0')).toEqual('0');
+    expect(processor.theme('flexGrow.2')).toEqual('20');
   });
 
   it('darkColor test', () => {

@@ -2,17 +2,22 @@ import { defineConfig } from '../../src/helpers';
 
 defineConfig({
   theme: {
-    // @ts-expect-error disallow coexist of theme and extend
-    extend: {},
-    animation: {},
+    extend: {
+      // @ts-expect-error disallow nested configs
+      extend: {},
+    },
   },
 });
 
+// works
 defineConfig({
   theme: {
-    // @ts-expect-error disallow nested configs
+    spacing: {
+      '128': '32rem',
+      '144': '36rem',
+    },
     extend: {
-      extend: {},
+      animation: {},
     },
   },
 });

@@ -194,15 +194,6 @@ Tools / important string test / css / 1: |-
     --tw-bg-opacity: 1;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   }
-Tools / presets test / css / 0: |-
-  .bg-blue-light {
-    --tw-bg-opacity: 1;
-    background-color: rgba(133, 215, 255, var(--tw-bg-opacity));
-  }
-  .bg-blue-500 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
-  }
 Tools / resolveConfig should extend correctly / order / 0: |-
   {
     "1": "1",

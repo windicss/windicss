@@ -174,9 +174,7 @@ export interface BaseTheme {
   typography: ThemeType
 }
 
-export type ResolvedTheme = Partial<BaseTheme> | { [ key:string ]: ThemeType }
-
-export type Theme = { extend: ResolvedTheme & { extend?: undefined } } | (ResolvedTheme & { extend?: undefined })
+export type Theme = Partial<BaseTheme> | ({ [ key:string ]: ThemeType } & { extend?: Theme & { extend?: undefined } })
 
 export type Plugin =
   | PluginFunction

@@ -121,19 +121,22 @@ export class Processor {
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
   }
 
-  private _resolveConfig(userConfig: Config, presets: Config = {}) {
-    if (userConfig.presets) presets = combineConfig(presets, this._resolvePresets(userConfig.presets));
+  private _resolveConfig(userConfig: Config, presets: Config = {}, handleExtend = true) {
+    if (userConfig.presets) {
+      presets = this.resolveConfig(this._resolvePresets(userConfig.presets), presets);
+      delete userConfig.presets;
+    }
     const userTheme = userConfig.theme;
     if (userTheme) delete userConfig.theme;
-    const extendTheme: Theme = userTheme?.extend ?? {};
+    const extendTheme: Theme = userTheme && 'extend' in userTheme ? userTheme.extend ?? {} : {};
     const theme = (presets.theme || {}) as Record<string, ThemeType>;
     if (userTheme) {
-      delete userTheme.extend;
+      if ('extend' in userTheme && handleExtend) delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
         theme[key] = typeof value === 'function' ? value : { ...value };
       }
     }
-    if (extendTheme && typeof extendTheme === 'object') {
+    if (extendTheme && typeof extendTheme === 'object' && handleExtend) {
       for (const [key, value] of Object.entries(extendTheme)) {
         const themeValue = theme[key];
         if (typeof themeValue === 'function') {
@@ -161,7 +164,7 @@ export class Processor {
   private _resolvePresets(presets: Config[]) {
     let config: Config = {};
     presets.forEach(p => {
-      config = this._resolveConfig(config, p);
+      config = this._resolveConfig(config, p, false);
     });
     return config;
   }
@@ -169,7 +172,7 @@ export class Processor {
   private _resolveFunction(config: Config) {
     if (!config.theme) return config;
     const theme = (path: string, defaultValue?: unknown) => this.theme(path, defaultValue);
-    for (const dict of [config.theme, config.theme.extend ?? {}]) {
+    for (const dict of [config.theme, 'extend' in config.theme ? config.theme.extend ?? {} : {}]) {
       for (const [key, value] of Object.entries(dict)) {
         if (typeof value === 'function') {
           (dict as Record<string, ThemeType>)[key] = value(theme, {
