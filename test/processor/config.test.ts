@@ -374,7 +374,6 @@ describe('Config', () => {
         },
       },
     });
-    console.log(processor.config('theme.colors.blue'));
     expect(processor.interpret('~dark:text-red-500').styleSheet.build()).toMatchSnapshot('css');
     expect(processor.interpret('~dark:(text-blue-400 placeholder-gray-200 bg-green-300 divide-red-200)').styleSheet.build()).toMatchSnapshot('css');
   });
