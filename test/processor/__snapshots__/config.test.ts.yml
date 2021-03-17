@@ -59,6 +59,48 @@ Tools / color config test / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
   }
+Tools / darkColor test / css / 0: |-
+  .\~dark\:text-red-500 {
+    --tw-text-opacity: 1;
+    color: rgba(239, 68, 68, var(--tw-text-opacity));
+  }
+  @media (prefers-color-scheme: dark) {
+    .\~dark\:text-red-500 {
+      --tw-text-opacity: 1;
+      color: rgba(159, 14, 14, var(--tw-text-opacity));
+    }
+  }
+Tools / darkColor test / css / 1: |-
+  .\~dark\:divide-red-200 > :not([hidden]) ~ :not([hidden]) {
+    --tw-divide-opacity: 1;
+    border-color: rgba(254, 202, 202, var(--tw-divide-opacity));
+  }
+  .\~dark\:bg-green-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(110, 231, 183, var(--tw-bg-opacity));
+  }
+  .\~dark\:placeholder-gray-200::placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(28, 28, 30, var(--tw-placeholder-opacity));
+  }
+  .\~dark\:text-blue-400 {
+    --tw-text-opacity: 1;
+    color: rgba(51, 154, 240, var(--tw-text-opacity));
+  }
+  @media (prefers-color-scheme: dark) {
+    .\~dark\:divide-red-200 > :not([hidden]) ~ :not([hidden]) {
+      --tw-divide-opacity: 1;
+      border-color: rgba(82, 2, 2, var(--tw-divide-opacity));
+    }
+    .\~dark\:bg-green-300 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(22, 131, 98, var(--tw-bg-opacity));
+    }
+    .\~dark\:text-blue-400 {
+      --tw-text-opacity: 1;
+      color: rgba(165, 216, 255, var(--tw-text-opacity));
+    }
+  }
 Tools / different colors / colors / 0: |-
   .bg-name {
     --tw-bg-opacity: 1;
@@ -140,6 +182,18 @@ Tools / handle nest colors / colors / 0: |-
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
+Tools / important string test / css / 0: |-
+  @media (min-width: 640px) {
+    #app .sm\:bg-black {
+      --tw-bg-opacity: 1;
+      background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+    }
+  }
+Tools / important string test / css / 1: |-
+  .dark #app .dark\:bg-white {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+  }
 Tools / presets test / css / 0: |-
   .bg-blue-light {
     --tw-bg-opacity: 1;
@@ -170,16 +224,46 @@ Tools / resolveConfig should extend correctly / order / 0: |-
   }
 Tools / resolveConfig should not overwrite theme function / extend-colors-red / 1: |-
   {
-    "50": "#fef2f2",
-    "100": "#fee2e2",
-    "200": "#fecaca",
-    "300": "#fca5a5",
-    "400": "#f87171",
-    "500": "#ef4444",
-    "600": "#dc2626",
-    "700": "#b91c1c",
-    "800": "#991b1b",
-    "900": "#7f1d1d",
+    "50": [
+      "#fef2f2",
+      "#370404"
+    ],
+    "100": [
+      "#fee2e2",
+      "#430202"
+    ],
+    "200": [
+      "#fecaca",
+      "#520202"
+    ],
+    "300": [
+      "#fca5a5",
+      "#670303"
+    ],
+    "400": [
+      "#f87171",
+      "#860707"
+    ],
+    "500": [
+      "#ef4444",
+      "#9f0e0e"
+    ],
+    "600": [
+      "#dc2626",
+      "#ae1c1c"
+    ],
+    "700": [
+      "#b91c1c",
+      "#941616"
+    ],
+    "800": [
+      "#991b1b",
+      "#7a1616"
+    ],
+    "900": [
+      "#7f1d1d",
+      "#661717"
+    ],
     "custom": "#ea1851"
   }
 Tools / resolveConfig should not overwrite theme function / extend-width / 0: |-

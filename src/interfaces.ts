@@ -188,6 +188,8 @@ export type Shortcut = string | NestObject;
 // '@apply': 'font-bold hover:bg-red-500',
 // 'background': 'white',
 
+export type DarkModeConfig = 'class' | 'media' | false;
+
 export interface Config {
   presets?: Config[];
   prefixer?: boolean;
@@ -201,7 +203,6 @@ export interface Config {
   prefix?: string;
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
-  switches?: {[key:string]: Theme};
   [key:string]: any;
   /**
    * @deprecated no longer needed for Windi CSS
@@ -232,7 +233,7 @@ export interface DefaultTheme {
 
 export interface DefaultConfig {
   presets: string[];
-  darkMode: 'class' | 'media' | false;
+  darkMode: DarkModeConfig;
   theme: DefaultTheme;
   variantOrder: string[];
   variants: { [key: string]: string[] };
@@ -247,7 +248,7 @@ export interface StaticUtility {
 }
 
 export interface DynamicUtility {
-  [key: string]: (utility: Utility, { theme }: PluginUtils) => Output;
+  [key: string]: (utility: Utility, { theme }: PluginUtils, variants: string[]) => Output;
 }
 
 export interface PluginUtils {

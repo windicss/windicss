@@ -77,3 +77,15 @@ export function generatePlaceholder(selector: string, property: Property | Prope
     new Style(selector, property).pseudoElement('placeholder'),
   ];
 }
+
+export function toDarkStyle(style: Style, mode: 'media' | 'class' | false): Style
+export function toDarkStyle(style: Style[], mode: 'media' | 'class' | false): Style[]
+export function toDarkStyle(style: Style | Style[], mode: 'media' | 'class' | false): Style | Style[] {
+  if (!mode) return style;
+  if (Array.isArray(style)) {
+    if (mode === 'media') return style.map(i => new Style().atRule('@media (prefers-color-scheme: dark)').extend(i));
+    return style.map(i => new Style().parent('.dark').extend(i));
+  }
+  if (mode === 'media') return new Style().atRule('@media (prefers-color-scheme: dark)').extend(style);
+  return new Style().parent('.dark').extend(style);
+}

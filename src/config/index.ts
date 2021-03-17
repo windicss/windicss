@@ -1,5 +1,5 @@
 export { baseConfig } from './base';
-export { colors } from './colors';
+export { colors, darkColors } from './colors';
 export const twExclude = [
   /-hex-/,                      // disable hex color
   /-\$/,                        // disable variable

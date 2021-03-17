@@ -109,6 +109,29 @@ export default [
     ],
   },
 
+  // darkColors
+  {
+    input: 'src/darkColors.ts',
+    output: [
+      {
+        file: dump('darkColors.js'),
+        format: 'cjs',
+        exports: 'default',
+        paths: (id) => `./${path.relative('./src', id)}/index.js`,
+      },
+      {
+        file: dump('darkColors.mjs'),
+        format: 'esm',
+        paths: (id) => `./${path.relative('./src', id)}/index.mjs`,
+      },
+    ],
+    external: (id) => id.startsWith('./'),
+    plugins: [
+      ts_plugin,
+      types("darkColors.d.ts", "./types/config", "{ darkColors as default }"),
+    ],
+  },
+
   // defaultConfig
   {
     input: 'src/defaultConfig.ts',

@@ -47,7 +47,7 @@ jasmine.loadConfigFile(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.configureDefaultReporter({ showColors: true });
 jasmine.loadConfig(resolve(__dirname, '..', 'jasmine.json'));
 jasmine.onComplete((passed) => {
-  finishSnapshots();
+  finishSnapshots(passed);
   if (!passed) setTimeout(() => process.exit(1));
 });
 jasmine.execute();

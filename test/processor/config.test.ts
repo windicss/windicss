@@ -109,12 +109,8 @@ describe('Config', () => {
 
   it('important string test', () => {
     const processor = new Processor({ important: '#app' });
-    expect(processor.interpret('sm:bg-black').styleSheet.build()).toBe(
-      '@media (min-width: 640px) {\n  #app .sm\\:bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}'
-    );
-    expect(processor.interpret('dark:bg-white').styleSheet.build()).toBe(
-      '.dark #app .dark\\:bg-white {\n  --tw-bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n}'
-    );
+    expect(processor.interpret('sm:bg-black').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('dark:bg-white').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('animation config test', () => {
@@ -359,5 +355,27 @@ describe('Config', () => {
       ],
     });
     expect(processor.interpret('bg-blue-light bg-blue-500').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('darkColor test', () => {
+    const processor = new Processor({
+      darkMode: 'media',
+      prefixer: false,
+      theme: {
+        extend: {
+          colors: {
+            gray: {
+              200: '#1c1c1e',
+            },
+            blue: {
+              400: ['#339AF0', '#A5D8FF'],
+            },
+          },
+        },
+      },
+    });
+    console.log(processor.config('theme.colors.blue'));
+    expect(processor.interpret('~dark:text-red-500').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('~dark:(text-blue-400 placeholder-gray-200 bg-green-300 divide-red-200)').styleSheet.build()).toMatchSnapshot('css');
   });
 });

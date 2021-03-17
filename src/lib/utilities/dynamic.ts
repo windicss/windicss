@@ -5,12 +5,13 @@ import { toColor } from '../../utils/color';
 import { Property, Style, Keyframes, Container } from '../../utils/style';
 import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
+  toDarkStyle,
   generatePlaceholder,
   generateFontSize,
   expandDirection,
 } from '../../utils/helpers';
 
-import type { PluginUtils, FontSize, Output, DynamicUtility } from '../../interfaces';
+import type { PluginUtils, FontSize, Output, DynamicUtility, DarkModeConfig } from '../../interfaces';
 
 // https://tailwindcss.com/docs/container
 function container(utility: Utility, { theme }: PluginUtils): Output {
@@ -376,7 +377,7 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/font-size
 // https://tailwindcss.com/docs/text-opacity
 // https://tailwindcss.com/docs/text-color
-function text(utility: Utility, { theme }: PluginUtils): Output {
+function text(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   // handle font opacity
   if (utility.raw.startsWith('text-opacity')) {
     return utility.handler
@@ -395,14 +396,23 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
 
   // handle colors
-  value = utility.handler.handleColor(theme('textColor')).handleVariable().value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
-    const { color, opacity } = toColor(value);
-    return new Style(utility.class, [
+  const handler = utility.handler.handleColor(theme('textColor')).handleVariable();
+  if (handler.value) {
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Property('color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+    const { color, opacity } = toColor(handler.value);
+    const output = [ new Style(utility.class, [
       new Property('--tw-text-opacity', opacity),
-      new Property('color', `rgba(${value.startsWith('var') ? value : color}, var(--tw-text-opacity))`),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 });
+      new Property('color', `rgba(${handler.value.startsWith('var') ? handler.value : color}, var(--tw-text-opacity))`),
+    ]) ];
+    // handle dark color
+    if (variants.includes('~dark') && handler.meta.darkColor) {
+      const { color, opacity } = toColor(handler.meta.darkColor);
+      output.push(toDarkStyle(new Style(utility.class, [
+        new Property('--tw-text-opacity', opacity),
+        new Property('color', `rgba(${color}, var(--tw-text-opacity))`),
+      ]), config('darkMode') as DarkModeConfig));
+    }
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 }));
   }
 }
 
@@ -460,7 +470,7 @@ function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/placeholder-color
 // https://tailwindcss.com/docs/placeholder-opacity
-function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
+function placeholder(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   // handle placeholder opacity
   if (utility.raw.startsWith('placeholder-opacity')) {
     return utility.handler
@@ -470,12 +480,18 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
       .createProperty('--tw-placeholder-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 });
   }
-  const value = utility.handler.handleColor(theme('placeholderColor')).handleVariable().value;
-  if (!value) return;
-  if (value.startsWith('var')) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
-  if (['transparent', 'currentColor'].includes(value)) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
-  const { color, opacity } = toColor(value);
-  return generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
+  const handler = utility.handler.handleColor(theme('placeholderColor')).handleVariable();
+  if (!handler.value) return;
+  if (handler.value.startsWith('var')) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
+  if (['transparent', 'currentColor'].includes(handler.value)) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
+  const { color, opacity } = toColor(handler.value);
+  let output = generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean);
+  // handle dark color
+  if (variants.includes('~dark') && handler.meta.darkColor) {
+    const { color, opacity } = toColor(handler.meta.darkColor);
+    output = output.concat(toDarkStyle(generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean), config('darkMode') as DarkModeConfig));
+  }
+  return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
 }
 
 // https://tailwindcss.com/docs/background-color
@@ -483,7 +499,7 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
 // https://tailwindcss.com/docs/background-position
 // https://tailwindcss.com/docs/background-size
 // https://tailwindcss.com/docs/background-image
-function background(utility: Utility, { theme }: PluginUtils): Output {
+function background(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const body = utility.body;
   // handle background positions
   const positions = toType(theme('backgroundPosition'), 'object') as { [key: string]: string };
@@ -507,48 +523,53 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-bg-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundOpacity', order: pluginOrder['backgroundOpacity'] + 1 });
   // handle background color
-  const value = utility.handler.handleColor(theme('backgroundColor')).handleVariable().value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Property('background-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
-    const { color, opacity } = toColor(value);
-    return new Style(utility.class, [
-      new Property('--tw-bg-opacity', opacity),
-      new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 2 });
+  const handler = utility.handler.handleColor(theme('backgroundColor')).handleVariable();
+  if (handler.value) {
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Property('background-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
+    const { color, opacity } = toColor(handler.value);
+    // handle dark color
+    const output = [ new Style(utility.class, [ new Property('--tw-bg-opacity', opacity), new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`) ]) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) {
+      const { color, opacity } = toColor(handler.meta.darkColor);
+      output.push(toDarkStyle(new Style(utility.class, [
+        new Property('--tw-bg-opacity', opacity),
+        new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`),
+      ]), config('darkMode') as DarkModeConfig));
+    }
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 2 }));
   }
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops from
-function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
-  const value = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().value;
-  if (value) {
-    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toColor(value).color;
-    return new Style(utility.class, [
-      new Property('--tw-gradient-from', value),
-      new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 1 });
+function gradientColorFrom(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
+  if (handler.value) {
+    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.startsWith('var') ? '255, 255, 255' : toColor(handler.value).color;
+    const output = [ new Style(utility.class, [ new Property('--tw-gradient-from', handler.value), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`) ])];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-gradient-from', handler.meta.darkColor), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${toColor(handler.meta.darkColor).color}, 0))`) ]), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 1 }));
   }
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops via
-function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
-  const value = utility.handler
-    .handleColor(theme('gradientColorStops'))
-    .handleVariable().value;
-  if (value) {
-    const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.startsWith('var') ? '255, 255, 255' : toColor(value).color;
-    return new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`
-    ).updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 });
+function gradientColorVia(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
+  if (handler.value) {
+    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.startsWith('var') ? '255, 255, 255' : toColor(handler.value).color;
+    const output = [ new Style(utility.class, new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.value}, var(--tw-gradient-to, rgba(${rgb}, 0))`)) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.meta.darkColor}, var(--tw-gradient-to, rgba(${toColor(handler.meta.darkColor).color}, 0))`)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 }));
   }
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops to
-function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
-  return utility.handler
-    .handleColor(theme('gradientColorStops'))
-    .handleVariable()
-    .createProperty('--tw-gradient-to')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 3 });
+function gradientColorTo(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
+  if (handler.value) {
+    const output = [ new Style(utility.class, new Property('--tw-gradient-to', handler.value)) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('--tw-gradient-to', handler.meta.darkColor)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 3 }));
+  }
 }
 
 // https://tailwindcss.com/docs/border-radius
@@ -570,7 +591,7 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/border-width
 // https://tailwindcss.com/docs/border-color
 // https://tailwindcss.com/docs/border-opacity
-function border(utility: Utility, { theme }: PluginUtils): Output {
+function border(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   // handle border opacity
   if (utility.raw.startsWith('border-opacity')) {
     return utility.handler
@@ -581,14 +602,16 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderOpacity', order: pluginOrder['borderOpacity'] + 1 });
   }
   // handle border color
-  const value = utility.handler.handleColor(theme('borderColor')).handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined).value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
-    const { color, opacity } = toColor(value);
-    return new Style(utility.class, [
-      new Property('--tw-border-opacity', opacity),
-      new Property('border-color', value.startsWith('var') ? value: `rgba(${color}, var(--tw-border-opacity))`),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 });
+  const handler = utility.handler.handleColor(theme('borderColor')).handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined);
+  if (handler.value) {
+    if (['transparent', 'currentColor'].includes(handler.value)) return new Property('border-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
+    const { color, opacity } = toColor(handler.value);
+    const output = [ new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', handler.value.startsWith('var') ? handler.value: `rgba(${color}, var(--tw-border-opacity))`) ])];
+    if (variants.includes('~dark') && handler.meta.darkColor) {
+      const { color, opacity } = toColor(handler.meta.darkColor);
+      output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', `rgba(${color}, var(--tw-border-opacity))`) ]), config('darkMode') as DarkModeConfig));
+    }
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 }));
   }
   // handle border width
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
@@ -607,7 +630,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/divide-color
 // https://tailwindcss.com/docs/divide-opacity
 // https://tailwindcss.com/docs/divide-style
-function divide(utility: Utility, { theme }: PluginUtils): Output {
+function divide(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   // handle divide style
   if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideStyle', order: pluginOrder['divideStyle'] + 1 });
   // handle divide opacity
@@ -619,14 +642,16 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-divide-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'divideOpacity', order: pluginOrder['divideOpacity'] + 1 });
   // handle divide color
-  let value = utility.handler.handleColor(theme('divideColor')).handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined).value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
-    const { color, opacity } = toColor(value);
-    return new Style(utility.class, [
-      new Property('--tw-divide-opacity', opacity),
-      new Property('border-color', value.startsWith('var') ? value : `rgba(${color}, var(--tw-divide-opacity))`),
-    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 2 });
+  const handler = utility.handler.handleColor(theme('divideColor')).handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined);
+  if (handler.value) {
+    if (['transparent', 'currentColor'].includes(handler.value)) return new Property('border-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
+    const { color, opacity } = toColor(handler.value);
+    const output = [new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', handler.value.startsWith('var') ? handler.value : `rgba(${color}, var(--tw-divide-opacity))`) ])];
+    if (variants.includes('~dark') && handler.meta.darkColor) {
+      const { color, opacity } = toColor(handler.meta.darkColor);
+      output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', `rgba(${color}, var(--tw-divide-opacity))`) ]), config('darkMode') as DarkModeConfig));
+    }
+    return output.map(i => i.child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 2 }));
   }
   // handle divide width
   switch (utility.raw) {
@@ -647,7 +672,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'),
     ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 4 });
   }
-  value = utility.handler
+  const value = utility.handler
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
     .handleSize()
     .handleVariable().value;
@@ -675,7 +700,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/ring-offset-width
 // https://tailwindcss.com/docs/ring-offset-color
-function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
+function ringOffset(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   let value;
   // handle ring offset width variable
   if (utility.raw.startsWith('ringOffset-width-$')) {
@@ -693,16 +718,20 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   }
 
   // handle ring offset color
-  value = utility.handler.handleColor(theme('ringOffsetColor')).handleVariable().value;
-  if (value) return new Property('--tw-ring-offset-color', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetColor', order: pluginOrder['ringOffsetColor'] + 1 });
+  const handler = utility.handler.handleColor(theme('ringOffsetColor')).handleVariable();
+  if (handler.value) {
+    const output = [ new Property('--tw-ring-offset-color', handler.value).toStyle(utility.class.replace('ringOffset', 'ring-offset')) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Property('--tw-ring-offset-color', handler.value).toStyle(utility.class.replace('ringOffset', 'ring-offset')), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetColor', order: pluginOrder['ringOffsetColor'] + 1 }));
+  }
 }
 
 // https://tailwindcss.com/docs/ring-width
 // https://tailwindcss.com/docs/ring-color
 // https://tailwindcss.com/docs/ring-opacity
-function ring(utility: Utility, utils: PluginUtils): Output {
+function ring(utility: Utility, utils: PluginUtils, variants: string[]): Output {
   // handle ring offset
-  if (utility.raw.startsWith('ring-offset')) return ringOffset(new Utility(utility.raw.replace('ring-offset', 'ringOffset')), utils);
+  if (utility.raw.startsWith('ring-offset')) return ringOffset(new Utility(utility.raw.replace('ring-offset', 'ringOffset')), utils, variants);
   // handle ring opacity
   if (utility.raw.startsWith('ring-opacity'))
     return utility.handler
@@ -712,18 +741,19 @@ function ring(utility: Utility, utils: PluginUtils): Output {
       .createProperty('--tw-ring-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOpacity', order: pluginOrder['ringOpacity'] + 1 });
   // handle ring color
-  let value = utility.handler
-    .handleColor(utils.theme('ringColor'))
-    .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined).value;
-  if (value) {
-    if (['transparent', 'currentColor'].includes(value) || value.startsWith('var')) return new Style(utility.class, [ new Property('--tw-ring-color', value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
-    const { color, opacity } = toColor(value);
-    return new Style(utility.class, [
-      new Property('--tw-ring-opacity', opacity),
-      new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 2 });
+  const handler = utility.handler.handleColor(utils.theme('ringColor')).handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined);
+  if (handler.value) {
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Style(utility.class, [ new Property('--tw-ring-color', handler.value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
+    const { color, opacity } = toColor(handler.value);
+    const output = [ new Style(utility.class, [ new Property('--tw-ring-opacity', opacity), new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`) ]) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) {
+      const { color, opacity } = toColor(handler.meta.darkColor);
+      output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-ring-opacity', opacity), new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`) ]), utils.config('darkMode') as DarkModeConfig));
+    }
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 2 }));
   }
   // handle ring width
+  let value;
   if (utility.raw === 'ring-inset') return new Property('--tw-ring-inset', 'inset').updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + 3 });
   if (utility.raw === 'ring') value = toType(utils.theme('ringWidth.DEFAULT'), 'string') ?? '3px';
   value = utility.handler
@@ -900,57 +930,50 @@ function cursor(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://tailwindcss.com/docs/outline
-function outline(utility: Utility, { theme }: PluginUtils): Output {
+function outline(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const amount = utility.amount;
   const staticMap = (toType(theme('outline'), 'object') ?? {}) as { [key: string]: [outline: string, outlineOffset: string] };
-  if (Object.keys(staticMap).includes(amount)) {
-    return new Style(utility.class, [
-      new Property('outline', staticMap[amount][0]),
-      new Property('outline-offset', staticMap[amount][1]),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
-  }
-  let value = utility.handler.handleColor().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined).value;
-  if (value) {
-    return new Style(utility.class, [
-      new Property('outline', `2px ${value === 'transparent' ? 'solid' : 'dotted'} ${value}`),
-      new Property('outline-offset', '2px'),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 });
+  if (Object.keys(staticMap).includes(amount)) return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
+  const handler = utility.handler.handleColor().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
+  if (handler.value) {
+    const output = [ new Style(utility.class, [ new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.value}`), new Property('outline-offset', '2px') ])];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.meta.darkColor}`)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 }));
   }
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
     const newUtility = new Utility(utility.raw.replace('outline-', ''));
-    value = newUtility.handler.handleStatic({ none: 'transparent', white: 'white', black: 'black' }).handleColor().handleVariable().value;
-    if (value) {
-      return new Style(utility.class, [
-        new Property('outline', `2px ${newUtility.identifier} ${value}`),
-        new Property('outline-offset', '2px'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 3 });
+    const handler = newUtility.handler.handleStatic({ none: 'transparent', white: 'white', black: 'black' }).handleColor().handleVariable();
+    if (handler.value) {
+      const output = [ new Style(utility.class, [ new Property('outline', `2px ${newUtility.identifier} ${handler.value}`), new Property('outline-offset', '2px') ]) ];
+      if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('outline', `2px ${newUtility.identifier} ${handler.meta.darkColor}`)), config('darkMode') as DarkModeConfig));
+      return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 3 }));
     }
   }
 }
 
 // https://tailwindcss.com/docs/fill
-function fill(utility: Utility, { theme }: PluginUtils): Output {
-  return utility.handler
-    .handleColor(theme('fill'))
-    .handleVariable()
-    .createProperty('fill')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fill', order: pluginOrder['fill'] + 1 });
+function fill(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
+  const handler = utility.handler.handleColor(theme('fill')).handleVariable();
+  if (handler.value) {
+    const output = [ new Style(utility.class, new Property('fill', handler.value)) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('stroke', handler.meta.darkColor)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'fill', order: pluginOrder['fill'] + 1 }));
+  }
 }
 
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
-function stroke(utility: Utility, { theme }: PluginUtils): Output {
+function stroke(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const value = utility.raw.startsWith('stroke-$')
     ? utility.handler.handleVariable().createProperty('stroke-width')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 2 })
     : utility.handler.handleStatic(theme('strokeWidth')).handleNumber(0, undefined, 'int').createProperty('stroke-width')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 1 });
-  return (
-    value ??
-    utility.handler
-      .handleColor(theme('stroke'))
-      .handleVariable()
-      .createProperty('stroke')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 })
-  );
+  if (value) return value;
+  const handler = utility.handler.handleColor(theme('stroke')).handleVariable();
+  if (handler.value) {
+    const output = [ new Style(utility.class, new Property('stroke', handler.value)) ];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('stroke', handler.meta.darkColor)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 }));
+  }
 }
 
 export const dynamicUtilities: DynamicUtility = {

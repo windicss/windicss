@@ -110,13 +110,13 @@ export function prepreSnapshot(path: string): SnapshotInfo {
   return snapshotCache[path];
 }
 
-export function finishSnapshots(): void {
+export function finishSnapshots(passed: boolean): void {
   for (const snap of Object.values(snapshotCache)) {
     // some case are not touched
     if (!snap.changed && Object.keys(snap).some((i) => !snap.touched.has(i))) {
       snap.changed = true;
     }
-    if (!snap.changed) continue;
+    if (!passed || !snap.changed) continue;
 
     const data: SnapshotData = {};
 

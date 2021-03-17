@@ -1,7 +1,7 @@
 import plugin from '../../dist/plugin';
 import type { PluginUtils } from '../../dist/types/interfaces';
 
-describe('color interface test', () => {
+describe('plugin interface test', () => {
   it('import', () => {
     plugin(function({ addUtilities }) {
       const newUtilities = {

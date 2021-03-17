@@ -1,6 +1,6 @@
-import { colors } from '../../config';
+import { defaultColors } from '../../config/base';
 import { Property } from '../../utils/style';
-import { camelToDash, flatColors } from '../../utils/tools';
+import { flatColors } from '../../utils/tools';
 import { cssEscape } from '../../utils/algorithm';
 import {
   isNumber,
@@ -11,22 +11,16 @@ import {
   hex2RGB,
   negateValue,
 } from '../../utils/tools';
+import { NestObject } from 'src/interfaces';
 
-const DEFAULT_COLORS: { [key: string]: string | { [key: string]: string } } = {
-  transparent: 'transparent',
-  current: 'currentColor',
-  ...colors,
-};
 
-for (const [key, value] of Object.entries(colors)) {
-  DEFAULT_COLORS[camelToDash(key)] = value;
-}
 
 class Handler {
   private _center: string;
   private _amount: string;
   utility: Utility;
   value: string | undefined;
+  meta: { [ key: string ]: any } = {};
   constructor(utility: Utility) {
     this.utility = utility;
     this.value = undefined;
@@ -112,21 +106,27 @@ class Handler {
     return this;
   }
   handleColor(
-    map: { [key: string]: string | { [key: string]: string } } | unknown = DEFAULT_COLORS,
-    callback?: (color: string) => string | undefined
+    map: { [key: string]: string | string[] | { [key: string]: string | string[] } } | unknown = defaultColors
   ) {
     if (this.value) return this;
     let color;
     if (map && typeof map === 'object') {
-      const knownMap = flatColors(map as { [key: string]: string | { [key: string]: string } });
+      const colors = flatColors(map as NestObject);
       const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/, '');
-      if (body in knownMap) {
-        color = knownMap[body];
+      if (body in colors) {
+        color = colors[body];
       } else if (body.startsWith('hex-')) {
         const hex = body.replace('hex-', '');
         if(hex2RGB(hex)) color = '#' + hex;
       }
-      if (color) this.value = callback ? callback(color) : color;
+      if (color) {
+        if (Array.isArray(color)) {
+          this.value = color.slice(-2, -1)[0];
+          this.meta.darkColor = color.slice(-1)[0];
+        } else {
+          this.value = color;
+        }
+      }
     }
     return this;
   }

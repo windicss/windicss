@@ -287,8 +287,8 @@ export class Processor {
     return style;
   }
 
-  extract(className: string, addComment = false): Style | Style[] | undefined {
-    return extract(this, className, addComment);
+  extract(className: string, addComment = false, variants?: string[]): Style | Style[] | undefined {
+    return extract(this, className, addComment, variants);
   }
 
   preflight(
@@ -351,7 +351,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      let result = this.extract(baseClass);
+      let result = this.extract(baseClass, false, variants);
       if (result) {
         success.push(selector);
         const escapedSelector = '.' + cssEscape(selector);
@@ -471,7 +471,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      const result = this.extract(baseClass, showComment);
+      const result = this.extract(baseClass, showComment, variants);
       if (result) {
         success.push(selector);
         if (Array.isArray(result)) {
@@ -600,11 +600,13 @@ export class Processor {
   // tailwind interfaces
   config(path: string, defaultValue?: unknown): unknown {
     if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder);
-    return getNestedValue(this._config, path) ?? defaultValue;
+    const value = getNestedValue(this._config, path) ?? defaultValue;
+    return (Array.isArray(value) && /[cC]olors/.test(path))? value.slice(-2, -1)[0]: value;
   }
 
   theme(path: string, defaultValue?: unknown): unknown {
-    return this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
+    const value = this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
+    return (Array.isArray(value) && /[cC]olors/.test(path))? value.slice(-2, -1)[0]: value;
   }
 
   corePlugins(path: string): boolean {
