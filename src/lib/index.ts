@@ -437,8 +437,7 @@ export class Processor {
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
     let className: string | undefined = outputClassName ?? prefix + hash(classNames.trim().split(/\s+/g).join(' '));
-    if (ignoreGenerated && this._cache.classes.includes(className))
-      return { success, ignored, styleSheet, className };
+    if (ignoreGenerated && this._cache.classes.includes(className)) return { success, ignored, styleSheet, className };
     const buildSelector = '.' + className;
 
     const _hIgnored = (className:string) => {
@@ -475,7 +474,8 @@ export class Processor {
       if (result) {
         success.push(selector);
         if (Array.isArray(result)) {
-          result.forEach((i) => {
+          result.forEach(i => {
+            if (i instanceof Keyframes) return i;
             i.selector = buildSelector;
             this.markAsImportant(i, important);
           });

@@ -169,6 +169,64 @@ Tools / Single Level / css / 0: |-
   .logo {
     width: 300px;
   }
+Tools / animations with @apply / css / 0: |-
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+  @-webkit-keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+  @keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  .pulse-class {
+    position: relative;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 9999px;
+    --tw-bg-opacity: 1;
+    background-color: rgba(20, 184, 166, var(--tw-bg-opacity));
+    opacity: 0.6;
+    -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @media (prefers-color-scheme: dark) {
+    .ping-class {
+      -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+      animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  }
 Tools / apply chain / css / 0: |-
   .base {
     width: 2.25rem;

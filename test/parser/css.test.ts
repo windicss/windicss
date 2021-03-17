@@ -324,4 +324,20 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('animations with @apply', () => {
+    const css = `
+    .pulse-class {
+      @apply relative w-40 h-40 rounded-full bg-teal-500 opacity-60 animate-pulse;
+    }
+
+    @screen dark {
+      .ping-class {
+        @apply animate-ping;
+      }
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });

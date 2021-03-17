@@ -1,4 +1,4 @@
-import { Property, Style, StyleSheet, InlineAtRule } from '../style';
+import { Property, Style, StyleSheet, InlineAtRule, Keyframes } from '../style';
 import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
 import { layerOrder } from '../../config/order';
 import type { Processor } from '../../lib';
@@ -96,6 +96,7 @@ export default class CSSParser {
     if (!parent) return styles;
     if (parentType === 'selector') {
       styles.forEach(i => {
+        if (i instanceof Keyframes) return;
         if (!i.selector) {
           i.selector = parent;
         } else {
@@ -132,7 +133,7 @@ export default class CSSParser {
           }
         }
       }
-      styles.forEach(i => {
+      styles.filter(i => !(i instanceof Keyframes)).forEach(i => {
         i.atRule(atrule);
         i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });
         this._addCache(i);
@@ -178,8 +179,10 @@ export default class CSSParser {
               });
 
               styleSheet.add(result.styleSheet.children.map(i => {
-                i.selector = undefined;
-                i.important = directives.important ?? false;
+                if (!(i instanceof Keyframes)) {
+                  i.selector = undefined;
+                  i.important = directives.important ?? false;
+                }
                 return i;
               }));
             }
