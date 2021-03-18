@@ -150,7 +150,7 @@ export function connectList<T = string>(a?: T[], b?: T[], append = true): T[] {
 export function toType(
   value: unknown,
   type: 'object'
-): { [key: string]: unknown } | undefined;
+): { [key: string]: unknown } | {};
 export function toType(value: unknown, type: 'string'): string | undefined;
 export function toType(value: unknown, type: 'number'): number | undefined;
 export function toType(
@@ -158,16 +158,14 @@ export function toType(
   type: 'object' | 'string' | 'number'
 ): unknown {
   switch (type) {
-  case 'object':
-    if (value && typeof value === 'object')
-      return value as { [key: string]: unknown };
-    break;
-  case 'string':
-    if (typeof value === 'string') return value as string;
-    break;
-  case 'number':
-    if (typeof value === 'number') return value as number;
-    break;
+    case 'object':
+      return (value && typeof value === 'object' ? value : {}) as { [key: string]: unknown } | {};
+    case 'string':
+      if (typeof value === 'string') return value as string;
+      break;
+    case 'number':
+      if (typeof value === 'number') return value as number;
+      break;
   }
 }
 
@@ -222,17 +220,17 @@ export function searchPropEnd(text: string, startIndex = 0): number {
   let openDoubleQuote = false;
   while (index < text.length) {
     switch (text.charAt(index)) {
-    case '\'':
-      if (text.charAt(index - 1) !== '\\') openSingleQuote = !openSingleQuote;
-      break;
-    case '"':
-      if (text.charAt(index - 1) !== '\\') openDoubleQuote = !openDoubleQuote;
-      break;
-    case ';':
-      if (openSingleQuote === false && openDoubleQuote === false) output = index;
-      break;
-    default:
-      break;
+      case '\'':
+        if (text.charAt(index - 1) !== '\\') openSingleQuote = !openSingleQuote;
+        break;
+      case '"':
+        if (text.charAt(index - 1) !== '\\') openDoubleQuote = !openDoubleQuote;
+        break;
+      case ';':
+        if (openSingleQuote === false && openDoubleQuote === false) output = index;
+        break;
+      default:
+        break;
     }
     if (output !== -1) break;
     index++;

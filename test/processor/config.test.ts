@@ -21,11 +21,11 @@ describe('Config', () => {
     );
     expect(processor.theme('fontFamily')).toEqual(userConfig.theme.fontFamily);
     expect(processor.theme('spacing')).toEqual({
-      ...(toType(baseConfig.theme('spacing'), 'object') ?? {}),
+      ...toType(baseConfig.theme('spacing'), 'object'),
       ...userConfig.theme.extend.spacing,
     });
     expect(processor.theme('borderRadius')).toEqual({
-      ...(toType(baseConfig.theme('borderRadius'), 'object') ?? {}),
+      ...toType(baseConfig.theme('borderRadius'), 'object'),
       ...userConfig.theme.extend.borderRadius,
     });
   });
