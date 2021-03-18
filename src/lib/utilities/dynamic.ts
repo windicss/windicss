@@ -473,12 +473,12 @@ function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
 function placeholder(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   // handle placeholder opacity
   if (utility.raw.startsWith('placeholder-opacity')) {
-    return utility.handler
+    const opacity = utility.handler
       .handleStatic(theme('placeholderOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
-      .createProperty('--tw-placeholder-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 });
+      .value;
+    return generatePlaceholder(utility.class, new Property('--tw-placeholder-opacity', opacity), config('prefixer') as boolean).map(function (style) { return style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 }); });
   }
   const handler = utility.handler.handleColor(theme('placeholderColor')).handleVariable();
   if (!handler.value) return;
