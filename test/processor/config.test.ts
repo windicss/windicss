@@ -102,10 +102,10 @@ describe('Config', () => {
 
   it('does not generated non-prefixed classes when using prefix', () => {
     const processor = new Processor({ prefix: 'windi-' });
-    const classes = 'items-center justify-center flex-wrap block flex'
+    const classes = 'items-center justify-center flex-wrap block flex windi-block'
     // it should not compile these classes because they are not prefixed
     expect(processor.interpret(classes).styleSheet.build()).toBe(
-      ''
+      '.windi-block {\n    display: block;\n  }'
     );
   });
 
