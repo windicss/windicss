@@ -159,7 +159,12 @@ export default class CSSParser {
         index = nestStart + 1;
         const nestEnd = this._searchGroup(css, index);
         if (nestEnd === -1) break; // doesn't close block
-        const content = this.parse(css.slice(index, nestEnd).replace(/(?<![};])\s*$/, ';'), selector);
+
+        // allow last rule without semicolon
+        let rule = css.slice(index, nestEnd);
+        if (!/[};]\s*/.test(rule)) rule = rule + ';';
+        const content = this.parse(rule, selector);
+
         index = nestEnd + 1;
         styleSheet.add(this._generateNestStyle(content.children, selector, css.charAt(firstLetter) === '@' ? 'atRule': 'selector'));
 
