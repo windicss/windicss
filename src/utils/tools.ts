@@ -150,7 +150,7 @@ export function connectList<T = string>(a?: T[], b?: T[], append = true): T[] {
 export function toType(
   value: unknown,
   type: 'object'
-): { [key: string]: unknown } | undefined;
+): Record<string, unknown>;
 export function toType(value: unknown, type: 'string'): string | undefined;
 export function toType(value: unknown, type: 'number'): number | undefined;
 export function toType(
@@ -159,9 +159,7 @@ export function toType(
 ): unknown {
   switch (type) {
   case 'object':
-    if (value && typeof value === 'object')
-      return value as { [key: string]: unknown };
-    break;
+    return value && typeof value === 'object' ? value : {};
   case 'string':
     if (typeof value === 'string') return value as string;
     break;

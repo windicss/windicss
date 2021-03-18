@@ -165,7 +165,8 @@ describe('Tools', () => {
   });
 
   it('toType', () => {
-    expect(toType('123', 'object')).toBeUndefined();
+    expect(toType('123', 'object')).toEqual({});
+    expect(toType(undefined, 'object')).toEqual({});
     expect(toType('hello', 'number')).toBeUndefined();
     expect(toType(123, 'string')).toBeUndefined();
     expect(toType(123, 'number')).toEqual(123);

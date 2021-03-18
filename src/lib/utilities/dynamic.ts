@@ -25,7 +25,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     }
     if (theme('container.center')) baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
     const output: Container[] = [baseStyle];
-    const screens = toType(theme('container.screens', theme('screens')), 'object') ?? {};
+    const screens = toType(theme('container.screens', theme('screens')), 'object');
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property('max-width', `${size}`)];
       const padding = theme(`container.padding.${screen}`);
@@ -92,12 +92,12 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
 function flex(utility: Utility, { theme }: PluginUtils): Output {
   const className = utility.raw;
   if (className.startsWith('flex-grow')) {
-    const map = (toType(theme('flexGrow'), 'object') ?? {}) as { [key: string]: string };
+    const map = toType(theme('flexGrow'), 'object') as { [key: string]: string };
     let amount = className.replace(/flex-grow-?/, '');
     if (amount === '') amount = 'DEFAULT';
     if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexGrow', order: pluginOrder['flexGrow'] + 1 });
   } else if (className.startsWith('flex-shrink')) {
-    const map = (toType(theme('flexShrink'), 'object') ?? {}) as { [key: string]: string };
+    const map = toType(theme('flexShrink'), 'object') as { [key: string]: string };
     let amount = className.replace(/flex-shrink-?/, '');
     if (amount === '') amount = 'DEFAULT';
     if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexShrink', order: pluginOrder['flexShrink'] + 1 });
@@ -148,7 +148,7 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
 function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // col span
-  const spans = (toType(theme('gridColumn'), 'object') ?? {}) as {
+  const spans = toType(theme('gridColumn'), 'object') as {
     [key: string]: string;
   };
   if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-column-span', 'grid-column'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumn', order: pluginOrder['gridColumn'] + 1 });
@@ -183,7 +183,7 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
 function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // row span
-  const spans = (toType(theme('gridRow'), 'object') ?? {}) as { [key: string]: string };
+  const spans = toType(theme('gridRow'), 'object') as { [key: string]: string };
   if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-row-span', 'grid-row'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRow', order: pluginOrder['gridRow'] + 1 });
   if (utility.raw.startsWith('row-span')) {
     return utility.handler
@@ -305,7 +305,7 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
 function size(utility: Utility, { theme }: PluginUtils): Output {
   const name = utility.identifier === 'w' ? 'width' : 'height';
   const body = utility.body;
-  const sizes = (toType(theme(name), 'object') ?? {}) as { [key: string]: string };
+  const sizes = toType(theme(name), 'object') as { [key: string]: string };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -343,7 +343,7 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.raw.replace(/^(min|max)-[w|h]-/, '');
   const prop = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
   const group = dashToCamel(prop);
-  const sizes = (toType(theme(group), 'object') ?? {}) as { [key: string]: string };
+  const sizes = toType(theme(group), 'object') as { [key: string]: string };
   // handle static
   if (Object.keys(sizes).includes(body)) {
     const value = sizes[body];
@@ -389,7 +389,7 @@ function text(utility: Utility, { theme, config }: PluginUtils, variants: string
   }
   // handle font sizes
   const amount = utility.amount;
-  const fontSizes = (toType(theme('fontSize'), 'object') ?? {}) as { [key: string]: FontSize };
+  const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
   if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
   let value = utility.handler.handleNxl((number: number) => `${number}rem`).handleSize().value;
   if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
@@ -615,7 +615,7 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
   }
   // handle border width
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
-  const borders = (toType(theme('borderWidth'), 'object') ?? {}) as { [key: string]: string };
+  const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
   const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
   return new Utility(raw).handler
     .handleStatic(borders)
@@ -796,7 +796,7 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/transition-property
 function transition(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const props = (toType(theme('transitionProperty'), 'object') ?? {}) as { [key: string]: string };
+  const props = toType(theme('transitionProperty'), 'object') as { [key: string]: string };
   for (const [key, value] of Object.entries(props)) {
     if (body === key || (body === '' && key === 'DEFAULT')) {
       if (value === 'none') return new Property(['-webkit-transition-property', '-o-transition-property', 'transition-property'], 'none').updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionProperty', order: pluginOrder['transitionProperty'] + 1 });
@@ -841,7 +841,7 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
-  const animations = (toType(theme('animation'), 'object') ?? {}) as { [key: string]: string };
+  const animations = toType(theme('animation'), 'object') as { [key: string]: string };
   if (Object.keys(animations).includes(utility.body)) {
     const value = animations[utility.body];
     const keyframe = value.match(/^\w+/)?.[0];
@@ -862,7 +862,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
 // https://tailwindcss.com/docs/transform-origin
 function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const origins = (toType(theme('transformOrigin'), 'object') ?? {}) as { [key: string]: string };
+  const origins = toType(theme('transformOrigin'), 'object') as { [key: string]: string };
   if (Object.keys(origins).includes(body)) return new Property(['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'], origins[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'transformOrigin', order: pluginOrder['transformOrigin'] + 1 });
 }
 
@@ -925,14 +925,14 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
-  const cursors = (toType(theme('cursor'), 'object') ?? {}) as { [key: string]: string };
+  const cursors = toType(theme('cursor'), 'object') as { [key: string]: string };
   if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'cursor', order: pluginOrder['cursor'] + 1 });
 }
 
 // https://tailwindcss.com/docs/outline
 function outline(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const amount = utility.amount;
-  const staticMap = (toType(theme('outline'), 'object') ?? {}) as { [key: string]: [outline: string, outlineOffset: string] };
+  const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
   if (Object.keys(staticMap).includes(amount)) return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
   const handler = utility.handler.handleColor().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
   if (handler.value) {
