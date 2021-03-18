@@ -1,5 +1,5 @@
 import { Processor } from '../../src/lib';
-import { generateCompletions  } from '../../src/utils/completions';
+import { generateCompletions } from '../../src/utils/completions';
 
 describe('generate completions', () => {
   it('completions', () => {
