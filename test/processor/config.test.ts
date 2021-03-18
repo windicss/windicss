@@ -100,7 +100,7 @@ describe('Config', () => {
     );
   });
 
-  it('does not generated non-prefixed classes when using prefix', () => {
+  it('does not generate non-prefixed classes when using prefix', () => {
     const processor = new Processor({ prefix: 'windi-' });
     const classes = 'items-center justify-center flex-wrap block flex windi-block';
     // it should not compile the standard classes (items-center, justify-center) because they are not prefixed
