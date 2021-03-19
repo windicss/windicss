@@ -59,6 +59,17 @@ We’re using [GitHub Discussions](https://github.com/windicss/windicss/discussi
 
 If you're interested in contributing to windicss, please read our [contributing docs](https://github.com/windicss/windicss/blob/main/CONTRIBUTING.md) **before submitting a pull request**.
 
+## Sponsors
+
+<a href="https://opencollective.com/windicss" target="_blank">
+    <img src="https://opencollective.com/windicss/sponsors.svg">
+</a>
+
+## Backers
+<a href="https://opencollective.com/windicss" target="_blank">
+    <img src="https://opencollective.com/windicss/backers.svg">
+</a>
+
 ## License
 
 Distributed under the [MIT License](https://github.com/windicss/windicss/blob/main/LICENSE).
