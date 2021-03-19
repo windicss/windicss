@@ -7,6 +7,7 @@ import {
   generateThemes,
   resolveVariants,
 } from '../../src/lib/variants';
+import { Processor } from '../../src/lib';
 
 function _generateTestVariants(variants: { [key: string]: () => Style }) {
   const output: { [key: string]: string } = {};
@@ -100,6 +101,7 @@ describe('Variants', () => {
       '@light',
       '.dark',
       '.light',
+      '~dark',
       'dark',
       'light',
     ]);
@@ -109,5 +111,10 @@ describe('Variants', () => {
     expect(emptyVariants.screen).toEqual({});
     expect(emptyVariants.theme).toEqual({});
     expect(emptyVariants.state).toEqual({});
+  });
+
+  it('should not generate utility when variant is wrong', () => {
+    const processor = new Processor();
+    expect(processor.interpret('pointer-hover:bg-gray-200 hover:cursor:bg-gray-200').ignored.length).toEqual(2);
   });
 });

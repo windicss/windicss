@@ -123,7 +123,8 @@ export default class CSSParser {
             // @variants
             let output: Style[] = [];
             for (const variant of directives.variants) {
-              output = output.concat(this.processor.wrapWithVariants(variant, styles));
+              const wrapper = this.processor.wrapWithVariants(variant, styles);
+              if (wrapper) output = output.concat(wrapper);
             }
             output.map(i => {
               i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });

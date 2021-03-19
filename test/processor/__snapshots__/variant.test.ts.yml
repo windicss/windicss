@@ -82,6 +82,7 @@ Tools / generate themes with darkMode class / vars / 0: |-
     "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
     ".light": ".light .test {\n  background: #1C1C1E;\n}",
+    "~dark": ".test {\n  background: #1C1C1E;\n}",
     "dark": ".dark .test {\n  background: #1C1C1E;\n}",
     "light": ".light .test {\n  background: #1C1C1E;\n}"
   }
@@ -91,6 +92,7 @@ Tools / generate themes with darkMode media / vars / 0: |-
     "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
     ".light": ".light .test {\n  background: #1C1C1E;\n}",
+    "~dark": ".test {\n  background: #1C1C1E;\n}",
     "dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
   }

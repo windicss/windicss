@@ -254,16 +254,17 @@ export class Processor {
     return (this._theme ?? {}) as DefaultTheme;
   }
 
-  wrapWithVariants(variants: string[], styles: Style | Style[]): Style[] {
+  wrapWithVariants(variants: string[], styles: Style | Style[]): Style[] | undefined {
     // apply variant to style
     if (!Array.isArray(styles)) styles = [styles];
     if (variants.length === 0) return styles;
     const allVariants = { ...this._variants, ...this._plugin.variants };
-    return styles.map((style) => {
+    const filteredVariants = variants.filter(i => i in allVariants);
+    if (filteredVariants.length !== variants.length) return;
+    return styles.map(style => {
       if (style instanceof Keyframes) return style;
-      const wrapped = variants
-        .filter((i) => i in allVariants)
-        .map((i) => allVariants[i]())
+      const wrapped = filteredVariants
+        .map(i => allVariants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           return previousValue.extend(currentValue);
         }, new Style())
@@ -357,7 +358,6 @@ export class Processor {
       }
       let result = this.extract(baseClass, false, variants, prefix);
       if (result) {
-        success.push(selector);
         const escapedSelector = '.' + cssEscape(selector);
         if (result instanceof Style) {
           result.selector = escapedSelector;
@@ -370,7 +370,13 @@ export class Processor {
             return i;
           });
         }
-        styleSheet.add(this.wrapWithVariants(variants, result));
+        const wrapped = this.wrapWithVariants(variants, result);
+        if (wrapped) {
+          success.push(selector);
+          styleSheet.add(wrapped);
+        } else {
+          _hIgnored(selector);
+        }
       } else {
         _hIgnored(selector);
       }
@@ -476,7 +482,6 @@ export class Processor {
       }
       const result = this.extract(baseClass, showComment, variants);
       if (result) {
-        success.push(selector);
         if (Array.isArray(result)) {
           result.forEach(i => {
             if (i instanceof Keyframes) return i;
@@ -487,7 +492,13 @@ export class Processor {
           result.selector = buildSelector;
           this.markAsImportant(result, important);
         }
-        styleSheet.add(this.wrapWithVariants(variants, result));
+        const wrapped = this.wrapWithVariants(variants, result);
+        if (wrapped) {
+          success.push(selector);
+          styleSheet.add(wrapped);
+        } else {
+          _hIgnored(selector);
+        }
       } else {
         _hIgnored(selector);
       }
