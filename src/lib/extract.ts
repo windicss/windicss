@@ -30,10 +30,14 @@ export default function extract(
   className: string,
   addComment = false,
   variants?: string[],
+  prefix?: string,
 ): Style | Style[] | undefined {
   // handle static base utilities
-  if (className in staticUtilities) return generateStaticStyle(processor, className, addComment);
-
+  if (!prefix && className in staticUtilities) return generateStaticStyle(processor, className, addComment);
+  if (prefix && className.startsWith(prefix)) {
+    className = className.replace(new RegExp(`^${prefix}`), '');
+    if (className in staticUtilities) return generateStaticStyle(processor, className, addComment);
+  }
   // handle static plugin utilities & components
   const staticPlugins = { ...processor._plugin.utilities, ...processor._plugin.components, ...processor._plugin.shortcuts };
   if (className in staticPlugins) return deepCopy(staticPlugins[className]);

@@ -100,6 +100,16 @@ describe('Config', () => {
     );
   });
 
+  it('does not generate non-prefixed classes when using prefix', () => {
+    const processor = new Processor({ prefix: 'windi-' });
+    const classes = 'items-center justify-center flex-wrap block flex windi-block';
+    // it should not compile the standard classes (items-center, justify-center) because they are not prefixed
+    expect(processor.interpret(classes).styleSheet.build()).toBe(
+      '.windi-block {\n  display: block;\n}'
+    );
+  });
+
+
   it('important test', () => {
     const processor = new Processor({ important: true });
     expect(processor.interpret('sm:bg-black').styleSheet.build()).toBe(

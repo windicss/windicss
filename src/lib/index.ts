@@ -290,8 +290,8 @@ export class Processor {
     return style;
   }
 
-  extract(className: string, addComment = false, variants?: string[]): Style | Style[] | undefined {
-    return extract(this, className, addComment, variants);
+  extract(className: string, addComment = false, variants?: string[], prefix?: string): Style | Style[] | undefined {
+    return extract(this, className, addComment, variants, prefix);
   }
 
   preflight(
@@ -342,6 +342,7 @@ export class Processor {
       variants: string[],
       selector: string,
       important = false,
+      prefix?: string,
     ) => {
       if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
         // filter exclude className
@@ -354,7 +355,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      let result = this.extract(baseClass, false, variants);
+      let result = this.extract(baseClass, false, variants, prefix);
       if (result) {
         success.push(selector);
         const escapedSelector = '.' + cssEscape(selector);
@@ -390,7 +391,7 @@ export class Processor {
             const important = obj.important || u.important;
             const selector = (important ? '!' : '') + [...variants, u.content].join(':');
             typeof u.content === 'string' &&
-              _gStyle(this.removePrefix(u.content), variants, selector, important);
+              _gStyle(u.content, variants, selector, important, this.config('prefix') as string);
           }
         });
     };
@@ -402,7 +403,7 @@ export class Processor {
           if (Array.isArray(obj.content)) {
             // #functions stuff
           } else if (obj.content) {
-            _gStyle(this.removePrefix(obj.content), obj.variants, obj.raw, obj.important);
+            _gStyle(obj.content, obj.variants, obj.raw, obj.important, this.config('prefix') as string);
           }
         } else if (obj.type === 'group') {
           _hGroup(obj);
