@@ -105,7 +105,7 @@ describe('Config', () => {
     const classes = 'items-center justify-center flex-wrap block flex windi-block';
     // it should not compile the standard classes (items-center, justify-center) because they are not prefixed
     expect(processor.interpret(classes).styleSheet.build()).toBe(
-      '.windi-block {\n    display: block;\n  }'
+      '.windi-block {\n  display: block;\n}'
     );
   });
 
