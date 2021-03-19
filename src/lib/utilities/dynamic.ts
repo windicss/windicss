@@ -617,9 +617,10 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
   const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
   const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
-  return new Utility(raw).handler
+  utility = new Utility(raw);
+  return utility.handler
     .handleStatic(borders)
-    .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
+    .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbr])?$/.test(utility.key)? `${number}px`: undefined)
     .handleSize()
     .handleVariable()
     .createProperty(directions[0] === '*' ? 'border-width' : directions.map((i) => `border-${i}-width`))

@@ -97,6 +97,17 @@ Tools / border radius fraction / css / 0: |-
   .rounded-1\/4 {
     border-radius: 25%;
   }
+Tools / border width shouldn't infer / css / 0: |-
+  .border-gray-200 {
+    --tw-border-opacity: 1;
+    border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+  }
+  .border-4 {
+    border-width: 4px;
+  }
+  .border-t-4 {
+    border-top-width: 4px;
+  }
 Tools / container max-width test / container / 0: |-
   .container {
     width: 100%;

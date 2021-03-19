@@ -146,4 +146,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('rounded-1/2 rounded-1 rounded-1/4').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('border width shouldn\'t infer', () => {
+    const processor = new Processor();
+    expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
