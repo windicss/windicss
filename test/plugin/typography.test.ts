@@ -58,20 +58,25 @@ describe('typography plugin', () => {
     const processor = new Processor({
       theme: {
         extend: {
-          typography: {
+          typography: theme => ({
+            DEFAULT: {
+              css: {
+                color: theme('colors.gray.800'),
+              },
+            },
             dark: {
               css: {
                 'h2 > a, h3 > a': {
-                  color: 'inherit',
+                  color: theme('colors.gray.800'),
                   fontWeight: 'inherit',
                 },
               },
             },
-          },
+          }),
         },
       },
     });
     processor.loadPluginWithOptions(typography);
-    expect(processor.interpret('dark:prose-dark').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('prose dark:prose-dark').styleSheet.build()).toMatchSnapshot('css');
   });
 });

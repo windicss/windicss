@@ -222,10 +222,7 @@ export class Style {
     property?: NestObject,
     root?: Style,
   ): Style[] {
-    if (!root)
-      root = parent?.startsWith('@')
-        ? new Style().atRule(parent)
-        : new Style(parent);
+    if (!root) root = parent?.startsWith('@')? new Style().atRule(parent): new Style(parent);
     let output: Style[] = [];
     for (const [key, value] of Object.entries(property ?? {})) {
       if (typeof value === 'string') {
@@ -244,15 +241,13 @@ export class Style {
             child = wrap;
           } else {
             if (/^[a-z]+$/.test(key) && !isTagName(key)) {
-              wrap.wrapProperty((property) => `${key}-${property}`);
+              wrap.wrapProperty(property => `${key}-${property}`);
               child = wrap;
             } else {
-              const _hKey = (selector: string, key: string) =>
-                (/&/.test(key) ? key : `& ${key}`).replace('&', selector);
+              const _hKey = (selector: string, key: string) => (/&/.test(key) ? key : `& ${key}`).replace('&', selector);
               wrap.wrapSelector((selector) =>
                 selector
                   .trim()
-                  // .replace(/\\/g, "")
                   .split(/\s*,\s*/g)
                   .map((s) =>
                     key
@@ -266,9 +261,7 @@ export class Style {
             }
           }
         }
-        output = output.concat(
-          Style.generate(key.startsWith('@') ? undefined : key, value, child)
-        );
+        output = output.concat(Style.generate(key.startsWith('@') ? undefined : key, value, child));
       }
     }
     if (root.property.length > 0) output.unshift(root);

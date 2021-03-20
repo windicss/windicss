@@ -1413,7 +1413,310 @@ Tools / with extend / css / 0: |-
     margin-bottom: 0;
   }
 Tools / with multi selector / css / 0: |-
-  .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
+  .prose {
+    color: #1f2937;
+    max-width: 65ch;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .prose [class~="lead"] {
+    color: #4b5563;
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+  }
+  .prose a {
+    color: #111827;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  .prose strong {
+    color: #111827;
+    font-weight: 600;
+  }
+  .prose ol[type="A"] {
+    --list-counter-style: upper-alpha;
+  }
+  .prose ol[type="a"] {
+    --list-counter-style: lower-alpha;
+  }
+  .prose ol[type="A s"] {
+    --list-counter-style: upper-alpha;
+  }
+  .prose ol[type="a s"] {
+    --list-counter-style: lower-alpha;
+  }
+  .prose ol[type="I"] {
+    --list-counter-style: upper-roman;
+  }
+  .prose ol[type="i"] {
+    --list-counter-style: lower-roman;
+  }
+  .prose ol[type="I s"] {
+    --list-counter-style: upper-roman;
+  }
+  .prose ol[type="i s"] {
+    --list-counter-style: lower-roman;
+  }
+  .prose ol[type="1"] {
+    --list-counter-style: decimal;
+  }
+  .prose ol > li {
+    position: relative;
+    padding-left: 1.75em;
+  }
+  .prose ol > li::before {
+    content: counter(list-item, var(--list-counter-style, decimal)) ".";
+    position: absolute;
+    font-weight: 400;
+    color: #6b7280;
+    left: 0;
+  }
+  .prose ul > li {
+    position: relative;
+    padding-left: 1.75em;
+  }
+  .prose ul > li::before {
+    content: "";
+    position: absolute;
+    background-color: #d1d5db;
+    border-radius: 50%;
+    width: 0.375em;
+    height: 0.375em;
+    top: calc(0.875em - 0.1875em);
+    left: 0.25em;
+  }
+  .prose hr {
+    border-color: #e5e7eb;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+  .prose blockquote {
+    font-weight: 500;
+    font-style: italic;
+    color: #111827;
+    border-left-width: 0.25rem;
+    border-left-color: #e5e7eb;
+    quotes: "\201C""\201D""\2018""\2019";
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-left: 1em;
+  }
+  .prose blockquote p:first-of-type::before {
+    content: open-quote;
+  }
+  .prose blockquote p:last-of-type::after {
+    content: close-quote;
+  }
+  .prose h1 {
+    color: #111827;
+    font-weight: 800;
+    font-size: 2.25em;
+    margin-top: 0;
+    margin-bottom: 0.8888889em;
+    line-height: 1.1111111;
+  }
+  .prose h2 {
+    color: #111827;
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3333333;
+  }
+  .prose h3 {
+    color: #111827;
+    font-weight: 600;
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+    line-height: 1.6;
+  }
+  .prose h4 {
+    color: #111827;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+  }
+  .prose figure figcaption {
+    color: #6b7280;
+    font-size: 0.875em;
+    line-height: 1.4285714;
+    margin-top: 0.8571429em;
+  }
+  .prose code {
+    color: #111827;
+    font-weight: 600;
+    font-size: 0.875em;
+  }
+  .prose code::before {
+    content: "`";
+  }
+  .prose code::after {
+    content: "`";
+  }
+  .prose a code {
+    color: #111827;
+  }
+  .prose pre {
+    color: #e5e7eb;
+    background-color: #1f2937;
+    overflow-x: auto;
+    font-size: 0.875em;
+    line-height: 1.7142857;
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em;
+    border-radius: 0.375rem;
+    padding-top: 0.8571429em;
+    padding-right: 1.1428571em;
+    padding-bottom: 0.8571429em;
+    padding-left: 1.1428571em;
+  }
+  .prose pre code {
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    padding: 0;
+    font-weight: 400;
     color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+  }
+  .prose pre code::before {
+    content: none;
+  }
+  .prose pre code::after {
+    content: none;
+  }
+  .prose table {
+    width: 100%;
+    table-layout: auto;
+    text-align: left;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 0.875em;
+    line-height: 1.7142857;
+  }
+  .prose thead {
+    color: #111827;
+    font-weight: 600;
+    border-bottom-width: 1px;
+    border-bottom-color: #d1d5db;
+  }
+  .prose thead th {
+    vertical-align: bottom;
+    padding-right: 0.5714286em;
+    padding-bottom: 0.5714286em;
+    padding-left: 0.5714286em;
+  }
+  .prose tbody tr {
+    border-bottom-width: 1px;
+    border-bottom-color: #e5e7eb;
+  }
+  .prose tbody tr:last-child {
+    border-bottom-width: 0;
+  }
+  .prose tbody td {
+    vertical-align: top;
+    padding-top: 0.5714286em;
+    padding-right: 0.5714286em;
+    padding-bottom: 0.5714286em;
+    padding-left: 0.5714286em;
+  }
+  .prose p {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+  .prose img {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .prose video {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .prose figure {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  .prose figure > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .prose h2 code {
+    font-size: 0.875em;
+  }
+  .prose h3 code {
+    font-size: 0.9em;
+  }
+  .prose ol {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    list-style-type: none;
+  }
+  .prose ul {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    list-style-type: none;
+  }
+  .prose li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  .prose > ul > li p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  .prose > ul > li > *:first-child {
+    margin-top: 1.25em;
+  }
+  .prose > ul > li > *:last-child {
+    margin-bottom: 1.25em;
+  }
+  .prose > ol > li > *:first-child {
+    margin-top: 1.25em;
+  }
+  .prose > ol > li > *:last-child {
+    margin-bottom: 1.25em;
+  }
+  .prose ul ul, .prose ul ol, .prose ol ul, .prose ol ol {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  .prose hr + * {
+    margin-top: 0;
+  }
+  .prose h2 + * {
+    margin-top: 0;
+  }
+  .prose h3 + * {
+    margin-top: 0;
+  }
+  .prose h4 + * {
+    margin-top: 0;
+  }
+  .prose thead th:first-child {
+    padding-left: 0;
+  }
+  .prose thead th:last-child {
+    padding-right: 0;
+  }
+  .prose tbody td:first-child {
+    padding-left: 0;
+  }
+  .prose tbody td:last-child {
+    padding-right: 0;
+  }
+  .prose > :first-child {
+    margin-top: 0;
+  }
+  .prose > :last-child {
+    margin-bottom: 0;
+  }
+  .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
+    color: #1f2937;
     font-weight: inherit;
   }
