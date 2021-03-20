@@ -26,7 +26,7 @@ export default class CSSParser {
       commentOpen = css.search(/\/\*/);
       commentClose = css.search(/\*\//);
     }
-    return css;
+    return css.replace(/\/\/.*/g, '');
   }
 
   private _searchGroup(text: string, startIndex = 0) {

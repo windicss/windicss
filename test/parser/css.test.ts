@@ -375,4 +375,19 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('single line comment', () => {
+    const css = `
+    // comment a
+    .test {
+    // comment b
+      &-child {
+        border: 10px solid green;
+        // this is another comment
+      }
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });

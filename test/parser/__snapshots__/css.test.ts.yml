@@ -291,6 +291,10 @@ Tools / layer directive / css / 0: |-
   .utilities {
     max-width: 768px;
   }
+Tools / single line comment / css / 0: |-
+  .test-child {
+    border: 10px solid green;
+  }
 Tools / theme function / css / 0: |-
   .btn-blue {
     background-color: #3b82f6;
