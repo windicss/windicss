@@ -245,6 +245,19 @@ Tools / apply hover with multiple selector / css / 0: |-
     --tw-text-opacity: 1;
     color: rgba(254, 202, 202, var(--tw-text-opacity));
   }
+Tools / comma separated selectors / css / 0: |-
+  .dark .parent h2 > a::after, .dark .parent h3 > a::after {
+    color: red;
+  }
+  .Comp1, .Comp2 {
+    border: 1px solid red;
+  }
+  .Comp1-child, .Comp2-child {
+    border: 10px solid green;
+  }
+  .alert ul, .alert p, .warning ul, .warning p {
+    margin-left: 0;
+  }
 Tools / do not change apply order / css / 0: |-
   .test-border {
     --tw-border-opacity: 1;

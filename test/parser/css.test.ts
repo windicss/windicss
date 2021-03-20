@@ -340,4 +340,39 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('comma separated selectors', () => {
+    const css = `
+    .dark {
+      .parent {
+        & h2, & h3 {
+          & > a {
+            &::after {
+              color: red;
+            }
+          }
+        }
+      }
+    }
+
+    .Comp1,
+    .Comp2 {
+      border: 1px solid red;
+
+      &-child {
+        border:10px solid green;
+      }
+    }
+
+    .alert, .warning {
+      ul, p {
+        margin-left: 0;
+      }
+    });
+
+
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });
