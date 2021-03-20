@@ -53,4 +53,25 @@ describe('typography plugin', () => {
     const css = result.styleSheet.build();
     expect(css).toMatchSnapshot('css');
   });
+
+  it('with multi selector', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          typography: {
+            dark: {
+              css: {
+                'h2 > a, h3 > a': {
+                  color: 'inherit',
+                  fontWeight: 'inherit',
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    processor.loadPluginWithOptions(typography);
+    expect(processor.interpret('dark:prose-dark').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

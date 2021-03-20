@@ -170,8 +170,8 @@ export class Style {
 
   get rule(): string {
     let selectors = (this.selector ?? '').trim().split(/\s*,\s*/g);
-    (this._wrapSelectors ?? []).forEach((func) => (selectors = selectors.map(i => func(i))));
     this._parentSelectors && (selectors = selectors.map(i => `${this._parentSelectors?.join(' ')} ${i}`));
+    (this._wrapSelectors ?? []).forEach((func) => (selectors = selectors.map(i => func(i))));
     this._pseudoClasses && (selectors = selectors.map(i => i + `:${this._pseudoClasses?.join(':')}`));
     this._pseudoElements && (selectors = selectors.map(i => i + `::${this._pseudoElements?.join('::')}`));
     this._brotherSelectors && (selectors = selectors.map(i => i + `.${this._brotherSelectors?.join('.')}`));

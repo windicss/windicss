@@ -1412,3 +1412,8 @@ Tools / with extend / css / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
+Tools / with multi selector / css / 0: |-
+  .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
+    color: inherit;
+    font-weight: inherit;
+  }
