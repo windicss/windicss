@@ -151,10 +151,7 @@ export class Processor {
           };
         } else if (typeof themeValue === 'object') {
           theme[key] = (theme, { negative, breakpoints }) => {
-            return combineConfig(
-              themeValue,
-              (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
-            );
+            return combineConfig(themeValue, (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}));
           };
         } else {
           theme[key] = value;

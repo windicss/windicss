@@ -142,6 +142,19 @@ Tools / different colors / colors / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(178, 82, 82, var(--tw-bg-opacity));
   }
+Tools / extend black / css / 0: |-
+  .bg-black-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(28, 28, 30, var(--tw-bg-opacity));
+  }
+  .bg-black {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  }
+  .bg-black-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(34, 0, 0, var(--tw-bg-opacity));
+  }
 Tools / handle colors test / css / 0: |-
   .bg-discord {
     --tw-bg-opacity: 1;

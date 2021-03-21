@@ -416,4 +416,20 @@ describe('Config', () => {
     expect(processor.interpret('~dark:text-red-500').styleSheet.build()).toMatchSnapshot('css');
     expect(processor.interpret('~dark:(text-blue-400 placeholder-gray-200 bg-green-300 divide-red-200)').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('extend black', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          colors: {
+            black : {
+              300: '#1c1c1e',
+              400: '#200',
+            },
+          },
+        },
+      },
+    });
+    expect(processor.interpret('bg-black-300 bg-black bg-black-400').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

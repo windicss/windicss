@@ -5,6 +5,10 @@ describe('combineConfig', () => {
     expect(combineConfig({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
   });
 
+  it('should extend default', () => {
+    expect(combineConfig({ a: 1 }, { a: { b: 2 } })).toEqual({ a: { DEFAULT: 1, b: 2 } });
+  });
+
   it('should combine different nested keys', () => {
     expect(
       combineConfig({ a: { b: 1, d: { e: 1 } } }, { a: { c: 2, d: { f: 2 } } })

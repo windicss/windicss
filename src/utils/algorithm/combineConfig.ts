@@ -7,19 +7,13 @@ export default function combineConfig(
     if (key_of_b in a) {
       const value_of_a = a[key_of_b];
       if (value_of_a !== value_of_b) {
-        if (
-          value_of_b !== null &&
-          (value_of_b as string).constructor !== Object
-        ) {
+        if (value_of_b !== null && (value_of_b as string).constructor !== Object) {
           if (Array.isArray(value_of_a) && Array.isArray(value_of_b)) {
             output[key_of_b] = [...value_of_a, ...value_of_b];
           } else {
             output[key_of_b] = value_of_b;
           }
-        } else if (
-          value_of_a !== null &&
-          (value_of_a as { [key: string]: unknown }).constructor === Object
-        ) {
+        } else if (value_of_a !== null && (value_of_a as { [key: string]: unknown }).constructor === Object) {
           output[key_of_b] = combineConfig(
             value_of_a as { [key: string]: unknown },
             value_of_b as { [key: string]: unknown }
@@ -30,13 +24,10 @@ export default function combineConfig(
             ...Array.isArray(value_of_b) ? value_of_b : [value_of_b],
           ];
         } else {
-          output[key_of_b] = [
-            value_of_a,
-            combineConfig(
-              value_of_a as { [key: string]: unknown },
-              value_of_b as { [key: string]: unknown }
-            ),
-          ];
+          output[key_of_b] = {
+            DEFAULT: value_of_a,
+            ...value_of_b as { [key: string]: unknown },
+          };
         }
       }
     } else {
