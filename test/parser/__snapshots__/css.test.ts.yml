@@ -277,6 +277,11 @@ Tools / keeps multiple @font-face / css / 0: |-
     font-weight: 700;
     src: url(/fonts/proxima-nova/700-regular.woff) format("woff");
   }
+Tools / last rule without semicolon / css / 0: |-
+  .font-bold {
+    font-weight: 700;
+    display: block;
+  }
 Tools / layer directive / css / 0: |-
   base {
     margin-left: auto;

@@ -165,7 +165,7 @@ export default class CSSParser {
 
         // allow last rule without semicolon
         let rule = css.slice(index, nestEnd);
-        if (!/[};]\s*/.test(rule)) rule = rule + ';';
+        if (!/[};]\s*$/.test(rule)) rule = rule + ';';
         const content = this.parse(rule, selector);
 
         index = nestEnd + 1;

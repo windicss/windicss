@@ -390,4 +390,10 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('last rule without semicolon', () => {
+    const css = '.font-bold { @apply font-bold; display: block }';
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });
