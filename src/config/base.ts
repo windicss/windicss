@@ -910,6 +910,8 @@ export const baseConfig: Config = {
     'all',
     'all-child',
     'sibling',
+    'ltr',
+    'rtl',
     'group-hover',
     'group-focus',
     'group-active',

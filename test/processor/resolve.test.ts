@@ -30,9 +30,9 @@ describe('Resolve Tests', () => {
       'empty',             'before',           'after',
       'first-letter',      'first-line',       'selection',
       'svg',               'all',              'all-child',
-      'sibling',           'group-hover',      'group-focus',
-      'group-active',      'group-visited',    'motion-safe',
-      'motion-reduce',
+      'sibling',           'ltr',              'rtl',
+      'group-hover',      'group-focus',       'group-active',
+      'group-visited',    'motion-safe',       'motion-reduce',
     ];
     const themeVariants = [ '@dark', '@light', '.dark', '.light', '~dark', 'dark', 'light' ];
 

@@ -117,4 +117,9 @@ describe('Variants', () => {
     const processor = new Processor();
     expect(processor.interpret('pointer-hover:bg-gray-200 hover:cursor:bg-gray-200').ignored.length).toEqual(2);
   });
+
+  it('directions', () => {
+    const processor = new Processor();
+    expect(processor.interpret('ltr:text-lg rtl:dark:text-sm').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

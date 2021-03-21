@@ -1,3 +1,12 @@
+Tools / directions / css / 0: |-
+  [dir='ltr'] .ltr\:text-lg, [dir='ltr'].ltr\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [dir='rtl'] .dark .rtl\:dark\:text-sm, [dir='rtl'].dark .rtl\:dark\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 Tools / generate screens / vars / 0: |-
   {
     "print": "@media print {\n  .test {\n    background: #1C1C1E;\n  }\n}",
@@ -60,6 +69,8 @@ Tools / generate states / all / 0: |-
     "all": ".test * {\n  background: #1C1C1E;\n}",
     "all-child": ".test > * {\n  background: #1C1C1E;\n}",
     "sibling": ".test ~ * {\n  background: #1C1C1E;\n}",
+    "ltr": "[dir='ltr'] .test, [dir='ltr'].test {\n  background: #1C1C1E;\n}",
+    "rtl": "[dir='rtl'] .test, [dir='rtl'].test {\n  background: #1C1C1E;\n}",
     "group-hover": ".group:hover .test {\n  background: #1C1C1E;\n}",
     "group-focus": ".group:focus .test {\n  background: #1C1C1E;\n}",
     "group-active": ".group:active .test {\n  background: #1C1C1E;\n}",

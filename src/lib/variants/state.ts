@@ -67,6 +67,10 @@ export function generateStates (
     sibling: () => new Style().child('~ *'),
     // https://www.w3schools.com/CSS/css_pseudo_elements.asp
 
+    // Directions
+    ltr: () => new Style().wrapSelector(selector => `[dir='ltr'] ${selector}, [dir='ltr']${selector}`),
+    rtl: () => new Style().wrapSelector(selector => `[dir='rtl'] ${selector}, [dir='rtl']${selector}`),
+
     // Group states
     // You'll need to add className="group" to an ancestor to make these work
     // https://github.com/ben-rogerson/twin.macro/blob/master/docs/group.md
