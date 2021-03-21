@@ -328,4 +328,27 @@ describe('Plugin Method', () => {
     });
     expect(processor.theme('colors.nord0')).toEqual('#2E3440');
   });
+
+  it('dump config', () => {
+    const processor = new Processor({
+      plugins: [
+        plugin(function() {
+          return;
+        }, {
+          theme: {
+            extend: {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              colors: theme => ({
+                'nord0': '#2E3440',
+              }),
+            },
+          },
+        }),
+      ],
+    });
+    const js = processor.dumpConfig();
+    const config = eval(js);
+    const newProcessor = new Processor(config);
+    expect(newProcessor.interpret('bg-nord0').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

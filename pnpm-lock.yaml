@@ -32,6 +32,7 @@ devDependencies:
   pirates: 4.0.1
   rollup: 2.39.0
   sucrase: 3.17.1
+  tosource: 2.0.0-alpha.2
   tslib: 2.1.0
   typescript: 4.1.5
 lockfileVersion: 5.2
@@ -2314,6 +2315,12 @@ packages:
       node: '>=8.0'
     resolution:
       integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==
+  /tosource/2.0.0-alpha.2:
+    dev: true
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-WR68bGIDsg1eBF2uHV4bIYYoAeXD3GGj9mToy3AGKnelZgsfuhCrE5xKFvLp7G66N5gTMWkDzN/+iyMrvsVxSA==
   /ts-interface-checker/0.1.13:
     dev: true
     resolution:
@@ -2514,5 +2521,6 @@ specifiers:
   pirates: ^4.0.1
   rollup: ^2.37.0
   sucrase: ^3.17.1
+  tosource: ^2.0.0-alpha.2
   tslib: ^2.1.0
   typescript: ^4.1.3

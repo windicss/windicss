@@ -10,8 +10,11 @@ import plugin from '../plugin/index';
 import { baseConfig } from '../config';
 import { layerOrder, pluginOrder } from '../config/order';
 import cssEscape from '../utils/algorithm/cssEscape';
+import diffConfig from '../utils/algorithm/diffConfig';
 import combineConfig from '../utils/algorithm/combineConfig';
 import ClassParser from '../utils/parser/class';
+// @ts-expect-error no types
+import toSource from 'tosource';
 
 import type {
   Config,
@@ -778,5 +781,31 @@ export class Processor {
     });
     this._plugin.variants[name] = () => style;
     return style;
+  }
+
+  dumpConfig(): string {
+    const processor = new Processor();
+    const diff = diffConfig(processor._config, this._config) as Config;
+    let output = { theme: { extend: {} }, plugins: [] } as {[key:string]:any};
+    if (diff.theme) {
+      for (const [key, value] of Object.entries(diff.theme)) {
+        if (key !== 'extend') {
+          (output.theme.extend as {[key:string]:unknown})[key] = value;
+        }
+      }
+      delete diff.theme;
+    }
+    if (diff.plugins) {
+      for (const plugin of diff.plugins) {
+        if ('config' in plugin) {
+          delete plugin.config;
+        }
+        output.plugins.push(plugin);
+      }
+      delete diff.plugins;
+    }
+    output = { ...diff, ...output };
+
+    return `module.exports = ${toSource(output)}`;
   }
 }
