@@ -243,21 +243,6 @@ export interface Config {
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
 
-  // ===== Tools Options =====
-  /**
-   * Safelist of utilities that will always be included in the generated CSS
-   */
-  safelist?: string | (string | string[])[];
-  /**
-   * Extractions options
-   */
-  extract?: ExtractOptions
-  /**
-   * Preflight options
-   * Set `false` to disable preflight
-   */
-  preflight?: PreflightOptions | false
-
   // ===== Depreacted =====
   /**
    * @deprecated no longer needed for Windi CSS
@@ -273,22 +258,21 @@ export interface Config {
   [key:string]: any;
 }
 
-export type ProcessorConfig = Pick<
-  Config,
-  | 'presets'
-  | 'presets'
-  | 'prefixer'
-  | 'separator'
-  | 'important'
-  | 'dark'
-  | 'theme'
-  | 'variant'
-  | 'plugins'
-  | 'core'
-  | 'prefix'
-  | 'exclude'
-  | 'shortcuts'
->
+export interface FullConfig extends Config {
+  /**
+   * Safelist of utilities that will always be included in the generated CSS
+   */
+  safelist?: string | (string | string[])[];
+  /**
+   * Extractions options
+   */
+  extract?: ExtractOptions
+  /**
+   * Preflight options
+   * Set `false` to disable preflight
+   */
+  preflight?: PreflightOptions | false
+}
 
 export interface DefaultTheme {
   colors: { [key: string]: string | { [key: string]: string } };
