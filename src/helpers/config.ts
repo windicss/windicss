@@ -1,5 +1,5 @@
-import type { Config } from '../interfaces';
+import type { FullConfig } from '../interfaces';
 
-export function defineConfig(config: Config): Config {
+export function defineConfig(config: FullConfig): FullConfig {
   return config;
 }

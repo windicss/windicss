@@ -188,12 +188,53 @@ export type Shortcut = string | NestObject;
 
 export type DarkModeConfig = 'class' | 'media' | false;
 
+export interface ExtractorResultDetailed {
+  attributes?: {
+    names: string[];
+    values: string[];
+  };
+  classes?: string[];
+  ids?: string[];
+  tags?: string[];
+  undetermined?: string[];
+}
+
+export interface Extractor {
+  extractor: (content: string) => ExtractorResultDetailed | Promise<ExtractorResultDetailed>,
+  extensions: string[]
+}
+
+export interface ExtractOptions {
+  /**
+   * Globs of files to be included from extractions
+   */
+  include?: string[]
+  /**
+   * Globs of files to be excluded from extractions
+   *
+   * @default ['node_modules', '.git']
+   */
+  exclude?: string[]
+  /**
+   * Extractors to handle different file types.
+   * Compatible with PurgeCSS
+   */
+  extractors?: Extractor[]
+}
+
+export interface PreflightOptions {
+  /**
+   * Safelist of preflight that will always be included in the generated CSS
+   */
+  safelist?: string | (string | string[])[];
+}
+
 export interface Config {
   presets?: Config[];
   prefixer?: boolean;
   separator?: string;
   important?: boolean | string;
-  darkMode?: 'media' | 'class' | false;
+  darkMode?: DarkModeConfig;
   theme?: Theme;
   variantOrder?: string[];
   plugins?: Plugin[];
@@ -201,7 +242,8 @@ export interface Config {
   prefix?: string;
   exclude?: RegExp[];
   shortcuts?: {[key:string]: Shortcut};
-  [key:string]: any;
+
+  // ===== Depreacted =====
   /**
    * @deprecated no longer needed for Windi CSS
    */
@@ -210,6 +252,26 @@ export interface Config {
    * @deprecated no longer needed for Windi CSS
    */
   variants?: { [key: string]: string[] };
+  /**
+   * Fallback
+   */
+  [key:string]: any;
+}
+
+export interface FullConfig extends Config {
+  /**
+   * Safelist of utilities that will always be included in the generated CSS
+   */
+  safelist?: string | (string | string[])[];
+  /**
+   * Extractions options
+   */
+  extract?: ExtractOptions
+  /**
+   * Preflight options
+   * Set `false` to disable preflight
+   */
+  preflight?: PreflightOptions | false
 }
 
 export interface DefaultTheme {
