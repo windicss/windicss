@@ -224,9 +224,41 @@ export interface ExtractOptions {
 
 export interface PreflightOptions {
   /**
+   * Include all the preflight regardless the template
+   *
+   * @default false
+   */
+  includeAll?: boolean
+
+  /**
    * Safelist of preflight that will always be included in the generated CSS
    */
   safelist?: string | (string | string[])[];
+
+  /**
+   * Blocklist of preflight that will always be excluded in the generated CSS
+   */
+  blocklist?: string | (string | string[])[]
+
+  /**
+   * Alias for resolving preflight
+   */
+  alias?: Record<string, string>
+
+  /**
+   * @default true
+   */
+  includeBase?: boolean
+
+  /**
+   * @default true
+   */
+  includeGlobal?: boolean
+
+  /**
+   * @default true
+   */
+  includePlugin?: boolean
 }
 
 export interface Config {
@@ -264,14 +296,20 @@ export interface FullConfig extends Config {
    */
   safelist?: string | (string | string[])[];
   /**
+   * Blocklist of utilities that will always be excluded in the generated CSS
+   */
+  blocklist?: string | (string | string[])[]
+  /**
    * Extractions options
    */
   extract?: ExtractOptions
   /**
    * Preflight options
    * Set `false` to disable preflight
+   *
+   * @default true
    */
-  preflight?: PreflightOptions | false
+  preflight?: PreflightOptions | boolean
 }
 
 export interface DefaultTheme {
