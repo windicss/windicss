@@ -59,6 +59,17 @@ Tools / color config test / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
   }
+Tools / config with brackets / css / 0: |-
+  .font-bold {
+    font-weight: 700;
+  }
+  .h-\(custom\) {
+    height: calc(100% - 4rem);
+  }
+  .text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 Tools / darkColor test / css / 0: |-
   .\~dark\:text-red-500 {
     --tw-text-opacity: 1;

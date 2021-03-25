@@ -23,6 +23,7 @@ export default class ClassParser {
     let groupStart = this.index + 1;
     let ignoreSpace = false;
     let important = false;
+    let ignoreBracket = false;
     const parts: Element[] = [];
     const length = this.classNames.length;
     while (this.index < length) {
@@ -39,7 +40,9 @@ export default class ClassParser {
         ignoreSpace = true;
         break;
       case '(':
-        if (ignoreSpace) {
+        if (this.classNames.charAt(this.index - 1) === '-') {
+          ignoreBracket = true;
+        } else if (ignoreSpace) {
           group = this._handle_group();
         } else {
           func = this.classNames.slice(groupStart, this.index);
@@ -63,6 +66,10 @@ export default class ClassParser {
             } else if (func) {
               parts.push({ raw, start, end, variants, func, content: group, type: 'func', important });
               func = undefined;
+            } else if (ignoreBracket) {
+              // utility with bracket
+              const utility = this.classNames.slice(variantStart, this.index + 1);
+              parts.push({ raw: raw + ')', start, end: this.index, variants, content: utility.charAt(0) === '!' ? utility.slice(1,): utility, type: 'utility', important });
             } else {
               const utility = this.classNames.slice(variantStart, this.index);
               parts.push({ raw, start, end, variants, content: utility.charAt(0) === '!' ? utility.slice(1,): utility, type: 'utility', important });
@@ -79,7 +86,8 @@ export default class ClassParser {
         ignoreSpace = false;
       }
       if (char === ')') {
-        break;
+        if (!ignoreBracket) break; // end group
+        ignoreBracket = false;
       }
     }
 

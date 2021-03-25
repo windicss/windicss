@@ -432,4 +432,17 @@ describe('Config', () => {
     });
     expect(processor.interpret('bg-black-300 bg-black bg-black-400').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('config with brackets', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          height: theme => ({
+            '(custom)': `calc(100% - ${theme('spacing.16')})`,
+          }),
+        },
+      },
+    });
+    expect(processor.interpret('h-(custom) text-lg font-bold').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
