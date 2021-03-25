@@ -28,6 +28,7 @@ export class StyleSheet {
         const hashes = extended.map(i => hash(i.build()));
         extended = extended.filter(i => !hashes.includes(hash(i.build())));
       }
+      this.prefixer = styleSheet.prefixer;
       this.children = append? [...this.children, ...extended]: [...extended, ...this.children];
     }
     return this;
