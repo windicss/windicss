@@ -57,6 +57,12 @@ class Handler {
     }
     return this;
   }
+  handleSquareBrackets() {
+    if (this.value) return this;
+    if (this._amount[0] === '[' && this._amount[this._amount.length-1] === ']')
+      this._amount = this._amount.slice(1, -1);
+    return this;
+  }
   handleNumber(
     start = -Infinity,
     end = Infinity,
@@ -92,6 +98,7 @@ class Handler {
   }
   handleSize(callback?: (size: string) => string | undefined) {
     if (this.value) return this;
+    this.handleSquareBrackets();
     if (isSize(this._amount))
       this.value = callback ? callback(this._amount) : this._amount;
     return this;
