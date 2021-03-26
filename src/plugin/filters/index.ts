@@ -22,7 +22,10 @@ export default plugin(
         .handleSize()
         .createProperty(
           ['-webkit-backdrop-filter', 'backdrop-filter'],
-          (value: string) => value
+          (value: string) => {
+            if (value === 'none') return 'none';
+            return `blur(${value})`;
+          }
         );
     }, variants('blur') as PluginUtilOptions);
   },
