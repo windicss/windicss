@@ -19,9 +19,8 @@ export default class CSSParser {
 
   private _removeComment(css: string | undefined) {
     if (!css) return css;
-    css = css.replace(/[\s\t]*\/\*\/?(\n|[^/]|[^*])*\*\//g, '');
-    // eslint-disable-next-line quotes
-    css = css.replace(new RegExp("[\\s\\t]*(?<!:)\\/\\/.*$", 'gm'), '');
+    css = css.replace(new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'), '');
+    css = css.replace(new RegExp('[\\s\\t]*(?<!:)\\/\\/.*$', 'gm'), '');
     return css;
   }
 
