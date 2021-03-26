@@ -461,8 +461,8 @@ Tools / should load all plugins correctly / css / 0: |-
     backdrop-filter: blur(20px);
   }
   .blur-20 {
-    -webkit-backdrop-filter: 20px;
-    backdrop-filter: 20px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
   }
   @media (min-width: 768px) {
     .md\:prose-lg {
