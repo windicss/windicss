@@ -189,7 +189,7 @@ export class Utility {
     return this.match(/-.+(?=-)/).substring(1); // real-gray
   }
   get amount(): string {
-    return this.match(/[^-]+$/); // 300
+    return this.match(/(?:[^-]+|\[.*?\])$/); // 300
   }
   get body(): string {
     return this.match(/-.+/).substring(1); // real-gray-300
