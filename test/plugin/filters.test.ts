@@ -67,16 +67,16 @@ describe('filter plugin', () => {
   backdrop-filter: none;
 }
 .blur-12 {
-  -webkit-backdrop-filter: 12px;
-  backdrop-filter: 12px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 .blur-3rem {
-  -webkit-backdrop-filter: 3rem;
-  backdrop-filter: 3rem;
+  -webkit-backdrop-filter: blur(3rem);
+  backdrop-filter: blur(3rem);
 }
 .blur-6px {
-  -webkit-backdrop-filter: 6px;
-  backdrop-filter: 6px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }`);
   });
 });
