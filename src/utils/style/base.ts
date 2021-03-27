@@ -6,6 +6,7 @@ import {
   camelToDash,
   deepCopy,
   isTagName,
+  toArray,
 } from '../tools';
 
 type Meta = { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group: string, order: number };
@@ -351,11 +352,9 @@ export class Style {
   }
 
   add(item: Property | Property[]): this {
-    if (Array.isArray(item)) {
-      this.property = [...this.property, ...item];
-    } else {
-      this.property.push(item);
-    }
+    item = toArray(item);
+    if (this.important) item.forEach((i) => (i.important = true));
+    this.property = [...this.property, ...item];
     return this;
   }
 

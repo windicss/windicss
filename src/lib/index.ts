@@ -286,6 +286,7 @@ export class Processor {
         style.parent(important);
       } else {
         style.important = true;
+        style.property.forEach(i => i.important = true);
       }
     }
     return style;
