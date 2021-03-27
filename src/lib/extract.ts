@@ -32,6 +32,7 @@ export default function extract(
   variants?: string[],
   prefix?: string,
 ): Style | Style[] | undefined {
+
   // handle static base utilities
   if (!prefix && className in staticUtilities) return generateStaticStyle(processor, className, addComment);
   if (prefix && className.startsWith(prefix)) {
@@ -43,6 +44,8 @@ export default function extract(
   if (className in staticPlugins) return deepCopy(staticPlugins[className]);
 
   const utility = new Utility(className);
+
+
   // handle dynamic plugin utilities
   for (const [key, generator] of Object.entries(processor._plugin.dynamic)) {
     if (className.match(new RegExp(`^-?${key}`))) {
@@ -59,7 +62,8 @@ export default function extract(
   // handle dynamic base utilities
   const matches = className.match(/\w+/);
   const key = matches ? matches[0] : undefined;
-  if (key && key in dynamicUtilities) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (key && dynamicUtilities.hasOwnProperty(key)) {
     let style = dynamicUtilities[key](utility, processor.pluginUtils, variants ?? []);
     if (!style) return;
     if (processor._plugin.core && !processor._plugin.core[Array.isArray(style) ? style[0].meta.group : style.meta.group]) return;
