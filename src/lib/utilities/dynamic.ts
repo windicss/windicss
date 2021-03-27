@@ -121,7 +121,7 @@ function order(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable().value;
   if (value) {
     return new Style(utility.class, [
-      new Property('-webkit-box-ordinal-group', value.startsWith('var') ? `calc(${value}+1)` : (parseInt(value) + 1).toString()),
+      new Property('-webkit-box-ordinal-group', value.includes('var') ? `calc(${value}+1)` : (parseInt(value) + 1).toString()),
       new Property(['-webkit-order', '-ms-flex-order', 'order'], value),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'order', order: pluginOrder['order'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
   }
@@ -398,11 +398,11 @@ function text(utility: Utility, { theme, config }: PluginUtils, variants: string
   // handle colors
   const handler = utility.handler.handleColor(theme('textColor')).handleVariable();
   if (handler.value) {
-    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Property('color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Property('color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
     const output = [ new Style(utility.class, [
       new Property('--tw-text-opacity', opacity),
-      new Property('color', `rgba(${handler.value.startsWith('var') ? handler.value : color}, var(--tw-text-opacity))`),
+      new Property('color', `rgba(${handler.value.includes('var') ? handler.value : color}, var(--tw-text-opacity))`),
     ]) ];
     // handle dark color
     if (variants.includes('~dark') && handler.meta.darkColor) {
@@ -482,7 +482,7 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils, variants:
   }
   const handler = utility.handler.handleColor(theme('placeholderColor')).handleVariable();
   if (!handler.value) return;
-  if (handler.value.startsWith('var')) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
+  if (handler.value.includes('var')) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
   if (['transparent', 'currentColor'].includes(handler.value)) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
   const { color, opacity } = toColor(handler.value);
   let output = generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean);
@@ -525,7 +525,7 @@ function background(utility: Utility, { theme, config }: PluginUtils, variants: 
   // handle background color
   const handler = utility.handler.handleColor(theme('backgroundColor')).handleVariable();
   if (handler.value) {
-    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Property('background-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Property('background-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
     // handle dark color
     const output = [ new Style(utility.class, [ new Property('--tw-bg-opacity', opacity), new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`) ]) ];
@@ -544,7 +544,7 @@ function background(utility: Utility, { theme, config }: PluginUtils, variants: 
 function gradientColorFrom(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
   if (handler.value) {
-    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.startsWith('var') ? '255, 255, 255' : toColor(handler.value).color;
+    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.includes('var') ? '255, 255, 255' : toColor(handler.value).color;
     const output = [ new Style(utility.class, [ new Property('--tw-gradient-from', handler.value), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`) ])];
     if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-gradient-from', handler.meta.darkColor), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${toColor(handler.meta.darkColor).color}, 0))`) ]), config('darkMode') as DarkModeConfig));
     return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 1 }));
@@ -555,7 +555,7 @@ function gradientColorFrom(utility: Utility, { theme, config }: PluginUtils, var
 function gradientColorVia(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
   if (handler.value) {
-    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.startsWith('var') ? '255, 255, 255' : toColor(handler.value).color;
+    const rgb = handler.value === 'transparent' ? '0, 0, 0' : handler.value === 'current' ? '255, 255, 255' : handler.value.includes('var') ? '255, 255, 255' : toColor(handler.value).color;
     const output = [ new Style(utility.class, new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.value}, var(--tw-gradient-to, rgba(${rgb}, 0))`)) ];
     if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.meta.darkColor}, var(--tw-gradient-to, rgba(${toColor(handler.meta.darkColor).color}, 0))`)), config('darkMode') as DarkModeConfig));
     return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 }));
@@ -606,7 +606,7 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
   if (handler.value) {
     if (['transparent', 'currentColor'].includes(handler.value)) return new Property('border-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
-    const output = [ new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', handler.value.startsWith('var') ? handler.value: `rgba(${color}, var(--tw-border-opacity))`) ])];
+    const output = [ new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', handler.value.includes('var') ? handler.value: `rgba(${color}, var(--tw-border-opacity))`) ])];
     if (variants.includes('~dark') && handler.meta.darkColor) {
       const { color, opacity } = toColor(handler.meta.darkColor);
       output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', `rgba(${color}, var(--tw-border-opacity))`) ]), config('darkMode') as DarkModeConfig));
@@ -647,7 +647,7 @@ function divide(utility: Utility, { theme, config }: PluginUtils, variants: stri
   if (handler.value) {
     if (['transparent', 'currentColor'].includes(handler.value)) return new Property('border-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
-    const output = [new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', handler.value.startsWith('var') ? handler.value : `rgba(${color}, var(--tw-divide-opacity))`) ])];
+    const output = [new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', handler.value.includes('var') ? handler.value : `rgba(${color}, var(--tw-divide-opacity))`) ])];
     if (variants.includes('~dark') && handler.meta.darkColor) {
       const { color, opacity } = toColor(handler.meta.darkColor);
       output.push(toDarkStyle(new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', `rgba(${color}, var(--tw-divide-opacity))`) ]), config('darkMode') as DarkModeConfig));
@@ -744,7 +744,7 @@ function ring(utility: Utility, utils: PluginUtils, variants: string[]): Output 
   // handle ring color
   const handler = utility.handler.handleColor(utils.theme('ringColor')).handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined);
   if (handler.value) {
-    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.startsWith('var')) return new Style(utility.class, [ new Property('--tw-ring-color', handler.value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Style(utility.class, [ new Property('--tw-ring-color', handler.value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
     const output = [ new Style(utility.class, [ new Property('--tw-ring-opacity', opacity), new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`) ]) ];
     if (variants.includes('~dark') && handler.meta.darkColor) {
