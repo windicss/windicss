@@ -245,6 +245,13 @@ Tools / apply hover with multiple selector / css / 0: |-
     --tw-text-opacity: 1;
     color: rgba(254, 202, 202, var(--tw-text-opacity));
   }
+Tools / background-image url / css / 0: |-
+  .background {
+    background-image: url('https://awebsite.com/an-image.png');
+  }
+  .background__overlay {
+    background-color: #023761;
+  }
 Tools / comma separated selectors / css / 0: |-
   .dark .parent h2 > a::after, .dark .parent h3 > a::after {
     color: red;
@@ -295,6 +302,10 @@ Tools / layer directive / css / 0: |-
   }
   .utilities {
     max-width: 768px;
+  }
+Tools / multiple line comment / css / 0: |-
+  .box {
+    border: 10px solid green;
   }
 Tools / single line comment / css / 0: |-
   .test-child {

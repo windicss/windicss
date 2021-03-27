@@ -19,14 +19,9 @@ export default class CSSParser {
 
   private _removeComment(css: string | undefined) {
     if (!css) return css;
-    let commentOpen = css.search(/\/\*/);
-    let commentClose = css.search(/\*\//);
-    while (commentOpen !== -1 && commentClose !== -1) {
-      css = css.substring(0, commentOpen) + css.substring(commentClose + 2);
-      commentOpen = css.search(/\/\*/);
-      commentClose = css.search(/\*\//);
-    }
-    return css.replace(/\/\/.*/g, '');
+    css = css.replace(new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'), '');
+    css = css.replace(new RegExp('[\\s\\t]*(?<!:)\\/\\/.*$', 'gm'), '');
+    return css;
   }
 
   private _searchGroup(text: string, startIndex = 0) {

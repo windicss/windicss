@@ -391,8 +391,35 @@ describe('CSSParser', () => {
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
 
+  it('multiple line comment', () => {
+    const css = `
+    .box {
+      border: 10px solid green;
+    }
+    /* .test {
+      &-child {
+        border: 10px solid green;
+      }
+    } */
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
+
   it('last rule without semicolon', () => {
     const css = '.font-bold { @apply font-bold; display: block }';
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('background-image url', () => {
+    const css = `.background {
+      background-image: url('https://awebsite.com/an-image.png');
+      &__overlay {
+        // any rule
+        background-color: #023761;
+      }
+    }`;
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
