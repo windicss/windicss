@@ -81,6 +81,13 @@ Tools / interpret important / important / 0: |-
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
 Tools / interpret square brackets / square brackets / 0: |-
+  .border-\[\#232\] {
+    --tw-border-opacity: 1;
+    border-color: rgba(34, 51, 34, var(--tw-border-opacity));
+  }
+  .border-\[2px\] {
+    border-width: 2px;
+  }
   .m-\[-11rem\] {
     margin: -11rem;
   }
@@ -89,6 +96,10 @@ Tools / interpret square brackets / square brackets / 0: |-
   }
   .p-\[30em\] {
     padding: 30em;
+  }
+  .text-\[\#9254d2\] {
+    --tw-text-opacity: 1;
+    color: rgba(146, 84, 210, var(--tw-text-opacity));
   }
   .w-\[51vw\] {
     width: 51vw;
