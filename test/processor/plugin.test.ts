@@ -283,6 +283,41 @@ describe('Plugin Method', () => {
 }`);
   });
 
+  it('css vars inside css fns stay intact', () => {
+    const processor = new Processor({
+      plugins: [
+        {
+          handler: ({ addUtilities }) => {
+            addUtilities({});
+          },
+          config: {
+            theme: {
+              extend: {
+                colors: {
+                  primary: 'var(--testvar)',
+                  'secondary': 'hsla(145, 40%, 90%, 1)',
+                  'secondaryvar': 'hsla(var(--testvar / 1))',
+                },
+              },
+            },
+          },
+        },
+      ],
+    });
+    expect(processor.theme('colors.primary')).toEqual('var(--testvar)');
+    expect(processor.theme('colors.secondary')).toEqual('hsla(145, 40%, 90%, 1)');
+    expect(processor.theme('colors.secondaryvar')).toEqual('hsla(var(--testvar / 1))');
+
+    const ssPrimary = processor.interpret('bg-primary').styleSheet.build();
+    expect(ssPrimary).toEqual('.bg-primary {\n  background-color: var(--testvar);\n}');
+
+    const ssSecondary = processor.interpret('bg-secondary').styleSheet.build();
+    expect(ssSecondary).toEqual('.bg-secondary {\n  --tw-bg-opacity: 1;\n  background-color: rgba(219, 240, 228, var(--tw-bg-opacity));\n}');
+
+    const ssSecondVar = processor.interpret('bg-secondaryvar').styleSheet.build();
+    expect(ssSecondVar).toEqual('.bg-secondaryvar {\n  background-color: hsla(var(--testvar / 1));\n}');
+  });
+
   it('syntax for hex colors', () => {
     const processor = new Processor({
       plugins: [
