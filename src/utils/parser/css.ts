@@ -6,7 +6,7 @@ import type { Processor } from '../../lib';
 const regexRemoveComments = [
   // use constructor here because Safari does not support lookahead in regex literal
   new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'),
-  new RegExp('[\\s\\t]*(?<!:)\\/\\/.*$', 'gm'),
+  new RegExp('[\\s\\t]*(?:[^:])\\/\\/.*$', 'gm'),
 ];
 
 export default class CSSParser {
