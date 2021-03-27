@@ -118,7 +118,7 @@ export class InlineAtRule extends Property {
         matchName.index !== undefined
           ? css
             .substring(matchName.index + name.length + 1)
-            .match(/[^;]*/)?.[0]
+            .match(/(?:(['"]).*?\1|[^;])*/)?.[0]
             .trim()
           : undefined;
       if (expression && /!important;?$/.test(expression)) {

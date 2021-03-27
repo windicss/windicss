@@ -1,3 +1,10 @@
+Tools / @import url / css / 0: >-
+  @import
+  url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
+
+  #app {
+    color: red;
+  }
 Tools / AtRule wrap properties / css / 0: |-
   @font-face {
     font-family: Proxima Nova;

@@ -423,4 +423,13 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('@import url', () => {
+    const css = `@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
+    #app {
+      color: red;
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });
