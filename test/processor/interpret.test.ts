@@ -24,6 +24,12 @@ describe('Interpretation Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
 
+  it('interpret duplicated important', () => {
+    const result = processor.interpret('!text-green-300 !text-green-300 !p-0 !p-0 !hover:(p-4 bg-red-500) !hover:(p-4 bg-red-500) focus:(!border float-right)');
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('duplicated important');
+  });
+
   it('interpret square brackets', () => {
     const result = processor.interpret('p-[30em] !mt-[10px] w-[51vw] m-[-11rem]');
     expect(result.ignored.length).toEqual(0);
