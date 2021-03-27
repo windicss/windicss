@@ -86,6 +86,9 @@ describe('Tools', () => {
     expect(isSize('30vw')).toBeTrue();
     expect(isSize('30ch')).toBeTrue();
     expect(isSize('30ex')).toBeTrue();
+    expect(isSize('-30vw')).toBeTrue();
+    expect(isSize('-30ch')).toBeTrue();
+    expect(isSize('-30ex')).toBeTrue();
   });
 
   it('isSpace', () => {

@@ -23,4 +23,10 @@ describe('Interpretation Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
+
+  it('interpret square brackets', () => {
+    const result = processor.interpret('p-[30em] !mt-[10px] w-[51vw] m-[-11rem]');
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('square brackets');
+  });
 });

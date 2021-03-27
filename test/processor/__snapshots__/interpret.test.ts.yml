@@ -59,3 +59,16 @@ Tools / interpret important / important / 0: |-
     --tw-text-opacity: 1 !important;
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
+Tools / interpret square brackets / square brackets / 0: |-
+  .m-\[-11rem\] {
+    margin: -11rem;
+  }
+  .\!mt-\[10px\] {
+    margin-top: 10px !important;
+  }
+  .p-\[30em\] {
+    padding: 30em;
+  }
+  .w-\[51vw\] {
+    width: 51vw;
+  }
