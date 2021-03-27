@@ -18,6 +18,8 @@ describe('CSS Escape', () => {
     expect(cssEscape('\u007f')).toBe('\\7f ');
     expect(cssEscape('\u0031')).toBe('\\31 ');
     expect(cssEscape('\u0031\u0032')).toBe('\\31 2');
+    expect(cssEscape('>')).toBe('\\>');
+    expect(cssEscape('<')).toBe('\\<');
     expect(cssEscape('-')).toBe('\\-');
   });
 });

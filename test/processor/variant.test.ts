@@ -36,16 +36,7 @@ describe('Variants', () => {
       sm: '640px',
       narrow: { max: '768px' },
     });
-    expect(Object.keys(unsortedScreens)).toEqual([
-      'print',
-      'narrow',
-      'sm',
-      '-sm',
-      '+sm',
-      'lg',
-      '-lg',
-      '+lg',
-    ]);
+    expect(Object.keys(unsortedScreens)).toMatchSnapshot('screens');
   });
 
   it('generate themes with darkMode class', () => {
@@ -79,23 +70,7 @@ describe('Variants', () => {
   it('resolve variants', () => {
     const variants = resolveVariants(baseConfig);
     expect(Object.keys(variants)).toEqual(['screen', 'theme', 'state']);
-    expect(Object.keys(variants.screen)).toEqual([
-      'sm',
-      '-sm',
-      '+sm',
-      'md',
-      '-md',
-      '+md',
-      'lg',
-      '-lg',
-      '+lg',
-      'xl',
-      '-xl',
-      '+xl',
-      '2xl',
-      '-2xl',
-      '+2xl',
-    ]);
+    expect(Object.keys(variants.screen)).toMatchSnapshot('screen');
     expect(Object.keys(variants.theme)).toEqual([
       '@dark',
       '@light',
