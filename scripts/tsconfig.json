@@ -2,10 +2,10 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": ".",
-    "target": "enext",
+    "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["dom", "esnext", "dom.iterable", "scripthost"],
+    "lib": ["dom", "es2017", "dom.iterable", "scripthost"],
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
@@ -13,5 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": ["./src", "./test", "./test-dts", "./example"],
+  "exclude": ["./test/assets", "./test/helpers", "dist"]
 }
