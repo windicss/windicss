@@ -4,9 +4,8 @@ import { layerOrder } from '../../config/order';
 import type { Processor } from '../../lib';
 
 const regexRemoveComments = [
-  // use constructor here because Safari does not support lookahead in regex literal
   new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'),
-  new RegExp('[\\s\\t]*(?:[^:])\\/\\/.*$', 'gm'),
+  new RegExp('[\\s\\t]*:?\\/\\/.*$', 'gm'),
 ];
 
 export default class CSSParser {
@@ -25,7 +24,12 @@ export default class CSSParser {
 
   private _removeComment(css: string | undefined) {
     if (!css) return css;
-    regexRemoveComments.forEach(regex => css = css?.replace(regex, ''));
+    css = css.replace(regexRemoveComments[0], '');
+    css = css.replace(regexRemoveComments[1], (match: string) => {
+      if (match.replace(/[\s\t]*/, '').startsWith('://')) return match;
+      return '';
+    });
+
     return css;
   }
 
