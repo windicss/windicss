@@ -1,4 +1,4 @@
-import { getNestedValue, hash, deepCopy, testRegexr, guessClassName } from '../utils/tools';
+import { getNestedValue, hash, deepCopy, testRegexr, guessClassName, toArray } from '../utils/tools';
 import { negative, breakpoints } from '../utils/helpers';
 import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
@@ -60,6 +60,8 @@ interface Plugin {
   shortcuts: StyleArrayObject;
   variants: { [key: string]: () => Style };
 }
+
+type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
 
 type VariantUtils = {
   modifySelectors: (modifier: ({ className }: {
@@ -199,9 +201,11 @@ export class Processor {
     });
   }
 
-  private _addPluginCache(type: 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts', key: string, styles: Style | Style[]) {
-    if (!Array.isArray(styles)) styles = [ styles ];
-    this._plugin[type][key] = key in this._plugin[type] ? [...this._plugin[type][key], ...styles] : styles;
+  private _addPluginCache(type: AddPluginType, key: string, styles: Style | Style[]) {
+    styles = toArray(styles);
+    this._plugin[type][key] = key in this._plugin[type]
+      ? [...this._plugin[type][key], ...styles]
+      : styles;
   }
 
   private _loadVariables() {

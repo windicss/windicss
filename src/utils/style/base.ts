@@ -162,11 +162,7 @@ export class Style {
   ) {
     this.selector = selector;
     this.important = important;
-    this.property = property
-      ? Array.isArray(property)
-        ? property
-        : [property]
-      : [];
+    this.property = toArray(property || []);
   }
 
   get rule(): string {
@@ -223,8 +219,13 @@ export class Style {
     property?: NestObject,
     root?: Style,
   ): Style[] {
-    if (!root) root = parent?.startsWith('@')? new Style().atRule(parent): new Style(parent);
+    if (!root)
+      root = parent?.startsWith('@')
+        ? new Style().atRule(parent)
+        : new Style(parent);
+
     let output: Style[] = [];
+
     for (const [key, value] of Object.entries(property ?? {})) {
       if (typeof value === 'string') {
         root.add(new Property(camelToDash(key), value));
@@ -358,7 +359,7 @@ export class Style {
     return this;
   }
 
-  extend(item: Style | undefined, onlyProperty = false, append = true): this {
+  extend(item?: Style, onlyProperty = false, append = true): this {
     if (!item) return this;
     if (item.wrapProperties) {
       const props: Property[] = [];
@@ -453,7 +454,7 @@ export class Style {
     return this;
   }
 
-  clone(selector?:string, property?:Property | Property[]): Style {
+  clone(selector?: string, property?: Property | Property[]): Style {
     const newStyle = deepCopy(this);
     if (selector) newStyle.selector = selector;
     if (property) newStyle.property = Array.isArray(property) ? property: [ property ];
