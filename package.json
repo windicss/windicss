@@ -1,6 +1,6 @@
 {
   "name": "windicss",
-  "version": "2.5.7",
+  "version": "2.5.8",
   "description": "Next generation tailwindcss compiler.",
   "main": "index.js",
   "module": "index.mjs",
