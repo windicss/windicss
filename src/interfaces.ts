@@ -202,7 +202,7 @@ export interface ExtractorResultDetailed {
 }
 
 export interface Extractor {
-  extractor: (content: string) => ExtractorResultDetailed | Promise<ExtractorResultDetailed>,
+  extractor: (content: string, id?: string) => ExtractorResultDetailed | Promise<ExtractorResultDetailed>,
   extensions: string[]
 }
 
