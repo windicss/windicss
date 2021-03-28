@@ -31,7 +31,7 @@ describe('Interpretation Mode', () => {
   });
 
   it('interpret square brackets', () => {
-    const result = processor.interpret('p-[30em] !mt-[10px] w-[51vw] m-[-11rem]');
+    const result = processor.interpret('p-[30em] !mt-[10px] w-[51vw] m-[-11rem] border-[2px] border-[#232] text-[#9254d2]');
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets');
   });

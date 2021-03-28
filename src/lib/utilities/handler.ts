@@ -123,7 +123,10 @@ class Handler {
       if (body in colors) {
         color = colors[body];
       } else if (body.startsWith('hex-')) {
-        const hex = body.replace('hex-', '');
+        const hex = body.slice(4);
+        if(hex2RGB(hex)) color = '#' + hex;
+      } else if (body.startsWith('[#') && body.endsWith(']')) {
+        const hex = body.slice(2, -1);
         if(hex2RGB(hex)) color = '#' + hex;
       }
       if (color) {
