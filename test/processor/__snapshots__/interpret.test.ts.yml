@@ -38,6 +38,27 @@ Tools / interpret / success / 0: |-
     "bg-cool-gray-300",
     "bg-hex-fff"
   ]
+Tools / interpret duplicated important / duplicated important / 0: |-
+  .\!hover\:bg-red-500:hover {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
+  }
+  .\!focus\:border:focus {
+    border-width: 1px !important;
+  }
+  .focus\:float-right:focus {
+    float: right;
+  }
+  .\!p-0 {
+    padding: 0px !important;
+  }
+  .\!hover\:p-4:hover {
+    padding: 1rem !important;
+  }
+  .\!text-green-300 {
+    --tw-text-opacity: 1 !important;
+    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+  }
 Tools / interpret important / important / 0: |-
   .\!hover\:bg-red-500:hover {
     --tw-bg-opacity: 1 !important;
@@ -76,6 +97,13 @@ Tools / interpret screen variants / screen variants / 0: |-
     }
   }
 Tools / interpret square brackets / square brackets / 0: |-
+  .border-\[\#232\] {
+    --tw-border-opacity: 1;
+    border-color: rgba(34, 51, 34, var(--tw-border-opacity));
+  }
+  .border-\[2px\] {
+    border-width: 2px;
+  }
   .m-\[-11rem\] {
     margin: -11rem;
   }
@@ -84,6 +112,10 @@ Tools / interpret square brackets / square brackets / 0: |-
   }
   .p-\[30em\] {
     padding: 30em;
+  }
+  .text-\[\#9254d2\] {
+    --tw-text-opacity: 1;
+    color: rgba(146, 84, 210, var(--tw-text-opacity));
   }
   .w-\[51vw\] {
     width: 51vw;

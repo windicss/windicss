@@ -1,6 +1,6 @@
 import { negateValue } from './tools';
 import { Property, Style } from './style';
-import type { FontSize } from '../interfaces';
+import type { FontSize, DarkModeConfig } from '../interfaces';
 
 export function isString(value: unknown): value is string {
   return typeof value === 'string';
@@ -78,9 +78,9 @@ export function generatePlaceholder(selector: string, property: Property | Prope
   ];
 }
 
-export function toDarkStyle(style: Style, mode: 'media' | 'class' | false): Style
-export function toDarkStyle(style: Style[], mode: 'media' | 'class' | false): Style[]
-export function toDarkStyle(style: Style | Style[], mode: 'media' | 'class' | false): Style | Style[] {
+export function toDarkStyle(style: Style, mode: DarkModeConfig): Style
+export function toDarkStyle(style: Style[], mode: DarkModeConfig): Style[]
+export function toDarkStyle(style: Style | Style[], mode: DarkModeConfig): Style | Style[] {
   if (!mode) return style;
   if (Array.isArray(style)) {
     if (mode === 'media') return style.map(i => new Style().atRule('@media (prefers-color-scheme: dark)').extend(i));

@@ -2,6 +2,7 @@ import type { Style } from './base';
 import { hash, deepCopy } from '../tools';
 import sortSelector from '../algorithm/sortSelector';
 import compileStyleSheet from '../algorithm/compileStyleSheet';
+import { Layer } from '../../interfaces';
 
 export class StyleSheet {
   children: Style[];
@@ -53,7 +54,7 @@ export class StyleSheet {
     return this;
   }
 
-  layer(type : 'base' | 'components' | 'utilities'): StyleSheet {
+  layer(type: Layer): StyleSheet {
     const styleSheet = new StyleSheet(this.children.filter(i => i.meta.type === type));
     styleSheet.prefixer = this.prefixer;
     return styleSheet;

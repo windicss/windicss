@@ -378,15 +378,15 @@ describe('CSSParser', () => {
 
   it('single line comment', () => {
     const css = `
-    // comment a
-    .test {
-    // comment b
-      &-child {
-        border: 10px solid green;
-        // this is another comment
-      }
-    }
-    `;
+// comment a
+.test {
+// comment b
+  &-child {
+    border: 10px solid green;
+    // this is another comment
+  }
+}
+`;
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
@@ -419,6 +419,15 @@ describe('CSSParser', () => {
         // any rule
         background-color: #023761;
       }
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('@import url', () => {
+    const css = `@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
+    #app {
+      color: red;
     }`;
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');

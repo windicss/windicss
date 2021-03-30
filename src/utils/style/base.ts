@@ -6,6 +6,7 @@ import {
   camelToDash,
   deepCopy,
   isTagName,
+  toArray,
 } from '../tools';
 
 type Meta = { type: ('base' | 'utilities' | 'components'), corePlugin: boolean, group: string, order: number };
@@ -118,7 +119,7 @@ export class InlineAtRule extends Property {
         matchName.index !== undefined
           ? css
             .substring(matchName.index + name.length + 1)
-            .match(/[^;]*/)?.[0]
+            .match(/(?:(['"]).*?\1|[^;])*/)?.[0]
             .trim()
           : undefined;
       if (expression && /!important;?$/.test(expression)) {
@@ -161,11 +162,7 @@ export class Style {
   ) {
     this.selector = selector;
     this.important = important;
-    this.property = property
-      ? Array.isArray(property)
-        ? property
-        : [property]
-      : [];
+    this.property = toArray(property || []);
   }
 
   get rule(): string {
@@ -222,8 +219,13 @@ export class Style {
     property?: NestObject,
     root?: Style,
   ): Style[] {
-    if (!root) root = parent?.startsWith('@')? new Style().atRule(parent): new Style(parent);
+    if (!root)
+      root = parent?.startsWith('@')
+        ? new Style().atRule(parent)
+        : new Style(parent);
+
     let output: Style[] = [];
+
     for (const [key, value] of Object.entries(property ?? {})) {
       if (typeof value === 'string') {
         root.add(new Property(camelToDash(key), value));
@@ -351,15 +353,13 @@ export class Style {
   }
 
   add(item: Property | Property[]): this {
-    if (Array.isArray(item)) {
-      this.property = [...this.property, ...item];
-    } else {
-      this.property.push(item);
-    }
+    item = toArray(item);
+    if (this.important) item.forEach((i) => (i.important = true));
+    this.property = [...this.property, ...item];
     return this;
   }
 
-  extend(item: Style | undefined, onlyProperty = false, append = true): this {
+  extend(item?: Style, onlyProperty = false, append = true): this {
     if (!item) return this;
     if (item.wrapProperties) {
       const props: Property[] = [];
@@ -454,7 +454,7 @@ export class Style {
     return this;
   }
 
-  clone(selector?:string, property?:Property | Property[]): Style {
+  clone(selector?: string, property?: Property | Property[]): Style {
     const newStyle = deepCopy(this);
     if (selector) newStyle.selector = selector;
     if (property) newStyle.property = Array.isArray(property) ? property: [ property ];

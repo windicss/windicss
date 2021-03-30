@@ -1,7 +1,8 @@
 import { Style } from '../../utils/style';
+import { DarkModeConfig } from '../../interfaces';
 
 export function generateThemes (
-  darkMode?: 'media' | 'class' | false
+  darkMode?: DarkModeConfig
 ): { [key: string]: () => Style } {
   if (!darkMode) return {};
   return {

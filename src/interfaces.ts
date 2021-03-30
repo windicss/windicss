@@ -31,6 +31,8 @@ export type DefaultFontSize = [
   options: { letterSpacing?: string; lineHeight: string }
 ];
 
+export type Layer = 'base' | 'utilities' | 'components'
+
 export type ThemeUtil = (path: string, defaultValue?: unknown) => any;
 
 export type ConfigUtil = (
@@ -52,7 +54,7 @@ export type PluginUtilOptions =
       variants?: string[];
       respectPrefix?: boolean;
       respectImportant?: boolean;
-      layer?: 'base' | 'utilities' | 'components';
+      layer?: Layer;
     };
 
 export interface PluginBuilder {
@@ -200,7 +202,7 @@ export interface ExtractorResultDetailed {
 }
 
 export interface Extractor {
-  extractor: (content: string) => ExtractorResultDetailed | Promise<ExtractorResultDetailed>,
+  extractor: (content: string, id?: string) => ExtractorResultDetailed | Promise<ExtractorResultDetailed>,
   extensions: string[]
 }
 
