@@ -1,5 +1,5 @@
 import { Style } from '../../utils/style';
-import { isString } from '../../utils/helpers';
+import { isString, increaseWithUnit } from '../../utils';
 
 type RawBreakpoint = { raw: string }
 type MinMaxBreakpoint = { min?: string, max?: string }
@@ -17,18 +17,16 @@ export function generateScreens(screens: {
   breakpoints.forEach(([name, size], index) => {
     if (isString(size)) {
       const [, nextSize] = breakpoints[index + 1] || [];
-      const min = styleForBreakpoint({ min: size });
-      const max = styleForBreakpoint({ max: size });
-      const exact = styleForBreakpoint(
+      variants[name] = styleForBreakpoint({ min: size });
+      variants[`<${name}`] = styleForBreakpoint({ max: increaseWithUnit(size, -0.1) });
+      variants[`>${name}`] = styleForBreakpoint({ min: increaseWithUnit(size, +0.1) });
+      variants[`@${name}`] = styleForBreakpoint(
+        nextSize ? { min: size, max: increaseWithUnit(nextSize as string, -0.1) } : { min: size }
+      );
+      variants[`-${name}`] = styleForBreakpoint({ max: size });
+      variants[`+${name}`] = styleForBreakpoint(
         nextSize ? { min: size, max: nextSize as string } : { min: size }
       );
-      variants[name] = min;
-      variants[`<${name}`] = max;
-      variants[`>${name}`] = min;
-      variants[`@${name}`] = exact;
-      // TODO: depreacted?
-      variants[`-${name}`] = max;
-      variants[`+${name}`] = exact;
     } else {
       variants[name] = styleForBreakpoint(size);
     }

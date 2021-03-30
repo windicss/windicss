@@ -260,3 +260,18 @@ export function guessClassName(selector: string): { selector: string, isClass: b
   if (pos === -1) return { selector: selector.slice(1, ).replace(/\\/g, ''), isClass: true };
   return { selector: selector.slice(1, pos).replace(/\\/g, ''), isClass: true, pseudo: selector.slice(pos,) };
 }
+
+/**
+ * Increase string a value with unit
+ *
+ * @example '2px' + 1 = '3px'
+ * @example '15em' + (-2) = '13em'
+ */
+export function increaseWithUnit(target: string, delta: number): string {
+  const value = target.match(/^-?[0-9]+\.?[0-9]*/)?.[0] || '';
+  const unit = target.slice(value.length);
+  const result = (parseFloat(value) + delta);
+  if (Number.isNaN(result))
+    return target;
+  return result + unit;
+}
