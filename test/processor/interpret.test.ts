@@ -41,6 +41,11 @@ describe('Interpretation Mode', () => {
     expect(result.ignored.length).toEqual(1);
   });
 
+  it('generated correct css for space-x-reverse', () => {
+    const result = processor.interpret('space-x-reverse space-y-4');
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('interpret screen variants', () => {
     const result = processor.interpret('md:p-1 <lg:p-2 @xl:p-3');
     expect(result.ignored.length).toEqual(0);

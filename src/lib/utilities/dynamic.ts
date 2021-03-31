@@ -275,8 +275,16 @@ function margin(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://tailwindcss.com/docs/space
 function space(utility: Utility, { theme }: PluginUtils): Output {
-  if (utility.raw === 'space-x-reverse') return new Property('--tw-space-x-reverse', '1').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 6 });
-  if (utility.raw === 'space-y-reverse') return new Property('--tw-space-y-reverse', '1').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 5 });
+  if (utility.raw === 'space-x-reverse') {
+    return new Style(utility.class, [
+      new Property('--tw-space-x-reverse', '1'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 6 });
+  }
+  if (utility.raw === 'space-y-reverse') {
+    return new Style(utility.class, [
+      new Property('--tw-space-y-reverse', '1'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 5 });
+  }
   const value = utility.handler
     .handleStatic(theme('space'))
     .handleSpacing()
