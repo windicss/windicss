@@ -245,6 +245,7 @@ describe('Tools', () => {
   });
 
   it('increaseWithUnit', () => {
+    expect(increaseWithUnit(100, 1)).toEqual(101);
     expect(increaseWithUnit('1px', 1)).toEqual('2px');
     expect(increaseWithUnit('-1em', 1)).toEqual('0em');
     expect(increaseWithUnit('1em', -1)).toEqual('0em');
