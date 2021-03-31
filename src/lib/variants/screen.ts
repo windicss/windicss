@@ -19,7 +19,6 @@ export function generateScreens(screens: {
       const [, nextSize] = breakpoints[index + 1] || [];
       variants[name] = styleForBreakpoint({ min: size });
       variants[`<${name}`] = styleForBreakpoint({ max: increaseWithUnit(size, -0.1) });
-      variants[`>${name}`] = styleForBreakpoint({ min: increaseWithUnit(size, +0.1) });
       variants[`@${name}`] = styleForBreakpoint(
         nextSize ? { min: size, max: increaseWithUnit(nextSize as string, -0.1) } : { min: size }
       );

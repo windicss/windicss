@@ -42,7 +42,7 @@ describe('Interpretation Mode', () => {
   });
 
   it('interpret screen variants', () => {
-    const result = processor.interpret('>md:p-1 <lg:p-2 @xl:p-3');
+    const result = processor.interpret('md:p-1 <lg:p-2 @xl:p-3');
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('screen variants');
   });

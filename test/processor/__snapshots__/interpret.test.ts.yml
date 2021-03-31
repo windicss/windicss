@@ -81,8 +81,8 @@ Tools / interpret important / important / 0: |-
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
 Tools / interpret screen variants / screen variants / 0: |-
-  @media (min-width: 768.1px) {
-    .\>md\:p-1 {
+  @media (min-width: 768px) {
+    .md\:p-1 {
       padding: 0.25rem;
     }
   }
