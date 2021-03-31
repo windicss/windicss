@@ -7,14 +7,33 @@ Tools / directions / css / 0: |-
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
+Tools / generate screens / screens / 1: |-
+  [
+    "print",
+    "narrow",
+    "sm",
+    "<sm",
+    "@sm",
+    "-sm",
+    "+sm",
+    "lg",
+    "<lg",
+    "@lg",
+    "-lg",
+    "+lg"
+  ]
 Tools / generate screens / vars / 0: |-
   {
     "print": "@media print {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "narrow": "@media (max-width: 768px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "sm": "@media (min-width: 640px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+    "<sm": "@media (max-width: 639.9px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+    "@sm": "@media (min-width: 640px) and (max-width: 1023.9px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "-sm": "@media (max-width: 640px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "+sm": "@media (min-width: 640px) and (max-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "lg": "@media (min-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+    "<lg": "@media (max-width: 1023.9px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+    "@lg": "@media (min-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "-lg": "@media (max-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "+lg": "@media (min-width: 1024px) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
   }
@@ -107,3 +126,31 @@ Tools / generate themes with darkMode media / vars / 0: |-
     "dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
   }
+Tools / resolve variants / screen / 0: |-
+  [
+    "sm",
+    "<sm",
+    "@sm",
+    "-sm",
+    "+sm",
+    "md",
+    "<md",
+    "@md",
+    "-md",
+    "+md",
+    "lg",
+    "<lg",
+    "@lg",
+    "-lg",
+    "+lg",
+    "xl",
+    "<xl",
+    "@xl",
+    "-xl",
+    "+xl",
+    "2xl",
+    "<2xl",
+    "@2xl",
+    "-2xl",
+    "+2xl"
+  ]

@@ -7,11 +7,11 @@ describe('Resolve Tests', () => {
   it('resolve variants', () => {
     const processor = new Processor();
     const screenVariants = [
-      'sm',  '-sm',  '+sm',
-      'md',  '-md',  '+md',
-      'lg',  '-lg',  '+lg',
-      'xl',  '-xl',  '+xl',
-      '2xl', '-2xl', '+2xl',
+      'sm',   '<sm',   '@sm', '-sm',  '+sm',
+      'md',   '<md',   '@md', '-md',  '+md',
+      'lg',   '<lg',   '@lg', '-lg',  '+lg',
+      'xl',   '<xl',   '@xl', '-xl',  '+xl',
+      '2xl', '<2xl',  '@2xl', '-2xl', '+2xl',
     ];
     const stateVariants = [
       'hover',             'focus',            'active',

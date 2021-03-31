@@ -80,6 +80,22 @@ Tools / interpret important / important / 0: |-
     --tw-text-opacity: 1 !important;
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
+Tools / interpret screen variants / screen variants / 0: |-
+  @media (min-width: 768px) {
+    .md\:p-1 {
+      padding: 0.25rem;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1535.9px) {
+    .\@xl\:p-3 {
+      padding: 0.75rem;
+    }
+  }
+  @media (max-width: 1023.9px) {
+    .\<lg\:p-2 {
+      padding: 0.5rem;
+    }
+  }
 Tools / interpret square brackets / square brackets / 0: |-
   .border-\[\#232\] {
     --tw-border-opacity: 1;

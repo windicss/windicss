@@ -1,5 +1,5 @@
 import { Style } from '../../utils/style';
-import { isString } from '../../utils/helpers';
+import { isString, increaseWithUnit } from '../../utils';
 
 type RawBreakpoint = { raw: string }
 type MinMaxBreakpoint = { min?: string, max?: string }
@@ -18,6 +18,10 @@ export function generateScreens(screens: {
     if (isString(size)) {
       const [, nextSize] = breakpoints[index + 1] || [];
       variants[name] = styleForBreakpoint({ min: size });
+      variants[`<${name}`] = styleForBreakpoint({ max: increaseWithUnit(size, -0.1) });
+      variants[`@${name}`] = styleForBreakpoint(
+        nextSize ? { min: size, max: increaseWithUnit(nextSize as string, -0.1) } : { min: size }
+      );
       variants[`-${name}`] = styleForBreakpoint({ max: size });
       variants[`+${name}`] = styleForBreakpoint(
         nextSize ? { min: size, max: nextSize as string } : { min: size }
