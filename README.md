@@ -17,6 +17,10 @@
 
 <p align="center">Next generation utility-first CSS framework.</p>
 
+<p align="center">
+If you are already familiar with Tailwind CSS, think about Windi CSS as an <b>on-demanded</b> alternative to Tailwind, which provides faster load times, <b>fully compatible with Tailwind v2.0</b> and with a bunch of additional cool features.
+</p>
+
 [windi css]: https://windicss.org
 [website]: https://windicss.org
 [video comparison]: https://twitter.com/antfu7/status/1361398324587163648
@@ -25,13 +29,15 @@
 
 A quote from the author should illustrate his motivation to create [Windi CSS]:
 
-> When my project became larger and there were about dozens of components, the initial compilation time reached 3s, and hot updates took more than 1s. @voorjar
+> When my project became larger and there were about dozens of components, the initial compilation time reached 3s, and hot updates took more than 1s with Tailwind CSS. - [@voorjaar](https://github.com/voorjaar)
 
 By scanning your HTML and CSS and generating utilities on demand, [Windi CSS] is able to provide [faster load times][video comparison] and a speedy HMR in development, and does not require purging in production.
 
 Read more about it in the [Introduction](https://windicss.org/guide/introduction).
 
 ## Integrations
+
+Windi CSS provides first-class integrations for your favorite tools, select yours and get started.
 
 | Frameworks | Package | Version |
 | :-- | :-- | :-- |
