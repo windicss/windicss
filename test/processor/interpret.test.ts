@@ -40,4 +40,9 @@ describe('Interpretation Mode', () => {
     const result = processor.interpret('./constructor');
     expect(result.ignored.length).toEqual(1);
   });
+
+  it('generated correct css for space-x-reverse', () => {
+    const result = processor.interpret('space-x-reverse space-y-4');
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
