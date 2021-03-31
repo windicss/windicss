@@ -22,6 +22,7 @@ import {
   searchPropEnd,
   searchNotEscape,
   guessClassName,
+  increaseWithUnit,
 } from '../../src/utils';
 
 import { Property, Style } from '../../src/utils/style';
@@ -241,5 +242,16 @@ describe('Tools', () => {
     expect(guessClassName('[type=\'text\']')).toEqual({ selector: '[type=\'text\']', isClass: false });
     expect(guessClassName('.test')).toEqual({ selector: 'test', isClass: true });
     expect(guessClassName(String.raw`.hover\:bg-black:hover`)).toEqual({ selector: 'hover:bg-black', isClass: true, pseudo: ':hover' });
+  });
+
+  it('increaseWithUnit', () => {
+    expect(increaseWithUnit(100, 1)).toEqual(101);
+    expect(increaseWithUnit('1px', 1)).toEqual('2px');
+    expect(increaseWithUnit('-1em', 1)).toEqual('0em');
+    expect(increaseWithUnit('1em', -1)).toEqual('0em');
+    expect(increaseWithUnit('1em', -5)).toEqual('-4em');
+    expect(increaseWithUnit('0.5vw', 1.5)).toEqual('2vw');
+    expect(increaseWithUnit('100 %', 10)).toEqual('110 %');
+    expect(increaseWithUnit('var(--cool)', -5)).toEqual('var(--cool)');
   });
 });
