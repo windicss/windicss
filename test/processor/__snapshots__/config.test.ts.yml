@@ -112,6 +112,16 @@ Tools / darkColor test / css / 1: |-
       color: rgba(165, 216, 255, var(--tw-text-opacity));
     }
   }
+Tools / dashify / css / 0: |-
+  .foo {
+    --tw-bg-opacity: 1;
+  }
+  .bar {
+    tw-bg-opacity: 1;
+  }
+  .caps {
+    test-css: 1;
+  }
 Tools / different colors / colors / 0: |-
   .bg-name {
     --tw-bg-opacity: 1;
