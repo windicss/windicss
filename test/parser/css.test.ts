@@ -432,4 +432,25 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('nesting', () => {
+    const css = `.Comp.is-active {
+      .a, .b {
+        border: 5px solid pink;
+      }
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
+
+  it('nesting self referencing', () => {
+    const css = `.Comp.is-active {
+      &,
+      .Comp-child {
+        border: 5px solid pink;
+      }
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });

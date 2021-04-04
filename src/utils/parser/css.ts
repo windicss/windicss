@@ -105,7 +105,7 @@ export default class CSSParser {
           i.selector = parent;
         } else {
           let selector = i.selector;
-          if (!/&/.test(selector)) selector = /\s*,\s*/.test(selector) ? selector.trim().split(/\s*,\s*/g).map(i => `& ${i}`).join(', ') : `& ${selector}`;
+          selector = selector.trim().split(/\s*,\s*/g).map(i => /&/.test(i) ? i : `& ${i}`).join(', ');
           i.selector = /\s*,\s*/.test(parent) ? parent.trim().split(/\s*,\s*/g).map(i => selector.replace(/&/g, i)).join(', ') : selector.replace(/&/g, parent);
         }
         i.updateMeta({ type: layer, corePlugin: false, group: 'block', order });

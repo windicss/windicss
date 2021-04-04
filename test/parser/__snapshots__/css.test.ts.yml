@@ -314,6 +314,14 @@ Tools / multiple line comment / css / 0: |-
   .box {
     border: 10px solid green;
   }
+Tools / nesting / css / 0: |-
+  .Comp.is-active .a, .Comp.is-active .b {
+    border: 5px solid pink;
+  }
+Tools / nesting self referencing / css / 0: |-
+  .Comp.is-active, .Comp.is-active .Comp-child {
+    border: 5px solid pink;
+  }
 Tools / single line comment / css / 0: |-
   .test-child {
     border: 10px solid green;
