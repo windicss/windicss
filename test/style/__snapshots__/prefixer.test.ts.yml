@@ -1,4 +1,4 @@
-closePrefixer / processor prefix / css / 1: |-
+Tools / processor prefix / css / 1: |-
   @keyframes ping {
     0% {
       transform: scale(1);
@@ -31,7 +31,7 @@ closePrefixer / processor prefix / css / 1: |-
   .animate-ping {
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
-closePrefixer / processor prefix / preflight / 0: |-
+Tools / processor prefix / preflight / 0: |-
   *, ::before, ::after {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -202,7 +202,7 @@ closePrefixer / processor prefix / preflight / 0: |-
     opacity: 1;
     color: #9ca3af;
   }
-closePrefixer / styleSheet prefix / css / 0: |-
+Tools / styleSheet prefix / css / 0: |-
   .flex {
     display: flex;
   }
