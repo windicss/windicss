@@ -445,4 +445,22 @@ describe('Config', () => {
     });
     expect(processor.interpret('h-(custom) text-lg font-bold').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  // #218
+  it('dashify', () => {
+    const processor = new Processor({
+      shortcuts: {
+        foo: {
+          '-TwBgOpacity': '1',
+        },
+        bar: {
+          'TwBgOpacity': '1',
+        },
+        caps: {
+          'TestCSS': '1',
+        },
+      },
+    });
+    expect(processor.interpret('foo bar caps').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

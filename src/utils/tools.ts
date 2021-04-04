@@ -101,7 +101,7 @@ export function hex2RGB(hex: string): number[] | undefined {
 }
 
 export function camelToDash(str: string): string {
-  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+  return str.replace(/([^A-Z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 export function dashToCamel(str: string): string {
