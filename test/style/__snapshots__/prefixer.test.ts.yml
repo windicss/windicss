@@ -18,6 +18,12 @@ Tools / processor prefix / css / 1: |-
   .flex {
     display: flex;
   }
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
   .placeholder-gray-200::placeholder {
     --tw-placeholder-opacity: 1;
     color: rgba(229, 231, 235, var(--tw-placeholder-opacity));

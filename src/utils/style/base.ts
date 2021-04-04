@@ -474,7 +474,8 @@ export class Style {
     if (!prefixer) properties = properties.filter(p => {
       if (p.value && /-(webkit|ms|moz|o)-/.test(p.value)) return false;
       if (Array.isArray(p.name)) {
-        return p.name.filter(i => !/^-(webkit|ms|moz|o)-/.test(i));
+        p.name = p.name.filter(i => !/^-(webkit|ms|moz|o)-/.test(i));
+        return true;
       }
       return !/^-(webkit|ms|moz|o)-/.test(p.name);
     });
