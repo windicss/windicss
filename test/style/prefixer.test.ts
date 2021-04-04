@@ -71,7 +71,7 @@ describe('closePrefixer', () => {
       prefixer: false,
     });
     expect(processor.preflight(undefined, true, true).build()).toMatchSnapshot('preflight');
-    // https://github.com/windicss/windicss/issues/132
+    // #132
     expect(processor.interpret('bg-clip-padding flex bg-gradient-to-bl animate-ping placeholder-gray-200 flex-grow flex-shrink').styleSheet.build()).toMatchSnapshot('css');
   });
 });
