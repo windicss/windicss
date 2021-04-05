@@ -1,0 +1,12 @@
+Tools / addComponents order / css / 0: |-
+  [data-theme=dark] {
+    --p: 259 94% 61%;
+  }
+  @media (prefers-color-scheme:dark) {
+    :root {
+      --p: 259 94% 61%;
+    }
+  }
+  [data-theme=light] {
+    --p: 259 94% 51%;
+  }
