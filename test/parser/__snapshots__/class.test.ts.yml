@@ -63,47 +63,18 @@ Tools / parse / class parser / 0: |-
       "important": false
     },
     {
-      "raw": "md: hover:  (bg-black-300)",
+      "raw": "md: hover:  (bg-black-300 text-gray-200   text-lg dark:(bg-black-300 text-gray-200))",
       "start": 78,
-      "end": 104,
+      "end": 162,
       "variants": [
         "md",
         "hover"
       ],
-      "content": "(bg-black-300 ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "text-gray-200)",
-      "start": 104,
-      "end": 118,
-      "variants": [],
-      "content": "text-gray-200 ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "text-lg)",
-      "start": 120,
-      "end": 128,
-      "variants": [],
-      "content": "text-lg ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "dark:(bg-black-300 text-gray-200)",
-      "start": 128,
-      "end": 161,
-      "variants": [
-        "dark"
-      ],
       "content": [
         {
           "raw": "bg-black-300",
-          "start": 134,
-          "end": 146,
+          "start": 91,
+          "end": 103,
           "variants": [],
           "content": "bg-black-300",
           "type": "utility",
@@ -111,11 +82,50 @@ Tools / parse / class parser / 0: |-
         },
         {
           "raw": "text-gray-200",
-          "start": 147,
-          "end": 160,
+          "start": 104,
+          "end": 117,
           "variants": [],
           "content": "text-gray-200",
           "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "text-lg",
+          "start": 120,
+          "end": 127,
+          "variants": [],
+          "content": "text-lg",
+          "type": "utility",
+          "important": false
+        },
+        {
+          "raw": "dark:(bg-black-300 text-gray-200)",
+          "start": 128,
+          "end": 161,
+          "variants": [
+            "dark"
+          ],
+          "content": [
+            {
+              "raw": "bg-black-300",
+              "start": 134,
+              "end": 146,
+              "variants": [],
+              "content": "bg-black-300",
+              "type": "utility",
+              "important": false
+            },
+            {
+              "raw": "text-gray-200",
+              "start": 147,
+              "end": 160,
+              "variants": [],
+              "content": "text-gray-200",
+              "type": "utility",
+              "important": false
+            }
+          ],
+          "type": "group",
           "important": false
         }
       ],
@@ -213,8 +223,9 @@ Tools / parse / class parser / 0: |-
       "start": 317,
       "end": 333,
       "variants": [],
-      "content": "bg-rgb(32,31,22)",
-      "type": "utility",
+      "func": "bg-rgb",
+      "content": "32,31,22",
+      "type": "func",
       "important": false
     },
     {
@@ -222,89 +233,39 @@ Tools / parse / class parser / 0: |-
       "start": 334,
       "end": 346,
       "variants": [],
-      "content": "bg-raw(#fff)",
-      "type": "utility",
+      "func": "bg-raw",
+      "content": "#fff",
+      "type": "func",
       "important": false
     },
     {
-      "raw": "bg-rgba(255,)",
+      "raw": "bg-rgba(255, 0, 0, 0.3)",
       "start": 347,
-      "end": 360,
-      "variants": [],
-      "content": "bg-rgba(255, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "0,)",
-      "start": 360,
-      "end": 363,
-      "variants": [],
-      "content": "0, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "0.3)",
-      "start": 366,
       "end": 370,
       "variants": [],
-      "content": "0.3)",
-      "type": "utility",
+      "func": "bg-rgba",
+      "content": "255, 0, 0, 0.3",
+      "type": "func",
       "important": false
     },
     {
-      "raw": "bg-hsl(0,)",
+      "raw": "bg-hsl(0, 100%, 25%)",
       "start": 371,
-      "end": 381,
-      "variants": [],
-      "content": "bg-hsl(0, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "100%,)",
-      "start": 381,
-      "end": 387,
-      "variants": [],
-      "content": "100%, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "25%)",
-      "start": 387,
       "end": 391,
       "variants": [],
-      "content": "25%)",
-      "type": "utility",
+      "func": "bg-hsl",
+      "content": "0, 100%, 25%",
+      "type": "func",
       "important": false
     },
     {
-      "raw": "bg-hsla(0,)",
+      "raw": "bg-hsla(0, 100%, 50%, 0.5)",
       "start": 392,
-      "end": 403,
-      "variants": [],
-      "content": "bg-hsla(0, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "50%,)",
-      "start": 409,
-      "end": 414,
-      "variants": [],
-      "content": "50%, ",
-      "type": "utility",
-      "important": false
-    },
-    {
-      "raw": "0.5)",
-      "start": 414,
       "end": 418,
       "variants": [],
-      "content": "0.5)",
-      "type": "utility",
+      "func": "bg-hsla",
+      "content": "0, 100%, 50%, 0.5",
+      "type": "func",
       "important": false
     }
   ]

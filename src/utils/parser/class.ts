@@ -52,7 +52,7 @@ export default class ClassParser {
         insideSquareBracket = true;
         break;
       case '(':
-        if (this.classNames.charAt(this.index - 1) !== ':') {
+        if (this.classNames.charAt(this.index - 1) === '-') {
           ignoreBracket = true;
         } else if (ignoreSpace) {
           group = this._handle_group();
