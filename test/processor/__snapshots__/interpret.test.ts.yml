@@ -89,6 +89,23 @@ Tools / interpret important / important / 0: |-
     --tw-text-opacity: 1 !important;
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
+Tools / interpret outline / outline / 0: |-
+  .outline-solid-black {
+    outline: 2px dotted black;
+    outline-offset: 2px;
+  }
+  .outline-dotted-white {
+    outline: 2px dotted white;
+    outline-offset: 2px;
+  }
+  .outline-solid-red-200 {
+    outline: 2px solid #fecaca;
+    outline-offset: 2px;
+  }
+  .outline-dotted-red-200 {
+    outline: 2px dotted #fecaca;
+    outline-offset: 2px;
+  }
 Tools / interpret screen variants / screen variants / 0: |-
   @media (min-width: 768px) {
     .md\:p-1 {
