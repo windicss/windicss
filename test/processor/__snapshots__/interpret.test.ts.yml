@@ -167,3 +167,13 @@ Tools / interpret square brackets / square brackets / 0: |-
     grid-gap: 4rem;
     gap: 4rem;
   }
+Tools / interpret square brackets grid / square brackets grids / 0: |-
+  .grid-cols-\[1fr\2c 700px\2c 2fr\] {
+    grid-template-columns: 1fr 700px 2fr;
+  }
+  .grid-cols-\[auto\] {
+    grid-template-columns: auto;
+  }
+  .grid-rows-\[auto\2c max-content\2c 10px\] {
+    grid-template-rows: auto max-content 10px;
+  }

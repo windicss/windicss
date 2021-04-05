@@ -42,6 +42,16 @@ describe('Interpretation Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets');
   });
 
+  it('interpret square brackets grid', () => {
+    const result = processor.interpret(`
+      grid-cols-[1fr,700px,2fr]
+      grid-cols-[auto]
+      grid-rows-[auto,max-content,10px]
+    `);
+    expect(result.ignored).toEqual([]);
+    expect(result.styleSheet.build()).toMatchSnapshot('square brackets grids');
+  });
+
   it('interpret false positive with "constructor"', () => {
     const result = processor.interpret('./constructor');
     expect(result.ignored.length).toEqual(1);

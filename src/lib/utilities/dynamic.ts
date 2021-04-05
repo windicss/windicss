@@ -144,6 +144,7 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   const group = type === 'rows'? 'gridTemplateRows' : 'gridTemplateColumns';
   const value = utility.handler
     .handleStatic(theme(group))
+    .handleSquareBrackets(i => i.replace(/,/g, ' '))
     .createProperty(`grid-template-${type}`, (value: string) => value === 'none' ? 'none' : value);
   if (value) return value.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
   return utility.handler
