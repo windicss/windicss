@@ -991,21 +991,29 @@ function cursor(utility: Utility, { theme }: PluginUtils): Output {
 function outline(utility: Utility, { theme, config }: PluginUtils, variants: string[]): Output {
   const amount = utility.amount;
   const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
-  if (Object.keys(staticMap).includes(amount)) return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
-  const handler = utility.handler.handleColor().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
-  if (handler.value) {
-    const output = [ new Style(utility.class, [ new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.value}`), new Property('outline-offset', '2px') ])];
-    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.meta.darkColor}`)), config('darkMode') as DarkModeConfig));
-    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 }));
-  }
+  if (Object.keys(staticMap).includes(amount))
+    return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
+
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
     const newUtility = new Utility(utility.raw.replace('outline-', ''));
-    const handler = newUtility.handler.handleStatic({ none: 'transparent', white: 'white', black: 'black' }).handleColor().handleVariable();
+    const handler = newUtility.handler
+      .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
+      .handleColor()
+      .handleVariable();
     if (handler.value) {
       const output = [ new Style(utility.class, [ new Property('outline', `2px ${newUtility.identifier} ${handler.value}`), new Property('outline-offset', '2px') ]) ];
       if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('outline', `2px ${newUtility.identifier} ${handler.meta.darkColor}`)), config('darkMode') as DarkModeConfig));
       return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 3 }));
     }
+  }
+
+  const handler = utility.handler
+    .handleColor()
+    .handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
+  if (handler.value) {
+    const output = [ new Style(utility.class, [ new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.value}`), new Property('outline-offset', '2px') ])];
+    if (variants.includes('~dark') && handler.meta.darkColor) output.push(toDarkStyle(new Style(utility.class, new Property('outline', `2px ${handler.value === 'transparent' ? 'solid' : 'dotted'} ${handler.meta.darkColor}`)), config('darkMode') as DarkModeConfig));
+    return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 }));
   }
 }
 
