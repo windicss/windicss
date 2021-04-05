@@ -18,6 +18,12 @@ export default function cssEscape(str: string): string {
       continue;
     }
 
+    // Comma
+    if (codeUnit === 44){
+      result += '\\2c ';
+      continue;
+    }
+
     if (
       // If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
       // U+007F, […]
