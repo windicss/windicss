@@ -36,7 +36,7 @@ describe('Interpretation Mode', () => {
       border-[2px] border-[#232] border-l-[#342]
       ring-[#34123250] ring-[4px]
       bg-[#234]
-      text-[1.5rem] text-[#9254d2] text-[rgb(123,123,23)] text-[rgba(132,2,193,0.5)] text-[hsl(360, 100%, 50%)]
+      text-[1.5rem] text-[#9254d2] text-[rgb(123,123,23)] text-[rgba(132,2,193,0.5)] text-[hsl(360,100%,50%)]
     `);
     expect(result.ignored).toEqual([]);
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets');
@@ -50,6 +50,13 @@ describe('Interpretation Mode', () => {
     `);
     expect(result.ignored).toEqual([]);
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets grids');
+  });
+
+  it('interpret square brackets ignored', () => {
+    const result = processor.interpret(`
+      p-[30 em] p-[] text] border-[ text-[[
+    `);
+    expect(result.success).toEqual([]);
   });
 
   it('interpret false positive with "constructor"', () => {

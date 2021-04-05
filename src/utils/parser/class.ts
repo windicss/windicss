@@ -33,9 +33,13 @@ export default class ClassParser {
       char = this.classNames.charAt(this.index);
       // ignore parsing and leave content inside square brackets as-is
       if (insideSquareBracket) {
-        if(char === ']')
+        if(' \n\t\r'.includes(char)) {
           insideSquareBracket = false;
-        continue;
+        } else {
+          if (char === ']')
+            insideSquareBracket = false;
+          continue;
+        }
       }
       // handle chars
       switch (char) {

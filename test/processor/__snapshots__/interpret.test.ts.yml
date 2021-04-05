@@ -173,7 +173,7 @@ Tools / interpret square brackets / square brackets / 0: |-
     --tw-text-opacity: 0.5;
     color: rgba(132, 2, 193, var(--tw-text-opacity));
   }
-  .text-\[hsl\(360\2c \ 100\%\2c \ 50\%\)\] {
+  .text-\[hsl\(360\2c 100\%\2c 50\%\)\] {
     --tw-text-opacity: 1;
     color: rgba(255, 0, 0, var(--tw-text-opacity));
   }
