@@ -13,6 +13,14 @@ import {
 
 import type { PluginUtils, FontSize, Output, DynamicUtility, DarkModeConfig } from '../../interfaces';
 
+function isNumberLead(i:string) {
+  return /^\d/.test(i) ? i : undefined;
+}
+
+function notNumberLead(i:string) {
+  return /^\d/.test(i) ? undefined : i;
+}
+
 // https://tailwindcss.com/docs/container
 function container(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'container') {
@@ -52,6 +60,7 @@ function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
 function inset(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('inset'))
+    .handleSquareBrackets()
     .handleSpacing()
     .handleFraction()
     .handleSize()
@@ -135,6 +144,7 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   const group = type === 'rows'? 'gridTemplateRows' : 'gridTemplateColumns';
   const value = utility.handler
     .handleStatic(theme(group))
+    .handleSquareBrackets(i => i.replace(/,/g, ' '))
     .createProperty(`grid-template-${type}`, (value: string) => value === 'none' ? 'none' : value);
   if (value) return value.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
   return utility.handler
@@ -233,6 +243,7 @@ function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
 function gap(utility: Utility, { theme, config }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('gap'))
+    .handleSquareBrackets()
     .handleSpacing()
     .handleSize()
     .handleVariable().value;
@@ -246,6 +257,7 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
 function padding(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('padding'))
+    .handleSquareBrackets()
     .handleSpacing()
     .handleSize()
     .handleVariable().value;
@@ -261,6 +273,7 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
 function margin(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler
     .handleStatic(theme('margin'))
+    .handleSquareBrackets()
     .handleSpacing()
     .handleSize()
     .handleNegative()
@@ -287,6 +300,7 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
   }
   const value = utility.handler
     .handleStatic(theme('space'))
+    .handleSquareBrackets()
     .handleSpacing()
     .handleSize()
     .handleNegative()
@@ -334,6 +348,7 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
     return new Style(utility.class, new Property(name, value)).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 1 });
   }
   return utility.handler
+    .handleSquareBrackets()
     .handleSpacing()
     .handleFraction()
     .handleSize()
@@ -373,6 +388,7 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
   }
 
   return utility.handler
+    .handleSquareBrackets()
     .handleSpacing()
     .handleFraction()
     .handleSize()
@@ -399,14 +415,23 @@ function text(utility: Utility, { theme, config }: PluginUtils, variants: string
   const amount = utility.amount;
   const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
   if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
-  let value = utility.handler.handleNxl((number: number) => `${number}rem`).handleSize().value;
+  let value = utility.handler
+    .handleSquareBrackets(isNumberLead)
+    .handleNxl((number: number) => `${number}rem`)
+    .handleSize()
+    .value;
   if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
   if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
 
   // handle colors
-  const handler = utility.handler.handleColor(theme('textColor')).handleVariable();
+  const handler = utility.handler
+    .handleSquareBrackets()
+    .handleColor(theme('textColor'))
+    .handleVariable();
   if (handler.value) {
-    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Property('color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+    if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) {
+      return new Property('color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+    }
     const { color, opacity } = toColor(handler.value);
     const output = [ new Style(utility.class, [
       new Property('--tw-text-opacity', opacity),
@@ -450,6 +475,7 @@ function font(utility: Utility, { theme }: PluginUtils): Output {
 function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('letterSpacing'))
+    .handleSquareBrackets()
     .handleSize()
     .handleNegative()
     .handleVariable()
@@ -462,6 +488,7 @@ function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('lineHeight'))
     .handleNumber(0, undefined, 'int', (number: number) => `${number * 0.25}rem`)
+    .handleSquareBrackets()
     .handleSize()
     .handleVariable()
     .createProperty('line-height')
@@ -488,7 +515,9 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils, variants:
       .value;
     return generatePlaceholder(utility.class, new Property('--tw-placeholder-opacity', opacity), config('prefixer') as boolean).map(function (style) { return style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 }); });
   }
-  const handler = utility.handler.handleColor(theme('placeholderColor')).handleVariable();
+  const handler = utility.handler
+    .handleColor(theme('placeholderColor'))
+    .handleVariable();
   if (!handler.value) return;
   if (handler.value.includes('var')) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
   if (['transparent', 'currentColor'].includes(handler.value)) return generatePlaceholder(utility.class, new Property('color', handler.value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
@@ -530,8 +559,12 @@ function background(utility: Utility, { theme, config }: PluginUtils, variants: 
       .handleVariable()
       .createProperty('--tw-bg-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundOpacity', order: pluginOrder['backgroundOpacity'] + 1 });
+
   // handle background color
-  const handler = utility.handler.handleColor(theme('backgroundColor')).handleVariable();
+  const handler = utility.handler
+    .handleSquareBrackets(notNumberLead)
+    .handleColor(theme('backgroundColor'))
+    .handleVariable();
   if (handler.value) {
     if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Property('background-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
@@ -588,6 +621,7 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
   if (!directions) return;
   return utility.handler
     .handleStatic(theme('borderRadius'))
+    .handleSquareBrackets()
     .handleFraction()
     .handleNxl((number: number) => `${number * 0.5}rem`)
     .handleSize()
@@ -609,8 +643,12 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
       .createProperty('--tw-border-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderOpacity', order: pluginOrder['borderOpacity'] + 1 });
   }
+
   // handle border color
-  const handler = utility.handler.handleColor(theme('borderColor')).handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined);
+  const handler = utility.handler
+    .handleSquareBrackets(notNumberLead)
+    .handleColor(theme('borderColor'))
+    .handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined);
   if (handler.value) {
     if (['transparent', 'currentColor'].includes(handler.value)) return new Property('border-color', handler.value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
@@ -621,6 +659,7 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
     }
     return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 }));
   }
+
   // handle border width
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
   const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
@@ -628,6 +667,7 @@ function border(utility: Utility, { theme, config }: PluginUtils, variants: stri
   utility = new Utility(raw);
   return utility.handler
     .handleStatic(borders)
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbr])?$/.test(utility.key)? `${number}px`: undefined)
     .handleSize()
     .handleVariable()
@@ -682,6 +722,7 @@ function divide(utility: Utility, { theme, config }: PluginUtils, variants: stri
     ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 4 });
   }
   const value = utility.handler
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
     .handleSize()
     .handleVariable().value;
@@ -721,8 +762,10 @@ function ringOffset(utility: Utility, { theme, config }: PluginUtils, variants: 
   if (utility.center === '') {
     value = utility.handler
       .handleStatic(theme('ringOffsetWidth'))
+      .handleSquareBrackets(isNumberLead)
       .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
-      .handleSize().value;
+      .handleSize()
+      .value;
     if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetWidth', order: pluginOrder['ringOffsetWidth'] + 1 });
   }
 
@@ -750,7 +793,10 @@ function ring(utility: Utility, utils: PluginUtils, variants: string[]): Output 
       .createProperty('--tw-ring-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOpacity', order: pluginOrder['ringOpacity'] + 1 });
   // handle ring color
-  const handler = utility.handler.handleColor(utils.theme('ringColor')).handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined);
+  const handler = utility.handler
+    .handleSquareBrackets(notNumberLead)
+    .handleColor(utils.theme('ringColor'))
+    .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined);
   if (handler.value) {
     if (['transparent', 'currentColor'].includes(handler.value) || handler.value.includes('var')) return new Style(utility.class, [ new Property('--tw-ring-color', handler.value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
     const { color, opacity } = toColor(handler.value);
@@ -767,9 +813,11 @@ function ring(utility: Utility, utils: PluginUtils, variants: string[]): Output 
   if (utility.raw === 'ring') value = toType(utils.theme('ringWidth.DEFAULT'), 'string') ?? '3px';
   value = utility.handler
     .handleStatic(utils.theme('ringWidth'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
     .handleSize()
-    .handleVariable().value;
+    .handleVariable()
+    .value;
   if (value) {
     return new Style(utility.class, [
       new Property('--tw-ring-offset-shadow', 'var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)'),
@@ -906,6 +954,7 @@ function translate(utility: Utility, { theme }: PluginUtils): Output {
     const center = centerMatch[0].replace(/^-?translate-/, '');
     return utility.handler
       .handleStatic(theme('translate'))
+      .handleSquareBrackets()
       .handleSpacing()
       .handleFraction()
       .handleSize()

@@ -21,5 +21,6 @@ describe('CSS Escape', () => {
     expect(cssEscape('>')).toBe('\\>');
     expect(cssEscape('<')).toBe('\\<');
     expect(cssEscape('-')).toBe('\\-');
+    expect(cssEscape('text-[rgb(1,2,3)]')).toBe(String.raw`text-\[rgb\(1\2c 2\2c 3\)\]`);
   });
 });

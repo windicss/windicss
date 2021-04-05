@@ -21,14 +21,23 @@ export default class ClassParser {
     let variantStart = this.index + 1;
     let classStart = this.index + 1;
     let groupStart = this.index + 1;
-    let ignoreSpace = false;
     let important = false;
+    let ignoreSpace = false;
     let ignoreBracket = false;
+    let insideSquareBracket = false;
     const parts: Element[] = [];
     const length = this.classNames.length;
+
     while (this.index < length) {
       this.index++;
       char = this.classNames.charAt(this.index);
+      // ignore parsing and leave content inside square brackets as-is
+      if (insideSquareBracket) {
+        if(char === ']')
+          insideSquareBracket = false;
+        continue;
+      }
+      // handle chars
       switch (char) {
       case '!':
         important = true;
@@ -38,6 +47,9 @@ export default class ClassParser {
         variants.push(variant.charAt(0) === '!' ? variant.slice(1,): variant);
         variantStart = this.index + 1;
         ignoreSpace = true;
+        break;
+      case '[':
+        insideSquareBracket = true;
         break;
       case '(':
         if (this.classNames.charAt(this.index - 1) === '-') {

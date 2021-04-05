@@ -50,10 +50,14 @@ export function hwb2rgb(h: number, w: number, b: number): [number, number, numbe
 }
 
 export function toRGBA(color: string): Color | undefined {
-  if (/^hsl|^hsla/.test(color)) {
+  if (/^hsla?/.test(color)) {
     const colorTuple = colorString.get.hsl(color);
     if (!colorTuple) return;
     return [...hsl2rgb(colorTuple[0], colorTuple[1], colorTuple[2]), colorTuple[3]];
+  } else if (/^rgba?/.test(color)) {
+    const colorTuple = colorString.get.rgb(color);
+    if (!colorTuple) return;
+    return colorTuple;
   } else if (color.startsWith('hwb')) {
     const colorTuple = colorString.get.hwb(color);
     if (!colorTuple) return;
@@ -66,10 +70,13 @@ export function toRGB(color: string): number[] | undefined {
   return toRGBA(color)?.slice(0, 3);
 }
 
-export function toColor(color: string) : { color: string, opacity: string } {
-  const rgba = toRGBA(color) ?? [255, 255, 255, 1];
+export function toColor(colorStr: string) : { color: string, opacity: string } {
+  const rgba = toRGBA(colorStr);
+  const color = rgba ? rgba.slice(0, 3).join(', ') : colorStr;
+  const opacity = rgba ? rgba[3].toString() : '1';
+
   return {
-    color: rgba.slice(0, 3).join(', '),
-    opacity: rgba[3].toString(),
+    color,
+    opacity,
   };
 }
