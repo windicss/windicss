@@ -79,6 +79,7 @@ export default plugin(
         ({ Utility, Property }) => {
           const value = Utility.handler
             .handleStatic(theme(tn))
+            .handleSquareBrackets()
             .handleSpacing()
             .handleSize()
             .handleNegative()

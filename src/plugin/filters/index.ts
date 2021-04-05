@@ -18,6 +18,7 @@ export default plugin(
     addDynamic('blur', ({ Utility }) => {
       return Utility.handler
         .handleStatic(theme('blur'))
+        .handleSquareBrackets()
         .handleNumber(0, undefined, 'float', (number) => `${number}px`)
         .handleSize()
         .createProperty(

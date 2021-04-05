@@ -57,10 +57,14 @@ class Handler {
     }
     return this;
   }
-  handleSquareBrackets() {
+  handleSquareBrackets(callback?: (number: string) => string | undefined) {
     if (this.value) return this;
-    if (this._amount[0] === '[' && this._amount[this._amount.length-1] === ']')
-      this._amount = this._amount.slice(1, -1);
+    if (this._amount[0] === '[' && this._amount[this._amount.length-1] === ']') {
+      const value = this._amount.slice(1, -1);
+      this.value = callback
+        ? callback(value)
+        : value;
+    }
     return this;
   }
   handleNumber(
@@ -98,7 +102,6 @@ class Handler {
   }
   handleSize(callback?: (size: string) => string | undefined) {
     if (this.value) return this;
-    this.handleSquareBrackets();
     if (isSize(this._amount))
       this.value = callback ? callback(this._amount) : this._amount;
     return this;
@@ -124,9 +127,6 @@ class Handler {
         color = colors[body];
       } else if (body.startsWith('hex-')) {
         const hex = body.slice(4);
-        if(hex2RGB(hex)) color = '#' + hex;
-      } else if (body.startsWith('[#') && body.endsWith(']')) {
-        const hex = body.slice(2, -1);
         if(hex2RGB(hex)) color = '#' + hex;
       }
       if (color) {
