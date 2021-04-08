@@ -749,9 +749,15 @@ export class Processor {
           }
         });
       } else if (Array.isArray(className)) {
-        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
-        const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-        if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
+        // one of the selector are not class, treat the entire as static to avoid duplication
+        if (className.some(i => !i.isClass)) {
+          const base = className.map(i => i.selector).join(', ');
+          if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
+        }
+        // class
+        else {
+          className.forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
+        }
       } else {
         this._addPluginCache(className.isClass? 'components': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
       }
