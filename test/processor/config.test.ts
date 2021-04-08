@@ -454,10 +454,10 @@ describe('Config', () => {
           '-TwBgOpacity': '1',
         },
         bar: {
-          'TwBgOpacity': '1',
+          'MozUserSelect': '1',
         },
         caps: {
-          'TestCSS': '1',
+          'testCss': '1',
         },
       },
     });

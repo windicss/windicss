@@ -101,7 +101,8 @@ export function hex2RGB(hex: string): number[] | undefined {
 }
 
 export function camelToDash(str: string): string {
-  return str.replace(/([^A-Z])([A-Z])/g, '$1-$2').toLowerCase();
+  // Use exact the same regex as Post CSS
+  return str.replace(/([A-Z])/g, '-$1').replace(/^ms-/, '-ms-').toLowerCase();
 }
 
 export function dashToCamel(str: string): string {

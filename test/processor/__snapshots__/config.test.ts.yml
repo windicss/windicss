@@ -117,7 +117,7 @@ Tools / dashify / css / 0: |-
     --tw-bg-opacity: 1;
   }
   .bar {
-    tw-bg-opacity: 1;
+    -moz-user-select: 1;
   }
   .caps {
     test-css: 1;
