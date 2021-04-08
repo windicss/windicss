@@ -90,8 +90,16 @@ Tools / interpret important / important / 0: |-
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
 Tools / interpret outline / outline / 0: |-
+  .outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  .outline-black {
+    outline: 2px dotted #000;
+    outline-offset: 2px;
+  }
   .outline-solid-black {
-    outline: 2px dotted black;
+    outline: 2px solid black;
     outline-offset: 2px;
   }
   .outline-dotted-white {

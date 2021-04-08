@@ -6323,8 +6323,6 @@ Tools / completions / static / 0: |-
     "cursor-help",
     "cursor-not-allowed",
     "outline-none",
-    "outline-white",
-    "outline-black",
     "prose-sm",
     "prose",
     "prose-lg",
