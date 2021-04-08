@@ -81,4 +81,10 @@ describe('Interpretation Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('outline');
   });
+
+  // #234
+  it('interpret constructor', () => {
+    const result = processor.interpret('constructor');
+    expect(result.ignored.length).toEqual(1);
+  });
 });

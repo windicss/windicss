@@ -6,6 +6,10 @@ import { staticUtilities, dynamicUtilities } from './utilities';
 import type { Processor } from './index';
 
 export function generateStaticStyle(processor: Processor, className:string, addComment = false): Style | undefined {
+  // eslint-disable-next-line no-prototype-builtins
+  if (!staticUtilities.hasOwnProperty(className))
+    return;
+
   const style = new Style('.' + className);
   const comment = addComment ? className : undefined;
   const { utility, meta } = staticUtilities[className];
