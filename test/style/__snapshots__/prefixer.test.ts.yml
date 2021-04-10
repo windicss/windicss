@@ -31,6 +31,10 @@ Tools / processor prefix / css / 1: |-
   .animate-ping {
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
+Tools / processor prefix / line-clamp-2 / 2: |-
+  .line-clamp-2 {
+    overflow: hidden;
+  }
 Tools / processor prefix / preflight / 0: |-
   *, ::before, ::after {
     -webkit-box-sizing: border-box;

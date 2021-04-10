@@ -1,5 +1,6 @@
 import { Processor } from '../../src/lib';
 import { linearGradient, minMaxContent, Property, Style, StyleSheet } from '../../src/utils/style';
+import lineClamp from '../../src/plugin/line-clamp';
 
 describe('linearGradient', () => {
   it('gradient input', () => {
@@ -69,9 +70,12 @@ describe('closePrefixer', () => {
   it('processor prefix', () => {
     const processor = new Processor({
       prefixer: false,
+      plugins: [lineClamp],
     });
     expect(processor.preflight(undefined, true, true).build()).toMatchSnapshot('preflight');
     // #132
     expect(processor.interpret('bg-clip-padding flex bg-gradient-to-bl animate-ping placeholder-gray-200 flex-grow flex-shrink').styleSheet.build()).toMatchSnapshot('css');
+    // #207
+    expect(processor.interpret('line-clamp-2').styleSheet.build()).toMatchSnapshot('line-clamp-2');
   });
 });
