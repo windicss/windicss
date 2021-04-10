@@ -54,4 +54,21 @@ describe('plugin interface test', () => {
 
     expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
   });
+
+  // #238
+  it('addComponents nested selectors', () => {
+    const plugin: PluginFunction = (utils) => {
+      utils.addComponents({
+        '.card.compact .card-body': {
+          fontSize: '.875rem',
+          lineHeight: '1.25rem',
+          padding: '1rem' },
+      });
+    };
+    const processor = new Processor({
+      plugins: [plugin],
+    });
+
+    expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
+  });
 });

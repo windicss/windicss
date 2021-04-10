@@ -256,7 +256,9 @@ export function searchNotEscape(text:string, char = '{'): number {
 
 export function guessClassName(selector: string): { selector: string, isClass: boolean, pseudo?: string } | { selector: string, isClass: boolean, pseudo?: string }[] {
   if (selector.indexOf(',') >= 0) return selector.split(/\s*,\s*/g).map(i => guessClassName(i) as { selector: string, isClass: boolean });
-  if (selector.charAt(0) !== '.' || selector.indexOf('[') >= 0) return { selector, isClass: false };
+  // not classes, contains attribute selectors, nested selectors - treat as static
+  if (selector.charAt(0) !== '.' || selector.indexOf('[') >= 0 || selector.trim().indexOf(' ') >= 0)
+    return { selector, isClass: false };
   const pos = searchNotEscape(selector, ':');
   if (pos === -1) return { selector: selector.slice(1, ).replace(/\\/g, ''), isClass: true };
   return { selector: selector.slice(1, pos).replace(/\\/g, ''), isClass: true, pseudo: selector.slice(pos,) };
