@@ -1,5 +1,6 @@
-import plugin from '../../dist/plugin';
-import type { PluginUtils } from '../../dist/types/interfaces';
+import { Processor } from '../../src/lib';
+import plugin from '../../src/plugin';
+import type { PluginFunction, PluginUtils } from '../../src/interfaces';
 
 describe('plugin interface test', () => {
   it('import', () => {
@@ -32,5 +33,25 @@ describe('plugin interface test', () => {
       addUtilities(newUtilities);
     });
     expect(plugin.withOptions).toBeDefined();
+  });
+
+  // #232
+  it('addComponents with attribute selectors', () => {
+    const plugin: PluginFunction = (utils) => {
+      utils.addComponents({
+        '.btn-disabled,.btn[disabled]': {
+          '-TwBgOpacity':['1', '0.2'],
+          'backgroundColor':'hsla(var(--n,219 14% 28%)/var(--tw-bg-opacity))',
+          '-TwBorderOpacity':'0',
+          '-TwTextOpacity':['1', '0.2'],
+          'color':'hsla(var(--bc,215 28% 17%)/var(--tw-text-opacity))',
+        },
+      });
+    };
+    const processor = new Processor({
+      plugins: [plugin],
+    });
+
+    expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
   });
 });
