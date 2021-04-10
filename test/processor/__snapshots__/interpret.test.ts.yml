@@ -202,3 +202,8 @@ Tools / interpret square brackets grid / square brackets grids / 0: |-
   .grid-rows-\[auto\2c max-content\2c 10px\] {
     grid-template-rows: auto max-content 10px;
   }
+Tools / interpret square brackets grids with function / square brackets grids / 0: >-
+  .grid-cols-\[minmax\(200px\2c 2fr\)\2c minmax\(300px\2c 3fr\)\2c
+  minmax\(100px\2c 1fr\)\] {
+    grid-template-columns: minmax(200px,2fr) minmax(300px,3fr) minmax(100px,1fr);
+  }

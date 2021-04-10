@@ -52,6 +52,15 @@ describe('Interpretation Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets grids');
   });
 
+  // #240
+  it('interpret square brackets grids with function', () => {
+    const result = processor.interpret(`
+      grid-cols-[minmax(200px,2fr),minmax(300px,3fr),minmax(100px,1fr)]
+    `);
+    expect(result.ignored).toEqual([]);
+    expect(result.styleSheet.build()).toMatchSnapshot('square brackets grids');
+  });
+
   it('interpret square brackets ignored', () => {
     const result = processor.interpret(`
       p-[30 em] p-[] text] border-[ text-[[
