@@ -149,7 +149,7 @@ export default class CSSParser {
     return styles;
   }
 
-  parse(css = this.css, parent?:string, parentType?:('atRule' | 'selector')): StyleSheet {
+  parse(css = this.css, parent?: string, parentType?: 'atRule' | 'selector'): StyleSheet {
     const styleSheet = new StyleSheet();
     css = this._removeComment(css);
     if (!css || isSpace(css)) return styleSheet;
@@ -190,7 +190,7 @@ export default class CSSParser {
                 if (('.' + ignored) in this._cache) return this._cache['.' + ignored];
               });
 
-              styleSheet.add(result.styleSheet.children.map(i => {
+              styleSheet.add(result.styleSheet.clone().children.map(i => {
                 if (!(i instanceof Keyframes)) {
                   i.selector = undefined;
                   i.important = directives.important ?? false;

@@ -453,4 +453,19 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  // #239
+  it('@apply twice', () => {
+    const css = `.rounded-box {
+      border-radius: var(--rounded-box, 1rem);
+    }
+    .card {
+      @apply rounded-box;
+    }
+    .artboard {
+      @apply rounded-box;
+    }`;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });

@@ -1,3 +1,13 @@
+Tools / @apply twice / css / 0: |-
+  .rounded-box {
+    border-radius: var(--rounded-box, 1rem);
+  }
+  .card {
+    border-radius: var(--rounded-box, 1rem);
+  }
+  .artboard {
+    border-radius: var(--rounded-box, 1rem);
+  }
 Tools / @import url / css / 0: >-
   @import
   url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
