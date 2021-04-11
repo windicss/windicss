@@ -1,0 +1,27 @@
+Tools / attributify / css / 0: |-
+  [bg~="green-400"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(52, 211, 153, var(--tw-bg-opacity));
+  }
+  [bg~="opacity-50"] {
+    --tw-bg-opacity: 0.5;
+  }
+  [font="bold"] {
+    font-weight: 700;
+  }
+  [hover\:text~="lg"]:hover {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [p~="x-4"] {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  [p~="y-2"] {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  [hover\:text~="red-500"]:hover {
+    --tw-text-opacity: 1;
+    color: rgba(239, 68, 68, var(--tw-text-opacity));
+  }
