@@ -553,6 +553,58 @@ export class Processor {
     };
   }
 
+  attributify(attrs: { [ key:string ]: string | string[] }): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
+    const success: string[] = [];
+    const ignored: string[] = [];
+    const styleSheet = new StyleSheet();
+    const _gStyle = (
+      key: string,
+      value: string,
+      equal = false,
+    ) => {
+      const selector = ['m', 'p'].includes(key) ? key + value : `${key}-${value}`;
+      const style = this.extract(selector.replace(/^.*:/, ''), false);
+      const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      if (style) {
+        const variants = key.replace(/-/g, ':').match(/[^\s:]+:/g)?.map(i => i.slice(0, -1)) ?? [];
+        const important = key.charAt(0) === '!';
+        if (Array.isArray(style)) {
+          style.forEach(i => {
+            if (i instanceof Keyframes) return i;
+            i.selector = buildSelector;
+            this.markAsImportant(i, important);
+          });
+        } else {
+          style.selector = buildSelector;
+          this.markAsImportant(style, important);
+        }
+        const wrapped = this.wrapWithVariants(variants, style);
+        if (wrapped) {
+          success.push(selector);
+          styleSheet.add(wrapped);
+        } else {
+          ignored.push(selector);
+        }
+      } else {
+        ignored.push(selector);
+      }
+    };
+
+    for (const [key, value] of Object.entries(attrs)) {
+      if (Array.isArray(value)) {
+        value.forEach(i => _gStyle(key, i));
+      } else {
+        _gStyle(key, value, true);
+      }
+    }
+
+    return {
+      success,
+      ignored,
+      styleSheet,
+    };
+  }
+
   loadPlugin({
     handler,
     config,
