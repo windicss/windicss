@@ -5,9 +5,9 @@ describe('StyleSheet', () => {
   const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
   const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
 
-  s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
-  s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
-  s3.updateMeta({ type: 'utilities', corePlugin: false, group: 'plugin', order: 2 });
+  s1.updateMeta({ type: 'base', group: 'plugin', order: 0 });
+  s2.updateMeta({ type: 'components', group: 'plugin', order: 1 });
+  s3.updateMeta({ type: 'utilities', group: 'plugin', order: 2 });
 
   it('initial', () => {
     const ss = new StyleSheet([s1, s2, s3]);
@@ -94,9 +94,9 @@ describe('meta', () => {
   const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
   const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
 
-  s1.updateMeta({ type: 'base', corePlugin: false, group: 'plugin', order: 0 });
-  s2.updateMeta({ type: 'components', corePlugin: false, group: 'plugin', order: 1 });
-  s3.updateMeta({ type: 'utilities', corePlugin: false, group: 'plugin', order: 2 });
+  s1.updateMeta({ type: 'base', group: 'plugin', order: 0 });
+  s2.updateMeta({ type: 'components', group: 'plugin', order: 1 });
+  s3.updateMeta({ type: 'utilities', group: 'plugin', order: 2 });
 
   it('layer function', () => {
     const ss = new StyleSheet([s1, s2, s3]);
