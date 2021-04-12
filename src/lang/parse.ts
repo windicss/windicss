@@ -94,13 +94,35 @@ export class Lexer {
 
 }
 
-export class Interpreter {
+export class AST {
+}
+
+export class BinOp {
+  left: Num | BinOp;
+  op: Token;
+  right: Num | BinOp;
+  constructor(left: Num | BinOp, op: Token, right: Num | BinOp) {
+    this.left = left;
+    this.op = op;
+    this.right = right;
+  }
+}
+
+export class Num {
+  token: Token;
+  value: number;
+  constructor(token: Token) {
+    this.token = token;
+    this.value = token.value as number;
+  }
+}
+
+export class Parser {
   lexer: Lexer;
   current_token: Token;
 
   constructor(lexer: Lexer) {
     this.lexer = lexer;
-    // get first token
     this.current_token = lexer.get_next_token();
   }
 
@@ -116,56 +138,107 @@ export class Interpreter {
     }
   }
 
-  factor(): number {
+  factor(): Num | BinOp {
     // factor: INTEGER | LPAREN expr RPAREN
-    let result;
+    let node;
     const token = this.current_token;
     switch (token.type) {
     case TOKENS.INTEGER:
       this.eat(TOKENS.INTEGER);
-      return token.value as number;
+      return new Num(token);
     case TOKENS.LPAREN:
       this.eat(TOKENS.LPAREN);
-      result = this.expr();
+      node = this.expr();
       this.eat(TOKENS.RPAREN);
-      return result;
+      return node;
     default:
       this.error();
     }
   }
 
-  term():number {
+  term(): BinOp | Num {
     // term: factor ((MUL | DIV) factor)*
-    let result = this.factor() as number;
+    let node = this.factor();
     while ([TOKENS.MUL, TOKENS.DIV].includes(this.current_token.type)) {
-      switch (this.current_token.type) {
+      const token = this.current_token;
+      switch (token.type) {
       case TOKENS.MUL:
         this.eat(TOKENS.MUL);
-        result = result * (this.factor() as number);
         break;
       case TOKENS.DIV:
         this.eat(TOKENS.DIV);
-        result = result / (this.factor() as number);
         break;
       }
+      node = new BinOp(node, token, this.factor());
     }
-    return result;
+    return node;
   }
 
-  expr():number {
-    let result:number = this.term();
+  expr(): Num | BinOp {
+    // expr   : term ((PLUS | MINUS) term)*
+    // term   : factor ((MUL | DIV) factor)*
+    // factor : INTEGER | LPAREN expr RPAREN
+    let node = this.term();
     while ([TOKENS.PLUS, TOKENS.MINUS].includes(this.current_token.type)) {
-      switch (this.current_token.type) {
+      const token = this.current_token;
+      switch (token.type) {
       case TOKENS.PLUS:
         this.eat(TOKENS.PLUS);
-        result = result + this.term();
         break;
       case TOKENS.MINUS:
         this.eat(TOKENS.MINUS);
-        result = result - this.term();
         break;
       }
+      node = new BinOp(node, token, this.term());
     }
+    return node;
+  }
+
+  parse(): Num | BinOp {
+    const result = this.expr();
+    // recover state
+    this.lexer = new Lexer(this.lexer.text);
+    this.current_token = this.lexer.get_next_token();
     return result;
+  }
+}
+
+export class Interpreter {
+  parser: Parser;
+
+  constructor(parser: Parser) {
+    this.parser = parser;
+  }
+
+  error(): never {
+    throw Error('interpret error');
+  }
+
+  visit(node: Num | BinOp): number {
+    if (node instanceof Num) return this.visit_Num(node);
+    if (node instanceof BinOp) return this.visit_BinOp(node);
+    this.error();
+  }
+
+  visit_BinOp(node: BinOp): number {
+    switch (node.op.type) {
+    case TOKENS.PLUS:
+      return this.visit(node.left) + this.visit(node.right);
+    case TOKENS.MINUS:
+      return this.visit(node.left) - this.visit(node.right);
+    case TOKENS.MUL:
+      return this.visit(node.left) * this.visit(node.right);
+    case TOKENS.DIV:
+      return this.visit(node.left) / this.visit(node.right);
+    }
+    this.error();
+  }
+
+  visit_Num(node: Num): number {
+    return node.value;
+  }
+
+  interpret(): number {
+    return this.visit(this.parser.parse());
   }
 }

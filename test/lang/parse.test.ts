@@ -1,4 +1,4 @@
-import { TOKENS, Token, Lexer, Interpreter } from '../../src/lang/parse';
+import { TOKENS, Token, Lexer, Parser, Interpreter } from '../../src/lang/parse';
 
 describe('Windi Lang', () => {
   it('lexer', () => {
@@ -10,12 +10,10 @@ describe('Windi Lang', () => {
   });
 
   it('eval', () => {
-    let lexer = new Lexer('7 + 3 * (10 / (12 / (3 + 1) - 1))');
-    let interpreter = new Interpreter(lexer);
-    expect(interpreter.expr()).toEqual(22);
-
-    lexer = new Lexer('7 + 3 * (10 / (12 / (3 + 1) - 1)) / (2 + 3) - 5 - 3 + (8)');
-    interpreter = new Interpreter(lexer);
-    expect(interpreter.expr()).toEqual(10);
+    const lexer = new Lexer('7 + 3 * (10 / (12 / (3 + 1) - 1))');
+    const parser = new Parser(lexer);
+    expect(parser.parse()).toMatchSnapshot('ast');
+    const interpreter = new Interpreter(parser);
+    expect(interpreter.interpret()).toEqual(22);
   });
 });
