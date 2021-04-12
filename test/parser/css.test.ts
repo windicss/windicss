@@ -468,4 +468,24 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('parse expression', () => {
+    const parser = new CSSParser();
+    // console.log(parser.expression('$a, $b, $c'));
+    // console.log(parser.expression('toRGB($primary-color)'));
+  });
+
+  it('variables', () => {
+    const css = `
+    $font-stack: Helvetica, sans-serif;
+    $primary-color: #333;
+
+    body {
+      font: 100% $font-stack;
+      color: $primary-color;
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse(css).build()).toMatchSnapshot('css');
+  });
 });

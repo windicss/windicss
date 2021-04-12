@@ -1,6 +1,7 @@
 import { Property, Style, StyleSheet, InlineAtRule, Keyframes } from '../style';
 import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
 import { layerOrder } from '../../config/order';
+import jsep from 'jsep';
 import type { Processor } from '../../lib';
 
 const regexRemoveComments = [
@@ -11,6 +12,7 @@ const regexRemoveComments = [
 export default class CSSParser {
   css?: string;
   processor?: Processor;
+  variables: {[key:string]:unknown} = {};
   private _cache: {[key:string]:Style[]} = {};
   constructor(css?: string, processor?: Processor) {
     this.css = css;
@@ -151,6 +153,11 @@ export default class CSSParser {
     return styles;
   }
 
+  expression(value: string) {
+    jsep.addIdentifierChar('-');
+    return jsep(value);
+  }
+
   parse(css = this.css, parent?: string, parentType?: 'atRule' | 'selector'): StyleSheet {
     const styleSheet = new StyleSheet();
     css = this._removeComment(css);
@@ -161,6 +168,7 @@ export default class CSSParser {
     while (firstLetter !== -1) {
       const propEnd = searchPropEnd(css, index);
       const nestStart = searchFrom(css, '{', firstLetter);
+      const firstChar = css.charAt(firstLetter);
 
       if (propEnd === -1 || (nestStart !== -1 && propEnd > nestStart)) {
         // nested AtRule or Selector
@@ -175,9 +183,20 @@ export default class CSSParser {
         const content = this.parse(rule, selector);
 
         index = nestEnd + 1;
-        styleSheet.add(this._generateNestStyle(content.children, selector, css.charAt(firstLetter) === '@' ? 'atRule': 'selector'));
+        styleSheet.add(this._generateNestStyle(content.children, selector, firstChar === '@' ? 'atRule': 'selector'));
 
-      } else if (css.charAt(firstLetter) === '@') {
+      } else if (firstChar === '$') {
+        // define variable
+        const prop = Property.parse(css.slice(firstLetter, propEnd));
+        if (prop && !Array.isArray(prop) && !Array.isArray(prop.name) && prop.value) {
+          this.variables[prop.name.slice(1,)] = prop.value;
+        }
+        index = propEnd + 1;
+      } else if (firstChar === '#') {
+        // handle alias
+        const prop = Property.parse(css.slice(firstLetter, propEnd));
+        index = propEnd + 1;
+      } else if (firstChar === '@') {
         // inline AtRule
         const data = css.slice(firstLetter, propEnd);
         if (this.processor) {

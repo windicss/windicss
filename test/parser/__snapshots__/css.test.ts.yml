@@ -346,3 +346,8 @@ Tools / theme function / css / 0: |-
   .content-area2 {
     height: calc(100vh - 4rem);
   }
+Tools / variables / css / 0: |-
+  body {
+    font: 100% $font-stack;
+    color: $primary-color;
+  }
