@@ -1,7 +1,39 @@
 import Lexer from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Operand } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp } from './tokens';
+import type { Token, Operand } from './tokens';
 
-export class Parser {
+/* syntax
+
+program : compound_statement DOT
+
+compound_statement : BEGIN statement_list END
+
+statement_list : statement
+                | statement SEMI statement_list
+
+statement : compound_statement
+          | assignment_statement
+          | empty
+
+assignment_statement : variable ASSIGN expr
+
+empty :
+
+expr: term ((PLUS | MINUS) term)*
+
+term: factor ((MUL | DIV) factor)*
+
+factor : PLUS factor
+        | MINUS factor
+        | INTEGER
+        | LPAREN expr RPAREN
+        | variable
+
+variable: VAR
+
+*/
+
+export default class Parser {
   lexer: Lexer;
   current_token: Token;
 
@@ -23,7 +55,7 @@ export class Parser {
   }
 
   factor(): Operand {
-    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN
+    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | varibale
     let node;
     const token = this.current_token;
     switch (token.type) {
@@ -41,6 +73,8 @@ export class Parser {
       node = this.expr();
       this.eat(TokenType.RPAREN);
       return node;
+    case TokenType.VAR:
+      return this.variable();
     default:
       this.error();
     }
@@ -84,62 +118,77 @@ export class Parser {
     return node;
   }
 
-  parse(): Operand {
-    const result = this.expr();
-    // recover state
-    this.lexer = new Lexer(this.lexer.text);
-    this.current_token = this.lexer.get_next_token();
-    return result;
-  }
-}
-
-export class Interpreter {
-  parser: Parser;
-
-  constructor(parser: Parser) {
-    this.parser = parser;
+  empty(): NoOp {
+    return new NoOp();
   }
 
-  error(): never {
-    throw Error('interpret error');
+  variable(): Var {
+    const node = new Var(this.current_token);
+    this.eat(TokenType.VAR);
+    return node;
   }
 
-  visit(node: Operand): number {
-    if (node instanceof UnaryOp) return this.visit_UnaryOp(node);
-    if (node instanceof Num) return this.visit_Num(node);
-    if (node instanceof BinOp) return this.visit_BinOp(node);
-    this.error();
+  assignment_statement(): Assign {
+    // variable ASSIGN expr
+    const left = this.variable();
+    const token = this.current_token;
+    this.eat(TokenType.ASSIGN);
+    const right = this.expr();
+    return new Assign(left, token, right);
   }
 
-  visit_BinOp(node: BinOp): number {
-    switch (node.op.type) {
-    case TokenType.PLUS:
-      return this.visit(node.left) + this.visit(node.right);
-    case TokenType.MINUS:
-      return this.visit(node.left) - this.visit(node.right);
-    case TokenType.MUL:
-      return this.visit(node.left) * this.visit(node.right);
-    case TokenType.DIV:
-      return this.visit(node.left) / this.visit(node.right);
+  statement(): Compound | Assign | NoOp {
+    /*
+      statement : compound_statement
+                | assignment_statement
+                | empty
+    */
+    let node;
+    switch (this.current_token.type) {
+    case TokenType.BEGIN:
+      node = this.compound_statement();
+      break;
+    case TokenType.VAR:
+      node = this.assignment_statement();
+      break;
+    default:
+      node = this.empty();
     }
-    this.error();
+    return node;
   }
 
-  visit_UnaryOp(node: UnaryOp): number {
-    switch (node.op.type) {
-    case TokenType.PLUS:
-      return +this.visit(node.expr);
-    case TokenType.MINUS:
-      return -this.visit(node.expr);
+  statement_list(): (Compound | Assign | NoOp)[] {
+    /*
+      statement_list : statement
+                     | statement SEMI statement_list
+    */
+    const node = this.statement();
+    const results = [ node ];
+    while (this.current_token.type === TokenType.SEMI) {
+      this.eat(TokenType.SEMI);
+      results.push(this.statement());
     }
-    this.error();
+    if (this.current_token.type === TokenType.VAR) this.error();
+    return results;
   }
 
-  visit_Num(node: Num): number {
-    return node.value;
+  compound_statement(): Compound {
+    // compound_statement: BEGIN statement_list END
+    this.eat(TokenType.BEGIN);
+    const nodes = this.statement_list();
+    this.eat(TokenType.END);
+
+    return new Compound(nodes);
   }
 
-  interpret(): number {
-    return this.visit(this.parser.parse());
+  program(): Compound {
+    // program: compound_statement
+    return this.compound_statement();
+  }
+
+  parse(): Compound {
+    const node = this.program();
+    if (this.current_token.type !== TokenType.EOF) this.error();
+    return node;
   }
 }

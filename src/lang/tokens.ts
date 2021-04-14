@@ -74,6 +74,25 @@ export class Var {
   }
 }
 
+export class Assign {
+  left: Var;
+  op: Token;
+  right: Operand;
+  constructor(left: Var, op: Token, right: Operand) {
+    this.left = left;
+    this.op = op;
+    this.right = right;
+  }
+}
+
+export class Compound {
+  // Represents a 'BEGIN ... END' block
+  children: (Assign | Compound | NoOp)[]
+  constructor(children: (Assign | Compound | NoOp)[]) {
+    this.children = children;
+  }
+}
+
 export class UnaryOp {
   op: Token;
   expr: Operand;
@@ -94,4 +113,8 @@ export class BinOp {
   }
 }
 
-export type Operand = Num | Str | Var | BinOp | UnaryOp;
+export class NoOp {
+  // NoOp node is used to represent an empty statement. For example ‘BEGIN END’ is a valid compound statement that has no statements.
+}
+
+export type Operand = Num | Str | Var | BinOp | UnaryOp | Compound | Assign | NoOp;

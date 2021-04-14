@@ -1,7 +1,7 @@
 import { Token, TokenType } from '../../src/lang/tokens';
-import Lexer from '../../src/lang/lexer';
+import { Lexer } from '../../src/lang';
 
-describe('Windi Lang', () => {
+describe('Lexer', () => {
   it('lexer with number', () => {
     const lexer = new Lexer('14 + 2.3px * 3 - 6 / 2');
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.NUMBER, 14));

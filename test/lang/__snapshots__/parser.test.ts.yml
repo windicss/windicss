@@ -1,0 +1,180 @@
+Tools / simple syntax / ast / 0: |-
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "left": {
+              "token": {
+                "type": "VAR",
+                "value": "number"
+              },
+              "value": "number"
+            },
+            "op": {
+              "type": "ASSIGN",
+              "value": ":"
+            },
+            "right": {
+              "token": {
+                "type": "NUMBER",
+                "value": 2
+              },
+              "value": 2
+            }
+          },
+          {
+            "left": {
+              "token": {
+                "type": "VAR",
+                "value": "a"
+              },
+              "value": "a"
+            },
+            "op": {
+              "type": "ASSIGN",
+              "value": ":"
+            },
+            "right": {
+              "token": {
+                "type": "VAR",
+                "value": "number"
+              },
+              "value": "number"
+            }
+          },
+          {
+            "left": {
+              "token": {
+                "type": "VAR",
+                "value": "b"
+              },
+              "value": "b"
+            },
+            "op": {
+              "type": "ASSIGN",
+              "value": ":"
+            },
+            "right": {
+              "left": {
+                "left": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 10
+                  },
+                  "value": 10
+                },
+                "op": {
+                  "type": "MUL",
+                  "value": "*"
+                },
+                "right": {
+                  "token": {
+                    "type": "VAR",
+                    "value": "a"
+                  },
+                  "value": "a"
+                }
+              },
+              "op": {
+                "type": "PLUS",
+                "value": "+"
+              },
+              "right": {
+                "left": {
+                  "left": {
+                    "token": {
+                      "type": "NUMBER",
+                      "value": 10
+                    },
+                    "value": 10
+                  },
+                  "op": {
+                    "type": "MUL",
+                    "value": "*"
+                  },
+                  "right": {
+                    "token": {
+                      "type": "VAR",
+                      "value": "number"
+                    },
+                    "value": "number"
+                  }
+                },
+                "op": {
+                  "type": "DIV",
+                  "value": "/"
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 4
+                  },
+                  "value": 4
+                }
+              }
+            }
+          },
+          {
+            "left": {
+              "token": {
+                "type": "VAR",
+                "value": "c"
+              },
+              "value": "c"
+            },
+            "op": {
+              "type": "ASSIGN",
+              "value": ":"
+            },
+            "right": {
+              "left": {
+                "token": {
+                  "type": "VAR",
+                  "value": "a"
+                },
+                "value": "a"
+              },
+              "op": {
+                "type": "MINUS",
+                "value": "-"
+              },
+              "right": {
+                "op": {
+                  "type": "MINUS",
+                  "value": "-"
+                },
+                "expr": {
+                  "token": {
+                    "type": "VAR",
+                    "value": "b"
+                  },
+                  "value": "b"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "left": {
+          "token": {
+            "type": "VAR",
+            "value": "x"
+          },
+          "value": "x"
+        },
+        "op": {
+          "type": "ASSIGN",
+          "value": ":"
+        },
+        "right": {
+          "token": {
+            "type": "NUMBER",
+            "value": 11
+          },
+          "value": 11
+        }
+      }
+    ]
+  }
