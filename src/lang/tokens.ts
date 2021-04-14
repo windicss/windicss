@@ -26,8 +26,17 @@ export enum TokenType {
   DIV = 'DIV',
   LPAREN = '(',
   RPAREN = ')',
+  ASSIGN = 'ASSIGN',
+  BEGIN = 'BEGIN',
+  END = 'END',
+  SEMI = 'SEMI',
   EOF = 'EOF',
 }
+
+export const REVERSED_KEYWORDS: {[key:string]:Token} = {
+  'BEGIN': new Token(TokenType.BEGIN, 'BEGIN'),
+  'END': new Token(TokenType.END, 'END'),
+};
 
 export class Num {
   token: Token;

@@ -1,5 +1,5 @@
-import { isSpace, isDigit } from './utils';
-import { Token, TokenType } from './tokens';
+import { isSpace, isDigit, isAlpha } from './utils';
+import { Token, TokenType, REVERSED_KEYWORDS } from './tokens';
 
 
 export default class Lexer {
@@ -13,16 +13,11 @@ export default class Lexer {
     this.current_char = this.text[this.pos];
   }
 
-  error(): never {
-    throw Error('Invalid charater');
+  error(msg = 'Invalid charater'): never {
+    throw Error(msg);
   }
 
-  advance(): void {
-    this.pos ++;
-    this.current_char = this.pos > this.text.length - 1 ? undefined : this.text[this.pos];
-  }
-
-  jump(step = 1): void {
+  advance(step = 1): void {
     this.pos += step;
     this.current_char = this.pos > this.text.length - 1 ? undefined : this.text[this.pos];
   }
@@ -49,6 +44,25 @@ export default class Lexer {
     }
     if (result) this.advance(); // right quote
     return new Token(TokenType.STRING, result);
+  }
+
+  keyword(): Token {
+    // handle identify or reversed keywords or unquoted string
+    const start = this.pos;
+    const char = this.current_char;
+
+    // handle reversed keywords
+    let result = '';
+    while (this.current_char !== undefined && isAlpha(this.current_char)) {
+      result += this.current_char;
+      this.advance();
+    }
+    if (result in REVERSED_KEYWORDS) return REVERSED_KEYWORDS[result];
+
+    // handle unquoted string
+    this.pos = start;
+    this.current_char = char;
+    return this.ustring();
   }
 
   ustring(): Token {
@@ -79,15 +93,15 @@ export default class Lexer {
     // size
     const next = this.text.slice(this.pos,);
     if (next.startsWith('rem')) {
-      this.jump(3);
+      this.advance(3);
       return new Token(TokenType.REM, +result);
     }
     if (next.startsWith('px')) {
-      this.jump(2);
+      this.advance(2);
       return new Token(TokenType.PIXEL, +result);
     }
     if (next.startsWith('em')) {
-      this.jump(2);
+      this.advance(2);
       return new Token(TokenType.EM, +result);
     }
     if (next.startsWith('%')) {
@@ -99,7 +113,7 @@ export default class Lexer {
       return new Token(TokenType.SECOND, +result);
     }
     if (next.startsWith('deg')) {
-      this.jump(3);
+      this.advance(3);
       return new Token(TokenType.DEGREE, +result);
     }
     return new Token(TokenType.NUMBER, +result);
@@ -116,7 +130,7 @@ export default class Lexer {
 
   variable(): Token {
     let result = '';
-    while (this.current_char !== undefined && /[\w-]/.test(this.current_char)) {
+    while (this.current_char !== undefined && isAlpha(this.current_char)) {
       result += this.current_char;
       this.advance();
     }
@@ -135,6 +149,12 @@ export default class Lexer {
       }
 
       switch (this.current_char) {
+      case ':':
+        this.advance();
+        return new Token(TokenType.ASSIGN, ':');
+      case ';':
+        this.advance();
+        return new Token(TokenType.SEMI, ';');
       case '\'':
         this.advance();
         return this.string('\'');
@@ -165,7 +185,7 @@ export default class Lexer {
         this.advance();
         return new Token(TokenType.RPAREN, ')');
       default:
-        return this.ustring();
+        return this.keyword();
       }
     }
     return new Token(TokenType.EOF, undefined);

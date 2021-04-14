@@ -57,11 +57,14 @@ describe('Windi Lang', () => {
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.STRING, 'hello'));
   });
 
-  // it('lexer with size', () => {
-  //   const lexer = new Lexer('"hello" + "world"');
-  //   expect(lexer.get_next_token()).toEqual(new Token(TokenType.STRING, 'hello'));
-  //   expect(lexer.get_next_token()).toEqual(new Token(TokenType.PLUS, '+'));
-  //   expect(lexer.get_next_token()).toEqual(new Token(TokenType.STRING, 'world'));
-  // });
-
+  it('lexer with keyword', () => {
+    const lexer = new Lexer('BEGIN $width: 2px; END');
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.BEGIN, 'BEGIN'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, ':'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.PIXEL, 2));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.END, 'END'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.EOF, undefined));
+  });
 });
