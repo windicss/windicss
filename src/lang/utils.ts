@@ -7,5 +7,5 @@ export function isDigit(str: string): boolean {
 }
 
 export function isAlpha(str: string): boolean {
-  return /[\w-]/.test(str);
+  return /\w/.test(str);
 }

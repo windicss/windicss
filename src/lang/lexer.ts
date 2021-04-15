@@ -2,7 +2,7 @@ import { isSpace, isDigit, isAlpha } from './utils';
 import { Token, TokenType, REVERSED_KEYWORDS } from './tokens';
 
 
-export default class Lexer {
+export class Lexer {
   text: string;
   pos: number;
   current_char?: string;
@@ -34,7 +34,7 @@ export default class Lexer {
     }
   }
 
-  string(char: '\'' | '"'): Token {
+  string(char: '\'' | '"' | '`'): Token {
     let result = '';
     let prev = '';
     while(this.current_char !== undefined && (this.current_char !== char || prev === '\\')) {
@@ -43,14 +43,13 @@ export default class Lexer {
       this.advance();
     }
     if (result) this.advance(); // right quote
+    if (char === '`') {
+      return new Token(TokenType.TEMPLATE, result);
+    }
     return new Token(TokenType.STRING, result);
   }
 
   keyword(): Token {
-    // handle identify or reversed keywords or unquoted string
-    const start = this.pos;
-    const char = this.current_char;
-
     // handle reversed keywords
     let result = '';
     while (this.current_char !== undefined && isAlpha(this.current_char)) {
@@ -58,20 +57,7 @@ export default class Lexer {
       this.advance();
     }
     if (result in REVERSED_KEYWORDS) return REVERSED_KEYWORDS[result];
-
-    // handle unquoted string
-    this.pos = start;
-    this.current_char = char;
-    return this.ustring();
-  }
-
-  ustring(): Token {
-    let result = '';
-    while (this.current_char !== undefined && !isSpace(this.current_char)) {
-      result += this.current_char;
-      this.advance();
-    }
-    return new Token(TokenType.USTRING, result);
+    this.error();
   }
 
   numeric(): Token {
@@ -121,20 +107,42 @@ export default class Lexer {
 
   color(): Token {
     let result = '';
-    while (this.current_char !== undefined && !isSpace(this.current_char)) {
+    while (this.current_char !== undefined && isAlpha(this.current_char)) {
       result += this.current_char;
       this.advance();
     }
-    return new Token(TokenType.COLOR, result);
+    return new Token(TokenType.COLOR, '#' + result);
   }
 
-  variable(): Token {
+  id(): Token {
     let result = '';
     while (this.current_char !== undefined && isAlpha(this.current_char)) {
       result += this.current_char;
       this.advance();
     }
-    return new Token(TokenType.VAR, result);
+    return new Token(TokenType.ID, result);
+  }
+
+  property(): Token {
+    let result = '';
+    let prev = '';
+    while (this.current_char !== undefined && (this.current_char !== ';' || prev === '\\')) {
+      result += this.current_char;
+      prev = this.current_char;
+      this.advance();
+    }
+    return new Token(/\${.*}/.test(result)? TokenType.TEMPLATE : TokenType.STRING, result);
+  }
+
+  unknown(): Token {
+    let result = '';
+    let prev = '';
+    while (this.current_char !== undefined && (this.current_char !== '{' || prev === '\\')) {
+      result += this.current_char;
+      prev = this.current_char;
+      this.advance();
+    }
+    return new Token(TokenType.ID, result.trimEnd());
   }
 
   get_next_token(): Token {
@@ -148,10 +156,24 @@ export default class Lexer {
         return this.numeric();
       }
 
+      if (isAlpha(this.current_char)) {
+        return this.id();
+      }
+
       switch (this.current_char) {
+      case '@':
+        this.advance();
+        return this.keyword();
+      case '$':
+        this.advance();
+        return new Token(TokenType.DOLLAR, '$');
+      case '=':
+        this.advance();
+        return new Token(TokenType.ASSIGN, '=');
       case ':':
         this.advance();
-        return new Token(TokenType.ASSIGN, ':');
+        this.skip_whitespace();
+        return this.property();
       case ';':
         this.advance();
         return new Token(TokenType.SEMI, ';');
@@ -161,11 +183,18 @@ export default class Lexer {
       case '"':
         this.advance();
         return this.string('"');
-      case '#':
-        return this.color();
-      case '$':
+      case '`':
         this.advance();
-        return this.variable();
+        return this.string('`');
+      case '#':
+        this.advance();
+        return this.color();
+      case '{':
+        this.advance();
+        return new Token(TokenType.LBRACKET, '{');
+      case '}':
+        this.advance();
+        return new Token(TokenType.RBRACKET, '}');
       case '+':
         this.advance();
         return new Token(TokenType.PLUS, '+');
@@ -185,7 +214,7 @@ export default class Lexer {
         this.advance();
         return new Token(TokenType.RPAREN, ')');
       default:
-        return this.keyword();
+        return this.unknown();
       }
     }
     return new Token(TokenType.EOF, undefined);

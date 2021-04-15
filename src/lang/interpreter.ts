@@ -1,4 +1,4 @@
-import Parser from './parser';
+import { Parser } from './parser';
 import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp } from './tokens';
 import type { Operand } from './tokens';
 

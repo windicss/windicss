@@ -1,10 +1,17 @@
-import Lexer from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp } from './tokens';
+import { Lexer } from './lexer';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp, Str, Template } from './tokens';
 import type { Token, Operand } from './tokens';
 
 /* syntax
 
-program : compound_statement DOT
+program : imports? block
+
+imports : import SEMI imports
+
+block : declarations* compound_statement
+
+declarations : (variable_declaration SEMI)*
+             | empty
 
 compound_statement : BEGIN statement_list END
 
@@ -15,7 +22,7 @@ statement : compound_statement
           | assignment_statement
           | empty
 
-assignment_statement : variable ASSIGN expr
+assignment_statement | variable_declaration : variable ASSIGN expr
 
 empty :
 
@@ -32,8 +39,7 @@ factor : PLUS factor
 variable: VAR
 
 */
-
-export default class Parser {
+export class Parser {
   lexer: Lexer;
   current_token: Token;
 
@@ -55,7 +61,7 @@ export default class Parser {
   }
 
   factor(): Operand {
-    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | varibale
+    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable
     let node;
     const token = this.current_token;
     switch (token.type) {
@@ -73,8 +79,9 @@ export default class Parser {
       node = this.expr();
       this.eat(TokenType.RPAREN);
       return node;
-    case TokenType.VAR:
-      return this.variable();
+    case TokenType.ID:
+      this.eat(TokenType.ID);
+      return new Var(token);
     default:
       this.error();
     }
@@ -98,24 +105,36 @@ export default class Parser {
     return node;
   }
 
-  expr(): Operand {
-    // expr   : term ((PLUS | MINUS) term)*
+  expr(): Operand | Str | Template {
+    // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE
     // term   : factor ((MUL | DIV) factor)*
-    // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN
-    let node = this.term();
-    while ([TokenType.PLUS, TokenType.MINUS].includes(this.current_token.type)) {
-      const token = this.current_token;
-      switch (token.type) {
-      case TokenType.PLUS:
-        this.eat(TokenType.PLUS);
-        break;
-      case TokenType.MINUS:
-        this.eat(TokenType.MINUS);
-        break;
+    // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable
+
+    if (this.current_token.type === TokenType.STRING) {
+      const token = new Str(this.current_token);
+      this.eat(TokenType.STRING);
+      return token;
+    } else if (this.current_token.type === TokenType.TEMPLATE) {
+      const token = new Template(this.current_token);
+      this.eat(TokenType.TEMPLATE);
+      return token;
+    } else {
+      let node = this.term();
+      while ([TokenType.PLUS, TokenType.MINUS].includes(this.current_token.type)) {
+        const token = this.current_token;
+        switch (token.type) {
+        case TokenType.PLUS:
+          this.eat(TokenType.PLUS);
+          break;
+        case TokenType.MINUS:
+          this.eat(TokenType.MINUS);
+          break;
+        }
+        node = new BinOp(node, token, this.term());
       }
-      node = new BinOp(node, token, this.term());
+      return node;
     }
-    return node;
+
   }
 
   empty(): NoOp {
@@ -123,8 +142,10 @@ export default class Parser {
   }
 
   variable(): Var {
-    const node = new Var(this.current_token);
+    // @var name = 3;
     this.eat(TokenType.VAR);
+    const node = new Var(this.current_token);
+    this.eat(TokenType.ID);
     return node;
   }
 
@@ -145,7 +166,7 @@ export default class Parser {
     */
     let node;
     switch (this.current_token.type) {
-    case TokenType.BEGIN:
+    case TokenType.LBRACKET:
       node = this.compound_statement();
       break;
     case TokenType.VAR:
@@ -173,10 +194,10 @@ export default class Parser {
   }
 
   compound_statement(): Compound {
-    // compound_statement: BEGIN statement_list END
-    this.eat(TokenType.BEGIN);
+    // compound_statement: { statement_list }
+    this.eat(TokenType.LBRACKET);
     const nodes = this.statement_list();
-    this.eat(TokenType.END);
+    this.eat(TokenType.RBRACKET);
 
     return new Compound(nodes);
   }

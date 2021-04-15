@@ -38,33 +38,92 @@ describe('Lexer', () => {
     expect(lexer2.get_next_token()).toEqual(new Token(TokenType.STRING, 'hel\\\'lo'));
   });
 
-  it('lexer with unquote string', () => {
-    const lexer = new Lexer('\\.widget 123 test');
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.USTRING, '\\.widget'));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.NUMBER, 123));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.USTRING, 'test'));
-  });
-
   it('lexer with color', () => {
     const lexer = new Lexer('#1c1c1e');
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.COLOR, '#1c1c1e'));
   });
 
   it('lexer with variable', () => {
-    const lexer = new Lexer('$test-variable + \'hello\'');
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, 'test-variable'));
+    const lexer = new Lexer('${testVariable + 3} test color');
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.DOLLAR, '$'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.LBRACKET, '{'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'testVariable'));
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.PLUS, '+'));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.STRING, 'hello'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.NUMBER, 3));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.RBRACKET, '}'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'test'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'color'));
   });
 
   it('lexer with keyword', () => {
-    const lexer = new Lexer('BEGIN $width: 2px; END');
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.BEGIN, 'BEGIN'));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, 'width'));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, ':'));
+    const lexer = new Lexer('{ @var width = 2px; }');
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.LBRACKET, '{'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, '@var'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.PIXEL, 2));
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
-    expect(lexer.get_next_token()).toEqual(new Token(TokenType.END, 'END'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.RBRACKET, '}'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.EOF, undefined));
+  });
+
+  it('lexer with lang', () => {
+    const lexer = new Lexer(`
+    @var width = 3px;
+    @var baseColor = #c6538c;
+    @var abc = 'test';
+    @var def = \`\${width + 4px} hello world\`;
+    width = width + 4px;
+
+    .test .abc {
+      width: \${width + 4px} hello world;
+      &:hover {
+        color: \${baseColor};
+      }
+    }`);
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, '@var'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.PIXEL, 3));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, '@var'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'baseColor'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.COLOR, '#c6538c'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, '@var'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'abc'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.STRING, 'test'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.VAR, '@var'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'def'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.TEMPLATE, '${width + 4px} hello world'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ASSIGN, '='));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.PLUS, '+'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.PIXEL, 4));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, '.test .abc'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.LBRACKET, '{'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'width'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.TEMPLATE, '${width + 4px} hello world'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, '&:hover'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.LBRACKET, '{'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.ID, 'color'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.TEMPLATE, '${baseColor}'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.SEMI, ';'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.RBRACKET, '}'));
+    expect(lexer.get_next_token()).toEqual(new Token(TokenType.RBRACKET, '}'));
     expect(lexer.get_next_token()).toEqual(new Token(TokenType.EOF, undefined));
   });
 });
