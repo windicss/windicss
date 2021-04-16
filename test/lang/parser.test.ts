@@ -15,6 +15,8 @@ describe('Parser', () => {
 
       @warn a + 12;
 
+      @js {123}
+
       .test {
         @var testNest = 123;
         color: red;

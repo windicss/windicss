@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -23,6 +23,7 @@ export default class Transformer {
     if (node instanceof Var) return this.visit_Var(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Update) return this.visit_Update(node);
+    if (node instanceof JS) return this.visit_JS(node);
     if (node instanceof Console) return this.visit_Console(node);
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof Template) return this.visit_Template(node);
@@ -70,6 +71,10 @@ export default class Transformer {
     return `"${node.value}"`;
   }
 
+  visit_JS(node: JS): string {
+    return `eval(\`${node.code}\`)`;
+  }
+
   visit_BinOp(node: BinOp): string {
     const left_value = this.visit(node.left);
     const right_value = this.visit(node.right);
@@ -107,7 +112,7 @@ export default class Transformer {
     case TokenType.LOG:
       return `console.log(${this.visit(node.expr)})`;
     case TokenType.WARN:
-      return `console.warn(${this.visit(node.expr)}`;
+      return `console.warn(${this.visit(node.expr)})`;
     case TokenType.ERROR:
       return `console.error(${this.visit(node.expr)})`;
     }

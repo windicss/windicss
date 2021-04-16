@@ -8,7 +8,17 @@ Tools / simple syntax / js / 0: |-
   add(a, 4);
   console.log(d);
   console.log(b);
-  console.warn(add(a, 12);
+  console.warn(add(a, 12));
+  eval(`
+          import { eval, rgba, get, set } from 'windi/lang';
+
+          const a = get('width');
+          set('width', eval('4px'));
+          const width = eval('3px');
+          export function add(a, b) {
+            return a + b;
+          }
+        `);
   (() => {
   const style = new Style(".test");
   let testNest = 123;

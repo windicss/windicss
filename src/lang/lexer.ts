@@ -1,4 +1,4 @@
-import { isSpace, isDigit, isAlpha } from './utils';
+import { isSpace, isDigit, isAlpha, findGroupEnd } from './utils';
 import { Token, TokenType, REVERSED_KEYWORDS } from './tokens';
 
 
@@ -56,7 +56,18 @@ export class Lexer {
       result += this.current_char;
       this.advance();
     }
-    if (result in REVERSED_KEYWORDS) return REVERSED_KEYWORDS[result];
+    if (result in REVERSED_KEYWORDS) {
+      const token = REVERSED_KEYWORDS[result];
+      if (result === 'js') {
+        this.skip_whitespace();
+        this.advance();
+        const end = findGroupEnd(this.text, this.pos);
+        token.value = this.text.slice(this.pos, end);
+        this.pos = end + 1;
+        this.current_char = this.text[end + 1];
+      }
+      return token;
+    }
     this.error();
   }
 

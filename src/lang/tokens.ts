@@ -150,6 +150,13 @@ export class Console {
   }
 }
 
+export class JS {
+  code: string
+  constructor(code: string) {
+    this.code = code;
+  }
+}
+
 export class PropDecl {
   name: string;
   value: Str | Template;

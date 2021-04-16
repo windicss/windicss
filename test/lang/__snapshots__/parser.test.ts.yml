@@ -216,7 +216,9 @@ Tools / simple syntax / ast / 0: |-
             }
           }
         },
-        {}
+        {
+          "code": "123"
+        }
       ],
       "style_list": [
         {

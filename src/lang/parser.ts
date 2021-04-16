@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
 import type { Token, Operand } from './tokens';
 
 /* syntax
@@ -174,6 +174,15 @@ export class Parser {
     return new Update(new Var(left), op, right);
   }
 
+  javascript_statement(): JS {
+    // @js {
+    //   ...
+    // }
+    const code = this.current_token.value;
+    this.eat(TokenType.JS);
+    return new JS(code as string);
+  }
+
   statement(): Assign | NoOp {
     /*
       statement : assignment_statement
@@ -196,6 +205,9 @@ export class Parser {
       break;
     case TokenType.ERROR:
       node = this.console_statement(TokenType.ERROR);
+      break;
+    case TokenType.JS:
+      node = this.javascript_statement();
       break;
     case TokenType.ID:
       next_type = this.lexer.peek_next_token().type;

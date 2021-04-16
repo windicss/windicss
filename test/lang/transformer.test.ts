@@ -19,6 +19,17 @@ describe('Transformer', () => {
 
       @warn a + 12;
 
+      @js {
+        import { eval, rgba, get, set } from 'windi/lang';
+
+        const a = get('width');
+        set('width', eval('4px'));
+        const width = eval('3px');
+        export function add(a, b) {
+          return a + b;
+        }
+      }
+
       .test {
         @var testNest = 123;
         color: red;
