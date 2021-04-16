@@ -1,59 +1,83 @@
 Tools / simple syntax / ast / 0: |-
   {
-    "children": [
-      {
-        "children": [
-          {
-            "left": {
-              "token": {
-                "type": "VAR",
-                "value": "number"
-              },
+    "block": {
+      "statement_list": [
+        {
+          "left": {
+            "token": {
+              "type": "ID",
               "value": "number"
             },
-            "op": {
-              "type": "ASSIGN",
-              "value": ":"
-            },
-            "right": {
-              "token": {
-                "type": "NUMBER",
-                "value": 2
-              },
-              "value": 2
-            }
+            "value": "number"
           },
-          {
-            "left": {
-              "token": {
-                "type": "VAR",
-                "value": "a"
-              },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "token": {
+              "type": "NUMBER",
+              "value": 2
+            },
+            "value": 2
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
               "value": "a"
             },
-            "op": {
-              "type": "ASSIGN",
-              "value": ":"
-            },
-            "right": {
-              "token": {
-                "type": "VAR",
-                "value": "number"
-              },
-              "value": "number"
-            }
+            "value": "a"
           },
-          {
-            "left": {
-              "token": {
-                "type": "VAR",
-                "value": "b"
-              },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "token": {
+              "type": "ID",
+              "value": "number"
+            },
+            "value": "number"
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
               "value": "b"
             },
+            "value": "b"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "left": {
+              "left": {
+                "token": {
+                  "type": "NUMBER",
+                  "value": 10
+                },
+                "value": 10
+              },
+              "op": {
+                "type": "MUL",
+                "value": "*"
+              },
+              "right": {
+                "token": {
+                  "type": "ID",
+                  "value": "a"
+                },
+                "value": "a"
+              }
+            },
             "op": {
-              "type": "ASSIGN",
-              "value": ":"
+              "type": "PLUS",
+              "value": "+"
             },
             "right": {
               "left": {
@@ -70,111 +94,208 @@ Tools / simple syntax / ast / 0: |-
                 },
                 "right": {
                   "token": {
-                    "type": "VAR",
-                    "value": "a"
+                    "type": "ID",
+                    "value": "number"
                   },
-                  "value": "a"
+                  "value": "number"
                 }
               },
               "op": {
-                "type": "PLUS",
-                "value": "+"
+                "type": "DIV",
+                "value": "/"
               },
               "right": {
-                "left": {
-                  "left": {
-                    "token": {
-                      "type": "NUMBER",
-                      "value": 10
-                    },
-                    "value": 10
-                  },
-                  "op": {
-                    "type": "MUL",
-                    "value": "*"
-                  },
-                  "right": {
-                    "token": {
-                      "type": "VAR",
-                      "value": "number"
-                    },
-                    "value": "number"
-                  }
-                },
-                "op": {
-                  "type": "DIV",
-                  "value": "/"
-                },
-                "right": {
-                  "token": {
-                    "type": "NUMBER",
-                    "value": 4
-                  },
+                "token": {
+                  "type": "NUMBER",
                   "value": 4
-                }
+                },
+                "value": 4
               }
             }
-          },
-          {
-            "left": {
-              "token": {
-                "type": "VAR",
-                "value": "c"
-              },
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
               "value": "c"
             },
-            "op": {
-              "type": "ASSIGN",
-              "value": ":"
-            },
-            "right": {
-              "left": {
-                "token": {
-                  "type": "VAR",
-                  "value": "a"
-                },
+            "value": "c"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "left": {
+              "token": {
+                "type": "ID",
                 "value": "a"
               },
+              "value": "a"
+            },
+            "op": {
+              "type": "MINUS",
+              "value": "-"
+            },
+            "right": {
               "op": {
                 "type": "MINUS",
                 "value": "-"
               },
-              "right": {
-                "op": {
-                  "type": "MINUS",
-                  "value": "-"
-                },
-                "expr": {
-                  "token": {
-                    "type": "VAR",
-                    "value": "b"
-                  },
+              "expr": {
+                "token": {
+                  "type": "ID",
                   "value": "b"
-                }
+                },
+                "value": "b"
               }
             }
           }
-        ]
-      },
-      {
-        "left": {
-          "token": {
-            "type": "VAR",
-            "value": "x"
-          },
-          "value": "x"
         },
-        "op": {
-          "type": "ASSIGN",
-          "value": ":"
-        },
-        "right": {
-          "token": {
-            "type": "NUMBER",
-            "value": 11
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "d"
+            },
+            "value": "d"
           },
-          "value": 11
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "token": {
+              "type": "STRING",
+              "value": "green"
+            },
+            "value": "green"
+          }
+        },
+        {}
+      ],
+      "style_list": [
+        {
+          "selector": ".test",
+          "children": {
+            "statement_list": [
+              {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "testNest"
+                  },
+                  "value": "testNest"
+                },
+                "op": {
+                  "type": "ASSIGN",
+                  "value": "="
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 123
+                  },
+                  "value": 123
+                }
+              },
+              {}
+            ],
+            "style_list": [
+              {
+                "name": "color",
+                "value": {
+                  "token": {
+                    "type": "STRING",
+                    "value": "red"
+                  },
+                  "value": "red"
+                }
+              },
+              {
+                "selector": ".abc .def",
+                "children": {
+                  "statement_list": [
+                    {}
+                  ],
+                  "style_list": [
+                    {
+                      "name": "color",
+                      "value": {
+                        "token": {
+                          "type": "TEMPLATE",
+                          "value": "${d}"
+                        },
+                        "value": "${d}"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "selector": ".def",
+          "children": {
+            "statement_list": [
+              {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "testNest"
+                  },
+                  "value": "testNest"
+                },
+                "op": {
+                  "type": "ASSIGN",
+                  "value": "="
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 123
+                  },
+                  "value": 123
+                }
+              },
+              {}
+            ],
+            "style_list": [
+              {
+                "name": "color",
+                "value": {
+                  "token": {
+                    "type": "STRING",
+                    "value": "red"
+                  },
+                  "value": "red"
+                }
+              },
+              {
+                "selector": "&:hover > nest",
+                "children": {
+                  "statement_list": [
+                    {}
+                  ],
+                  "style_list": [
+                    {
+                      "name": "background",
+                      "value": {
+                        "token": {
+                          "type": "STRING",
+                          "value": "green"
+                        },
+                        "value": "green"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
         }
-      }
-    ]
+      ]
+    }
   }

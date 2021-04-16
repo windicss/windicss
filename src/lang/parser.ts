@@ -1,28 +1,31 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp, Str, Template } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template } from './tokens';
 import type { Token, Operand } from './tokens';
 
 /* syntax
 
-program : imports? block
+program : import_list? block
 
-imports : import SEMI imports
+import_list : import SEMI import_list
 
-block : declarations* compound_statement
-
-declarations : (variable_declaration SEMI)*
-             | empty
-
-compound_statement : BEGIN statement_list END
+block : statement_list style_list
 
 statement_list : statement
-                | statement SEMI statement_list
+               | statement SEMI statement_list
 
-statement : compound_statement
-          | assignment_statement
+statement : assignment_statement
           | empty
 
-assignment_statement | variable_declaration : variable ASSIGN expr
+assignment_statement : variable ASSIGN expr
+
+style_list : style_declaration
+           | style_declaration style_list
+
+style_declaration : ID LBRACKET block RBRACKET
+                  | empty
+
+statement_list : statement
+               | statement SEMI statement_list
 
 empty :
 
@@ -36,7 +39,7 @@ factor : PLUS factor
         | LPAREN expr RPAREN
         | variable
 
-variable: VAR
+variable: ID
 
 */
 export class Parser {
@@ -52,9 +55,11 @@ export class Parser {
     throw Error('Invalid syntax');
   }
 
-  eat(token_type: string): void {
+  eat(token_type: string): Token {
     if (this.current_token.type === token_type) {
-      this.current_token = this.lexer.get_next_token();
+      const next_token = this.lexer.get_next_token();
+      this.current_token = next_token;
+      return next_token;
     } else {
       this.error();
     }
@@ -158,17 +163,13 @@ export class Parser {
     return new Assign(left, token, right);
   }
 
-  statement(): Compound | Assign | NoOp {
+  statement(): Assign | NoOp {
     /*
-      statement : compound_statement
-                | assignment_statement
+      statement : assignment_statement
                 | empty
     */
     let node;
     switch (this.current_token.type) {
-    case TokenType.LBRACKET:
-      node = this.compound_statement();
-      break;
     case TokenType.VAR:
       node = this.assignment_statement();
       break;
@@ -178,7 +179,7 @@ export class Parser {
     return node;
   }
 
-  statement_list(): (Compound | Assign | NoOp)[] {
+  statement_list(): ( Assign | NoOp )[] {
     /*
       statement_list : statement
                      | statement SEMI statement_list
@@ -193,21 +194,64 @@ export class Parser {
     return results;
   }
 
-  compound_statement(): Compound {
-    // compound_statement: { statement_list }
-    this.eat(TokenType.LBRACKET);
-    const nodes = this.statement_list();
-    this.eat(TokenType.RBRACKET);
-
-    return new Compound(nodes);
+  style_declaration(): StyleDecl | PropDecl | NoOp {
+    /*
+      style_declaration : ID LBRACKET block RBRACKET
+                        | ID Template | Str
+                        | prop_list
+                        | empty
+    */
+    let node;
+    const name = this.current_token.value?.toString() ?? '';
+    if (this.current_token.type === TokenType.ID) {
+      const next_token = this.eat(TokenType.ID);
+      if (next_token.type === TokenType.LBRACKET) {
+        // style
+        this.eat(TokenType.LBRACKET);
+        node = new StyleDecl(name, this.block());
+        this.eat(TokenType.RBRACKET);
+      } else if (next_token.type === TokenType.STRING) {
+        // prop
+        this.eat(TokenType.STRING);
+        node = new PropDecl(name, new Str(next_token));
+        this.eat(TokenType.SEMI);
+      } else if (next_token.type === TokenType.TEMPLATE) {
+        // prop
+        this.eat(TokenType.TEMPLATE);
+        node = new PropDecl(name, new Template(next_token));
+        this.eat(TokenType.SEMI);
+      } else {
+        this.error();
+      }
+    } else {
+      node = this.empty();
+    }
+    return node;
   }
 
-  program(): Compound {
-    // program: compound_statement
-    return this.compound_statement();
+  style_list(): (StyleDecl | PropDecl | NoOp)[] {
+    /*
+      style_list : style_declaration
+                 | prop_declaration
+                 | style_declaration style_list
+    */
+    const node = this.style_declaration();
+    const results = [ node ];
+    while (this.current_token.type === TokenType.ID) {
+      results.push(this.style_declaration());
+    }
+    return results;
   }
 
-  parse(): Compound {
+  block(): Block {
+    return new Block(this.statement_list(), this.style_list());
+  }
+
+  program(): Program {
+    return new Program(this.block());
+  }
+
+  parse(): Program {
     const node = this.program();
     if (this.current_token.type !== TokenType.EOF) this.error();
     return node;

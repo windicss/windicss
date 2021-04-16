@@ -130,11 +130,37 @@ export class Assign {
   }
 }
 
-export class Compound {
-  // Represents a 'BEGIN ... END' block
-  children: (Assign | Compound | NoOp)[]
-  constructor(children: (Assign | Compound | NoOp)[]) {
+export class PropDecl {
+  name: string;
+  value: Str | Template;
+  constructor(name: string, value: Str | Template) {
+    this.name = name;
+    this.value = value;
+  }
+}
+
+export class StyleDecl {
+  selector: string;
+  children: Block;
+  constructor(selector: string, children: Block) {
+    this.selector = selector;
     this.children = children;
+  }
+}
+
+export class Block {
+  statement_list: (Assign | NoOp)[]
+  style_list: (StyleDecl | PropDecl | NoOp)[]
+  constructor(statement_list: (Assign | NoOp)[], style_list: (StyleDecl | PropDecl | NoOp)[]) {
+    this.statement_list = statement_list;
+    this.style_list = style_list;
+  }
+}
+
+export class Program {
+  block: Block;
+  constructor(block: Block) {
+    this.block = block;
   }
 }
 

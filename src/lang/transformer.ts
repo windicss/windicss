@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp, Str, Template } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -15,8 +15,11 @@ export default class Transformer {
     throw Error(msg);
   }
 
-  visit(node: Operand): unknown {
-    if (node instanceof Compound) return this.visit_Compound(node);
+  visit(node: Operand): string | number | string[] | void {
+    if (node instanceof Program) return this.visit_Program(node);
+    if (node instanceof Block) return this.visit_Block(node);
+    if (node instanceof PropDecl) return this.visit_PropDecl(node);
+    if (node instanceof StyleDecl) return this.visit_StyleDecl(node);
     if (node instanceof Var) return this.visit_Var(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Str) return this.visit_Str(node);
@@ -93,12 +96,43 @@ export default class Transformer {
     this.error();
   }
 
-  visit_Compound(node: Compound): void {
-    node.children.forEach(child => this.visit(child));
+  visit_Program(node: Program): void {
+    this.code = this.visit_Block(node.block);
   }
 
-  visit_Assign(node: Assign): void {
-    this.code.push(`let ${node.left.value} = ${this.visit(node.right)};`);
+  visit_Block(node: Block): string[] {
+    const output:string[] = [];
+    [...node.statement_list, ...node.style_list].forEach(i => {
+      const result = this.visit(i);
+      if (result !== undefined) output.push(`${result}`);
+    });
+    return output;
+  }
+
+  visit_PropDecl(node: PropDecl): string {
+    return `new Property("${node.name}", ${this.visit(node.value) as string})`;
+  }
+
+  visit_StyleDecl(node: StyleDecl): string {
+    const output:string[] = [];
+    // const children = this.visit(node.children);
+    const block = node.children;
+    output.push(`(() => {\nconst style = new Style("${node.selector}")`);
+    block.statement_list.forEach(i => {
+      if (!(i instanceof NoOp)) {
+        output.push(this.visit_Assign(i));
+      }
+    });
+    block.style_list.forEach(i => {
+      const style = this.visit(i);
+      if (style) output.push(`style.add(${style.toString()})`);
+    });
+    output.push('return style;\n})()');
+    return output.join(';\n');
+  }
+
+  visit_Assign(node: Assign): string {
+    return `let ${node.left.value} = ${this.visit(node.right)}`;
   }
 
   visit_Var(node: Var): string {
@@ -111,6 +145,6 @@ export default class Transformer {
 
   transform(): string {
     this.visit(this.parser.parse());
-    return this.code.join('\n');
+    return this.code.join(';\n') + ';';
   }
 }
