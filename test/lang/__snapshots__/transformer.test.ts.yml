@@ -4,6 +4,11 @@ Tools / simple syntax / js / 0: |-
   let b = add(mul(10, a), div(mul(10, number), 4));
   let c = minus(a, negative(b));
   let d = "green";
+  c = add(c, 2);
+  add(a, 4);
+  console.log(d);
+  console.log(b);
+  console.warn(add(a, 12);
   (() => {
   const style = new Style(".test");
   let testNest = 123;

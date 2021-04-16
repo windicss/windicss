@@ -173,6 +173,49 @@ Tools / simple syntax / ast / 0: |-
             "value": "green"
           }
         },
+        {
+          "type": "@log",
+          "expr": {
+            "token": {
+              "type": "ID",
+              "value": "d"
+            },
+            "value": "d"
+          }
+        },
+        {
+          "type": "@log",
+          "expr": {
+            "token": {
+              "type": "ID",
+              "value": "b"
+            },
+            "value": "b"
+          }
+        },
+        {
+          "type": "@warn",
+          "expr": {
+            "left": {
+              "token": {
+                "type": "ID",
+                "value": "a"
+              },
+              "value": "a"
+            },
+            "op": {
+              "type": "PLUS",
+              "value": "+"
+            },
+            "right": {
+              "token": {
+                "type": "NUMBER",
+                "value": 12
+              },
+              "value": 12
+            }
+          }
+        },
         {}
       ],
       "style_list": [

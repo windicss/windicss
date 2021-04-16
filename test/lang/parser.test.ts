@@ -8,6 +8,13 @@ describe('Parser', () => {
       @var b = 10 * a + 10 * number / 4;
       @var c = a - - b;
       @var d = 'green';
+
+      @log d;
+
+      @log b;
+
+      @warn a + 12;
+
       .test {
         @var testNest = 123;
         color: red;

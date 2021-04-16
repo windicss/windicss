@@ -130,6 +130,26 @@ export class Assign {
   }
 }
 
+export class Update {
+  left: Var;
+  op: Token;
+  right: Operand;
+  constructor(left: Var, op: Token, right: Operand) {
+    this.left = left;
+    this.op = op;
+    this.right = right;
+  }
+}
+
+export class Console {
+  type: TokenType.LOG | TokenType.WARN | TokenType.ERROR;
+  expr: Operand | Str | Template;
+  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: Operand | Str | Template) {
+    this.type = type;
+    this.expr = expr;
+  }
+}
+
 export class PropDecl {
   name: string;
   value: Str | Template;
@@ -149,9 +169,9 @@ export class StyleDecl {
 }
 
 export class Block {
-  statement_list: (Assign | NoOp)[]
+  statement_list: (Assign | Update | Console | NoOp)[]
   style_list: (StyleDecl | PropDecl | NoOp)[]
-  constructor(statement_list: (Assign | NoOp)[], style_list: (StyleDecl | PropDecl | NoOp)[]) {
+  constructor(statement_list: (Assign | Update | Console | NoOp)[], style_list: (StyleDecl | PropDecl | NoOp)[]) {
     this.statement_list = statement_list;
     this.style_list = style_list;
   }

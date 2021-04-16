@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
 import type { Token, Operand } from './tokens';
 
 /* syntax
@@ -146,32 +146,69 @@ export class Parser {
     return new NoOp();
   }
 
-  variable(): Var {
-    // @var name = 3;
-    this.eat(TokenType.VAR);
-    const node = new Var(this.current_token);
-    this.eat(TokenType.ID);
-    return node;
+  console_statement(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR): Console {
+    // @log 3 + 2
+    this.eat(type);
+    const expr = this.expr();
+    return new Console(type, expr);
   }
 
   assignment_statement(): Assign {
-    // variable ASSIGN expr
-    const left = this.variable();
+    // @var name = 3
+    this.eat(TokenType.VAR);
+    const left = new Var(this.current_token);
+    this.eat(TokenType.ID);
     const token = this.current_token;
     this.eat(TokenType.ASSIGN);
     const right = this.expr();
     return new Assign(left, token, right);
   }
 
+  update_statement(): Update {
+    // borderWidth = borderWidth + 4rem;
+    const left = this.current_token;
+    this.eat(TokenType.ID);
+    const op = this.current_token;
+    this.eat(TokenType.ASSIGN);
+    const right = this.expr();
+    return new Update(new Var(left), op, right);
+  }
+
   statement(): Assign | NoOp {
     /*
       statement : assignment_statement
+                | update_statement
+                | expression_statement
+                | console_statement
                 | empty
     */
     let node;
+    let next_type;
     switch (this.current_token.type) {
     case TokenType.VAR:
       node = this.assignment_statement();
+      break;
+    case TokenType.LOG:
+      node = this.console_statement(TokenType.LOG);
+      break;
+    case TokenType.WARN:
+      node = this.console_statement(TokenType.WARN);
+      break;
+    case TokenType.ERROR:
+      node = this.console_statement(TokenType.ERROR);
+      break;
+    case TokenType.ID:
+      next_type = this.lexer.peek_next_token().type;
+      if (next_type === TokenType.ASSIGN) {
+        // update statement
+        node = this.update_statement();
+      } else if ([TokenType.LBRACKET, TokenType.STRING, TokenType.TEMPLATE].includes(next_type)) {
+        // style
+        node = this.empty();
+      } else {
+        // expression statement
+        node = this.expr();
+      }
       break;
     default:
       node = this.empty();

@@ -8,6 +8,17 @@ describe('Transformer', () => {
       @var b = 10 * a + 10 * number / 4;
       @var c = a - - b;
       @var d = 'green';
+
+      c = c + 2;
+
+      a + 4;
+
+      @log d;
+
+      @log b;
+
+      @warn a + 12;
+
       .test {
         @var testNest = 123;
         color: red;

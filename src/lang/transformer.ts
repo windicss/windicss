@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -11,7 +11,7 @@ export default class Transformer {
     this.parser = parser;
   }
 
-  error(msg = 'Interpreter Error'): never {
+  error(msg = 'Transformer Error'): never {
     throw Error(msg);
   }
 
@@ -22,6 +22,8 @@ export default class Transformer {
     if (node instanceof StyleDecl) return this.visit_StyleDecl(node);
     if (node instanceof Var) return this.visit_Var(node);
     if (node instanceof Assign) return this.visit_Assign(node);
+    if (node instanceof Update) return this.visit_Update(node);
+    if (node instanceof Console) return this.visit_Console(node);
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
@@ -100,6 +102,17 @@ export default class Transformer {
     this.code = this.visit_Block(node.block);
   }
 
+  visit_Console(node: Console): string {
+    switch (node.type) {
+    case TokenType.LOG:
+      return `console.log(${this.visit(node.expr)})`;
+    case TokenType.WARN:
+      return `console.warn(${this.visit(node.expr)}`;
+    case TokenType.ERROR:
+      return `console.error(${this.visit(node.expr)})`;
+    }
+  }
+
   visit_Block(node: Block): string[] {
     const output:string[] = [];
     [...node.statement_list, ...node.style_list].forEach(i => {
@@ -120,7 +133,7 @@ export default class Transformer {
     output.push(`(() => {\nconst style = new Style("${node.selector}")`);
     block.statement_list.forEach(i => {
       if (!(i instanceof NoOp)) {
-        output.push(this.visit_Assign(i));
+        output.push(`${this.visit(i)}`);
       }
     });
     block.style_list.forEach(i => {
@@ -133,6 +146,10 @@ export default class Transformer {
 
   visit_Assign(node: Assign): string {
     return `let ${node.left.value} = ${this.visit(node.right)}`;
+  }
+
+  visit_Update(node: Update): string {
+    return `${node.left.value} = ${this.visit(node.right)}`;
   }
 
   visit_Var(node: Var): string {

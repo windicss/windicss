@@ -145,6 +145,15 @@ export class Lexer {
     return new Token(TokenType.ID, result.trimEnd());
   }
 
+  peek_next_token(): Token {
+    const pos = this.pos;
+    const char = this.current_char;
+    const token = this.get_next_token();
+    this.pos = pos;
+    this.current_char = char;
+    return token;
+  }
+
   get_next_token(): Token {
     while (this.current_char !== undefined) {
       if (isSpace(this.current_char)) {
