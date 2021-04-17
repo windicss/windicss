@@ -3,6 +3,12 @@ Tools / simple syntax / ast / 0: |-
     "block": {
       "statement_list": [
         {
+          "urls": [
+            "typo.css",
+            "style.css"
+          ]
+        },
+        {
           "left": {
             "token": {
               "type": "ID",

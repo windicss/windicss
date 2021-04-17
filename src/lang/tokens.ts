@@ -25,6 +25,7 @@ export enum TokenType {
   DIV = 'DIV',
   DOLLAR = '$',
   DOT = '.',
+  COMMA = ',',
   LPAREN = '(',
   RPAREN = ')',
   LBRACKET = '{',
@@ -211,8 +212,15 @@ export class BinOp {
   }
 }
 
+export class Import {
+  urls: string[];
+  constructor(urls: string[]) {
+    this.urls = urls;
+  }
+}
+
 export class NoOp {
-  // NoOp node is used to represent an empty statement. For example ‘BEGIN END’ is a valid compound statement that has no statements.
+  // NoOp node is used to represent an empty statement. such as {}
 }
 
 export type Operand = Num | BinOp | UnaryOp | NoOp;

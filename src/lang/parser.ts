@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
 import type { Token, Operand } from './tokens';
 
 /* syntax
@@ -183,6 +183,20 @@ export class Parser {
     return new JS(code as string);
   }
 
+  import_statement(): Import {
+    // @import 'a.windi', 'b.windi', 'c.css'
+    this.eat(TokenType.IMPORT);
+    const urls:string[] = [];
+    while (this.current_token.type === TokenType.STRING) {
+      urls.push(this.current_token.value as string);
+      const next_token = this.eat(TokenType.STRING);
+      if (next_token.type === TokenType.COMMA) {
+        this.eat(TokenType.COMMA);
+      }
+    }
+    return new Import(urls);
+  }
+
   statement(): Assign | NoOp {
     /*
       statement : assignment_statement
@@ -196,6 +210,9 @@ export class Parser {
     switch (this.current_token.type) {
     case TokenType.VAR:
       node = this.assignment_statement();
+      break;
+    case TokenType.IMPORT:
+      node = this.import_statement();
       break;
     case TokenType.LOG:
       node = this.console_statement(TokenType.LOG);

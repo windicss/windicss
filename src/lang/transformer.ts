@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -21,6 +21,7 @@ export default class Transformer {
     if (node instanceof PropDecl) return this.visit_PropDecl(node);
     if (node instanceof StyleDecl) return this.visit_StyleDecl(node);
     if (node instanceof Var) return this.visit_Var(node);
+    if (node instanceof Import) return this.visit_Import(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Update) return this.visit_Update(node);
     if (node instanceof JS) return this.visit_JS(node);
@@ -72,7 +73,11 @@ export default class Transformer {
   }
 
   visit_JS(node: JS): string {
-    return `eval(\`${node.code}\`)`;
+    return node.code;
+  }
+
+  visit_Import(node: Import): string {
+    return node.urls.map(i => `windi.import("${i}")`).join(';\n');
   }
 
   visit_BinOp(node: BinOp): string {

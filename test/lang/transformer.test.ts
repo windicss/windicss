@@ -3,6 +3,8 @@ import { Lexer, Parser, Transformer } from '../../src/lang';
 describe('Transformer', () => {
   it('simple syntax', () => {
     const code = `
+      @import 'typo.css', 'style.css';
+
       @var number = 2;
       @var a = number;
       @var b = 10 * a + 10 * number / 4;

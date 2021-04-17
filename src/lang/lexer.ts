@@ -233,6 +233,9 @@ export class Lexer {
       case ')':
         this.advance();
         return new Token(TokenType.RPAREN, ')');
+      case ',':
+        this.advance();
+        return new Token(TokenType.COMMA, ',');
       default:
         return this.unknown();
       }
