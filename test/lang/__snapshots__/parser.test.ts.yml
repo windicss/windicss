@@ -342,21 +342,89 @@ Tools / simple syntax / ast / 0: |-
           },
           "right": {
             "values": [
-              [
-                {
-                  "token": {
-                    "type": "NUMBER",
-                    "value": 10
-                  },
+              {
+                "token": {
+                  "type": "NUMBER",
                   "value": 10
                 },
+                "value": 10
+              },
+              {
+                "token": {
+                  "type": "STRING",
+                  "value": "green"
+                },
+                "value": "green"
+              },
+              {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "a"
+                  },
+                  "value": "a"
+                },
+                "op": {
+                  "type": "MINUS",
+                  "value": "-"
+                },
+                "right": {
+                  "token": {
+                    "type": "ID",
+                    "value": "b"
+                  },
+                  "value": "b"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "g"
+            },
+            "value": "g"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "pairs": [
+              [
+                1,
                 {
                   "token": {
                     "type": "STRING",
-                    "value": "green"
+                    "value": "hello"
                   },
-                  "value": "green"
-                },
+                  "value": "hello"
+                }
+              ],
+              [
+                "a",
+                {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 1
+                  },
+                  "value": 1
+                }
+              ],
+              [
+                "b",
+                {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 2
+                  },
+                  "value": 2
+                }
+              ],
+              [
+                "c",
                 {
                   "left": {
                     "token": {
@@ -379,57 +447,6 @@ Tools / simple syntax / ast / 0: |-
                 }
               ]
             ]
-          }
-        },
-        {
-          "left": {
-            "token": {
-              "type": "ID",
-              "value": "g"
-            },
-            "value": "g"
-          },
-          "op": {
-            "type": "ASSIGN",
-            "value": "="
-          },
-          "right": {
-            "value": {
-              "a": {
-                "token": {
-                  "type": "NUMBER",
-                  "value": 1
-                },
-                "value": 1
-              },
-              "b": {
-                "token": {
-                  "type": "NUMBER",
-                  "value": 2
-                },
-                "value": 2
-              },
-              "c": {
-                "left": {
-                  "token": {
-                    "type": "ID",
-                    "value": "a"
-                  },
-                  "value": "a"
-                },
-                "op": {
-                  "type": "MINUS",
-                  "value": "-"
-                },
-                "right": {
-                  "token": {
-                    "type": "ID",
-                    "value": "b"
-                  },
-                  "value": "b"
-                }
-              }
-            }
           }
         },
         {

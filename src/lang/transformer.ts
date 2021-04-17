@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Dict } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -30,6 +30,9 @@ export default class Transformer {
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
+    if (node instanceof List) return this.visit_List(node);
+    if (node instanceof Tuple) return this.visit_Tuple(node);
+    if (node instanceof Dict) return this.visit_Dict(node);
     if (node instanceof UnaryOp) return this.visit_UnaryOp(node);
     if (node instanceof BinOp) return this.visit_BinOp(node);
     if (node instanceof NoOp) return this.visit_NoOp();
@@ -38,6 +41,22 @@ export default class Transformer {
 
   visit_Num(node: Num): number {
     return node.value;
+  }
+
+  visit_List(node: List): string {
+    return `[${node.values.map(i => this.visit(i)).join(', ')}]`;
+  }
+
+  visit_Tuple(node: Tuple): string {
+    return `[${node.values.map(i => this.visit(i)).join(', ')}]`;
+  }
+
+  visit_Dict(node: Dict): string {
+    const output:string[] = [];
+    for (const [key, value] of node.pairs) {
+      output.push(`${typeof key === 'number'? key: '"' + key + '"'}: ${this.visit(value)}`);
+    }
+    return `{  \n  ${output.join(',\n  ')}\n}`;
   }
 
   visit_Template(node: Template): string {

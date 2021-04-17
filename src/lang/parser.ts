@@ -135,7 +135,7 @@ export class Parser {
         if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
       }
       this.eat(TokenType.RPAREN);
-      return new Tuple([values]);
+      return new Tuple(values);
     }
 
     if (token.type === TokenType.LSQUARE) {
@@ -152,25 +152,24 @@ export class Parser {
 
     if (token.type === TokenType.LCURLY) {
       // dictionary
-      const value: {
-        [key: string]: Operand | Str | Template | Tuple | List | Dict;
-      } = {};
+      const pairs:[string|number, (Operand | Str | Template | Tuple | List | Dict)][] = [];
       this.eat(TokenType.LCURLY);
       while(this.current_token.type !== TokenType.RCURLY) {
         const token = this.current_token;
-        if (token.type === TokenType.ID) {
-          this.eat(TokenType.ID);
+        if (token.value === undefined) this.error();
+        if (token.type === TokenType.NUMBER) {
+          this.eat(TokenType.NUMBER);
         } else if (token.type === TokenType.STRING) {
           this.eat(TokenType.STRING);
         } else {
           this.error();
         }
         this.eat(TokenType.COLON);
-        value[token.value as string] = this.expr();
+        pairs.push([token.value, this.expr()]);
         if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
       }
       this.eat(TokenType.RCURLY);
-      return new Dict(value);
+      return new Dict(pairs);
     }
 
     let node = this.term();

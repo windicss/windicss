@@ -17,6 +17,14 @@ Tools / simple syntax / js / 0: |-
   let b = add(mul(10, a), div(mul(10, number), 4));
   let c = minus(a, negative(b));
   let d = "green";
+  let e = [10, "green", minus(a, b)];
+  let f = [10, "green", minus(a, b)];
+  let g = {  
+    1: 2,
+    "a": 1,
+    "b": 2,
+    "c": minus(a, b)
+  };
   c = add(c, 2);
   add(a, 4);
   console.log(d);

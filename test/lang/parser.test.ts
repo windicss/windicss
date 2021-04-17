@@ -23,6 +23,7 @@ describe('Parser', () => {
       @var e = [ 10, 'green' , a - b ];
       @var f = ( 10, 'green' , a - b );
       @var g = {
+        1: 'hello',
         'a': 1,
         'b': 2,
         'c': a - b,

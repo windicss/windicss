@@ -119,9 +119,9 @@ export class List {
 }
 
 export class Dict {
-  value: {[key:string]: (Operand | Str | Template | Tuple | List | Dict)}
-  constructor(value: {[key:string]: (Operand | Str | Template | Tuple | List | Dict)}) {
-    this.value = value;
+  pairs: [string|number, (Operand | Str | Template | Tuple | List | Dict)][]
+  constructor(pairs: [string|number, (Operand | Str | Template | Tuple | List | Dict)][]) {
+    this.pairs = pairs;
   }
 }
 
@@ -146,8 +146,8 @@ export class Var {
 export class Assign {
   left: Var;
   op: Token;
-  right: Operand;
-  constructor(left: Var, op: Token, right: Operand) {
+  right: Operand | Str | Template | Tuple | List | Dict;
+  constructor(left: Var, op: Token, right: Operand | Str | Template | Tuple | List | Dict) {
     this.left = left;
     this.op = op;
     this.right = right;
@@ -157,8 +157,8 @@ export class Assign {
 export class Update {
   left: Var;
   op: Token;
-  right: Operand;
-  constructor(left: Var, op: Token, right: Operand) {
+  right: Operand | Str | Template | Tuple | List | Dict;
+  constructor(left: Var, op: Token, right: Operand | Str | Template | Tuple | List | Dict) {
     this.left = left;
     this.op = op;
     this.right = right;
@@ -167,8 +167,8 @@ export class Update {
 
 export class Console {
   type: TokenType.LOG | TokenType.WARN | TokenType.ERROR;
-  expr: Operand | Str | Template;
-  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: Operand | Str | Template) {
+  expr: Operand | Str | Template | Tuple | List | Dict;
+  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: Operand | Str | Template | Tuple | List | Dict) {
     this.type = type;
     this.expr = expr;
   }
