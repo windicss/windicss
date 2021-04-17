@@ -5,6 +5,16 @@ describe('Transformer', () => {
     const code = `
       @import 'typo.css', 'style.css';
 
+      @load 'module1', 'module2', 'module3';
+      @load { export1 } from "module-name";
+      @load { export1 , export2 } from "module-name";
+      @load { export1 , export2 as alias2 , export3 as alias3 } from "module-name";
+      @load * from "module";
+      @load * as name from "module";
+      @load defaultExport from "module";
+      @load defaultExport, { export1, export2 } from "module-name";
+      @load defaultExport, * as name from 'module-name';
+
       @var number = 2;
       @var a = number;
       @var b = 10 * a + 10 * number / 4;

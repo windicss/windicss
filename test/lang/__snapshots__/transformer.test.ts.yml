@@ -1,6 +1,17 @@
 Tools / simple syntax / js / 0: |-
   windi.import("typo.css");
   windi.import("style.css");
+  import "module1";
+  import "module2";
+  import "module3";
+  import { export1 } from "module-name";
+  import { export1, export2 } from "module-name";
+  import { export1, export2 as alias2, export3 as alias3 } from "module-name";
+  import * from "module";
+  import * as name from "module";
+  import defaultExport from "module;
+  import defaultExport, { export1, export2 } from "module-name";
+  import defaultExport, * as name from "module-name";
   let number = 2;
   let a = number;
   let b = add(mul(10, a), div(mul(10, number), 4));

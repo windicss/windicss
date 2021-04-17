@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -21,6 +21,7 @@ export default class Transformer {
     if (node instanceof PropDecl) return this.visit_PropDecl(node);
     if (node instanceof StyleDecl) return this.visit_StyleDecl(node);
     if (node instanceof Var) return this.visit_Var(node);
+    if (node instanceof Load) return this.visit_Load(node);
     if (node instanceof Import) return this.visit_Import(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Update) return this.visit_Update(node);
@@ -78,6 +79,26 @@ export default class Transformer {
 
   visit_Import(node: Import): string {
     return node.urls.map(i => `windi.import("${i}")`).join(';\n');
+  }
+
+  visit_Load(node: Load): string {
+    const make_exports = (exports: {
+      [key: string]: string;
+    }) => {
+      const output:string[] = [];
+      for (const [key, value] of Object.entries(exports)) {
+        output.push(key === value ? key : `${value} as ${key}`);
+      }
+      const items = output.join(', ');
+      return items.charAt(0) === '*' ? items :`{ ${items} }`;
+    };
+
+    return node.modules.map(i => {
+      if (i.default && i.exports) return `import ${i.default}, ${make_exports(i.exports)} from "${i.url}"`;
+      if (i.default) return `import ${i.default} from "${i.url}`;
+      if (i.exports) return `import ${make_exports(i.exports)} from "${i.url}"`;
+      return `import "${i.url}"`;
+    }).join(';\n');
   }
 
   visit_BinOp(node: BinOp): string {
