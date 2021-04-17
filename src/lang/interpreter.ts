@@ -1,5 +1,5 @@
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Compound, NoOp } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, NoOp } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Interpreter {
@@ -15,7 +15,6 @@ export default class Interpreter {
   }
 
   visit(node: Operand): unknown {
-    if (node instanceof Compound) return this.visit_Compound(node);
     if (node instanceof Var) return this.visit_Var(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Num) return this.visit_Num(node);
@@ -58,10 +57,6 @@ export default class Interpreter {
       }
     }
     this.error();
-  }
-
-  visit_Compound(node: Compound): void {
-    node.children.forEach(child => this.visit(child));
   }
 
   visit_Assign(node: Assign): void {

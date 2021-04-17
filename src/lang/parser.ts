@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
-import type { Token, Operand } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
+import type { Token, Operand, Module } from './tokens';
 
 /* syntax
 
@@ -197,6 +197,108 @@ export class Parser {
     return new Import(urls);
   }
 
+  import_path(): string {
+    // from 'module'
+    const next_token = this.eat(TokenType.ID);
+    if (next_token.type !== TokenType.STRING) this.error();
+    this.eat(TokenType.STRING);
+    return next_token.value as string;
+  }
+
+  import_all(): Module {
+    // * from "module"
+    // * as name from "module"
+    this.eat(TokenType.MUL);
+    if (this.current_token.type !== TokenType.ID) this.error();
+    if (this.current_token.value === 'from') return { url: this.import_path(), exports: { '*': '*' } };
+    if (this.current_token.value === 'as') {
+      const next_token = this.eat(TokenType.ID);
+      this.eat(TokenType.ID);
+      return { url: this.import_path(), exports: { [next_token.value as string]: '*' } };
+    }
+    this.error();
+  }
+
+  import_exports(): Module {
+    // { export1 , export2 as alias2 , export3 as alias3 } from 'module-name;
+    const exports: {[key:string]:string} = {};
+    this.eat(TokenType.LBRACKET);
+    while (this.current_token.type !== TokenType.RBRACKET) {
+      const value = this.current_token.value as string;
+      const next_token = this.eat(TokenType.ID);
+      if (next_token.type === TokenType.COMMA) {
+        exports[value] = value;
+        this.eat(TokenType.COMMA);
+      } else if (next_token.type === TokenType.RBRACKET) {
+        exports[value] = value;
+      } else if (next_token.type === TokenType.ID) {
+        this.eat(TokenType.ID); // as
+        exports[this.current_token.value as string] = value;
+        this.eat(TokenType.ID);
+        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      } else {
+        this.error();
+      }
+    }
+    this.eat(TokenType.RBRACKET);
+    return { url: this.import_path(), exports };
+  }
+
+  import_default(): Module {
+    // defaultExport from "module";
+    // defaultExport, { export1, export2 } from "module-name";
+    // defaultExport, * as name from 'module-name';
+    const _default = this.current_token.value as string;
+    let next_token = this.eat(TokenType.ID);
+    if (next_token.value === 'from') return { url: this.import_path(), default: _default };
+    if (next_token.type === TokenType.COMMA) {
+      next_token = this.eat(TokenType.COMMA);
+      if (next_token.type === TokenType.LBRACKET) return { default: _default, ...this.import_exports() };
+      if (next_token.type === TokenType.MUL) return { default: _default, ...this.import_all() };
+    }
+    this.error();
+  }
+
+  load_statement(): Load {
+    /*
+      @load 'module1', 'module2', 'module3';
+      @load { export1 } from "module-name";
+      @load { export1 as alias1 } from "module-name";
+      @load { export1 , export2 } from "module-name";
+      @load { export1 , export2 as alias2 , export3 as alias3 } from "module-name";
+      @load * from "module";
+      @load * as name from "module";
+      @load defaultExport from "module";
+      @load defaultExport, { export1, export2 } from "module-name";
+      @load defaultExport, * as name from 'module-name';
+    */
+    const modules: Module[] = [];
+    this.eat(TokenType.LOAD);
+    switch (this.current_token.type) {
+    case TokenType.STRING:
+      while (this.current_token.type === TokenType.STRING) {
+        modules.push({ url: this.current_token.value as string });
+        const next_token = this.eat(TokenType.STRING);
+        if (next_token.type === TokenType.COMMA) {
+          this.eat(TokenType.COMMA);
+        }
+      }
+      break;
+    case TokenType.LBRACKET:
+      modules.push(this.import_exports());
+      break;
+    case TokenType.MUL:
+      modules.push(this.import_all());
+      break;
+    case TokenType.ID:
+      modules.push(this.import_default());
+      break;
+    default:
+      this.error();
+    }
+    return new Load(modules);
+  }
+
   statement(): Assign | NoOp {
     /*
       statement : assignment_statement
@@ -213,6 +315,9 @@ export class Parser {
       break;
     case TokenType.IMPORT:
       node = this.import_statement();
+      break;
+    case TokenType.LOAD:
+      node = this.load_statement();
       break;
     case TokenType.LOG:
       node = this.console_statement(TokenType.LOG);

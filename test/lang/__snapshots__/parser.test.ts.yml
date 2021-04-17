@@ -5,7 +5,105 @@ Tools / simple syntax / ast / 0: |-
         {
           "urls": [
             "typo.css",
-            "style.css"
+            "style.css",
+            "test.windi"
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module1"
+            },
+            {
+              "url": "module2"
+            },
+            {
+              "url": "module3"
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module-name",
+              "exports": {
+                "export1": "export1"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module-name",
+              "exports": {
+                "export1": "export1",
+                "export2": "export2"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module-name",
+              "exports": {
+                "export1": "export1",
+                "alias2": "export2",
+                "alias3": "export3"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module",
+              "exports": {
+                "*": "*"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module",
+              "exports": {
+                "name": "*"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "url": "module",
+              "default": "defaultExport"
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "default": "defaultExport",
+              "url": "module-name",
+              "exports": {
+                "export1": "export1",
+                "export2": "export2"
+              }
+            }
+          ]
+        },
+        {
+          "modules": [
+            {
+              "default": "defaultExport",
+              "url": "module-name",
+              "exports": {
+                "name": "*"
+              }
+            }
           ]
         },
         {

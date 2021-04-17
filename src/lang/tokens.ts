@@ -219,6 +219,19 @@ export class Import {
   }
 }
 
+export type Module = {
+  url: string,
+  default?: string,
+  exports?: { [ key : string ] : string }
+}
+
+export class Load {
+  modules: Module[]
+  constructor(modules: Module[]) {
+    this.modules = modules;
+  }
+}
+
 export class NoOp {
   // NoOp node is used to represent an empty statement. such as {}
 }
