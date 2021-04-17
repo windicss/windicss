@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict } from './tokens';
 import type { Token, Operand, Module } from './tokens';
 
 /* syntax
@@ -21,7 +21,7 @@ assignment_statement : variable ASSIGN expr
 style_list : style_declaration
            | style_declaration style_list
 
-style_declaration : ID LBRACKET block RBRACKET
+style_declaration : ID LCURLY block RCURLY
                   | empty
 
 statement_list : statement
@@ -110,36 +110,83 @@ export class Parser {
     return node;
   }
 
-  expr(): Operand | Str | Template {
-    // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE
+  expr(): Operand | Str | Template | Tuple | List | Dict {
+    // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE | TUPLE | LIST | DICT
     // term   : factor ((MUL | DIV) factor)*
     // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable
+    let token = this.current_token;
 
-    if (this.current_token.type === TokenType.STRING) {
-      const token = new Str(this.current_token);
+    if (token.type === TokenType.STRING) {
       this.eat(TokenType.STRING);
-      return token;
-    } else if (this.current_token.type === TokenType.TEMPLATE) {
-      const token = new Template(this.current_token);
-      this.eat(TokenType.TEMPLATE);
-      return token;
-    } else {
-      let node = this.term();
-      while ([TokenType.PLUS, TokenType.MINUS].includes(this.current_token.type)) {
-        const token = this.current_token;
-        switch (token.type) {
-        case TokenType.PLUS:
-          this.eat(TokenType.PLUS);
-          break;
-        case TokenType.MINUS:
-          this.eat(TokenType.MINUS);
-          break;
-        }
-        node = new BinOp(node, token, this.term());
-      }
-      return node;
+      return new Str(token);
     }
 
+    if (token.type === TokenType.TEMPLATE) {
+      this.eat(TokenType.TEMPLATE);
+      return new Template(token);
+    }
+
+    if (token.type === TokenType.LPAREN) {
+      // tuple
+      const values = [];
+      this.eat(TokenType.LPAREN);
+      while(this.current_token.type !== TokenType.RPAREN) {
+        values.push(this.expr());
+        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      }
+      this.eat(TokenType.RPAREN);
+      return new Tuple([values]);
+    }
+
+    if (token.type === TokenType.LSQUARE) {
+      // list
+      const values = [];
+      this.eat(TokenType.LSQUARE);
+      while(this.current_token.type !== TokenType.RSQUARE) {
+        values.push(this.expr());
+        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      }
+      this.eat(TokenType.RSQUARE);
+      return new List(values);
+    }
+
+    if (token.type === TokenType.LCURLY) {
+      // dictionary
+      const value: {
+        [key: string]: Operand | Str | Template | Tuple | List | Dict;
+      } = {};
+      this.eat(TokenType.LCURLY);
+      while(this.current_token.type !== TokenType.RCURLY) {
+        const token = this.current_token;
+        if (token.type === TokenType.ID) {
+          this.eat(TokenType.ID);
+        } else if (token.type === TokenType.STRING) {
+          this.eat(TokenType.STRING);
+        } else {
+          this.error();
+        }
+        this.eat(TokenType.COLON);
+        value[token.value as string] = this.expr();
+        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      }
+      this.eat(TokenType.RCURLY);
+      return new Dict(value);
+    }
+
+    let node = this.term();
+    while ([TokenType.PLUS, TokenType.MINUS].includes(this.current_token.type)) {
+      token = this.current_token;
+      switch (token.type) {
+      case TokenType.PLUS:
+        this.eat(TokenType.PLUS);
+        break;
+      case TokenType.MINUS:
+        this.eat(TokenType.MINUS);
+        break;
+      }
+      node = new BinOp(node, token, this.term());
+    }
+    return node;
   }
 
   empty(): NoOp {
@@ -222,14 +269,14 @@ export class Parser {
   import_exports(): Module {
     // { export1 , export2 as alias2 , export3 as alias3 } from 'module-name;
     const exports: {[key:string]:string} = {};
-    this.eat(TokenType.LBRACKET);
-    while (this.current_token.type !== TokenType.RBRACKET) {
+    this.eat(TokenType.LCURLY);
+    while (this.current_token.type !== TokenType.RCURLY) {
       const value = this.current_token.value as string;
       const next_token = this.eat(TokenType.ID);
       if (next_token.type === TokenType.COMMA) {
         exports[value] = value;
         this.eat(TokenType.COMMA);
-      } else if (next_token.type === TokenType.RBRACKET) {
+      } else if (next_token.type === TokenType.RCURLY) {
         exports[value] = value;
       } else if (next_token.type === TokenType.ID) {
         this.eat(TokenType.ID); // as
@@ -240,7 +287,7 @@ export class Parser {
         this.error();
       }
     }
-    this.eat(TokenType.RBRACKET);
+    this.eat(TokenType.RCURLY);
     return { url: this.import_path(), exports };
   }
 
@@ -253,7 +300,7 @@ export class Parser {
     if (next_token.value === 'from') return { url: this.import_path(), default: _default };
     if (next_token.type === TokenType.COMMA) {
       next_token = this.eat(TokenType.COMMA);
-      if (next_token.type === TokenType.LBRACKET) return { default: _default, ...this.import_exports() };
+      if (next_token.type === TokenType.LCURLY) return { default: _default, ...this.import_exports() };
       if (next_token.type === TokenType.MUL) return { default: _default, ...this.import_all() };
     }
     this.error();
@@ -284,7 +331,7 @@ export class Parser {
         }
       }
       break;
-    case TokenType.LBRACKET:
+    case TokenType.LCURLY:
       modules.push(this.import_exports());
       break;
     case TokenType.MUL:
@@ -331,12 +378,17 @@ export class Parser {
     case TokenType.JS:
       node = this.javascript_statement();
       break;
+    case TokenType.LPAREN:
+    case TokenType.LCURLY:
+    case TokenType.LSQUARE:
+      node = this.expr();
+      break;
     case TokenType.ID:
       next_type = this.lexer.peek_next_token().type;
       if (next_type === TokenType.ASSIGN) {
         // update statement
         node = this.update_statement();
-      } else if ([TokenType.LBRACKET, TokenType.STRING, TokenType.TEMPLATE].includes(next_type)) {
+      } else if ([TokenType.LCURLY, TokenType.STRING, TokenType.TEMPLATE].includes(next_type)) {
         // style
         node = this.empty();
       } else {
@@ -367,7 +419,7 @@ export class Parser {
 
   style_declaration(): StyleDecl | PropDecl | NoOp {
     /*
-      style_declaration : ID LBRACKET block RBRACKET
+      style_declaration : ID LCURLY block RCURLY
                         | ID Template | Str
                         | prop_list
                         | empty
@@ -376,11 +428,11 @@ export class Parser {
     const name = this.current_token.value?.toString() ?? '';
     if (this.current_token.type === TokenType.ID) {
       const next_token = this.eat(TokenType.ID);
-      if (next_token.type === TokenType.LBRACKET) {
+      if (next_token.type === TokenType.LCURLY) {
         // style
-        this.eat(TokenType.LBRACKET);
+        this.eat(TokenType.LCURLY);
         node = new StyleDecl(name, this.block());
-        this.eat(TokenType.RBRACKET);
+        this.eat(TokenType.RCURLY);
       } else if (next_token.type === TokenType.STRING) {
         // prop
         this.eat(TokenType.STRING);

@@ -5,6 +5,7 @@ import { Token, TokenType, REVERSED_KEYWORDS } from './tokens';
 export class Lexer {
   text: string;
   pos: number;
+  _isID = false; // solve dict pairs setup and prop value setup, cause number|string: value and id: value
   current_char?: string;
 
   constructor(text: string) {
@@ -46,6 +47,7 @@ export class Lexer {
     if (char === '`') {
       return new Token(TokenType.TEMPLATE, result);
     }
+    this._isID = false;
     return new Token(TokenType.STRING, result);
   }
 
@@ -113,6 +115,7 @@ export class Lexer {
       this.advance(3);
       return new Token(TokenType.DEGREE, +result);
     }
+    this._isID = false;
     return new Token(TokenType.NUMBER, +result);
   }
 
@@ -131,6 +134,7 @@ export class Lexer {
       result += this.current_char;
       this.advance();
     }
+    this._isID = true;
     return new Token(TokenType.ID, result);
   }
 
@@ -153,13 +157,18 @@ export class Lexer {
       prev = this.current_char;
       this.advance();
     }
+    this._isID = true;
     return new Token(TokenType.ID, result.trimEnd());
   }
 
-  peek_next_token(): Token {
+  peek_next_token(count = 1): Token {
     const pos = this.pos;
     const char = this.current_char;
-    const token = this.get_next_token();
+    let token = this.get_next_token();
+    while (count > 1) {
+      token = this.get_next_token();
+      count--;
+    }
     this.pos = pos;
     this.current_char = char;
     return token;
@@ -192,7 +201,8 @@ export class Lexer {
         return new Token(TokenType.ASSIGN, '=');
       case ':':
         this.advance();
-        this.skip_whitespace();
+        if (!this._isID) return new Token(TokenType.COLON, ':'); // dict pairs assign
+        this.skip_whitespace(); // prop assign
         return this.property();
       case ';':
         this.advance();
@@ -211,10 +221,10 @@ export class Lexer {
         return this.color();
       case '{':
         this.advance();
-        return new Token(TokenType.LBRACKET, '{');
+        return new Token(TokenType.LCURLY, '{');
       case '}':
         this.advance();
-        return new Token(TokenType.RBRACKET, '}');
+        return new Token(TokenType.RCURLY, '}');
       case '+':
         this.advance();
         return new Token(TokenType.PLUS, '+');
@@ -233,6 +243,12 @@ export class Lexer {
       case ')':
         this.advance();
         return new Token(TokenType.RPAREN, ')');
+      case '[':
+        this.advance();
+        return new Token(TokenType.LSQUARE, '[');
+      case ']':
+        this.advance();
+        return new Token(TokenType.RSQUARE, ']');
       case ',':
         this.advance();
         return new Token(TokenType.COMMA, ',');

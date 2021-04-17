@@ -28,8 +28,10 @@ export enum TokenType {
   COMMA = ',',
   LPAREN = '(',
   RPAREN = ')',
-  LBRACKET = '{',
-  RBRACKET = '}',
+  LCURLY = '{',
+  RCURLY = '}',
+  LSQUARE = '[',
+  RSQUARE = ']',
   UNKNOWN = 'UNKNOWN',
   ASSIGN = 'ASSIGN',
   SPACE = 'SPACE',
@@ -99,6 +101,27 @@ export class Str {
   constructor(token: Token) {
     this.token = token;
     this.value = token.value as string;
+  }
+}
+
+export class Tuple {
+  values: (Operand | Str | Template | Tuple | List | Dict)[];
+  constructor(values: (Operand | Str | Template | Tuple | List | Dict)[]) {
+    this.values = values;
+  }
+}
+
+export class List {
+  values: (Operand | Str | Template | Tuple | List | Dict)[];
+  constructor(values: (Operand | Str | Template | Tuple | List | Dict)[]) {
+    this.values = values;
+  }
+}
+
+export class Dict {
+  value: {[key:string]: (Operand | Str | Template | Tuple | List | Dict)}
+  constructor(value: {[key:string]: (Operand | Str | Template | Tuple | List | Dict)}) {
+    this.value = value;
   }
 }
 

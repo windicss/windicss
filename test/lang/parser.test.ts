@@ -20,6 +20,13 @@ describe('Parser', () => {
       @var b = 10 * a + 10 * number / 4;
       @var c = a - - b;
       @var d = 'green';
+      @var e = [ 10, 'green' , a - b ];
+      @var f = ( 10, 'green' , a - b );
+      @var g = {
+        'a': 1,
+        'b': 2,
+        'c': a - b,
+      };
 
       @log d;
 
