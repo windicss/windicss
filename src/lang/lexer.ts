@@ -233,7 +233,7 @@ export class Lexer {
           this.advance();
           return new Token(TokenType.NOTEQUAL, '!=');
         }
-        return new Token(TokenType.NOT, '!');
+        return new Token(TokenType.NO, '!');
       case ':':
         this.advance();
         if (!this._isID) return new Token(TokenType.COLON, ':'); // dict pairs assign

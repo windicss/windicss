@@ -44,7 +44,7 @@ variable: ID
 */
 
 const UNARYOPS = ['+', '-', '!'];
-const BINOPS = [['**'], ['*', '/', '%'], ['+', '-'], ['==', '!=', '>', '>=', '<', '<='], ['in', 'not in'], ['not'], ['and'], ['or']];
+const BINOPS = [['*', '/', '%'], ['+', '-'], ['==', '!=', '>', '>=', '<', '<='], ['in', 'not in'], ['not'], ['and'], ['or']];
 
 export class Parser {
   lexer: Lexer;
@@ -129,14 +129,10 @@ export class Parser {
     return new Attr(left, right);
   }
 
-  factor(): DataType {
-    // factor: (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable
+  data(): DataType {
+    // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable
     let node;
     const token = this.current_token;
-    if (UNARYOPS.includes(token.type)) {
-      this.eat(token.type);
-      return new UnaryOp(token, this.factor());
-    }
     switch (token.type) {
     case TokenType.NUMBER:
       this.eat(TokenType.NUMBER);
@@ -188,19 +184,41 @@ export class Parser {
     }
   }
 
+  exp(): DataType {
+    // exp: data (** data)*
+    let node = this.data();
+    while (this.current_token.type === TokenType.EXP) {
+      const token = this.current_token;
+      this.eat(token.type);
+      node = new BinOp(node, token, this.data());
+    }
+    return node;
+  }
+
+  unary(): DataType {
+    // unary: (+|-|!)*exp
+    let node;
+    while (UNARYOPS.includes(this.current_token.type)) {
+      const token = this.current_token;
+      this.eat(this.current_token.type);
+      node = new UnaryOp(token, this.exp());
+    }
+    return node ?? this.exp();
+  }
+
   binop(index: number): Operand {
     // term: factor ((MUL | DIV) factor)*
-    if (index === 5 && this.current_token.type === TokenType.NOT) {
+    if (index === 4 && this.current_token.type === TokenType.NOT) {
       // 'not' is a special case
       const token = this.current_token;
       this.eat(token.type);
-      return new UnaryOp(token, this.binop(4));
+      return new UnaryOp(token, this.binop(3));
     }
-    let node = index === 0 ? this.factor() : this.binop(index - 1);
+    let node = index === 0 ? this.unary() : this.binop(index - 1);
     while (BINOPS[index].includes(this.current_token.type)) {
       const token = this.current_token;
       this.eat(token.type);
-      node = new BinOp(node, token, index === 0 ? this.factor(): this.binop(index - 1));
+      node = new BinOp(node, token, index === 0 ? this.unary(): this.binop(index - 1));
     }
     return node;
   }

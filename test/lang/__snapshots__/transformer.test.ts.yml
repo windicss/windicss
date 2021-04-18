@@ -33,12 +33,13 @@ Tools / simple syntax / js / 0: |-
     "c": __minus__(a, b)
   };
   console.assert(!(1 === 2) && 5 > 3);
+  console.assert(!(1) === 2 && 5 > 3);
   console.assert(__in__(4, [1, 2, 4]));
   let h = func2(__add__(func(1, 2), __div__(4, 3)));
   let h = true;
   let i = __mul__(false, 3);
   let j = undefined;
-  c = __add__(c, __mul__(4, __exp__(2, 3)));
+  c = __negative__(__exp__(4, 4));
   __add__(a, 4);
   console.log(d);
   console.log(b);
