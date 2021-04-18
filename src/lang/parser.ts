@@ -190,11 +190,11 @@ export class Parser {
 
   binop(index: number): Operand {
     // term: factor ((MUL | DIV) factor)*
-    if (index === 4 && this.current_token.type === TokenType.NOT) {
+    if (index === 5 && this.current_token.type === TokenType.NOT) {
       // 'not' is a special case
       const token = this.current_token;
       this.eat(token.type);
-      return new UnaryOp(token, this.binop(3));
+      return new UnaryOp(token, this.binop(4));
     }
     let node = index === 0 ? this.factor() : this.binop(index - 1);
     while (BINOPS[index].includes(this.current_token.type)) {
