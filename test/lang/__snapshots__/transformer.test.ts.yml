@@ -12,6 +12,13 @@ Tools / simple syntax / js / 0: |-
   import defaultExport from "module;
   import defaultExport, { export1, export2 } from "module-name";
   import defaultExport, * as name from "module-name";
+  function func(a, b) {
+  let f = 3;
+  function nest(c, d) {
+  return mul(c, d);
+  };
+  return minus(add(a, div(b, f)), nest(a, b));
+  };
   let number = 2;
   let a = number;
   let b = add(mul(10, a), div(mul(10, number), 4));

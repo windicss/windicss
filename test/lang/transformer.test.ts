@@ -15,6 +15,14 @@ describe('Transformer', () => {
       @load defaultExport, { export1, export2 } from "module-name";
       @load defaultExport, * as name from 'module-name';
 
+      @func func(a, b) {
+        @var f = 3;
+        @func nest(c, d) {
+          @return c * d;
+        };
+        @return a + b / f - nest(a, b);
+      };
+
       @var number = 2;
       @var a = number;
       @var b = 10 * a + 10 * number / 4;

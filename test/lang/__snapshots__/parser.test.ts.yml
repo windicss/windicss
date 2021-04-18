@@ -107,6 +107,138 @@ Tools / simple syntax / ast / 0: |-
           ]
         },
         {
+          "name": "func",
+          "params": [
+            "a",
+            "b"
+          ],
+          "block": {
+            "statement_list": [
+              {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "f"
+                  },
+                  "value": "f"
+                },
+                "op": {
+                  "type": "ASSIGN",
+                  "value": "="
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 3
+                  },
+                  "value": 3
+                }
+              },
+              {
+                "name": "nest",
+                "params": [
+                  "c",
+                  "d"
+                ],
+                "block": {
+                  "statement_list": [
+                    {
+                      "value": {
+                        "left": {
+                          "token": {
+                            "type": "ID",
+                            "value": "c"
+                          },
+                          "value": "c"
+                        },
+                        "op": {
+                          "type": "MUL",
+                          "value": "*"
+                        },
+                        "right": {
+                          "token": {
+                            "type": "ID",
+                            "value": "d"
+                          },
+                          "value": "d"
+                        }
+                      }
+                    },
+                    {}
+                  ],
+                  "style_list": [
+                    {}
+                  ]
+                }
+              },
+              {
+                "value": {
+                  "left": {
+                    "left": {
+                      "token": {
+                        "type": "ID",
+                        "value": "a"
+                      },
+                      "value": "a"
+                    },
+                    "op": {
+                      "type": "PLUS",
+                      "value": "+"
+                    },
+                    "right": {
+                      "left": {
+                        "token": {
+                          "type": "ID",
+                          "value": "b"
+                        },
+                        "value": "b"
+                      },
+                      "op": {
+                        "type": "DIV",
+                        "value": "/"
+                      },
+                      "right": {
+                        "token": {
+                          "type": "ID",
+                          "value": "f"
+                        },
+                        "value": "f"
+                      }
+                    }
+                  },
+                  "op": {
+                    "type": "MINUS",
+                    "value": "-"
+                  },
+                  "right": {
+                    "name": "nest",
+                    "params": [
+                      {
+                        "token": {
+                          "type": "ID",
+                          "value": "a"
+                        },
+                        "value": "a"
+                      },
+                      {
+                        "token": {
+                          "type": "ID",
+                          "value": "b"
+                        },
+                        "value": "b"
+                      }
+                    ]
+                  }
+                }
+              },
+              {}
+            ],
+            "style_list": [
+              {}
+            ]
+          }
+        },
+        {
           "left": {
             "token": {
               "type": "ID",

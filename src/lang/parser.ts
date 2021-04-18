@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None, Func, Return, DataType } from './tokens';
 import type { Token, Operand, Module } from './tokens';
 
 /* syntax
@@ -133,7 +133,7 @@ export class Parser {
     return node;
   }
 
-  expr(): Operand | Str | Template | Tuple | List | Dict {
+  expr(): DataType {
     // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE | TUPLE | LIST | DICT
     // term   : factor ((MUL | DIV) factor)*
     // factor : (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | LPAREN expr RPAREN | variable | func call
@@ -250,6 +250,33 @@ export class Parser {
     const code = this.current_token.value;
     this.eat(TokenType.JS);
     return new JS(code as string);
+  }
+
+  function_statement(): Func {
+    // @func ID(id1, id2) {...}
+    const name = this.eat(TokenType.FUNC);
+    this.eat(TokenType.ID);
+    // parse params
+    const params = [];
+    this.eat(TokenType.LPAREN);
+    while(this.current_token.type !== TokenType.RPAREN) {
+      params.push(this.current_token.value as string);
+      this.eat(TokenType.ID);
+      if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.RPAREN);
+
+    // parse block
+    this.eat(TokenType.LCURLY);
+    const block = this.block();
+    this.eat(TokenType.RCURLY);
+
+    return new Func(name.value as string, params, block);
+  }
+
+  return_statement(): Return {
+    this.eat(TokenType.RETURN);
+    return new Return(this.expr());
   }
 
   import_statement(): Import {
@@ -380,6 +407,12 @@ export class Parser {
     switch (this.current_token.type) {
     case TokenType.VAR:
       node = this.assignment_statement();
+      break;
+    case TokenType.FUNC:
+      node = this.function_statement();
+      break;
+    case TokenType.RETURN:
+      node = this.return_statement();
       break;
     case TokenType.IMPORT:
       node = this.import_statement();

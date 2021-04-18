@@ -120,23 +120,25 @@ export class Str {
   }
 }
 
+export type DataType = Operand | Str | Template | Tuple | List | Dict | Bool | None | Func;
+
 export class Tuple {
-  values: (Operand | Str | Template | Tuple | List | Dict)[];
-  constructor(values: (Operand | Str | Template | Tuple | List | Dict)[]) {
+  values: (DataType)[];
+  constructor(values: (DataType)[]) {
     this.values = values;
   }
 }
 
 export class List {
-  values: (Operand | Str | Template | Tuple | List | Dict)[];
-  constructor(values: (Operand | Str | Template | Tuple | List | Dict)[]) {
+  values: (DataType)[];
+  constructor(values: (DataType)[]) {
     this.values = values;
   }
 }
 
 export class Dict {
-  pairs: [string|number, (Operand | Str | Template | Tuple | List | Dict)][]
-  constructor(pairs: [string|number, (Operand | Str | Template | Tuple | List | Dict)][]) {
+  pairs: [string|number, (DataType)][]
+  constructor(pairs: [string|number, (DataType)][]) {
     this.pairs = pairs;
   }
 }
@@ -161,8 +163,8 @@ export class Var {
 
 export class Call {
   name: string;
-  params: (Operand | Str | Template | Tuple | List | Dict)[];
-  constructor(name: string, params: (Operand | Str | Template | Tuple | List | Dict)[]) {
+  params: (DataType)[];
+  constructor(name: string, params: (DataType)[]) {
     this.name = name;
     this.params = params;
   }
@@ -171,8 +173,8 @@ export class Call {
 export class Assign {
   left: Var;
   op: Token;
-  right: Operand | Str | Template | Tuple | List | Dict;
-  constructor(left: Var, op: Token, right: Operand | Str | Template | Tuple | List | Dict) {
+  right: DataType;
+  constructor(left: Var, op: Token, right: DataType) {
     this.left = left;
     this.op = op;
     this.right = right;
@@ -182,8 +184,8 @@ export class Assign {
 export class Update {
   left: Var;
   op: Token;
-  right: Operand | Str | Template | Tuple | List | Dict;
-  constructor(left: Var, op: Token, right: Operand | Str | Template | Tuple | List | Dict) {
+  right: DataType;
+  constructor(left: Var, op: Token, right: DataType) {
     this.left = left;
     this.op = op;
     this.right = right;
@@ -192,8 +194,8 @@ export class Update {
 
 export class Console {
   type: TokenType.LOG | TokenType.WARN | TokenType.ERROR;
-  expr: Operand | Str | Template | Tuple | List | Dict;
-  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: Operand | Str | Template | Tuple | List | Dict) {
+  expr: DataType;
+  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: DataType) {
     this.type = type;
     this.expr = expr;
   }
@@ -230,6 +232,24 @@ export class Block {
   constructor(statement_list: (Assign | Update | Console | NoOp)[], style_list: (StyleDecl | PropDecl | NoOp)[]) {
     this.statement_list = statement_list;
     this.style_list = style_list;
+  }
+}
+
+export class Func {
+  name: string;
+  params: string[];
+  block: Block;
+  constructor(name: string, params: string[], block: Block) {
+    this.name = name;
+    this.params = params;
+    this.block = block;
+  }
+}
+
+export class Return {
+  value: DataType;
+  constructor(value: DataType) {
+    this.value = value;
   }
 }
 
