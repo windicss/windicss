@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call } from './tokens';
 import type { Token, Operand, Module } from './tokens';
 
 /* syntax
@@ -66,7 +66,7 @@ export class Parser {
   }
 
   factor(): Operand {
-    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable
+    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable | func call
     let node;
     const token = this.current_token;
     switch (token.type) {
@@ -86,6 +86,20 @@ export class Parser {
       return node;
     case TokenType.ID:
       this.eat(TokenType.ID);
+      if (this.current_token.type === TokenType.LPAREN) {
+        // function call
+        const params = [];
+        this.eat(TokenType.LPAREN);
+        let next = this.current_token;
+        while(next.type !== TokenType.RPAREN) {
+          params.push(this.expr());
+          next = this.current_token;
+          if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+        }
+        this.eat(TokenType.RPAREN);
+        return new Call(token.value as string, params);
+      }
+      // variable
       return new Var(token);
     default:
       this.error();
@@ -113,7 +127,7 @@ export class Parser {
   expr(): Operand | Str | Template | Tuple | List | Dict {
     // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE | TUPLE | LIST | DICT
     // term   : factor ((MUL | DIV) factor)*
-    // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable
+    // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable | func call
     let token = this.current_token;
 
     if (token.type === TokenType.STRING) {
@@ -245,7 +259,7 @@ export class Parser {
 
   import_path(): string {
     // from 'module'
-    const next_token = this.eat(TokenType.ID);
+    const next_token = this.eat(TokenType.FROM);
     if (next_token.type !== TokenType.STRING) this.error();
     this.eat(TokenType.STRING);
     return next_token.value as string;
@@ -255,10 +269,9 @@ export class Parser {
     // * from "module"
     // * as name from "module"
     this.eat(TokenType.MUL);
-    if (this.current_token.type !== TokenType.ID) this.error();
-    if (this.current_token.value === 'from') return { url: this.import_path(), exports: { '*': '*' } };
-    if (this.current_token.value === 'as') {
-      const next_token = this.eat(TokenType.ID);
+    if (this.current_token.type === TokenType.FROM) return { url: this.import_path(), exports: { '*': '*' } };
+    if (this.current_token.type === TokenType.AS) {
+      const next_token = this.eat(TokenType.AS);
       this.eat(TokenType.ID);
       return { url: this.import_path(), exports: { [next_token.value as string]: '*' } };
     }
@@ -277,8 +290,8 @@ export class Parser {
         this.eat(TokenType.COMMA);
       } else if (next_token.type === TokenType.RCURLY) {
         exports[value] = value;
-      } else if (next_token.type === TokenType.ID) {
-        this.eat(TokenType.ID); // as
+      } else if (next_token.type === TokenType.AS) {
+        this.eat(TokenType.AS);
         exports[this.current_token.value as string] = value;
         this.eat(TokenType.ID);
         if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
@@ -296,7 +309,7 @@ export class Parser {
     // defaultExport, * as name from 'module-name';
     const _default = this.current_token.value as string;
     let next_token = this.eat(TokenType.ID);
-    if (next_token.value === 'from') return { url: this.import_path(), default: _default };
+    if (next_token.type === TokenType.FROM) return { url: this.import_path(), default: _default };
     if (next_token.type === TokenType.COMMA) {
       next_token = this.eat(TokenType.COMMA);
       if (next_token.type === TokenType.LCURLY) return { default: _default, ...this.import_exports() };

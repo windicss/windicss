@@ -25,6 +25,7 @@ Tools / simple syntax / js / 0: |-
     "b": 2,
     "c": minus(a, b)
   };
+  let h = func2(add(func(1, 2), div(4, 3)));
   c = add(c, 2);
   add(a, 4);
   console.log(d);

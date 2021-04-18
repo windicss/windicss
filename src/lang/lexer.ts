@@ -135,6 +135,9 @@ export class Lexer {
       this.advance();
     }
     this._isID = true;
+    if (result === 'from') return new Token(TokenType.FROM, result);
+    if (result === 'as') return new Token(TokenType.AS, result);
+    if (result === 'in') return new Token(TokenType.IN, result);
     return new Token(TokenType.ID, result);
   }
 

@@ -29,6 +29,8 @@ describe('Transformer', () => {
         'c': a - b,
       };
 
+      @var h = func2(func(1, 2) + (4 / 3));
+
       c = c + 2;
 
       a + 4;

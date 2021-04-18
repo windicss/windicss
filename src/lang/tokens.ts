@@ -57,6 +57,9 @@ export enum TokenType {
   LOG = '@log',
   WARN = '@warn',
   ERROR = '@error',
+  FROM = 'from',
+  IN = 'in',
+  AS = 'as',
 }
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
@@ -140,6 +143,15 @@ export class Var {
   constructor(token: Token) {
     this.token = token;
     this.value = token.value as string;
+  }
+}
+
+export class Call {
+  name: string;
+  params: (Operand | Str | Template | Tuple | List | Dict)[];
+  constructor(name: string, params: (Operand | Str | Template | Tuple | List | Dict)[]) {
+    this.name = name;
+    this.params = params;
   }
 }
 
@@ -259,4 +271,4 @@ export class NoOp {
   // NoOp node is used to represent an empty statement. such as {}
 }
 
-export type Operand = Num | BinOp | UnaryOp | NoOp;
+export type Operand = Num | BinOp | UnaryOp | NoOp | Call;

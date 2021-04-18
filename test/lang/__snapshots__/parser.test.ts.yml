@@ -450,6 +450,64 @@ Tools / simple syntax / ast / 0: |-
           }
         },
         {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "h"
+            },
+            "value": "h"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "left": {
+              "name": "func",
+              "params": [
+                {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 1
+                  },
+                  "value": 1
+                },
+                {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 2
+                  },
+                  "value": 2
+                }
+              ]
+            },
+            "op": {
+              "type": "PLUS",
+              "value": "+"
+            },
+            "right": {
+              "left": {
+                "token": {
+                  "type": "NUMBER",
+                  "value": 4
+                },
+                "value": 4
+              },
+              "op": {
+                "type": "DIV",
+                "value": "/"
+              },
+              "right": {
+                "token": {
+                  "type": "NUMBER",
+                  "value": 3
+                },
+                "value": 3
+              }
+            }
+          }
+        },
+        {
           "type": "@log",
           "expr": {
             "token": {
