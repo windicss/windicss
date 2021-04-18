@@ -60,6 +60,9 @@ export enum TokenType {
   FROM = 'from',
   IN = 'in',
   AS = 'as',
+  NONE = 'None',
+  TRUE = 'True',
+  FALSE = 'False',
 }
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
@@ -90,6 +93,16 @@ export class Num {
     this.token = token;
     this.value = token.value as number;
   }
+}
+
+export class Bool {
+  value: boolean;
+  constructor(value: boolean) {
+    this.value = value;
+  }
+}
+
+export class None {
 }
 
 export class PIXEL extends Num {

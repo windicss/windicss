@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Dict, Call } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Dict, Call, Bool, None } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -15,7 +15,7 @@ export default class Transformer {
     throw Error(msg);
   }
 
-  visit(node: Operand): string | number | string[] | void {
+  visit(node: Operand): string | number | boolean | string[] | void {
     if (node instanceof Program) return this.visit_Program(node);
     if (node instanceof Block) return this.visit_Block(node);
     if (node instanceof PropDecl) return this.visit_PropDecl(node);
@@ -31,6 +31,8 @@ export default class Transformer {
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
+    if (node instanceof Bool) return this.visit_Boolean(node);
+    if (node instanceof None) return this.visit_None(node);
     if (node instanceof List) return this.visit_List(node);
     if (node instanceof Tuple) return this.visit_Tuple(node);
     if (node instanceof Dict) return this.visit_Dict(node);
@@ -42,6 +44,15 @@ export default class Transformer {
 
   visit_Num(node: Num): number {
     return node.value;
+  }
+
+  visit_Boolean(node: Bool): boolean {
+    return node.value;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  visit_None(node: None): undefined {
+    return undefined;
   }
 
   visit_List(node: List): string {

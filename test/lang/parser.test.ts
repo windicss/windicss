@@ -28,6 +28,9 @@ describe('Parser', () => {
         'b': 2,
         'c': a - b,
       };
+      @var h = True;
+      @var i = False * 3;
+      @var j = None;
 
       @var h = func(1, 2) + (4 / 3);
 

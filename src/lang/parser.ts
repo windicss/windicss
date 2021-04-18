@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None } from './tokens';
 import type { Token, Operand, Module } from './tokens';
 
 /* syntax
@@ -66,7 +66,7 @@ export class Parser {
   }
 
   factor(): Operand {
-    // factor: (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable | func call
+    // factor: (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable | func call
     let node;
     const token = this.current_token;
     switch (token.type) {
@@ -79,6 +79,15 @@ export class Parser {
     case TokenType.NUMBER:
       this.eat(TokenType.NUMBER);
       return new Num(token);
+    case TokenType.TRUE:
+      this.eat(TokenType.TRUE);
+      return new Bool(true);
+    case TokenType.FALSE:
+      this.eat(TokenType.FALSE);
+      return new Bool(false);
+    case TokenType.NONE:
+      this.eat(TokenType.NONE);
+      return new None();
     case TokenType.LPAREN:
       this.eat(TokenType.LPAREN);
       node = this.expr();
@@ -127,7 +136,7 @@ export class Parser {
   expr(): Operand | Str | Template | Tuple | List | Dict {
     // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE | TUPLE | LIST | DICT
     // term   : factor ((MUL | DIV) factor)*
-    // factor : (PLUS|MINUS)factor | INTEGER | LPAREN expr RPAREN | variable | func call
+    // factor : (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | LPAREN expr RPAREN | variable | func call
     let token = this.current_token;
 
     if (token.type === TokenType.STRING) {

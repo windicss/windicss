@@ -462,6 +462,65 @@ Tools / simple syntax / ast / 0: |-
             "value": "="
           },
           "right": {
+            "value": true
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "i"
+            },
+            "value": "i"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
+            "left": {
+              "value": false
+            },
+            "op": {
+              "type": "MUL",
+              "value": "*"
+            },
+            "right": {
+              "token": {
+                "type": "NUMBER",
+                "value": 3
+              },
+              "value": 3
+            }
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "j"
+            },
+            "value": "j"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {}
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "h"
+            },
+            "value": "h"
+          },
+          "op": {
+            "type": "ASSIGN",
+            "value": "="
+          },
+          "right": {
             "left": {
               "name": "func",
               "params": [
