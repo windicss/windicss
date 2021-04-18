@@ -18,9 +18,10 @@ export class Lexer {
     throw Error(msg);
   }
 
-  advance(step = 1): void {
+  advance(step = 1): string | undefined {
     this.pos += step;
     this.current_char = this.pos > this.text.length - 1 ? undefined : this.text[this.pos];
+    return this.current_char;
   }
 
   peek(): string | undefined {
@@ -136,6 +137,13 @@ export class Lexer {
     }
     this._isID = true;
     switch (result) {
+    case 'and':
+      return new Token(TokenType.AND, result);
+    case 'or':
+      return new Token(TokenType.OR, result);
+    case 'not':
+      if (this.peek_next_token().type === TokenType.IN) return new Token(TokenType.NOTIN, 'not in');
+      return new Token(TokenType.NOT, result);
     case 'from':
       return new Token(TokenType.FROM, result);
     case 'as':
@@ -190,6 +198,7 @@ export class Lexer {
   }
 
   get_next_token(): Token {
+    let next: string | undefined;
     while (this.current_char !== undefined) {
       if (isSpace(this.current_char)) {
         this.skip_whitespace();
@@ -213,7 +222,18 @@ export class Lexer {
         return new Token(TokenType.DOLLAR, '$');
       case '=':
         this.advance();
+        if (this.current_char === '=') {
+          this.advance();
+          return new Token(TokenType.EQUAL, '==');
+        }
         return new Token(TokenType.ASSIGN, '=');
+      case '!':
+        next = this.advance();
+        if (next === '=') {
+          this.advance();
+          return new Token(TokenType.NOTEQUAL, '!=');
+        }
+        return new Token(TokenType.NOT, '!');
       case ':':
         this.advance();
         if (!this._isID) return new Token(TokenType.COLON, ':'); // dict pairs assign
@@ -241,17 +261,69 @@ export class Lexer {
         this.advance();
         return new Token(TokenType.RCURLY, '}');
       case '+':
-        this.advance();
+        next = this.advance();
+        switch(next) {
+        case '=':
+          this.advance();
+          return new Token(TokenType.ADDEQUAL, '+=');
+        case '+':
+          this.advance();
+          return new Token(TokenType.INCREASE, '++');
+        }
         return new Token(TokenType.PLUS, '+');
       case '-':
-        this.advance();
+        next = this.advance();
+        switch(next) {
+        case '=':
+          this.advance();
+          return new Token(TokenType.MINUSEQUAL, '-=');
+        case '-':
+          this.advance();
+          return new Token(TokenType.DECREASE, '--');
+        }
         return new Token(TokenType.MINUS, '-');
+      case '%':
+        next = this.advance();
+        if (next === '=') {
+          this.advance();
+          return new Token(TokenType.MODEQUAL, '%=');
+        }
+        return new Token(TokenType.MOD, '%');
       case '*':
-        this.advance();
+        next = this.advance();
+        switch(next) {
+        case '=':
+          this.advance();
+          return new Token(TokenType.MULEQUAL, '*=');
+        case '*':
+          next = this.advance();
+          if (next === '=') {
+            this.advance();
+            return new Token(TokenType.EXPEQUAL, '**=');
+          }
+          return new Token(TokenType.EXP, '**');
+        }
         return new Token(TokenType.MUL, '*');
       case '/':
         this.advance();
         return new Token(TokenType.DIV, '/');
+      case '>':
+        next = this.advance();
+        if (next === '=') {
+          this.advance();
+          return new Token(TokenType.GERATEREQUAL, '>=');
+        }
+        return new Token(TokenType.GERATER, '>');
+      case '<':
+        next = this.advance();
+        if (next === '=') {
+          this.advance();
+          return new Token(TokenType.LESSEQUAL, '<=');
+        }
+        return new Token(TokenType.LESS, '<');
+      case '?':
+        this.advance();
+        return new Token(TokenType.TERNARY, '?');
       case '(':
         this.advance();
         return new Token(TokenType.LPAREN, '(');

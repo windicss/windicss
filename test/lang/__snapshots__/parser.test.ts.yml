@@ -123,7 +123,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": "f"
                 },
                 "op": {
-                  "type": "ASSIGN",
+                  "type": "=",
                   "value": "="
                 },
                 "right": {
@@ -152,7 +152,7 @@ Tools / simple syntax / ast / 0: |-
                           "value": "c"
                         },
                         "op": {
-                          "type": "MUL",
+                          "type": "*",
                           "value": "*"
                         },
                         "right": {
@@ -182,7 +182,7 @@ Tools / simple syntax / ast / 0: |-
                       "value": "a"
                     },
                     "op": {
-                      "type": "PLUS",
+                      "type": "+",
                       "value": "+"
                     },
                     "right": {
@@ -194,7 +194,7 @@ Tools / simple syntax / ast / 0: |-
                         "value": "b"
                       },
                       "op": {
-                        "type": "DIV",
+                        "type": "/",
                         "value": "/"
                       },
                       "right": {
@@ -207,7 +207,7 @@ Tools / simple syntax / ast / 0: |-
                     }
                   },
                   "op": {
-                    "type": "MINUS",
+                    "type": "-",
                     "value": "-"
                   },
                   "right": {
@@ -247,7 +247,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "number"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -267,7 +267,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "a"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -287,7 +287,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "b"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -300,7 +300,7 @@ Tools / simple syntax / ast / 0: |-
                 "value": 10
               },
               "op": {
-                "type": "MUL",
+                "type": "*",
                 "value": "*"
               },
               "right": {
@@ -312,7 +312,7 @@ Tools / simple syntax / ast / 0: |-
               }
             },
             "op": {
-              "type": "PLUS",
+              "type": "+",
               "value": "+"
             },
             "right": {
@@ -325,7 +325,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": 10
                 },
                 "op": {
-                  "type": "MUL",
+                  "type": "*",
                   "value": "*"
                 },
                 "right": {
@@ -337,7 +337,7 @@ Tools / simple syntax / ast / 0: |-
                 }
               },
               "op": {
-                "type": "DIV",
+                "type": "/",
                 "value": "/"
               },
               "right": {
@@ -359,7 +359,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "c"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -371,12 +371,12 @@ Tools / simple syntax / ast / 0: |-
               "value": "a"
             },
             "op": {
-              "type": "MINUS",
+              "type": "-",
               "value": "-"
             },
             "right": {
               "op": {
-                "type": "MINUS",
+                "type": "-",
                 "value": "-"
               },
               "expr": {
@@ -398,7 +398,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "d"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -418,7 +418,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "e"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -446,7 +446,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": "a"
                 },
                 "op": {
-                  "type": "MINUS",
+                  "type": "-",
                   "value": "-"
                 },
                 "right": {
@@ -469,7 +469,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "f"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -497,7 +497,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": "a"
                 },
                 "op": {
-                  "type": "MINUS",
+                  "type": "-",
                   "value": "-"
                 },
                 "right": {
@@ -520,7 +520,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "g"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -566,7 +566,7 @@ Tools / simple syntax / ast / 0: |-
                     "value": "a"
                   },
                   "op": {
-                    "type": "MINUS",
+                    "type": "-",
                     "value": "-"
                   },
                   "right": {
@@ -590,7 +590,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "h"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -606,7 +606,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "i"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -614,7 +614,7 @@ Tools / simple syntax / ast / 0: |-
               "value": false
             },
             "op": {
-              "type": "MUL",
+              "type": "*",
               "value": "*"
             },
             "right": {
@@ -635,7 +635,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "j"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {}
@@ -649,7 +649,7 @@ Tools / simple syntax / ast / 0: |-
             "value": "h"
           },
           "op": {
-            "type": "ASSIGN",
+            "type": "=",
             "value": "="
           },
           "right": {
@@ -673,7 +673,7 @@ Tools / simple syntax / ast / 0: |-
               ]
             },
             "op": {
-              "type": "PLUS",
+              "type": "+",
               "value": "+"
             },
             "right": {
@@ -685,7 +685,7 @@ Tools / simple syntax / ast / 0: |-
                 "value": 4
               },
               "op": {
-                "type": "DIV",
+                "type": "/",
                 "value": "/"
               },
               "right": {
@@ -729,7 +729,7 @@ Tools / simple syntax / ast / 0: |-
               "value": "a"
             },
             "op": {
-              "type": "PLUS",
+              "type": "+",
               "value": "+"
             },
             "right": {
@@ -759,7 +759,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": "testNest"
                 },
                 "op": {
-                  "type": "ASSIGN",
+                  "type": "=",
                   "value": "="
                 },
                 "right": {
@@ -819,7 +819,7 @@ Tools / simple syntax / ast / 0: |-
                   "value": "testNest"
                 },
                 "op": {
-                  "type": "ASSIGN",
+                  "type": "=",
                   "value": "="
                 },
                 "right": {

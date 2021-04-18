@@ -8,6 +8,27 @@ export class Token {
   }
 }
 
+/*
+  name        operators                 associativity       precedence level
+  factor      int | str | template | bool | dict | list | tuple | (expr) | variable
+    x[...]   x.attr  func()     L
+    +x -x                       R
+    **                          R
+    * / %                       L
+    + -                         L
+    == != > >= <= < <=          L
+    in not in                   L
+    not                         R
+    and                         L
+    or                          L
+    ... ? ... : ...             R
+    exp1, exp2                  L
+*/
+
+/*
+
+*/
+
 export enum TokenType {
   NUMBER = 'NUMBER',
   PIXEL = 'PIXEL',
@@ -19,10 +40,44 @@ export enum TokenType {
   STRING = 'STRING',
   TEMPLATE = 'TEMPLATE',
   COLOR = 'COLOR',
-  PLUS = 'PLUS',
-  MINUS = 'MINUS',
-  MUL = 'MUL',
-  DIV = 'DIV',
+  // Arithmetic Operators
+  PLUS = '+',
+  MINUS = '-',
+  MUL = '*',
+  DIV = '/',
+  MOD = '%',
+  EXP = '**',
+  // Assignment Operators
+  ADDEQUAL = '+=',
+  MINUSEQUAL = '-=',
+  MULEQUAL = '*=',
+  DIVEQUAL = '/=',
+  MODEQUAL = '%=',
+  EXPEQUAL = '**=',
+  INCREASE = '++',
+  DECREASE = '--',
+  // Comparison Operators
+  EQUAL = '==',
+  NOTEQUAL = '!=',
+  GERATER = '>',
+  LESS = '<',
+  GERATEREQUAL = '>=',
+  LESSEQUAL = '<=',
+  TERNARY = '?',
+  // Logical Operators
+  NO = '!',
+  AND = 'and',
+  OR = 'or',
+  NOT = 'not',
+  FROM = 'from',
+  IN = 'in',
+  NOTIN = 'not in',
+  AS = 'as',
+
+  NONE = 'None',
+  TRUE = 'True',
+  FALSE = 'False',
+
   DOLLAR = '$',
   DOT = '.',
   COMMA = ',',
@@ -33,10 +88,10 @@ export enum TokenType {
   LSQUARE = '[',
   RSQUARE = ']',
   UNKNOWN = 'UNKNOWN',
-  ASSIGN = 'ASSIGN',
+  ASSIGN = '=',
   SPACE = 'SPACE',
-  SEMI = 'SEMI',
-  COLON = 'COLON',
+  SEMI = ';',
+  COLON = ':',
   EOF = 'EOF',
   ID = 'ID',
   VAR = '@var',
@@ -57,12 +112,7 @@ export enum TokenType {
   LOG = '@log',
   WARN = '@warn',
   ERROR = '@error',
-  FROM = 'from',
-  IN = 'in',
-  AS = 'as',
-  NONE = 'None',
-  TRUE = 'True',
-  FALSE = 'False',
+  ASSERT = '@assert',
 }
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
@@ -84,6 +134,7 @@ export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'log': new Token(TokenType.LOG, '@log'),
   'warn': new Token(TokenType.WARN, '@warn'),
   'error': new Token(TokenType.ERROR, '@error'),
+  'assert': new Token(TokenType.ASSERT, '@assert'),
 };
 
 export class Num {
@@ -170,6 +221,24 @@ export class Call {
   }
 }
 
+export class Index {
+  left: DataType;
+  right: DataType;
+  constructor(left: DataType, right: DataType) {
+    this.left = left;
+    this.right = right;
+  }
+}
+
+export class Attr {
+  left: DataType;
+  right: DataType;
+  constructor(left: DataType, right: DataType) {
+    this.left = left;
+    this.right = right;
+  }
+}
+
 export class Assign {
   left: Var;
   op: Token;
@@ -193,9 +262,9 @@ export class Update {
 }
 
 export class Console {
-  type: TokenType.LOG | TokenType.WARN | TokenType.ERROR;
+  type: TokenType.LOG | TokenType.WARN | TokenType.ERROR | TokenType.ASSERT;
   expr: DataType;
-  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR, expr: DataType) {
+  constructor(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR | TokenType.ASSERT, expr: DataType) {
     this.type = type;
     this.expr = expr;
   }

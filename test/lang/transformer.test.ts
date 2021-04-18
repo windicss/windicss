@@ -37,13 +37,17 @@ describe('Transformer', () => {
         'c': a - b,
       };
 
+      @assert not 1 == 2 and 5 > 3;
+
+      @assert 4 in [1, 2, 4];
+
       @var h = func2(func(1, 2) + (4 / 3));
 
       @var h = True;
       @var i = False * 3;
       @var j = None;
 
-      c = c + 2;
+      c = c + 4 * 2 ** 3;
 
       a + 4;
 

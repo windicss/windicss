@@ -125,7 +125,7 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
   }
 
   visit_Import(node: Import): string {
-    return node.urls.map(i => `windi.import("${i}")`).join(';\n');
+    return node.urls.map(i => `__import__("${i}")`).join(';\n');
   }
 
   visit_Load(node: Load): string {
@@ -154,13 +154,37 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
 
     switch (node.op.type) {
     case TokenType.PLUS:
-      return `add(${left_value}, ${right_value})`;
+      return `__add__(${left_value}, ${right_value})`;
     case TokenType.MINUS:
-      return `minus(${left_value}, ${right_value})`;
+      return `__minus__(${left_value}, ${right_value})`;
     case TokenType.MUL:
-      return `mul(${left_value}, ${right_value})`;
+      return `__mul__(${left_value}, ${right_value})`;
     case TokenType.DIV:
-      return `div(${left_value}, ${right_value})`;
+      return `__div__(${left_value}, ${right_value})`;
+    case TokenType.MOD:
+      return `__mod__(${left_value}, ${right_value})`;
+    case TokenType.EXP:
+      return `__exp__(${left_value}, ${right_value})`;
+    case TokenType.EQUAL:
+      return `${left_value} === ${right_value}`;
+    case TokenType.NOTEQUAL:
+      return `${left_value} !== ${right_value}`;
+    case TokenType.GERATER:
+      return `${left_value} > ${right_value}`;
+    case TokenType.GERATEREQUAL:
+      return `${left_value} >= ${right_value}`;
+    case TokenType.LESS:
+      return `${left_value} < ${right_value}`;
+    case TokenType.LESSEQUAL:
+      return `${left_value} <= ${right_value}`;
+    case TokenType.OR:
+      return `${left_value} || ${right_value}`;
+    case TokenType.AND:
+      return `${left_value} && ${right_value}`;
+    case TokenType.IN:
+      return `__in__(${left_value}, ${right_value})`;
+    case TokenType.NOTIN:
+      return `!(__in__(${left_value}, ${right_value}))`;
     }
     this.error();
   }
@@ -169,9 +193,12 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
     const value = this.visit(node.expr);
     switch (node.op.type) {
     case TokenType.PLUS:
-      return `positive(${value})`;
+      return `__positive__(${value})`;
     case TokenType.MINUS:
-      return `negative(${value})`;
+      return `__negative__(${value})`;
+    case TokenType.NO:
+    case TokenType.NOT:
+      return `!(${value})`;
     }
     this.error();
   }
@@ -188,6 +215,8 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
       return `console.warn(${this.visit(node.expr)})`;
     case TokenType.ERROR:
       return `console.error(${this.visit(node.expr)})`;
+    case TokenType.ASSERT:
+      return `console.assert(${this.visit(node.expr)})`;
     }
   }
 

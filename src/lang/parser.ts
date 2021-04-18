@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None, Func, Return, DataType } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None, Func, Return, Index, Attr, DataType } from './tokens';
 import type { Token, Operand, Module } from './tokens';
 
 /* syntax
@@ -42,6 +42,10 @@ factor : PLUS factor
 variable: ID
 
 */
+
+const UNARYOPS = ['+', '-', '!'];
+const BINOPS = [['**'], ['*', '/', '%'], ['+', '-'], ['==', '!=', '>', '>=', '<', '<='], ['in', 'not in'], ['not'], ['and'], ['or']];
+
 export class Parser {
   lexer: Lexer;
   current_token: Token;
@@ -65,17 +69,75 @@ export class Parser {
     }
   }
 
-  factor(): Operand {
-    // factor: (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable | func call
+  list(): List {
+    const values = [];
+    this.eat(TokenType.LSQUARE);
+    while(this.current_token.type !== TokenType.RSQUARE) {
+      values.push(this.expr());
+      if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.RSQUARE);
+    return new List(values);
+  }
+
+  dict(): Dict {
+    const pairs:[string|number, (Operand | Str | Template | Tuple | List | Dict)][] = [];
+    this.eat(TokenType.LCURLY);
+    while(this.current_token.type !== TokenType.RCURLY) {
+      const token = this.current_token;
+      if (token.value === undefined) this.error();
+      if (token.type === TokenType.NUMBER) {
+        this.eat(TokenType.NUMBER);
+      } else if (token.type === TokenType.STRING) {
+        this.eat(TokenType.STRING);
+      } else {
+        this.error();
+      }
+      this.eat(TokenType.COLON);
+      pairs.push([token.value, this.expr()]);
+      if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.RCURLY);
+    return new Dict(pairs);
+  }
+
+  call(name: string): Call {
+    const params = [];
+    this.eat(TokenType.LPAREN);
+    let next = this.current_token;
+    while(next.type !== TokenType.RPAREN) {
+      params.push(this.expr());
+      next = this.current_token;
+      if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.RPAREN);
+    return new Call(name, params);
+  }
+
+  index(): Index {
+    const left = this.current_token;
+    this.eat(TokenType.LSQUARE);
+    const right = this.expr();
+    this.eat(TokenType.RSQUARE);
+    return new Index(left, right);
+  }
+
+  attr(): Attr {
+    const left = this.current_token;
+    this.eat(TokenType.DOT);
+    const right = this.expr();
+    return new Attr(left, right);
+  }
+
+  factor(): DataType {
+    // factor: (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable
     let node;
     const token = this.current_token;
+    if (UNARYOPS.includes(token.type)) {
+      this.eat(token.type);
+      return new UnaryOp(token, this.factor());
+    }
     switch (token.type) {
-    case TokenType.PLUS:
-      this.eat(TokenType.PLUS);
-      return new UnaryOp(token, this.factor());
-    case TokenType.MINUS:
-      this.eat(TokenType.MINUS);
-      return new UnaryOp(token, this.factor());
     case TokenType.NUMBER:
       this.eat(TokenType.NUMBER);
       return new Num(token);
@@ -91,131 +153,68 @@ export class Parser {
     case TokenType.LPAREN:
       this.eat(TokenType.LPAREN);
       node = this.expr();
-      this.eat(TokenType.RPAREN);
-      return node;
-    case TokenType.ID:
-      this.eat(TokenType.ID);
-      if (this.current_token.type === TokenType.LPAREN) {
-        // function call
-        const params = [];
-        this.eat(TokenType.LPAREN);
-        let next = this.current_token;
-        while(next.type !== TokenType.RPAREN) {
-          params.push(this.expr());
-          next = this.current_token;
-          if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      if (this.current_token.type === TokenType.COMMA) {
+        // tuple
+        const values = [ node ];
+        this.eat(TokenType.COMMA);
+        let current = this.current_token;
+        while(current.type !== TokenType.RPAREN) {
+          values.push(this.expr());
+          current = this.current_token;
+          if (current.type === TokenType.COMMA) this.eat(TokenType.COMMA);
         }
         this.eat(TokenType.RPAREN);
-        return new Call(token.value as string, params);
+        return new Tuple(values);
       }
-      // variable
+      // (expr)
+      this.eat(TokenType.RPAREN);
+      return node;
+    case TokenType.STRING:
+      this.eat(TokenType.STRING);
+      return new Str(token);
+    case TokenType.TEMPLATE:
+      this.eat(TokenType.TEMPLATE);
+      return new Template(token);
+    case TokenType.LSQUARE:
+      return this.list();
+    case TokenType.LCURLY:
+      return this.dict();
+    case TokenType.ID:
+      this.eat(TokenType.ID);
+      if (this.current_token.type === TokenType.LPAREN) return this.call(token.value as string);
       return new Var(token);
     default:
       this.error();
     }
   }
 
-  term(): Operand {
+  binop(index: number): Operand {
     // term: factor ((MUL | DIV) factor)*
-    let node = this.factor();
-    while ([TokenType.MUL, TokenType.DIV].includes(this.current_token.type)) {
+    if (index === 4 && this.current_token.type === TokenType.NOT) {
+      // 'not' is a special case
       const token = this.current_token;
-      switch (token.type) {
-      case TokenType.MUL:
-        this.eat(TokenType.MUL);
-        break;
-      case TokenType.DIV:
-        this.eat(TokenType.DIV);
-        break;
-      }
-      node = new BinOp(node, token, this.factor());
+      this.eat(token.type);
+      return new UnaryOp(token, this.binop(3));
+    }
+    let node = index === 0 ? this.factor() : this.binop(index - 1);
+    while (BINOPS[index].includes(this.current_token.type)) {
+      const token = this.current_token;
+      this.eat(token.type);
+      node = new BinOp(node, token, index === 0 ? this.factor(): this.binop(index - 1));
     }
     return node;
   }
 
   expr(): DataType {
-    // expr   : term ((PLUS | MINUS) term)* | STRING | TEMPLATE | TUPLE | LIST | DICT
-    // term   : factor ((MUL | DIV) factor)*
-    // factor : (PLUS|MINUS)factor | NUMBER | TRUE | FALSE | LPAREN expr RPAREN | variable | func call
-    let token = this.current_token;
-
-    if (token.type === TokenType.STRING) {
-      this.eat(TokenType.STRING);
-      return new Str(token);
-    }
-
-    if (token.type === TokenType.TEMPLATE) {
-      this.eat(TokenType.TEMPLATE);
-      return new Template(token);
-    }
-
-    if (token.type === TokenType.LPAREN) {
-      // tuple
-      const values = [];
-      this.eat(TokenType.LPAREN);
-      while(this.current_token.type !== TokenType.RPAREN) {
-        values.push(this.expr());
-        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
-      }
-      this.eat(TokenType.RPAREN);
-      return new Tuple(values);
-    }
-
-    if (token.type === TokenType.LSQUARE) {
-      // list
-      const values = [];
-      this.eat(TokenType.LSQUARE);
-      while(this.current_token.type !== TokenType.RSQUARE) {
-        values.push(this.expr());
-        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
-      }
-      this.eat(TokenType.RSQUARE);
-      return new List(values);
-    }
-
-    if (token.type === TokenType.LCURLY) {
-      // dictionary
-      const pairs:[string|number, (Operand | Str | Template | Tuple | List | Dict)][] = [];
-      this.eat(TokenType.LCURLY);
-      while(this.current_token.type !== TokenType.RCURLY) {
-        const token = this.current_token;
-        if (token.value === undefined) this.error();
-        if (token.type === TokenType.NUMBER) {
-          this.eat(TokenType.NUMBER);
-        } else if (token.type === TokenType.STRING) {
-          this.eat(TokenType.STRING);
-        } else {
-          this.error();
-        }
-        this.eat(TokenType.COLON);
-        pairs.push([token.value, this.expr()]);
-        if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
-      }
-      this.eat(TokenType.RCURLY);
-      return new Dict(pairs);
-    }
-
-    let node = this.term();
-    while ([TokenType.PLUS, TokenType.MINUS].includes(this.current_token.type)) {
-      token = this.current_token;
-      switch (token.type) {
-      case TokenType.PLUS:
-        this.eat(TokenType.PLUS);
-        break;
-      case TokenType.MINUS:
-        this.eat(TokenType.MINUS);
-        break;
-      }
-      node = new BinOp(node, token, this.term());
-    }
-    return node;
+    // expr   : term ((PLUS | MINUS) term)*
+    return this.binop(BINOPS.length - 1);
   }
 
   empty(): NoOp {
     return new NoOp();
   }
 
-  console_statement(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR): Console {
+  console_statement(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR | TokenType.ASSERT): Console {
     // @log 3 + 2
     this.eat(type);
     const expr = this.expr();
@@ -428,6 +427,9 @@ export class Parser {
       break;
     case TokenType.ERROR:
       node = this.console_statement(TokenType.ERROR);
+      break;
+    case TokenType.ASSERT:
+      node = this.console_statement(TokenType.ASSERT);
       break;
     case TokenType.JS:
       node = this.javascript_statement();
