@@ -302,6 +302,23 @@ export class Return {
   }
 }
 
+export class If {
+  if_block: [DataType, Block];
+  elif_blocks?: [DataType, Block][];
+  else_block?: Block;
+  constructor(expr: DataType, block: Block, elif_blocks?: [DataType, Block][], else_block?: Block) {
+    this.if_block = [expr, block];
+    this.elif_blocks = elif_blocks;
+    this.else_block = else_block;
+  }
+  add_elif(expr: DataType, block: Block): void {
+    this.elif_blocks = [...(this.elif_blocks ?? []), [expr, block]];
+  }
+  add_else(block: Block): void {
+    this.else_block = block;
+  }
+}
+
 export class Program {
   block: Block;
   constructor(block: Block) {

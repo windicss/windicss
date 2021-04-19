@@ -48,6 +48,10 @@ describe('Parser', () => {
 
       @log b;
 
+      @if a > 0 and b > 0 {
+        @log "The numbers are greater than 0";
+      };
+
       @warn a + 12;
 
       @js {123}

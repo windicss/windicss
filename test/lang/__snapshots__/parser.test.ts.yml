@@ -882,6 +882,74 @@ Tools / simple syntax / ast / 0: |-
           }
         },
         {
+          "if_block": [
+            {
+              "left": {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "a"
+                  },
+                  "value": "a"
+                },
+                "op": {
+                  "type": ">",
+                  "value": ">"
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 0
+                  },
+                  "value": 0
+                }
+              },
+              "op": {
+                "type": "and",
+                "value": "and"
+              },
+              "right": {
+                "left": {
+                  "token": {
+                    "type": "ID",
+                    "value": "b"
+                  },
+                  "value": "b"
+                },
+                "op": {
+                  "type": ">",
+                  "value": ">"
+                },
+                "right": {
+                  "token": {
+                    "type": "NUMBER",
+                    "value": 0
+                  },
+                  "value": 0
+                }
+              }
+            },
+            {
+              "statement_list": [
+                {
+                  "type": "@log",
+                  "expr": {
+                    "token": {
+                      "type": "STRING",
+                      "value": "The numbers are greater than 0"
+                    },
+                    "value": "The numbers are greater than 0"
+                  }
+                },
+                {}
+              ],
+              "style_list": [
+                {}
+              ]
+            }
+          ]
+        },
+        {
           "type": "@warn",
           "expr": {
             "left": {

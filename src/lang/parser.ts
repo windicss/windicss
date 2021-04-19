@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Return, DataType } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Return, DataType, If } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -295,6 +295,27 @@ export class Parser {
     return new Return(this.expr());
   }
 
+  if_statement(): If {
+    this.eat(TokenType.IF);
+    const expr = this.expr();
+    this.eat(TokenType.LCURLY);
+    const state = new If(expr, this.block());
+    this.eat(TokenType.RCURLY);
+    if (this.current_token.type === TokenType.ELSE) {
+      this.eat(TokenType.ELSE);
+      this.eat(TokenType.LCURLY);
+      state.add_else(this.block());
+      this.eat(TokenType.RCURLY);
+    } else if (this.current_token.type === TokenType.ELIF) {
+      this.eat(TokenType.ELIF);
+      const expr = this.expr();
+      this.eat(TokenType.LCURLY);
+      state.add_elif(expr, this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    return state;
+  }
+
   import_statement(): Import {
     // @import 'a.windi', 'b.windi', 'c.css'
     this.eat(TokenType.IMPORT);
@@ -447,6 +468,9 @@ export class Parser {
       break;
     case TokenType.ASSERT:
       node = this.console_statement(TokenType.ASSERT);
+      break;
+    case TokenType.IF:
+      node = this.if_statement();
       break;
     case TokenType.JS:
       node = this.javascript_statement();
