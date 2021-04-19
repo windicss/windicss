@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, List, Dict, Call, Bool, None, Func, Return, Index, Attr, DataType } from './tokens';
-import type { Token, Operand, Module } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Return, DataType } from './tokens';
+import type { Operand, Module } from './tokens';
 
 /* syntax
 
@@ -101,34 +101,6 @@ export class Parser {
     return new Dict(pairs);
   }
 
-  call(name: string): Call {
-    const params = [];
-    this.eat(TokenType.LPAREN);
-    let next = this.current_token;
-    while(next.type !== TokenType.RPAREN) {
-      params.push(this.expr());
-      next = this.current_token;
-      if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
-    }
-    this.eat(TokenType.RPAREN);
-    return new Call(name, params);
-  }
-
-  index(): Index {
-    const left = this.current_token;
-    this.eat(TokenType.LSQUARE);
-    const right = this.expr();
-    this.eat(TokenType.RSQUARE);
-    return new Index(left, right);
-  }
-
-  attr(): Attr {
-    const left = this.current_token;
-    this.eat(TokenType.DOT);
-    const right = this.expr();
-    return new Attr(left, right);
-  }
-
   data(): DataType {
     // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable
     let node;
@@ -177,20 +149,47 @@ export class Parser {
       return this.dict();
     case TokenType.ID:
       this.eat(TokenType.ID);
-      if (this.current_token.type === TokenType.LPAREN) return this.call(token.value as string);
       return new Var(token);
     default:
       this.error();
     }
   }
 
-  exp(): DataType {
-    // exp: data (** data)*
+  sub(): DataType {
     let node = this.data();
+    while ([TokenType.LSQUARE, TokenType.DOT, TokenType.LPAREN].includes(this.current_token.type)) {
+      const token = this.current_token;
+      if (token.type === TokenType.LSQUARE) {
+        this.eat(TokenType.LSQUARE);
+        node = new BinOp(node, token, this.expr());
+        this.eat(TokenType.RSQUARE);
+      } else if (token.type === TokenType.LPAREN) {
+        this.eat(TokenType.LPAREN);
+        const params = [];
+        let next = this.current_token;
+        while(next.type !== TokenType.RPAREN) {
+          params.push(this.expr());
+          next = this.current_token;
+          if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+        }
+        node = new BinOp(node, token, new Params(params));
+        this.eat(TokenType.RPAREN);
+      } else {
+        this.eat(TokenType.DOT);
+        node = new BinOp(node, token, new Var(this.current_token));
+        this.eat(TokenType.ID);
+      }
+    }
+    return node;
+  }
+
+  exp(): DataType {
+    // exp: sub (** sub)*
+    let node = this.sub();
     while (this.current_token.type === TokenType.EXP) {
       const token = this.current_token;
       this.eat(token.type);
-      node = new BinOp(node, token, this.data());
+      node = new BinOp(node, token, this.sub());
     }
     return node;
   }

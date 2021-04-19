@@ -41,6 +41,8 @@ describe('Transformer', () => {
 
       @assert !1 == 2 and 5 > 3;
 
+      @var e = a.c(1, 2)('5').hello()(123)['test'].def;
+
       @assert 4 in [1, 2, 4];
 
       @var h = func2(func(1, 2) + (4 / 3));

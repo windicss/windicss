@@ -211,23 +211,35 @@ Tools / simple syntax / ast / 0: |-
                     "value": "-"
                   },
                   "right": {
-                    "name": "nest",
-                    "params": [
-                      {
-                        "token": {
-                          "type": "ID",
+                    "left": {
+                      "token": {
+                        "type": "ID",
+                        "value": "nest"
+                      },
+                      "value": "nest"
+                    },
+                    "op": {
+                      "type": "(",
+                      "value": "("
+                    },
+                    "right": {
+                      "values": [
+                        {
+                          "token": {
+                            "type": "ID",
+                            "value": "a"
+                          },
                           "value": "a"
                         },
-                        "value": "a"
-                      },
-                      {
-                        "token": {
-                          "type": "ID",
+                        {
+                          "token": {
+                            "type": "ID",
+                            "value": "b"
+                          },
                           "value": "b"
-                        },
-                        "value": "b"
-                      }
-                    ]
+                        }
+                      ]
+                    }
                   }
                 }
               },
@@ -654,23 +666,35 @@ Tools / simple syntax / ast / 0: |-
           },
           "right": {
             "left": {
-              "name": "func",
-              "params": [
-                {
-                  "token": {
-                    "type": "NUMBER",
+              "left": {
+                "token": {
+                  "type": "ID",
+                  "value": "func"
+                },
+                "value": "func"
+              },
+              "op": {
+                "type": "(",
+                "value": "("
+              },
+              "right": {
+                "values": [
+                  {
+                    "token": {
+                      "type": "NUMBER",
+                      "value": 1
+                    },
                     "value": 1
                   },
-                  "value": 1
-                },
-                {
-                  "token": {
-                    "type": "NUMBER",
+                  {
+                    "token": {
+                      "type": "NUMBER",
+                      "value": 2
+                    },
                     "value": 2
-                  },
-                  "value": 2
-                }
-              ]
+                  }
+                ]
+              }
             },
             "op": {
               "type": "+",
@@ -695,6 +719,145 @@ Tools / simple syntax / ast / 0: |-
                 },
                 "value": 3
               }
+            }
+          }
+        },
+        {
+          "left": {
+            "token": {
+              "type": "ID",
+              "value": "e"
+            },
+            "value": "e"
+          },
+          "op": {
+            "type": "=",
+            "value": "="
+          },
+          "right": {
+            "left": {
+              "left": {
+                "left": {
+                  "left": {
+                    "left": {
+                      "left": {
+                        "left": {
+                          "left": {
+                            "token": {
+                              "type": "ID",
+                              "value": "a"
+                            },
+                            "value": "a"
+                          },
+                          "op": {
+                            "type": ".",
+                            "value": "."
+                          },
+                          "right": {
+                            "token": {
+                              "type": "ID",
+                              "value": "c"
+                            },
+                            "value": "c"
+                          }
+                        },
+                        "op": {
+                          "type": "(",
+                          "value": "("
+                        },
+                        "right": {
+                          "values": [
+                            {
+                              "token": {
+                                "type": "NUMBER",
+                                "value": 1
+                              },
+                              "value": 1
+                            },
+                            {
+                              "token": {
+                                "type": "NUMBER",
+                                "value": 2
+                              },
+                              "value": 2
+                            }
+                          ]
+                        }
+                      },
+                      "op": {
+                        "type": "(",
+                        "value": "("
+                      },
+                      "right": {
+                        "values": [
+                          {
+                            "token": {
+                              "type": "STRING",
+                              "value": "5"
+                            },
+                            "value": "5"
+                          }
+                        ]
+                      }
+                    },
+                    "op": {
+                      "type": ".",
+                      "value": "."
+                    },
+                    "right": {
+                      "token": {
+                        "type": "ID",
+                        "value": "hello"
+                      },
+                      "value": "hello"
+                    }
+                  },
+                  "op": {
+                    "type": "(",
+                    "value": "("
+                  },
+                  "right": {
+                    "values": []
+                  }
+                },
+                "op": {
+                  "type": "(",
+                  "value": "("
+                },
+                "right": {
+                  "values": [
+                    {
+                      "token": {
+                        "type": "NUMBER",
+                        "value": 123
+                      },
+                      "value": 123
+                    }
+                  ]
+                }
+              },
+              "op": {
+                "type": "[",
+                "value": "["
+              },
+              "right": {
+                "token": {
+                  "type": "STRING",
+                  "value": "test"
+                },
+                "value": "test"
+              }
+            },
+            "op": {
+              "type": ".",
+              "value": "."
+            },
+            "right": {
+              "token": {
+                "type": "ID",
+                "value": "def"
+              },
+              "value": "def"
             }
           }
         },

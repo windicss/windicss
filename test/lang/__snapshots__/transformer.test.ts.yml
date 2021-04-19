@@ -34,6 +34,7 @@ Tools / simple syntax / js / 0: |-
   };
   console.assert(!(1 === 2) && 5 > 3);
   console.assert(!(1) === 2 && 5 > 3);
+  let e = a.c(1, 2)("5").hello()(123)["test"].def;
   console.assert(__in__(4, [1, 2, 4]));
   let h = func2(__add__(func(1, 2), __div__(4, 3)));
   let h = true;

@@ -1,6 +1,6 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Dict, Call, Bool, None, Func, Return } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Return } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -29,7 +29,6 @@ export default class Transformer {
     if (node instanceof Console) return this.visit_Console(node);
     if (node instanceof Func) return this.visit_Func(node);
     if (node instanceof Return) return this.visit_Return(node);
-    if (node instanceof Call) return this.visit_Call(node);
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
@@ -37,6 +36,7 @@ export default class Transformer {
     if (node instanceof None) return this.visit_None(node);
     if (node instanceof List) return this.visit_List(node);
     if (node instanceof Tuple) return this.visit_Tuple(node);
+    if (node instanceof Params) return this.visit_Params(node);
     if (node instanceof Dict) return this.visit_Dict(node);
     if (node instanceof UnaryOp) return this.visit_UnaryOp(node);
     if (node instanceof BinOp) return this.visit_BinOp(node);
@@ -65,6 +65,10 @@ export default class Transformer {
     return `[${node.values.map(i => this.visit(i)).join(', ')}]`;
   }
 
+  visit_Params(node: Params): string {
+    return node.values.map(i => this.visit(i)).join(', ');
+  }
+
   visit_Dict(node: Dict): string {
     const output:string[] = [];
     for (const [key, value] of node.pairs) {
@@ -81,10 +85,6 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
 
   visit_Return(node: Return): string {
     return `return ${this.visit(node.value)}`;
-  }
-
-  visit_Call(node: Call): string {
-    return `${node.name}(${node.params.map(i => this.visit(i)).join(', ')})`;
   }
 
   visit_Template(node: Template): string {
@@ -185,6 +185,12 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
       return `__in__(${left_value}, ${right_value})`;
     case TokenType.NOTIN:
       return `!(__in__(${left_value}, ${right_value}))`;
+    case TokenType.LPAREN:
+      return `${left_value}(${right_value})`;
+    case TokenType.LSQUARE:
+      return `${left_value}[${right_value}]`;
+    case TokenType.DOT:
+      return `${left_value}.${right_value}`;
     }
     this.error();
   }

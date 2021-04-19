@@ -175,7 +175,7 @@ export class Lexer {
   unknown(): Token {
     let result = '';
     let prev = '';
-    while (this.current_char !== undefined && (this.current_char !== '{' || prev === '\\')) {
+    while (this.current_char !== undefined && (!['{', ';'].includes(this.current_char) || prev === '\\')) {
       result += this.current_char;
       prev = this.current_char;
       this.advance();
@@ -339,6 +339,13 @@ export class Lexer {
       case ',':
         this.advance();
         return new Token(TokenType.COMMA, ',');
+      case '.':
+        if (!/^\.[^;]+{/.test(this.text.slice(this.pos))) {
+          // not a selector
+          this.advance();
+          return new Token(TokenType.DOT, '.');
+        }
+        return this.unknown();
       default:
         return this.unknown();
       }

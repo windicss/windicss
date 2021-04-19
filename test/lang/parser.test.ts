@@ -42,6 +42,8 @@ describe('Parser', () => {
 
       @var h = func(1, 2) + (4 / 3);
 
+      @var e = a.c(1, 2)('5').hello()(123)['test'].def;
+
       @log d;
 
       @log b;

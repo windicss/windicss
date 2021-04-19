@@ -12,8 +12,8 @@ export class Token {
   name        operators                 associativity       precedence level
   factor      int | str | template | bool | dict | list | tuple | (expr) | variable
     x[...]   x.attr  func()     L
-    +x -x                       R
     **                          R
+    +x -x !x                    R
     * / %                       L
     + -                         L
     == != > >= <= < <=          L
@@ -187,6 +187,13 @@ export class List {
   }
 }
 
+export class Params {
+  values: (DataType)[];
+  constructor(values: (DataType)[]) {
+    this.values = values;
+  }
+}
+
 export class Dict {
   pairs: [string|number, (DataType)][]
   constructor(pairs: [string|number, (DataType)][]) {
@@ -209,33 +216,6 @@ export class Var {
   constructor(token: Token) {
     this.token = token;
     this.value = token.value as string;
-  }
-}
-
-export class Call {
-  name: string;
-  params: (DataType)[];
-  constructor(name: string, params: (DataType)[]) {
-    this.name = name;
-    this.params = params;
-  }
-}
-
-export class Index {
-  left: DataType;
-  right: DataType;
-  constructor(left: DataType, right: DataType) {
-    this.left = left;
-    this.right = right;
-  }
-}
-
-export class Attr {
-  left: DataType;
-  right: DataType;
-  constructor(left: DataType, right: DataType) {
-    this.left = left;
-    this.right = right;
   }
 }
 
@@ -373,4 +353,4 @@ export class NoOp {
   // NoOp node is used to represent an empty statement. such as {}
 }
 
-export type Operand = Num | BinOp | UnaryOp | NoOp | Call;
+export type Operand = Num | BinOp | UnaryOp | NoOp;
