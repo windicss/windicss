@@ -26,14 +26,22 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'container') {
     const className = utility.class;
     const baseStyle = new Container(utility.class, new Property('width', '100%'));
-    const paddingDefault = toType(theme('container.padding.DEFAULT'), 'string');
+    const paddingDefault = toType(theme('container.padding'), 'string') ? toType(theme('container.padding'), 'string') : toType(theme('container.padding.DEFAULT'), 'string');
+
     if (paddingDefault) {
       baseStyle.add(new Property('padding-left', paddingDefault));
       baseStyle.add(new Property('padding-right', paddingDefault));
     }
-    if (theme('container.center')) baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
+
+    const center = theme('container.center');
+
+    if (center && typeof center === 'boolean'){
+      baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
+    }
+
     const output: Container[] = [baseStyle];
     const screens = toType(theme('container.screens', theme('screens')), 'object');
+
     for (const [screen, size] of Object.entries(screens)) {
       const props = [new Property('max-width', `${size}`)];
       const padding = theme(`container.padding.${screen}`);
@@ -43,7 +51,9 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
       }
       output.push(new Container(className, props).atRule(`@media (min-width: ${size})`));
     }
+
     output.forEach((style, index) => style.meta = { type: 'utilities', corePlugin: true, group: 'container', order: pluginOrder['container'] + index + 1 } );
+
     return output;
   }
 }

@@ -135,6 +135,18 @@ describe('Utilities', () => {
     expect(processor.interpret('sm:container').styleSheet.build()).toMatchSnapshot('small container');
   });
 
+  // #251
+  it('container padding', () => {
+    const processor = new Processor({
+      theme: {
+        container: {
+          padding: '2px',
+        },
+      },
+    });
+    expect(processor.interpret('container').styleSheet.build()).toMatchSnapshot('container padding');
+  });
+
   it('container max-width test', () => {
     const processor = new Processor();
     expect(processor.interpret('container max-w-md').styleSheet.build()).toEqual(processor.interpret('max-w-md container').styleSheet.build());
