@@ -228,6 +228,10 @@ export class Lexer {
           this.advance();
           return new Token(TokenType.EQUAL, '==');
         }
+        if (this.current_char === '>') {
+          this.advance();
+          return new Token(TokenType.ARROW, '=>');
+        }
         return new Token(TokenType.ASSIGN, '=');
       case '!':
         next = this.advance();

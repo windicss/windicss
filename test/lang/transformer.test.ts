@@ -22,6 +22,14 @@ describe('Transformer', () => {
         };
         @return a + b / f - nest(a, b);
       };
+      @func add(a, b) => a + b;
+      @func (a, b) => a + b;
+      @func (a, b) {
+        @return a + b;
+      };
+      @func (x) {
+        @return x + 2;
+      };
 
       @var number = 2;
       @var a = number;

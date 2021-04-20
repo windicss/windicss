@@ -274,11 +274,13 @@ Tools / simple syntax / ast / 0: |-
               },
               "value": "b"
             }
-          }
+          },
+          "name": "add"
         },
         {
           "params": [
-            "a"
+            "a",
+            "b"
           ],
           "expr": {
             "left": {
@@ -294,21 +296,11 @@ Tools / simple syntax / ast / 0: |-
             },
             "right": {
               "token": {
-                "type": "NUMBER",
-                "value": 2
+                "type": "ID",
+                "value": "b"
               },
-              "value": 2
+              "value": "b"
             }
-          }
-        },
-        {
-          "params": [],
-          "expr": {
-            "token": {
-              "type": "NUMBER",
-              "value": 123
-            },
-            "value": 123
           }
         },
         {

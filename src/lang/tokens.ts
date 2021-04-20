@@ -56,6 +56,7 @@ export enum TokenType {
   EXPEQUAL = '**=',
   INCREASE = '++',
   DECREASE = '--',
+  ARROW = '=>',
   // Comparison Operators
   EQUAL = '==',
   NOTEQUAL = '!=',
@@ -320,9 +321,11 @@ export class Func {
 export class Lambda {
   params: string[];
   expr: DataType;
-  constructor(params: string[], expr: DataType) {
+  name?: string;
+  constructor(params: string[], expr: DataType, name?:string) {
     this.params = params;
     this.expr = expr;
+    this.name = name;
   }
 }
 

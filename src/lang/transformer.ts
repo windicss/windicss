@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Return, If } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, If } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -29,6 +29,7 @@ export default class Transformer {
     if (node instanceof JS) return this.visit_JS(node);
     if (node instanceof Console) return this.visit_Console(node);
     if (node instanceof Func) return this.visit_Func(node);
+    if (node instanceof Lambda) return this.visit_Lambda(node);
     if (node instanceof Return) return this.visit_Return(node);
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof If) return this.visit_If(node);
@@ -80,9 +81,15 @@ export default class Transformer {
   }
 
   visit_Func(node: Func): string {
-    return `function ${node.name}(${node.params.join(', ')}) {
-${this.visit_Block(node.block).join(';\n') + ';'}
-}`;
+    return node.name ? `function ${node.name}(${node.params.join(', ')}) {
+${connect(this.visit_Block(node.block))}
+}` : `(function (${node.params.join(', ')}) {
+${connect(this.visit_Block(node.block))}
+})`;
+  }
+
+  visit_Lambda(node: Lambda): string {
+    return node.name ? `const ${node.name} = (${node.params.join(', ')}) => ${this.visit(node.expr)}`: `((${node.params.join(', ')}) => ${this.visit(node.expr)})`;
   }
 
   visit_If(node: If): string {

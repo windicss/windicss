@@ -19,6 +19,14 @@ Tools / simple syntax / js / 0: |-
   };
   return __minus__(__add__(a, __div__(b, f)), nest(a, b));
   };
+  const add = (a, b) => __add__(a, b);
+  ((a, b) => __add__(a, b));
+  (function (a, b) {
+  return __add__(a, b);
+  });
+  (function (x) {
+  return __add__(x, 2);
+  });
   let number = 2;
   let a = number;
   let b = __add__(__mul__(10, a), __div__(__mul__(10, number), 4));
