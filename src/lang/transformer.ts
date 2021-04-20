@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -37,6 +37,7 @@ export default class Transformer {
     if (node instanceof Break) return this.visit_Break();
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof If) return this.visit_If(node);
+    if (node instanceof Try) return this.visit_Try(node);
     if (node instanceof While) return this.visit_While(node);
     if (node instanceof With) return this.visit_With(node);
     if (node instanceof Template) return this.visit_Template(node);
@@ -104,6 +105,19 @@ ${connect(this.visit_Block(node.block))}
       return ` else if (${this.visit(expr)}) {\n  ${connect(this.visit_Block(block))}\n}`;
     }).join('') ?? '';
     state += node.else_block ? ` else {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
+    return state;
+  }
+
+  visit_Try(node: Try): string {
+    let state = `try {\n  ${connect([...this.visit_Block(node.try_block), ...node.else_block? this.visit_Block(node.else_block): []])}\n}`;
+    let excepts = node.except_blocks?.map(([expr, block, alias], index) => {
+      return `${index === 0 ? 'if': 'else if'} (e${expr === 'Exception' ? '' : ` instanceof ${expr}`}) {\n  ${connect(alias ? [`let ${alias} = e`, ...this.visit_Block(block)]: this.visit_Block(block))}\n}`;
+    });
+    if (node.finally_except_block) excepts? excepts.push(`else {\n  ${connect(this.visit_Block(node.finally_except_block))}\n}`): excepts = [`  ${connect(this.visit_Block(node.finally_except_block))}`];
+    if (excepts) {
+      state += `catch(e) {\n  ${excepts.join(' ')}}`;
+    }
+    state += node.finally_block ? ` finally {\n  ${connect(this.visit_Block(node.finally_block))}\n}` : '';
     return state;
   }
 

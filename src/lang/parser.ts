@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -166,6 +166,11 @@ export class Parser {
       return this.dict();
     case TokenType.ID:
       this.eat(TokenType.ID);
+      // @var add3 = a => a + 3;
+      if (this.current_token.type === TokenType.ARROW) {
+        this.eat(TokenType.ARROW);
+        return new Lambda([token.value as string], this.expr());
+      }
       return new Var(token);
     default:
       this.error();
@@ -335,6 +340,44 @@ export class Parser {
       this.eat(TokenType.ELSE);
       this.eat(TokenType.LCURLY);
       state.add_else(this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    return state;
+  }
+
+  try_statement(): Try {
+    this.eat(TokenType.TRY);
+    this.eat(TokenType.LCURLY);
+    const state = new Try(this.block());
+    this.eat(TokenType.RCURLY);
+    while (this.current_token.type === TokenType.EXCEPT) {
+      const error = this.eat(TokenType.EXCEPT);
+      if (error.type === TokenType.LCURLY) {
+        this.eat(TokenType.LCURLY);
+        state.add_finally_except(this.block());
+        this.eat(TokenType.RCURLY);
+        break;
+      }
+      const next = this.eat(TokenType.ID);
+      let alias;
+      if (next.type === TokenType.AS) {
+        alias = this.eat(TokenType.AS).value as string;
+        this.eat(TokenType.ID);
+      }
+      this.eat(TokenType.LCURLY);
+      state.add_except(error.value as string, this.block(), alias);
+      this.eat(TokenType.RCURLY);
+    }
+    if (this.current_token.type === TokenType.ELSE) {
+      this.eat(TokenType.ELSE);
+      this.eat(TokenType.LCURLY);
+      state.add_else(this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    if (this.current_token.type === TokenType.FINALLY) {
+      this.eat(TokenType.FINALLY);
+      this.eat(TokenType.LCURLY);
+      state.add_finally(this.block());
       this.eat(TokenType.RCURLY);
     }
     return state;
@@ -544,6 +587,9 @@ export class Parser {
       break;
     case TokenType.WITH:
       node = this.with_statement();
+      break;
+    case TokenType.TRY:
+      node = this.try_statement();
       break;
     case TokenType.JS:
       node = this.javascript_statement();

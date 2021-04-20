@@ -374,6 +374,29 @@ export class If {
   }
 }
 
+export class Try {
+  try_block: Block;
+  except_blocks?: [string, Block, string|undefined][];
+  finally_except_block?: Block;
+  else_block?: Block;
+  finally_block?: Block;
+  constructor(block: Block) {
+    this.try_block = block;
+  }
+  add_except(error: string, block: Block, alias?: string): void {
+    this.except_blocks = [...(this.except_blocks ?? []), [error, block, alias]];
+  }
+  add_else(block: Block): void {
+    this.else_block = block;
+  }
+  add_finally(block: Block): void {
+    this.finally_block = block;
+  }
+  add_finally_except(block: Block): void {
+    this.finally_except_block = block;
+  }
+}
+
 export class While {
   if_block: [DataType, Block];
   else_block?: Block;

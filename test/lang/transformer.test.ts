@@ -31,6 +31,40 @@ describe('Transformer', () => {
         @return x + 2;
       };
 
+      @try {
+        @var x = 1;
+      } @except TypeError {
+        @log 'TypeError: Failed to set x';
+      } @except RangeError {
+        @log 'RangeError: Failed to set x';
+      } @except Exception as error {
+        @log \`Other exceptions \${error.message}\`;
+      } @else {
+        @log 'No exception occured';
+      } @finally {
+        @log 'We always do this';
+      };
+
+      @try {
+        fail();
+      } @except {
+        @log 'Exception occured';
+      };
+
+      @try {
+        result = 10 / x;
+      } @except TypeError as error1 {
+        @log \`Type Error \${error1.message}\`;
+      };
+
+      @try {
+        result = 10 / x;
+      } @except Exception as error {
+        @log 'Exceptions';
+      };
+
+      @var add3 = a => a + 3;
+
       @var add = (a, b) => a + b;
 
       @var c = ((a, b) => a + b)(1,2) * 4;

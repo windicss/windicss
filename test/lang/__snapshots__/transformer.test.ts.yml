@@ -27,6 +27,39 @@ Tools / simple syntax / js / 0: |-
   (function (x) {
   return __add__(x, 2);
   });
+  try {
+    let x = 1;
+  console.log("No exception occured");
+  }catch(e) {
+    if (e instanceof TypeError) {
+    console.log("TypeError: Failed to set x");
+  } else if (e instanceof RangeError) {
+    console.log("RangeError: Failed to set x");
+  } else if (e) {
+    let error = e;
+  console.log(`Other exceptions ${error.message}`);
+  }} finally {
+    console.log("We always do this");
+  };
+  try {
+    fail();
+  }catch(e) {
+      console.log("Exception occured");};
+  try {
+    result = __div__(10, x);
+  }catch(e) {
+    if (e instanceof TypeError) {
+    let error1 = e;
+  console.log(`Type Error ${error1.message}`);
+  }};
+  try {
+    result = __div__(10, x);
+  }catch(e) {
+    if (e) {
+    let error = e;
+  console.log("Exceptions");
+  }};
+  let add3 = ((a) => __add__(a, 3));
   let add = ((a, b) => __add__(a, b));
   let c = __mul__(((a, b) => __add__(a, b))(1, 2), 4);
   let d = __div__((function (a, b) {
