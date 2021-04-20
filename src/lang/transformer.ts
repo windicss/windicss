@@ -1,6 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Return } from './tokens';
+import { connect } from './utils';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Return, If } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -30,6 +31,7 @@ export default class Transformer {
     if (node instanceof Func) return this.visit_Func(node);
     if (node instanceof Return) return this.visit_Return(node);
     if (node instanceof Str) return this.visit_Str(node);
+    if (node instanceof If) return this.visit_If(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
     if (node instanceof Bool) return this.visit_Boolean(node);
@@ -81,6 +83,15 @@ export default class Transformer {
     return `function ${node.name}(${node.params.join(', ')}) {
 ${this.visit_Block(node.block).join(';\n') + ';'}
 }`;
+  }
+
+  visit_If(node: If): string {
+    let state = `if (${this.visit(node.if_block[0])}) {\n  ${connect(this.visit_Block(node.if_block[1]))}\n}`;
+    state += node.elif_blocks?.map(([expr, block]) => {
+      return ` else if (${this.visit(expr)}) {\n  ${connect(this.visit_Block(block))}\n}`;
+    }).join('') ?? '';
+    state += node.else_block ? ` else {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
+    return state;
   }
 
   visit_Return(node: Return): string {
@@ -275,6 +286,6 @@ ${this.visit_Block(node.block).join(';\n') + ';'}
 
   transform(): string {
     this.visit(this.parser.parse());
-    return this.code.join(';\n') + ';';
+    return connect(this.code);
   }
 }

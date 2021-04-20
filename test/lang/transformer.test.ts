@@ -37,6 +37,26 @@ describe('Transformer', () => {
         'c': a - b,
       };
 
+      @if a > 0 and b > 0 {
+        @log "The numbers are greater than 0";
+      };
+
+      @if a > 0 and b > 0 and c > 0 {
+        @log "The numbers are greater than 0";
+      } @else {
+        @log "Atleast one number is not greater than 0";
+      };
+
+      @if a > 0 {
+        @log "a";
+      } @elif b > 0 {
+        @log "b";
+      } @elif c > 0 {
+        @log "c";
+      } @else {
+        @log "unknown";
+      };
+
       @assert not 1 == 2 and 5 > 3;
 
       @assert !1 == 2 and 5 > 3;

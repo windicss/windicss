@@ -32,6 +32,23 @@ Tools / simple syntax / js / 0: |-
     "b": 2,
     "c": __minus__(a, b)
   };
+  if (a > 0 && b > 0) {
+    console.log("The numbers are greater than 0");
+  };
+  if (a > 0 && b > 0 && c > 0) {
+    console.log("The numbers are greater than 0");
+  } else {
+    console.log("Atleast one number is not greater than 0");
+  };
+  if (a > 0) {
+    console.log("a");
+  } else if (b > 0) {
+    console.log("b");
+  } else if (c > 0) {
+    console.log("c");
+  } else {
+    console.log("unknown");
+  };
   console.assert(!(1 === 2) && 5 > 3);
   console.assert(!(1) === 2 && 5 > 3);
   let e = a.c(1, 2)("5").hello()(123)["test"].def;

@@ -301,16 +301,17 @@ export class Parser {
     this.eat(TokenType.LCURLY);
     const state = new If(expr, this.block());
     this.eat(TokenType.RCURLY);
-    if (this.current_token.type === TokenType.ELSE) {
-      this.eat(TokenType.ELSE);
-      this.eat(TokenType.LCURLY);
-      state.add_else(this.block());
-      this.eat(TokenType.RCURLY);
-    } else if (this.current_token.type === TokenType.ELIF) {
+    while (this.current_token.type === TokenType.ELIF) {
       this.eat(TokenType.ELIF);
       const expr = this.expr();
       this.eat(TokenType.LCURLY);
       state.add_elif(expr, this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    if (this.current_token.type === TokenType.ELSE) {
+      this.eat(TokenType.ELSE);
+      this.eat(TokenType.LCURLY);
+      state.add_else(this.block());
       this.eat(TokenType.RCURLY);
     }
     return state;

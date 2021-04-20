@@ -10,8 +10,8 @@ export function isAlpha(str: string): boolean {
   return /\w/.test(str);
 }
 
-export function connectStatement(strings: string[]): string {
-  return strings.map(i => i + ';').join('\n');
+export function connect(strings: string[]): string {
+  return strings.join(';\n') + ';';
 }
 
 export function findGroupEnd(text: string, startIndex = 0): number {
