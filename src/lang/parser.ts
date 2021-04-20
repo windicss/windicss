@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try, Apply, Attr } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -544,6 +544,14 @@ export class Parser {
     case TokenType.RETURN:
       this.eat(TokenType.RETURN);
       node = new Return(this.expr());
+      break;
+    case TokenType.APPLY:
+      node = new Apply(this.current_token.value as string);
+      this.eat(TokenType.APPLY);
+      break;
+    case TokenType.ATTR:
+      node = new Attr(this.current_token.meta as string, this.current_token.value as string);
+      this.eat(TokenType.ATTR);
       break;
     case TokenType.YIELD:
       this.eat(TokenType.YIELD);

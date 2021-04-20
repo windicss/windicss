@@ -69,8 +69,40 @@ export class Lexer {
         token.value = this.text.slice(this.pos, end);
         this.pos = end + 1;
         this.current_char = this.text[end + 1];
+      } else if (result === 'func') {
+        this._isFunc = true;
+      } else if (result === 'apply') {
+        let result = '';
+        let prev = '';
+        this.skip_whitespace();
+        while (this.current_char !== undefined && (this.current_char !== ';' || prev === '\\')) {
+          result += this.current_char;
+          prev = this.current_char;
+          this.advance();
+        }
+        token.value = result;
+      } else if (result === 'attr' && this.current_char === '[') {
+        let meta = '';
+        let char = '';
+        while (char !== undefined && char !== ']') {
+          meta += char;
+          this.advance();
+          char = this.current_char;
+        }
+        this.advance();
+        token.meta = meta;
+        this.skip_whitespace();
+        let result = '';
+        let prev = '';
+        char = this.current_char;
+        while (char !== undefined && (char !== ';' || prev === '\\')) {
+          result += char;
+          prev = this.current_char;
+          this.advance();
+          char = this.current_char;
+        }
+        token.value = result;
       }
-      if (result === 'func') this._isFunc = true;
       return token;
     }
     this.error();

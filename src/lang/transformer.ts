@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try, Apply, Attr } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -26,6 +26,8 @@ export default class Transformer {
     if (node instanceof Import) return this.visit_Import(node);
     if (node instanceof Assign) return this.visit_Assign(node);
     if (node instanceof Update) return this.visit_Update(node);
+    if (node instanceof Apply) return this.visit_Apply(node);
+    if (node instanceof Attr) return this.visit_Attr(node);
     if (node instanceof JS) return this.visit_JS(node);
     if (node instanceof Console) return this.visit_Console(node);
     if (node instanceof Func) return this.visit_Func(node);
@@ -132,6 +134,14 @@ ${connect(this.visit_Block(node.block))}
   let ${node.name} = ${this.visit(node.expr)};
   ${connect(this.visit_Block(node.block))}
 }`;
+  }
+
+  visit_Apply(node: Apply): string {
+    return `__interpret__(${this.visit(node.value)})`;
+  }
+
+  visit_Attr(node: Attr): string {
+    return `__attributify__("${node.attr}", ${this.visit(node.value)})`;
   }
 
   visit_Return(node: Return): string {

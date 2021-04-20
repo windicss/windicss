@@ -1,10 +1,12 @@
 export class Token {
   type: TokenType;
   value?: string | number;
+  meta?: string;
 
-  constructor(type: TokenType, value?: string | number) {
+  constructor(type: TokenType, value?: string | number, meta?: string) {
     this.type = type;
     this.value = value;
+    this.meta = meta;
   }
 }
 
@@ -97,6 +99,7 @@ export enum TokenType {
   ID = 'ID',
   VAR = '@var',
   APPLY = '@apply',
+  ATTR = '@attr',
   MIXIN = '@mixin',
   INCLUDE = '@include',
   FUNC = '@func',
@@ -129,6 +132,7 @@ export enum TokenType {
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'apply': new Token(TokenType.APPLY, '@apply'),
+  'attr': new Token(TokenType.ATTR, '@attr'),
   'mixin': new Token(TokenType.MIXIN, '@mixin'),
   'include': new Token(TokenType.INCLUDE, '@include'),
   'func': new Token(TokenType.FUNC, '@func'),
@@ -230,6 +234,25 @@ export class Template {
   constructor(token: Token) {
     this.token = token;
     this.value = token.value as string;
+  }
+}
+
+
+export class Apply {
+  value: Str | Template;
+  constructor(value: string) {
+    const token = new Token(TokenType.STRING, value);
+    this.value = /\${.*}/.test(value) ? new Template(token): new Str(token);
+  }
+}
+
+export class Attr {
+  attr: string;
+  value: Str | Template;
+  constructor(attr: string, value: string) {
+    const token = new Token(TokenType.STRING, value);
+    this.attr = attr;
+    this.value = /\${.*}/.test(value) ? new Template(token): new Str(token);
   }
 }
 

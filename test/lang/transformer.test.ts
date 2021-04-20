@@ -149,6 +149,10 @@ describe('Transformer', () => {
 
       @warn a + 12;
 
+      @apply bg-red-500 text-white sm:bg-gray-200;
+      @attr[bg] red-500 opacity-50 sm:red-200;
+      @attr[sm:text] red-500 opacity-30;
+
       @js {
         import { eval, rgba, get, set } from 'windi/lang';
 
@@ -164,6 +168,7 @@ describe('Transformer', () => {
         @var testNest = 123;
         color: red;
         .abc .def {
+          @apply font-bold text-lg;
           color: \${d};
         }
       }
