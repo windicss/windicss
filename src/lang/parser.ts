@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, DataType, If, While } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -318,11 +318,6 @@ export class Parser {
     this.error();
   }
 
-  return_statement(): Return {
-    this.eat(TokenType.RETURN);
-    return new Return(this.expr());
-  }
-
   if_statement(): If {
     this.eat(TokenType.IF);
     const expr = this.expr();
@@ -358,6 +353,17 @@ export class Parser {
       this.eat(TokenType.RCURLY);
     }
     return state;
+  }
+
+  with_statement(): With {
+    this.eat(TokenType.WITH);
+    const expr = this.expr();
+    const name = this.eat(TokenType.AS).value as string;
+    this.eat(TokenType.ID);
+    this.eat(TokenType.LCURLY);
+    const block = this.block();
+    this.eat(TokenType.RCURLY);
+    return new With(expr, name, block);
   }
 
   import_statement(): Import {
@@ -493,7 +499,24 @@ export class Parser {
       node = this.function_statement();
       break;
     case TokenType.RETURN:
-      node = this.return_statement();
+      this.eat(TokenType.RETURN);
+      node = new Return(this.expr());
+      break;
+    case TokenType.YIELD:
+      this.eat(TokenType.YIELD);
+      node = new Yield(this.expr());
+      break;
+    case TokenType.RAISE:
+      this.eat(TokenType.RAISE);
+      node = new Raise(this.expr());
+      break;
+    case TokenType.CONTINUE:
+      this.eat(TokenType.CONTINUE);
+      node = new Continue();
+      break;
+    case TokenType.BREAK:
+      this.eat(TokenType.BREAK);
+      node = new Break();
       break;
     case TokenType.IMPORT:
       node = this.import_statement();
@@ -518,6 +541,9 @@ export class Parser {
       break;
     case TokenType.WHILE:
       node = this.while_statement();
+      break;
+    case TokenType.WITH:
+      node = this.with_statement();
       break;
     case TokenType.JS:
       node = this.javascript_statement();

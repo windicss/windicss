@@ -81,6 +81,16 @@ describe('Transformer', () => {
         @log i;
       };
 
+      @with add(1,2) as c {
+        c = c + 3;
+        @log c;
+      };
+
+      @break;
+      @continue;
+      @yield 123;
+      @raise Error('msg');
+
       @assert not 1 == 2 and 5 > 3;
 
       @assert !1 == 2 and 5 > 3;

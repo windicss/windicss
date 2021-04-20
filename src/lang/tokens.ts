@@ -336,6 +336,27 @@ export class Return {
   }
 }
 
+export class Yield {
+  value: DataType;
+  constructor(value: DataType) {
+    this.value = value;
+  }
+}
+
+export class Raise {
+  value: DataType;
+  constructor(value: DataType) {
+    this.value = value;
+  }
+}
+
+export class Continue {
+}
+
+export class Break {
+
+}
+
 export class If {
   if_block: [DataType, Block];
   elif_blocks?: [DataType, Block][];
@@ -362,6 +383,17 @@ export class While {
   }
   add_else(block: Block): void {
     this.else_block = block;
+  }
+}
+
+export class With {
+  expr: DataType;
+  name: string;
+  block: Block;
+  constructor(expr: DataType, name: string, block: Block) {
+    this.expr = expr;
+    this.name = name;
+    this.block = block;
   }
 }
 

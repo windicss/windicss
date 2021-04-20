@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, If, While } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -31,9 +31,14 @@ export default class Transformer {
     if (node instanceof Func) return this.visit_Func(node);
     if (node instanceof Lambda) return this.visit_Lambda(node);
     if (node instanceof Return) return this.visit_Return(node);
+    if (node instanceof Yield) return this.visit_Yield(node);
+    if (node instanceof Raise) return this.visit_Raise(node);
+    if (node instanceof Continue) return this.visit_Continue();
+    if (node instanceof Break) return this.visit_Break();
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof If) return this.visit_If(node);
     if (node instanceof While) return this.visit_While(node);
+    if (node instanceof With) return this.visit_With(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
     if (node instanceof Bool) return this.visit_Boolean(node);
@@ -108,8 +113,31 @@ ${connect(this.visit_Block(node.block))}
     return state;
   }
 
+  visit_With(node: With): string {
+    return `() => {
+  let ${node.name} = ${this.visit(node.expr)};
+  ${connect(this.visit_Block(node.block))}
+}`;
+  }
+
   visit_Return(node: Return): string {
     return `return ${this.visit(node.value)}`;
+  }
+
+  visit_Yield(node: Yield): string {
+    return `yield ${this.visit(node.value)}`;
+  }
+
+  visit_Raise(node: Raise): string {
+    return `throw ${this.visit(node.value)}`;
+  }
+
+  visit_Continue(): string {
+    return 'continue';
+  }
+
+  visit_Break(): string {
+    return 'break';
   }
 
   visit_Template(node: Template): string {

@@ -70,6 +70,15 @@ Tools / simple syntax / js / 0: |-
   if (!(i > 0)) {
     console.log(i);
   };
+  () => {
+    let c = add(1, 2);
+    c = __add__(c, 3);
+  console.log(c);
+  };
+  break;
+  continue;
+  yield 123;
+  throw Error("msg");
   console.assert(!(1 === 2) && 5 > 3);
   console.assert(!(1) === 2 && 5 > 3);
   let e = a.c(1, 2)("5").hello()(123)["test"].def;
