@@ -102,7 +102,7 @@ export class Parser {
   }
 
   data(): DataType {
-    // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable
+    // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable | arrow function
     let node;
     const token = this.current_token;
     switch (token.type) {
@@ -131,7 +131,24 @@ export class Parser {
           current = this.current_token;
           if (current.type === TokenType.COMMA) this.eat(TokenType.COMMA);
         }
-        this.eat(TokenType.RPAREN);
+        let next = this.eat(TokenType.RPAREN);
+        if (next.type === TokenType.ARROW) {
+          next = this.eat(TokenType.ARROW);
+          const params = values.map(i => {
+            if (i instanceof Var) {
+              return i.value;
+            }
+            this.error();
+          });
+          if (next.type === TokenType.LCURLY) {
+            this.eat(TokenType.LCURLY);
+            const func = new Func(params, this.block());
+            this.eat(TokenType.RCURLY);
+            return func;
+          }
+          return new Lambda(params, this.expr());
+        }
+        // arrow function
         return new Tuple(values);
       }
       // (expr)

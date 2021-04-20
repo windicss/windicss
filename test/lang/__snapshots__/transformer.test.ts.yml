@@ -27,6 +27,11 @@ Tools / simple syntax / js / 0: |-
   (function (x) {
   return __add__(x, 2);
   });
+  let add = ((a, b) => __add__(a, b));
+  let c = __mul__(((a, b) => __add__(a, b))(1, 2), 4);
+  let d = __div__((function (a, b) {
+  return __add__(a, b);
+  })(1, 2), 3);
   let number = 2;
   let a = number;
   let b = __add__(__mul__(10, a), __div__(__mul__(10, number), 4));

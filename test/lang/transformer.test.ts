@@ -31,6 +31,14 @@ describe('Transformer', () => {
         @return x + 2;
       };
 
+      @var add = (a, b) => a + b;
+
+      @var c = ((a, b) => a + b)(1,2) * 4;
+
+      @var d = ((a, b) => {
+        @return a + b;
+      })(1, 2) / 3;
+
       @var number = 2;
       @var a = number;
       @var b = 10 * a + 10 * number / 4;
