@@ -62,6 +62,14 @@ Tools / simple syntax / js / 0: |-
   } else {
     console.log("unknown");
   };
+  let i = 3;
+  while (i > 0) {
+    console.log(i);
+  i = __minus__(i, 1);
+  };
+  if (!(i > 0)) {
+    console.log(i);
+  };
   console.assert(!(1 === 2) && 5 > 3);
   console.assert(!(1) === 2 && 5 > 3);
   let e = a.c(1, 2)("5").hello()(123)["test"].def;

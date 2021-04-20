@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, If } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, If, While } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -33,6 +33,7 @@ export default class Transformer {
     if (node instanceof Return) return this.visit_Return(node);
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof If) return this.visit_If(node);
+    if (node instanceof While) return this.visit_While(node);
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
     if (node instanceof Bool) return this.visit_Boolean(node);
@@ -98,6 +99,12 @@ ${connect(this.visit_Block(node.block))}
       return ` else if (${this.visit(expr)}) {\n  ${connect(this.visit_Block(block))}\n}`;
     }).join('') ?? '';
     state += node.else_block ? ` else {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
+    return state;
+  }
+
+  visit_While(node: While): string {
+    let state = `while (${this.visit(node.if_block[0])}) {\n  ${connect(this.visit_Block(node.if_block[1]))}\n}`;
+    state += node.else_block ? `;\nif (!(${this.visit(node.if_block[0])})) {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
     return state;
   }
 

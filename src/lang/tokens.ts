@@ -353,6 +353,18 @@ export class If {
   }
 }
 
+export class While {
+  if_block: [DataType, Block];
+  else_block?: Block;
+  constructor(expr: DataType, block: Block, else_block?: Block) {
+    this.if_block = [expr, block];
+    this.else_block = else_block;
+  }
+  add_else(block: Block): void {
+    this.else_block = block;
+  }
+}
+
 export class Program {
   block: Block;
   constructor(block: Block) {

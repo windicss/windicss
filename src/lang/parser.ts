@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, DataType, If } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, DataType, If, While } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -345,6 +345,21 @@ export class Parser {
     return state;
   }
 
+  while_statement(): While {
+    this.eat(TokenType.WHILE);
+    const expr = this.expr();
+    this.eat(TokenType.LCURLY);
+    const state = new While(expr, this.block());
+    this.eat(TokenType.RCURLY);
+    if (this.current_token.type === TokenType.ELSE) {
+      this.eat(TokenType.ELSE);
+      this.eat(TokenType.LCURLY);
+      state.add_else(this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    return state;
+  }
+
   import_statement(): Import {
     // @import 'a.windi', 'b.windi', 'c.css'
     this.eat(TokenType.IMPORT);
@@ -500,6 +515,9 @@ export class Parser {
       break;
     case TokenType.IF:
       node = this.if_statement();
+      break;
+    case TokenType.WHILE:
+      node = this.while_statement();
       break;
     case TokenType.JS:
       node = this.javascript_statement();

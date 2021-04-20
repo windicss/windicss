@@ -73,6 +73,14 @@ describe('Transformer', () => {
         @log "unknown";
       };
 
+      @var i = 3;
+      @while i > 0 {
+        @log i;
+        i = i - 1;
+      } @else {
+        @log i;
+      };
+
       @assert not 1 == 2 and 5 > 3;
 
       @assert !1 == 2 and 5 > 3;
