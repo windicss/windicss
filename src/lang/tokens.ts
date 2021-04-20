@@ -99,6 +99,8 @@ export enum TokenType {
   MIXIN = '@mixin',
   INCLUDE = '@include',
   FUNC = '@func',
+  ASYNC = '@async',
+  AWAIT = '@await',
   RETURN = '@return',
   YIELD = '@yield',
   IMPORT = '@import',
@@ -120,6 +122,8 @@ export enum TokenType {
   EXCEPT = '@except',
   FINALLY = '@finally',
   WITH = '@with',
+  RAISE = '@raise',
+  DEL = '@del',
 }
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
@@ -127,6 +131,8 @@ export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'mixin': new Token(TokenType.MIXIN, '@mixin'),
   'include': new Token(TokenType.INCLUDE, '@include'),
   'func': new Token(TokenType.FUNC, '@func'),
+  'async': new Token(TokenType.ASYNC, '@async'),
+  'await': new Token(TokenType.AWAIT, '@await'),
   'return': new Token(TokenType.RETURN, '@return'),
   'yield': new Token(TokenType.YIELD, '@yield'),
   'break': new Token(TokenType.BREAK, '@break'),
@@ -134,6 +140,7 @@ export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'try': new Token(TokenType.TRY, '@try'),
   'except': new Token(TokenType.EXCEPT, '@except'),
   'finally': new Token(TokenType.FINALLY, '@finally'),
+  'raise': new Token(TokenType.RAISE, '@raise'),
   'with': new Token(TokenType.WITH, '@with'),
   'var': new Token(TokenType.VAR, '@var'),
   'load': new Token(TokenType.LOAD, '@load'),
@@ -149,6 +156,7 @@ export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'warn': new Token(TokenType.WARN, '@warn'),
   'error': new Token(TokenType.ERROR, '@error'),
   'assert': new Token(TokenType.ASSERT, '@assert'),
+  'del': new Token(TokenType.DEL, '@del'),
 };
 
 export class Num {
@@ -299,13 +307,22 @@ export class Block {
 }
 
 export class Func {
-  name: string;
+  name?: string;
   params: string[];
   block: Block;
-  constructor(name: string, params: string[], block: Block) {
+  constructor(params: string[], block: Block, name?: string) {
     this.name = name;
     this.params = params;
     this.block = block;
+  }
+}
+
+export class Lambda {
+  params: string[];
+  expr: DataType;
+  constructor(params: string[], expr: DataType) {
+    this.params = params;
+    this.expr = expr;
   }
 }
 

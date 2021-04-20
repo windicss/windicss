@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Return, DataType, If } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, DataType, If } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -268,26 +268,67 @@ export class Parser {
     return new JS(code as string);
   }
 
-  function_statement(): Func {
-    // @func ID(id1, id2) {...}
-    const name = this.eat(TokenType.FUNC);
-    this.eat(TokenType.ID);
-    // parse params
-    const params = [];
-    this.eat(TokenType.LPAREN);
-    while(this.current_token.type !== TokenType.RPAREN) {
-      params.push(this.current_token.value as string);
-      this.eat(TokenType.ID);
-      if (this.current_token.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+  function_statement(): Func | Lambda {
+    // @func name(id1, id2) {...}
+    // @func (id1, id2) {...}
+    // @func id1, id2: ...
+    // @func : ...
+    const params: string[] = [];
+    this.eat(TokenType.FUNC);
+    if (this.current_token.type === TokenType.ID) {
+      const first_id = this.current_token;
+      let next_token = this.eat(TokenType.ID);
+      if (next_token.type === TokenType.LPAREN) {
+        // @func name(id1, id2, ...)
+        next_token = this.eat(TokenType.LPAREN);
+        while(next_token.type !== TokenType.RPAREN) {
+          params.push(next_token.value as string);
+          next_token = this.eat(TokenType.ID);
+          if (next_token.type === TokenType.COMMA) next_token = this.eat(TokenType.COMMA);
+        }
+        this.eat(TokenType.RPAREN);
+        this.eat(TokenType.LCURLY);
+        const block = this.block();
+        this.eat(TokenType.RCURLY);
+        return new Func(params, block, first_id.value as string);
+      }
+      if (next_token.type === TokenType.COLON) {
+        // @func id1:...
+        params.push(first_id.value as string);
+        this.eat(TokenType.COLON);
+        return new Lambda(params, this.expr());
+      }
+      if (next_token.type === TokenType.COMMA) {
+        // @func id1,id2:...
+        params.push(first_id.value as string);
+        next_token = this.eat(TokenType.COMMA);
+        while(next_token.type === TokenType.ID) {
+          params.push(next_token.value as string);
+          next_token = this.eat(TokenType.ID);
+          if (next_token.type === TokenType.COMMA) next_token = this.eat(TokenType.COMMA);
+        }
+        this.eat(TokenType.COLON);
+        return new Lambda(params, this.expr());
+      }
+    } else if (this.current_token.type === TokenType.LPAREN) {
+      // @func (id1, id2) {...}
+      let next_token = this.eat(TokenType.LPAREN);
+      while(next_token.type !== TokenType.RPAREN) {
+        params.push(next_token.value as string);
+        next_token = this.eat(TokenType.ID);
+        if (next_token.type === TokenType.COMMA) next_token = this.eat(TokenType.COMMA);
+      }
+      this.eat(TokenType.RPAREN);
+      this.eat(TokenType.LCURLY);
+      const block = this.block();
+      this.eat(TokenType.RCURLY);
+      return new Func(params, block);
+    } else if (this.current_token.type === TokenType.COLON) {
+      // @func : ...
+      this.eat(TokenType.COLON);
+      return new Lambda([], this.expr());
     }
-    this.eat(TokenType.RPAREN);
-
-    // parse block
-    this.eat(TokenType.LCURLY);
-    const block = this.block();
-    this.eat(TokenType.RCURLY);
-
-    return new Func(name.value as string, params, block);
+    this.error();
   }
 
   return_statement(): Return {

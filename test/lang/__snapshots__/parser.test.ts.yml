@@ -251,6 +251,138 @@ Tools / simple syntax / ast / 0: |-
           }
         },
         {
+          "params": [
+            "a",
+            "b"
+          ],
+          "expr": {
+            "left": {
+              "token": {
+                "type": "ID",
+                "value": "a"
+              },
+              "value": "a"
+            },
+            "op": {
+              "type": "+",
+              "value": "+"
+            },
+            "right": {
+              "token": {
+                "type": "ID",
+                "value": "b"
+              },
+              "value": "b"
+            }
+          }
+        },
+        {
+          "params": [
+            "a"
+          ],
+          "expr": {
+            "left": {
+              "token": {
+                "type": "ID",
+                "value": "a"
+              },
+              "value": "a"
+            },
+            "op": {
+              "type": "+",
+              "value": "+"
+            },
+            "right": {
+              "token": {
+                "type": "NUMBER",
+                "value": 2
+              },
+              "value": 2
+            }
+          }
+        },
+        {
+          "params": [],
+          "expr": {
+            "token": {
+              "type": "NUMBER",
+              "value": 123
+            },
+            "value": 123
+          }
+        },
+        {
+          "params": [
+            "a",
+            "b"
+          ],
+          "block": {
+            "statement_list": [
+              {
+                "value": {
+                  "left": {
+                    "token": {
+                      "type": "ID",
+                      "value": "a"
+                    },
+                    "value": "a"
+                  },
+                  "op": {
+                    "type": "+",
+                    "value": "+"
+                  },
+                  "right": {
+                    "token": {
+                      "type": "ID",
+                      "value": "b"
+                    },
+                    "value": "b"
+                  }
+                }
+              },
+              {}
+            ],
+            "style_list": [
+              {}
+            ]
+          }
+        },
+        {
+          "params": [
+            "x"
+          ],
+          "block": {
+            "statement_list": [
+              {
+                "value": {
+                  "left": {
+                    "token": {
+                      "type": "ID",
+                      "value": "x"
+                    },
+                    "value": "x"
+                  },
+                  "op": {
+                    "type": "+",
+                    "value": "+"
+                  },
+                  "right": {
+                    "token": {
+                      "type": "NUMBER",
+                      "value": 2
+                    },
+                    "value": 2
+                  }
+                }
+              },
+              {}
+            ],
+            "style_list": [
+              {}
+            ]
+          }
+        },
+        {
           "left": {
             "token": {
               "type": "ID",

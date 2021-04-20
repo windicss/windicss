@@ -22,6 +22,15 @@ describe('Parser', () => {
         };
         @return a + b / f - nest(a, b);
       };
+      @func a, b: a + b;
+      @func a: a + 2;
+      @func :123;
+      @func (a, b) {
+        @return a + b;
+      };
+      @func (x) {
+        @return x + 2;
+      };
 
       @var number = 2;
       @var a = number;

@@ -5,6 +5,7 @@ import { Token, TokenType, REVERSED_KEYWORDS } from './tokens';
 export class Lexer {
   text: string;
   pos: number;
+  _isFunc = false; // func setup and prop value setup
   _isID = false; // solve dict pairs setup and prop value setup, cause number|string: value and id: value
   current_char?: string;
 
@@ -69,6 +70,7 @@ export class Lexer {
         this.pos = end + 1;
         this.current_char = this.text[end + 1];
       }
+      if (result === 'func') this._isFunc = true;
       return token;
     }
     this.error();
@@ -236,11 +238,12 @@ export class Lexer {
         return new Token(TokenType.NO, '!');
       case ':':
         this.advance();
-        if (!this._isID) return new Token(TokenType.COLON, ':'); // dict pairs assign
+        if (this._isFunc || !this._isID) return new Token(TokenType.COLON, ':'); // dict pairs assign
         this.skip_whitespace(); // prop assign
         return this.property();
       case ';':
         this.advance();
+        this._isFunc = false;
         return new Token(TokenType.SEMI, ';');
       case '\'':
         this.advance();
@@ -256,6 +259,7 @@ export class Lexer {
         return this.color();
       case '{':
         this.advance();
+        this._isFunc = false;
         return new Token(TokenType.LCURLY, '{');
       case '}':
         this.advance();
