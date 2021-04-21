@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try, Apply, Attr } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try, Apply, Attr, Del, Instance, Await } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -34,6 +34,7 @@ export default class Transformer {
     if (node instanceof Lambda) return this.visit_Lambda(node);
     if (node instanceof Return) return this.visit_Return(node);
     if (node instanceof Yield) return this.visit_Yield(node);
+    if (node instanceof Del) return this.visit_Del(node);
     if (node instanceof Raise) return this.visit_Raise(node);
     if (node instanceof Continue) return this.visit_Continue();
     if (node instanceof Break) return this.visit_Break();
@@ -45,8 +46,10 @@ export default class Transformer {
     if (node instanceof Template) return this.visit_Template(node);
     if (node instanceof Num) return this.visit_Num(node);
     if (node instanceof Bool) return this.visit_Boolean(node);
+    if (node instanceof Await) return this.visit_Await(node);
     if (node instanceof None) return this.visit_None(node);
     if (node instanceof List) return this.visit_List(node);
+    if (node instanceof Instance) return this.visit_Instance(node);
     if (node instanceof Tuple) return this.visit_Tuple(node);
     if (node instanceof Params) return this.visit_Params(node);
     if (node instanceof Dict) return this.visit_Dict(node);
@@ -90,15 +93,19 @@ export default class Transformer {
   }
 
   visit_Func(node: Func): string {
-    return node.name ? `function ${node.name}(${node.params.join(', ')}) {
+    return node.name ? `${node.async?'async ':''}function ${node.name}(${node.params.join(', ')}) {
 ${connect(this.visit_Block(node.block))}
-}` : `(function (${node.params.join(', ')}) {
+}` : `(${node.async?'async ':''}function (${node.params.join(', ')}) {
 ${connect(this.visit_Block(node.block))}
 })`;
   }
 
+  visit_Instance(node: Instance): string {
+    return `new ${node.name}${node.params ? `(${node.params.map(i => this.visit(i)).join(', ')})`: ''}`;
+  }
+
   visit_Lambda(node: Lambda): string {
-    return node.name ? `const ${node.name} = (${node.params.join(', ')}) => ${this.visit(node.expr)}`: `((${node.params.join(', ')}) => ${this.visit(node.expr)})`;
+    return node.name ? `const ${node.name} = ${node.async?'async ':''}(${node.params.join(', ')}) => ${this.visit(node.expr)}`: `(${node.async?'async ':''}(${node.params.join(', ')}) => ${this.visit(node.expr)})`;
   }
 
   visit_If(node: If): string {
@@ -148,8 +155,16 @@ ${connect(this.visit_Block(node.block))}
     return `return ${this.visit(node.value)}`;
   }
 
+  visit_Await(node: Await): string {
+    return `await ${this.visit(node.value)}`;
+  }
+
   visit_Yield(node: Yield): string {
     return `yield ${this.visit(node.value)}`;
+  }
+
+  visit_Del(node: Del): string {
+    return `delete ${this.visit(node.value)}`;
   }
 
   visit_Raise(node: Raise): string {

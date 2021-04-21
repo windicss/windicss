@@ -184,6 +184,10 @@ export class Lexer {
       return new Token(TokenType.AS, result);
     case 'in':
       return new Token(TokenType.IN, result);
+    case 'await':
+      return new Token(TokenType.AWAIT, result);
+    case 'new':
+      return new Token(TokenType.NEW, result);
     case 'True':
       return new Token(TokenType.TRUE, 1);
     case 'False':

@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try, Apply, Attr } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try, Apply, Attr, Del, Instance, Await } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -56,6 +56,7 @@ export class Parser {
   }
 
   error(): never {
+    console.log(this.current_token);
     throw Error('Invalid syntax');
   }
 
@@ -80,6 +81,49 @@ export class Parser {
     return new List(values);
   }
 
+  tuple(): DataType {
+    let node;
+    const values:DataType[] = [];
+    let next = this.eat(TokenType.LPAREN);
+    if (this.current_token.type !== TokenType.RPAREN) {
+      node = this.expr();
+      if (this.current_token.type === TokenType.COMMA) {
+        // tuple
+        values.push(node);
+        this.eat(TokenType.COMMA);
+        let current = this.current_token;
+        while(current.type !== TokenType.RPAREN) {
+          values.push(this.expr());
+          current = this.current_token;
+          if (current.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+        }
+      } else {
+        // (expr)
+        this.eat(TokenType.RPAREN);
+        return node;
+      }
+    }
+    next = this.eat(TokenType.RPAREN);
+
+    if (next.type === TokenType.ARROW) {
+      next = this.eat(TokenType.ARROW);
+      const params = values.map(i => {
+        if (i instanceof Var) {
+          return i.value;
+        }
+        this.error();
+      });
+      if (next.type === TokenType.LCURLY) {
+        this.eat(TokenType.LCURLY);
+        const func = new Func(params, this.block());
+        this.eat(TokenType.RCURLY);
+        return func;
+      }
+      return new Lambda(params, this.expr());
+    }
+    return new Tuple(values);
+  }
+
   dict(): Dict {
     const pairs:[string|number, (Operand | Str | Template | Tuple | List | Dict)][] = [];
     this.eat(TokenType.LCURLY);
@@ -101,9 +145,28 @@ export class Parser {
     return new Dict(pairs);
   }
 
+  instance(): Instance {
+    this.eat(TokenType.NEW);
+    const name = this.current_token.value as string;
+    this.eat(TokenType.ID);
+    let params: DataType[] | undefined;
+    let next = this.current_token;
+    if (next.type === TokenType.LPAREN) {
+      next = this.eat(TokenType.LPAREN);
+      if (!params) params = [];
+      while(next.type !== TokenType.RPAREN) {
+        params.push(this.expr());
+        next = this.current_token;
+        if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+      }
+      this.eat(TokenType.RPAREN);
+      return new Instance(name, params);
+    }
+    return new Instance(name);
+  }
+
   data(): DataType {
-    // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable | arrow function
-    let node;
+    // data: NUMBER | TRUE | FALSE | NONE | LPAREN expr RPAREN | variable | arrow function | new object
     const token = this.current_token;
     switch (token.type) {
     case TokenType.NUMBER:
@@ -119,41 +182,7 @@ export class Parser {
       this.eat(TokenType.NONE);
       return new None();
     case TokenType.LPAREN:
-      this.eat(TokenType.LPAREN);
-      node = this.expr();
-      if (this.current_token.type === TokenType.COMMA) {
-        // tuple
-        const values = [ node ];
-        this.eat(TokenType.COMMA);
-        let current = this.current_token;
-        while(current.type !== TokenType.RPAREN) {
-          values.push(this.expr());
-          current = this.current_token;
-          if (current.type === TokenType.COMMA) this.eat(TokenType.COMMA);
-        }
-        let next = this.eat(TokenType.RPAREN);
-        if (next.type === TokenType.ARROW) {
-          next = this.eat(TokenType.ARROW);
-          const params = values.map(i => {
-            if (i instanceof Var) {
-              return i.value;
-            }
-            this.error();
-          });
-          if (next.type === TokenType.LCURLY) {
-            this.eat(TokenType.LCURLY);
-            const func = new Func(params, this.block());
-            this.eat(TokenType.RCURLY);
-            return func;
-          }
-          return new Lambda(params, this.expr());
-        }
-        // arrow function
-        return new Tuple(values);
-      }
-      // (expr)
-      this.eat(TokenType.RPAREN);
-      return node;
+      return this.tuple();
     case TokenType.STRING:
       this.eat(TokenType.STRING);
       return new Str(token);
@@ -164,6 +193,11 @@ export class Parser {
       return this.list();
     case TokenType.LCURLY:
       return this.dict();
+    case TokenType.NEW:
+      return this.instance();
+    case TokenType.AWAIT:
+      this.eat(TokenType.AWAIT);
+      return new Await(this.expr());
     case TokenType.ID:
       this.eat(TokenType.ID);
       // @var add3 = a => a + 3;
@@ -290,14 +324,14 @@ export class Parser {
     return new JS(code as string);
   }
 
-  function_statement(): Func | Lambda {
+  function_statement(async = false): Func | Lambda {
     // @func name(id1, id2) {...}
     // @func (id1, id2) {...}
     // @func name(id1, id2) => ...
     // @func (id1, id2) => ...
     let name: string | undefined;
     const params: string[] = [];
-    this.eat(TokenType.FUNC);
+    async ? this.eat(TokenType.ASYNC): this.eat(TokenType.FUNC);
     if (this.current_token.type === TokenType.ID) {
       name = this.current_token.value as string;
       this.eat(TokenType.ID);
@@ -312,13 +346,13 @@ export class Parser {
     this.eat(TokenType.RPAREN);
     if (this.current_token.type === TokenType.ARROW) {
       this.eat(TokenType.ARROW);
-      return new Lambda(params, this.expr(), name);
+      return new Lambda(params, this.expr(), name, async);
     }
     if (this.current_token.type === TokenType.LCURLY) {
       this.eat(TokenType.LCURLY);
       const block = this.block();
       this.eat(TokenType.RCURLY);
-      return new Func(params, block, name);
+      return new Func(params, block, name, async);
     }
     this.error();
   }
@@ -539,7 +573,10 @@ export class Parser {
       node = this.assignment_statement();
       break;
     case TokenType.FUNC:
-      node = this.function_statement();
+      node = this.function_statement(false);
+      break;
+    case TokenType.ASYNC:
+      node = this.function_statement(true);
       break;
     case TokenType.RETURN:
       this.eat(TokenType.RETURN);
@@ -560,6 +597,10 @@ export class Parser {
     case TokenType.RAISE:
       this.eat(TokenType.RAISE);
       node = new Raise(this.expr());
+      break;
+    case TokenType.DEL:
+      this.eat(TokenType.DEL);
+      node = new Del(this.expr());
       break;
     case TokenType.CONTINUE:
       this.eat(TokenType.CONTINUE);

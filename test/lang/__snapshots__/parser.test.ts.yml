@@ -169,7 +169,8 @@ Tools / simple syntax / ast / 0: |-
                   "style_list": [
                     {}
                   ]
-                }
+                },
+                "async": false
               },
               {
                 "value": {
@@ -248,7 +249,8 @@ Tools / simple syntax / ast / 0: |-
             "style_list": [
               {}
             ]
-          }
+          },
+          "async": false
         },
         {
           "params": [
@@ -275,7 +277,8 @@ Tools / simple syntax / ast / 0: |-
               "value": "b"
             }
           },
-          "name": "add"
+          "name": "add",
+          "async": false
         },
         {
           "params": [
@@ -301,7 +304,8 @@ Tools / simple syntax / ast / 0: |-
               },
               "value": "b"
             }
-          }
+          },
+          "async": false
         },
         {
           "params": [
@@ -337,7 +341,8 @@ Tools / simple syntax / ast / 0: |-
             "style_list": [
               {}
             ]
-          }
+          },
+          "async": false
         },
         {
           "params": [
@@ -372,7 +377,8 @@ Tools / simple syntax / ast / 0: |-
             "style_list": [
               {}
             ]
-          }
+          },
+          "async": false
         },
         {
           "left": {

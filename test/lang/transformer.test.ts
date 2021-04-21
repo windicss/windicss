@@ -30,7 +30,13 @@ describe('Transformer', () => {
       @func (x) {
         @return x + 2;
       };
-
+      @async f() {
+        @var promise = new Promise((resolve, reject) => {
+          setTimeout(() => resolve("done!"), 1000);
+        });
+        @var result = await promise;
+        alert(result);
+      };
       @try {
         @var x = 1;
       } @except TypeError {
@@ -139,6 +145,8 @@ describe('Transformer', () => {
       @var i = False * 3;
       @var j = None;
 
+      @var date = new Date('123') + new Date('456') / 4;
+
       c = - 4 ** 4;
 
       a + 4;
@@ -148,6 +156,8 @@ describe('Transformer', () => {
       @log b;
 
       @warn a + 12;
+
+      @del a;
 
       @apply bg-red-500 text-white sm:bg-gray-200;
       @attr[bg] red-500 opacity-50 sm:red-200;

@@ -27,6 +27,13 @@ Tools / simple syntax / js / 0: |-
   (function (x) {
   return __add__(x, 2);
   });
+  async function f() {
+  let promise = new Promise((function (resolve, reject) {
+  setTimeout((() => resolve("done!")), 1000);
+  }));
+  let result = await promise;
+  alert(result);
+  };
   try {
     let x = 1;
   console.log("No exception occured");
@@ -120,11 +127,13 @@ Tools / simple syntax / js / 0: |-
   let h = true;
   let i = __mul__(false, 3);
   let j = undefined;
+  let date = __add__(new Date("123"), __div__(new Date("456"), 4));
   c = __negative__(__exp__(4, 4));
   __add__(a, 4);
   console.log(d);
   console.log(b);
   console.warn(__add__(a, 12));
+  delete a;
   __interpret__("bg-red-500 text-white sm:bg-gray-200");
   __attributify__("bg", "red-500 opacity-50 sm:red-200");
   __attributify__("sm:text", "red-500 opacity-30");

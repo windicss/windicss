@@ -128,6 +128,7 @@ export enum TokenType {
   WITH = '@with',
   RAISE = '@raise',
   DEL = '@del',
+  NEW = 'new',
 }
 
 export const REVERSED_KEYWORDS: {[key:string]:Token} = {
@@ -137,7 +138,6 @@ export const REVERSED_KEYWORDS: {[key:string]:Token} = {
   'include': new Token(TokenType.INCLUDE, '@include'),
   'func': new Token(TokenType.FUNC, '@func'),
   'async': new Token(TokenType.ASYNC, '@async'),
-  'await': new Token(TokenType.AWAIT, '@await'),
   'return': new Token(TokenType.RETURN, '@return'),
   'yield': new Token(TokenType.YIELD, '@yield'),
   'break': new Token(TokenType.BREAK, '@break'),
@@ -334,10 +334,21 @@ export class Func {
   name?: string;
   params: string[];
   block: Block;
-  constructor(params: string[], block: Block, name?: string) {
+  async: boolean;
+  constructor(params: string[], block: Block, name?: string, async = false) {
     this.name = name;
     this.params = params;
     this.block = block;
+    this.async = async;
+  }
+}
+
+export class Instance {
+  name: string;
+  params?: DataType[];
+  constructor(name: string, params?: DataType[]) {
+    this.name = name;
+    this.params = params;
   }
 }
 
@@ -345,10 +356,12 @@ export class Lambda {
   params: string[];
   expr: DataType;
   name?: string;
-  constructor(params: string[], expr: DataType, name?:string) {
+  async: boolean;
+  constructor(params: string[], expr: DataType, name?:string, async = false) {
     this.params = params;
     this.expr = expr;
     this.name = name;
+    this.async = async;
   }
 }
 
@@ -359,7 +372,21 @@ export class Return {
   }
 }
 
+export class Await {
+  value: DataType;
+  constructor(value: DataType) {
+    this.value = value;
+  }
+}
+
 export class Yield {
+  value: DataType;
+  constructor(value: DataType) {
+    this.value = value;
+  }
+}
+
+export class Del {
   value: DataType;
   constructor(value: DataType) {
     this.value = value;
