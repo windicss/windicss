@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try, Apply, Attr, Del, Instance, Await } from './tokens';
+import { Token, TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Block, PropDecl, StyleDecl, Program, Template, Console, Tuple, Params, List, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, DataType, If, While, With, Try, Apply, Attr, Del, Instance, Await, For } from './tokens';
 import type { Operand, Module } from './tokens';
 
 /* syntax
@@ -279,8 +279,22 @@ export class Parser {
   }
 
   expr(): DataType {
-    // expr   : term ((PLUS | MINUS) term)*
+    // dict | list | tuple | expr...
+    // if (this.current_token.type === TokenType.LCURLY) return this.dict();
+    // if (this.current_token.type === TokenType.LSQUARE) return this.list();
+    // if (this.current_token.type === TokenType.LPAREN) return this.tuple();
     return this.binop(BINOPS.length - 1);
+  }
+
+  exprs(): DataType {
+    // expr, exprs...
+    let node = this.expr();
+    while (this.current_token.type === TokenType.COMMA) {
+      const token = this.current_token;
+      this.eat(TokenType.COMMA);
+      node = new BinOp(node, token, this.exprs());
+    }
+    return node;
   }
 
   empty(): NoOp {
@@ -290,7 +304,7 @@ export class Parser {
   console_statement(type: TokenType.LOG | TokenType.WARN | TokenType.ERROR | TokenType.ASSERT): Console {
     // @log 3 + 2
     this.eat(type);
-    const expr = this.expr();
+    const expr = this.exprs();
     return new Console(type, expr);
   }
 
@@ -301,7 +315,7 @@ export class Parser {
     this.eat(TokenType.ID);
     const token = this.current_token;
     this.eat(TokenType.ASSIGN);
-    const right = this.expr();
+    const right = this.exprs();
     return new Assign(left, token, right);
   }
 
@@ -311,7 +325,7 @@ export class Parser {
     this.eat(TokenType.ID);
     const op = this.current_token;
     this.eat(TokenType.ASSIGN);
-    const right = this.expr();
+    const right = this.exprs();
     return new Update(new Var(left), op, right);
   }
 
@@ -422,6 +436,28 @@ export class Parser {
     const expr = this.expr();
     this.eat(TokenType.LCURLY);
     const state = new While(expr, this.block());
+    this.eat(TokenType.RCURLY);
+    if (this.current_token.type === TokenType.ELSE) {
+      this.eat(TokenType.ELSE);
+      this.eat(TokenType.LCURLY);
+      state.add_else(this.block());
+      this.eat(TokenType.RCURLY);
+    }
+    return state;
+  }
+
+  for_statement(): For {
+    this.eat(TokenType.FOR);
+    const variables:string[] = [];
+    while (this.current_token.type === TokenType.ID) {
+      variables.push(this.current_token.value as string);
+      const next = this.eat(TokenType.ID);
+      if (next.type === TokenType.COMMA) this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.IN);
+    const expr = this.expr();
+    this.eat(TokenType.LCURLY);
+    const state = new For(variables, expr, this.block());
     this.eat(TokenType.RCURLY);
     if (this.current_token.type === TokenType.ELSE) {
       this.eat(TokenType.ELSE);
@@ -634,6 +670,9 @@ export class Parser {
     case TokenType.WHILE:
       node = this.while_statement();
       break;
+    case TokenType.FOR:
+      node = this.for_statement();
+      break;
     case TokenType.WITH:
       node = this.with_statement();
       break;
@@ -646,7 +685,7 @@ export class Parser {
     case TokenType.LPAREN:
     case TokenType.LCURLY:
     case TokenType.LSQUARE:
-      node = this.expr();
+      node = this.exprs();
       break;
     case TokenType.ID:
       next_type = this.lexer.peek_next_token().type;
@@ -658,7 +697,7 @@ export class Parser {
         node = this.empty();
       } else {
         // expression statement
-        node = this.expr();
+        node = this.exprs();
       }
       break;
     default:

@@ -15,6 +15,8 @@ describe('Transformer', () => {
       @load defaultExport, { export1, export2 } from "module-name";
       @load defaultExport, * as name from 'module-name';
 
+      @log 12, 34;
+
       @func func(a, b) {
         @var f = 3;
         @func nest(c, d) {
@@ -87,9 +89,9 @@ describe('Transformer', () => {
       @var e = [ 10, 'green' , a - b ];
       @var f = ( 10, 'green' , a - b );
       @var g = {
-        1: 2,
-        'a': 1,
-        'b': 2,
+        1: [1, 2, {'a':3}],
+        'a': {'b' : 4},
+        'b': (a + b, 3 + 2),
         'c': a - b,
       };
 
@@ -119,6 +121,16 @@ describe('Transformer', () => {
         i = i - 1;
       } @else {
         @log i;
+      };
+
+      @for i in range(5) {
+        @log i;
+      } @else {
+        @log "Finally finished!";
+      };
+
+      @for count, enum_days in enumerate(days, 5) {
+        @log count, enum_days;
       };
 
       @with add(1,2) as c {

@@ -459,6 +459,22 @@ export class While {
   }
 }
 
+export class For {
+  variables: string[];
+  iterable: DataType;
+  for_block: Block;
+  else_block?: Block;
+  constructor(variables: string[], iterable: DataType, for_block: Block, else_block?: Block) {
+    this.variables = variables;
+    this.iterable = iterable;
+    this.for_block = for_block;
+    this.else_block = else_block;
+  }
+  add_else(block: Block): void {
+    this.else_block = block;
+  }
+}
+
 export class With {
   expr: DataType;
   name: string;

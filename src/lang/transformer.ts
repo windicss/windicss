@@ -1,7 +1,7 @@
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 import { connect } from './utils';
-import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try, Apply, Attr, Del, Instance, Await } from './tokens';
+import { TokenType, BinOp, UnaryOp, Num, Var, Assign, Update, Import, Load, JS, NoOp, Str, Template, Program, Block, PropDecl, StyleDecl, Console, List, Tuple, Params, Dict, Bool, None, Func, Lambda, Return, Yield, Raise, Continue, Break, If, While, With, Try, Apply, Attr, Del, Instance, Await, For } from './tokens';
 import type { Operand } from './tokens';
 
 export default class Transformer {
@@ -40,6 +40,7 @@ export default class Transformer {
     if (node instanceof Break) return this.visit_Break();
     if (node instanceof Str) return this.visit_Str(node);
     if (node instanceof If) return this.visit_If(node);
+    if (node instanceof For) return this.visit_For(node);
     if (node instanceof Try) return this.visit_Try(node);
     if (node instanceof While) return this.visit_While(node);
     if (node instanceof With) return this.visit_With(node);
@@ -113,7 +114,14 @@ ${connect(this.visit_Block(node.block))}
     state += node.elif_blocks?.map(([expr, block]) => {
       return ` else if (${this.visit(expr)}) {\n  ${connect(this.visit_Block(block))}\n}`;
     }).join('') ?? '';
-    state += node.else_block ? ` else {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
+    if (node.else_block) state += ` else {\n  ${connect(this.visit_Block(node.else_block))}\n}`;
+    return state;
+  }
+
+  visit_For(node: For): string {
+    const vars = node.variables.length === 1 ? node.variables[0] : `[${node.variables.join(', ')}]`;
+    let state = `for (let ${vars} of ${this.visit(node.iterable)}) {\n  ${connect(this.visit_Block(node.for_block))}\n}`;
+    if (node.else_block) state += `;\nif (true) {\n  ${connect(this.visit_Block(node.else_block))}\n}`;
     return state;
   }
 
@@ -132,7 +140,7 @@ ${connect(this.visit_Block(node.block))}
 
   visit_While(node: While): string {
     let state = `while (${this.visit(node.if_block[0])}) {\n  ${connect(this.visit_Block(node.if_block[1]))}\n}`;
-    state += node.else_block ? `;\nif (!(${this.visit(node.if_block[0])})) {\n  ${connect(this.visit_Block(node.else_block))}\n}` : '';
+    if (node.else_block) state += `;\nif (!(${this.visit(node.if_block[0])})) {\n  ${connect(this.visit_Block(node.else_block))}\n}`;
     return state;
   }
 
@@ -283,6 +291,8 @@ ${connect(this.visit_Block(node.block))}
       return `${left_value}[${right_value}]`;
     case TokenType.DOT:
       return `${left_value}.${right_value}`;
+    case TokenType.COMMA:
+      return `${left_value}, ${right_value}`;
     }
     this.error();
   }

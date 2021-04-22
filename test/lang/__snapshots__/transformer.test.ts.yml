@@ -12,6 +12,7 @@ Tools / simple syntax / js / 0: |-
   import defaultExport from "module;
   import defaultExport, { export1, export2 } from "module-name";
   import defaultExport, * as name from "module-name";
+  console.log(12, 34);
   function func(a, b) {
   let f = 3;
   function nest(c, d) {
@@ -80,9 +81,13 @@ Tools / simple syntax / js / 0: |-
   let e = [10, "green", __minus__(a, b)];
   let f = [10, "green", __minus__(a, b)];
   let g = {  
-    1: 2,
-    "a": 1,
-    "b": 2,
+    1: [1, 2, {  
+    "a": 3
+  }],
+    "a": {  
+    "b": 4
+  },
+    "b": [__add__(a, b), __add__(3, 2)],
     "c": __minus__(a, b)
   };
   if (a > 0 && b > 0) {
@@ -109,6 +114,15 @@ Tools / simple syntax / js / 0: |-
   };
   if (!(i > 0)) {
     console.log(i);
+  };
+  for (let i of range(5)) {
+    console.log(i);
+  };
+  if (true) {
+    console.log("Finally finished!");
+  };
+  for (let [count, enum_days] of enumerate(days, 5)) {
+    console.log(count, enum_days);
   };
   () => {
     let c = add(1, 2);
