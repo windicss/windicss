@@ -403,21 +403,9 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-text-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textOpacity', order: pluginOrder['textOpacity'] + 1 });
   }
-  // handle font sizes
-  const amount = utility.amount;
-  const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
-  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
-  let value = utility.handler
-    .handleSquareBrackets(isNumberLead)
-    .handleNxl((number: number) => `${number}rem`)
-    .handleSize()
-    .value;
-  if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
-  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
-
-  // handle colors
-  return utility.handler
-    .handleSquareBrackets()
+  // handle text colors
+  const textColor = utility.handler
+    .handleSquareBrackets(notNumberLead)
     .handleColor(theme('textColor'))
     .handleVariable()
     .callback(value => {
@@ -430,6 +418,19 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
         new Property('color', `rgba(${value.includes('var') ? value : color}, var(--tw-text-opacity))`),
       ]) ].map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 }));
     });
+  if (textColor) return textColor;
+
+  // handle font sizes
+  const amount = utility.amount;
+  const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
+  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
+  let value = utility.handler
+    .handleSquareBrackets(isNumberLead)
+    .handleNxl((number: number) => `${number}rem`)
+    .handleSize()
+    .value;
+  if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
+  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
 }
 
 // https://tailwindcss.com/docs/font-family

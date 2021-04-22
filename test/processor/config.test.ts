@@ -462,4 +462,22 @@ describe('Config', () => {
     `, processor);
     expect(parser.parse().build()).toMatchSnapshot('css');
   });
+
+  // #246
+  it('confuses color with font-size if keys are the same', () => {
+    const processor = new Processor({
+      theme: {
+        colors: {
+          gray: {
+            DEFAULT: '#fff',
+            base: '#59AE90',
+          },
+        },
+        fontSize: {
+          base: '125%',
+        },
+      },
+    });
+    expect(processor.interpret('text-gray text-gray-base text-base').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
