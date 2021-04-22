@@ -789,7 +789,7 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body || 'DEFAULT';
   const shadows = toType(theme('boxShadow'), 'object') as { [key: string]: string };
   if (Object.keys(shadows).includes(body)) {
-    const shadow = shadows[body].replace(/rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+/g, 'rgba(var(--tw-shadow-color)');
+    const shadow = shadows[body].replace(/rgba\s*\(\s*0\s*,\s*0\s*,\s*0/g, 'rgba(var(--tw-shadow-color)');
     return new Style(utility.class, [
       new Property('--tw-shadow-color', '0, 0, 0'),
       new Property('--tw-shadow', shadow),
