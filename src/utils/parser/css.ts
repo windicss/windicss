@@ -1,7 +1,6 @@
 import { Property, Style, StyleSheet, InlineAtRule, Keyframes } from '../style';
 import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
 import { layerOrder } from '../../config/order';
-import jsep from 'jsep';
 import type { Processor } from '../../lib';
 
 const regexRemoveComments = [
@@ -151,11 +150,6 @@ export default class CSSParser {
       });
     }
     return styles;
-  }
-
-  expression(value: string) {
-    jsep.addIdentifierChar('-');
-    return jsep(value);
   }
 
   parse(css = this.css, parent?: string, parentType?: 'atRule' | 'selector'): StyleSheet {

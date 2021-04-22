@@ -29,7 +29,6 @@ specifiers:
   jasmine: ^3.7.0
   jasmine-spec-reporter: ^6.0.0
   js-yaml: ^4.0.0
-  jsep: ^0.4.0
   mini-svg-data-uri: ^1.2.3
   nyc: ^15.1.0
   pirates: ^4.0.1
@@ -68,7 +67,6 @@ devDependencies:
   jasmine: 3.7.0
   jasmine-spec-reporter: 6.0.0
   js-yaml: 4.0.0
-  jsep: 0.4.0
   mini-svg-data-uri: 1.2.3
   nyc: 15.1.0
   pirates: 4.0.1
@@ -1562,11 +1560,6 @@ packages:
     hasBin: true
     dependencies:
       argparse: 2.0.1
-    dev: true
-
-  /jsep/0.4.0:
-    resolution: {integrity: sha512-UDkrzhJK8hmgXeGK8WIiecc/cuW4Vnx5nnrRma7yaxK0WXlvZ4VerGrcxPzifd/CA6QdcI1hpXqr22tHKXpcQA==}
-    engines: {node: '>= 10.16.0'}
     dev: true
 
   /jsesc/2.5.2:

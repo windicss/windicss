@@ -1,3 +1,9 @@
+Tools / !important leak out to subsequent style rules / css / 0: |-
+  .button {
+    --tw-text-opacity: 1 !important;
+    color: rgba(239, 68, 68, var(--tw-text-opacity)) !important;
+    color: green;
+  }
 Tools / @apply twice / css / 0: |-
   .rounded-box {
     border-radius: var(--rounded-box, 1rem);
