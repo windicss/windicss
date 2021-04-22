@@ -92,6 +92,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'inset': 6700,
   'resize': 6800,
   'boxShadow': 6900,
+  'boxShadowColor': 6950,
   'ringWidth': 7000,
   'ringOffsetColor': 7100,
   'ringOffsetWidth': 7200,

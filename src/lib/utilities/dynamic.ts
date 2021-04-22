@@ -789,11 +789,24 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body || 'DEFAULT';
   const shadows = toType(theme('boxShadow'), 'object') as { [key: string]: string };
   if (Object.keys(shadows).includes(body)) {
+    const shadow = shadows[body].replace(/rgba\s*\(\s*\d+\s*,\s*\d+\s*,\s*\d+/g, 'rgba(var(--tw-shadow-color)');
     return new Style(utility.class, [
-      new Property('--tw-shadow', shadows[body]),
+      new Property('--tw-shadow-color', '0, 0, 0'),
+      new Property('--tw-shadow', shadow),
       new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'),
     ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadow', order: pluginOrder['boxShadow'] + 1 });
   }
+  // handle shadowColor
+  return utility.handler
+    .handleSquareBrackets()
+    .handleColor(theme('boxShadowColor'))
+    .handleVariable()
+    .callback(value => {
+      if (['transparent', 'currentColor'].includes(value) || value.includes('var')) {
+        return new Property('--tw-shadow-color', '255, 255, 255').updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadowColor', order: pluginOrder['boxShadowColor'] + 1 });
+      }
+      return new Property('--tw-shadow-color', value.includes('var') ? value : toColor(value).color).updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadowColor', order: pluginOrder['boxShadowColor'] + 2 });
+    });
 }
 
 // https://tailwindcss.com/docs/opacity
