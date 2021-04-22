@@ -6,7 +6,7 @@ describe('Attributify Mode', () => {
   it('simple attributify', () => {
     expect(processor.attributify({
       font: 'bold',
-      p: ['x-4', 'y-2'],
+      p: ['x-4', 'y-2', 'lg:4'],
       bg: ['green-400', 'opacity-50'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });

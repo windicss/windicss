@@ -584,7 +584,7 @@ export class Processor {
         }
         variants = [...matches.slice(0, -1), ...variants];
         const last = matches[matches.length - 1];
-        utility = ['m', 'p'].includes(last) ? last + utility : last + '-' + utility;
+        utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
       }
       const style = this.extract(utility, false);
       if (style) {

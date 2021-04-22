@@ -63,6 +63,11 @@ Tools / simple attributify / css / 0: |-
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
+  @media (min-width: 1024px) {
+    [p~="lg:4"] {
+      padding: 1rem;
+    }
+  }
 Tools / with variants / css / 0: |-
   @media (min-width: 640px) {
     [sm~="bg-red-500"] {
