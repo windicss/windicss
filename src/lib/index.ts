@@ -59,6 +59,7 @@ interface Plugin {
   preflights: StyleArrayObject;
   shortcuts: StyleArrayObject;
   variants: { [key: string]: () => Style };
+  alias: { [key: string]: Element[] };
 }
 
 type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
@@ -92,6 +93,7 @@ export class Processor {
     preflights: {},
     variants: {},
     shortcuts: {},
+    alias: {},
   };
 
   public pluginUtils: PluginUtils = {
@@ -124,6 +126,7 @@ export class Processor {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
+    this._config.alias && this.loadAlias(this._config.alias);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}, handleExtend = true) {
@@ -388,41 +391,49 @@ export class Processor {
     };
 
     const _hGroup = (obj: Element, parentVariants: string[] = []) => {
-      Array.isArray(obj.content) &&
-        obj.content.forEach((u: Element) => {
-          if (u.type === 'group') {
-            _hGroup(u, obj.variants);
-          } else {
-            // utility
-            const variants = [
-              ...parentVariants,
-              ...obj.variants,
-              ...u.variants,
-            ];
-            const important = obj.important || u.important;
-            const selector = (important ? '!' : '') + [...variants, u.content].join(':');
-            typeof u.content === 'string' &&
-              _gStyle(u.content, variants, selector, important, this.config('prefix') as string);
-          }
-        });
+      const _eval = (u: Element) => {
+        if (u.type === 'group') {
+          _hGroup(u, obj.variants);
+        } else if (u.type === 'alias' && (u.content as string) in this._plugin.alias) {
+          this._plugin.alias[u.content as string].forEach(i => _eval(i));
+        } else {
+          // utility
+          const variants = [
+            ...parentVariants,
+            ...obj.variants,
+            ...u.variants,
+          ];
+          const important = obj.important || u.important;
+          const selector = (important ? '!' : '') + [...variants, u.content].join(':');
+          typeof u.content === 'string' &&
+            _gStyle(u.content, variants, selector, important, this.config('prefix') as string);
+        }
+      };
+      Array.isArray(obj.content) && obj.content.forEach(u => _eval(u));
     };
 
-    ast.forEach(obj => {
-      if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
-        if (ignoreProcessed) this._cache.utilities.push(obj.raw);
-        if (obj.type === 'utility') {
-          if (Array.isArray(obj.content)) {
-            // #functions stuff
-          } else if (obj.content) {
-            _gStyle(obj.content, obj.variants, obj.raw, obj.important, this.config('prefix') as string);
+    const _gAst = (ast: Element[]) => {
+      ast.forEach(obj => {
+        if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
+          if (ignoreProcessed) this._cache.utilities.push(obj.raw);
+          if (obj.type === 'utility') {
+            if (Array.isArray(obj.content)) {
+              // #functions stuff
+            } else if (obj.content) {
+              _gStyle(obj.content, obj.variants, obj.raw, obj.important, this.config('prefix') as string);
+            }
+          } else if (obj.type === 'group') {
+            _hGroup(obj);
+          } else if (obj.type === 'alias' && (obj.content as string) in this._plugin.alias) {
+            _gAst(this._plugin.alias[obj.content as string]);
+          } else {
+            _hIgnored(obj.raw);
           }
-        } else if (obj.type === 'group') {
-          _hGroup(obj);
-        } else {
-          _hIgnored(obj.raw);
         }
-      }
-    });
+      });
+    };
+
+    _gAst(ast);
 
     if (!this.config('prefixer')) styleSheet.prefixer = false;
 
@@ -687,6 +698,12 @@ export class Processor {
         });
         this._plugin.shortcuts[key] = styles.map(i => i.updateMeta({ type: 'components', group: 'shortcuts', order: layerOrder['shortcuts'] }));
       }
+    }
+  }
+
+  loadAlias(alias: { [key:string]: string }): void {
+    for (const [key, value] of Object.entries(alias)) {
+      this._plugin.alias[key] = new ClassParser(value).parse();
     }
   }
 

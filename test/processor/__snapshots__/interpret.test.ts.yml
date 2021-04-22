@@ -47,6 +47,46 @@ Tools / interpret / success / 0: |-
     "bg-cool-gray-300",
     "bg-hex-fff"
   ]
+Tools / interpret alias / css / 0: |-
+  .bg-blue-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
+  }
+  .flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  }
+  .flex-col {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .md\:bg-red-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+    .md\:hover\:bg-white:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    }
+    .md\:flex {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+    }
+    .md\:items-center {
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+  }
 Tools / interpret duplicated important / duplicated important / 0: |-
   .\!hover\:bg-red-500:hover {
     --tw-bg-opacity: 1 !important;

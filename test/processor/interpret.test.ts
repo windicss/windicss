@@ -96,4 +96,16 @@ describe('Interpretation Mode', () => {
     const result = processor.interpret('constructor');
     expect(result.ignored.length).toEqual(1);
   });
+
+  it('interpret alias', () => {
+    const processor = new Processor({
+      alias: {
+        hstack: 'flex items-center hover:bg-white',
+        vstack: 'flex flex-col',
+      },
+    });
+    const result = processor.interpret('bg-blue-400 *vstack md:(bg-red-500 *hstack)');
+    expect(result.success).toEqual(['bg-blue-400', 'flex', 'flex-col', 'md:bg-red-500', 'md:flex', 'md:items-center', 'md:hover:bg-white']);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
