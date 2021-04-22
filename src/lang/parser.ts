@@ -56,7 +56,6 @@ export class Parser {
   }
 
   error(): never {
-    console.log(this.current_token);
     throw Error('Invalid syntax');
   }
 

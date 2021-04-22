@@ -562,11 +562,32 @@ export class Processor {
       value: string,
       equal = false,
     ) => {
-      const selector = ['m', 'p'].includes(key) ? key + value : `${key}-${value}`;
-      const style = this.extract(selector.replace(/^.*:/, ''), false);
+      const id = key.match(/\w+$/)?.[0] ?? '';
+      const splits = value.split(':');
       const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      let variants = splits.slice(0, -1);
+      let utility = splits.slice(-1)[0];
+      if (id in this._variants) {
+        // sm = ... || sm:hover = ... || sm-hover = ...
+        const matches = key.match(/\w+/g);
+        if (!matches) {
+          ignored.push(buildSelector);
+          return;
+        }
+        variants = [...matches, ...variants];
+      } else {
+        // text = ... || sm:text = ... || sm-text = ... || sm-hover-text = ...
+        const matches = key.match(/\w+/g);
+        if (!matches) {
+          ignored.push(buildSelector);
+          return;
+        }
+        variants = [...matches.slice(0, -1), ...variants];
+        const last = matches[matches.length - 1];
+        utility = ['m', 'p'].includes(last) ? last + utility : last + '-' + utility;
+      }
+      const style = this.extract(utility, false);
       if (style) {
-        const variants = key.replace(/-/g, ':').match(/[^\s:]+:/g)?.map(i => i.slice(0, -1)) ?? [];
         const important = key.charAt(0) === '!';
         if (Array.isArray(style)) {
           style.forEach(i => {
@@ -580,13 +601,13 @@ export class Processor {
         }
         const wrapped = this.wrapWithVariants(variants, style);
         if (wrapped) {
-          success.push(selector);
+          success.push(buildSelector);
           styleSheet.add(wrapped);
         } else {
-          ignored.push(selector);
+          ignored.push(buildSelector);
         }
       } else {
-        ignored.push(selector);
+        ignored.push(buildSelector);
       }
     };
 
