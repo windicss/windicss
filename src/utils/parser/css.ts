@@ -186,10 +186,6 @@ export default class CSSParser {
           this.variables[prop.name.slice(1,)] = prop.value;
         }
         index = propEnd + 1;
-      } else if (firstChar === '#') {
-        // handle alias
-        const prop = Property.parse(css.slice(firstLetter, propEnd));
-        index = propEnd + 1;
       } else if (firstChar === '@') {
         // inline AtRule
         const data = css.slice(firstLetter, propEnd);
@@ -208,7 +204,9 @@ export default class CSSParser {
               styleSheet.add(result.styleSheet.clone().children.map(i => {
                 if (!(i instanceof Keyframes)) {
                   i.selector = undefined;
-                  i.important = directives.important ?? false;
+                  if (directives.important) {
+                    i.property.map(i => i.important = true);
+                  }
                 }
                 return i;
               }));

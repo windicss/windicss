@@ -76,7 +76,7 @@ Tools / Directives and Functions / css / 0: |-
     .container {
       font-size: 1.125rem !important;
       line-height: 1.75rem !important;
-      max-width: 768px !important;
+      max-width: 768px;
     }
   }
   @media (min-width: 1024px) {
