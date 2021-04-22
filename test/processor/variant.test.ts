@@ -76,7 +76,6 @@ describe('Variants', () => {
       '@light',
       '.dark',
       '.light',
-      '~dark',
       'dark',
       'light',
     ]);
