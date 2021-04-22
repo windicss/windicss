@@ -296,8 +296,8 @@ export class Processor {
     return style;
   }
 
-  extract(className: string, addComment = false, variants?: string[], prefix?: string): Style | Style[] | undefined {
-    return extract(this, className, addComment, variants, prefix);
+  extract(className: string, addComment = false, prefix?: string): Style | Style[] | undefined {
+    return extract(this, className, addComment, prefix);
   }
 
   preflight(
@@ -361,7 +361,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      let result = this.extract(baseClass, false, variants, prefix);
+      let result = this.extract(baseClass, false, prefix);
       if (result) {
         const escapedSelector = '.' + cssEscape(selector);
         if (result instanceof Style) {
@@ -485,7 +485,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      const result = this.extract(baseClass, showComment, variants);
+      const result = this.extract(baseClass, showComment);
       if (result) {
         if (Array.isArray(result)) {
           result.forEach(i => {

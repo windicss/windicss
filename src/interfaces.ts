@@ -348,7 +348,7 @@ export interface StaticUtility {
 }
 
 export interface DynamicUtility {
-  [key: string]: (utility: Utility, { theme }: PluginUtils, variants: string[]) => Output;
+  [key: string]: (utility: Utility, { theme }: PluginUtils) => Output;
 }
 
 export interface PluginUtils {

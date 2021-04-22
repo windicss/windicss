@@ -396,27 +396,6 @@ describe('Config', () => {
     expect(processor.theme('flexGrow.2')).toEqual('20');
   });
 
-  it('darkColor test', () => {
-    const processor = new Processor({
-      darkMode: 'media',
-      prefixer: false,
-      theme: {
-        extend: {
-          colors: {
-            gray: {
-              200: '#1c1c1e',
-            },
-            blue: {
-              400: ['#339AF0', '#A5D8FF'],
-            },
-          },
-        },
-      },
-    });
-    expect(processor.interpret('~dark:text-red-500').styleSheet.build()).toMatchSnapshot('css');
-    expect(processor.interpret('~dark:(text-blue-400 placeholder-gray-200 bg-green-300 divide-red-200)').styleSheet.build()).toMatchSnapshot('css');
-  });
-
   it('extend black', () => {
     const processor = new Processor({
       theme: {
