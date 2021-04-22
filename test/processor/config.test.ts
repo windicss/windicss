@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { toType } from '../../src/utils/tools';
 import { Processor } from '../../src/lib';
 import { twExclude } from '../../src/config';
+import { CSSParser } from '../../src/utils/parser';
 
 const configPath = resolve('./test/assets/tailwind.config.js');
 const userConfig = require(configPath);
@@ -441,5 +442,24 @@ describe('Config', () => {
       },
     });
     expect(processor.interpret('foo bar caps').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  // #264
+  it('transition property', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          transitionProperty: {
+            background: 'background-color',
+          },
+        },
+      },
+    });
+    const parser = new CSSParser(`
+    .btn {
+      @apply transition-background;
+    }
+    `, processor);
+    expect(parser.parse().build()).toMatchSnapshot('css');
   });
 });
