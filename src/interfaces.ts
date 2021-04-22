@@ -275,6 +275,7 @@ export interface Config {
   corePlugins?: (keyof BaseTheme)[] | string[] | { [ T in keyof BaseTheme ] : boolean } | { [ key:string ] : boolean };
   prefix?: string;
   exclude?: RegExp[];
+  alias?: {[key:string]: string};
   shortcuts?: {[key:string]: Shortcut};
 
   // ===== Depreacted =====
@@ -425,6 +426,6 @@ export interface Element {
   variants: string[];
   content?: Element[] | string;
   func?: string;
-  type: 'group' | 'func' | 'utility';
+  type: 'group' | 'func' | 'utility' | 'alias';
   important: boolean;
 }

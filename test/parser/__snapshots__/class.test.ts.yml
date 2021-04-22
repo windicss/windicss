@@ -269,6 +269,57 @@ Tools / parse / class parser / 0: |-
       "important": false
     }
   ]
+Tools / parse alias / parse alias / 0: |-
+  [
+    {
+      "raw": "font-bold",
+      "start": 0,
+      "end": 9,
+      "variants": [],
+      "content": "font-bold",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "*hstack",
+      "start": 10,
+      "end": 17,
+      "variants": [],
+      "content": "hstack",
+      "type": "alias",
+      "important": false
+    },
+    {
+      "raw": "sm:(*vstack text-green-200)",
+      "start": 18,
+      "end": 45,
+      "variants": [
+        "sm"
+      ],
+      "content": [
+        {
+          "raw": "*vstack",
+          "start": 22,
+          "end": 29,
+          "variants": [],
+          "content": "vstack",
+          "type": "alias",
+          "important": false
+        },
+        {
+          "raw": "text-green-200",
+          "start": 30,
+          "end": 44,
+          "variants": [],
+          "content": "text-green-200",
+          "type": "utility",
+          "important": false
+        }
+      ],
+      "type": "group",
+      "important": false
+    }
+  ]
 Tools / parse important / parse important / 0: |-
   [
     {
