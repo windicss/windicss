@@ -614,6 +614,9 @@ export class Processor {
             }
           }
           break;
+        case 'align':
+          utility = utility.slice(6);
+          break;
         }
       }
       const style = this.extract(utility, false);
