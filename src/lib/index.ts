@@ -573,9 +573,10 @@ export class Processor {
       value: string,
       equal = false,
     ) => {
+      const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      if (this._config.attrPrefix) key = key.replace(new RegExp(`^${this._config.attrPrefix}`), '');
       const id = key.match(/\w+$/)?.[0] ?? '';
       const splits = value.split(':');
-      const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
       let variants = splits.slice(0, -1);
       let utility = splits.slice(-1)[0];
       if (id in this._variants) {

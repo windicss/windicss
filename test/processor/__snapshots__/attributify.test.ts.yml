@@ -1372,6 +1372,21 @@ Tools / with position utility / css / 0: |-
   [position~="-left-3/4"] {
     left: -75%;
   }
+Tools / with prefix setup / css / 0: |-
+  [_p~="x-2"] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  [_p~="y-4"] {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  @media (min-width: 640px) {
+    [_sm~="bg-gray-200"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
 Tools / with ring utility / css / 0: |-
   [ring~="default"] {
     --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
