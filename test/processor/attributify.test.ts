@@ -43,4 +43,22 @@ describe('Attributify Mode', () => {
       'sm': ['-my-2'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with grid utility', () => {
+    const result = processor.attributify({
+      'grid': [
+        'default', 'inline',
+        'cols-1', 'cols-none',
+        'col-auto', 'col-span-2',
+        'rows-3', 'rows-none',
+        'row-auto', 'row-span-2',
+        'flow-row', 'flow-col', 'flow-row-dense',
+        'auto-cols-auto', 'auto-cols-min', 'auto-cols-max',
+        'auto-rows-auto', 'auto-rows-min', 'auto-rows-max',
+        'gap-2', 'gap-x-4', 'gap-y-2',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

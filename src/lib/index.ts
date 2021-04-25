@@ -1,5 +1,5 @@
 import { getNestedValue, hash, deepCopy, testRegexr, guessClassName, toArray } from '../utils/tools';
-import { negative, breakpoints, negative } from '../utils/helpers';
+import { negative, breakpoints } from '../utils/helpers';
 import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
@@ -599,6 +599,22 @@ export class Processor {
         if (negative) utility = utility.slice(1,);
         utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
         if (negative) utility = '-' + utility;
+        switch(last) {
+        case 'grid':
+          switch(utility) {
+          case 'grid-default':
+            utility = 'grid';
+            break;
+          case 'grid-inline':
+            utility = 'inline-grid';
+            break;
+          default:
+            if (/^grid-(auto|gap|col|row)-/.test(utility)) {
+              utility = utility.slice(5);
+            }
+          }
+          break;
+        }
       }
       const style = this.extract(utility, false);
       if (style) {
