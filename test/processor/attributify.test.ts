@@ -126,7 +126,7 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('with isolation', () => {
+  it('with isolation utility', () => {
     const result = processor.attributify({
       'isolation': [
         'isolate', 'auto', // isolation
@@ -145,6 +145,17 @@ describe('Attributify Mode', () => {
       'min-h': [ 'full', 'screen', 'md:screen' ],
       'max-h': [ 'full', 'screen', 'md:screen' ],
       'opacity': [ '0', '50'],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with table utility', () => {
+    const result = processor.attributify({
+      'table': [
+        'default', 'inline', 'caption', 'cell', 'column', 'column-group', 'footer-group', 'header-group', 'row-group', 'row', // display
+        'auto', 'fixed', // table-layout
+      ],
     });
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');

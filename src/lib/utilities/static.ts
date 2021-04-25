@@ -131,13 +131,22 @@ export const staticUtilities: StaticUtility = {
       'order': 6,
     },
   },
+  'inline-table': {
+    'utility': {
+      'display': 'inline-table',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 7,
+    },
+  },
   'table-caption': {
     'utility': {
       'display': 'table-caption',
     },
     'meta': {
       'group': 'display',
-      'order': 7,
+      'order': 8,
     },
   },
   'table-cell': {
@@ -146,7 +155,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 8,
+      'order': 9,
     },
   },
   'table-column': {
@@ -155,7 +164,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 9,
+      'order': 10,
     },
   },
   'table-column-group': {
@@ -164,7 +173,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 10,
+      'order': 11,
     },
   },
   'table-footer-group': {
@@ -173,7 +182,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 11,
+      'order': 12,
     },
   },
   'table-header-group': {
@@ -182,7 +191,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 12,
+      'order': 13,
     },
   },
   'table-row-group': {
@@ -191,7 +200,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 13,
+      'order': 14,
     },
   },
   'table-row': {
@@ -200,7 +209,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 14,
+      'order': 15,
     },
   },
   'flow-root': {
@@ -209,7 +218,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 15,
+      'order': 16,
     },
   },
   'grid': {
@@ -221,7 +230,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 16,
+      'order': 17,
     },
   },
   'inline-grid': {
@@ -233,7 +242,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 17,
+      'order': 18,
     },
   },
   'contents': {
@@ -242,7 +251,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 18,
+      'order': 19,
     },
   },
   'list-item': {
@@ -251,7 +260,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 19,
+      'order': 20,
     },
   },
   'hidden': {
@@ -260,7 +269,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'display',
-      'order': 20,
+      'order': 21,
     },
   },
 
@@ -2075,6 +2084,296 @@ export const staticUtilities: StaticUtility = {
   // https://tailwindcss.com/docs/box-shadow/
   // https://tailwindcss.com/docs/opacity
   // See dynamic.ts
+  // https://tailwindcss.com/docs/mix-blend-mode
+  'mix-blend-normal': {
+    'utility': {
+      'mix-blend-mode': 'normal',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 1,
+    },
+  },
+  'mix-blend-multiply': {
+    'utility': {
+      'mix-blend-mode': 'multiply',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 2,
+    },
+  },
+  'mix-blend-screen': {
+    'utility': {
+      'mix-blend-mode': 'screen',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 3,
+    },
+  },
+  'mix-blend-overlay': {
+    'utility': {
+      'mix-blend-mode': 'overlay',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 4,
+    },
+  },
+  'mix-blend-darken': {
+    'utility': {
+      'mix-blend-mode': 'darken',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 5,
+    },
+  },
+  'mix-blend-lighten': {
+    'utility': {
+      'mix-blend-mode': 'lighten',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 6,
+    },
+  },
+  'mix-blend-color-dodge': {
+    'utility': {
+      'mix-blend-mode': 'color-dodge',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 7,
+    },
+  },
+  'mix-blend-color-burn': {
+    'utility': {
+      'mix-blend-mode': 'color-burn',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 8,
+    },
+  },
+  'mix-blend-hard-light': {
+    'utility': {
+      'mix-blend-mode': 'hard-light',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 9,
+    },
+  },
+  'mix-blend-soft-light': {
+    'utility': {
+      'mix-blend-mode': 'soft-light',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 10,
+    },
+  },
+  'mix-blend-difference': {
+    'utility': {
+      'mix-blend-mode': 'difference',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 11,
+    },
+  },
+  'mix-blend-exclusion': {
+    'utility': {
+      'mix-blend-mode': 'exclusion',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 12,
+    },
+  },
+  'mix-blend-hue': {
+    'utility': {
+      'mix-blend-mode': 'hue',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 13,
+    },
+  },
+  'mix-blend-saturation': {
+    'utility': {
+      'mix-blend-mode': 'saturation',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 14,
+    },
+  },
+  'mix-blend-color': {
+    'utility': {
+      'mix-blend-mode': 'color',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 15,
+    },
+  },
+  'mix-blend-luminosity': {
+    'utility': {
+      'mix-blend-mode': 'luminosity',
+    },
+    'meta': {
+      'group': 'mixBlendMode',
+      'order': 16,
+    },
+  },
+  // https://tailwindcss.com/docs/background-blend-mode
+  'bg-blend-normal': {
+    'utility': {
+      'background-blend-mode': 'normal',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 1,
+    },
+  },
+  'bg-blend-multiply': {
+    'utility': {
+      'background-blend-mode': 'multiply',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 2,
+    },
+  },
+  'bg-blend-screen': {
+    'utility': {
+      'background-blend-mode': 'screen',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 3,
+    },
+  },
+  'bg-blend-overlay': {
+    'utility': {
+      'background-blend-mode': 'overlay',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 4,
+    },
+  },
+  'bg-blend-darken': {
+    'utility': {
+      'background-blend-mode': 'darken',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 5,
+    },
+  },
+  'bg-blend-lighten': {
+    'utility': {
+      'background-blend-mode': 'lighten',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 6,
+    },
+  },
+  'bg-blend-color-dodge': {
+    'utility': {
+      'background-blend-mode': 'color-dodge',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 7,
+    },
+  },
+  'bg-blend-color-burn': {
+    'utility': {
+      'background-blend-mode': 'color-burn',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 8,
+    },
+  },
+  'bg-blend-hard-light': {
+    'utility': {
+      'background-blend-mode': 'hard-light',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 9,
+    },
+  },
+  'bg-blend-soft-light': {
+    'utility': {
+      'background-blend-mode': 'soft-light',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 10,
+    },
+  },
+  'bg-blend-difference': {
+    'utility': {
+      'background-blend-mode': 'difference',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 11,
+    },
+  },
+  'bg-blend-exclusion': {
+    'utility': {
+      'background-blend-mode': 'exclusion',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 12,
+    },
+  },
+  'bg-blend-hue': {
+    'utility': {
+      'background-blend-mode': 'hue',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 13,
+    },
+  },
+  'bg-blend-saturation': {
+    'utility': {
+      'background-blend-mode': 'saturation',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 14,
+    },
+  },
+  'bg-blend-color': {
+    'utility': {
+      'background-blend-mode': 'color',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 15,
+    },
+  },
+  'bg-blend-luminosity': {
+    'utility': {
+      'background-blend-mode': 'luminosity',
+    },
+    'meta': {
+      'group': 'backgroundBlendMode',
+      'order': 16,
+    },
+  },
 
   /**
    * ===========================================

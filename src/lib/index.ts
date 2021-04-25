@@ -647,6 +647,16 @@ export class Processor {
         case 'isolation':
           if (utility === 'isolation-isolate') utility = 'isolate';
           break;
+        case 'table':
+          switch (utility) {
+          case 'table-default':
+            utility = 'table';
+            break;
+          case 'table-inline':
+            utility = 'inline-table';
+            break;
+          }
+          break;
         }
       }
       const style = this.extract(utility, false);
