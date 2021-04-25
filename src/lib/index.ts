@@ -657,6 +657,18 @@ export class Processor {
             break;
           }
           break;
+        case 'pointer':
+          utility = 'pointer-events' + utility.slice(7);
+          break;
+        case 'resize':
+          if (utility === 'resize-both') utility = 'resize';
+          break;
+        case 'blend':
+          utility = 'mix-' + utility;
+          break;
+        case 'sr':
+          if (utility === 'sr-not-only') utility = 'not-sr-only';
+          break;
         }
       }
       const style = this.extract(utility, false);

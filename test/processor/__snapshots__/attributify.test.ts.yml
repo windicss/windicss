@@ -102,6 +102,175 @@ Tools / with align utility / css / 0: |-
     -webkit-align-self: flex-end;
     align-self: flex-end;
   }
+Tools / with animate appearance cursor outline pointer resize select fill stroke sr blend / css / 0: |-
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  [sr~="only"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  [sr~="not-only"] {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  [appearance="none"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  [cursor~="auto"] {
+    cursor: auto;
+  }
+  [cursor~="default"] {
+    cursor: default;
+  }
+  [cursor~="pointer"] {
+    cursor: pointer;
+  }
+  [outline~="none"] {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  [outline~="white"] {
+    outline: 2px dotted #fff;
+    outline-offset: 2px;
+  }
+  [pointer~="none"] {
+    pointer-events: none;
+  }
+  [pointer~="auto"] {
+    pointer-events: auto;
+  }
+  [resize~="none"] {
+    resize: none;
+  }
+  [resize~="y"] {
+    resize: vertical;
+  }
+  [resize~="x"] {
+    resize: horizontal;
+  }
+  [resize~="both"] {
+    resize: both;
+  }
+  [fill~="current"] {
+    fill: currentColor;
+  }
+  [fill~="gray-200"] {
+    fill: #e5e7eb;
+  }
+  [stroke~="current"] {
+    stroke: currentColor;
+  }
+  [stroke~="blue-500"] {
+    stroke-width: 500;
+  }
+  [stroke~="0"] {
+    stroke-width: 0;
+  }
+  [stroke~="2"] {
+    stroke-width: 2;
+  }
+  [select~="none"] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  [select~="text"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+  [select~="all"] {
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+  }
+  [select~="auto"] {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+  }
+  [animate~="none"] {
+    -webkit-animation: none;
+    animation: none;
+  }
+  [animate~="spin"] {
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+  }
+  [animate~="ping"] {
+    -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  [blend~="normal"] {
+    mix-blend-mode: normal;
+  }
+  [blend~="overlay"] {
+    mix-blend-mode: overlay;
+  }
+  [blend~="color-burn"] {
+    mix-blend-mode: color-burn;
+  }
 Tools / with box utility / css / 0: |-
   [box~="decoration-slice"] {
     -webkit-box-decoration-break: slice;

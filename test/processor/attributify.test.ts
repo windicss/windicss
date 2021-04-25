@@ -160,4 +160,25 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with animate appearance cursor outline pointer resize select fill stroke sr blend', () => {
+    const result = processor.attributify({
+      'animate': ['none', 'spin', 'ping'],
+      'appearance': 'none',
+      'cursor': ['auto', 'default', 'pointer'],
+      'outline': ['none', 'white'],
+      'pointer': ['none', 'auto'],
+      'resize': ['none', 'x', 'y', 'both'],
+      'select': ['none', 'text', 'all', 'auto'],
+      'fill': ['current', 'gray-200'],
+      'stroke': [
+        'current', 'blue-500', // stroke
+        '0', '2', // stroke-width
+      ],
+      'sr': ['only', 'not-only'],
+      'blend': ['normal', 'overlay', 'color-burn'], // mix-blend-mode
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
