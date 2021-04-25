@@ -790,22 +790,24 @@ function blur(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('blur'))
     .handleNumber(0, undefined, 'int', (number) => `${number}px`)
     .handleSize()
-    .createProperty('--tw-blur', value => `blur(${value})`);
+    .createProperty('--tw-blur', value => `blur(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'blur', order: pluginOrder['blur'] + 1 });
 }
 
 function brightness(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('brightness'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-brightness', value => `brightness(${value})`);
-
+    .createProperty('--tw-brightness', value => `brightness(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'brightness', order: pluginOrder['brightness'] + 1 });
 }
 
 function contrast(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('contrast'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-contrast', value => `contrast(${value})`);
+    .createProperty('--tw-contrast', value => `contrast(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'contrast', order: pluginOrder['contrast'] + 1 });
 }
 
 function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
@@ -817,14 +819,15 @@ function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
     const amount = utility.amount;
     if (utility.raw.startsWith('drop-shadow') && amount in dropShadows) value = dropShadows[amount];
   }
-  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`);
+  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`).updateMeta({ type: 'utilities', corePlugin: true, group: 'dropShadow', order: pluginOrder['dropShadow'] + 1 });
 }
 
 function grayscale(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('grayscale'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-grayscale', value => `grayscale(${value})`);
+    .createProperty('--tw-grayscale', value => `grayscale(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'grapscale', order: pluginOrder['grapscale'] + 1 });
 }
 
 function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
@@ -832,28 +835,32 @@ function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('hueRotate'))
     .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
     .handleNegative()
-    .createProperty('--tw-hue-rotate', value => `hue-rotate(${value})`);
+    .createProperty('--tw-hue-rotate', value => `hue-rotate(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'hueRotate', order: pluginOrder['hueRotate'] + 1 });
 }
 
 function invert(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('invert'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-invert', value => `invert(${value})`);
+    .createProperty('--tw-invert', value => `invert(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'invert', order: pluginOrder['invert'] + 1 });
 }
 
 function saturate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('saturate'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-saturate', value => `saturate(${value})`);
+    .createProperty('--tw-saturate', value => `saturate(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'saturate', order: pluginOrder['saturate'] + 1 });
 }
 
 function sepia(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('sepia'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-    .createProperty('--tw-sepia', value => `sepia(${value})`);
+    .createProperty('--tw-sepia', value => `sepia(${value})`)
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'sepia', order: pluginOrder['sepia'] + 1 });
 }
 
 function backdrop(utility: Utility, { theme }: PluginUtils): Output {
@@ -864,48 +871,57 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
       .handleBody(theme('backdropBlur'))
       .handleNumber(0, undefined, 'int', (number) => `${number}px`)
       .handleSize()
-      .createProperty('--tw-backdrop-blur', value => `blur(${value})`);
+      .createProperty('--tw-backdrop-blur', value => `blur(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropBlur', order: pluginOrder['backdropBlur'] + 1 });
   case 'brightness':
     return utility.handler
       .handleBody(theme('backdropBrightness'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`);
+      .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropBrightness', order: pluginOrder['backdropBrightness'] + 1 });
   case 'contrast':
     return utility.handler
       .handleBody(theme('backdropContrast'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`);
+      .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropContrast', order: pluginOrder['backdropContrast'] + 1 });
   case 'grayscale':
     return utility.handler
       .handleBody(theme('backdropGrayscale'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`);
+      .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropGrayscale', order: pluginOrder['backdropGrayscale'] + 1 });
   case 'hue':
     return utility.handler
       .handleBody(theme('backdropHueRotate'))
       .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
       .handleNegative()
-      .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`);
+      .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropHueRotate', order: pluginOrder['backdropHueRotate'] + 1 });
   case 'invert':
     return utility.handler
       .handleBody(theme('backdropInvert'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-invert', value => `invert(${value})`);
+      .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropInvert', order: pluginOrder['backdropInvert'] + 1 });
   case 'opacity':
     return utility.handler
       .handleBody(theme('backdropOpacity'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`);
+      .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropOpacity', order: pluginOrder['backdropOpacity'] + 1 });
   case 'saturate':
     return utility.handler
       .handleBody(theme('backdropSaturate'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`);
+      .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropSaturate', order: pluginOrder['backdropSaturate'] + 1 });
   case 'sepia':
     return utility.handler
       .handleBody(theme('backdropSepia'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
-      .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`);
+      .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropSepia', order: pluginOrder['backdropSepia'] + 1 });
   }
 }
 
