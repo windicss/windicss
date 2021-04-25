@@ -704,6 +704,20 @@ export class Processor {
             utility = 'backdrop-filter-none';
           }
           break;
+        case 'transition':
+          if (utility === 'transition-default') {
+            utility = 'transition';
+          } else if (/transition-(duration|ease|delay)-/.test(utility)) {
+            utility = utility.slice(11);
+          }
+          break;
+        case 'transform':
+          if (utility === 'transform-default') {
+            utility = 'transform';
+          } else if (!['transform-gpu', 'transform-none'].includes(utility)) {
+            utility = utility.slice(10);
+          }
+          break;
         case 'isolation':
           if (utility === 'isolation-isolate') utility = 'isolate';
           break;

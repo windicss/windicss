@@ -400,7 +400,7 @@ describe('Attributify Mode', () => {
   it('with filter utility', () => {
     const result = processor.attributify({
       'filter': [
-        'none', 'default',
+        'default', 'none',
         'blur', 'blur-0', 'blur-sm',
         'brightness-50',
         'contrast-125',
@@ -419,7 +419,7 @@ describe('Attributify Mode', () => {
   it('with backdrop utility', () => {
     const result = processor.attributify({
       'backdrop': [
-        'none', 'default',
+        'default', 'none',
         'blur', 'blur-0', 'blur-sm',
         'brightness-50',
         'contrast-125',
@@ -429,6 +429,34 @@ describe('Attributify Mode', () => {
         'opacity-50', 'opacity-90',
         'saturate-0', 'saturate-100',
         'sepia-0', 'sepia',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with transition utility', () => {
+    const result = processor.attributify({
+      'transition': [
+        'default', 'none', 'all', 'colors', 'opacity', 'shadow', 'transform', // transition-property
+        'duration-75', // transition-duration
+        'ease-linear', 'ease-in', 'ease-out', 'ease-in-out', // transition-timing-function
+        'delay-40', // transition-delay
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with transform utility', () => {
+    const result = processor.attributify({
+      'transform': [
+        'default', 'gpu', 'none', // transform
+        'origin-center', 'origin-top', // transform-origin
+        'scale-50', // scale
+        'rotate-50', '-rotate-50', // rotate
+        'translate-x-4', '-translate-y-3/4', //translate
+        'skew-x-4', '-skew-y-12', //skew
       ],
     });
     expect(result.ignored.length).toEqual(0);
