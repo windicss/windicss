@@ -181,4 +181,39 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with object utility', () => {
+    const result = processor.attributify({
+      'object': [
+        'contain', 'cover', 'fill', 'none', 'scale-down', // object-fit
+        'bottom', 'center', 'left-bottom', 'right-top', // object-position
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with overflow utility', () => {
+    const result = processor.attributify({
+      'overflow': [
+        'auto', 'hidden', 'visible', 'scroll', // overflow
+        'x-auto', 'x-hidden', 'x-visible', 'x-scroll', // overflow-x
+        'y-auto', 'y-hidden', 'y-visible', 'y-scroll', // overflow-y
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with overscroll utility', () => {
+    const result = processor.attributify({
+      'overscroll': [
+        'auto', 'contain', 'none', // overscroll
+        'x-auto', 'x-contain', 'x-none',  // overscroll-x
+        'y-auto', 'y-contain', 'y-none', // overscroll-y
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

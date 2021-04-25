@@ -460,6 +460,111 @@ Tools / with negative utility / css / 0: |-
       margin-bottom: 0.5rem;
     }
   }
+Tools / with object utility / css / 0: |-
+  [object~="contain"] {
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+  [object~="cover"] {
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  [object~="fill"] {
+    -o-object-fit: fill;
+    object-fit: fill;
+  }
+  [object~="none"] {
+    -o-object-fit: none;
+    object-fit: none;
+  }
+  [object~="scale-down"] {
+    -o-object-fit: scale-down;
+    object-fit: scale-down;
+  }
+  [object~="bottom"] {
+    -o-object-position: bottom;
+    object-position: bottom;
+  }
+  [object~="center"] {
+    -o-object-position: center;
+    object-position: center;
+  }
+  [object~="left-bottom"] {
+    -o-object-position: left bottom;
+    object-position: left bottom;
+  }
+  [object~="right-top"] {
+    -o-object-position: right top;
+    object-position: right top;
+  }
+Tools / with overflow utility / css / 0: |-
+  [overflow~="auto"] {
+    overflow: auto;
+  }
+  [overflow~="hidden"] {
+    overflow: hidden;
+  }
+  [overflow~="visible"] {
+    overflow: visible;
+  }
+  [overflow~="scroll"] {
+    overflow: scroll;
+  }
+  [overflow~="x-auto"] {
+    overflow-x: auto;
+  }
+  [overflow~="y-auto"] {
+    overflow-y: auto;
+  }
+  [overflow~="x-hidden"] {
+    overflow-x: hidden;
+  }
+  [overflow~="y-hidden"] {
+    overflow-y: hidden;
+  }
+  [overflow~="x-visible"] {
+    overflow-x: visible;
+  }
+  [overflow~="y-visible"] {
+    overflow-y: visible;
+  }
+  [overflow~="x-scroll"] {
+    overflow-x: scroll;
+  }
+  [overflow~="y-scroll"] {
+    overflow-y: scroll;
+  }
+Tools / with overscroll utility / css / 0: |-
+  [overscroll~="auto"] {
+    overscroll-behavior: auto;
+    -ms-scroll-chaining: chained;
+  }
+  [overscroll~="contain"] {
+    overscroll-behavior: contain;
+    -ms-scroll-chaining: none;
+  }
+  [overscroll~="none"] {
+    overscroll-behavior: none;
+    -ms-scroll-chaining: none;
+  }
+  [overscroll~="y-auto"] {
+    overscroll-behavior-y: auto;
+  }
+  [overscroll~="y-contain"] {
+    overscroll-behavior-y: contain;
+  }
+  [overscroll~="y-none"] {
+    overscroll-behavior-y: none;
+  }
+  [overscroll~="x-auto"] {
+    overscroll-behavior-x: auto;
+  }
+  [overscroll~="x-contain"] {
+    overscroll-behavior-x: contain;
+  }
+  [overscroll~="x-none"] {
+    overscroll-behavior-x: none;
+  }
 Tools / with position utility / css / 0: |-
   [position~="order-1"] {
     -webkit-box-ordinal-group: 2;
