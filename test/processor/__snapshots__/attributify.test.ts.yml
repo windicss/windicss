@@ -281,6 +281,91 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
   [blend~="color-burn"] {
     mix-blend-mode: color-burn;
   }
+Tools / with bg utility / css / 0: |-
+  [bg~="fixed"] {
+    background-attachment: fixed;
+  }
+  [bg~="local"] {
+    background-attachment: local;
+  }
+  [bg~="scroll"] {
+    background-attachment: scroll;
+  }
+  [bg~="clip-border"] {
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+  }
+  [bg~="clip-padding"] {
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+  [bg~="clip-content"] {
+    -webkit-background-clip: content-box;
+    background-clip: content-box;
+  }
+  [bg~="clip-text"] {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  [bg~="black"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+  }
+  [bg~="white"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+  }
+  [bg~="none"] {
+    background-image: none;
+  }
+  [bg~="opacity-50"] {
+    --tw-bg-opacity: 0.5;
+  }
+  [bg~="bottom"] {
+    background-position: bottom;
+  }
+  [bg~="center"] {
+    background-position: center;
+  }
+  [bg~="left"] {
+    background-position: left;
+  }
+  [bg~="left-bottom"] {
+    background-position: left bottom;
+  }
+  [bg~="repeat"] {
+    background-repeat: repeat;
+  }
+  [bg~="no-repeat"] {
+    background-repeat: no-repeat;
+  }
+  [bg~="repeat-x"] {
+    background-repeat: repeat-x;
+  }
+  [bg~="repeat-y"] {
+    background-repeat: repeat-y;
+  }
+  [bg~="repeat-round"] {
+    background-repeat: round;
+  }
+  [bg~="repeat-space"] {
+    background-repeat: space;
+  }
+  [bg~="auto"] {
+    background-size: auto;
+  }
+  [bg~="cover"] {
+    background-size: cover;
+  }
+  [bg~="contain"] {
+    background-size: contain;
+  }
+  [bg~="blend-normal"] {
+    background-blend-mode: normal;
+  }
+  [bg~="blend-hard-light"] {
+    background-blend-mode: hard-light;
+  }
 Tools / with box utility / css / 0: |-
   [box~="decoration-slice"] {
     -webkit-box-decoration-break: slice;

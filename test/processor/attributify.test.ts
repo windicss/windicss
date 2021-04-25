@@ -325,4 +325,22 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with bg utility', () => {
+    const result = processor.attributify({
+      'bg': [
+        'fixed', 'local', 'scroll', // background-attachment
+        'clip-border', 'clip-padding', 'clip-content', 'clip-text', // background-clip
+        'black', 'white', // background-color
+        'opacity-50', // "opacity"
+        'bottom', 'center', 'left', 'bottom', 'left-bottom', // background-position
+        'repeat', 'no-repeat', 'repeat-x', 'repeat-y', 'repeat-round', 'repeat-space', // background-repeat
+        'auto', 'cover', 'contain', // background-size
+        'none', // background-image: none
+        'blend-normal', 'blend-hard-light', // background-blend-mode
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
