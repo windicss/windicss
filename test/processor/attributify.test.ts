@@ -343,4 +343,57 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with border utility', () => {
+    const result = processor.attributify({
+      'border': [
+        'rounded-none', 'rounded-sm', 'rounded-t-none', // border-radius
+        '1', '2', 't-0', // border-width
+        'gray-400', // border-color
+        'opacity-50', // opacity
+        'solid', 'dashed', 'dotted', 'double', 'none', // border-style
+        'collapse', 'separate', // border-collapse
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with divide utility', () => {
+    const result = processor.attributify({
+      'divide': [
+        'x', 'y-2', 'x-reverse', // divide-width
+        'gray-400', // divide-color
+        'opacity-50', // opacity
+        'solid', 'dashed', 'dotted', 'double', 'none', // divide-style
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with ring utility', () => {
+    const result = processor.attributify({
+      'ring': [
+        '0', '1', '2', '3', 'inset', 'default', // ring-width
+        'gray-400', // ring-color
+        'opacity-50', // opacity
+        'offset-4', // ring-offset-width
+        'offset-gray-200', // ring-offset-color
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with shadow utility', () => {
+    const result = processor.attributify({
+      'shadow': [
+        'default', 'sm', 'md', 'inner', 'none', // shadow-size
+        'gray-400', // shadow-color
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

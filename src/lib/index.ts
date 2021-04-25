@@ -661,6 +661,15 @@ export class Processor {
             utility = 'white' + utility.slice(5);
           }
           break;
+        case 'border':
+          if (utility.startsWith('border-rounded')) utility = utility.slice(7);
+          break;
+        case 'ring':
+          if (utility === 'ring-default') utility = 'ring';
+          break;
+        case 'shadow':
+          if (utility === 'shadow-default') utility = 'shadow';
+          break;
         case 'gradient':
           if (utility === 'gradient-none') {
             utility = 'bg-none';
