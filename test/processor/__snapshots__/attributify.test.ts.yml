@@ -267,6 +267,13 @@ Tools / with grid utility / css / 0: |-
     -ms-grid-row-span: span 2 / span 2;
     grid-row: span 2 / span 2;
   }
+Tools / with isolation / css / 0: |-
+  [isolation~="isolate"] {
+    isolation: isolate;
+  }
+  [isolation~="auto"] {
+    isolation: auto;
+  }
 Tools / with negative utility / css / 0: |-
   [m~="-x-4"] {
     margin-left: -1rem;
@@ -427,5 +434,86 @@ Tools / with variants and utility / css / 0: |-
     [sm-hover-text~="red-300"]:hover {
       --tw-text-opacity: 1;
       color: rgba(252, 165, 165, var(--tw-text-opacity));
+    }
+  }
+Tools / with z-index width min-width max-width height min-height max-height opacity / css / 0: |-
+  [h~="full"] {
+    height: 100%;
+  }
+  [h~="screen"] {
+    height: 100vh;
+  }
+  [max-h~="full"] {
+    max-height: 100%;
+  }
+  [max-h~="screen"] {
+    max-height: 100vh;
+  }
+  [max-w~="0"] {
+    max-width: 0px;
+  }
+  [max-w~="1"] {
+    max-width: 0.25rem;
+  }
+  [max-w~="full"] {
+    max-width: 100%;
+  }
+  [max-w~="screen"] {
+    max-width: 100vw;
+  }
+  [min-h~="full"] {
+    min-height: 100%;
+  }
+  [min-h~="screen"] {
+    min-height: 100vh;
+  }
+  [min-w~="0"] {
+    min-width: 0px;
+  }
+  [min-w~="1"] {
+    min-width: 0.25rem;
+  }
+  [min-w~="full"] {
+    min-width: 100%;
+  }
+  [min-w~="screen"] {
+    min-width: 100vw;
+  }
+  [opacity~="0"] {
+    opacity: 0;
+  }
+  [opacity~="50"] {
+    opacity: 0.5;
+  }
+  [w~="0"] {
+    width: 0px;
+  }
+  [w~="1"] {
+    width: 0.25rem;
+  }
+  [w~="full"] {
+    width: 100%;
+  }
+  [w~="screen"] {
+    width: 100vw;
+  }
+  @media (min-width: 768px) {
+    [h~="md:screen"] {
+      height: 100vh;
+    }
+    [max-h~="md:screen"] {
+      max-height: 100vh;
+    }
+    [max-w~="md:screen"] {
+      max-width: 100vw;
+    }
+    [min-h~="md:screen"] {
+      min-height: 100vh;
+    }
+    [min-w~="md:screen"] {
+      min-width: 100vw;
+    }
+    [w~="md:screen"] {
+      width: 100vw;
     }
   }

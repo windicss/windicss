@@ -593,12 +593,21 @@ export class Processor {
           ignored.push(buildSelector);
           return;
         }
-        variants = [...matches.slice(0, -1), ...variants];
-        const last = matches[matches.length - 1];
+        let last;
+        // handle min-h || max-w ...
+        if (['min', 'max'].includes(matches.slice(-2, -1)[0])) {
+          variants = [...matches.slice(0, -2), ...variants];
+          last = matches.slice(-2,).join('-');
+        } else {
+          variants = [...matches.slice(0, -1), ...variants];
+          last = matches[matches.length - 1];
+        }
+        // handle negative, such as m = -x-2
         const negative = utility.charAt(0) === '-';
         if (negative) utility = utility.slice(1,);
         utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
         if (negative) utility = '-' + utility;
+        // handle special cases
         switch(last) {
         case 'grid':
           switch(utility) {
@@ -634,6 +643,10 @@ export class Processor {
           if (/^box-(decoration|shadow)/.test(utility)) {
             utility = utility.slice(4,);
           }
+          break;
+        case 'isolation':
+          if (utility === 'isolation-isolate') utility = 'isolate';
+          break;
         }
       }
       const style = this.extract(utility, false);

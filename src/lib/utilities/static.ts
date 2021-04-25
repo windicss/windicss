@@ -331,6 +331,26 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://tailwindcss.com/docs/isolation
+  'isolate': {
+    'utility': {
+      'isolation': 'isolate',
+    },
+    'meta': {
+      'group': 'isolation',
+      'order': 1,
+    },
+  },
+  'isolation-auto': {
+    'utility': {
+      'isolation': 'auto',
+    },
+    'meta': {
+      'group': 'isolation',
+      'order': 2,
+    },
+  },
+
   // https://tailwindcss.com/docs/object-fit
   'object-contain': {
     'utility': {

@@ -125,4 +125,28 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with isolation', () => {
+    const result = processor.attributify({
+      'isolation': [
+        'isolate', 'auto', // isolation
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with z-index width min-width max-width height min-height max-height opacity', () => {
+    const result = processor.attributify({
+      'w': [ '0', '1', 'full', 'screen', 'md:screen' ],
+      'min-w': [ '0', '1', 'full', 'screen', 'md:screen' ],
+      'max-w': [ '0', '1', 'full', 'screen', 'md:screen' ],
+      'h': [ 'full', 'screen', 'md:screen' ],
+      'min-h': [ 'full', 'screen', 'md:screen' ],
+      'max-h': [ 'full', 'screen', 'md:screen' ],
+      'opacity': [ '0', '50'],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
