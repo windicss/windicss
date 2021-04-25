@@ -306,4 +306,23 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with text utility', () => {
+    const result = processor.attributify({
+      'text': [
+        'xs', 'sm', // font-size
+        'left', 'center', 'right', 'justify', // text-align
+        'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', // vertical-align
+        'red-500', // color
+        'opacity-50', // opacity
+        'underline', 'line-through', 'no-underline', // text-decoration
+        'uppercase', 'lowercase', 'capitalize', 'normal-case', // text-transform
+        'truncate', 'overflow-ellipsis', 'overflow-clip', // text-overflow
+        'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
+        'break-normal', 'break-words', 'break-all', // word-break
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

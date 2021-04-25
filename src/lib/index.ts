@@ -652,6 +652,15 @@ export class Processor {
           if (/^font-(tracking|leading)-/.test(utility) || ['font-italic', 'font-not-italic', 'font-antialiased', 'font-subpixel-antialiased', 'font-normal-nums', 'font-ordinal', 'font-slashed-zero', 'font-lining-nums', 'font-oldstyle-nums', 'font-proportional-nums', 'font-tabular-nums', 'font-diagonal-fractions', 'font-stacked-fractions'].includes(utility))
             utility = utility.slice(5);
           break;
+        case 'text':
+          if (['text-baseline', 'text-top', 'text-middle', 'text-bottom', 'text-text-top', 'text-text-bottom'].includes(utility)) {
+            utility = 'align-' + utility.slice(5);
+          } else if (['text-underline', 'text-line-through', 'text-no-underline', 'text-uppercase', 'text-lowercase', 'text-capitalize', 'text-normal-case', 'text-truncate', 'text-overflow-ellipsis', 'text-overflow-clip', 'text-break-normal', 'text-break-words', 'text-break-all'].includes(utility)) {
+            utility = utility.slice(5);
+          } else if (utility.startsWith('text-space')) {
+            utility = 'white' + utility.slice(5);
+          }
+          break;
         case 'gradient':
           if (utility === 'gradient-none') {
             utility = 'bg-none';

@@ -1117,6 +1117,112 @@ Tools / with table utility / css / 0: |-
   [table~="fixed"] {
     table-layout: fixed;
   }
+Tools / with text utility / css / 0: |-
+  [text~="xs"] {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+  [text~="sm"] {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  [text~="left"] {
+    text-align: left;
+  }
+  [text~="center"] {
+    text-align: center;
+  }
+  [text~="right"] {
+    text-align: right;
+  }
+  [text~="justify"] {
+    text-align: justify;
+  }
+  [text~="red-500"] {
+    --tw-text-opacity: 1;
+    color: rgba(239, 68, 68, var(--tw-text-opacity));
+  }
+  [text~="opacity-50"] {
+    --tw-text-opacity: 0.5;
+  }
+  [text~="truncate"] {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  [text~="overflow-ellipsis"] {
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+  }
+  [text~="overflow-clip"] {
+    -o-text-overflow: clip;
+    text-overflow: clip;
+  }
+  [text~="uppercase"] {
+    text-transform: uppercase;
+  }
+  [text~="lowercase"] {
+    text-transform: lowercase;
+  }
+  [text~="capitalize"] {
+    text-transform: capitalize;
+  }
+  [text~="normal-case"] {
+    text-transform: none;
+  }
+  [text~="underline"] {
+    text-decoration: underline;
+  }
+  [text~="line-through"] {
+    text-decoration: line-through;
+  }
+  [text~="no-underline"] {
+    text-decoration: none;
+  }
+  [text~="baseline"] {
+    vertical-align: baseline;
+  }
+  [text~="top"] {
+    vertical-align: top;
+  }
+  [text~="middle"] {
+    vertical-align: middle;
+  }
+  [text~="bottom"] {
+    vertical-align: bottom;
+  }
+  [text~="text-top"] {
+    vertical-align: text-top;
+  }
+  [text~="text-bottom"] {
+    vertical-align: text-bottom;
+  }
+  [text~="space-normal"] {
+    white-space: normal;
+  }
+  [text~="space-nowrap"] {
+    white-space: nowrap;
+  }
+  [text~="space-pre"] {
+    white-space: pre;
+  }
+  [text~="space-pre-line"] {
+    white-space: pre-line;
+  }
+  [text~="space-pre-wrap"] {
+    white-space: pre-wrap;
+  }
+  [text~="break-normal"] {
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+  [text~="break-words"] {
+    overflow-wrap: break-word;
+  }
+  [text~="break-all"] {
+    word-break: break-all;
+  }
 Tools / with variants / css / 0: |-
   @media (min-width: 640px) {
     [sm~="bg-red-500"] {
