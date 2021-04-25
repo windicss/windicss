@@ -68,6 +68,23 @@ Tools / simple attributify / css / 0: |-
       padding: 1rem;
     }
   }
+Tools / with negative utility / css / 0: |-
+  [m~="-x-4"] {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+  @media (min-width: 640px) {
+    [sm~="-my-2"] {
+      margin-top: -0.5rem;
+      margin-bottom: -0.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    [m~="md:y-2"] {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
 Tools / with variants / css / 0: |-
   @media (min-width: 640px) {
     [sm~="bg-red-500"] {

@@ -1,5 +1,5 @@
 import { getNestedValue, hash, deepCopy, testRegexr, guessClassName, toArray } from '../utils/tools';
-import { negative, breakpoints } from '../utils/helpers';
+import { negative, breakpoints, negative } from '../utils/helpers';
 import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
@@ -595,7 +595,10 @@ export class Processor {
         }
         variants = [...matches.slice(0, -1), ...variants];
         const last = matches[matches.length - 1];
+        const negative = utility.charAt(0) === '-';
+        if (negative) utility = utility.slice(1,);
         utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
+        if (negative) utility = '-' + utility;
       }
       const style = this.extract(utility, false);
       if (style) {

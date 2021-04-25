@@ -36,4 +36,11 @@ describe('Attributify Mode', () => {
       'sm-hover-text': ['red-300', 'sm'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with negative utility', () => {
+    expect(processor.attributify({
+      'm': ['-x-4', 'md:y-2'],
+      'sm': ['-my-2'],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });
