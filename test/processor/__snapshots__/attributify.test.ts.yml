@@ -728,6 +728,22 @@ Tools / with justify utility / css / 0: |-
     -ms-grid-column-align: center;
     justify-self: center;
   }
+Tools / with list utility / css / 0: |-
+  [list~="inside"] {
+    list-style-position: inside;
+  }
+  [list~="outside"] {
+    list-style-position: outside;
+  }
+  [list~="none"] {
+    list-style-type: none;
+  }
+  [list~="disc"] {
+    list-style-type: disc;
+  }
+  [list~="decimal"] {
+    list-style-type: decimal;
+  }
 Tools / with margin padding space_between / css / 0: |-
   [space~="y-2"] > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
@@ -936,6 +952,57 @@ Tools / with place utility / css / 0: |-
     -ms-grid-row-align: center;
     -ms-grid-column-align: center;
     place-self: center;
+  }
+Tools / with placeholder utility / css / 0: |-
+  [placeholder~="transparent"]::-webkit-input-placeholder {
+    color: transparent;
+  }
+  [placeholder~="transparent"]::-moz-placeholder {
+    color: transparent;
+  }
+  [placeholder~="transparent"]:-ms-input-placeholder {
+    color: transparent;
+  }
+  [placeholder~="transparent"]::-ms-input-placeholder {
+    color: transparent;
+  }
+  [placeholder~="transparent"]::placeholder {
+    color: transparent;
+  }
+  [placeholder~="blue-600"]::-webkit-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(37, 99, 235, var(--tw-placeholder-opacity));
+  }
+  [placeholder~="blue-600"]::-moz-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(37, 99, 235, var(--tw-placeholder-opacity));
+  }
+  [placeholder~="blue-600"]:-ms-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(37, 99, 235, var(--tw-placeholder-opacity));
+  }
+  [placeholder~="blue-600"]::-ms-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(37, 99, 235, var(--tw-placeholder-opacity));
+  }
+  [placeholder~="blue-600"]::placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(37, 99, 235, var(--tw-placeholder-opacity));
+  }
+  [placeholder~="opacity-50"]::-webkit-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+  }
+  [placeholder~="opacity-50"]::-moz-placeholder {
+    --tw-placeholder-opacity: 0.5;
+  }
+  [placeholder~="opacity-50"]:-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+  }
+  [placeholder~="opacity-50"]::-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+  }
+  [placeholder~="opacity-50"]::placeholder {
+    --tw-placeholder-opacity: 0.5;
   }
 Tools / with position utility / css / 0: |-
   [position~="order-1"] {

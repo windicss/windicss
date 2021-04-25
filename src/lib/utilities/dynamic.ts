@@ -785,6 +785,130 @@ function ring(utility: Utility, utils: PluginUtils): Output {
   ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + (utility.raw === 'ring' ? 1 : 2) });
 }
 
+function blur(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('blur'))
+    .handleNumber(0, undefined, 'int', (number) => `${number}px`)
+    .handleSize()
+    .createProperty('--tw-blur', value => `blur(${value})`);
+}
+
+function brightness(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('brightness'))
+    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-brightness', value => `brightness(${value})`);
+
+}
+
+function contrast(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('contrast'))
+    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-contrast', value => `contrast(${value})`);
+}
+
+function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
+  let value;
+  if (utility.raw === 'drop-shadow') {
+    value = theme('dropShadow.DEFAULT', ['0 1px 2px rgba(0, 0, 0, 0.1)', '0 1px 1px rgba(0, 0, 0, 0.06)']) as string | string[];
+  } else {
+    const dropShadows = theme('dropShadow') as {[key:string]:string|string[]};
+    const amount = utility.amount;
+    if (utility.raw.startsWith('drop-shadow') && amount in dropShadows) value = dropShadows[amount];
+  }
+  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`);
+}
+
+function grayscale(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('grayscale'))
+    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-grayscale', value => `grayscale(${value})`);
+}
+
+function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('hueRotate'))
+    .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
+    .handleNegative()
+    .createProperty('--tw-hue-rotate', value => `hue-rotate(${value})`);
+}
+
+function invert(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('invert'))
+    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-invert', value => `invert(${value})`);
+}
+
+function saturate(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('saturate'))
+    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-saturate', value => `saturate(${value})`);
+}
+
+function sepia(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('sepia'))
+    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .createProperty('--tw-sepia', value => `sepia(${value})`);
+}
+
+function backdrop(utility: Utility, { theme }: PluginUtils): Output {
+  utility = new Utility(utility.raw.slice(9));
+  switch (utility.match(/[^-]+/)) {
+  case 'blur':
+    return utility.handler
+      .handleBody(theme('backdropBlur'))
+      .handleNumber(0, undefined, 'int', (number) => `${number}px`)
+      .handleSize()
+      .createProperty('--tw-backdrop-blur', value => `blur(${value})`);
+  case 'brightness':
+    return utility.handler
+      .handleBody(theme('backdropBrightness'))
+      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`);
+  case 'contrast':
+    return utility.handler
+      .handleBody(theme('backdropContrast'))
+      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`);
+  case 'grayscale':
+    return utility.handler
+      .handleBody(theme('backdropGrayscale'))
+      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`);
+  case 'hue':
+    return utility.handler
+      .handleBody(theme('backdropHueRotate'))
+      .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
+      .handleNegative()
+      .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`);
+  case 'invert':
+    return utility.handler
+      .handleBody(theme('backdropInvert'))
+      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-invert', value => `invert(${value})`);
+  case 'opacity':
+    return utility.handler
+      .handleBody(theme('backdropOpacity'))
+      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`);
+  case 'saturate':
+    return utility.handler
+      .handleBody(theme('backdropSaturate'))
+      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`);
+  case 'sepia':
+    return utility.handler
+      .handleBody(theme('backdropSepia'))
+      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`);
+  }
+}
+
 // https://tailwindcss.com/docs/box-shadow/
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body || 'DEFAULT';
@@ -1054,6 +1178,16 @@ export const dynamicUtilities: DynamicUtility = {
   left: inset,
   shadow: boxShadow,
   ring: ring,
+  blur: blur,
+  brightness: brightness,
+  contrast: contrast,
+  drop: dropShadow,
+  grayscale: grayscale,
+  hue: hueRotate,
+  invert: invert,
+  saturate: saturate,
+  sepia: sepia,
+  backdrop: backdrop,
   fill: fill,
   stroke: stroke,
   text: text,

@@ -44,18 +44,13 @@ describe('Resolve Tests', () => {
   });
 
   it('resolve static utilities', () => {
-    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(244);
-    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(274);
+    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(248);
+    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(278);
   });
 
   it('resolve dynamic utilities', () => {
-    const dynamicKeys = ['container', 'space', 'divide', 'bg', 'from', 'via', 'to', 'border', 'rounded', 'cursor', 'flex', 'order', 'font', 'h', 'leading', 'list', 'm', 'my', 'mx', 'mt', 'mr', 'mb', 'ml', 'min', 'max', 'object', 'opacity', 'outline', 'p', 'py', 'px', 'pt', 'pr', 'pb', 'pl', 'placeholder', 'inset', 'top', 'right', 'bottom', 'left', 'shadow', 'ring', 'fill', 'stroke', 'text', 'tracking', 'w', 'z', 'gap', 'auto', 'grid', 'col', 'row', 'origin', 'scale', 'rotate', 'translate', 'skew', 'transition', 'ease', 'duration', 'delay', 'animate'];
-    expect(Object.keys(processor.resolveDynamicUtilities(false))).toEqual(dynamicKeys);
-    expect(Object.keys(processor.resolveDynamicUtilities(true))).toEqual([
-      ...dynamicKeys,
-      'filter',    'backdrop', 'blur',       'aspect-w',
-      'aspect-h',  'aspect',   'line-clamp',
-    ]);
+    expect(Object.keys(processor.resolveDynamicUtilities(false))).toMatchSnapshot('without-plugins');
+    expect(Object.keys(processor.resolveDynamicUtilities(true))).toMatchSnapshot('with-plugins');
   });
 
   it('get corePlugins', () => {

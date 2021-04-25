@@ -2375,6 +2375,50 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'filter': {
+    'utility': {
+      '-webkit-filter': 'var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)',
+      'filter': 'var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)',
+    },
+    'meta': {
+      'group': 'filter',
+      'order': 1,
+    },
+  },
+
+  'filter-none': {
+    'utility': {
+      '-webkit-filter': 'none',
+      'filter': 'none',
+    },
+    'meta': {
+      'group': 'filter',
+      'order': 2,
+    },
+  },
+
+  'backdrop-filter': {
+    'utility': {
+      '-webkit-backdrop-filter': 'var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)',
+      'backdrop-filter': 'var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)',
+    },
+    'meta': {
+      'group': 'backdropFilter',
+      'order': 1,
+    },
+  },
+
+  'backdrop-filter-none': {
+    'utility': {
+      '-webkit-backdrop-filter': 'none',
+      'backdrop-filter': 'none',
+    },
+    'meta': {
+      'group': 'backdropFilter',
+      'order': 2,
+    },
+  },
+
   /**
    * ===========================================
    * Tables

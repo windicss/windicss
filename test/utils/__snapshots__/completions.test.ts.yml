@@ -6636,5 +6636,13 @@ Tools / completions / static / 0: |-
     "prose-purple",
     "prose-pink",
     "aspect-none",
-    "line-clamp-none"
+    "line-clamp-none",
+    "blur-0",
+    "blur-sm",
+    "blur",
+    "blur-md",
+    "blur-lg",
+    "blur-xl",
+    "blur-2xl",
+    "blur-3xl"
   ]

@@ -284,4 +284,26 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with list utility', () => {
+    const result = processor.attributify({
+      'list': [
+        'none', 'disc', 'decimal', // list-style-type
+        'inside', 'outside', // list-style-position
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with placeholder utility', () => {
+    const result = processor.attributify({
+      'placeholder': [
+        'transparent', 'blue-600', // color
+        'opacity-50', // opacity
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

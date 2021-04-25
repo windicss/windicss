@@ -91,6 +91,15 @@ export const baseConfig: Config = {
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
     },
+    backdropBlur: (theme) => theme('blur'),
+    backdropBrightness: (theme) => theme('brightness'),
+    backdropContrast: (theme) => theme('contrast'),
+    backdropGrayscale: (theme) => theme('grayscale'),
+    backdropHueRotate: (theme) => theme('hueRotate'),
+    backdropInvert: (theme) => theme('invert'),
+    backdropOpacity: (theme) => theme('opacity'),
+    backdropSaturate: (theme) => theme('saturate'),
+    backdropSepia: (theme) => theme('sepia'),
     backgroundColor: (theme) => theme('colors'),
     backgroundImage: {
       none: 'none',
@@ -119,6 +128,16 @@ export const baseConfig: Config = {
       auto: 'auto',
       cover: 'cover',
       contain: 'contain',
+    },
+    blur: {
+      0: '0',
+      sm: '4px',
+      DEFAULT: '8px',
+      md: '12px',
+      lg: '16px',
+      xl: '24px',
+      '2xl': '40px',
+      '3xl': '64px',
     },
     borderColor: (theme) => ({
       ...(theme('colors') ?? {}),
@@ -157,7 +176,29 @@ export const baseConfig: Config = {
       none: 'none',
     },
     boxShadowColor: (theme) => theme('colors'),
+    brightness: {
+      0: '0',
+      50: '.5',
+      75: '.75',
+      90: '.9',
+      95: '.95',
+      100: '1',
+      105: '1.05',
+      110: '1.1',
+      125: '1.25',
+      150: '1.5',
+      200: '2',
+    },
     container: {},
+    contrast: {
+      0: '0',
+      50: '.5',
+      75: '.75',
+      100: '1',
+      125: '1.25',
+      150: '1.5',
+      200: '2',
+    },
     cursor: {
       auto: 'auto',
       default: 'default',
@@ -171,6 +212,15 @@ export const baseConfig: Config = {
     divideColor: (theme) => theme('borderColor'),
     divideOpacity: (theme) => theme('borderOpacity'),
     divideWidth: (theme) => theme('borderWidth'),
+    dropShadow: {
+      sm: '0 1px 1px rgba(0,0,0,0.05)',
+      DEFAULT: ['0 1px 2px rgba(0, 0, 0, 0.1)', '0 1px 1px rgba(0, 0, 0, 0.06)'],
+      md: ['0 4px 3px rgba(0, 0, 0, 0.07)', '0 2px 2px rgba(0, 0, 0, 0.06)'],
+      lg: ['0 10px 8px rgba(0, 0, 0, 0.04)', '0 4px 3px rgba(0, 0, 0, 0.1)'],
+      xl: ['0 20px 13px rgba(0, 0, 0, 0.03)', '0 8px 5px rgba(0, 0, 0, 0.08)'],
+      '2xl': '0 25px 25px rgba(0, 0, 0, 0.15)',
+      none: '0 0 #0000',
+    },
     fill: (theme) => theme('colors'),
     flex: {
       1: '1 1 0%',
@@ -252,6 +302,10 @@ export const baseConfig: Config = {
     },
     gap: (theme) => theme('spacing'),
     gradientColorStops: (theme) => theme('colors'),
+    grayscale: {
+      0: '0',
+      DEFAULT: '100%',
+    },
     gridAutoColumns: {
       auto: 'auto',
       min: 'min-content',
@@ -348,17 +402,6 @@ export const baseConfig: Config = {
       7: '7',
       // int >=1 -> int
     },
-    transformOrigin: {
-      center: 'center',
-      top: 'top',
-      'top-right': 'top right',
-      right: 'right',
-      'bottom-right': 'bottom right',
-      bottom: 'bottom',
-      'bottom-left': 'bottom left',
-      left: 'left',
-      'top-left': 'top left',
-    },
     gridTemplateColumns: {
       none: 'none',
       1: 'repeat(1, minmax(0, 1fr))',
@@ -423,6 +466,19 @@ export const baseConfig: Config = {
       screen: '100vh',
       ...breakpoints(theme('screens') ?? {}),
     }),
+    hueRotate: {
+      '-180': '-180deg',
+      '-90': '-90deg',
+      '-60': '-60deg',
+      '-30': '-30deg',
+      '-15': '-15deg',
+      0: '0deg',
+      15: '15deg',
+      30: '30deg',
+      60: '60deg',
+      90: '90deg',
+      180: '180deg',
+    },
     inset: (theme, { negative }) => ({
       auto: 'auto',
       ...(theme('spacing') ?? {}),
@@ -444,6 +500,10 @@ export const baseConfig: Config = {
       // fraction -> percent
       // ...negative
     }),
+    invert: {
+      0: '0',
+      DEFAULT: '100%',
+    },
     keyframes: {
       spin: {
         from: {
@@ -669,6 +729,13 @@ export const baseConfig: Config = {
       // float[0, 360] -> float[0deg, 360deg]
       // ...negative
     },
+    saturate: {
+      0: '0',
+      50: '.5',
+      100: '1',
+      150: '1.5',
+      200: '2',
+    },
     scale: {
       0: '0',
       50: '.5',
@@ -681,6 +748,10 @@ export const baseConfig: Config = {
       125: '1.25',
       150: '1.5',
       // int >=0 -> int/100
+    },
+    sepia: {
+      0: '0',
+      DEFAULT: '100%',
     },
     skew: {
       '-12': '-12deg',
@@ -710,6 +781,17 @@ export const baseConfig: Config = {
     },
     textColor: (theme) => theme('colors'),
     textOpacity: (theme) => theme('opacity'),
+    transformOrigin: {
+      center: 'center',
+      top: 'top',
+      'top-right': 'top right',
+      right: 'right',
+      'bottom-right': 'bottom right',
+      bottom: 'bottom',
+      'bottom-left': 'bottom left',
+      left: 'left',
+      'top-left': 'top left',
+    },
     transitionDuration: {
       DEFAULT: '150ms',
       75: '75ms',
@@ -737,7 +819,7 @@ export const baseConfig: Config = {
       none: 'none',
       all: 'all',
       DEFAULT:
-        'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform',
+        'background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter',
       colors: 'background-color, border-color, color, fill, stroke',
       opacity: 'opacity',
       shadow: 'box-shadow',
