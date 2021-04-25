@@ -113,4 +113,16 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with box utility', () => {
+    const result = processor.attributify({
+      'box': [
+        'decoration-slice', 'decoration-clone', // box-decoration-break
+        'border', 'content',  // box-sizing
+        'shadow', 'shadow-gray-200', // box-shadow
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

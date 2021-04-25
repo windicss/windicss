@@ -630,8 +630,11 @@ export class Processor {
         case 'position':
           utility = utility.slice(9);
           break;
+        case 'box':
+          if (/^box-(decoration|shadow)/.test(utility)) {
+            utility = utility.slice(4,);
+          }
         }
-        console.log(last, utility);
       }
       const style = this.extract(utility, false);
       if (style) {

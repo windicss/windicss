@@ -102,6 +102,32 @@ Tools / with align utility / css / 0: |-
     -webkit-align-self: flex-end;
     align-self: flex-end;
   }
+Tools / with box utility / css / 0: |-
+  [box~="decoration-slice"] {
+    -webkit-box-decoration-break: slice;
+    box-decoration-break: slice;
+  }
+  [box~="decoration-clone"] {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  [box~="border"] {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  [box~="content"] {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  [box~="shadow"] {
+    --tw-shadow-color: 0, 0, 0;
+    --tw-shadow: 0 1px 3px 0 rgba(var(--tw-shadow-color), 0.1), 0 1px 2px 0 rgba(var(--tw-shadow-color), 0.06);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  [box~="shadow-gray-200"] {
+    --tw-shadow-color: 229, 231, 235;
+  }
 Tools / with display utility / css / 0: |-
   [display~="block"] {
     display: block;

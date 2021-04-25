@@ -21,6 +21,29 @@ export const staticUtilities: StaticUtility = {
   // https://tailwindcss.com/docs/container
   // See dynamic.ts
 
+  // https://tailwindcss.com/docs/box-decoration-break
+  'decoration-slice': {
+    'utility': {
+      '-webkit-box-decoration-break': 'slice',
+      'box-decoration-break': 'slice',
+    },
+    'meta': {
+      'group': 'boxDecorationBreak',
+      'order': 1,
+    },
+  },
+
+  'decoration-clone': {
+    'utility': {
+      '-webkit-box-decoration-break': 'clone',
+      'box-decoration-break': 'clone',
+    },
+    'meta': {
+      'group': 'boxDecorationBreak',
+      'order': 2,
+    },
+  },
+
   // https://tailwindcss.com/docs/box-sizing
   'box-border': {
     'utility': {
