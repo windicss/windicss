@@ -73,4 +73,17 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with gradient utility', () => {
+    const result = processor.attributify({
+      'gradient': [
+        'none', 'to-r', 'to-br',
+        'from-yellow-400',
+        'via-red-500',
+        'to-pink-500',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

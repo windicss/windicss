@@ -609,15 +609,23 @@ export class Processor {
             utility = 'inline-grid';
             break;
           default:
-            if (/^grid-(auto|gap|col|row)-/.test(utility)) {
-              utility = utility.slice(5);
-            }
+            if (/^grid-(auto|gap|col|row)-/.test(utility)) utility = utility.slice(5);
           }
           break;
         case 'align':
           utility = utility.slice(6);
           break;
+        case 'gradient':
+          if (utility === 'gradient-none') {
+            utility = 'bg-none';
+          } else if (/^gradient-to-[trbl]{1,2}$/.test(utility)) {
+            utility = 'bg-' + utility;
+          } else if (/^gradient-(from|via|to)-/.test(utility)) {
+            utility = utility.slice(9);
+          }
+          break;
         }
+        console.log(last, utility);
       }
       const style = this.extract(utility, false);
       if (style) {

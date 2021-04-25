@@ -102,6 +102,30 @@ Tools / with align utility / css / 0: |-
     -webkit-align-self: flex-end;
     align-self: flex-end;
   }
+Tools / with gradient utility / css / 0: |-
+  [gradient~="none"] {
+    background-image: none;
+  }
+  [gradient~="to-r"] {
+    background-image: -o-linear-gradient(left, var(--tw-gradient-stops));
+    background-image: -webkit-gradient(linear, left top, right top, from(var(--tw-gradient-stops)));
+    background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  }
+  [gradient~="to-br"] {
+    background-image: -o-linear-gradient(top left, var(--tw-gradient-stops));
+    background-image: -webkit-gradient(linear, left top, right bottom, from(var(--tw-gradient-stops)));
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+  }
+  [gradient~="from-yellow-400"] {
+    --tw-gradient-from: #fbbf24;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251, 191, 36, 0));
+  }
+  [gradient~="via-red-500"] {
+    --tw-gradient-stops: var(--tw-gradient-from), #ef4444, var(--tw-gradient-to, rgba(239, 68, 68, 0));
+  }
+  [gradient~="to-pink-500"] {
+    --tw-gradient-to: #ec4899;
+  }
 Tools / with grid utility / css / 0: |-
   [grid~="default"] {
     display: -ms-grid;
