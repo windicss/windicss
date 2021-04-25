@@ -648,6 +648,10 @@ export class Processor {
             utility = 'place-content-' + utility.slice(6);
           }
           break;
+        case 'font':
+          if (/^font-(tracking|leading)-/.test(utility) || ['font-italic', 'font-not-italic', 'font-antialiased', 'font-subpixel-antialiased', 'font-normal-nums', 'font-ordinal', 'font-slashed-zero', 'font-lining-nums', 'font-oldstyle-nums', 'font-proportional-nums', 'font-tabular-nums', 'font-diagonal-fractions', 'font-stacked-fractions'].includes(utility))
+            utility = utility.slice(5);
+          break;
         case 'gradient':
           if (utility === 'gradient-none') {
             utility = 'bg-none';

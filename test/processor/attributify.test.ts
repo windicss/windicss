@@ -268,4 +268,20 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with font utility', () => {
+    const result = processor.attributify({
+      'font': [
+        'sans', 'serif', 'mono', // font-family
+        'antialiased', 'subpixel-antialiased', // font-smoothing
+        'italic', 'not-italic', // font-style
+        'thin', 'extralight', 'black', // font-weight
+        'normal-nums', 'ordinal', 'slashed-zero', 'lining-nums', 'oldstyle-nums', 'proportional-nums', 'tabular-nums', 'diagonal-fractions', 'stacked-fractions', // font-variant-numeric
+        'tracking-tighter', 'tracking-wider', // letter-spacing
+        'leading-3', 'leading-none', 'leading-loose', // line-height
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
