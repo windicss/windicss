@@ -626,6 +626,10 @@ export class Processor {
           break;
         case 'display':
           utility = utility.slice(8);
+          break;
+        case 'position':
+          utility = utility.slice(9);
+          break;
         }
         console.log(last, utility);
       }
