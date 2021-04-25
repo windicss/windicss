@@ -36,6 +36,7 @@ export const baseConfig: Config = {
   // purge: [],
   presets: [],
   prefixer: true,
+  attributify: false,
   darkMode: 'class', // or 'media'
   theme: {
     screens: {
