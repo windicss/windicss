@@ -631,8 +631,22 @@ export class Processor {
             if (/^grid-(auto|gap|col|row)-/.test(utility)) utility = utility.slice(5);
           }
           break;
+        case 'justify':
+          if (utility.startsWith('justify-content-')) {
+            utility = 'justify-' + utility.slice(16);
+          }
+          break;
         case 'align':
-          utility = utility.slice(6);
+          if (/^align-(items|self|content)-/.test(utility)) {
+            utility = utility.slice(6);
+          } else {
+            utility = 'content-' + utility.slice(6);
+          }
+          break;
+        case 'place':
+          if (!/^place-(items|self|content)-/.test(utility)) {
+            utility = 'place-content-' + utility.slice(6);
+          }
           break;
         case 'gradient':
           if (utility === 'gradient-none') {

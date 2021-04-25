@@ -81,10 +81,20 @@ Tools / with align utility / css / 0: |-
     -webkit-align-items: center;
     align-items: center;
   }
+  [align~="center"] {
+    -ms-flex-line-pack: center;
+    -webkit-align-content: center;
+    align-content: center;
+  }
   [align~="content-center"] {
     -ms-flex-line-pack: center;
     -webkit-align-content: center;
     align-content: center;
+  }
+  [align~="end"] {
+    -ms-flex-line-pack: end;
+    -webkit-align-content: flex-end;
+    align-content: flex-end;
   }
   [align~="content-end"] {
     -ms-flex-line-pack: end;
@@ -545,6 +555,64 @@ Tools / with isolation utility / css / 0: |-
   [isolation~="auto"] {
     isolation: auto;
   }
+Tools / with justify utility / css / 0: |-
+  [justify~="items-start"] {
+    justify-items: start;
+  }
+  [justify~="items-end"] {
+    justify-items: end;
+  }
+  [justify~="items-stretch"] {
+    justify-items: stretch;
+  }
+  [justify~="start"] {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  [justify~="content-start"] {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  [justify~="end"] {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  [justify~="content-end"] {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  [justify~="evenly"] {
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
+    -webkit-justify-content: space-evenly;
+    justify-content: space-evenly;
+  }
+  [justify~="content-evenly"] {
+    -webkit-box-pack: space-evenly;
+    -ms-flex-pack: space-evenly;
+    -webkit-justify-content: space-evenly;
+    justify-content: space-evenly;
+  }
+  [justify~="self-auto"] {
+    -ms-grid-column-align: auto;
+    justify-self: auto;
+  }
+  [justify~="self-start"] {
+    -ms-grid-column-align: start;
+    justify-self: start;
+  }
+  [justify~="self-center"] {
+    -ms-grid-column-align: center;
+    justify-self: center;
+  }
 Tools / with negative utility / css / 0: |-
   [m~="-x-4"] {
     margin-left: -1rem;
@@ -666,6 +734,49 @@ Tools / with overscroll utility / css / 0: |-
   }
   [overscroll~="x-none"] {
     overscroll-behavior-x: none;
+  }
+Tools / with place utility / css / 0: |-
+  [place~="items-start"] {
+    place-items: start;
+  }
+  [place~="items-end"] {
+    place-items: end;
+  }
+  [place~="items-stretch"] {
+    place-items: stretch;
+  }
+  [place~="start"] {
+    place-content: start;
+  }
+  [place~="content-start"] {
+    place-content: start;
+  }
+  [place~="end"] {
+    place-content: end;
+  }
+  [place~="content-end"] {
+    place-content: end;
+  }
+  [place~="evenly"] {
+    place-content: space-evenly;
+  }
+  [place~="content-evenly"] {
+    place-content: space-evenly;
+  }
+  [place~="self-auto"] {
+    -ms-grid-row-align: auto;
+    -ms-grid-column-align: auto;
+    place-self: auto;
+  }
+  [place~="self-start"] {
+    -ms-grid-row-align: start;
+    -ms-grid-column-align: start;
+    place-self: start;
+  }
+  [place~="self-center"] {
+    -ms-grid-row-align: center;
+    -ms-grid-column-align: center;
+    place-self: center;
   }
 Tools / with position utility / css / 0: |-
   [position~="order-1"] {

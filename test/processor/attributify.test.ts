@@ -62,18 +62,6 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('with align utility', () => {
-    const result = processor.attributify({
-      'align': [
-        'content-center', 'content-end', // align-content
-        'items-start', 'items-center', // align-items
-        'self-auto', 'self-end', // align-self
-      ],
-    });
-    expect(result.ignored.length).toEqual(0);
-    expect(result.styleSheet.build()).toMatchSnapshot('css');
-  });
-
   it('with gradient utility', () => {
     const result = processor.attributify({
       'gradient': [
@@ -226,6 +214,45 @@ describe('Attributify Mode', () => {
         '1', 'auto', 'initial', 'none', // flex
         'grow', 'grow-0', // flex-grow
         'shrink', 'shrink-0', // flex-shrink
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with justify utility', () => {
+    const result = processor.attributify({
+      'justify': [
+        'start', 'end', 'evenly', // justify-content
+        'content-start', 'content-end', 'content-evenly', // justify-content
+        'items-start', 'items-end', 'items-stretch', // justify-items
+        'self-auto', 'self-start', 'self-center', // justify-self
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with align utility', () => {
+    const result = processor.attributify({
+      'align': [
+        'center', 'end', // align-content
+        'content-center', 'content-end', // align-content
+        'items-start', 'items-center', // align-items
+        'self-auto', 'self-end', // align-self
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with place utility', () => {
+    const result = processor.attributify({
+      'place': [
+        'start', 'end', 'evenly', // justify-content
+        'content-start', 'content-end', 'content-evenly', // justify-content
+        'items-start', 'items-end', 'items-stretch', // justify-items
+        'self-auto', 'self-start', 'self-center', // justify-self
       ],
     });
     expect(result.ignored.length).toEqual(0);
