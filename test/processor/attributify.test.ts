@@ -216,4 +216,19 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with flex utility', () => {
+    const result = processor.attributify({
+      'flex': [
+        'default', 'inline', // display
+        'row', 'row-reverse', 'col', 'col-reverse',  // flex-direction
+        'wrap', 'wrap-reverse', 'nowrap', // flex-wrap
+        '1', 'auto', 'initial', 'none', // flex
+        'grow', 'grow-0', // flex-grow
+        'shrink', 'shrink-0', // flex-shrink
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -609,6 +609,16 @@ export class Processor {
         if (negative) utility = '-' + utility;
         // handle special cases
         switch(last) {
+        case 'flex':
+          switch (utility) {
+          case 'flex-default':
+            utility = 'flex';
+            break;
+          case 'flex-inline':
+            utility = 'inline-flex';
+            break;
+          }
+          break;
         case 'grid':
           switch(utility) {
           case 'grid-default':
