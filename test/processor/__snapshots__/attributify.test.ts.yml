@@ -613,6 +613,50 @@ Tools / with justify utility / css / 0: |-
     -ms-grid-column-align: center;
     justify-self: center;
   }
+Tools / with margin padding space_between / css / 0: |-
+  [space~="y-2"] > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+  }
+  [space~="x-4"] > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+  [space~="-x-4"] > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(-1rem * var(--tw-space-x-reverse));
+    margin-left: calc(-1rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+  [m~="4"] {
+    margin: 1rem;
+  }
+  [m~="x-2"] {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  [m~="y-3"] {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  [m~="t-4"] {
+    margin-top: 1rem;
+  }
+  [p~="4"] {
+    padding: 1rem;
+  }
+  [p~="-x-2"] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  [p~="-y-3"] {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  [p~="r-px"] {
+    padding-right: 1px;
+  }
 Tools / with negative utility / css / 0: |-
   [m~="-x-4"] {
     margin-left: -1rem;

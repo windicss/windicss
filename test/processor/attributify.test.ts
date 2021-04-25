@@ -249,11 +249,21 @@ describe('Attributify Mode', () => {
   it('with place utility', () => {
     const result = processor.attributify({
       'place': [
-        'start', 'end', 'evenly', // justify-content
-        'content-start', 'content-end', 'content-evenly', // justify-content
-        'items-start', 'items-end', 'items-stretch', // justify-items
-        'self-auto', 'self-start', 'self-center', // justify-self
+        'start', 'end', 'evenly', // place-content
+        'content-start', 'content-end', 'content-evenly', // place-content
+        'items-start', 'items-end', 'items-stretch', // place-items
+        'self-auto', 'self-start', 'self-center', // place-self
       ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with margin padding space_between', () => {
+    const result = processor.attributify({
+      'm': ['4', 'x-2', 'y-3', 't-4'],
+      'p': ['4', '-x-2', '-y-3', 'r-px'],
+      'space': ['x-4', 'y-2', '-x-4'],
     });
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
