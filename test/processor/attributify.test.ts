@@ -86,4 +86,16 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with display utility', () => {
+    const result = processor.attributify({
+      'display': [
+        'visible', 'invisible', // visibility
+        'inline', 'flow-root', 'contents', 'list-item', 'hidden', 'block', 'inline-block', // display
+        'md:hidden',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

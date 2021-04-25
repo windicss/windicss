@@ -222,13 +222,22 @@ export const staticUtilities: StaticUtility = {
       'order': 18,
     },
   },
+  'list-item': {
+    'utility': {
+      'display': 'list-item',
+    },
+    'meta': {
+      'group': 'display',
+      'order': 19,
+    },
+  },
   'hidden': {
     'utility': {
       'display': 'none',
     },
     'meta': {
       'group': 'display',
-      'order': 19,
+      'order': 20,
     },
   },
 
