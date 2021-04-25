@@ -281,6 +281,66 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
   [blend~="color-burn"] {
     mix-blend-mode: color-burn;
   }
+Tools / with backdrop utility / css / 0: |-
+  [backdrop~="default"] {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  }
+  [backdrop~="none"] {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  [backdrop~="blur"] {
+    --tw-backdrop-blur: blur(8px);
+  }
+  [backdrop~="blur-0"] {
+    --tw-backdrop-blur: blur(0);
+  }
+  [backdrop~="blur-sm"] {
+    --tw-backdrop-blur: blur(4px);
+  }
+  [backdrop~="brightness-50"] {
+    --tw-backdrop-brightness: brightness(.5);
+  }
+  [backdrop~="contrast-125"] {
+    --tw-backdrop-contrast: contrast(1.25);
+  }
+  [backdrop~="grayscale-0"] {
+    --tw-backdrop-grayscale: grayscale(0);
+  }
+  [backdrop~="grayscale"] {
+    --tw-backdrop-grayscale: grayscale(100%);
+  }
+  [backdrop~="hue-rotate-90"] {
+    --tw-backdrop-hue-rotate: hue-rotate(90deg);
+  }
+  [backdrop~="-hue-rotate-90"] {
+    --tw-backdrop-hue-rotate: hue-rotate(-90deg);
+  }
+  [backdrop~="invert-0"] {
+    --tw-backdrop-invert: invert(0);
+  }
+  [backdrop~="invert"] {
+    --tw-backdrop-invert: invert(100%);
+  }
+  [backdrop~="opacity-50"] {
+    --tw-backdrop-opacity: opacity(0.5);
+  }
+  [backdrop~="opacity-90"] {
+    --tw-backdrop-opacity: opacity(0.9);
+  }
+  [backdrop~="saturate-0"] {
+    --tw-backdrop-saturate: saturate(0);
+  }
+  [backdrop~="saturate-100"] {
+    --tw-backdrop-saturate: saturate(1);
+  }
+  [backdrop~="sepia-0"] {
+    --tw-backdrop-sepia: sepia(0);
+  }
+  [backdrop~="sepia"] {
+    --tw-backdrop-sepia: sepia(100%);
+  }
 Tools / with bg utility / css / 0: |-
   [bg~="fixed"] {
     background-attachment: fixed;
@@ -508,6 +568,69 @@ Tools / with divide utility / css / 0: |-
   }
   [divide~="opacity-50"] {
     --tw-divide-opacity: 0.5;
+  }
+Tools / with filter utility / css / 0: |-
+  [filter~="default"] {
+    -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  }
+  [filter~="none"] {
+    -webkit-filter: none;
+    filter: none;
+  }
+  [filter~="blur"] {
+    --tw-blur: blur(8px);
+  }
+  [filter~="blur-0"] {
+    --tw-blur: blur(0);
+  }
+  [filter~="blur-sm"] {
+    --tw-blur: blur(4px);
+  }
+  [filter~="brightness-50"] {
+    --tw-brightness: brightness(.5);
+  }
+  [filter~="contrast-125"] {
+    --tw-contrast: contrast(1.25);
+  }
+  [filter~="drop-shadow"] {
+    --tw-drop-shadow: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06));
+  }
+  [filter~="drop-shadow-sm"] {
+    --tw-drop-shadow: drop-shadow(0 1px 1px rgba(0,0,0,0.05));
+  }
+  [filter~="drop-shadow-md"] {
+    --tw-drop-shadow: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+  }
+  [filter~="grayscale-0"] {
+    --tw-grayscale: grayscale(0);
+  }
+  [filter~="grayscale"] {
+    --tw-grayscale: grayscale(100%);
+  }
+  [filter~="hue-rotate-90"] {
+    --tw-hue-rotate: hue-rotate(90deg);
+  }
+  [filter~="-hue-rotate-90"] {
+    --tw-hue-rotate: hue-rotate(-90deg);
+  }
+  [filter~="invert-0"] {
+    --tw-invert: invert(0);
+  }
+  [filter~="invert"] {
+    --tw-invert: invert(100%);
+  }
+  [filter~="saturate-0"] {
+    --tw-saturate: saturate(0);
+  }
+  [filter~="saturate-100"] {
+    --tw-saturate: saturate(1);
+  }
+  [filter~="sepia-0"] {
+    --tw-sepia: sepia(0);
+  }
+  [filter~="sepia"] {
+    --tw-sepia: sepia(100%);
   }
 Tools / with flex utility / css / 0: |-
   [flex~="default"] {

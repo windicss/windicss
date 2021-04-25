@@ -690,6 +690,20 @@ export class Processor {
             utility = utility.slice(4,);
           }
           break;
+        case 'filter':
+          if (utility === 'filter-default') {
+            utility = 'filter';
+          } else if (utility !== 'filter-none') {
+            utility = utility.slice(7);
+          }
+          break;
+        case 'backdrop':
+          if (utility === 'backdrop-default') {
+            utility = 'backdrop-filter';
+          } else if (utility === 'backdrop-none') {
+            utility = 'backdrop-filter-none';
+          }
+          break;
         case 'isolation':
           if (utility === 'isolation-isolate') utility = 'isolate';
           break;

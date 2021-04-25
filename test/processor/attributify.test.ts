@@ -396,4 +396,42 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('with filter utility', () => {
+    const result = processor.attributify({
+      'filter': [
+        'none', 'default',
+        'blur', 'blur-0', 'blur-sm',
+        'brightness-50',
+        'contrast-125',
+        'drop-shadow', 'drop-shadow-sm', 'drop-shadow-md',
+        'grayscale-0', 'grayscale',
+        'hue-rotate-90', '-hue-rotate-90',
+        'invert-0', 'invert',
+        'saturate-0', 'saturate-100',
+        'sepia-0', 'sepia',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with backdrop utility', () => {
+    const result = processor.attributify({
+      'backdrop': [
+        'none', 'default',
+        'blur', 'blur-0', 'blur-sm',
+        'brightness-50',
+        'contrast-125',
+        'grayscale-0', 'grayscale',
+        'hue-rotate-90', '-hue-rotate-90',
+        'invert-0', 'invert',
+        'opacity-50', 'opacity-90',
+        'saturate-0', 'saturate-100',
+        'sepia-0', 'sepia',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });

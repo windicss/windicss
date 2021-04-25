@@ -786,6 +786,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
 }
 
 function blur(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
   return utility.handler
     .handleBody(theme('blur'))
     .handleNumber(0, undefined, 'int', (number) => `${number}px`)
@@ -823,6 +824,7 @@ function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function grayscale(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
   return utility.handler
     .handleBody(theme('grayscale'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
@@ -840,6 +842,7 @@ function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function invert(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
   return utility.handler
     .handleBody(theme('invert'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
@@ -856,6 +859,7 @@ function saturate(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function sepia(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
   return utility.handler
     .handleBody(theme('sepia'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
@@ -867,6 +871,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
   utility = new Utility(utility.raw.slice(9));
   switch (utility.match(/[^-]+/)) {
   case 'blur':
+    if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropBlur'))
       .handleNumber(0, undefined, 'int', (number) => `${number}px`)
@@ -886,6 +891,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropContrast', order: pluginOrder['backdropContrast'] + 1 });
   case 'grayscale':
+    if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropGrayscale'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
@@ -899,6 +905,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropHueRotate', order: pluginOrder['backdropHueRotate'] + 1 });
   case 'invert':
+    if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropInvert'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
@@ -917,6 +924,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropSaturate', order: pluginOrder['backdropSaturate'] + 1 });
   case 'sepia':
+    if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropSepia'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
