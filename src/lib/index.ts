@@ -612,6 +612,7 @@ export class Processor {
         switch(last) {
         case 'flex':
           switch (utility) {
+          case 'flex-~':
           case 'flex-default':
             utility = 'flex';
             break;
@@ -622,6 +623,7 @@ export class Processor {
           break;
         case 'grid':
           switch(utility) {
+          case 'grid-~':
           case 'grid-default':
             utility = 'grid';
             break;
@@ -663,13 +665,17 @@ export class Processor {
           }
           break;
         case 'border':
-          if (utility.startsWith('border-rounded')) utility = utility.slice(7);
+          if (utility === 'border-~' || utility === 'border-default') {
+            utility = 'border';
+          } else if (utility.startsWith('border-rounded')) {
+            utility = utility.slice(7);
+          }
           break;
         case 'ring':
-          if (utility === 'ring-default') utility = 'ring';
+          if (utility === 'ring-~' || utility === 'ring-default') utility = 'ring';
           break;
         case 'shadow':
-          if (utility === 'shadow-default') utility = 'shadow';
+          if (utility === 'shadow-~' || utility === 'shadow-default') utility = 'shadow';
           break;
         case 'gradient':
           if (utility === 'gradient-none') {
@@ -692,28 +698,28 @@ export class Processor {
           }
           break;
         case 'filter':
-          if (utility === 'filter-default') {
+          if (utility === 'filter-~' || utility === 'filter-default') {
             utility = 'filter';
           } else if (utility !== 'filter-none') {
             utility = utility.slice(7);
           }
           break;
         case 'backdrop':
-          if (utility === 'backdrop-default') {
+          if (utility === 'backdrop-~' || utility === 'backdrop-default') {
             utility = 'backdrop-filter';
           } else if (utility === 'backdrop-none') {
             utility = 'backdrop-filter-none';
           }
           break;
         case 'transition':
-          if (utility === 'transition-default') {
+          if (utility === 'transition-~' || utility === 'transition-default') {
             utility = 'transition';
           } else if (/transition-(duration|ease|delay)-/.test(utility)) {
             utility = utility.slice(11);
           }
           break;
         case 'transform':
-          if (utility === 'transform-default') {
+          if (utility === 'transform-~' || utility === 'transform-default') {
             utility = 'transform';
           } else if (!['transform-gpu', 'transform-none'].includes(utility)) {
             utility = utility.slice(10);
@@ -724,6 +730,7 @@ export class Processor {
           break;
         case 'table':
           switch (utility) {
+          case 'table-~':
           case 'table-default':
             utility = 'table';
             break;

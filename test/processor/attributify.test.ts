@@ -472,4 +472,21 @@ describe('Attributify Mode', () => {
       '_sm': ['bg-gray-200'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('replace default with ~', () => {
+    const result = processor.attributify({
+      'grid': '~',
+      'table': '~',
+      'flex': '~',
+      'ring': '~',
+      'shadow': '~',
+      'border': '~',
+      'filter': '~',
+      'backdrop': '~',
+      'transition': '~',
+      'transform': '~',
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
