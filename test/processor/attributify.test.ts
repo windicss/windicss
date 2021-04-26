@@ -410,6 +410,14 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with container utility', () => {
+    const result = processor.attributify({
+      'container': ['default', '~'],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with filter utility', () => {
     const result = processor.attributify({
       'filter': [

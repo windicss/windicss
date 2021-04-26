@@ -634,6 +634,9 @@ export class Processor {
             if (/^grid-(auto|gap|col|row)-/.test(utility)) utility = utility.slice(5);
           }
           break;
+        case 'container':
+          if (utility === 'container-default' || utility === 'container-~') utility = 'container';
+          break;
         case 'justify':
           if (utility.startsWith('justify-content-')) {
             utility = 'justify-' + utility.slice(16);

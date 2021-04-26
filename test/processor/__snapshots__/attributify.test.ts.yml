@@ -560,6 +560,63 @@ Tools / with box utility / css / 0: |-
   [box~="shadow-gray-200"] {
     --tw-shadow-color: 229, 231, 235;
   }
+Tools / with container utility / css / 0: |-
+  [container~="default"] {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    [container~="default"] {
+      max-width: 640px;
+    }
+  }
+  @media (min-width: 768px) {
+    [container~="default"] {
+      max-width: 768px;
+    }
+  }
+  @media (min-width: 1024px) {
+    [container~="default"] {
+      max-width: 1024px;
+    }
+  }
+  @media (min-width: 1280px) {
+    [container~="default"] {
+      max-width: 1280px;
+    }
+  }
+  @media (min-width: 1536px) {
+    [container~="default"] {
+      max-width: 1536px;
+    }
+  }
+  [container~="~"] {
+    width: 100%;
+  }
+  @media (min-width: 640px) {
+    [container~="~"] {
+      max-width: 640px;
+    }
+  }
+  @media (min-width: 768px) {
+    [container~="~"] {
+      max-width: 768px;
+    }
+  }
+  @media (min-width: 1024px) {
+    [container~="~"] {
+      max-width: 1024px;
+    }
+  }
+  @media (min-width: 1280px) {
+    [container~="~"] {
+      max-width: 1280px;
+    }
+  }
+  @media (min-width: 1536px) {
+    [container~="~"] {
+      max-width: 1536px;
+    }
+  }
 Tools / with display utility / css / 0: |-
   [display~="block"] {
     display: block;
