@@ -320,6 +320,7 @@ describe('Attributify Mode', () => {
         'truncate', 'overflow-ellipsis', 'overflow-clip', // text-overflow
         'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
         'break-normal', 'break-words', 'break-all', // word-break
+        'placeholder-gray-200', 'placeholder-opacity-80', // placeholder
       ],
     });
     expect(result.ignored.length).toEqual(0);

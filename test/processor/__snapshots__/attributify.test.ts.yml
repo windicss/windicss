@@ -1574,6 +1574,41 @@ Tools / with text utility / css / 0: |-
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
+  [text~="placeholder-gray-200"]::-webkit-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  [text~="placeholder-gray-200"]::-moz-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  [text~="placeholder-gray-200"]:-ms-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  [text~="placeholder-gray-200"]::-ms-input-placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  [text~="placeholder-gray-200"]::placeholder {
+    --tw-placeholder-opacity: 1;
+    color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  [text~="placeholder-opacity-80"]::-webkit-input-placeholder {
+    --tw-placeholder-opacity: 0.8;
+  }
+  [text~="placeholder-opacity-80"]::-moz-placeholder {
+    --tw-placeholder-opacity: 0.8;
+  }
+  [text~="placeholder-opacity-80"]:-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.8;
+  }
+  [text~="placeholder-opacity-80"]::-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.8;
+  }
+  [text~="placeholder-opacity-80"]::placeholder {
+    --tw-placeholder-opacity: 0.8;
+  }
   [text~="left"] {
     text-align: left;
   }
