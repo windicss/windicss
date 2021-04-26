@@ -311,7 +311,7 @@ export const colors: DefaultColors =  {
     900: '#DDE1E3',
   },
   dark: {
-    50: '4A4A4A',
+    50: '#4A4A4A',
     100: '#3C3C3C',
     200: '#323232',
     300: '#2D2D2D',
