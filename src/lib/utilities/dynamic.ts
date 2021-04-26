@@ -1141,7 +1141,12 @@ function fill(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility: Utility, { theme }: PluginUtils): Output {
-  return (utility.raw.startsWith('stroke-$')
+  return utility.handler
+    .handleColor(theme('stroke'))
+    .handleVariable()
+    .createProperty('stroke')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 })
+  || (utility.raw.startsWith('stroke-$')
     ? utility.handler
       .handleVariable()
       .createProperty('stroke-width')
@@ -1151,11 +1156,7 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int')
       .createProperty('stroke-width')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 1 })
-  ) || utility.handler
-    .handleColor(theme('stroke'))
-    .handleVariable()
-    .createProperty('stroke')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 });
+  );
 }
 
 export const dynamicUtilities: DynamicUtility = {

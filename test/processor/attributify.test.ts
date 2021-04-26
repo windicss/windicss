@@ -285,6 +285,18 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with svg utility', () => {
+    const result = processor.attributify({
+      'svg': [
+        'fill-current', 'fill-gray-200',
+        'stroke-current', 'stroke-gray-200',
+        'stroke-2', 'stroke-4',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with list utility', () => {
     const result = processor.attributify({
       'list': [

@@ -288,7 +288,7 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
     stroke: currentColor;
   }
   [stroke~="blue-500"] {
-    stroke-width: 500;
+    stroke: #3b82f6;
   }
   [stroke~="0"] {
     stroke-width: 0;
@@ -1527,6 +1527,25 @@ Tools / with shadow utility / css / 0: |-
   }
   [shadow~="gray-400"] {
     --tw-shadow-color: 156, 163, 175;
+  }
+Tools / with svg utility / css / 0: |-
+  [svg~="fill-current"] {
+    fill: currentColor;
+  }
+  [svg~="fill-gray-200"] {
+    fill: #e5e7eb;
+  }
+  [svg~="stroke-current"] {
+    stroke: currentColor;
+  }
+  [svg~="stroke-gray-200"] {
+    stroke: #e5e7eb;
+  }
+  [svg~="stroke-2"] {
+    stroke-width: 2;
+  }
+  [svg~="stroke-4"] {
+    stroke-width: 4;
   }
 Tools / with table utility / css / 0: |-
   [table~="default"] {

@@ -579,7 +579,7 @@ export class Processor {
       const splits = value.split(':');
       let variants = splits.slice(0, -1);
       let utility = splits.slice(-1)[0];
-      if (id in this._variants) {
+      if (id in this._variants && id !== 'svg') {
         // sm = ... || sm:hover = ... || sm-hover = ...
         const matches = key.match(/\w+/g);
         if (!matches) {
@@ -665,6 +665,9 @@ export class Processor {
           } else if (utility.startsWith('text-space')) {
             utility = 'white' + utility.slice(5);
           }
+          break;
+        case 'svg':
+          if (utility.startsWith('svg-fill') || utility.startsWith('svg-stroke')) utility = utility.slice(4);
           break;
         case 'border':
           if (utility === 'border-~' || utility === 'border-default') {
