@@ -284,7 +284,10 @@ export interface PreflightOptions {
 export interface Config {
   presets?: Config[];
   prefixer?: boolean;
-  attributify?: boolean;
+  attributify?: boolean | {
+    prefix?: string
+    disable?: string[]
+  }
   separator?: string;
   important?: boolean | string;
   darkMode?: DarkModeConfig;
@@ -293,7 +296,6 @@ export interface Config {
   plugins?: Plugin[];
   corePlugins?: (keyof BaseTheme)[] | string[] | { [ T in keyof BaseTheme ] : boolean } | { [ key:string ] : boolean };
   prefix?: string;
-  attrPrefix?: string;
   exclude?: RegExp[];
   alias?: {[key:string]: string};
   shortcuts?: {[key:string]: Shortcut};

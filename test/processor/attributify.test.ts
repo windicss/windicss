@@ -484,15 +484,6 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('with prefix setup', () => {
-    const processor = new Processor({
-      'attrPrefix': '_',
-    });
-    expect(processor.attributify({
-      '_p': ['x-2', 'y-4'],
-      '_sm': ['bg-gray-200'],
-    }).styleSheet.build()).toMatchSnapshot('css');
-  });
 
   it('replace default with ~', () => {
     const result = processor.attributify({

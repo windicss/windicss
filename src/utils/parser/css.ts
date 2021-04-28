@@ -3,11 +3,6 @@ import { isSpace, searchFrom, searchPropEnd, deepCopy } from '../tools';
 import { layerOrder } from '../../config/order';
 import type { Processor } from '../../lib';
 
-const regexRemoveComments = [
-  new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'),
-  // new RegExp('[\\s\\t]*:?\\/\\/.*$', 'gm'),
-];
-
 export default class CSSParser {
   css?: string;
   processor?: Processor;
