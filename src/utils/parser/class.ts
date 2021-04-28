@@ -91,7 +91,7 @@ export default class ClassParser {
               if (utility.charAt(0) === '*') {
                 parts.push({ raw, start, end, variants, content: utility.slice(1,), type: 'alias', important });
               } else {
-                parts.push({ raw, start, end, variants, content: important ? utility.slice(1,): utility, type: 'utility', important });
+                parts.push({ raw, start, end, variants, content: utility.charAt(0) === '!' ? utility.slice(1,): utility, type: 'utility', important });
               }
             }
             variants = [];

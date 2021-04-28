@@ -122,6 +122,9 @@ Tools / interpret important / important / 0: |-
   .font-bold {
     font-weight: 700;
   }
+  .\!hover\:m-2:hover {
+    margin: 0.5rem !important;
+  }
   .\!hover\:p-4:hover {
     padding: 1rem !important;
   }

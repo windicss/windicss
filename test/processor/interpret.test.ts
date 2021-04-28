@@ -19,7 +19,7 @@ describe('Interpretation Mode', () => {
   });
 
   it('interpret important', () => {
-    const result = processor.interpret('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right)');
+    const result = processor.interpret('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right) !hover:m-2');
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
