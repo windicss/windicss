@@ -19,7 +19,7 @@ describe('Interpretation Mode', () => {
   });
 
   it('interpret important', () => {
-    const result = processor.interpret('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right)');
+    const result = processor.interpret('!text-green-300 font-bold !hover:(p-4 bg-red-500) focus:(!border float-right) !hover:m-2');
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
@@ -95,5 +95,17 @@ describe('Interpretation Mode', () => {
   it('interpret constructor', () => {
     const result = processor.interpret('constructor');
     expect(result.ignored.length).toEqual(1);
+  });
+
+  it('interpret alias', () => {
+    const processor = new Processor({
+      alias: {
+        hstack: 'flex items-center hover:bg-white',
+        vstack: 'flex flex-col',
+      },
+    });
+    const result = processor.interpret('bg-blue-400 *vstack md:(bg-red-500 *hstack)');
+    expect(result.success).toEqual(['bg-blue-400', 'flex', 'flex-col', 'md:bg-red-500', 'md:flex', 'md:items-center', 'md:hover:bg-white']);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 });

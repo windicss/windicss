@@ -243,6 +243,16 @@ Tools / ring opacity / css / 0: |-
     --tw-ring-opacity: 1;
     --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
   }
+Tools / shadow color / css / 0: |-
+  .shadow-2xl {
+    --tw-shadow-color: 0, 0, 0;
+    --tw-shadow: 0 25px 50px -12px rgba(var(--tw-shadow-color), 0.25);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  .shadow-red-800 {
+    --tw-shadow-color: 153, 27, 27;
+  }
 Tools / wrap container / small container / 0: |-
   @media (min-width: 640px) {
     .sm\:container {

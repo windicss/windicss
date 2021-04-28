@@ -151,4 +151,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('shadow color', () => {
+    const processor = new Processor();
+    expect(processor.interpret('shadow-2xl shadow-red-800').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

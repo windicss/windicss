@@ -6,6 +6,7 @@ import type { Processor } from '../../lib';
 export default class CSSParser {
   css?: string;
   processor?: Processor;
+  variables: {[key:string]:unknown} = {};
   private _cache: {[key:string]:Style[]} = {};
   constructor(css?: string, processor?: Processor) {
     this.css = css;
@@ -142,7 +143,6 @@ export default class CSSParser {
     let firstLetter = searchFrom(css, /\S/, index);
     const len = css.length;
 
-
     while (firstLetter !== -1) {
       const propEnd = searchPropEnd(css, index);
       const nestStart = searchFrom(css, '{', firstLetter);
@@ -182,7 +182,13 @@ export default class CSSParser {
 
         index = nestEnd + 1;
         styleSheet.add(this._generateNestStyle(content.children, selector, firstChar === '@' ? 'atRule': 'selector'));
-
+      } else if (firstChar === '$') {
+        // define variable
+        const prop = Property.parse(css.slice(firstLetter, propEnd));
+        if (prop && !Array.isArray(prop) && !Array.isArray(prop.name) && prop.value) {
+          this.variables[prop.name.slice(1,)] = prop.value;
+        }
+        index = propEnd + 1;
       } else if (firstChar === '@') {
         // inline AtRule
         const data = css.slice(firstLetter, propEnd);
@@ -201,7 +207,9 @@ export default class CSSParser {
               styleSheet.add(result.styleSheet.clone().children.map(i => {
                 if (!(i instanceof Keyframes)) {
                   i.selector = undefined;
-                  i.important = directives.important ?? false;
+                  if (directives.important) {
+                    i.property.map(i => i.important = true);
+                  }
                 }
                 return i;
               }));

@@ -90,17 +90,45 @@ export interface BaseTheme {
   colors: ThemeType
   spacing: ThemeType
   animation: ThemeType
+  backdropBlur: ThemeType
+  backdropBrightness: ThemeType
+  backdropContrast: ThemeType
+  backdropGrayscale: ThemeType
+  backdropHueRotate: ThemeType
+  backdropInvert: ThemeType
+  backdropOpacity: ThemeType
+  backdropSaturate: ThemeType
+  backdropSepia: ThemeType
+  backgroundColor: ThemeType
   backgroundImage: ThemeType
+  backgroundOpacity: ThemeType
   backgroundPosition: ThemeType
   backgroundSize: ThemeType
+  blur: ThemeType
+  borderColor: ThemeType
+  borderOpacity: ThemeType
   borderRadius: ThemeType
   borderWidth: ThemeType
   boxShadow: ThemeType
+  boxShadowColor: ThemeType
+  brightness: ThemeType
+  container: ThemeType
+  contrast: ThemeType
   cursor: ThemeType
+  divideColor: ThemeType
+  divideOpacity: ThemeType
+  divideWidth: ThemeType
+  dropShadow: ThemeType
+  fill: ThemeType
   flex: ThemeType
   flexGrow: ThemeType
   flexShrink: ThemeType
+  fontFamily: ThemeType
+  fontSize: ThemeType
   fontWeight: ThemeType
+  gap: ThemeType
+  gradientColorStops: ThemeType
+  grayscale: ThemeType
   gridAutoColumns: ThemeType
   gridAutoRows: ThemeType
   gridColumn: ThemeType
@@ -109,67 +137,57 @@ export interface BaseTheme {
   gridRow: ThemeType
   gridRowStart: ThemeType
   gridRowEnd: ThemeType
-  transformOrigin: ThemeType
   gridTemplateColumns: ThemeType
   gridTemplateRows: ThemeType
+  height: ThemeType
+  hueRotate: ThemeType
+  inset: ThemeType
+  invert: ThemeType
+  keyframes: ThemeType
   letterSpacing: ThemeType
   lineHeight: ThemeType
   listStyleType: ThemeType
-  objectPosition: ThemeType
-  opacity: ThemeType
-  order: ThemeType
-  outline: ThemeType
-  outlineColor: ThemeType
-  ringOffsetWidth: ThemeType
-  ringWidth: ThemeType
-  rotate: ThemeType
-  scale: ThemeType
-  skew: ThemeType
-  strokeWidth: ThemeType
-  transitionDuration: ThemeType
-  transitionDelay: ThemeType
-  transitionProperty: ThemeType
-  transitionTimingFunction: ThemeType
-  zIndex: ThemeType
-  container: ThemeType
-  fontFamily: ThemeType
-  fontSize: ThemeType
-  keyframes: ThemeType
-  backgroundColor: ThemeType
-  backgroundOpacity: ThemeType
-  borderColor: ThemeType
-  borderOpacity: ThemeType
-  divideColor: ThemeType
-  divideOpacity: ThemeType
-  divideWidth: ThemeType
-  fill: ThemeType
-  gap: ThemeType
-  gradientColorStops: ThemeType
-  height: ThemeType
-  inset: ThemeType
   margin: ThemeType
   maxHeight: ThemeType
   maxWidth: ThemeType
   minHeight: ThemeType
   minWidth: ThemeType
+  objectPosition: ThemeType
+  opacity: ThemeType
+  order: ThemeType
+  outline: ThemeType
+  outlineColor: ThemeType
   padding: ThemeType
   placeholderColor: ThemeType
   placeholderOpacity: ThemeType
   ringColor: ThemeType
   ringOffsetColor: ThemeType
+  ringOffsetWidth: ThemeType
   ringOpacity: ThemeType
+  ringWidth: ThemeType
+  rotate: ThemeType
+  saturate: ThemeType
+  scale: ThemeType
+  sepia: ThemeType
+  skew: ThemeType
   space: ThemeType
   stroke: ThemeType
+  strokeWidth: ThemeType
   textColor: ThemeType
   textOpacity: ThemeType
+  transformOrigin: ThemeType
+  transitionDuration: ThemeType
+  transitionDelay: ThemeType
+  transitionProperty: ThemeType
+  transitionTimingFunction: ThemeType
   translate: ThemeType
   width: ThemeType
+  zIndex: ThemeType
 
   // contributed by extensions
   aspectRatio: ThemeType
   filter: ThemeType,
   backdropFilter: ThemeType,
-  blur: ThemeType,
   lineClamp: ThemeType
   snapMargin: ThemeType
   snapPadding:ThemeType
@@ -266,6 +284,10 @@ export interface PreflightOptions {
 export interface Config {
   presets?: Config[];
   prefixer?: boolean;
+  attributify?: boolean | {
+    prefix?: string
+    disable?: string[]
+  }
   separator?: string;
   important?: boolean | string;
   darkMode?: DarkModeConfig;
@@ -275,6 +297,7 @@ export interface Config {
   corePlugins?: (keyof BaseTheme)[] | string[] | { [ T in keyof BaseTheme ] : boolean } | { [ key:string ] : boolean };
   prefix?: string;
   exclude?: RegExp[];
+  alias?: {[key:string]: string};
   shortcuts?: {[key:string]: Shortcut};
 
   // ===== Depreacted =====
@@ -348,7 +371,7 @@ export interface StaticUtility {
 }
 
 export interface DynamicUtility {
-  [key: string]: (utility: Utility, { theme }: PluginUtils, variants: string[]) => Output;
+  [key: string]: (utility: Utility, { theme }: PluginUtils) => Output;
 }
 
 export interface PluginUtils {
@@ -425,6 +448,6 @@ export interface Element {
   variants: string[];
   content?: Element[] | string;
   func?: string;
-  type: 'group' | 'func' | 'utility';
+  type: 'group' | 'func' | 'utility' | 'alias';
   important: boolean;
 }

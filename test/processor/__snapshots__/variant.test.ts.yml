@@ -86,8 +86,9 @@ Tools / generate states / all / 0: |-
     "selection": ".test::selection {\n  background: #1C1C1E;\n}",
     "svg": ".test svg {\n  background: #1C1C1E;\n}",
     "all": ".test * {\n  background: #1C1C1E;\n}",
-    "all-child": ".test > * {\n  background: #1C1C1E;\n}",
-    "sibling": ".test ~ * {\n  background: #1C1C1E;\n}",
+    "children": ".test > * {\n  background: #1C1C1E;\n}",
+    "siblings": ".test ~ * {\n  background: #1C1C1E;\n}",
+    "sibling": ".test + * {\n  background: #1C1C1E;\n}",
     "ltr": "[dir='ltr'] .test, [dir='ltr'].test {\n  background: #1C1C1E;\n}",
     "rtl": "[dir='rtl'] .test, [dir='rtl'].test {\n  background: #1C1C1E;\n}",
     "group-hover": ".group:hover .test {\n  background: #1C1C1E;\n}",
@@ -112,7 +113,6 @@ Tools / generate themes with darkMode class / vars / 0: |-
     "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
     ".light": ".light .test {\n  background: #1C1C1E;\n}",
-    "~dark": ".test {\n  background: #1C1C1E;\n}",
     "dark": ".dark .test {\n  background: #1C1C1E;\n}",
     "light": ".light .test {\n  background: #1C1C1E;\n}"
   }
@@ -122,7 +122,6 @@ Tools / generate themes with darkMode media / vars / 0: |-
     "@light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     ".dark": ".dark .test {\n  background: #1C1C1E;\n}",
     ".light": ".light .test {\n  background: #1C1C1E;\n}",
-    "~dark": ".test {\n  background: #1C1C1E;\n}",
     "dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
   }

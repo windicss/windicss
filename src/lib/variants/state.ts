@@ -63,8 +63,9 @@ export function generateStates (
 
     svg: () => new Style().child('svg'),
     all: () => new Style().child('*'),
-    'all-child': () => new Style().child('> *'),
-    sibling: () => new Style().child('~ *'),
+    children: () => new Style().child('> *'),
+    siblings: () => new Style().child('~ *'),
+    sibling: () => new Style().child('+ *'),
     // https://www.w3schools.com/CSS/css_pseudo_elements.asp
 
     // Directions

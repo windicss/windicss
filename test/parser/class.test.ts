@@ -19,4 +19,10 @@ describe('ClassParser', () => {
     const parser = new ClassParser(classes);
     expect(parser.parse()).toMatchSnapshot('parse important');
   });
+
+  it('parse alias', () => {
+    const classes = 'font-bold *hstack sm:(*vstack text-green-200)';
+    const parser = new ClassParser(classes);
+    expect(parser.parse()).toMatchSnapshot('parse alias');
+  });
 });

@@ -29,12 +29,13 @@ describe('Resolve Tests', () => {
       'even-of-type',      'odd-of-type',      'root',
       'empty',             'before',           'after',
       'first-letter',      'first-line',       'selection',
-      'svg',               'all',              'all-child',
-      'sibling',           'ltr',              'rtl',
-      'group-hover',      'group-focus',       'group-active',
-      'group-visited',    'motion-safe',       'motion-reduce',
+      'svg',               'all',              'children',
+      'siblings',          'sibling',          'ltr',
+      'rtl',               'group-hover',      'group-focus',
+      'group-active',      'group-visited',    'motion-safe',
+      'motion-reduce',
     ];
-    const themeVariants = [ '@dark', '@light', '.dark', '.light', '~dark', 'dark', 'light' ];
+    const themeVariants = [ '@dark', '@light', '.dark', '.light', 'dark', 'light' ];
 
     expect(Object.keys(processor.resolveVariants())).toEqual([...screenVariants, ...themeVariants, ...stateVariants]);
     expect(Object.keys(processor.resolveVariants('screen'))).toEqual(screenVariants);
@@ -43,18 +44,13 @@ describe('Resolve Tests', () => {
   });
 
   it('resolve static utilities', () => {
-    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(206);
-    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(234);
+    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(248);
+    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(278);
   });
 
   it('resolve dynamic utilities', () => {
-    const dynamicKeys = ['container', 'space', 'divide', 'bg', 'from', 'via', 'to', 'border', 'rounded', 'cursor', 'flex', 'order', 'font', 'h', 'leading', 'list', 'm', 'my', 'mx', 'mt', 'mr', 'mb', 'ml', 'min', 'max', 'object', 'opacity', 'outline', 'p', 'py', 'px', 'pt', 'pr', 'pb', 'pl', 'placeholder', 'inset', 'top', 'right', 'bottom', 'left', 'shadow', 'ring', 'fill', 'stroke', 'text', 'tracking', 'w', 'z', 'gap', 'auto', 'grid', 'col', 'row', 'origin', 'scale', 'rotate', 'translate', 'skew', 'transition', 'ease', 'duration', 'delay', 'animate'];
-    expect(Object.keys(processor.resolveDynamicUtilities(false))).toEqual(dynamicKeys);
-    expect(Object.keys(processor.resolveDynamicUtilities(true))).toEqual([
-      ...dynamicKeys,
-      'filter',    'backdrop', 'blur',       'aspect-w',
-      'aspect-h',  'aspect',   'line-clamp',
-    ]);
+    expect(Object.keys(processor.resolveDynamicUtilities(false))).toMatchSnapshot('without-plugins');
+    expect(Object.keys(processor.resolveDynamicUtilities(true))).toMatchSnapshot('with-plugins');
   });
 
   it('get corePlugins', () => {

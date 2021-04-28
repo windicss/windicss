@@ -33,7 +33,6 @@ export default function extract(
   processor: Processor,
   className: string,
   addComment = false,
-  variants?: string[],
   prefix?: string,
 ): Style | Style[] | undefined {
 
@@ -68,7 +67,7 @@ export default function extract(
   const key = matches ? matches[0] : undefined;
   // eslint-disable-next-line no-prototype-builtins
   if (key && dynamicUtilities.hasOwnProperty(key)) {
-    let style = dynamicUtilities[key](utility, processor.pluginUtils, variants ?? []);
+    let style = dynamicUtilities[key](utility, processor.pluginUtils);
     if (!style) return;
     if (processor._plugin.core && !processor._plugin.core[Array.isArray(style) ? style[0].meta.group : style.meta.group]) return;
     if (style instanceof Property) style = style.toStyle(utility.class);

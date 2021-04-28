@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { toType } from '../../src/utils/tools';
 import { Processor } from '../../src/lib';
 import { twExclude } from '../../src/config';
+import { CSSParser } from '../../src/utils/parser';
 
 const configPath = resolve('./test/assets/tailwind.config.js');
 const userConfig = require(configPath);
@@ -396,27 +397,6 @@ describe('Config', () => {
     expect(processor.theme('flexGrow.2')).toEqual('20');
   });
 
-  it('darkColor test', () => {
-    const processor = new Processor({
-      darkMode: 'media',
-      prefixer: false,
-      theme: {
-        extend: {
-          colors: {
-            gray: {
-              200: '#1c1c1e',
-            },
-            blue: {
-              400: ['#339AF0', '#A5D8FF'],
-            },
-          },
-        },
-      },
-    });
-    expect(processor.interpret('~dark:text-red-500').styleSheet.build()).toMatchSnapshot('css');
-    expect(processor.interpret('~dark:(text-blue-400 placeholder-gray-200 bg-green-300 divide-red-200)').styleSheet.build()).toMatchSnapshot('css');
-  });
-
   it('extend black', () => {
     const processor = new Processor({
       theme: {
@@ -462,5 +442,42 @@ describe('Config', () => {
       },
     });
     expect(processor.interpret('foo bar caps').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  // #264
+  it('transition property', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          transitionProperty: {
+            background: 'background-color',
+          },
+        },
+      },
+    });
+    const parser = new CSSParser(`
+    .btn {
+      @apply transition-background;
+    }
+    `, processor);
+    expect(parser.parse().build()).toMatchSnapshot('css');
+  });
+
+  // #246
+  it('confuses color with font-size if keys are the same', () => {
+    const processor = new Processor({
+      theme: {
+        colors: {
+          gray: {
+            DEFAULT: '#fff',
+            base: '#59AE90',
+          },
+        },
+        fontSize: {
+          base: '125%',
+        },
+      },
+    });
+    expect(processor.interpret('text-gray text-gray-base text-base').styleSheet.build()).toMatchSnapshot('css');
   });
 });

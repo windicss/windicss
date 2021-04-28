@@ -59,6 +59,7 @@ interface Plugin {
   preflights: StyleArrayObject;
   shortcuts: StyleArrayObject;
   variants: { [key: string]: () => Style };
+  alias: { [key: string]: Element[] };
 }
 
 type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
@@ -92,6 +93,7 @@ export class Processor {
     preflights: {},
     variants: {},
     shortcuts: {},
+    alias: {},
   };
 
   public pluginUtils: PluginUtils = {
@@ -124,6 +126,7 @@ export class Processor {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
+    this._config.alias && this.loadAlias(this._config.alias);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}, handleExtend = true) {
@@ -296,8 +299,8 @@ export class Processor {
     return style;
   }
 
-  extract(className: string, addComment = false, variants?: string[], prefix?: string): Style | Style[] | undefined {
-    return extract(this, className, addComment, variants, prefix);
+  extract(className: string, addComment = false, prefix?: string): Style | Style[] | undefined {
+    return extract(this, className, addComment, prefix);
   }
 
   preflight(
@@ -361,7 +364,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      let result = this.extract(baseClass, false, variants, prefix);
+      let result = this.extract(baseClass, false, prefix);
       if (result) {
         const escapedSelector = '.' + cssEscape(selector);
         if (result instanceof Style) {
@@ -388,41 +391,49 @@ export class Processor {
     };
 
     const _hGroup = (obj: Element, parentVariants: string[] = []) => {
-      Array.isArray(obj.content) &&
-        obj.content.forEach((u: Element) => {
-          if (u.type === 'group') {
-            _hGroup(u, obj.variants);
-          } else {
-            // utility
-            const variants = [
-              ...parentVariants,
-              ...obj.variants,
-              ...u.variants,
-            ];
-            const important = obj.important || u.important;
-            const selector = (important ? '!' : '') + [...variants, u.content].join(':');
-            typeof u.content === 'string' &&
-              _gStyle(u.content, variants, selector, important, this.config('prefix') as string);
-          }
-        });
+      const _eval = (u: Element) => {
+        if (u.type === 'group') {
+          _hGroup(u, obj.variants);
+        } else if (u.type === 'alias' && (u.content as string) in this._plugin.alias) {
+          this._plugin.alias[u.content as string].forEach(i => _eval(i));
+        } else {
+          // utility
+          const variants = [
+            ...parentVariants,
+            ...obj.variants,
+            ...u.variants,
+          ];
+          const important = obj.important || u.important;
+          const selector = (important ? '!' : '') + [...variants, u.content].join(':');
+          typeof u.content === 'string' &&
+            _gStyle(u.content, variants, selector, important, this.config('prefix') as string);
+        }
+      };
+      Array.isArray(obj.content) && obj.content.forEach(u => _eval(u));
     };
 
-    ast.forEach(obj => {
-      if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
-        if (ignoreProcessed) this._cache.utilities.push(obj.raw);
-        if (obj.type === 'utility') {
-          if (Array.isArray(obj.content)) {
-            // #functions stuff
-          } else if (obj.content) {
-            _gStyle(obj.content, obj.variants, obj.raw, obj.important, this.config('prefix') as string);
+    const _gAst = (ast: Element[]) => {
+      ast.forEach(obj => {
+        if (!(ignoreProcessed && this._cache.utilities.includes(obj.raw))) {
+          if (ignoreProcessed) this._cache.utilities.push(obj.raw);
+          if (obj.type === 'utility') {
+            if (Array.isArray(obj.content)) {
+              // #functions stuff
+            } else if (obj.content) {
+              _gStyle(obj.content, obj.variants, obj.raw, obj.important, this.config('prefix') as string);
+            }
+          } else if (obj.type === 'group') {
+            _hGroup(obj);
+          } else if (obj.type === 'alias' && (obj.content as string) in this._plugin.alias) {
+            _gAst(this._plugin.alias[obj.content as string]);
+          } else {
+            _hIgnored(obj.raw);
           }
-        } else if (obj.type === 'group') {
-          _hGroup(obj);
-        } else {
-          _hIgnored(obj.raw);
         }
-      }
-    });
+      });
+    };
+
+    _gAst(ast);
 
     if (!this.config('prefixer')) styleSheet.prefixer = false;
 
@@ -485,7 +496,7 @@ export class Processor {
         styleSheet.add(deepCopy(this._plugin.utilities[selector]));
         return;
       }
-      const result = this.extract(baseClass, showComment, variants);
+      const result = this.extract(baseClass, showComment);
       if (result) {
         if (Array.isArray(result)) {
           result.forEach(i => {
@@ -553,6 +564,242 @@ export class Processor {
     };
   }
 
+  attributify(attrs: { [ key:string ]: string | string[] }): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
+    const success: string[] = [];
+    const ignored: string[] = [];
+    const styleSheet = new StyleSheet();
+    const _gStyle = (
+      key: string,
+      value: string,
+      equal = false,
+    ) => {
+      const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      const id = key.match(/\w+$/)?.[0] ?? '';
+      const splits = value.split(':');
+      let variants = splits.slice(0, -1);
+      let utility = splits.slice(-1)[0];
+      if (id in this._variants && id !== 'svg') {
+        // sm = ... || sm:hover = ... || sm-hover = ...
+        const matches = key.match(/\w+/g);
+        if (!matches) {
+          ignored.push(buildSelector);
+          return;
+        }
+        variants = [...matches, ...variants];
+      } else {
+        // text = ... || sm:text = ... || sm-text = ... || sm-hover-text = ...
+        const matches = key.match(/\w+/g);
+        if (!matches) {
+          ignored.push(buildSelector);
+          return;
+        }
+        let last;
+        // handle min-h || max-w ...
+        if (['min', 'max'].includes(matches.slice(-2, -1)[0])) {
+          variants = [...matches.slice(0, -2), ...variants];
+          last = matches.slice(-2,).join('-');
+        } else {
+          variants = [...matches.slice(0, -1), ...variants];
+          last = matches[matches.length - 1];
+        }
+        // handle negative, such as m = -x-2
+        const negative = utility.charAt(0) === '-';
+        if (negative) utility = utility.slice(1,);
+        utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
+        if (negative) utility = '-' + utility;
+        // handle special cases
+        switch(last) {
+        case 'flex':
+          switch (utility) {
+          case 'flex-~':
+          case 'flex-default':
+            utility = 'flex';
+            break;
+          case 'flex-inline':
+            utility = 'inline-flex';
+            break;
+          }
+          break;
+        case 'grid':
+          switch(utility) {
+          case 'grid-~':
+          case 'grid-default':
+            utility = 'grid';
+            break;
+          case 'grid-inline':
+            utility = 'inline-grid';
+            break;
+          default:
+            if (/^grid-(auto|gap|col|row)-/.test(utility)) utility = utility.slice(5);
+          }
+          break;
+        case 'container':
+          if (utility === 'container-default' || utility === 'container-~') utility = 'container';
+          break;
+        case 'justify':
+          if (utility.startsWith('justify-content-')) {
+            utility = 'justify-' + utility.slice(16);
+          }
+          break;
+        case 'align':
+          if (/^align-(items|self|content)-/.test(utility)) {
+            utility = utility.slice(6);
+          } else {
+            utility = 'content-' + utility.slice(6);
+          }
+          break;
+        case 'place':
+          if (!/^place-(items|self|content)-/.test(utility)) {
+            utility = 'place-content-' + utility.slice(6);
+          }
+          break;
+        case 'font':
+          if (/^font-(tracking|leading)-/.test(utility) || ['font-italic', 'font-not-italic', 'font-antialiased', 'font-subpixel-antialiased', 'font-normal-nums', 'font-ordinal', 'font-slashed-zero', 'font-lining-nums', 'font-oldstyle-nums', 'font-proportional-nums', 'font-tabular-nums', 'font-diagonal-fractions', 'font-stacked-fractions'].includes(utility))
+            utility = utility.slice(5);
+          break;
+        case 'text':
+          if (['text-baseline', 'text-top', 'text-middle', 'text-bottom', 'text-text-top', 'text-text-bottom'].includes(utility)) {
+            utility = 'align-' + utility.slice(5);
+          } else if (utility.startsWith('text-placeholder')) {
+            utility = utility.slice(5);
+          } else if (['text-underline', 'text-line-through', 'text-no-underline', 'text-uppercase', 'text-lowercase', 'text-capitalize', 'text-normal-case', 'text-truncate', 'text-overflow-ellipsis', 'text-overflow-clip', 'text-break-normal', 'text-break-words', 'text-break-all'].includes(utility)) {
+            utility = utility.slice(5);
+          } else if (utility.startsWith('text-space')) {
+            utility = 'white' + utility.slice(5);
+          }
+          break;
+        case 'svg':
+          if (utility.startsWith('svg-fill') || utility.startsWith('svg-stroke')) utility = utility.slice(4);
+          break;
+        case 'border':
+          if (utility === 'border-~' || utility === 'border-default') {
+            utility = 'border';
+          } else if (utility.startsWith('border-rounded')) {
+            utility = utility.slice(7);
+          }
+          break;
+        case 'ring':
+          if (utility === 'ring-~' || utility === 'ring-default') utility = 'ring';
+          break;
+        case 'shadow':
+          if (utility === 'shadow-~' || utility === 'shadow-default') utility = 'shadow';
+          break;
+        case 'gradient':
+          if (utility === 'gradient-none') {
+            utility = 'bg-none';
+          } else if (/^gradient-to-[trbl]{1,2}$/.test(utility)) {
+            utility = 'bg-' + utility;
+          } else if (/^gradient-(from|via|to)-/.test(utility)) {
+            utility = utility.slice(9);
+          }
+          break;
+        case 'display':
+          utility = utility.slice(8);
+          break;
+        case 'position':
+          utility = utility.slice(9);
+          break;
+        case 'box':
+          if (/^box-(decoration|shadow)/.test(utility)) {
+            utility = utility.slice(4,);
+          }
+          break;
+        case 'filter':
+          if (utility === 'filter-~' || utility === 'filter-default') {
+            utility = 'filter';
+          } else if (utility !== 'filter-none') {
+            utility = utility.slice(7);
+          }
+          break;
+        case 'backdrop':
+          if (utility === 'backdrop-~' || utility === 'backdrop-default') {
+            utility = 'backdrop-filter';
+          } else if (utility === 'backdrop-none') {
+            utility = 'backdrop-filter-none';
+          }
+          break;
+        case 'transition':
+          if (utility === 'transition-~' || utility === 'transition-default') {
+            utility = 'transition';
+          } else if (/transition-(duration|ease|delay)-/.test(utility)) {
+            utility = utility.slice(11);
+          }
+          break;
+        case 'transform':
+          if (utility === 'transform-~' || utility === 'transform-default') {
+            utility = 'transform';
+          } else if (!['transform-gpu', 'transform-none'].includes(utility)) {
+            utility = utility.slice(10);
+          }
+          break;
+        case 'isolation':
+          if (utility === 'isolation-isolate') utility = 'isolate';
+          break;
+        case 'table':
+          switch (utility) {
+          case 'table-~':
+          case 'table-default':
+            utility = 'table';
+            break;
+          case 'table-inline':
+            utility = 'inline-table';
+            break;
+          }
+          break;
+        case 'pointer':
+          utility = 'pointer-events' + utility.slice(7);
+          break;
+        case 'resize':
+          if (['resize-both', 'resize-~', 'resize-default'].includes(utility)) utility = 'resize';
+          break;
+        case 'blend':
+          utility = 'mix-' + utility;
+          break;
+        case 'sr':
+          if (utility === 'sr-not-only') utility = 'not-sr-only';
+          break;
+        }
+      }
+      const style = this.extract(utility, false);
+      if (style) {
+        const important = key.charAt(0) === '!';
+        if (Array.isArray(style)) {
+          style.forEach(i => {
+            if (i instanceof Keyframes) return i;
+            i.selector = buildSelector;
+            this.markAsImportant(i, important);
+          });
+        } else {
+          style.selector = buildSelector;
+          this.markAsImportant(style, important);
+        }
+        const wrapped = this.wrapWithVariants(variants, style);
+        if (wrapped) {
+          success.push(buildSelector);
+          styleSheet.add(wrapped);
+        } else {
+          ignored.push(buildSelector);
+        }
+      } else {
+        ignored.push(buildSelector);
+      }
+    };
+
+    for (const [key, value] of Object.entries(attrs)) {
+      if (Array.isArray(value)) {
+        value.forEach(i => _gStyle(key, i));
+      } else {
+        _gStyle(key, value, true);
+      }
+    }
+
+    return {
+      success,
+      ignored,
+      styleSheet,
+    };
+  }
+
   loadPlugin({
     handler,
     config,
@@ -614,6 +861,12 @@ export class Processor {
         });
         this._plugin.shortcuts[key] = styles.map(i => i.updateMeta({ type: 'components', group: 'shortcuts', order: layerOrder['shortcuts'] }));
       }
+    }
+  }
+
+  loadAlias(alias: { [key:string]: string }): void {
+    for (const [key, value] of Object.entries(alias)) {
+      this._plugin.alias[key] = new ClassParser(value).parse();
     }
   }
 

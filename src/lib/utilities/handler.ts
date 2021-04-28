@@ -1,5 +1,5 @@
 import { defaultColors } from '../../config/base';
-import { Property } from '../../utils/style';
+import { Property, Style } from '../../utils/style';
 import { flatColors } from '../../utils/tools';
 import { cssEscape } from '../../utils/algorithm';
 import {
@@ -11,7 +11,7 @@ import {
   hex2RGB,
   negateValue,
 } from '../../utils/tools';
-import { NestObject } from 'src/interfaces';
+import { DeepNestDictStr } from 'src/interfaces';
 
 
 
@@ -20,7 +20,6 @@ class Handler {
   private _amount: string;
   utility: Utility;
   value: string | undefined;
-  meta: { [ key: string ]: any } = {};
   constructor(utility: Utility) {
     this.utility = utility;
     this.value = undefined;
@@ -116,12 +115,12 @@ class Handler {
     return this;
   }
   handleColor(
-    map: { [key: string]: string | string[] | { [key: string]: string | string[] } } | unknown = defaultColors
+    map: { [key: string]: string | { [key: string]: string } } | unknown = defaultColors
   ) {
     if (this.value) return this;
     let color;
     if (map && typeof map === 'object') {
-      const colors = flatColors(map as NestObject);
+      const colors = flatColors(map as DeepNestDictStr);
       const body = this.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/, '');
       if (body in colors) {
         color = colors[body];
@@ -129,14 +128,7 @@ class Handler {
         const hex = body.slice(4);
         if(hex2RGB(hex)) color = '#' + hex;
       }
-      if (color) {
-        if (Array.isArray(color)) {
-          this.value = color.slice(-2, -1)[0];
-          this.meta.darkColor = color.slice(-1)[0];
-        } else {
-          this.value = color;
-        }
-      }
+      if (color) this.value = color;
     }
     return this;
   }
@@ -161,6 +153,20 @@ class Handler {
     if (!this.value) return;
     const value = callback ? callback(this.value) : this.value;
     return new Property(name, value);
+  }
+
+  createStyle(
+    selector: string,
+    callback: (value: string) => Property | Property[] | undefined
+  ) {
+    if (!this.value) return;
+    const value = callback ? callback(this.value) : undefined;
+    return new Style(selector, value);
+  }
+
+  callback(func: (value: string) => Property | Style | Style[] | undefined) {
+    if (!this.value) return;
+    return func(this.value);
   }
 }
 

@@ -3,13 +3,13 @@ Tools / interpret test / css / 0: |-
     -webkit-filter: none;
     filter: none;
   }
-  .filter-grayscale {
-    -webkit-filter: grayscale(1);
-    filter: grayscale(1);
-  }
   .hover\:filter-none:hover {
     -webkit-filter: none;
     filter: none;
+  }
+  .filter-grayscale {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
   }
   .hover\:filter-grayscale:hover {
     -webkit-filter: grayscale(1);

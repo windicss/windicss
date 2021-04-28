@@ -1,3 +1,9 @@
+Tools / !important leak out to subsequent style rules / css / 0: |-
+  .button {
+    --tw-text-opacity: 1 !important;
+    color: rgba(239, 68, 68, var(--tw-text-opacity)) !important;
+    color: green;
+  }
 Tools / @apply twice / css / 0: |-
   .rounded-box {
     border-radius: var(--rounded-box, 1rem);
@@ -70,7 +76,7 @@ Tools / Directives and Functions / css / 0: |-
     .container {
       font-size: 1.125rem !important;
       line-height: 1.75rem !important;
-      max-width: 768px !important;
+      max-width: 768px;
     }
   }
   @media (min-width: 1024px) {
@@ -350,4 +356,9 @@ Tools / theme function / css / 0: |-
   }
   .content-area2 {
     height: calc(100vh - 4rem);
+  }
+Tools / variables / css / 0: |-
+  body {
+    font: 100% $font-stack;
+    color: $primary-color;
   }

@@ -6,7 +6,8 @@ Tools / allows to use prefix with shortcuts / shortcuts with prefix / 0: |-
     padding-right: 1rem;
     font-weight: 600;
     border-radius: 0.5rem;
-    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --tw-shadow-color: 0, 0, 0;
+    --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
@@ -70,47 +71,17 @@ Tools / config with brackets / css / 0: |-
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
-Tools / darkColor test / css / 0: |-
-  .\~dark\:text-red-500 {
+Tools / confuses color with font-size if keys are the same / css / 0: |-
+  .text-base {
+    font-size: 125%;
+  }
+  .text-gray {
     --tw-text-opacity: 1;
-    color: rgba(239, 68, 68, var(--tw-text-opacity));
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
-  @media (prefers-color-scheme: dark) {
-    .\~dark\:text-red-500 {
-      --tw-text-opacity: 1;
-      color: rgba(159, 14, 14, var(--tw-text-opacity));
-    }
-  }
-Tools / darkColor test / css / 1: |-
-  .\~dark\:divide-red-200 > :not([hidden]) ~ :not([hidden]) {
-    --tw-divide-opacity: 1;
-    border-color: rgba(254, 202, 202, var(--tw-divide-opacity));
-  }
-  .\~dark\:bg-green-300 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(110, 231, 183, var(--tw-bg-opacity));
-  }
-  .\~dark\:placeholder-gray-200::placeholder {
-    --tw-placeholder-opacity: 1;
-    color: rgba(28, 28, 30, var(--tw-placeholder-opacity));
-  }
-  .\~dark\:text-blue-400 {
+  .text-gray-base {
     --tw-text-opacity: 1;
-    color: rgba(51, 154, 240, var(--tw-text-opacity));
-  }
-  @media (prefers-color-scheme: dark) {
-    .\~dark\:divide-red-200 > :not([hidden]) ~ :not([hidden]) {
-      --tw-divide-opacity: 1;
-      border-color: rgba(82, 2, 2, var(--tw-divide-opacity));
-    }
-    .\~dark\:bg-green-300 {
-      --tw-bg-opacity: 1;
-      background-color: rgba(22, 131, 98, var(--tw-bg-opacity));
-    }
-    .\~dark\:text-blue-400 {
-      --tw-text-opacity: 1;
-      color: rgba(165, 216, 255, var(--tw-text-opacity));
-    }
+    color: rgba(89, 174, 144, var(--tw-text-opacity));
   }
 Tools / dashify / css / 0: |-
   .foo {
@@ -249,46 +220,16 @@ Tools / resolveConfig should extend correctly / order / 0: |-
   }
 Tools / resolveConfig should not overwrite theme function / extend-colors-red / 1: |-
   {
-    "50": [
-      "#fef2f2",
-      "#370404"
-    ],
-    "100": [
-      "#fee2e2",
-      "#430202"
-    ],
-    "200": [
-      "#fecaca",
-      "#520202"
-    ],
-    "300": [
-      "#fca5a5",
-      "#670303"
-    ],
-    "400": [
-      "#f87171",
-      "#860707"
-    ],
-    "500": [
-      "#ef4444",
-      "#9f0e0e"
-    ],
-    "600": [
-      "#dc2626",
-      "#ae1c1c"
-    ],
-    "700": [
-      "#b91c1c",
-      "#941616"
-    ],
-    "800": [
-      "#991b1b",
-      "#7a1616"
-    ],
-    "900": [
-      "#7f1d1d",
-      "#661717"
-    ],
+    "50": "#fef2f2",
+    "100": "#fee2e2",
+    "200": "#fecaca",
+    "300": "#fca5a5",
+    "400": "#f87171",
+    "500": "#ef4444",
+    "600": "#dc2626",
+    "700": "#b91c1c",
+    "800": "#991b1b",
+    "900": "#7f1d1d",
     "custom": "#ea1851"
   }
 Tools / resolveConfig should not overwrite theme function / extend-width / 0: |-
@@ -406,7 +347,8 @@ Tools / shortcuts config string / shortcuts string / 0: |-
     padding-right: 1rem;
     font-weight: 600;
     border-radius: 0.5rem;
-    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --tw-shadow-color: 0, 0, 0;
+    --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
@@ -428,10 +370,23 @@ Tools / shortcuts config string / shortcuts string / 0: |-
       padding-right: 1rem;
       font-weight: 600;
       border-radius: 0.5rem;
-      --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --tw-shadow-color: 0, 0, 0;
+      --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
       -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
+  }
+Tools / transition property / css / 0: |-
+  .btn {
+    -webkit-transition-property: background-color;
+    -o-transition-property: background-color;
+    transition-property: background-color;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    -o-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-transition-duration: 150ms;
+    -o-transition-duration: 150ms;
+    transition-duration: 150ms;
   }
 Tools / variables theme config / css / 0: |-
   :root {
