@@ -751,7 +751,7 @@ export class Processor {
           utility = 'pointer-events' + utility.slice(7);
           break;
         case 'resize':
-          if (utility === 'resize-both') utility = 'resize';
+          if (['resize-both', 'resize-~', 'resize-default'].includes(utility)) utility = 'resize';
           break;
         case 'blend':
           utility = 'mix-' + utility;

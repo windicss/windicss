@@ -275,6 +275,12 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
   [resize~="x"] {
     resize: horizontal;
   }
+  [resize~="~"] {
+    resize: both;
+  }
+  [resize~="default"] {
+    resize: both;
+  }
   [resize~="both"] {
     resize: both;
   }

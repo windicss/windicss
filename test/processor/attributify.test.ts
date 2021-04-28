@@ -156,7 +156,7 @@ describe('Attributify Mode', () => {
       'cursor': ['auto', 'default', 'pointer'],
       'outline': ['none', 'white'],
       'pointer': ['none', 'auto'],
-      'resize': ['none', 'x', 'y', 'both'],
+      'resize': ['~', 'default', 'none', 'x', 'y', 'both'],
       'select': ['none', 'text', 'all', 'auto'],
       'fill': ['current', 'gray-200'],
       'stroke': [
