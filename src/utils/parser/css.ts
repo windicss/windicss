@@ -5,7 +5,7 @@ import type { Processor } from '../../lib';
 
 const regexRemoveComments = [
   new RegExp('[\\s\\t]*\\/\\*.+?\\*\\/', 'gs'),
-  new RegExp('[\\s\\t]*:?\\/\\/.*$', 'gm'),
+  // new RegExp('[\\s\\t]*:?\\/\\/.*$', 'gm'),
 ];
 
 export default class CSSParser {
@@ -21,17 +21,6 @@ export default class CSSParser {
   private _addCache(style: Style) {
     const rule = style.rule;
     if (['.', '#'].includes(rule.charAt(0))) this._cache[rule] = (rule in this._cache) ? [...this._cache[rule], deepCopy(style)] : [ deepCopy(style) ];
-  }
-
-  private _removeComment(css: string | undefined) {
-    if (!css) return css;
-    css = css.replace(regexRemoveComments[0], '');
-    css = css.replace(regexRemoveComments[1], (match: string) => {
-      if (match.replace(/[\s\t]*/, '').startsWith('://')) return match;
-      return '';
-    });
-
-    return css;
   }
 
   private _searchGroup(text: string, startIndex = 0) {
@@ -154,17 +143,37 @@ export default class CSSParser {
 
   parse(css = this.css, parent?: string, parentType?: 'atRule' | 'selector'): StyleSheet {
     const styleSheet = new StyleSheet();
-    css = this._removeComment(css);
     if (!css || isSpace(css)) return styleSheet;
     let index = 0;
     let firstLetter = searchFrom(css, /\S/, index);
+    const len = css.length;
 
     while (firstLetter !== -1) {
       const propEnd = searchPropEnd(css, index);
       const nestStart = searchFrom(css, '{', firstLetter);
       const firstChar = css.charAt(firstLetter);
 
-      if (propEnd === -1 || (nestStart !== -1 && propEnd > nestStart)) {
+      if (firstChar === '/') {
+        // remove comment
+        switch(css.charAt(firstLetter + 1)) {
+        case '/':
+          index = firstLetter + 2;
+          while (index < len) {
+            if (css.charAt(index) === '\n') break;
+            index ++;
+          }
+          index += 1;
+          break;
+        case '*':
+          index = firstLetter + 2;
+          while (index < len) {
+            if (css.charAt(index) === '*' && css.charAt(index + 1) === '/') break;
+            index ++;
+          }
+          index += 2;
+          break;
+        }
+      } else if (propEnd === -1 || (nestStart !== -1 && propEnd > nestStart)) {
         // nested AtRule or Selector
         const selector = css.substring(firstLetter, nestStart).trim();
         index = nestStart + 1;
