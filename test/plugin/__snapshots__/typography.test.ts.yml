@@ -1717,10 +1717,10 @@ Tools / with multi selector / css / 0: |-
     margin-bottom: 0;
   }
   .dark .dark\:prose-dark a {
-    color: #1C1C1E;
+    color: #1c1c1e;
   }
   .dark .dark\:prose-dark a code {
-    color: #1C1C1E;
+    color: #1c1c1e;
   }
   .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
     color: #1f2937;
