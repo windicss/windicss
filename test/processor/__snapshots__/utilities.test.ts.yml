@@ -27,7 +27,7 @@ Tools / animation test / animate-ping / 0: |-
     -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
-Tools / animation test / sm:animate-ping / 1: |-
+'Tools / animation test / sm:animate-ping / 1': |-
   @keyframes ping {
     0% {
       -webkit-transform: scale(1);
@@ -205,6 +205,37 @@ Tools / container max-width test / reponsive container / 1: |-
   @media (min-width: 640px) {
     .sm\:max-w-md {
       max-width: 28rem;
+    }
+  }
+Tools / container padding / container padding / 0: |-
+  .container {
+    width: 100%;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
+    }
+  }
+  @media (min-width: 768px) {
+    .container {
+      max-width: 768px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1024px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1536px;
     }
   }
 Tools / fontsize config test / fontSize / 0: |-
