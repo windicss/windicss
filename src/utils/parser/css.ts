@@ -182,7 +182,6 @@ export default class CSSParser {
 
         index = nestEnd + 1;
         styleSheet.add(this._generateNestStyle(content.children, selector, firstChar === '@' ? 'atRule': 'selector'));
-
       } else if (firstChar === '$') {
         // define variable
         const prop = Property.parse(css.slice(firstLetter, propEnd));
