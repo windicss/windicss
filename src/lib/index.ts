@@ -134,17 +134,16 @@ export class Processor {
       presets = this.resolveConfig(this._resolvePresets(userConfig.presets), presets);
       delete userConfig.presets;
     }
-    const userTheme = userConfig.theme;
-    if (userTheme) delete userConfig.theme;
-    const extendTheme: Theme = userTheme && 'extend' in userTheme ? userTheme.extend ?? {} : {};
+    const userTheme = userConfig.theme ? { ...userConfig.theme } : null;
+    const extendTheme = userTheme?.extend ? { ...userTheme.extend } : null;
     const theme = (presets.theme || {}) as Record<string, ThemeType>;
     if (userTheme) {
-      if ('extend' in userTheme && handleExtend) delete userTheme.extend;
+      delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
         theme[key] = typeof value === 'function' ? value : { ...value };
       }
     }
-    if (extendTheme && typeof extendTheme === 'object' && handleExtend) {
+    if (extendTheme && handleExtend) {
       for (const [key, value] of Object.entries(extendTheme)) {
         const themeValue = theme[key];
         if (typeof themeValue === 'function') {
@@ -163,6 +162,8 @@ export class Processor {
         }
       }
     }
+
+    delete userConfig.theme;
     return { ...presets, ...userConfig, theme };
   }
 

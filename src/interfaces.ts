@@ -187,14 +187,17 @@ export interface BaseTheme {
   // contributed by extensions
   aspectRatio: ThemeType
   filter: ThemeType,
-  backdropFilter: ThemeType,
+  backdropFilter: ThemeType
   lineClamp: ThemeType
   snapMargin: ThemeType
   snapPadding:ThemeType
   typography: ThemeType
 }
 
-export type Theme = Partial<BaseTheme> | ({ [ key:string ]: ThemeType } & { extend?: Theme & { extend?: undefined } })
+export interface Theme extends Partial<BaseTheme> {
+  extend?: Theme & { extend?: undefined }
+  [ key:string ]: ThemeType
+}
 
 export type Plugin =
   | PluginFunction
