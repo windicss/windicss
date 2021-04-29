@@ -668,7 +668,9 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-divide-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'divideOpacity', order: pluginOrder['divideOpacity'] + 1 });
+      ?.toStyle(utility.class)
+      .child('> :not([hidden]) ~ :not([hidden])')
+      .updateMeta({ type: 'utilities', corePlugin: true, group: 'divideOpacity', order: pluginOrder['divideOpacity'] + 1 });
   // handle divide color
   const divideColor = utility.handler
     .handleColor(theme('divideColor'))

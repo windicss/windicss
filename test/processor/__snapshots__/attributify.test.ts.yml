@@ -728,7 +728,7 @@ Tools / with divide utility / css / 0: |-
   [divide~="none"] > :not([hidden]) ~ :not([hidden]) {
     border-style: none;
   }
-  [divide~="opacity-50"] {
+  [divide~="opacity-50"] > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-opacity: 0.5;
   }
 Tools / with filter utility / css / 0: |-
