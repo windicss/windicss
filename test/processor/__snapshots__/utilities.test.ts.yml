@@ -27,7 +27,7 @@ Tools / animation test / animate-ping / 0: |-
     -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
-'Tools / animation test / sm:animate-ping / 1': |-
+Tools / animation test / sm:animate-ping / 1: |-
   @keyframes ping {
     0% {
       -webkit-transform: scale(1);

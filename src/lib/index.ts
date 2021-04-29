@@ -574,10 +574,13 @@ export class Processor {
       equal = false,
     ) => {
       const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      const importantValue = value.startsWith('!');
+      if (importantValue) value = value.slice(1,);
       const id = key.match(/\w+$/)?.[0] ?? '';
       const splits = value.split(':');
       let variants = splits.slice(0, -1);
       let utility = splits.slice(-1)[0];
+
       if (id in this._variants && id !== 'svg') {
         // sm = ... || sm:hover = ... || sm-hover = ...
         const matches = key.match(/\w+/g);
@@ -762,7 +765,7 @@ export class Processor {
       }
       const style = this.extract(utility, false);
       if (style) {
-        const important = key.charAt(0) === '!';
+        const important = key.charAt(0) === '!' || importantValue;
         if (Array.isArray(style)) {
           style.forEach(i => {
             if (i instanceof Keyframes) return i;

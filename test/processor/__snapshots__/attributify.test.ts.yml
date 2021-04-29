@@ -1,3 +1,42 @@
+Tools / important test / css / 0: |-
+  [bg~="!red-500"] {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
+  }
+  [text~="lg"] {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [\!shadow="lg"] {
+    --tw-shadow-color: 0, 0, 0 !important;
+    --tw-shadow: 0 10px 15px -3px rgba(var(--tw-shadow-color), 0.1), 0 4px 6px -2px rgba(var(--tw-shadow-color), 0.05) !important;
+    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+  }
+  [\!ring="!opacity-50"] {
+    --tw-ring-opacity: 0.5 !important;
+  }
+  [text~="white"] {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+  @media (min-width: 768px) {
+    [bg~="md:red-600"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+    }
+    [\!md="bg-green-400"] {
+      --tw-bg-opacity: 1 !important;
+      background-color: rgba(52, 211, 153, var(--tw-bg-opacity)) !important;
+    }
+    [border="!md:~"] {
+      border-width: 1px !important;
+    }
+    [\!md\:text="gray-200"] {
+      --tw-text-opacity: 1 !important;
+      color: rgba(229, 231, 235, var(--tw-text-opacity)) !important;
+    }
+  }
 Tools / mix utility and variant / css / 0: |-
   [p~="x-4"] {
     padding-left: 1rem;

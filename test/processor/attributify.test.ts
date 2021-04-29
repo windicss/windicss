@@ -501,4 +501,18 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('important test', () => {
+    const result = processor.attributify({
+      'bg': ['!red-500', 'md:red-600'],
+      'text': ['lg', 'white'],
+      'border': '!md:~',
+      '!shadow': 'lg',
+      '!ring': '!opacity-50',
+      '!md': 'bg-green-400',
+      '!md:text': 'gray-200',
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
 });
