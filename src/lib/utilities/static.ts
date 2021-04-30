@@ -2377,6 +2377,15 @@ export const staticUtilities: StaticUtility = {
 
   'filter': {
     'utility': {
+      '--tw-blur': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-brightness': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-contrast': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-grayscale': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-hue-rotate': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-invert': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-saturate': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-sepia': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-drop-shadow': 'var(--tw-empty,/*!*/ /*!*/)',
       '-webkit-filter': 'var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)',
       'filter': 'var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)',
     },
@@ -2399,6 +2408,15 @@ export const staticUtilities: StaticUtility = {
 
   'backdrop-filter': {
     'utility': {
+      '--tw-backdrop-blur': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-brightness': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-contrast': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-grayscale': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-hue-rotate': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-invert': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-opacity': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-saturate': 'var(--tw-empty,/*!*/ /*!*/)',
+      '--tw-backdrop-sepia': 'var(--tw-empty,/*!*/ /*!*/)',
       '-webkit-backdrop-filter': 'var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)',
       'backdrop-filter': 'var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)',
     },
