@@ -731,6 +731,7 @@ export const baseConfig: Config = {
       // ...negative
     },
     saturate: {
+      DEFAULT: '0',
       0: '0',
       50: '.5',
       100: '1',
