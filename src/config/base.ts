@@ -190,6 +190,11 @@ export const baseConfig: Config = {
       150: '1.5',
       200: '2',
     },
+    caretColor: (theme) => ({
+      auto: 'auto',
+      ...(theme('colors') ?? {}),
+    }),
+    caretOpacity: (theme) => theme('opacity'),
     container: {},
     contrast: {
       0: '0',

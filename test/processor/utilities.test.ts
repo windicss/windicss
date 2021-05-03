@@ -168,4 +168,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('shadow-2xl shadow-red-800').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('caret color', () => {
+    const processor = new Processor();
+    expect(processor.interpret('caret-opacity-80 caret-auto caret-gray-800 caret-transparent').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

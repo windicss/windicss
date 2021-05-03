@@ -89,6 +89,8 @@ export const pluginOrder: { [ key:string ] : number } = {
   'padding': 6200,
   'placeholderColor': 6300,
   'placeholderOpacity': 6400,
+  'caretColor': 6450,
+  'caretOpacity': 6460,
   'pointerEvents': 6500,
   'position': 6600,
   'inset': 6700,

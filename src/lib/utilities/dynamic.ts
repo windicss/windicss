@@ -522,6 +522,28 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
 
 }
 
+function caret(utility: Utility, { theme }: PluginUtils): Output {
+  // handle caret opacity
+  if (utility.raw.startsWith('caret-opacity')) {
+    return utility.handler
+      .handleStatic(theme('caretOpacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-caret-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'caretOpacity', order: pluginOrder['caretOpacity'] + 1 });
+  }
+  return utility.handler
+    .handleColor(theme('caretColor'))
+    .handleVariable()
+    .callback(value => {
+      if (value.includes('var')) return new Property('caret-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 3 });
+      if (['auto', 'transparent', 'currentColor'].includes(value)) return new Property('caret-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 1 });
+      const { color, opacity } = toColor(value);
+      return new Style(utility.class, [ new Property('--tw-caret-opacity', opacity), new Property('caret-color', `rgba(${color}, var(--tw-caret-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 2 });
+    });
+
+}
+
 // https://tailwindcss.com/docs/background-color
 // https://tailwindcss.com/docs/background-opacity
 // https://tailwindcss.com/docs/background-position
@@ -1208,6 +1230,7 @@ export const dynamicUtilities: DynamicUtility = {
   pb: padding,
   pl: padding,
   placeholder: placeholder,
+  caret: caret,
   inset: inset,
   top: inset,
   right: inset,
