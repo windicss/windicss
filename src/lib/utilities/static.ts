@@ -1861,6 +1861,40 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // hyphens by windi
+  'hyphens-none': {
+    'utility': {
+      '-webkit-hyphens': 'none',
+      '-ms-hyphens': 'none',
+      'hyphens': 'none',
+    },
+    'meta': {
+      'group': 'hyphens',
+      'order': 1,
+    },
+  },
+  'hyphens-manual': {
+    'utility': {
+      '-webkit-hyphens': 'manual',
+      '-ms-hyphens': 'manual',
+      'hyphens': 'manual',
+    },
+    'meta': {
+      'group': 'hyphens',
+      'order': 2,
+    },
+  },
+  'hyphens-auto': {
+    'utility': {
+      '-webkit-hyphens': 'auto',
+      '-ms-hyphens': 'auto',
+      'hyphens': 'auto',
+    },
+    'meta': {
+      'group': 'hyphens',
+      'order': 3,
+    },
+  },
   /**
    * ===========================================
    * Backgrounds
