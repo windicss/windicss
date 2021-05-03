@@ -1797,10 +1797,12 @@ Tools / with text utility / css / 0: |-
     text-transform: none;
   }
   [text~="underline"] {
-    text-decoration: underline;
+    -webkit-text-decoration-line: underline;
+    text-decoration-line: underline;
   }
   [text~="line-through"] {
-    text-decoration: line-through;
+    -webkit-text-decoration-line: line-through;
+    text-decoration-line: line-through;
   }
   [text~="no-underline"] {
     text-decoration: none;

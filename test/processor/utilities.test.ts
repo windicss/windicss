@@ -173,4 +173,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('caret-opacity-80 caret-auto caret-gray-800 caret-transparent').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('text decoration color & opacity & length', () => {
+    const processor = new Processor();
+    expect(processor.interpret('underline line-through no-underline line-solid line-dashed line-dotted line-double line-opacity-90 line-gray-200 line-2 line-3px line-1rem line-auto line-transparent').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

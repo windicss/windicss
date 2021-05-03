@@ -1630,7 +1630,8 @@ export const staticUtilities: StaticUtility = {
   // https://tailwindcss.com/docs/text-decoration
   'underline': {
     'utility': {
-      'text-decoration': 'underline',
+      '-webkit-text-decoration-line': 'underline',
+      'text-decoration-line': 'underline',
     },
     'meta': {
       'group': 'textDecoration',
@@ -1639,7 +1640,8 @@ export const staticUtilities: StaticUtility = {
   },
   'line-through': {
     'utility': {
-      'text-decoration': 'line-through',
+      '-webkit-text-decoration-line': 'line-through',
+      'text-decoration-line': 'line-through',
     },
     'meta': {
       'group': 'textDecoration',
@@ -1653,6 +1655,47 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'textDecoration',
       'order': 3,
+    },
+  },
+  // text decoration style
+  'line-solid': {
+    'utility': {
+      '-webkit-text-decoration-style': 'solid',
+      'text-decoration-style': 'solid',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 1,
+    },
+  },
+  'line-double': {
+    'utility': {
+      '-webkit-text-decoration-style': 'double',
+      'text-decoration-style': 'double',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 2,
+    },
+  },
+  'line-dotted': {
+    'utility': {
+      '-webkit-text-decoration-style': 'dotted',
+      'text-decoration-style': 'dotted',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 3,
+    },
+  },
+  'line-dashed': {
+    'utility': {
+      '-webkit-text-decoration-style': 'dashed',
+      'text-decoration-style': 'dashed',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 4,
     },
   },
 

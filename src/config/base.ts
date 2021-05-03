@@ -788,6 +788,15 @@ export const baseConfig: Config = {
     },
     textColor: (theme) => theme('colors'),
     textOpacity: (theme) => theme('opacity'),
+    textDecorationColor: (theme) => theme('colors'),
+    textDecorationOpacity: (theme) => theme('opacity'),
+    textDecorationLength: {
+      'auto': 'auto',
+      0: '0px',
+      2: '2px',
+      4: '4px',
+      8: '8px',
+    },
     transformOrigin: {
       center: 'center',
       top: 'top',

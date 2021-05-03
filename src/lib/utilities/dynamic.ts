@@ -477,6 +477,35 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'letterSpacing', order: pluginOrder['letterSpacing'] + 1 });
 }
 
+// text decoration
+function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
+  // handle text decoration opacity
+  if (utility.raw.startsWith('line-opacity')) {
+    return utility.handler
+      .handleStatic(theme('textDecorationOpacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-line-opacity')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationOpacity', order: pluginOrder['textDecorationOpacity'] + 1 });
+  }
+  // handle text decoration color or length
+  return utility.handler
+    .handleColor(theme('textDecorationColor'))
+    .handleVariable()
+    .callback(value => {
+      if (value.includes('var')) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 3 });
+      if (['transparent', 'currentColor'].includes(value)) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 1 });
+      const { color, opacity } = toColor(value);
+      return new Style(utility.class, [ new Property('--tw-line-opacity', opacity), new Property(['-webkit-text-decoration-color', 'text-decoration-color'], `rgba(${color}, var(--tw-line-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 2 });
+    })
+  || utility.handler
+    .handleStatic('textDecorationLength')
+    .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
+    .handleSize()
+    .createProperty('text-decoration-thickness')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationLength', order: pluginOrder['textDecorationLength'] + 1 });
+}
+
 // https://tailwindcss.com/docs/line-height
 function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
@@ -541,7 +570,6 @@ function caret(utility: Utility, { theme }: PluginUtils): Output {
       const { color, opacity } = toColor(value);
       return new Style(utility.class, [ new Property('--tw-caret-opacity', opacity), new Property('caret-color', `rgba(${color}, var(--tw-caret-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 2 });
     });
-
 }
 
 // https://tailwindcss.com/docs/background-color
@@ -1252,6 +1280,7 @@ export const dynamicUtilities: DynamicUtility = {
   stroke: stroke,
   text: text,
   tracking: letterSpacing,
+  line: textDecoration,
   w: size,
   z: zIndex,
   gap: gap,

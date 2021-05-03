@@ -44,8 +44,8 @@ describe('Resolve Tests', () => {
   });
 
   it('resolve static utilities', () => {
-    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(251);
-    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(281);
+    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(258);
+    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(288);
   });
 
   it('resolve dynamic utilities', () => {
