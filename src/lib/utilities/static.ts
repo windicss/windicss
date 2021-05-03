@@ -2032,6 +2032,35 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // background origin
+  'bg-origin-border': {
+    'utility': {
+      'background-origin': 'border-box',
+    },
+    'meta': {
+      'group': 'backgroundOrigin',
+      'order': 1,
+    },
+  },
+  'bg-origin-padding': {
+    'utility': {
+      'background-origin': 'padding-box',
+    },
+    'meta': {
+      'group': 'backgroundOrigin',
+      'order': 2,
+    },
+  },
+  'bg-origin-content': {
+    'utility': {
+      'background-origin': 'content-box',
+    },
+    'meta': {
+      'group': 'backgroundOrigin',
+      'order': 3,
+    },
+  },
+
   // https://tailwindcss.com/docs/background-image
   // https://tailwindcss.com/docs/gradient-color-stops
   // See dynamic.ts
