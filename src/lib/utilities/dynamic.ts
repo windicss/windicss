@@ -521,7 +521,7 @@ function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/list-style-type
 function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
-    .handleStatic(theme('listStyleType'))
+    .handleBody(theme('listStyleType'))
     .createProperty('list-style-type')
     ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'listStyleType', order: pluginOrder['listStyleType'] + 1 });
 }

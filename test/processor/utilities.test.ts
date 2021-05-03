@@ -178,4 +178,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('underline line-through no-underline line-solid line-dashed line-dotted line-double line-opacity-90 line-gray-200 line-2 line-3px line-1rem line-auto line-transparent').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('list style type', () => {
+    const processor = new Processor();
+    expect(processor.interpret('list-disc list-square list-lower-greek list-zero-decimal').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
