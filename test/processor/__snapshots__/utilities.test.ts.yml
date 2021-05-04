@@ -312,6 +312,11 @@ Tools / shadow color / css / 0: |-
     --tw-shadow-color: 153, 27, 27;
   }
 Tools / tab size / css / 0: |-
+  .tab {
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  }
   .tab-2 {
     -moz-tab-size: 2;
     -o-tab-size: 2;
@@ -380,6 +385,22 @@ Tools / text decoration color & opacity & length / css / 0: |-
   }
   .no-underline {
     text-decoration: none;
+  }
+Tools / text indent / css / 0: |-
+  .indent {
+    text-indent: 1.5rem;
+  }
+  .indent-sm {
+    text-indent: 1rem;
+  }
+  .indent-lg {
+    text-indent: 2rem;
+  }
+  .indent-2xl {
+    text-indent: 3rem;
+  }
+  .indent-2em {
+    text-indent: 2em;
   }
 Tools / wrap container / small container / 0: |-
   @media (min-width: 640px) {

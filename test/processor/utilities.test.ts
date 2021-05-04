@@ -186,6 +186,11 @@ describe('Utilities', () => {
 
   it('tab size', () => {
     const processor = new Processor();
-    expect(processor.interpret('tab-2 tab-4 tab-12 tab-13px').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('tab tab-2 tab-4 tab-12 tab-13px').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('text indent', () => {
+    const processor = new Processor();
+    expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em').styleSheet.build()).toMatchSnapshot('css');
   });
 });

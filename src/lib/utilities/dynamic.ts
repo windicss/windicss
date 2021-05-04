@@ -581,6 +581,14 @@ function tabSize(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'tabSize', order: pluginOrder['tabSize'] + 1 });
 }
 
+function textIndent(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleStatic(theme('textIndent'))
+    .handleSize()
+    .createProperty('text-indent')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textIndent', order: pluginOrder['textIndent'] + 1 });
+}
+
 // https://tailwindcss.com/docs/background-color
 // https://tailwindcss.com/docs/background-opacity
 // https://tailwindcss.com/docs/background-position
@@ -1269,6 +1277,7 @@ export const dynamicUtilities: DynamicUtility = {
   placeholder: placeholder,
   caret: caret,
   tab: tabSize,
+  indent: textIndent,
   inset: inset,
   top: inset,
   right: inset,

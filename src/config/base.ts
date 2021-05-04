@@ -815,6 +815,16 @@ export const baseConfig: Config = {
       4: '4px',
       8: '8px',
     },
+    textIndent: {
+      DEFAULT: '1.5rem',
+      xs: '0.5rem',
+      sm: '1rem',
+      md: '1.5rem',
+      lg: '2rem',
+      xl: '2.5rem',
+      '2xl': '3rem',
+      '3xl': '4rem',
+    },
     transformOrigin: {
       center: 'center',
       top: 'top',
