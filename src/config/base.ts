@@ -796,6 +796,14 @@ export const baseConfig: Config = {
       2: '2',
       // >=0 int -> int
     },
+    tabSize: {
+      DEFAULT: '4',
+      0: '0',
+      2: '2',
+      4: '4',
+      8: '8',
+      // int >=0 -> int px
+    },
     textColor: (theme) => theme('colors'),
     textOpacity: (theme) => theme('opacity'),
     textDecorationColor: (theme) => theme('colors'),

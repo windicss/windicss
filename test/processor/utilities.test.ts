@@ -183,4 +183,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('list-disc list-square list-lower-greek list-zero-decimal').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('tab size', () => {
+    const processor = new Processor();
+    expect(processor.interpret('tab-2 tab-4 tab-12 tab-13px').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -572,6 +572,15 @@ function caret(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
+function tabSize(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleStatic(theme('tabSize'))
+    .handleNumber(0, undefined, 'int')
+    .handleSize()
+    .createProperty(['-moz-tab-size', '-o-tab-size', 'tab-size'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'tabSize', order: pluginOrder['tabSize'] + 1 });
+}
+
 // https://tailwindcss.com/docs/background-color
 // https://tailwindcss.com/docs/background-opacity
 // https://tailwindcss.com/docs/background-position
@@ -1259,6 +1268,7 @@ export const dynamicUtilities: DynamicUtility = {
   pl: padding,
   placeholder: placeholder,
   caret: caret,
+  tab: tabSize,
   inset: inset,
   top: inset,
   right: inset,

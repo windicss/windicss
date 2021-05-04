@@ -311,6 +311,27 @@ Tools / shadow color / css / 0: |-
   .shadow-red-800 {
     --tw-shadow-color: 153, 27, 27;
   }
+Tools / tab size / css / 0: |-
+  .tab-2 {
+    -moz-tab-size: 2;
+    -o-tab-size: 2;
+    tab-size: 2;
+  }
+  .tab-4 {
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  }
+  .tab-12 {
+    -moz-tab-size: 12;
+    -o-tab-size: 12;
+    tab-size: 12;
+  }
+  .tab-13px {
+    -moz-tab-size: 13px;
+    -o-tab-size: 13px;
+    tab-size: 13px;
+  }
 Tools / text decoration color & opacity & length / css / 0: |-
   .line-solid {
     -webkit-text-decoration-style: solid;

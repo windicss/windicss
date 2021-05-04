@@ -91,6 +91,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'placeholderOpacity': 6400,
   'caretColor': 6450,
   'caretOpacity': 6460,
+  'tabSize': 6470,
   'pointerEvents': 6500,
   'position': 6600,
   'inset': 6700,
