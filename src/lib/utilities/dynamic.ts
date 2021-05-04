@@ -585,6 +585,7 @@ function textIndent(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('textIndent'))
     .handleSize()
+    .handleNegative()
     .createProperty('text-indent')
     ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textIndent', order: pluginOrder['textIndent'] + 1 });
 }

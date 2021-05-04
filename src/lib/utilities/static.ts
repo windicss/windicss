@@ -2181,6 +2181,34 @@ export const staticUtilities: StaticUtility = {
   // https://tailwindcss.com/docs/ring-offset-width
   // https://tailwindcss.com/docs/ring-offset-color
   // dynamic
+  'image-render-auto': {
+    'utility': {
+      'image-rendering': 'auto',
+    },
+    'meta': {
+      'group': 'imageRendering',
+      'order': 1,
+    },
+  },
+  'image-render-pixel': {
+    'utility': {
+      '-ms-interpolation-mode': 'nearest-neighbor',
+      'image-rendering': ['-webkit-optimize-contrast', '-moz-crisp-edges', '-o-pixelated', 'pixelated'],
+    },
+    'meta': {
+      'group': 'imageRendering',
+      'order': 2,
+    },
+  },
+  'image-render-edge': {
+    'utility': {
+      'image-rendering': 'crisp-edges',
+    },
+    'meta': {
+      'group': 'imageRendering',
+      'order': 3,
+    },
+  },
 
   /**
    * ===========================================

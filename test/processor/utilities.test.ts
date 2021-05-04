@@ -191,6 +191,6 @@ describe('Utilities', () => {
 
   it('text indent', () => {
     const processor = new Processor();
-    expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em -indent-2em').styleSheet.build()).toMatchSnapshot('css');
   });
 });

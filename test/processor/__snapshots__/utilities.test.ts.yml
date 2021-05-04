@@ -402,6 +402,9 @@ Tools / text indent / css / 0: |-
   .indent-2em {
     text-indent: 2em;
   }
+  .-indent-2em {
+    text-indent: -2em;
+  }
 Tools / wrap container / small container / 0: |-
   @media (min-width: 640px) {
     .sm\:container {

@@ -155,6 +155,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'transitionDelay': 11700,
   'keyframes': 11800,
   'animation': 11900,
+  'imageRendering': 11950,
   'mixBlendMode': 12000,
   'backgroundBlendMode': 12100,
   'filter': 12200,
