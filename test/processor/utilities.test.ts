@@ -193,4 +193,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em -indent-2em').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('transform rotateY', () => {
+    const processor = new Processor();
+    expect(processor.interpret('transform rotate-y-180 -rotate-y-45 rotate-45').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

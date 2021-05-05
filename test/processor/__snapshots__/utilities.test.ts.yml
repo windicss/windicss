@@ -405,6 +405,29 @@ Tools / text indent / css / 0: |-
   .-indent-2em {
     text-indent: -2em;
   }
+Tools / transform rotateY / css / 0: |-
+  .transform {
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-rotate-y: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    -webkit-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    -ms-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  .rotate-y-180 {
+    --tw-rotate-y: 180deg;
+  }
+  .rotate-45 {
+    --tw-rotate: 45deg;
+  }
+  .-rotate-y-45 {
+    --tw-rotate-y: -45deg;
+  }
 Tools / wrap container / small container / 0: |-
   @media (min-width: 640px) {
     .sm\:container {

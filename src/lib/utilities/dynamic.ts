@@ -1141,7 +1141,7 @@ function rotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'float', (number: number) => `${number}deg`)
     .handleNegative()
     .handleVariable()
-    .createProperty('--tw-rotate')
+    .createProperty(/^-?rotate-y/.test(utility.raw) ? '--tw-rotate-y' : '--tw-rotate')
     ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
 }
 
