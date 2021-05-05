@@ -684,6 +684,28 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'backface-visible': {
+    'utility': {
+      '-webkit-backface-visibility': 'visible',
+      'backface-visibility': 'visible',
+    },
+    'meta': {
+      'group': 'backfaceVisibility',
+      'order': 1,
+    },
+  },
+
+  'backface-hidden': {
+    'utility': {
+      '-webkit-backface-visibility': 'hidden',
+      'backface-visibility': 'hidden',
+    },
+    'meta': {
+      'group': 'backfaceVisibility',
+      'order': 2,
+    },
+  },
+
   // https://tailwindcss.com/docs/z-index
   // See dynamic.ts
 

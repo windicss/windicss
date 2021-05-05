@@ -126,6 +126,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'userSelect': 8900,
   'verticalAlign': 9000,
   'visibility': 9100,
+  'backfaceVisibility': 9150,
   'whitespace': 9200,
   'wordBreak': 9300,
   'hyphens': 9350,
