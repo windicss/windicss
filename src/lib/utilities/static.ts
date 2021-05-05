@@ -2638,6 +2638,26 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'cell-empty-visible': {
+    'utility': {
+      'empty-cells': 'show',
+    },
+    'meta': {
+      'group': 'emptyCellVisibility',
+      'order': 1,
+    },
+  },
+
+  'cell-empty-hidden': {
+    'utility': {
+      'empty-cells': 'hide',
+    },
+    'meta': {
+      'group': 'emptyCellVisibility',
+      'order': 2,
+    },
+  },
+
   // https://tailwindcss.com/docs/table-layout
   'table-auto': {
     'utility': {
