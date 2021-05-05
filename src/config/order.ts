@@ -50,6 +50,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'boxDecorationBreak': 2350,
   'boxSizing': 2400,
   'cursor': 2500,
+  'captionSide': 2550,
   'display': 2600,
   'flexDirection': 2700,
   'flexWrap': 2800,

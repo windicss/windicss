@@ -2596,6 +2596,26 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'caption-top': {
+    'utility': {
+      'caption-side': 'top',
+    },
+    'meta': {
+      'group': 'captionSide',
+      'order': 1,
+    },
+  },
+
+  'caption-bottom': {
+    'utility': {
+      'caption-side': 'bottom',
+    },
+    'meta': {
+      'group': 'captionSide',
+      'order': 2,
+    },
+  },
+
   // https://tailwindcss.com/docs/table-layout
   'table-auto': {
     'utility': {
