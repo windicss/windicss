@@ -174,9 +174,9 @@ describe('Utilities', () => {
     expect(processor.interpret('caret-opacity-80 caret-auto caret-gray-800 caret-transparent').styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('text decoration color & opacity & length', () => {
+  it('text decoration color & opacity & length & offset', () => {
     const processor = new Processor();
-    expect(processor.interpret('underline line-through no-underline line-solid line-dashed line-dotted line-double line-opacity-90 line-gray-200 line-2 line-3px line-1rem line-auto line-transparent').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('underline line-through no-underline underline-solid underline-dashed underline-dotted underline-double underline-opacity-90 underline-gray-200 underline-2 underline-3px underline-1rem underline-auto underline-transparent underline-offset-2 underline-offset-auto underline-offset-3px').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('list style type', () => {

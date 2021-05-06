@@ -823,6 +823,14 @@ export const baseConfig: Config = {
       4: '4px',
       8: '8px',
     },
+    textDecorationOffset: {
+      'auto': 'auto',
+      0: '0px',
+      1: '1px',
+      2: '2px',
+      4: '4px',
+      8: '8px',
+    },
     textIndent: {
       DEFAULT: '1.5rem',
       xs: '0.5rem',

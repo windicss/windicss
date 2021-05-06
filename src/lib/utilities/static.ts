@@ -1680,7 +1680,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
   // text decoration style
-  'line-solid': {
+  'underline-solid': {
     'utility': {
       '-webkit-text-decoration-style': 'solid',
       'text-decoration-style': 'solid',
@@ -1690,7 +1690,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'line-double': {
+  'underline-double': {
     'utility': {
       '-webkit-text-decoration-style': 'double',
       'text-decoration-style': 'double',
@@ -1700,7 +1700,7 @@ export const staticUtilities: StaticUtility = {
       'order': 2,
     },
   },
-  'line-dotted': {
+  'underline-dotted': {
     'utility': {
       '-webkit-text-decoration-style': 'dotted',
       'text-decoration-style': 'dotted',
@@ -1710,7 +1710,7 @@ export const staticUtilities: StaticUtility = {
       'order': 3,
     },
   },
-  'line-dashed': {
+  'underline-dashed': {
     'utility': {
       '-webkit-text-decoration-style': 'dashed',
       'text-decoration-style': 'dashed',

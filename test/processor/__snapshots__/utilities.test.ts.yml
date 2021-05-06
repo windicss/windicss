@@ -337,43 +337,52 @@ Tools / tab size / css / 0: |-
     -o-tab-size: 13px;
     tab-size: 13px;
   }
-Tools / text decoration color & opacity & length / css / 0: |-
-  .line-solid {
+Tools / text decoration color & opacity & length & offset / css / 0: |-
+  .underline-solid {
     -webkit-text-decoration-style: solid;
     text-decoration-style: solid;
   }
-  .line-double {
+  .underline-double {
     -webkit-text-decoration-style: double;
     text-decoration-style: double;
   }
-  .line-dotted {
+  .underline-dotted {
     -webkit-text-decoration-style: dotted;
     text-decoration-style: dotted;
   }
-  .line-dashed {
+  .underline-dashed {
     -webkit-text-decoration-style: dashed;
     text-decoration-style: dashed;
   }
-  .line-2 {
+  .underline-2 {
     text-decoration-thickness: 2px;
   }
-  .line-3px {
+  .underline-3px {
     text-decoration-thickness: 3px;
   }
-  .line-1rem {
+  .underline-1rem {
     text-decoration-thickness: 1rem;
   }
-  .line-transparent {
+  .underline-transparent {
     -webkit-text-decoration-color: transparent;
     text-decoration-color: transparent;
   }
-  .line-gray-200 {
+  .underline-gray-200 {
     --tw-line-opacity: 1;
     -webkit-text-decoration-color: rgba(229, 231, 235, var(--tw-line-opacity));
     text-decoration-color: rgba(229, 231, 235, var(--tw-line-opacity));
   }
-  .line-opacity-90 {
+  .underline-opacity-90 {
     --tw-line-opacity: 0.9;
+  }
+  .underline-offset-2 {
+    text-underline-offset: 2px;
+  }
+  .underline-offset-auto {
+    text-underline-offset: auto;
+  }
+  .underline-offset-3px {
+    text-underline-offset: 3px;
   }
   .underline {
     -webkit-text-decoration-line: underline;

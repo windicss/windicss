@@ -505,13 +505,22 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
 // text decoration
 function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
   // handle text decoration opacity
-  if (utility.raw.startsWith('line-opacity')) {
+  if (utility.raw.startsWith('underline-opacity')) {
     return utility.handler
       .handleStatic(theme('textDecorationOpacity'))
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-line-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationOpacity', order: pluginOrder['textDecorationOpacity'] + 1 });
+  }
+
+  if (utility.raw.startsWith('underline-offset')) {
+    return utility.handler
+      .handleStatic(theme('textDecorationOffset'))
+      .handleNumber(0, undefined, 'int', number => `${number}px`)
+      .handleSize()
+      .createProperty('text-underline-offset')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationOffset', order: pluginOrder['textDecorationOffset'] + 1 });
   }
   // handle text decoration color or length
   return utility.handler
@@ -1325,7 +1334,7 @@ export const dynamicUtilities: DynamicUtility = {
   stroke: stroke,
   text: text,
   tracking: letterSpacing,
-  line: textDecoration,
+  underline: textDecoration,
   w: size,
   z: zIndex,
   gap: gap,
