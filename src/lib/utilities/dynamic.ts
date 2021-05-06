@@ -413,6 +413,14 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-text-opacity')
       ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textOpacity', order: pluginOrder['textOpacity'] + 1 });
   }
+  if (utility.raw.startsWith('text-shadow')) {
+    return (utility.raw === 'text-shadow'
+      ? new Property('text-shadow', theme('textShadow.DEFAULT', '0px 0px 1px rgb(0 0 0 / 20%), 0px 0px 1px rgb(1 0 5 / 10%)') as string)
+      : utility.handler
+        .handleStatic(theme('textShadow'))
+        .createProperty('text-shadow')
+    )?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textShadow', order: pluginOrder['textShadow'] + 1 });
+  }
   // handle text colors
   const textColor = utility.handler
     .handleSquareBrackets(notNumberLead)

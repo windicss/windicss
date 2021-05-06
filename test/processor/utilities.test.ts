@@ -198,4 +198,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('transform rotate-y-180 -rotate-y-45 rotate-45').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('text shadow', () => {
+    const processor = new Processor();
+    expect(processor.interpret('text-shadow text-shadow-none text-shadow-sm text-shadow-lg').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
