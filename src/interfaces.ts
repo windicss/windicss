@@ -112,6 +112,8 @@ export interface BaseTheme {
   boxShadow: ThemeType
   boxShadowColor: ThemeType
   brightness: ThemeType
+  caretColor: ThemeType
+  caretOpacity: ThemeType
   container: ThemeType
   contrast: ThemeType
   cursor: ThemeType
@@ -173,8 +175,19 @@ export interface BaseTheme {
   space: ThemeType
   stroke: ThemeType
   strokeWidth: ThemeType
+  strokeDashArray: ThemeType
+  strokeDashOffset: ThemeType
+  tabSize: ThemeType
   textColor: ThemeType
   textOpacity: ThemeType
+  textShadow: ThemeType
+  textStrokeColor: ThemeType
+  textStrokeWidth: ThemeType
+  textDecorationColor: ThemeType
+  textDecorationOpacity: ThemeType
+  textDecorationLength: ThemeType
+  textDecorationOffset: ThemeType
+  textIndent: ThemeType
   transformOrigin: ThemeType
   transitionDuration: ThemeType
   transitionDelay: ThemeType
