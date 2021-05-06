@@ -833,6 +833,17 @@ export const baseConfig: Config = {
       '2xl': '3rem',
       '3xl': '4rem',
     },
+    textStrokeColor: (theme) => ({
+      ...(theme('colors') ?? {}),
+      DEFAULT: theme('colors.gray.200', 'currentColor'),
+    }),
+    textStrokeWidth: {
+      DEFAULT: 'medium',
+      'none': '0',
+      'sm': 'thin',
+      'md': 'medium',
+      'lg': 'thick',
+    },
     transformOrigin: {
       center: 'center',
       top: 'top',

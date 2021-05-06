@@ -203,4 +203,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('text-shadow text-shadow-none text-shadow-sm text-shadow-lg').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('text stroke width & stroke color', () => {
+    const processor = new Processor();
+    expect(processor.interpret('text-stroke text-stroke-sm text-stroke-md text-stroke-lg text-stroke-2 text-stroke-3px text-stroke-gray-200').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

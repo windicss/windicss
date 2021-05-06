@@ -122,6 +122,8 @@ export const pluginOrder: { [ key:string ] : number } = {
   'textDecorationOpacity': 8470,
   'textDecoration': 8500,
   'textIndent': 8550,
+  'textStrokeColor': 8560,
+  'textStrokeWidth': 8570,
   'fontSmoothing': 8600,
   'fontVariantNumeric': 8700,
   'letterSpacing': 8800,

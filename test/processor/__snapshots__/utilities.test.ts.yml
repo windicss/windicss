@@ -418,6 +418,29 @@ Tools / text shadow / css / 0: |-
   .text-shadow-lg {
     text-shadow: 3px 3px 6px rgb(0 0 0 / 26%), 0 0 5px rgb(15 3 86 / 22%);
   }
+Tools / text stroke width & stroke color / css / 0: |-
+  .text-stroke {
+    -webkit-text-stroke-color: #e5e7eb;
+    -webkit-text-stroke-width: medium;
+  }
+  .text-stroke-gray-200 {
+    -webkit-text-stroke-color: #e5e7eb;
+  }
+  .text-stroke-sm {
+    -webkit-text-stroke-width: thin;
+  }
+  .text-stroke-md {
+    -webkit-text-stroke-width: medium;
+  }
+  .text-stroke-lg {
+    -webkit-text-stroke-width: thick;
+  }
+  .text-stroke-2 {
+    -webkit-text-stroke-width: 2px;
+  }
+  .text-stroke-3px {
+    -webkit-text-stroke-width: 3px;
+  }
 Tools / transform rotateY / css / 0: |-
   .transform {
     --tw-translate-x: 0;

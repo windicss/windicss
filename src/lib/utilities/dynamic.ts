@@ -421,6 +421,23 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
         .createProperty('text-shadow')
     )?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textShadow', order: pluginOrder['textShadow'] + 1 });
   }
+  if (utility.raw.startsWith('text-stroke')) {
+    if (utility.raw === 'text-stroke') return new Style('text-stroke', [
+      new Property('-webkit-text-stroke-color', theme('textStrokeColor.DEFAULT', '#e4e4e7') as string),
+      new Property('-webkit-text-stroke-width', theme('textStrokeWidth.DEFAULT', 'medium') as string),
+    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeColor', order: pluginOrder['textStrokeColor'] + 1 });
+    return new Utility('textStroke' + utility.raw.slice(11)).handler
+      .handleColor(theme('textStrokeColor'))
+      .handleVariable()
+      .createProperty('-webkit-text-stroke-color')
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeColor', order: pluginOrder['textStrokeColor'] + 2 })
+  || utility.handler
+    .handleStatic(theme('textStrokeWidth'))
+    .handleNumber(0, undefined, 'int', (number) => `${number}px`)
+    .handleSize()
+    .createProperty('-webkit-text-stroke-width')
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeWidth', order: pluginOrder['textStrokeWidth'] + 1 });
+  }
   // handle text colors
   const textColor = utility.handler
     .handleSquareBrackets(notNumberLead)
