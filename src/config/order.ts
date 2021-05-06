@@ -130,6 +130,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'backfaceVisibility': 9150,
   'whitespace': 9200,
   'wordBreak': 9300,
+  'writingMode': 9340,
   'hyphens': 9350,
   'width': 9400,
   'zIndex': 9500,

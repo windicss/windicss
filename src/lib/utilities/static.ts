@@ -1926,6 +1926,77 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // writing mode by windi
+  'write-normal': {
+    'utility': {
+      '-webkit-writing-mode': 'horizontal-tb',
+      '-ms-writing-mode': 'lr-tb',
+      'writing-mode': 'horizontal-tb',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 1,
+    },
+  },
+
+  'write-vertical-right': {
+    'utility': {
+      '-webkit-writing-mode': 'vertical-rl',
+      '-ms-writing-mode': 'tb-rl',
+      'writing-mode': 'vertical-rl',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 2,
+    },
+  },
+
+  'write-vertical-left': {
+    'utility': {
+      '-webkit-writing-mode': 'vertical-lr',
+      '-ms-writing-mode': 'tb-lr',
+      'writing-mode': 'vertical-lr',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 3,
+    },
+  },
+
+  // text arientation
+  'write-orient-mixed': {
+    'utility': {
+      '-webkit-text-orientation': 'mixed',
+      'text-orientation': 'mixed',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 4,
+    },
+  },
+
+  'write-orient-upright': {
+    'utility': {
+      '-webkit-text-orientation': 'upright',
+      'text-orientation': 'upright',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 5,
+    },
+  },
+
+  'write-orient-sideways': {
+    'utility': {
+      '-webkit-text-orientation': 'sideways',
+      'text-orientation': 'sideways',
+    },
+    'meta': {
+      'group': 'writingMode',
+      'order': 6,
+    },
+  },
+
   // hyphens by windi
   'hyphens-none': {
     'utility': {
