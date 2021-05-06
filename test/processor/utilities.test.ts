@@ -208,4 +208,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('text-stroke text-stroke-sm text-stroke-md text-stroke-lg text-stroke-2 text-stroke-3px text-stroke-gray-200').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('stroke svg', () => {
+    const processor = new Processor();
+    expect(processor.interpret('stroke-2 stroke-gray-200 stroke-offset-2 stroke-cap-round stroke-join-bevel stroke-dash-4').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

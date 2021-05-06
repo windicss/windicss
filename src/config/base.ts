@@ -794,7 +794,16 @@ export const baseConfig: Config = {
       0: '0',
       1: '1',
       2: '2',
-      // >=0 int -> int
+    },
+    strokeDashArray: {
+      0: '0',
+      1: '1',
+      2: '2',
+    },
+    strokeDashOffset: {
+      0: '0',
+      1: '1',
+      2: '2',
     },
     tabSize: {
       DEFAULT: '4',

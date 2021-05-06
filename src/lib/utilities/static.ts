@@ -2978,6 +2978,78 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
+  'stroke-cap-auto': {
+    'utility': {
+      'stroke-linecap': 'butt',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 2,
+    },
+  },
+  'stroke-cap-square': {
+    'utility': {
+      'stroke-linecap': 'square',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 3,
+    },
+  },
+  'stroke-cap-round': {
+    'utility': {
+      'stroke-linecap': 'round',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 4,
+    },
+  },
+  'stroke-join-auto': {
+    'utility': {
+      'stroke-linejoin': 'miter',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 5,
+    },
+  },
+  'stroke-join-arcs': {
+    'utility': {
+      'stroke-linejoin': 'arcs',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 6,
+    },
+  },
+  'stroke-join-bevel': {
+    'utility': {
+      'stroke-linejoin': 'bevel',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 7,
+    },
+  },
+  'stroke-join-clip': {
+    'utility': {
+      'stroke-linejoin': 'miter-clip',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 8,
+    },
+  },
+  'stroke-join-round': {
+    'utility': {
+      'stroke-linejoin': 'round',
+    },
+    'meta': {
+      'group': 'stroke',
+      'order': 9,
+    },
+  },
   // See dynamic.ts
 
   /**

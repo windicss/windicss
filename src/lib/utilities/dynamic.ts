@@ -1255,6 +1255,12 @@ function fill(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('stroke-dash')) {
+    return utility.handler.handleNumber().createProperty('stroke-dasharray')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeDashArray', order: pluginOrder['strokeDashArray'] + 1 });
+  }
+  if (utility.raw.startsWith('stroke-offset')) {
+    return utility.handler.handleNumber().createProperty('stroke-dashoffset')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeDashOffset', order: pluginOrder['strokeDashOffset'] + 1 });
+  }
   return utility.handler
     .handleColor(theme('stroke'))
     .handleVariable()

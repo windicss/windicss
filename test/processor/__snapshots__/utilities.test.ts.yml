@@ -311,6 +311,25 @@ Tools / shadow color / css / 0: |-
   .shadow-red-800 {
     --tw-shadow-color: 153, 27, 27;
   }
+Tools / stroke svg / css / 0: |-
+  .stroke-gray-200 {
+    stroke: #e5e7eb;
+  }
+  .stroke-cap-round {
+    stroke-linecap: round;
+  }
+  .stroke-join-bevel {
+    stroke-linejoin: bevel;
+  }
+  .stroke-2 {
+    stroke-width: 2;
+  }
+  .stroke-dash-4 {
+    stroke-dasharray: 4;
+  }
+  .stroke-offset-2 {
+    stroke-dashoffset: 2;
+  }
 Tools / tab size / css / 0: |-
   .tab {
     -moz-tab-size: 4;

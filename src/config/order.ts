@@ -108,6 +108,8 @@ export const pluginOrder: { [ key:string ] : number } = {
   'fill': 7500,
   'stroke': 7600,
   'strokeWidth': 7700,
+  'strokeDashArray': 7750,
+  'strokeDashOffset': 7760,
   'tableLayout': 7800,
   'textAlign': 7900,
   'textColor': 8000,
