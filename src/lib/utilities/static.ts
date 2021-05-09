@@ -2789,13 +2789,14 @@ export const staticUtilities: StaticUtility = {
       '--tw-translate-x': '0',
       '--tw-translate-y': '0',
       '--tw-rotate': '0',
+      '--tw-rotate-y': '0',
       '--tw-skew-x': '0',
       '--tw-skew-y': '0',
       '--tw-scale-x': '1',
       '--tw-scale-y': '1',
-      '-webkit-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-      '-ms-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
-      'transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      '-webkit-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      '-ms-transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
+      'transform': 'translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) rotateY(var(--tw-rotate-y)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))',
     },
     'meta': {
       'group': 'transform',
@@ -2811,6 +2812,28 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'transform',
       'order': 3,
+    },
+  },
+
+  'preserve-flat': {
+    'utility': {
+      '-webkit-transform-style': 'flat',
+      'transform-style': 'flat',
+    },
+    'meta': {
+      'group': 'transform',
+      'order': 4,
+    },
+  },
+
+  'preserve-3d': {
+    'utility': {
+      '-webkit-transform-style': 'preserve-3d',
+      'transform-style': 'preserve-3d',
+    },
+    'meta': {
+      'group': 'transform',
+      'order': 5,
     },
   },
 
