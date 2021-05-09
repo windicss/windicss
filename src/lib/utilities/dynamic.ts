@@ -533,7 +533,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       return new Style(utility.class, [ new Property('--tw-line-opacity', opacity), new Property(['-webkit-text-decoration-color', 'text-decoration-color'], `rgba(${color}, var(--tw-line-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 2 });
     })
   || utility.handler
-    .handleStatic('textDecorationLength')
+    .handleStatic(theme('textDecorationLength'))
     .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
     .handleSize()
     .createProperty('text-decoration-thickness')
