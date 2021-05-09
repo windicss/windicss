@@ -1164,7 +1164,8 @@ function scale(utility: Utility, { theme }: PluginUtils): Output {
     .callback(value => {
       if (utility.raw.startsWith('scale-x')) return new Property('--tw-scale-x', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 2 });
       if (utility.raw.startsWith('scale-y')) return new Property('--tw-scale-y', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 3 });
-      return new Property(['--tw-scale-x', '--tw-scale-y'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 1 });
+      if (utility.raw.startsWith('scale-z')) return new Property('--tw-scale-z', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 4 });
+      return new Property(['--tw-scale-x', '--tw-scale-y', '--tw-scale-z'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 1 });
     });
 }
 
@@ -1175,13 +1176,18 @@ function rotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'float', (number: number) => `${number}deg`)
     .handleNegative()
     .handleVariable()
-    .createProperty(/^-?rotate-y/.test(utility.raw) ? '--tw-rotate-y' : '--tw-rotate')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
+    .callback(value => {
+      const abs = utility.absolute;
+      if (abs.startsWith('rotate-x')) return new Property('--tw-rotate-x', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 2 });
+      if (abs.startsWith('rotate-y')) return new Property('--tw-rotate-y', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 3 });
+      if (abs.startsWith('rotate-z')) return new Property('--tw-rotate-z', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 4 });
+      return new Property('--tw-rotate', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 1 });
+    });
 }
 
 // https://tailwindcss.com/docs/translate
 function translate(utility: Utility, { theme }: PluginUtils): Output {
-  const centerMatch = utility.raw.match(/^-?translate-[x|y]/);
+  const centerMatch = utility.raw.match(/^-?translate-[x|y|z]/);
   if (centerMatch) {
     const center = centerMatch[0].replace(/^-?translate-/, '');
     return utility.handler

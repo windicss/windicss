@@ -213,4 +213,9 @@ describe('Utilities', () => {
     const processor = new Processor();
     expect(processor.interpret('stroke-2 stroke-gray-200 stroke-offset-2 stroke-cap-round stroke-join-bevel stroke-dash-4').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('transform 3d', () => {
+    const processor = new Processor();
+    expect(processor.interpret('transform transform-gpu transform-none rotate-45 rotate-x-45 rotate-y-45 rotate-z-45 -rotate-90 -rotate-y-90 -rotate-z-180 translate-x-6 translate-y-6 translate-z-6 -translate-z-6 scale-x-90 scale-y-90 scale-z-120').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
