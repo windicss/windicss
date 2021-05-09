@@ -3416,6 +3416,7 @@ Tools / completions / color / 2: |-
     "fill-blue-gray-700",
     "fill-blue-gray-800",
     "fill-blue-gray-900",
+    "fill-none",
     "stroke-transparent",
     "stroke-current",
     "stroke-light-50",
@@ -3659,7 +3660,8 @@ Tools / completions / color / 2: |-
     "stroke-blue-gray-600",
     "stroke-blue-gray-700",
     "stroke-blue-gray-800",
-    "stroke-blue-gray-900"
+    "stroke-blue-gray-900",
+    "stroke-none"
   ]
 Tools / completions / dynamic / 1: |-
   [

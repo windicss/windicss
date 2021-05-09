@@ -227,7 +227,10 @@ export const baseConfig: Config = {
       '2xl': '0 25px 25px rgba(0, 0, 0, 0.15)',
       none: '0 0 #0000',
     },
-    fill: (theme) => theme('colors'),
+    fill: (theme) => ({
+      ...(theme('colors') ?? {}),
+      none: 'none',
+    }),
     flex: {
       1: '1 1 0%',
       auto: '1 1 auto',
@@ -785,7 +788,10 @@ export const baseConfig: Config = {
       ...theme('spacing'),
       ...negative(theme('spacing')),
     }),
-    stroke: (theme) => theme('colors'),
+    stroke: (theme) => ({
+      ...(theme('colors') ?? {}),
+      none: 'none',
+    }),
     strokeWidth: {
       0: '0',
       1: '1',
