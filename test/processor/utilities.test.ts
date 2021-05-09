@@ -182,7 +182,7 @@ describe('Utilities', () => {
   });
 
   it('text indent', () => {
-    expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em -indent-2em').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em -indent-2em indent-1/2').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('transform rotateY', () => {

@@ -470,6 +470,9 @@ Tools / text indent / css / 0: |-
   .-indent-2em {
     text-indent: -2em;
   }
+  .indent-1\/2 {
+    text-indent: 50%;
+  }
 Tools / text shadow / css / 0: |-
   .text-shadow {
     text-shadow: 0px 0px 1px rgb(0 0 0 / 20%), 0px 0px 1px rgb(1 0 5 / 10%);
