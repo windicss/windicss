@@ -148,74 +148,64 @@ describe('Utilities', () => {
   });
 
   it('container max-width test', () => {
-    const processor = new Processor();
     expect(processor.interpret('container max-w-md').styleSheet.build()).toEqual(processor.interpret('max-w-md container').styleSheet.build());
     expect(processor.interpret('container max-w-md').styleSheet.build()).toMatchSnapshot('container');
     expect(processor.interpret('container max-w-md sm:container sm:max-w-md').styleSheet.build()).toMatchSnapshot('reponsive container');
   });
 
   it('border radius fraction', () => {
-    const processor = new Processor();
     expect(processor.interpret('rounded-1/2 rounded-1 rounded-1/4').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('border width shouldn\'t infer', () => {
-    const processor = new Processor();
     expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('shadow color', () => {
-    const processor = new Processor();
     expect(processor.interpret('shadow-2xl shadow-red-800').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('caret color', () => {
-    const processor = new Processor();
     expect(processor.interpret('caret-opacity-80 caret-auto caret-gray-800 caret-transparent').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('text decoration color & opacity & length & offset', () => {
-    const processor = new Processor();
     expect(processor.interpret('underline line-through no-underline underline-solid underline-dashed underline-dotted underline-double underline-opacity-90 underline-gray-200 underline-2 underline-3px underline-1rem underline-auto underline-transparent underline-offset-2 underline-offset-auto underline-offset-3px').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('list style type', () => {
-    const processor = new Processor();
     expect(processor.interpret('list-disc list-square list-lower-greek list-zero-decimal').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('tab size', () => {
-    const processor = new Processor();
     expect(processor.interpret('tab tab-2 tab-4 tab-12 tab-13px').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('text indent', () => {
-    const processor = new Processor();
     expect(processor.interpret('indent indent-sm indent-lg indent-2xl indent-2em -indent-2em').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('transform rotateY', () => {
-    const processor = new Processor();
     expect(processor.interpret('transform rotate-y-180 -rotate-y-45 rotate-45').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('text shadow', () => {
-    const processor = new Processor();
     expect(processor.interpret('text-shadow text-shadow-none text-shadow-sm text-shadow-lg').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('text stroke width & stroke color', () => {
-    const processor = new Processor();
     expect(processor.interpret('text-stroke text-stroke-sm text-stroke-md text-stroke-lg text-stroke-2 text-stroke-3px text-stroke-gray-200').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('stroke svg', () => {
-    const processor = new Processor();
     expect(processor.interpret('stroke-2 stroke-gray-200 stroke-offset-2 stroke-cap-round stroke-join-bevel stroke-dash-4').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('transform 3d', () => {
-    const processor = new Processor();
     expect(processor.interpret('transform transform-gpu transform-none rotate-45 rotate-x-45 rotate-y-45 rotate-z-45 -rotate-90 -rotate-y-90 -rotate-z-180 translate-x-6 translate-y-6 translate-z-6 -translate-z-6 scale-x-90 scale-y-90 scale-z-120').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('prespective and perspective origin', () => {
+    expect(processor.interpret('perspect-none perspect-800px perspect-lg perspect-[4rem] perspect-23rem perspect-origin-center perspect-origin-bottom-right perspect-origin-[250%_250%] perspect-origin-[-170%]').styleSheet.build()).toMatchSnapshot('css');
   });
 });

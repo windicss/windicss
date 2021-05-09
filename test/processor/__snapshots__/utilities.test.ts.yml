@@ -290,6 +290,43 @@ Tools / list style type / css / 0: |-
   .list-zero-decimal {
     list-style-type: decimal-leading-zero;
   }
+Tools / prespective and perspective origin / css / 0: |-
+  .perspect-none {
+    -webkit-perspective: none;
+    perspective: none;
+  }
+  .perspect-800px {
+    -webkit-perspective: 800px;
+    perspective: 800px;
+  }
+  .perspect-lg {
+    -webkit-perspective: 32rem;
+    perspective: 32rem;
+  }
+  .perspect-\[4rem\] {
+    -webkit-perspective: 4rem;
+    perspective: 4rem;
+  }
+  .perspect-23rem {
+    -webkit-perspective: 23rem;
+    perspective: 23rem;
+  }
+  .perspect-origin-center {
+    -webkit-perspective-origin: center;
+    perspective-origin: center;
+  }
+  .perspect-origin-bottom-right {
+    -webkit-perspective-origin: bottom right;
+    perspective-origin: bottom right;
+  }
+  .perspect-origin-\[250\%_250\%\] {
+    -webkit-perspective-origin: 250% 250%;
+    perspective-origin: 250% 250%;
+  }
+  .perspect-origin-\[-170\%\] {
+    -webkit-perspective-origin: -170%;
+    perspective-origin: -170%;
+  }
 Tools / ring opacity / css / 0: |-
   .ring-transparent {
     --tw-ring-color: transparent;

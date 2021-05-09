@@ -159,6 +159,8 @@ export interface BaseTheme {
   order: ThemeType
   outline: ThemeType
   outlineColor: ThemeType
+  perspective: ThemeType
+  perspectiveOrigin: ThemeType
   padding: ThemeType
   placeholderColor: ThemeType
   placeholderOpacity: ThemeType

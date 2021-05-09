@@ -1218,6 +1218,25 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
+// pespective
+function perspective(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('perspect-origin')) {
+    const origin = new Utility('perspectOrigin' + utility.raw.slice(15)).handler
+      .handleBody(theme('perspectiveOrigin'))
+      .handleSquareBrackets()
+      .createProperty(['-webkit-perspective-origin', 'perspective-origin'])
+      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'perspectiveOrigin', order: pluginOrder['perspectiveOrigin'] + 1 });
+    if (origin) return origin;
+  }
+  return utility.handler
+    .handleStatic(theme('perspective'))
+    .handleNumber(0, undefined, 'int', number => `${number}px`)
+    .handleSize()
+    .handleSquareBrackets()
+    .createProperty(['-webkit-perspective', 'perspective'])
+    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'perspective', order: pluginOrder['perspective'] + 1 });
+}
+
 // https://tailwindcss.com/docs/cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
@@ -1359,6 +1378,7 @@ export const dynamicUtilities: DynamicUtility = {
   rotate: rotate,
   translate: translate,
   skew: skew,
+  perspect: perspective,
   transition: transition,
   ease: transitionTimingFunction,
   duration: duration,

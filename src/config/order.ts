@@ -159,6 +159,8 @@ export const pluginOrder: { [ key:string ] : number } = {
   'rotate': 11100,
   'translate': 11200,
   'skew': 11300,
+  'perspective': 11350,
+  'perspectiveOrigin': 11360,
   'transitionProperty': 11400,
   'transitionTimingFunction': 11500,
   'transitionDuration': 11600,
