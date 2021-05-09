@@ -382,6 +382,9 @@ Tools / text decoration color & opacity & length & offset / css / 0: |-
   .underline-1rem {
     text-decoration-thickness: 1rem;
   }
+  .underline-auto {
+    text-decoration-thickness: auto;
+  }
   .underline-transparent {
     -webkit-text-decoration-color: transparent;
     text-decoration-color: transparent;
