@@ -51,7 +51,7 @@ export const pluginOrder: { [ key:string ] : number } = {
   'boxSizing': 2400,
   'cursor': 2500,
   'captionSide': 2550,
-  'emptyCellVisibility': 2560,
+  'emptyCells': 2560,
   'display': 2600,
   'flexDirection': 2700,
   'flexWrap': 2800,

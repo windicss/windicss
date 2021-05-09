@@ -2709,22 +2709,22 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  'cell-empty-visible': {
+  'empty-cells-visible': {
     'utility': {
       'empty-cells': 'show',
     },
     'meta': {
-      'group': 'emptyCellVisibility',
+      'group': 'emptyCells',
       'order': 1,
     },
   },
 
-  'cell-empty-hidden': {
+  'empty-cells-hidden': {
     'utility': {
       'empty-cells': 'hide',
     },
     'meta': {
-      'group': 'emptyCellVisibility',
+      'group': 'emptyCells',
       'order': 2,
     },
   },
