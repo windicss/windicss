@@ -373,14 +373,21 @@ describe('Config', () => {
             colors: {
               pink: {
                 light: '#ff7ce5',
-                DEFAULT: '#ff49db',
                 dark: '#ff16d1',
+              },
+            },
+            extend: {
+              flexGrow: {
+                3: '30',
               },
             },
           },
         },
       ],
       theme: {
+        fontFamily: {
+          sans: ['Graphik', 'sans-serif'],
+        },
         extend: {
           minHeight: {
             48: '12rem',
@@ -388,13 +395,25 @@ describe('Config', () => {
         },
       },
     });
-    expect(processor.theme('colors.blue.light')).toEqual('#85d7ff');
+    // same key should be overwrite
+    expect(processor.theme('colors.blue.light')).toBeUndefined();
     expect(processor.theme('colors.blue.400')).toBeUndefined();
-    expect(processor.theme('minHeight.48')).toEqual('12rem');
+    expect(processor.theme('colors.pink.DEFAULT')).toBeUndefined();
+    expect(processor.theme('colors.pink.dark')).toEqual('#ff16d1');
     expect(processor.theme('colors.pink.light')).toEqual('#ff7ce5');
+    expect(processor.theme('fontFamily.sans')).toEqual([ 'Graphik', 'sans-serif' ]);
+
+    // default value should be overwrite
     expect(processor.theme('colors.pink.500')).toBeUndefined();
+    expect(processor.theme('colors.indigo.500')).toBeUndefined();
+    expect(processor.theme('fontFamily.mono')).toBeUndefined();
+
+    // extend key should be combined
+    expect(processor.theme('minHeight.prose')).toEqual('65ch');
+    expect(processor.theme('minHeight.48')).toEqual('12rem');
     expect(processor.theme('flexGrow.0')).toEqual('0');
     expect(processor.theme('flexGrow.2')).toEqual('20');
+    expect(processor.theme('flexGrow.3')).toEqual('30');
   });
 
   it('extend black', () => {

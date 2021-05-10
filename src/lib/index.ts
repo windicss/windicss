@@ -129,9 +129,10 @@ export class Processor {
     this._config.alias && this.loadAlias(this._config.alias);
   }
 
-  private _resolveConfig(userConfig: Config, presets: Config = {}, handleExtend = true) {
+  private _resolveConfig(userConfig: Config, presets: Config = {}) {
     if (userConfig.presets) {
-      presets = this.resolveConfig(this._resolvePresets(userConfig.presets), presets);
+      const resolved = this._resolvePresets(userConfig.presets);
+      presets = this._resolveConfig(resolved, presets);
       delete userConfig.presets;
     }
     const userTheme = userConfig.theme;
@@ -139,38 +140,49 @@ export class Processor {
     const extendTheme: Theme = userTheme && 'extend' in userTheme ? userTheme.extend ?? {} : {};
     const theme = (presets.theme || {}) as Record<string, ThemeType>;
     if (userTheme) {
-      if ('extend' in userTheme && handleExtend) delete userTheme.extend;
+      if ('extend' in userTheme) delete userTheme.extend;
       for (const [key, value] of Object.entries(userTheme)) {
         theme[key] = typeof value === 'function' ? value : { ...value };
       }
     }
-    if (extendTheme && typeof extendTheme === 'object' && handleExtend) {
-      for (const [key, value] of Object.entries(extendTheme)) {
-        const themeValue = theme[key];
-        if (typeof themeValue === 'function') {
-          theme[key] = (theme, { negative, breakpoints }) => {
-            return combineConfig(
-              (themeValue as ConfigUtil)(theme, { negative, breakpoints }),
-              (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
-            );
-          };
-        } else if (typeof themeValue === 'object') {
-          theme[key] = (theme, { negative, breakpoints }) => {
-            return combineConfig(themeValue, (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}));
-          };
-        } else {
-          theme[key] = value;
-        }
+    if (extendTheme && typeof extendTheme === 'object') this._reduceFunction(theme, extendTheme);
+    return { ...presets, ...userConfig, theme };
+  }
+
+  private _reduceFunction(theme: Record<string, ThemeType>, extendTheme: Theme) {
+    for (const [key, value] of Object.entries(extendTheme)) {
+      const themeValue = theme[key];
+      switch (typeof themeValue) {
+      case 'function':
+        theme[key] = (theme, { negative, breakpoints }) => combineConfig(
+          (themeValue as ConfigUtil)(theme, { negative, breakpoints }),
+          (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}),
+        );
+        break;
+      case 'object':
+        theme[key] = (theme, { negative, breakpoints }) => combineConfig(themeValue, (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}));
+        break;
+      default:
+        theme[key] = value;
       }
     }
-    return { ...presets, ...userConfig, theme };
   }
 
   private _resolvePresets(presets: Config[]) {
     let config: Config = {};
+    const extend: Config = {};
     presets.forEach(p => {
-      config = this._resolveConfig(config, p, false);
+      if (p.theme && 'extend' in p.theme && p.theme.extend) {
+        this._reduceFunction(extend, p.theme.extend);
+        delete p.theme.extend;
+      }
+      config = this._resolveConfig(p, config);
     });
+    if (config.theme) {
+      (config.theme as Record<string, ThemeType>).extend = extend;
+    } else {
+      config.theme = { extend };
+    }
     return config;
   }
 
