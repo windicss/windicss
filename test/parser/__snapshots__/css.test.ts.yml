@@ -42,6 +42,11 @@ Tools / Deep Nesting / css / 0: |-
     color: white;
   }
 Tools / Directives and Functions / css / 0: |-
+  @media (min-width: 640px) {
+    .test {
+      padding-top: 1px;
+    }
+  }
   .container {
     width: 100%;
     margin-right: auto;
@@ -51,26 +56,6 @@ Tools / Directives and Functions / css / 0: |-
     font-weight: 700 !important;
     --tw-text-opacity: 1;
     color: rgba(17, 24, 39, var(--tw-text-opacity));
-  }
-  .dark .test {
-    font-weight: 500;
-  }
-  .button:focus {
-    --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
-  }
-  .link:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
-    opacity: 1;
-  }
-  @media (min-width: 640px) {
-    .test {
-      padding-top: 1px;
-    }
-    .container {
-      max-width: 640px;
-    }
   }
   @media (min-width: 768px) {
     .container {
@@ -84,9 +69,10 @@ Tools / Directives and Functions / css / 0: |-
       --tw-bg-opacity: 1 !important;
       background-color: rgba(110, 231, 183, var(--tw-bg-opacity)) !important;
     }
-    .button:hover {
-      --tw-text-opacity: 1;
-      color: rgba(110, 231, 183, var(--tw-text-opacity));
+  }
+  @media (min-width: 640px) {
+    .container {
+      max-width: 640px;
     }
   }
   @media (prefers-color-scheme: dark) {
@@ -94,6 +80,24 @@ Tools / Directives and Functions / css / 0: |-
       --tw-bg-opacity: 1;
       background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
     }
+  }
+  .dark .test {
+    font-weight: 500;
+  }
+  @media (min-width: 1024px) {
+    .button:hover {
+      --tw-text-opacity: 1;
+      color: rgba(110, 231, 183, var(--tw-text-opacity));
+    }
+  }
+  .button:focus {
+    --tw-text-opacity: 1;
+    color: rgba(110, 231, 183, var(--tw-text-opacity));
+  }
+  .link:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    opacity: 1;
   }
 Tools / Keyframes / css / 0: |-
   @media (min-width: 640px) {
@@ -115,9 +119,7 @@ Tools / Nested At-Rules / css / 0: |-
     .test {
       width: 300px !important;
     }
-  }
-  @media (min-resolution: 192dpi) {
-    @media (min-width: 768px) {
+    @media (min-resolution: 192dpi) {
       .component {
         background-image: url(/img/retina2x.png);
       }
@@ -131,17 +133,15 @@ Tools / Nested At-Rules and Bubbling / css / 0: |-
     .component {
       width: 600px;
     }
+    @media (min-resolution: 192dpi) {
+      .component {
+        background-image: url(/img/retina2x.png);
+      }
+    }
   }
   @media (min-width: 1280px) {
     .component {
       width: 800px;
-    }
-  }
-  @media (min-resolution: 192dpi) {
-    @media (min-width: 768px) {
-      .component {
-        background-image: url(/img/retina2x.png);
-      }
     }
   }
 Tools / Nesting / css / 0: |-

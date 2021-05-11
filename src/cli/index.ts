@@ -179,8 +179,8 @@ if (args['--separate']) {
         previousValue.extend(currentValue),
       new StyleSheet()
     )
-    .combine()
-    .sort();
+    .sort()
+    .combine();
   if (args['--preflight'])
     outputStyle = preflights
       .reduce(
@@ -188,8 +188,8 @@ if (args['--separate']) {
           previousValue.extend(currentValue),
         new StyleSheet()
       )
-      .combine()
       .sort()
+      .combine()
       .extend(outputStyle);
   const filePath = args['--output'] ?? 'windi.output.css';
   writeFileSync(filePath, outputStyle.build(args['--minify']));

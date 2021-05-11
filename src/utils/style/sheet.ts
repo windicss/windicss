@@ -1,8 +1,8 @@
-import type { Style } from './base';
 import { hash, deepCopy } from '../tools';
-import sortSelector, { sortMeta } from '../algorithm/sortSelector';
-import compileStyleSheet from '../algorithm/compileStyleSheet2';
 import { Layer } from '../../interfaces';
+import sortMeta from '../algorithm/sortMeta';
+import compileStyleSheet from '../algorithm/compileStyleSheet';
+import type { Style } from './base';
 
 export class StyleSheet {
   children: Style[];
@@ -72,8 +72,8 @@ export class StyleSheet {
     return deepCopy(this);
   }
 
-  sort(meta = false): this {
-    this.children = meta ? this.children.sort(sortMeta) : this.children.sort(sortSelector);
+  sort(): this {
+    this.children = this.children.sort(sortMeta);
     return this;
   }
 

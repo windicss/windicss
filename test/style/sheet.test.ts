@@ -51,29 +51,6 @@ describe('StyleSheet', () => {
     expect(ss.children.length).toBe(2);
   });
 
-  it('sort styles', () => {
-    const ss = new StyleSheet(
-      [
-        '.test',
-        '.abc',
-        'html',
-        '*',
-        ':root',
-        '::moz-focus-inner',
-        undefined,
-      ].map((i) => new Style(i))
-    );
-    expect(ss.sort().children.map((i) => i.selector)).toEqual([
-      '*',
-      ':root',
-      '::moz-focus-inner',
-      'html',
-      '.test',
-      '.abc',
-      undefined,
-    ]);
-  });
-
   it('build', () => {
     const ss = new StyleSheet([s1, s2, s3]);
     expect(ss.build()).toBe(

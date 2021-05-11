@@ -308,7 +308,7 @@ describe('CSSParser', () => {
     }
     `;
     const parser = new CSSParser(css, PROCESSOR);
-    expect(parser.parse().sort(true).children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
+    expect(parser.parse().sort().children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
   });
 
   it('keeps multiple @font-face', () => {

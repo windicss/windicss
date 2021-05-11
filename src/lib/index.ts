@@ -457,7 +457,7 @@ export class Processor {
     return {
       success,
       ignored,
-      styleSheet: styleSheet.sort(true),
+      styleSheet: styleSheet.sort(),
     };
   }
 
@@ -580,7 +580,7 @@ export class Processor {
       success,
       ignored,
       className,
-      styleSheet: styleSheet.sort(true).combine(),
+      styleSheet: styleSheet.sort().combine(),
     };
   }
 
@@ -819,7 +819,7 @@ export class Processor {
     return {
       success,
       ignored,
-      styleSheet: styleSheet.sort(true).combine(),
+      styleSheet: styleSheet.sort().combine(),
     };
   }
 

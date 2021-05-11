@@ -30,7 +30,7 @@ describe('Utilities', () => {
   it('build', () => {
     const utilities = build(classNames, false);
     expect(utilities.ignored).toEqual([]);
-    writeFileSync('tailwind.css', processor.preflight().extend(utilities.styleSheet).sort(true).children.map(i => i.build()).join('\n'));
+    writeFileSync('tailwind.css', processor.preflight().extend(utilities.styleSheet).sort().children.map(i => i.build()).join('\n'));
   });
 
   it('extract', () => {
