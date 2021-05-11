@@ -1,28 +1,4 @@
 Tools / should load all plugins correctly / css / 0: |-
-  @keyframes ping {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-    75%, 100% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
-  @-webkit-keyframes ping {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-    75%, 100% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
   .container {
     width: 100%;
   }
@@ -44,31 +20,6 @@ Tools / should load all plugins correctly / css / 0: |-
   @media (min-width: 1440px) {
     .container {
       max-width: 1440px;
-    }
-  }
-  @media (min-width: 480px) {
-    .sm\:container {
-      width: 100%;
-    }
-    @media (min-width: 480px) {
-      .sm\:container {
-        max-width: 480px;
-      }
-    }
-    @media (min-width: 768px) {
-      .sm\:container {
-        max-width: 768px;
-      }
-    }
-    @media (min-width: 976px) {
-      .sm\:container {
-        max-width: 976px;
-      }
-    }
-    @media (min-width: 1440px) {
-      .sm\:container {
-        max-width: 1440px;
-      }
     }
   }
   .btn {
@@ -433,6 +384,30 @@ Tools / should load all plugins correctly / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(244, 63, 94, var(--tw-bg-opacity));
   }
+  @keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
   .animate-ping {
     -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -463,6 +438,31 @@ Tools / should load all plugins correctly / css / 0: |-
   .blur-20 {
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
+  }
+  @media (min-width: 480px) {
+    .sm\:container {
+      width: 100%;
+    }
+    @media (min-width: 480px) {
+      .sm\:container {
+        max-width: 480px;
+      }
+    }
+    @media (min-width: 768px) {
+      .sm\:container {
+        max-width: 768px;
+      }
+    }
+    @media (min-width: 976px) {
+      .sm\:container {
+        max-width: 976px;
+      }
+    }
+    @media (min-width: 1440px) {
+      .sm\:container {
+        max-width: 1440px;
+      }
+    }
   }
   @media (min-width: 768px) {
     .md\:prose-lg {

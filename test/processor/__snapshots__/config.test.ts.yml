@@ -1,21 +1,21 @@
 Tools / allows to use prefix with shortcuts / shortcuts with prefix / 0: |-
   .windi-btn {
+    border-radius: 0.5rem;
+    font-weight: 600;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
     --tw-shadow-color: 0, 0, 0;
     --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
   .windi-btn-green {
-    --tw-text-opacity: 1;
-    color: rgba(255, 255, 255, var(--tw-text-opacity));
     --tw-bg-opacity: 1;
     background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
   .windi-btn-green:hover {
     --tw-bg-opacity: 1;
@@ -327,12 +327,12 @@ Tools / resolveConfig should not overwrite theme function / extend-width / 0: |-
 Tools / shortcuts config object / shortcuts object / 0: |-
   .btn {
     color: white;
+    border-radius: 0.5rem;
+    font-weight: 600;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
   }
   .btn:hover {
     --tw-bg-opacity: 1;
@@ -341,22 +341,22 @@ Tools / shortcuts config object / shortcuts object / 0: |-
   }
 Tools / shortcuts config string / shortcuts string / 0: |-
   .btn {
+    border-radius: 0.5rem;
+    font-weight: 600;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
     --tw-shadow-color: 0, 0, 0;
     --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
     -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
   .btn-green {
-    --tw-text-opacity: 1;
-    color: rgba(255, 255, 255, var(--tw-text-opacity));
     --tw-bg-opacity: 1;
     background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
   .btn-green:hover {
     --tw-bg-opacity: 1;
@@ -364,12 +364,12 @@ Tools / shortcuts config string / shortcuts string / 0: |-
   }
   @media (min-width: 1024px) {
     .lg\:btn {
+      border-radius: 0.5rem;
+      font-weight: 600;
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
       padding-left: 1rem;
       padding-right: 1rem;
-      font-weight: 600;
-      border-radius: 0.5rem;
       --tw-shadow-color: 0, 0, 0;
       --tw-shadow: 0 4px 6px -1px rgba(var(--tw-shadow-color), 0.1), 0 2px 4px -1px rgba(var(--tw-shadow-color), 0.06);
       -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);

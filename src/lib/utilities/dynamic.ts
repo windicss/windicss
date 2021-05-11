@@ -51,7 +51,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
       output.push(new Container(className, props).atRule(`@media (min-width: ${size})`));
     }
 
-    output.forEach((style, index) => style.updateMeta('utilities', 'container', pluginOrder.container, index + 1, true));
+    output.forEach(style => style.updateMeta('utilities', 'container', pluginOrder.container, 0, true));
 
     return output;
   }

@@ -282,13 +282,18 @@ export class Processor {
     if (filteredVariants.length !== variants.length) return;
     return styles.map(style => {
       if (style instanceof Keyframes) return style;
-      const wrapped = filteredVariants
+      const atrules:string[] = [];
+      let wrapped = filteredVariants
         .map(i => allVariants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
-          return previousValue.extend(currentValue);
+          const output = previousValue.extend(currentValue);
+          if (previousValue.isAtrule) atrules.push((previousValue.atRules as string[])[0]);
+          return output;
         }, new Style())
         .extend(style);
-      return (style instanceof Container) ? new Container().extend(wrapped) : wrapped;
+      if (style instanceof Container) wrapped = new Container().extend(wrapped);
+      if (atrules.length > 0) wrapped.meta.variants = atrules;
+      return wrapped;
     });
   }
 
@@ -452,7 +457,7 @@ export class Processor {
     return {
       success,
       ignored,
-      styleSheet,
+      styleSheet: styleSheet.sort(true),
     };
   }
 
@@ -512,7 +517,10 @@ export class Processor {
       if (result) {
         if (Array.isArray(result)) {
           result.forEach(i => {
-            if (i instanceof Keyframes) return i;
+            if (i instanceof Keyframes) {
+              i.meta.order = 20;
+              return i;
+            }
             i.selector = buildSelector;
             this.markAsImportant(i, important);
           });
@@ -572,7 +580,7 @@ export class Processor {
       success,
       ignored,
       className,
-      styleSheet,
+      styleSheet: styleSheet.sort(true).combine(),
     };
   }
 
@@ -811,7 +819,7 @@ export class Processor {
     return {
       success,
       ignored,
-      styleSheet,
+      styleSheet: styleSheet.sort(true).combine(),
     };
   }
 
@@ -932,10 +940,10 @@ export class Processor {
     if (Array.isArray(utilities)) utilities = utilities.reduce((previous: {[key:string]:unknown}, current) => combineConfig(previous, current), {}) as DeepNestObject;
     let output: Style[] = [];
     const layer = options.layer ?? 'utilities';
-    // const order = layerOrder[layer];
+    const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
-      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', 0));
+      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -973,7 +981,7 @@ export class Processor {
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
     const layer = uOptions.layer ?? 'utilities';
-    // const order = layerOrder[layer];
+    const order = layerOrder[layer] + 1;
     const style = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Style(selector, property, important);
     const prop = (name: string | string[], value?: string, comment?: string, important = uOptions.respectImportant && this._config.important ? true : false) => new Property(name, value, comment, important);
     const keyframes = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Keyframes(selector, property, important);
@@ -985,8 +993,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', 0));
-        return output.updateMeta(layer, 'plugin', 0);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order));
+        return output.updateMeta(layer, 'plugin', order);
       };
     return generator;
   }
@@ -999,10 +1007,10 @@ export class Processor {
     if (Array.isArray(components)) components = components.reduce((previous: {[key:string]:unknown}, current) => combineConfig(previous, current), {}) as DeepNestObject;
     let output: Style[] = [];
     const layer = options.layer ?? 'components';
-    // const order = layerOrder[layer];
+    const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
-      styles.forEach(style => style.updateMeta(layer, 'plugin', 0));
+      styles.forEach(style => style.updateMeta(layer, 'plugin', order));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {

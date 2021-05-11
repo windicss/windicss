@@ -1,7 +1,7 @@
 import type { Style } from './base';
 import { hash, deepCopy } from '../tools';
-import sortSelector from '../algorithm/sortSelector';
-import compileStyleSheet from '../algorithm/compileStyleSheet';
+import sortSelector, { sortMeta } from '../algorithm/sortSelector';
+import compileStyleSheet from '../algorithm/compileStyleSheet2';
 import { Layer } from '../../interfaces';
 
 export class StyleSheet {
@@ -50,7 +50,7 @@ export class StyleSheet {
         styleMap[hashValue] = style;
       }
     });
-    this.children = Object.values(styleMap).map((i) => i.clean()); //.sort());
+    this.children = Object.values(styleMap).map((i) => i.clean());
     return this;
   }
 
@@ -73,9 +73,7 @@ export class StyleSheet {
   }
 
   sort(meta = false): this {
-    this.children = meta ? this.children.sort((a, b) => {
-      return a.meta.order - b.meta.order;
-    }) : this.children.sort(sortSelector);
+    this.children = meta ? this.children.sort(sortMeta) : this.children.sort(sortSelector);
     return this;
   }
 

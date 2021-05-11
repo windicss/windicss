@@ -17,6 +17,7 @@ type Meta = {
   order: number
   offset: number
   corePlugin: boolean
+  variants?: string[]
 };
 
 type NestObject = { [key: string]: string | string[] | NestObject };
@@ -228,6 +229,10 @@ export class Style {
   get simple(): boolean {
     // is this style only has property and no wrap?
     return !(this.atRules || this._pseudoClasses || this._pseudoElements || this._parentSelectors || this._childSelectors || this._brotherSelectors || this._wrapProperties || this._wrapSelectors || this._wrapRules);
+  }
+
+  get isAtrule(): boolean {
+    return !(this.atRules === undefined || this.atRules.length === 0);
   }
 
   static generate(
@@ -547,7 +552,8 @@ export class Keyframes extends Style {
   // root param only for consist with style
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static generate(name: string, children: { [key: string]: { [key: string]: string } }, root = undefined, prefixer = true): Keyframes[] {
-    const output: Keyframes[] = [];
+    const styles: Keyframes[] = [];
+    const webkitStyles: Keyframes[] = [];
     for (const [key, value] of Object.entries(children)) {
       const style = new Keyframes(key).atRule(`@keyframes ${name}`);
       const webkitStyle = new Keyframes(key).atRule(
@@ -568,10 +574,10 @@ export class Keyframes extends Style {
         style.add(new Property(prop, pvalue));
         webkitStyle.add(new Property(prop, pvalue));
       }
-      output.push(style);
-      if (prefixer) output.push(webkitStyle);
+      styles.push(style);
+      if (prefixer) webkitStyles.push(webkitStyle);
     }
-    return output;
+    return [...styles, ...webkitStyles];
   }
 }
 

@@ -1,5 +1,6 @@
 import type { Style } from '../style';
-import { keyOrder, layerOrder } from '../../config/order';
+import { keyOrder } from '../../config/order';
+import sortMediaQuery from './sortMediaQuery';
 
 function getWeights(a: string): number {
   const first = a.charAt(0);
@@ -14,7 +15,7 @@ function getWeights(a: string): number {
 }
 
 export function sortMeta(a: Style, b: Style): number {
-  return layerOrder[a.meta.type] - layerOrder[b.meta.type] || +b.meta.corePlugin - +a.meta.corePlugin || (a.meta.order - b.meta.order) || (a.meta.offset - b.meta.offset);
+  return sortMediaQuery(a.meta.variants?.[0] || '', b.meta.variants?.[0] || '') || (a.meta.order - b.meta.order) || (a.meta.offset - b.meta.offset) || +b.meta.corePlugin - +a.meta.corePlugin;
 }
 
 export default function sortSelector(a: Style, b: Style): number {

@@ -21,7 +21,7 @@ export function generateStaticStyle(processor: Processor, className:string, addC
     );
   }
   if (processor._plugin.core && !processor._plugin.core[meta.group]) return;
-  return style.updateMeta('utilities', meta.group, pluginOrder[meta.group], meta.order, true);
+  return style.updateMeta('utilities', meta.group, pluginOrder[meta.group as keyof typeof pluginOrder], meta.order, true);
 }
 
 export default function extract(

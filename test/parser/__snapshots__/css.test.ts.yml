@@ -96,8 +96,8 @@ Tools / Directives and Functions / css / 0: |-
     }
   }
 Tools / Keyframes / css / 0: |-
-  @media (prefers-color-scheme: dark) {
-    @media (min-width: 640px) {
+  @media (min-width: 640px) {
+    @media (prefers-color-scheme: dark) {
       @keyframes ping {
         0% {
           transform: scale(1);
@@ -209,6 +209,17 @@ Tools / animations with @apply / css / 0: |-
       opacity: .5;
     }
   }
+  .pulse-class {
+    --tw-bg-opacity: 1;
+    background-color: rgba(20, 184, 166, var(--tw-bg-opacity));
+    border-radius: 9999px;
+    height: 10rem;
+    opacity: 0.6;
+    position: relative;
+    width: 10rem;
+    -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
   @keyframes ping {
     0% {
       -webkit-transform: scale(1);
@@ -233,17 +244,6 @@ Tools / animations with @apply / css / 0: |-
       opacity: 0;
     }
   }
-  .pulse-class {
-    position: relative;
-    width: 10rem;
-    height: 10rem;
-    border-radius: 9999px;
-    --tw-bg-opacity: 1;
-    background-color: rgba(20, 184, 166, var(--tw-bg-opacity));
-    opacity: 0.6;
-    -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
   @media (prefers-color-scheme: dark) {
     .ping-class {
       -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -252,14 +252,14 @@ Tools / animations with @apply / css / 0: |-
   }
 Tools / apply chain / css / 0: |-
   .base {
-    width: 2.25rem;
-    height: 2.25rem;
     border-radius: 0.375rem;
+    height: 2.25rem;
+    width: 2.25rem;
   }
   .extend-base {
-    width: 2.25rem;
-    height: 2.25rem;
     border-radius: 0.375rem;
+    height: 2.25rem;
+    width: 2.25rem;
     --tw-bg-opacity: 1;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   }

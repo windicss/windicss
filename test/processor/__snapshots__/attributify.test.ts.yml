@@ -235,50 +235,6 @@ Tools / with align utility / css / 0: |-
     align-self: flex-end;
   }
 Tools / with animate appearance cursor outline pointer resize select fill stroke sr blend / css / 0: |-
-  @keyframes spin {
-    from {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes spin {
-    from {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-    to {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes ping {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-    75%, 100% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
-  @-webkit-keyframes ping {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-    75%, 100% {
-      -webkit-transform: scale(2);
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
   [sr~="only"] {
     position: absolute;
     width: 1px;
@@ -387,6 +343,50 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
     -moz-user-select: auto;
     -ms-user-select: auto;
     user-select: auto;
+  }
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes ping {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      -webkit-transform: scale(2);
+      transform: scale(2);
+      opacity: 0;
+    }
   }
   [animate~="none"] {
     -webkit-animation: none;

@@ -1,14 +1,4 @@
 Tools / processor prefix / css / 1: |-
-  @keyframes ping {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    75%, 100% {
-      transform: scale(2);
-      opacity: 0;
-    }
-  }
   .bg-clip-padding {
     background-clip: padding-box;
   }
@@ -27,6 +17,16 @@ Tools / processor prefix / css / 1: |-
   .placeholder-gray-200::placeholder {
     --tw-placeholder-opacity: 1;
     color: rgba(229, 231, 235, var(--tw-placeholder-opacity));
+  }
+  @keyframes ping {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
+    }
   }
   .animate-ping {
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;

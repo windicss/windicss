@@ -48,6 +48,13 @@ Tools / add pseudo utilities / css / 0: |-
   .btn:hover {
     color: #fff;
   }
+  @media (min-width: 768px) {
+    @keyframes ping {
+      .btn {
+        font-weight: 600;
+      }
+    }
+  }
   .hover\:abc:hover {
     color: #1c1c1e;
   }
@@ -58,9 +65,6 @@ Tools / add pseudo utilities / css / 0: |-
   }
   @media (min-width: 768px) {
     @keyframes ping {
-      .btn {
-        font-weight: 600;
-      }
       .test {
         color: red;
       }

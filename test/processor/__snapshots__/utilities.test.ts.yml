@@ -183,6 +183,9 @@ Tools / container max-width test / reponsive container / 1: |-
       max-width: 1536px;
     }
   }
+  .max-w-md {
+    max-width: 28rem;
+  }
   @media (min-width: 640px) {
     .sm\:container {
       width: 100%;
@@ -212,11 +215,6 @@ Tools / container max-width test / reponsive container / 1: |-
         max-width: 1536px;
       }
     }
-  }
-  .max-w-md {
-    max-width: 28rem;
-  }
-  @media (min-width: 640px) {
     .sm\:max-w-md {
       max-width: 28rem;
     }
