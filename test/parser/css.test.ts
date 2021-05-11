@@ -282,6 +282,9 @@ describe('CSSParser', () => {
 
   it('layer directive', () => {
     const css = `
+    .test {
+      @apply font-bold text-red-500;
+    }
     @layer components {
       .components {
         @apply bg-red-500;

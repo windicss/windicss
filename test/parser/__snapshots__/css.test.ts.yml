@@ -316,6 +316,11 @@ Tools / layer directive / css / 0: |-
   base {
     margin-left: auto;
   }
+  .test {
+    font-weight: 700;
+    --tw-text-opacity: 1;
+    color: rgba(239, 68, 68, var(--tw-text-opacity));
+  }
   .components {
     --tw-bg-opacity: 1;
     background-color: rgba(239, 68, 68, var(--tw-bg-opacity));

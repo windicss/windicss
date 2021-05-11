@@ -13,16 +13,16 @@ export type LayerName = 'base' | 'utilities' | 'components'
 
 type Meta = {
   type: LayerName
-  corePlugin?: boolean
   group: string
   order: number
   offset: number
+  corePlugin: boolean
 };
 
 type NestObject = { [key: string]: string | string[] | NestObject };
 
 export class Property {
-  meta: Meta = { type: 'utilities', group: 'plugin', order: 99999, offset: 0 };
+  meta: Meta = { type: 'utilities', group: 'plugin', order: 0, offset: 0, corePlugin: false };
   name: string | string[];
   value?: string;
   comment?: string;
@@ -157,7 +157,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
-  meta: Meta = { type: 'components', group: 'plugin', order: 99999, offset: 0 };
+  meta: Meta = { type: 'components', group: 'plugin', order: 0, offset: 0, corePlugin: false };
   selector?: string;
   important: boolean;
   property: Property[];

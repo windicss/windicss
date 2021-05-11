@@ -236,7 +236,7 @@ export class Processor {
     this._config = this._resolveFunction(this._config);
     this._variants = this.resolveVariants();
     this._loadVariables();
-    if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).map(i => ({ [i]: true }))), ...this._config.corePlugins };
+    if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2).map(i => ({ [i]: true }))), ...this._config.corePlugins };
     return this._config;
   }
 
@@ -887,7 +887,7 @@ export class Processor {
 
   // tailwind interfaces
   config(path: string, defaultValue?: unknown): unknown {
-    if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder);
+    if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2);
     const value = getNestedValue(this._config, path) ?? defaultValue;
     return (Array.isArray(value) && /[cC]olors/.test(path))? value.slice(-2, -1)[0]: value;
   }
@@ -932,10 +932,10 @@ export class Processor {
     if (Array.isArray(utilities)) utilities = utilities.reduce((previous: {[key:string]:unknown}, current) => combineConfig(previous, current), {}) as DeepNestObject;
     let output: Style[] = [];
     const layer = options.layer ?? 'utilities';
-    const order = layerOrder[layer];
+    // const order = layerOrder[layer];
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
-      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order));
+      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', 0));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -973,7 +973,7 @@ export class Processor {
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
     const layer = uOptions.layer ?? 'utilities';
-    const order = layerOrder[layer];
+    // const order = layerOrder[layer];
     const style = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Style(selector, property, important);
     const prop = (name: string | string[], value?: string, comment?: string, important = uOptions.respectImportant && this._config.important ? true : false) => new Property(name, value, comment, important);
     const keyframes = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Keyframes(selector, property, important);
@@ -985,8 +985,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order));
-        return output.updateMeta(layer, 'plugin', order);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', 0));
+        return output.updateMeta(layer, 'plugin', 0);
       };
     return generator;
   }
@@ -999,10 +999,10 @@ export class Processor {
     if (Array.isArray(components)) components = components.reduce((previous: {[key:string]:unknown}, current) => combineConfig(previous, current), {}) as DeepNestObject;
     let output: Style[] = [];
     const layer = options.layer ?? 'components';
-    const order = layerOrder[layer];
+    // const order = layerOrder[layer];
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
-      styles.forEach(style => style.updateMeta(layer, 'plugin', order));
+      styles.forEach(style => style.updateMeta(layer, 'plugin', 0));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
