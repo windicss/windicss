@@ -71,4 +71,27 @@ describe('plugin interface test', () => {
 
     expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
   });
+
+  it('addComponents order', () => {
+    const plugin: PluginFunction = (utils) => {
+      utils.addComponents({
+        '[data-theme=dark]': {
+          '-P': '259 94% 61%',
+        },
+        '@media (prefers-color-scheme:dark)': {
+          ':root': {
+            '-P': '259 94% 61%',
+          },
+        },
+        '[data-theme=light]': {
+          '-P': '259 94% 51%',
+        },
+      });
+    };
+    const processor = new Processor({
+      plugins: [plugin],
+    });
+
+    expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
+  });
 });
