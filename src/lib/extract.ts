@@ -21,12 +21,7 @@ export function generateStaticStyle(processor: Processor, className:string, addC
     );
   }
   if (processor._plugin.core && !processor._plugin.core[meta.group]) return;
-  return style.updateMeta({
-    type: 'utilities',
-    corePlugin: true,
-    group: meta.group,
-    order: pluginOrder[meta.group] + meta.order,
-  });
+  return style.updateMeta('utilities', meta.group, pluginOrder[meta.group], meta.order, true);
 }
 
 export default function extract(

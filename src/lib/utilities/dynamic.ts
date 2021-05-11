@@ -51,7 +51,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
       output.push(new Container(className, props).atRule(`@media (min-width: ${size})`));
     }
 
-    output.forEach((style, index) => style.meta = { type: 'utilities', corePlugin: true, group: 'container', order: pluginOrder['container'] + index + 1 } );
+    output.forEach((style, index) => style.updateMeta('utilities', 'container', pluginOrder['container'], index + 1, true));
 
     return output;
   }
@@ -62,7 +62,7 @@ function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('objectPosition'))
     .createProperty(['-o-object-position', 'object-position'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'objectPosition', order: pluginOrder['objectPosition'] });
+    ?.updateMeta('utilities', 'objectPosition', pluginOrder['objectPosition'], 0, true);
 }
 
 // https://tailwindcss.com/docs/top-right-bottom-left
@@ -81,11 +81,11 @@ function inset(utility: Utility, { theme }: PluginUtils): Output {
       case 'right':
       case 'bottom':
       case 'left':
-        return new Property(utility.identifier, value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset']+ 4 });
+        return new Property(utility.identifier, value).updateMeta('utilities', 'inset', pluginOrder['inset'], 4, true);
       case 'inset':
-        if (utility.raw.match(/^-?inset-x/)) return new Property(['right', 'left'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] +3 });
-        if (utility.raw.match(/^-?inset-y/)) return new Property(['top', 'bottom'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] + 2 });
-        return new Property(['top', 'right', 'bottom', 'left'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'inset', order: pluginOrder['inset'] + 1 });
+        if (utility.raw.match(/^-?inset-x/)) return new Property(['right', 'left'], value).updateMeta('utilities', 'inset', pluginOrder['inset'], 3, true);
+        if (utility.raw.match(/^-?inset-y/)) return new Property(['top', 'bottom'], value).updateMeta('utilities', 'inset', pluginOrder['inset'], 2, true);
+        return new Property(['top', 'right', 'bottom', 'left'], value).updateMeta('utilities', 'inset', pluginOrder['inset'], 1, true);
       }
     });
 }
@@ -98,7 +98,7 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
     .handleNegative()
     .handleVariable()
     .createProperty('z-index')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'zIndex', order: pluginOrder['zIndex'] + 1 });
+    ?.updateMeta('utilities', 'zIndex', pluginOrder['zIndex'], 0, true);
 }
 
 // https://tailwindcss.com/docs/flex
@@ -109,11 +109,11 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
   if (className.startsWith('flex-grow')) {
     const map = toType(theme('flexGrow'), 'object') as { [key: string]: string };
     const amount = className.replace(/flex-grow-?/, '') || 'DEFAULT';
-    if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexGrow', order: pluginOrder['flexGrow'] + 1 });
+    if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'flexGrow', pluginOrder['flexGrow'], 0, true);
   } else if (className.startsWith('flex-shrink')) {
     const map = toType(theme('flexShrink'), 'object') as { [key: string]: string };
     const amount = className.replace(/flex-shrink-?/, '') || 'DEFAULT';
-    if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta({ type: 'utilities', corePlugin: true, group: 'flexShrink', order: pluginOrder['flexShrink'] + 1 });
+    if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'flexShrink', pluginOrder['flexShrink'], 0, true);
   } else {
     return utility.handler.handleStatic(theme('flex')).createStyle(utility.class, value => {
       value = value.trim();
@@ -121,7 +121,7 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
         new Property('-webkit-box-flex', value.startsWith('0') || value === 'none' ? '0' : '1'),
         new Property(['-ms-flex', '-webkit-flex', 'flex'], value),
       ];
-    })?.updateMeta({ type: 'utilities', corePlugin: true, group: 'flex', order: pluginOrder['flex'] + 1 });
+    })?.updateMeta('utilities', 'flex', pluginOrder['flex'], 0, true);
   }
 }
 
@@ -136,7 +136,7 @@ function order(utility: Utility, { theme }: PluginUtils): Output {
       new Property('-webkit-box-ordinal-group', value.includes('var') ? `calc(${value}+1)` : (parseInt(value) + 1).toString()),
       new Property(['-webkit-order', '-ms-flex-order', 'order'], value),
     ])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'order', order: pluginOrder['order'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
+    ?.updateMeta('utilities', 'order', pluginOrder['order'], utility.raw.charAt(0) === '-' ? 2 : 1, true);
 }
 
 // https://tailwindcss.com/docs/grid-template-columns
@@ -149,12 +149,12 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme(group))
     .handleSquareBrackets(i => i.replace(/\(.*?\)|,/g, (r) => r === ',' ? ' ' : r /* ignore content inside nested-brackets */ ))
     .createProperty(`grid-template-${type}`, (value) => value === 'none' ? 'none' : value)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 })
+    ?.updateMeta('utilities', group, pluginOrder[group], 1, true)
   || utility.handler
     .handleNumber(1, undefined, 'int')
     .handleVariable()
     .createProperty(`grid-template-${type}`, (value) => `repeat(${value}, minmax(0, 1fr))`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
+    ?.updateMeta('utilities', group, pluginOrder[group], 2, true);
 }
 
 // https://tailwindcss.com/docs/grid-column
@@ -162,13 +162,13 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // col span
   const spans = toType(theme('gridColumn'), 'object') as { [key: string]: string };
-  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-column-span', 'grid-column'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumn', order: pluginOrder['gridColumn'] + 1 });
+  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-column-span', 'grid-column'], spans[body]).updateMeta('utilities', 'gridColumn', pluginOrder['gridColumn'], 1, true);
   if (utility.raw.startsWith('col-span')) {
     return utility.handler
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty(['-ms-grid-column-span', 'grid-column'], (value) => `span ${value} / span ${value}`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumn', order: pluginOrder['gridColumn'] + 1 });
+      ?.updateMeta('utilities', 'gridColumn', pluginOrder['gridColumn'], 1, true);
   }
   // col end
   if (utility.raw.startsWith('col-end')) {
@@ -177,7 +177,7 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty('grid-column-end')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumnEnd', order: pluginOrder['gridColumnEnd'] + 1 });
+      ?.updateMeta('utilities', 'gridColumnEnd', pluginOrder['gridColumnEnd'], 1, true);
   }
   // col start
   if (utility.raw.startsWith('col-start')) {
@@ -186,7 +186,7 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty('grid-column-start')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridColumnStart', order: pluginOrder['gridColumnStart'] + 1 });
+      ?.updateMeta('utilities', 'gridColumnStart', pluginOrder['gridColumnStart'], 1, true);
   }
 }
 
@@ -195,13 +195,13 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // row span
   const spans = toType(theme('gridRow'), 'object') as { [key: string]: string };
-  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-row-span', 'grid-row'], spans[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRow', order: pluginOrder['gridRow'] + 1 });
+  if (Object.keys(spans).includes(body)) return new Property(['-ms-grid-row-span', 'grid-row'], spans[body]).updateMeta('utilities', 'gridRow', pluginOrder['gridRow'], 1, true);
   if (utility.raw.startsWith('row-span')) {
     return utility.handler
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty(['-ms-grid-row-span', 'grid-row'], (value: string) => `span ${value} / span ${value}`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRow', order: pluginOrder['gridRow'] + 2 });
+      ?.updateMeta('utilities', 'gridRow', pluginOrder['gridRow'], 2, true);
   }
   // row end
   if (utility.raw.startsWith('row-end')) {
@@ -210,7 +210,7 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty('grid-row-end')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRowEnd', order: pluginOrder['gridRowEnd'] + 1 });
+      ?.updateMeta('utilities', 'gridRowEnd', pluginOrder['gridRowEnd'], 1, true);
   }
   // row start
   if (utility.raw.startsWith('row-start')) {
@@ -219,7 +219,7 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(1, undefined, 'int')
       .handleVariable()
       .createProperty('grid-row-start')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gridRowStart', order: pluginOrder['gridRowStart'] + 1 });
+      ?.updateMeta('utilities', 'gridRowStart', pluginOrder['gridRowStart'], 1, true);
   }
 }
 
@@ -232,8 +232,8 @@ function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
   const value = utility.handler.handleStatic(theme(group)).value;
   if (value) {
     const prefixer = minMaxContent(value);
-    if (typeof prefixer === 'string') return new Property(`grid-auto-${type}`, prefixer).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
-    return new Style(utility.class, prefixer.map((i) => new Property(`grid-auto-${type}`, i))).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
+    if (typeof prefixer === 'string') return new Property(`grid-auto-${type}`, prefixer).updateMeta('utilities', group, pluginOrder[group], 1, true);
+    return new Style(utility.class, prefixer.map((i) => new Property(`grid-auto-${type}`, i))).updateMeta('utilities', group, pluginOrder[group], 2, true);
   }
 }
 
@@ -246,9 +246,9 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
     .handleSize()
     .handleVariable()
     .callback(value => {
-      if (utility.raw.match(/^gap-x-/)) return new Property(config('prefixer') ? ['-webkit-column-gap', '-moz-column-gap', 'grid-column-gap', 'column-gap'] : 'column-gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 2 });
-      if (utility.raw.match(/^gap-y-/)) return new Property(config('prefixer') ? ['-webkit-row-gap', '-moz-row-gap', 'grid-row-gap', 'row-gap'] : 'row-gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 3 });
-      return new Property(config('prefixer') ? ['grid-gap', 'gap'] : 'gap', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'gap', order: pluginOrder['gap'] + 1 });
+      if (utility.raw.match(/^gap-x-/)) return new Property(config('prefixer') ? ['-webkit-column-gap', '-moz-column-gap', 'grid-column-gap', 'column-gap'] : 'column-gap', value).updateMeta('utilities', 'gap', pluginOrder['gap'], 2, true);
+      if (utility.raw.match(/^gap-y-/)) return new Property(config('prefixer') ? ['-webkit-row-gap', '-moz-row-gap', 'grid-row-gap', 'row-gap'] : 'row-gap', value).updateMeta('utilities', 'gap', pluginOrder['gap'], 3, true);
+      return new Property(config('prefixer') ? ['grid-gap', 'gap'] : 'gap', value).updateMeta('utilities', 'gap', pluginOrder['gap'], 1, true);
     });
 }
 
@@ -263,8 +263,8 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
     .callback(value => {
       const directions = expandDirection(utility.identifier.substring(1), false);
       if (directions) {
-        if (directions[0] === '*') return new Property('padding', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'padding', order: pluginOrder['padding'] - 4 });
-        return new Property(directions.map((i) => `padding-${i}`), value).updateMeta({ type: 'utilities', corePlugin: true, group: 'padding', order: pluginOrder['padding'] - directions.length });
+        if (directions[0] === '*') return new Property('padding', value).updateMeta('utilities', 'padding', pluginOrder['padding'], -4, true);
+        return new Property(directions.map((i) => `padding-${i}`), value).updateMeta('utilities', 'padding', pluginOrder['padding'], -directions.length, true);
       }
     });
 }
@@ -281,8 +281,8 @@ function margin(utility: Utility, { theme }: PluginUtils): Output {
     .callback(value => {
       const directions = expandDirection(utility.identifier.substring(1), false);
       if (directions) {
-        if (directions[0] === '*') return new Property('margin', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'margin', order: pluginOrder['margin'] - 4 });
-        return new Property(directions.map((i) => `margin-${i}`), value).updateMeta({ type: 'utilities', corePlugin: true, group: 'margin', order: pluginOrder['margin'] - directions.length });
+        if (directions[0] === '*') return new Property('margin', value).updateMeta('utilities', 'margin', pluginOrder['margin'], -4, true);
+        return new Property(directions.map((i) => `margin-${i}`), value).updateMeta('utilities', 'margin', pluginOrder['margin'], -directions.length, true);
       }
     });
 }
@@ -292,12 +292,12 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'space-x-reverse') {
     return new Style(utility.class, [
       new Property('--tw-space-x-reverse', '1'),
-    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 6 });
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'space', pluginOrder['space'], 6, true);
   }
   if (utility.raw === 'space-y-reverse') {
     return new Style(utility.class, [
       new Property('--tw-space-y-reverse', '1'),
-    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + 5 });
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'space', pluginOrder['space'], 5, true);
   }
   return utility.handler
     .handleStatic(theme('space'))
@@ -312,14 +312,14 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
           new Property('--tw-space-x-reverse', '0'),
           new Property('margin-right', `calc(${value} * var(--tw-space-x-reverse))`),
           new Property('margin-left', `calc(${value} * calc(1 - var(--tw-space-x-reverse)))`),
-        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + (utility.raw.charAt(0) === '-' ? 4 : 2) });
+        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'space', pluginOrder['space'], (utility.raw.charAt(0) === '-' ? 4 : 2), true);
       }
       if (utility.raw.match(/^-?space-y-/)) {
         return new Style(utility.class, [
           new Property('--tw-space-y-reverse', '0'),
           new Property('margin-top', `calc(${value} * calc(1 - var(--tw-space-y-reverse)))`),
           new Property('margin-bottom', `calc(${value} * var(--tw-space-y-reverse))`),
-        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'space', order: pluginOrder['space'] + (utility.raw.charAt(0) === '-' ? 3 : 1) });
+        ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'space', pluginOrder['space'], (utility.raw.charAt(0) === '-' ? 3 : 1), true);
       }
     });
 }
@@ -338,16 +338,16 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
         new Property(name, '-webkit-min-content'),
         new Property(name, '-moz-min-content'),
         new Property(name, 'min-content'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 2 });
+      ]).updateMeta('utilities', name, pluginOrder[name], 2, true);
     }
     if (value === 'max-content') {
       return new Style(utility.class, [
         new Property(name, '-webkit-max-content'),
         new Property(name, '-moz-max-content'),
         new Property(name, 'max-content'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 3 });
+      ]).updateMeta('utilities', name, pluginOrder[name], 3, true);
     }
-    return new Style(utility.class, new Property(name, value)).updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 1 });
+    return new Style(utility.class, new Property(name, value)).updateMeta('utilities', name, pluginOrder[name], 1, true);
   }
   return utility.handler
     .handleSquareBrackets()
@@ -357,7 +357,7 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
     .handleNxl((number: number) => `${(number - 3) * 8 + 48}rem`)
     .handleVariable()
     .createProperty(name)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: name, order: pluginOrder[name] + 4 });
+    ?.updateMeta('utilities', name, pluginOrder[name], 4, true);
 }
 
 // https://tailwindcss.com/docs/min-width
@@ -377,16 +377,16 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
         new Property(prop, '-webkit-min-content'),
         new Property(prop, '-moz-min-content'),
         new Property(prop, 'min-content'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 2 });
+      ]).updateMeta('utilities', group, pluginOrder[group], 2, true);
     }
     if (value === 'max-content') {
       return new Style(utility.class, [
         new Property(prop, '-webkit-max-content'),
         new Property(prop, '-moz-max-content'),
         new Property(prop, 'max-content'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 3 });
+      ]).updateMeta('utilities', group, pluginOrder[group], 3, true);
     }
-    return new Style(utility.class, new Property(prop, value)).updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 1 });
+    return new Style(utility.class, new Property(prop, value)).updateMeta('utilities', group, pluginOrder[group], 1, true);
   }
 
   return utility.handler
@@ -397,7 +397,7 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
     .handleNxl((number: number) => `${(number - 3) * 8 + 48}rem`)
     .handleVariable()
     .createProperty(prop)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: group, order: pluginOrder[group] + 4 });
+    ?.updateMeta('utilities', group, pluginOrder[group], 4, true);
 }
 
 // https://tailwindcss.com/docs/font-size
@@ -411,7 +411,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-text-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textOpacity', order: pluginOrder['textOpacity'] + 1 });
+      ?.updateMeta('utilities', 'textOpacity', pluginOrder['textOpacity'], 1, true);
   }
   if (utility.raw.startsWith('text-shadow')) {
     return (utility.raw === 'text-shadow'
@@ -419,24 +419,24 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       : utility.handler
         .handleStatic(theme('textShadow'))
         .createProperty('text-shadow')
-    )?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textShadow', order: pluginOrder['textShadow'] + 1 });
+    )?.updateMeta('utilities', 'textShadow', pluginOrder['textShadow'], 1, true);
   }
   if (utility.raw.startsWith('text-stroke')) {
     if (utility.raw === 'text-stroke') return new Style('text-stroke', [
       new Property('-webkit-text-stroke-color', theme('textStrokeColor.DEFAULT', '#e4e4e7') as string),
       new Property('-webkit-text-stroke-width', theme('textStrokeWidth.DEFAULT', 'medium') as string),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeColor', order: pluginOrder['textStrokeColor'] + 1 });
+    ]).updateMeta('utilities', 'textStrokeColor', pluginOrder['textStrokeColor'], 1, true);
     return new Utility('textStroke' + utility.raw.slice(11)).handler
       .handleColor(theme('textStrokeColor'))
       .handleVariable()
       .createProperty('-webkit-text-stroke-color')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeColor', order: pluginOrder['textStrokeColor'] + 2 })
+      ?.updateMeta('utilities', 'textStrokeColor', pluginOrder['textStrokeColor'], 2, true)
   || utility.handler
     .handleStatic(theme('textStrokeWidth'))
     .handleNumber(0, undefined, 'int', (number) => `${number}px`)
     .handleSize()
     .createProperty('-webkit-text-stroke-width')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textStrokeWidth', order: pluginOrder['textStrokeWidth'] + 1 });
+    ?.updateMeta('utilities', 'textStrokeWidth', pluginOrder['textStrokeWidth'], 1, true);
   }
   // handle text colors
   const textColor = utility.handler
@@ -445,27 +445,27 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .callback(value => {
       if (['transparent', 'currentColor'].includes(value) || value.includes('var')) {
-        return new Property('color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 1 });
+        return new Property('color', value).updateMeta('utilities', 'textColor', pluginOrder['textColor'], 1, true);
       }
       const { color, opacity } = toColor(value);
       return [ new Style(utility.class, [
         new Property('--tw-text-opacity', opacity),
         new Property('color', `rgba(${value.includes('var') ? value : color}, var(--tw-text-opacity))`),
-      ]) ].map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'textColor', order: pluginOrder['textColor'] + 2 }));
+      ]) ].map(i => i.updateMeta('utilities', 'textColor', pluginOrder['textColor'], 2, true));
     });
   if (textColor) return textColor;
 
   // handle font sizes
   const amount = utility.amount;
   const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
-  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 1 });
+  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta('utilities', 'fontSize', pluginOrder['fontSize'], 1, true);
   let value = utility.handler
     .handleSquareBrackets(isNumberLead)
     .handleNxl((number: number) => `${number}rem`)
     .handleSize()
     .value;
   if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
-  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'fontSize', order: pluginOrder['fontSize'] + 2 });
+  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta('utilities', 'fontSize', pluginOrder['fontSize'], 2, true);
 }
 
 // https://tailwindcss.com/docs/font-family
@@ -480,13 +480,13 @@ function font(utility: Utility, { theme }: PluginUtils): Output {
     utility.handler
       .handleStatic(map)
       .createProperty('font-family')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fontFamily', order: pluginOrder['fontFamily'] + 1 })
+      ?.updateMeta('utilities', 'fontFamily', pluginOrder['fontFamily'], 1, true)
     || utility.handler
       .handleStatic(theme('fontWeight'))
       .handleNumber(0, 900, 'int')
       .handleVariable()
       .createProperty('font-weight')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fontWeight', order: pluginOrder['fontWeight'] + 1 })
+      ?.updateMeta('utilities', 'fontWeight', pluginOrder['fontWeight'], 1, true)
   );
 }
 
@@ -499,7 +499,7 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
     .handleNegative()
     .handleVariable()
     .createProperty('letter-spacing')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'letterSpacing', order: pluginOrder['letterSpacing'] + 1 });
+    ?.updateMeta('utilities', 'letterSpacing', pluginOrder['letterSpacing'], 1, true);
 }
 
 // text decoration
@@ -511,7 +511,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-line-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationOpacity', order: pluginOrder['textDecorationOpacity'] + 1 });
+      ?.updateMeta('utilities', 'textDecorationOpacity', pluginOrder['textDecorationOpacity'], 1, true);
   }
 
   if (utility.raw.startsWith('underline-offset')) {
@@ -520,24 +520,24 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int', number => `${number}px`)
       .handleSize()
       .createProperty('text-underline-offset')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationOffset', order: pluginOrder['textDecorationOffset'] + 1 });
+      ?.updateMeta('utilities', 'textDecorationOffset', pluginOrder['textDecorationOffset'], 1, true);
   }
   // handle text decoration color or length
   return utility.handler
     .handleColor(theme('textDecorationColor'))
     .handleVariable()
     .callback(value => {
-      if (value.includes('var')) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 3 });
-      if (['transparent', 'currentColor'].includes(value)) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 1 });
+      if (value.includes('var')) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta('utilities', 'textDecorationColor', pluginOrder['textDecorationColor'], 3, true);
+      if (['transparent', 'currentColor'].includes(value)) return new Property(['-webkit-text-decoration-color', 'text-decoration-color'], value).updateMeta('utilities', 'textDecorationColor', pluginOrder['textDecorationColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-line-opacity', opacity), new Property(['-webkit-text-decoration-color', 'text-decoration-color'], `rgba(${color}, var(--tw-line-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationColor', order: pluginOrder['textDecorationColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-line-opacity', opacity), new Property(['-webkit-text-decoration-color', 'text-decoration-color'], `rgba(${color}, var(--tw-line-opacity))`)]).updateMeta('utilities', 'textDecorationColor', pluginOrder['textDecorationColor'], 2, true);
     })
   || utility.handler
     .handleStatic(theme('textDecorationLength'))
     .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
     .handleSize()
     .createProperty('text-decoration-thickness')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textDecorationLength', order: pluginOrder['textDecorationLength'] + 1 });
+    ?.updateMeta('utilities', 'textDecorationLength', pluginOrder['textDecorationLength'], 1, true);
 }
 
 // https://tailwindcss.com/docs/line-height
@@ -549,7 +549,7 @@ function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleVariable()
     .createProperty('line-height')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'lineHeight', order: pluginOrder['lineHeight'] + 1 });
+    ?.updateMeta('utilities', 'lineHeight', pluginOrder['lineHeight'], 1, true);
 }
 
 // https://tailwindcss.com/docs/list-style-type
@@ -557,7 +557,7 @@ function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('listStyleType'))
     .createProperty('list-style-type')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'listStyleType', order: pluginOrder['listStyleType'] + 1 });
+    ?.updateMeta('utilities', 'listStyleType', pluginOrder['listStyleType'], 1, true);
 }
 
 // https://tailwindcss.com/docs/placeholder-color
@@ -570,17 +570,17 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .callback(value => generatePlaceholder(utility.class, new Property('--tw-placeholder-opacity', value), config('prefixer') as boolean)
-        .map(style => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderOpacity', order: pluginOrder['placeholderOpacity'] + 1 })));
+        .map(style => style.updateMeta('utilities', 'placeholderOpacity', pluginOrder['placeholderOpacity'], 1, true)));
   }
   return utility.handler
     .handleColor(theme('placeholderColor'))
     .handleVariable()
     .callback(value => {
-      if (value.includes('var')) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 3 }));
-      if (['transparent', 'currentColor'].includes(value)) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 1 }));
+      if (value.includes('var')) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta('utilities', 'placeholderColor', pluginOrder['placeholderColor'], 3, true));
+      if (['transparent', 'currentColor'].includes(value)) return generatePlaceholder(utility.class, new Property('color', value), config('prefixer') as boolean).map((style) => style.updateMeta('utilities', 'placeholderColor', pluginOrder['placeholderColor'], 1, true));
       const { color, opacity } = toColor(value);
       const output = generatePlaceholder(utility.class, [ new Property('--tw-placeholder-opacity', opacity), new Property('color', `rgba(${color}, var(--tw-placeholder-opacity))`) ], config('prefixer') as boolean);
-      return output.map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'placeholderColor', order: pluginOrder['placeholderColor'] + 2 }));
+      return output.map(i => i.updateMeta('utilities', 'placeholderColor', pluginOrder['placeholderColor'], 2, true));
     });
 
 }
@@ -593,16 +593,16 @@ function caret(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-caret-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'caretOpacity', order: pluginOrder['caretOpacity'] + 1 });
+      ?.updateMeta('utilities', 'caretOpacity', pluginOrder['caretOpacity'], 1, true);
   }
   return utility.handler
     .handleColor(theme('caretColor'))
     .handleVariable()
     .callback(value => {
-      if (value.includes('var')) return new Property('caret-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 3 });
-      if (['auto', 'transparent', 'currentColor'].includes(value)) return new Property('caret-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 1 });
+      if (value.includes('var')) return new Property('caret-color', value).updateMeta('utilities', 'caretColor', pluginOrder['caretColor'], 3, true);
+      if (['auto', 'transparent', 'currentColor'].includes(value)) return new Property('caret-color', value).updateMeta('utilities', 'caretColor', pluginOrder['caretColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-caret-opacity', opacity), new Property('caret-color', `rgba(${color}, var(--tw-caret-opacity))`)]).updateMeta({ type: 'utilities', corePlugin: true, group: 'caretColor', order: pluginOrder['caretColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-caret-opacity', opacity), new Property('caret-color', `rgba(${color}, var(--tw-caret-opacity))`)]).updateMeta('utilities', 'caretColor', pluginOrder['caretColor'], 2, true);
     });
 }
 
@@ -612,7 +612,7 @@ function tabSize(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int')
     .handleSize()
     .createProperty(['-moz-tab-size', '-o-tab-size', 'tab-size'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'tabSize', order: pluginOrder['tabSize'] + 1 });
+    ?.updateMeta('utilities', 'tabSize', pluginOrder['tabSize'], 1, true);
 }
 
 function textIndent(utility: Utility, { theme }: PluginUtils): Output {
@@ -622,7 +622,7 @@ function textIndent(utility: Utility, { theme }: PluginUtils): Output {
     .handleFraction()
     .handleNegative()
     .createProperty('text-indent')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'textIndent', order: pluginOrder['textIndent'] + 1 });
+    ?.updateMeta('utilities', 'textIndent', pluginOrder['textIndent'], 1, true);
 }
 
 // https://tailwindcss.com/docs/background-color
@@ -634,16 +634,16 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // handle background positions
   const positions = toType(theme('backgroundPosition'), 'object') as { [key: string]: string };
-  if (Object.keys(positions).includes(body)) return new Property('background-position', positions[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundPosition', order: pluginOrder['backgroundPosition'] + 1 });
+  if (Object.keys(positions).includes(body)) return new Property('background-position', positions[body]).updateMeta('utilities', 'backgroundPosition', pluginOrder['backgroundPosition'], 1, true);
   // handle background sizes
   const sizes = toType(theme('backgroundSize'), 'object') as { [key: string]: string };
-  if (Object.keys(sizes).includes(body)) return new Property('background-size', sizes[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundSize', order: pluginOrder['backgroundSize'] + 1 });
+  if (Object.keys(sizes).includes(body)) return new Property('background-size', sizes[body]).updateMeta('utilities', 'backgroundSize', pluginOrder['backgroundSize'], 1, true);
   // handle background image
   const images = toType(theme('backgroundImage'), 'object') as { [key: string]: string };
   if (Object.keys(images).includes(body)) {
     const prefixer = linearGradient(images[body]);
-    if (Array.isArray(prefixer)) return new Style(utility.class, prefixer.map((i) => new Property('background-image', i))).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundImage', order: pluginOrder['backgroundImage'] + 2 });
-    return new Property('background-image', prefixer).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundImage', order: pluginOrder['backgroundImage'] + 1 });
+    if (Array.isArray(prefixer)) return new Style(utility.class, prefixer.map((i) => new Property('background-image', i))).updateMeta('utilities', 'backgroundImage', pluginOrder['backgroundImage'], 2, true);
+    return new Property('background-image', prefixer).updateMeta('utilities', 'backgroundImage', pluginOrder['backgroundImage'], 1, true);
   }
   // handle background opacity
   if (utility.raw.startsWith('bg-opacity'))
@@ -652,7 +652,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-bg-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundOpacity', order: pluginOrder['backgroundOpacity'] + 1 });
+      ?.updateMeta('utilities', 'backgroundOpacity', pluginOrder['backgroundOpacity'], 1, true);
 
   // handle background color
   return utility.handler
@@ -660,9 +660,9 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('backgroundColor'))
     .handleVariable()
     .callback(value => {
-      if (['transparent', 'currentColor'].includes(value) || value.includes('var')) return new Property('background-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 1 });
+      if (['transparent', 'currentColor'].includes(value) || value.includes('var')) return new Property('background-color', value).updateMeta('utilities', 'backgroundColor', pluginOrder['backgroundColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-bg-opacity', opacity), new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'backgroundColor', order: pluginOrder['backgroundColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-bg-opacity', opacity), new Property('background-color', `rgba(${color}, var(--tw-bg-opacity))`) ]).updateMeta('utilities', 'backgroundColor', pluginOrder['backgroundColor'], 2, true);
     });
 }
 
@@ -675,7 +675,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
       const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.includes('var') ? '255, 255, 255' : toColor(value).color;
       return [ new Property('--tw-gradient-from', value), new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, rgba(${rgb}, 0))`) ];
     })
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 1 });
+    ?.updateMeta('utilities', 'gradientColorStops', pluginOrder['gradientColorStops'], 1, true);
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops via
@@ -687,7 +687,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
       const rgb = value === 'transparent' ? '0, 0, 0' : value === 'current' ? '255, 255, 255' : value.includes('var') ? '255, 255, 255' : toColor(value).color;
       return `var(--tw-gradient-from), ${value}, var(--tw-gradient-to, rgba(${rgb}, 0))`;
     })
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 2 });
+    ?.updateMeta('utilities', 'gradientColorStops', pluginOrder['gradientColorStops'], 2, true);
 }
 
 // https://tailwindcss.com/docs/gradient-color-stops to
@@ -696,7 +696,7 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('gradientColorStops'))
     .handleVariable()
     .createProperty('--tw-gradient-to')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'gradientColorStops', order: pluginOrder['gradientColorStops'] + 3 });
+    ?.updateMeta('utilities', 'gradientColorStops', pluginOrder['gradientColorStops'], 3, true);
 }
 
 // https://tailwindcss.com/docs/border-radius
@@ -713,7 +713,7 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleVariable()
     .createProperty(directions[0] === '*' ? 'border-radius' : directions.map((i) => `border-${i}-radius`))
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderRadius', order: pluginOrder['borderRadius'] - (directions[0] === '*' ? 3 : directions.length) });
+    ?.updateMeta('utilities', 'borderRadius', pluginOrder['borderRadius'], -(directions[0] === '*' ? 3 : directions.length), true);
 }
 
 // https://tailwindcss.com/docs/border-width
@@ -727,7 +727,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-border-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderOpacity', order: pluginOrder['borderOpacity'] + 1 });
+      ?.updateMeta('utilities', 'borderOpacity', pluginOrder['borderOpacity'], 1, true);
   }
 
   // handle border color
@@ -736,9 +736,9 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('borderColor'))
     .handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined)
     .callback(value => {
-      if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 1 });
+      if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta('utilities', 'borderColor', pluginOrder['borderColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', value.includes('var') ? value: `rgba(${color}, var(--tw-border-opacity))`) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'borderColor', order: pluginOrder['borderColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-border-opacity', opacity), new Property('border-color', value.includes('var') ? value: `rgba(${color}, var(--tw-border-opacity))`) ]).updateMeta('utilities', 'borderColor', pluginOrder['borderColor'], 2, true);
     });
   if (borderColor) return borderColor;
 
@@ -754,7 +754,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleVariable()
     .createProperty(directions[0] === '*' ? 'border-width' : directions.map((i) => `border-${i}-width`))
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'borderWidth', order: pluginOrder['borderWidth'] + (directions[0] === '*' ? 1 : (directions.length + 1)) });
+    ?.updateMeta('utilities', 'borderWidth', pluginOrder['borderWidth'], (directions[0] === '*' ? 1 : (directions.length + 1)), true);
 }
 
 // https://tailwindcss.com/docs/divide-width
@@ -763,7 +763,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/divide-style
 function divide(utility: Utility, { theme }: PluginUtils): Output {
   // handle divide style
-  if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideStyle', order: pluginOrder['divideStyle'] + 1 });
+  if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideStyle', pluginOrder['divideStyle'], 1, true);
   // handle divide opacity
   if (utility.raw.startsWith('divide-opacity'))
     return utility.handler
@@ -773,35 +773,35 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('--tw-divide-opacity')
       ?.toStyle(utility.class)
       .child('> :not([hidden]) ~ :not([hidden])')
-      .updateMeta({ type: 'utilities', corePlugin: true, group: 'divideOpacity', order: pluginOrder['divideOpacity'] + 1 });
+      .updateMeta('utilities', 'divideOpacity', pluginOrder['divideOpacity'], 1, true);
   // handle divide color
   const divideColor = utility.handler
     .handleColor(theme('divideColor'))
     .handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined)
     .callback(value => {
-      if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 1 });
+      if (['transparent', 'currentColor'].includes(value)) return new Property('border-color', value).updateMeta('utilities', 'divideColor', pluginOrder['divideColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', value.includes('var') ? value : `rgba(${color}, var(--tw-divide-opacity))`) ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideColor', order: pluginOrder['divideColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-divide-opacity', opacity), new Property('border-color', value.includes('var') ? value : `rgba(${color}, var(--tw-divide-opacity))`) ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideColor', pluginOrder['divideColor'], 2, true);
     });
   if (divideColor) return divideColor;
   // handle divide width
   switch (utility.raw) {
   case 'divide-x-reverse':
-    return new Style(utility.class, new Property('--tw-divide-x-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 6 });
+    return new Style(utility.class, new Property('--tw-divide-x-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 6, true);
   case 'divide-y-reverse':
-    return new Style(utility.class, new Property('--tw-divide-y-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 5 });
+    return new Style(utility.class, new Property('--tw-divide-y-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 5, true);
   case 'divide-y':
     return new Style(utility.class, [
       new Property('--tw-divide-y-reverse', '0'),
       new Property('border-top-width', 'calc(1px * calc(1 - var(--tw-divide-y-reverse)))'),
       new Property('border-bottom-width', 'calc(1px * var(--tw-divide-y-reverse))'),
-    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 3 });
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 3, true);
   case 'divide-x':
     return new Style(utility.class, [
       new Property('--tw-divide-x-reverse', '0'),
       new Property('border-right-width', 'calc(1px * var(--tw-divide-x-reverse))'),
       new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'),
-    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 4 });
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 4, true);
   }
   return utility.handler
     .handleSquareBrackets()
@@ -818,13 +818,13 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
             new Property('--tw-divide-x-reverse', '0'),
             new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`),
             new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`),
-          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 2 });
+          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 2, true);
         case 'y':
           return new Style(utility.class, [
             new Property('--tw-divide-y-reverse', '0'),
             new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`),
             new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`),
-          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta({ type: 'utilities', corePlugin: true, group: 'divideWidth', order: pluginOrder['divideWidth'] + 1 });
+          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder['divideWidth'], 1, true);
         }
       }
     });
@@ -837,7 +837,7 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   // handle ring offset width variable
   if (utility.raw.startsWith('ringOffset-width-$')) {
     value = utility.handler.handleVariable().value;
-    if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetWidth', order: pluginOrder['ringOffsetWidth'] + 2 });
+    if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta('utilities', 'ringOffsetWidth', pluginOrder['ringOffsetWidth'], 2, true);
   }
 
   // handle ring offset color || ring offset width
@@ -845,14 +845,14 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('ringOffsetColor'))
     .handleVariable()
     .createStyle(utility.class.replace('ringOffset', 'ring-offset'), value => new Property('--tw-ring-offset-color', value))
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetColor', order: pluginOrder['ringOffsetColor'] + 1 })
+    ?.updateMeta('utilities', 'ringOffsetColor', pluginOrder['ringOffsetColor'], 1, true)
   || utility.handler
     .handleStatic(theme('ringOffsetWidth'))
     .handleSquareBrackets(isNumberLead)
     .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
     .handleSize()
     .createStyle(utility.class.replace('ringOffset', 'ring-offset'), value => new Property('--tw-ring-offset-width', value))
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOffsetWidth', order: pluginOrder['ringOffsetWidth'] + 1 });
+    ?.updateMeta('utilities', 'ringOffsetWidth', pluginOrder['ringOffsetWidth'], 1, true);
 }
 
 // https://tailwindcss.com/docs/ring-width
@@ -868,21 +868,21 @@ function ring(utility: Utility, utils: PluginUtils): Output {
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-ring-opacity')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'ringOpacity', order: pluginOrder['ringOpacity'] + 1 });
+      ?.updateMeta('utilities', 'ringOpacity', pluginOrder['ringOpacity'], 1, true);
   // handle ring color
   const ringColor = utility.handler
     .handleSquareBrackets(notNumberLead)
     .handleColor(utils.theme('ringColor'))
     .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined)
     .callback(value => {
-      if (['transparent', 'currentColor'].includes(value) || value.includes('var')) return new Style(utility.class, [ new Property('--tw-ring-color', value) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 1 });
+      if (['transparent', 'currentColor'].includes(value) || value.includes('var')) return new Style(utility.class, [ new Property('--tw-ring-color', value) ]).updateMeta('utilities', 'ringColor', pluginOrder['ringColor'], 1, true);
       const { color, opacity } = toColor(value);
-      return new Style(utility.class, [ new Property('--tw-ring-opacity', opacity), new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringColor', order: pluginOrder['ringColor'] + 2 });
+      return new Style(utility.class, [ new Property('--tw-ring-opacity', opacity), new Property('--tw-ring-color', `rgba(${color}, var(--tw-ring-opacity))`) ]).updateMeta('utilities', 'ringColor', pluginOrder['ringColor'], 2, true);
     });
 
   if (ringColor) return ringColor;
   // handle ring width
-  if (utility.raw === 'ring-inset') return new Property('--tw-ring-inset', 'inset').updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + 3 });
+  if (utility.raw === 'ring-inset') return new Property('--tw-ring-inset', 'inset').updateMeta('utilities', 'ringWidth', pluginOrder['ringWidth'], 3, true);
   const value = utility.raw === 'ring'
     ? (toType(utils.theme('ringWidth.DEFAULT'), 'string') ?? '3px')
     : utility.handler
@@ -897,7 +897,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
     new Property('--tw-ring-offset-shadow', 'var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color)'),
     new Property('--tw-ring-shadow', `var(--tw-ring-inset) 0 0 0 calc(${value} + var(--tw-ring-offset-width)) var(--tw-ring-color)`),
     new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)'),
-  ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'ringWidth', order: pluginOrder['ringWidth'] + (utility.raw === 'ring' ? 1 : 2) });
+  ]).updateMeta('utilities', 'ringWidth', pluginOrder['ringWidth'], (utility.raw === 'ring' ? 1 : 2), true);
 }
 
 function blur(utility: Utility, { theme }: PluginUtils): Output {
@@ -907,7 +907,7 @@ function blur(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int', (number) => `${number}px`)
     .handleSize()
     .createProperty('--tw-blur', value => `blur(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'blur', order: pluginOrder['blur'] + 1 });
+    ?.updateMeta('utilities', 'blur', pluginOrder['blur'], 1, true);
 }
 
 function brightness(utility: Utility, { theme }: PluginUtils): Output {
@@ -915,7 +915,7 @@ function brightness(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('brightness'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-brightness', value => `brightness(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'brightness', order: pluginOrder['brightness'] + 1 });
+    ?.updateMeta('utilities', 'brightness', pluginOrder['brightness'], 1, true);
 }
 
 function contrast(utility: Utility, { theme }: PluginUtils): Output {
@@ -923,7 +923,7 @@ function contrast(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('contrast'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-contrast', value => `contrast(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'contrast', order: pluginOrder['contrast'] + 1 });
+    ?.updateMeta('utilities', 'contrast', pluginOrder['contrast'], 1, true);
 }
 
 function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
@@ -935,7 +935,7 @@ function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
     const amount = utility.amount;
     if (utility.raw.startsWith('drop-shadow') && amount in dropShadows) value = dropShadows[amount];
   }
-  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`).updateMeta({ type: 'utilities', corePlugin: true, group: 'dropShadow', order: pluginOrder['dropShadow'] + 1 });
+  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`).updateMeta('utilities', 'dropShadow', pluginOrder['dropShadow'], 1, true);
 }
 
 function grayscale(utility: Utility, { theme }: PluginUtils): Output {
@@ -944,7 +944,7 @@ function grayscale(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('grayscale'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-grayscale', value => `grayscale(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'grapscale', order: pluginOrder['grapscale'] + 1 });
+    ?.updateMeta('utilities', 'grapscale', pluginOrder['grapscale'], 1, true);
 }
 
 function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
@@ -953,7 +953,7 @@ function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
     .handleNegative()
     .createProperty('--tw-hue-rotate', value => `hue-rotate(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'hueRotate', order: pluginOrder['hueRotate'] + 1 });
+    ?.updateMeta('utilities', 'hueRotate', pluginOrder['hueRotate'], 1, true);
 }
 
 function invert(utility: Utility, { theme }: PluginUtils): Output {
@@ -962,7 +962,7 @@ function invert(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('invert'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-invert', value => `invert(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'invert', order: pluginOrder['invert'] + 1 });
+    ?.updateMeta('utilities', 'invert', pluginOrder['invert'], 1, true);
 }
 
 function saturate(utility: Utility, { theme }: PluginUtils): Output {
@@ -970,7 +970,7 @@ function saturate(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('saturate'))
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-saturate', value => `saturate(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'saturate', order: pluginOrder['saturate'] + 1 });
+    ?.updateMeta('utilities', 'saturate', pluginOrder['saturate'], 1, true);
 }
 
 function sepia(utility: Utility, { theme }: PluginUtils): Output {
@@ -979,7 +979,7 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
     .handleBody(theme('sepia'))
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-sepia', value => `sepia(${value})`)
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'sepia', order: pluginOrder['sepia'] + 1 });
+    ?.updateMeta('utilities', 'sepia', pluginOrder['sepia'], 1, true);
 }
 
 function backdrop(utility: Utility, { theme }: PluginUtils): Output {
@@ -992,59 +992,59 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int', (number) => `${number}px`)
       .handleSize()
       .createProperty('--tw-backdrop-blur', value => `blur(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropBlur', order: pluginOrder['backdropBlur'] + 1 });
+      ?.updateMeta('utilities', 'backdropBlur', pluginOrder['backdropBlur'], 1, true);
   case 'brightness':
     return utility.handler
       .handleBody(theme('backdropBrightness'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropBrightness', order: pluginOrder['backdropBrightness'] + 1 });
+      ?.updateMeta('utilities', 'backdropBrightness', pluginOrder['backdropBrightness'], 1, true);
   case 'contrast':
     return utility.handler
       .handleBody(theme('backdropContrast'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropContrast', order: pluginOrder['backdropContrast'] + 1 });
+      ?.updateMeta('utilities', 'backdropContrast', pluginOrder['backdropContrast'], 1, true);
   case 'grayscale':
     if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropGrayscale'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropGrayscale', order: pluginOrder['backdropGrayscale'] + 1 });
+      ?.updateMeta('utilities', 'backdropGrayscale', pluginOrder['backdropGrayscale'], 1, true);
   case 'hue':
     return utility.handler
       .handleBody(theme('backdropHueRotate'))
       .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
       .handleNegative()
       .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropHueRotate', order: pluginOrder['backdropHueRotate'] + 1 });
+      ?.updateMeta('utilities', 'backdropHueRotate', pluginOrder['backdropHueRotate'], 1, true);
   case 'invert':
     if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropInvert'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropInvert', order: pluginOrder['backdropInvert'] + 1 });
+      ?.updateMeta('utilities', 'backdropInvert', pluginOrder['backdropInvert'], 1, true);
   case 'opacity':
     return utility.handler
       .handleBody(theme('backdropOpacity'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropOpacity', order: pluginOrder['backdropOpacity'] + 1 });
+      ?.updateMeta('utilities', 'backdropOpacity', pluginOrder['backdropOpacity'], 1, true);
   case 'saturate':
     return utility.handler
       .handleBody(theme('backdropSaturate'))
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropSaturate', order: pluginOrder['backdropSaturate'] + 1 });
+      ?.updateMeta('utilities', 'backdropSaturate', pluginOrder['backdropSaturate'], 1, true);
   case 'sepia':
     if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropSepia'))
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'backdropSepia', order: pluginOrder['backdropSepia'] + 1 });
+      ?.updateMeta('utilities', 'backdropSepia', pluginOrder['backdropSepia'], 1, true);
   }
 }
 
@@ -1058,7 +1058,7 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
       new Property('--tw-shadow-color', '0, 0, 0'),
       new Property('--tw-shadow', shadow),
       new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'),
-    ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadow', order: pluginOrder['boxShadow'] + 1 });
+    ]).updateMeta('utilities', 'boxShadow', pluginOrder['boxShadow'], 0, true);
   }
   // handle shadowColor
   return utility.handler
@@ -1067,9 +1067,9 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .callback(value => {
       if (['transparent', 'currentColor'].includes(value) || value.includes('var')) {
-        return new Property('--tw-shadow-color', '255, 255, 255').updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadowColor', order: pluginOrder['boxShadowColor'] + 1 });
+        return new Property('--tw-shadow-color', '255, 255, 255').updateMeta('utilities', 'boxShadowColor', pluginOrder['boxShadowColor'], 1, true);
       }
-      return new Property('--tw-shadow-color', value.includes('var') ? value : toColor(value).color).updateMeta({ type: 'utilities', corePlugin: true, group: 'boxShadowColor', order: pluginOrder['boxShadowColor'] + 2 });
+      return new Property('--tw-shadow-color', value.includes('var') ? value : toColor(value).color).updateMeta('utilities', 'boxShadowColor', pluginOrder['boxShadowColor'], 2, true);
     });
 }
 
@@ -1080,7 +1080,7 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
     .handleVariable()
     .createProperty('opacity')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'opacity', order: pluginOrder['opacity'] + 1 });
+    ?.updateMeta('utilities', 'opacity', pluginOrder['opacity'], 0, true);
 }
 
 // https://tailwindcss.com/docs/transition-property
@@ -1089,14 +1089,14 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
   const props = toType(theme('transitionProperty'), 'object') as { [key: string]: string };
   for (const [key, value] of Object.entries(props)) {
     if (body === key || (body === '' && key === 'DEFAULT')) {
-      if (value === 'none') return new Property(['-webkit-transition-property', '-o-transition-property', 'transition-property'], 'none').updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionProperty', order: pluginOrder['transitionProperty'] + 1 });
+      if (value === 'none') return new Property(['-webkit-transition-property', '-o-transition-property', 'transition-property'], 'none').updateMeta('utilities', 'transitionProperty', pluginOrder['transitionProperty'], 1, true);
       return new Style(utility.class, [
         new Property('-webkit-transition-property', value.replace(/(?=(transform|box-shadow))/g, '-webkit-')),
         new Property('-o-transition-property', value),
         new Property('transition-property', value.replace(/transform/g, 'transform, -webkit-transform').replace(/box-shadow/g, 'box-shadow, -webkit-box-shadow')),
         new Property(['-webkit-transition-timing-function', '-o-transition-timing-function', 'transition-timing-function'], toType(theme('transitionTimingFunction.DEFAULT'), 'string') ?? 'cubic-bezier(0.4, 0, 0.2, 1)'),
         new Property(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration' ], toType(theme('transitionDuration.DEFAULT'), 'string') ?? '150ms'),
-      ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionProperty', order: pluginOrder['transitionProperty'] + 2 });
+      ]).updateMeta('utilities', 'transitionProperty', pluginOrder['transitionProperty'], 2, true);
     }
   }
 }
@@ -1108,7 +1108,7 @@ function duration(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
     .createProperty(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionDuration', order: pluginOrder['transitionDuration'] + 1 });
+    ?.updateMeta('utilities', 'transitionDuration', pluginOrder['transitionDuration'], 1, true);
 }
 
 // https://tailwindcss.com/docs/transition-timing-function
@@ -1116,7 +1116,7 @@ function transitionTimingFunction(utility: Utility, { theme }: PluginUtils): Out
   return utility.handler
     .handleBody(theme('transitionTimingFunction'))
     .createProperty(['-webkit-transition-timing-function', '-o-transition-timing-function', 'transition-timing-function'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionTimingFunction', order: pluginOrder['transitionTimingFunction'] + 1 });
+    ?.updateMeta('utilities', 'transitionTimingFunction', pluginOrder['transitionTimingFunction'], 1, true);
 }
 
 // https://tailwindcss.com/docs/transition-delay
@@ -1126,7 +1126,7 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
     .createProperty(['-webkit-transition-delay', '-o-transition-delay', 'transition-delay'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'transitionDelay', order: pluginOrder['transitionDelay'] + 1 });
+    ?.updateMeta('utilities', 'transitionDelay', pluginOrder['transitionDelay'], 0, true);
 }
 
 // https://tailwindcss.com/docs/animation
@@ -1136,15 +1136,15 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
     const value = animations[utility.body];
     const keyframe = value.match(/^\w+/)?.[0];
     const prop = config('prefixer') ? ['-webkit-animation', 'animation'] : 'animation';
-    if (value === 'none') return new Property(prop, 'none').updateMeta({ type: 'utilities', corePlugin: true, group: 'animation', order: pluginOrder['animation'] + 1 });
+    if (value === 'none') return new Property(prop, 'none').updateMeta('utilities', 'animation', pluginOrder['animation'], 1, true);
     return [
-      new Style(utility.class, new Property(prop, value)).updateMeta({ type: 'utilities', corePlugin: true, group: 'animation', order: pluginOrder['animation'] + 2 }),
+      new Style(utility.class, new Property(prop, value)).updateMeta('utilities', 'animation', pluginOrder['animation'], 2, true),
       ... keyframe ? Keyframes.generate(
         keyframe,
         (theme(`keyframes.${keyframe}`) ?? {}) as { [key: string]: { [key: string]: string } },
         undefined,
         config('prefixer', false) as boolean
-      ).map(i => i.updateMeta({ type: 'utilities', corePlugin: true, group: 'keyframes', order: pluginOrder['keyframes'] + 1 })) : [],
+      ).map(i => i.updateMeta('utilities', 'keyframes', pluginOrder['keyframes'], 1, true)) : [],
     ];
   }
 }
@@ -1153,7 +1153,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
 function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const origins = toType(theme('transformOrigin'), 'object') as { [key: string]: string };
-  if (Object.keys(origins).includes(body)) return new Property(['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'], origins[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'transformOrigin', order: pluginOrder['transformOrigin'] + 1 });
+  if (Object.keys(origins).includes(body)) return new Property(['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'], origins[body]).updateMeta('utilities', 'transformOrigin', pluginOrder['transformOrigin'], 0, true);
 }
 
 // https://tailwindcss.com/docs/scale
@@ -1163,10 +1163,10 @@ function scale(utility: Utility, { theme }: PluginUtils): Output {
     .handleNumber(0, undefined, 'int', (number: number) => (number / 100).toString())
     .handleVariable()
     .callback(value => {
-      if (utility.raw.startsWith('scale-x')) return new Property('--tw-scale-x', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 2 });
-      if (utility.raw.startsWith('scale-y')) return new Property('--tw-scale-y', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 3 });
-      if (utility.raw.startsWith('scale-z')) return new Property('--tw-scale-z', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 4 });
-      return new Property(['--tw-scale-x', '--tw-scale-y', '--tw-scale-z'], value).updateMeta({ type: 'utilities', corePlugin: true, group: 'scale', order: pluginOrder['scale'] + 1 });
+      if (utility.raw.startsWith('scale-x')) return new Property('--tw-scale-x', value).updateMeta('utilities', 'scale', pluginOrder['scale'], 2, true);
+      if (utility.raw.startsWith('scale-y')) return new Property('--tw-scale-y', value).updateMeta('utilities', 'scale', pluginOrder['scale'], 3, true);
+      if (utility.raw.startsWith('scale-z')) return new Property('--tw-scale-z', value).updateMeta('utilities', 'scale', pluginOrder['scale'], 4, true);
+      return new Property(['--tw-scale-x', '--tw-scale-y', '--tw-scale-z'], value).updateMeta('utilities', 'scale', pluginOrder['scale'], 1, true);
     });
 }
 
@@ -1179,10 +1179,10 @@ function rotate(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .callback(value => {
       const abs = utility.absolute;
-      if (abs.startsWith('rotate-x')) return new Property('--tw-rotate-x', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 2 });
-      if (abs.startsWith('rotate-y')) return new Property('--tw-rotate-y', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 3 });
-      if (abs.startsWith('rotate-z')) return new Property('--tw-rotate-z', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 4 });
-      return new Property('--tw-rotate', value).updateMeta({ type: 'utilities', corePlugin: true, group: 'rotate', order: pluginOrder['rotate'] + 1 });
+      if (abs.startsWith('rotate-x')) return new Property('--tw-rotate-x', value).updateMeta('utilities', 'rotate', pluginOrder['rotate'], 2, true);
+      if (abs.startsWith('rotate-y')) return new Property('--tw-rotate-y', value).updateMeta('utilities', 'rotate', pluginOrder['rotate'], 3, true);
+      if (abs.startsWith('rotate-z')) return new Property('--tw-rotate-z', value).updateMeta('utilities', 'rotate', pluginOrder['rotate'], 4, true);
+      return new Property('--tw-rotate', value).updateMeta('utilities', 'rotate', pluginOrder['rotate'], 1, true);
     });
 }
 
@@ -1200,7 +1200,7 @@ function translate(utility: Utility, { theme }: PluginUtils): Output {
       .handleNegative()
       .handleVariable()
       .createProperty(`--tw-translate-${center}`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'translate', order: pluginOrder['translate'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
+      ?.updateMeta('utilities', 'translate', pluginOrder['translate'], utility.raw.charAt(0) === '-' ? 2 : 1, true);
   }
 }
 
@@ -1215,7 +1215,7 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
       .handleNegative()
       .handleVariable()
       .createProperty(`--tw-skew-${center}`)
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'skew', order: pluginOrder['skew'] + (utility.raw.charAt(0) === '-' ? 2 : 1) });
+      ?.updateMeta('utilities', 'skew', pluginOrder['skew'], utility.raw.charAt(0) === '-' ? 2 : 1, true);
   }
 }
 
@@ -1226,7 +1226,7 @@ function perspective(utility: Utility, { theme }: PluginUtils): Output {
       .handleBody(theme('perspectiveOrigin'))
       .handleSquareBrackets()
       .createProperty(['-webkit-perspective-origin', 'perspective-origin'])
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'perspectiveOrigin', order: pluginOrder['perspectiveOrigin'] + 1 });
+      ?.updateMeta('utilities', 'perspectiveOrigin', pluginOrder['perspectiveOrigin'], 0, true);
     if (origin) return origin;
   }
   return utility.handler
@@ -1235,14 +1235,14 @@ function perspective(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .handleSquareBrackets()
     .createProperty(['-webkit-perspective', 'perspective'])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'perspective', order: pluginOrder['perspective'] + 1 });
+    ?.updateMeta('utilities', 'perspective', pluginOrder['perspective'], 0, true);
 }
 
 // https://tailwindcss.com/docs/cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const cursors = toType(theme('cursor'), 'object') as { [key: string]: string };
-  if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta({ type: 'utilities', corePlugin: true, group: 'cursor', order: pluginOrder['cursor'] + 1 });
+  if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta('utilities', 'cursor', pluginOrder['cursor'], 1, true);
 }
 
 // https://tailwindcss.com/docs/outline
@@ -1250,7 +1250,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
   const amount = utility.amount;
   const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
   if (Object.keys(staticMap).includes(amount))
-    return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 1 });
+    return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta('utilities', 'outline', pluginOrder['outline'], 1, true);
 
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
     const newUtility = new Utility(utility.raw.replace('outline-', ''));
@@ -1259,14 +1259,14 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
       .handleColor()
       .handleVariable()
       .createStyle(utility.class, value => [ new Property('outline', `2px ${newUtility.identifier} ${value}`), new Property('outline-offset', '2px') ]);
-    if (outline) return outline.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 3 });
+    if (outline) return outline.updateMeta('utilities', 'outline', pluginOrder['outline'], 3, true);
   }
 
   return utility.handler
     .handleColor()
     .handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined)
     .createStyle(utility.class, value => [ new Property('outline', `2px ${value === 'transparent' ? 'solid' : 'dotted'} ${value}`), new Property('outline-offset', '2px') ])
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'outline', order: pluginOrder['outline'] + 2 });
+    ?.updateMeta('utilities', 'outline', pluginOrder['outline'], 2, true);
 }
 
 // https://tailwindcss.com/docs/fill
@@ -1275,33 +1275,33 @@ function fill(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('fill'))
     .handleVariable()
     .createProperty('fill')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'fill', order: pluginOrder['fill'] + 1 });
+    ?.updateMeta('utilities', 'fill', pluginOrder['fill'], 1, true);
 }
 
 // https://tailwindcss.com/docs/stroke
 // https://tailwindcss.com/docs/stroke-width
 function stroke(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('stroke-dash')) {
-    return utility.handler.handleNumber().createProperty('stroke-dasharray')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeDashArray', order: pluginOrder['strokeDashArray'] + 1 });
+    return utility.handler.handleNumber().createProperty('stroke-dasharray')?.updateMeta('utilities', 'strokeDashArray', pluginOrder['strokeDashArray'], 0, true);
   }
   if (utility.raw.startsWith('stroke-offset')) {
-    return utility.handler.handleNumber().createProperty('stroke-dashoffset')?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeDashOffset', order: pluginOrder['strokeDashOffset'] + 1 });
+    return utility.handler.handleNumber().createProperty('stroke-dashoffset')?.updateMeta('utilities', 'strokeDashOffset', pluginOrder['strokeDashOffset'], 0, true);
   }
   return utility.handler
     .handleColor(theme('stroke'))
     .handleVariable()
     .createProperty('stroke')
-    ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'stroke', order: pluginOrder['stroke'] + 1 })
+    ?.updateMeta('utilities', 'stroke', pluginOrder['stroke'], 1, true)
   || (utility.raw.startsWith('stroke-$')
     ? utility.handler
       .handleVariable()
       .createProperty('stroke-width')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 2 })
+      ?.updateMeta('utilities', 'strokeWidth', pluginOrder['strokeWidth'], 2, true)
     : utility.handler
       .handleStatic(theme('strokeWidth'))
       .handleNumber(0, undefined, 'int')
       .createProperty('stroke-width')
-      ?.updateMeta({ type: 'utilities', corePlugin: true, group: 'strokeWidth', order: pluginOrder['strokeWidth'] + 1 })
+      ?.updateMeta('utilities', 'strokeWidth', pluginOrder['strokeWidth'], 1, true)
   );
 }
 

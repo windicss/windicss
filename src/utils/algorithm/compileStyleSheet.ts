@@ -121,7 +121,8 @@ export function buildAtRule(styleList: Style[], minify = false, prefixer = true,
         ...reverse ? (i.atRules ?? []).sort(sortMediaQuery) : (i.atRules ?? []).sort(sortMediaQuery).reverse(),
         i.rule,
       ];
-      const style = new Style(undefined, i.property, i.important).updateMeta(i.meta);
+      const style = new Style(undefined, i.property, i.important);
+      style.meta = i.meta;
       i.wrapProperties && i.wrapProperties.forEach(wrap => style.wrapProperty(wrap));
       return deepList(list, style);
     })

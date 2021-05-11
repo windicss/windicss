@@ -855,7 +855,7 @@ export class Processor {
     for (const [key, value] of Object.entries(shortcuts)) {
       const prefix = this.config('prefix', '');
       if (typeof value === 'string') {
-        this._plugin.shortcuts[key] = this.compile(value, undefined, undefined, false, undefined, cssEscape(prefix + key)).styleSheet.children.map(i => i.updateMeta({ type: 'components', group: 'shortcuts', order: layerOrder['shortcuts'] }));
+        this._plugin.shortcuts[key] = this.compile(value, undefined, undefined, false, undefined, cssEscape(prefix + key)).styleSheet.children.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts']));
       } else {
         let styles: Style[] = [];
         Style.generate('.' + cssEscape(key), value).forEach(style => {
@@ -874,7 +874,7 @@ export class Processor {
             }
           }
         });
-        this._plugin.shortcuts[key] = styles.map(i => i.updateMeta({ type: 'components', group: 'shortcuts', order: layerOrder['shortcuts'] }));
+        this._plugin.shortcuts[key] = styles.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts']));
       }
     }
   }
@@ -935,7 +935,7 @@ export class Processor {
     const order = layerOrder[layer];
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
-      if (options.layer) styles.forEach(style => style.updateMeta({ type: layer, group: 'plugin', order }));
+      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -985,8 +985,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta({ type: layer, group: 'plugin', order }));
-        return output.updateMeta({ type: layer, group: 'plugin', order });
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order));
+        return output.updateMeta(layer, 'plugin', order);
       };
     return generator;
   }
@@ -1002,7 +1002,7 @@ export class Processor {
     const order = layerOrder[layer];
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
-      styles.forEach(style => style.updateMeta({ type: layer, group: 'plugin', order }));
+      styles.forEach(style => style.updateMeta(layer, 'plugin', order));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -1037,7 +1037,7 @@ export class Processor {
   addBase(baseStyles: DeepNestObject): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
-      const styles = Style.generate(key, value).map(i => i.updateMeta({ type: 'base', group: 'plugin', order: 10 }));
+      const styles = Style.generate(key, value).map(i => i.updateMeta('base', 'plugin', 10));
       this._replaceStyleVariants(styles);
       this._addPluginCache('preflights', key, styles);
       output = [...output, ...styles];

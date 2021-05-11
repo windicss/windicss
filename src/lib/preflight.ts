@@ -29,7 +29,7 @@ export default function preflight(
           : new Property(key, typeof value === 'function' ? value((path: string, defaultValue?: unknown) => processor.theme(path, defaultValue)) : value)
       );
     }
-    style.updateMeta({ type: 'base', corePlugin: true, group: 'preflight', order: isGlobal ? 1 : 2 });
+    style.updateMeta('base', 'preflight', 0, isGlobal? 1 : 2, true);
     return style;
   };
 

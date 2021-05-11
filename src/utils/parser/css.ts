@@ -94,7 +94,7 @@ export default class CSSParser {
           selector = selector.trim().split(/\s*,\s*/g).map(i => /&/.test(i) ? i : `& ${i}`).join(', ');
           i.selector = /\s*,\s*/.test(parent) ? parent.trim().split(/\s*,\s*/g).map(i => selector.replace(/&/g, i)).join(', ') : selector.replace(/&/g, parent);
         }
-        i.updateMeta({ type: layer, group, order });
+        i.updateMeta(layer, group, order);
         this._addCache(i);
       });
     } else if (parentType === 'atRule') {
@@ -120,7 +120,7 @@ export default class CSSParser {
               if (wrapper) output = output.concat(wrapper);
             }
             output.map(i => {
-              i.updateMeta({ type: layer, group, order });
+              i.updateMeta(layer, group, order);
               this._addCache(i);
             });
             return output;
@@ -129,7 +129,7 @@ export default class CSSParser {
       }
       styles.filter(i => !(i instanceof Keyframes)).forEach(i => {
         i.atRule(atrule);
-        i.updateMeta({ type: layer, group, order });
+        i.updateMeta(layer, group, order);
         this._addCache(i);
       });
     }

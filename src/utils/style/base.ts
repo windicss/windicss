@@ -16,12 +16,13 @@ type Meta = {
   corePlugin?: boolean
   group: string
   order: number
+  offset: number
 };
 
 type NestObject = { [key: string]: string | string[] | NestObject };
 
 export class Property {
-  meta: Meta = { type: 'utilities', group: 'plugin', order: 99999 };
+  meta: Meta = { type: 'utilities', group: 'plugin', order: 99999, offset: 0 };
   name: string | string[];
   value?: string;
   comment?: string;
@@ -85,7 +86,9 @@ export class Property {
   }
 
   toStyle(selector?: string): Style {
-    return new Style(selector, this, this.important).updateMeta(this.meta);
+    const style = new Style(selector, this, this.important);
+    style.meta = this.meta;
+    return style;
   }
 
   build(minify = false): string {
@@ -105,8 +108,14 @@ export class Property {
         .join(minify ? '' : '\n');
   }
 
-  updateMeta(meta: Meta): Property {
-    this.meta = meta;
+  updateMeta(type: LayerName, group: string, order: number, offset = 0, corePlugin = false): Property {
+    this.meta = {
+      type,
+      group,
+      order,
+      offset,
+      corePlugin,
+    };
     return this;
   }
 }
@@ -148,7 +157,7 @@ export class InlineAtRule extends Property {
 }
 
 export class Style {
-  meta: Meta = { type: 'components', group: 'plugin', order: 99999 };
+  meta: Meta = { type: 'components', group: 'plugin', order: 99999, offset: 0 };
   selector?: string;
   important: boolean;
   property: Property[];
@@ -504,8 +513,14 @@ export class Style {
     return minify ? result.replace(/;}/g, '}') : result;
   }
 
-  updateMeta(meta: Meta): Style {
-    this.meta = meta;
+  updateMeta(type: LayerName, group: string, order: number, offset = 0, corePlugin = false): Style {
+    this.meta = {
+      type,
+      group,
+      order,
+      offset,
+      corePlugin,
+    };
     return this;
   }
 }

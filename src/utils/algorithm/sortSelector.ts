@@ -14,7 +14,7 @@ function getWeights(a: string): number {
 }
 
 export function sortMeta(a: Style, b: Style): number {
-  return a.meta.order - b.meta.order;
+  return (a.meta.order - b.meta.order) || (a.meta.offset - b.meta.offset);
 }
 
 export default function sortSelector(a: Style, b: Style): number {
