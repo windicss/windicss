@@ -1,9 +1,8 @@
 import arg from 'arg';
-import chokidar from 'chokidar';
 import { deepCopy } from '../utils/tools';
 import { resolve } from 'path';
 import { Processor } from '../lib';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, watch } from 'fs';
 import { HTMLParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
@@ -243,11 +242,14 @@ function build(files: string[], update = false) {
 build(matchFiles);
 
 if (args['--watch']) {
-  const watcher = chokidar.watch(matchFiles);
-  watcher.on('change', (path) => {
-    Console.log('File', path, 'has been changed');
-    Console.time('Building');
-    build([path], true);
-    Console.timeEnd('Building');
-  });
+  for (const file of matchFiles) {
+    watch(file, (event, path) => {
+      if (event === 'change') {
+        Console.log('File', path, 'has been changed');
+        Console.time('Building');
+        build([path], true);
+        Console.timeEnd('Building');
+      }
+    });
+  }
 }
