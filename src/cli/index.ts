@@ -178,7 +178,7 @@ if (args['--attributify']) {
       .reduceRight((a: { [key: string]: string | string[] }, b) => {
         if (b.key in a) {
           a[b.key] = Array.isArray(a[b.key])
-            ? Array.isArray(b.value)? [ ...a[b.key], ...b.value ]: [ ...a[b.key], b.value ]
+            ? Array.isArray(b.value)? [ ...(a[b.key] as string[]), ...b.value ]: [ ...(a[b.key] as string[]), b.value ]
             : [ a[b.key] as string, ...(Array.isArray(b.value) ? b.value : [b.value]) ];
           return a;
         }
