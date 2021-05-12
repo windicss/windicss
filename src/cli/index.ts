@@ -14,21 +14,22 @@ import {
 } from './utils';
 
 const doc = `
-Generate css from text files that containing tailwindcss classes.
+Generate css from text files that containing windi classes.
 By default, it will use interpretation mode to generate a single css file.
 
 Usage:
   windicss [filenames]
   windicss [filenames] -c -m
   windicss [filenames] -c -s -m
-  windicss [filenames] [-c | -i] [-b | -s] [-m] [-p <prefix:string>] [-o <path:string>] [--args arguments]
+  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-p <prefix:string>] [-o <path:string>] [--args arguments]
 
 Options:
   -h, --help            Print this help message and exit.
   -v, --version         Print windicss current version and exit.
 
-  -i, --interpret       Interpretation mode, generate class name corresponding to tailwindcss. This is the default behavior.
+  -i, --interpret       Interpretation mode, generate class selectors. This is the default behavior.
   -c, --compile         Compilation mode, combine the class name in each row into a single class.
+  -a, --attributify     Attributify mode, generate attribute selectors. Attributify mode can be mixed with the other two modes.
   -t, --preflight       Add preflights, default is false.
 
   -b, --combine         Combine all css into one single file. This is the default behavior.
@@ -48,6 +49,7 @@ const args = arg({
   '--version': Boolean,
   '--compile': Boolean,
   '--interpret': Boolean,
+  '--attributify': Boolean,
   '--preflight': Boolean,
   '--combine': Boolean,
   '--separate': Boolean,
@@ -62,6 +64,7 @@ const args = arg({
   '-v': '--version',
   '-i': '--interpret',
   '-c': '--compile',
+  '-a': '--attributify',
   '-t': '--preflight',
   '-b': '--combine',
   '-s': '--separate',
@@ -108,6 +111,7 @@ for (const pt of args._) {
 }
 
 let ignoredClasses: string[] = [];
+let ignoredAttrs: string[] = [];
 const preflights: StyleSheet[] = [];
 const styleSheets: StyleSheet[] = [];
 const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
@@ -122,7 +126,7 @@ if (args['--compile']) {
     const html = readFileSync(file).toString();
     const parser = new HTMLParser(html);
 
-    // Match tailwind ClassName then replace with new ClassName
+    // Match ClassName then replace with new ClassName
     parser.parseClasses().forEach((p) => {
       outputHTML.push(html.substring(indexStart, p.start));
       const utility = processor.compile(p.result, prefix, true); // Set third argument to false to hide comments;
@@ -165,6 +169,27 @@ if (args['--compile']) {
   });
 }
 
+if (args['--attributify']) {
+  // attributify mode
+  matchFiles.forEach((file) => {
+    const parser = new HTMLParser(readFileSync(file).toString());
+    const attrs: { [key: string]: string | string[] } = parser
+      .parseAttrs()
+      .reduceRight((a: { [key: string]: string | string[] }, b) => {
+        if (b.key in a) {
+          a[b.key] = Array.isArray(a[b.key])
+            ? Array.isArray(b.value)? [ ...a[b.key], ...b.value ]: [ ...a[b.key], b.value ]
+            : [ a[b.key] as string, ...(Array.isArray(b.value) ? b.value : [b.value]) ];
+          return a;
+        }
+        return Object.assign(a, { [b.key]: b.value });
+      }, {});
+    const utility = processor.attributify(attrs);
+    styleSheets.push(utility.styleSheet);
+    ignoredAttrs = [...ignoredAttrs, ...utility.ignored];
+  });
+}
+
 if (args['--separate']) {
   styleSheets.forEach((style, index) => {
     const filePath = matchFiles[index].replace(/\.\w+$/, '.windi.css');
@@ -198,3 +223,4 @@ if (args['--separate']) {
 }
 
 Console.log('ignored classes:', ignoredClasses);
+if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs);
