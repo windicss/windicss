@@ -3,7 +3,8 @@ export default class HTMLParser {
   constructor(html?: string) {
     this.html = html;
   }
-  parseClasses(): { start: number; end: number; result: string }[] {
+
+  parseClasses(): { start: number, end: number, result: string }[] {
     // Match all class properties
     if (!this.html) return [];
     const classRegex = /class\s*=\s*(["'])(?:(?=(\\?))\2.)*?\1/;
