@@ -509,4 +509,13 @@ describe('CSSParser', () => {
     const parser = new CSSParser(css, PROCESSOR);
     expect(parser.parse(css).build()).toMatchSnapshot('css');
   });
+
+  it('apply order', () => {
+    const css = `
+    .test {
+      @apply relative fixed;
+    }
+    `;
+    expect(new CSSParser(css, PROCESSOR).parse().build()).toMatchSnapshot('css');
+  });
 });

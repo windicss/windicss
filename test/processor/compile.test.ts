@@ -49,4 +49,8 @@ describe('Compilation Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('important');
   });
+
+  it('compile order', () => {
+    expect(processor.compile('relative fixed').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -515,4 +515,10 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('attributify order', () => {
+    expect(processor.attributify({
+      position: ['relative', 'fixed'],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

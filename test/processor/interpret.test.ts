@@ -108,4 +108,8 @@ describe('Interpretation Mode', () => {
     expect(result.success).toEqual(['bg-blue-400', 'flex', 'flex-col', 'md:bg-red-500', 'md:flex', 'md:items-center', 'md:hover:bg-white']);
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('interpert order', () => {
+    expect(processor.interpret('relative fixed').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

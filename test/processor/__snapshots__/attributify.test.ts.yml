@@ -1,3 +1,10 @@
+Tools / attributify order / css / 0: |-
+  [position~="fixed"] {
+    position: fixed;
+  }
+  [position~="relative"] {
+    position: relative;
+  }
 Tools / important test / css / 0: |-
   [bg~="!red-500"] {
     --tw-bg-opacity: 1 !important;
