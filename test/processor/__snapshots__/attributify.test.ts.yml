@@ -2182,6 +2182,124 @@ Tools / with variants and utility / css / 0: |-
       color: rgba(252, 165, 165, var(--tw-text-opacity));
     }
   }
+Tools / with width and height utility / css / 0: |-
+  [h~="auto"] {
+    height: auto;
+  }
+  [h~="full"] {
+    height: 100%;
+  }
+  [h~="screen"] {
+    height: 100vh;
+  }
+  [h~="1/3"] {
+    height: 33.333333%;
+  }
+  [h~="min"] {
+    height: -webkit-min-content;
+    height: -moz-min-content;
+    height: min-content;
+  }
+  [h~="min-content"] {
+    height: -webkit-min-content;
+    height: -moz-min-content;
+    height: min-content;
+  }
+  [h~="max"] {
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+  }
+  [h~="max-content"] {
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+  }
+  [h~="max-2xl"] {
+    max-height: 42rem;
+  }
+  [h~="max-screen"] {
+    max-height: 100vh;
+  }
+  [h~="max-2/3"] {
+    max-height: 66.666667%;
+  }
+  [w~="max-2xl"] {
+    max-width: 42rem;
+  }
+  [w~="max-screen"] {
+    max-width: 100vw;
+  }
+  [w~="max-2/3"] {
+    max-width: 66.666667%;
+  }
+  [h~="min-sm"] {
+    min-height: 24rem;
+  }
+  [h~="min-none"] {
+    min-height: none;
+  }
+  [h~="min-prose"] {
+    min-height: 65ch;
+  }
+  [h~="min-1/3"] {
+    min-height: 33.333333%;
+  }
+  [w~="min-sm"] {
+    min-width: 24rem;
+  }
+  [w~="min-none"] {
+    min-width: none;
+  }
+  [w~="min-prose"] {
+    min-width: 65ch;
+  }
+  [w~="min-1/3"] {
+    min-width: 33.333333%;
+  }
+  [w~="0"] {
+    width: 0px;
+  }
+  [w~="1"] {
+    width: 0.25rem;
+  }
+  [w~="full"] {
+    width: 100%;
+  }
+  [w~="1/3"] {
+    width: 33.333333%;
+  }
+  [w~="screen"] {
+    width: 100vw;
+  }
+  [w~="min"] {
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+  }
+  [w~="min-content"] {
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+  }
+  [w~="max"] {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  [w~="max-content"] {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+  }
+  @media (min-width: 768px) {
+    [h~="md:screen"] {
+      height: 100vh;
+    }
+    [w~="md:screen"] {
+      width: 100vw;
+    }
+  }
 Tools / with z-index width min-width max-width height min-height max-height opacity / css / 0: |-
   [h~="full"] {
     height: 100%;

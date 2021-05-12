@@ -153,6 +153,15 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with width and height utility', () => {
+    const result = processor.attributify({
+      'w': ['0', '1', 'full', '1/3', 'screen', 'md:screen', 'min', 'max', 'min-content', 'max-content', 'min-sm', 'max-2xl', 'min-none', 'min-1/3', 'max-2/3', 'min-prose', 'max-screen'],
+      'h': ['auto', 'full', 'screen', '1/3', 'md:screen', 'min', 'max', 'min-content', 'max-content', 'min-sm', 'max-2xl', 'min-none', 'min-1/3', 'max-2/3', 'min-prose', 'max-screen'],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with table utility', () => {
     const result = processor.attributify({
       'table': [

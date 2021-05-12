@@ -633,6 +633,24 @@ export class Processor {
         if (negative) utility = '-' + utility;
         // handle special cases
         switch(last) {
+        case 'w':
+          if (['w-min', 'w-max', 'w-min-content', 'w-max-content'].includes(utility)) {
+            utility = utility.slice(0, 5);
+          } else if (utility.startsWith('w-min')) {
+            utility = 'min-w' + utility.slice(5);
+          } else if (utility.startsWith('w-max')) {
+            utility = 'max-w' + utility.slice(5);
+          }
+          break;
+        case 'h':
+          if (['h-min', 'h-max', 'h-min-content', 'h-max-content'].includes(utility)) {
+            utility = utility.slice(0, 5);
+          } else if (utility.startsWith('h-min')) {
+            utility = 'min-h' + utility.slice(5);
+          } else if (utility.startsWith('h-max')) {
+            utility = 'max-h' + utility.slice(5);
+          }
+          break;
         case 'flex':
           switch (utility) {
           case 'flex-~':
