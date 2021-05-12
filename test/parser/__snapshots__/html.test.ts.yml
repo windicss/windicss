@@ -52,42 +52,42 @@ Tools / parse attributes / attr / 0: |-
       "end": 114
     },
     {
-      "raw": "position=\"relative\"",
-      "key": "position",
+      "raw": "pos=\"relative\"",
+      "key": "pos",
       "value": "relative",
       "start": 123,
-      "end": 142
+      "end": 137
     },
     {
-      "raw": "max-w=\"sm:xl\"",
-      "key": "max-w",
-      "value": "sm:xl",
-      "start": 143,
-      "end": 156
+      "raw": "w=\"sm:max-xl\"",
+      "key": "w",
+      "value": "sm:max-xl",
+      "start": 138,
+      "end": 151
     },
     {
       "raw": "p=\"y-3\"",
       "key": "p",
       "value": "y-3",
-      "start": 157,
-      "end": 164
+      "start": 152,
+      "end": 159
     },
     {
       "raw": "m=\"sm:x-auto\"",
       "key": "m",
       "value": "sm:x-auto",
-      "start": 165,
-      "end": 178
+      "start": 160,
+      "end": 173
     },
     {
-      "raw": "position=\"absolute inset-0\"",
-      "key": "position",
+      "raw": "pos=\"absolute inset-0\"",
+      "key": "pos",
       "value": [
         "absolute",
         "inset-0"
       ],
-      "start": 189,
-      "end": 216
+      "start": 184,
+      "end": 206
     },
     {
       "raw": "gradient=\"to-r from-cyan-400 to-light-blue-500\"",
@@ -97,15 +97,15 @@ Tools / parse attributes / attr / 0: |-
         "from-cyan-400",
         "to-light-blue-500"
       ],
-      "start": 217,
-      "end": 264
+      "start": 207,
+      "end": 254
     },
     {
       "raw": "shadow=\"lg\"",
       "key": "shadow",
       "value": "lg",
-      "start": 265,
-      "end": 276
+      "start": 255,
+      "end": 266
     },
     {
       "raw": "transform=\"~ -skew-y-6 sm:skew-y-0 sm:-rotate-6\"",
@@ -116,22 +116,22 @@ Tools / parse attributes / attr / 0: |-
         "sm:skew-y-0",
         "sm:-rotate-6"
       ],
-      "start": 277,
-      "end": 325
+      "start": 267,
+      "end": 315
     },
     {
       "raw": "border=\"sm:rounded-3xl\"",
       "key": "border",
       "value": "sm:rounded-3xl",
-      "start": 326,
-      "end": 349
+      "start": 316,
+      "end": 339
     },
     {
-      "raw": "position=\"relative\"",
-      "key": "position",
+      "raw": "pos=\"relative\"",
+      "key": "pos",
       "value": "relative",
-      "start": 371,
-      "end": 390
+      "start": 361,
+      "end": 375
     },
     {
       "raw": "p=\"x-4 y-10 sm:20\"",
@@ -141,50 +141,50 @@ Tools / parse attributes / attr / 0: |-
         "y-10",
         "sm:20"
       ],
-      "start": 391,
-      "end": 409
+      "start": 376,
+      "end": 394
     },
     {
       "raw": "bg=\"white\"",
       "key": "bg",
       "value": "white",
-      "start": 410,
-      "end": 420
+      "start": 395,
+      "end": 405
     },
     {
       "raw": "shadow=\"lg\"",
       "key": "shadow",
       "value": "lg",
-      "start": 421,
-      "end": 432
+      "start": 406,
+      "end": 417
     },
     {
       "raw": "border=\"sm:rounded-3xl\"",
       "key": "border",
       "value": "sm:rounded-3xl",
-      "start": 433,
-      "end": 456
+      "start": 418,
+      "end": 441
     },
     {
       "raw": "m=\"x-auto\"",
       "key": "m",
       "value": "x-auto",
-      "start": 469,
-      "end": 479
+      "start": 454,
+      "end": 464
     },
     {
-      "raw": "max-w=\"md\"",
-      "key": "max-w",
-      "value": "md",
-      "start": 480,
-      "end": 490
+      "raw": "w=\"max-md\"",
+      "key": "w",
+      "value": "max-md",
+      "start": 465,
+      "end": 475
     },
     {
       "raw": "src=\"/img/logo.svg\"",
       "key": "src",
       "value": "/img/logo.svg",
-      "start": 521,
-      "end": 540
+      "start": 506,
+      "end": 525
     },
     {
       "raw": "h=\"7 sm:8\"",
@@ -193,8 +193,8 @@ Tools / parse attributes / attr / 0: |-
         "7",
         "sm:8"
       ],
-      "start": 541,
-      "end": 551
+      "start": 526,
+      "end": 536
     },
     {
       "raw": "divide=\"y gray-200\"",
@@ -203,8 +203,8 @@ Tools / parse attributes / attr / 0: |-
         "y",
         "gray-200"
       ],
-      "start": 582,
-      "end": 601
+      "start": 567,
+      "end": 586
     },
     {
       "raw": "text=\"base sm:lg gray-700\"",
@@ -214,8 +214,8 @@ Tools / parse attributes / attr / 0: |-
         "sm:lg",
         "gray-700"
       ],
-      "start": 618,
-      "end": 644
+      "start": 603,
+      "end": 629
     },
     {
       "raw": "font=\"leading-6 sm:leading-7\"",
@@ -224,50 +224,50 @@ Tools / parse attributes / attr / 0: |-
         "leading-6",
         "sm:leading-7"
       ],
-      "start": 645,
-      "end": 674
+      "start": 630,
+      "end": 659
     },
     {
       "raw": "p=\"y-8\"",
       "key": "p",
       "value": "y-8",
-      "start": 675,
-      "end": 682
+      "start": 660,
+      "end": 667
     },
     {
       "raw": "space=\"y-4\"",
       "key": "space",
       "value": "y-4",
-      "start": 683,
-      "end": 694
+      "start": 668,
+      "end": 679
     },
     {
       "raw": "list=\"disc\"",
       "key": "list",
       "value": "disc",
-      "start": 814,
-      "end": 825
+      "start": 799,
+      "end": 810
     },
     {
       "raw": "space=\"y-2\"",
       "key": "space",
       "value": "y-2",
-      "start": 826,
-      "end": 837
+      "start": 811,
+      "end": 822
     },
     {
       "raw": "flex=~",
       "key": "flex",
       "value": "~",
-      "start": 857,
-      "end": 863
+      "start": 842,
+      "end": 848
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 864,
-      "end": 877
+      "start": 849,
+      "end": 862
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -276,50 +276,50 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 901,
-      "end": 911
+      "start": 886,
+      "end": 896
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 912,
-      "end": 920
+      "start": 897,
+      "end": 905
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 921,
-      "end": 935
+      "start": 906,
+      "end": 920
     },
     {
       "raw": "flex=\"shrink-0\"",
       "key": "flex",
       "value": "shrink-0",
-      "start": 960,
-      "end": 975
+      "start": 945,
+      "end": 960
     },
     {
       "raw": "h=5",
       "key": "h",
       "value": "5",
-      "start": 976,
-      "end": 979
+      "start": 961,
+      "end": 964
     },
     {
       "raw": "w=5",
       "key": "w",
       "value": "5",
-      "start": 980,
-      "end": 983
+      "start": 965,
+      "end": 968
     },
     {
       "raw": "text=\"cyan-500\"",
       "key": "text",
       "value": "cyan-500",
-      "start": 984,
-      "end": 999
+      "start": 969,
+      "end": 984
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -330,22 +330,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 1000,
-      "end": 1019
+      "start": 985,
+      "end": 1004
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 1020,
-      "end": 1039
+      "start": 1005,
+      "end": 1024
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 1067,
-      "end": 1086
+      "start": 1052,
+      "end": 1071
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -377,22 +377,22 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 1109,
-      "end": 1246
+      "start": 1094,
+      "end": 1231
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 1269,
-      "end": 1288
+      "start": 1254,
+      "end": 1273
     },
     {
       "raw": "class=\"ml-2\"",
       "key": "class",
       "value": "ml-2",
-      "start": 1360,
-      "end": 1372
+      "start": 1345,
+      "end": 1357
     },
     {
       "raw": "class=\"text-sm font-bold text-gray-900\"",
@@ -402,36 +402,36 @@ Tools / parse attributes / attr / 0: |-
         "font-bold",
         "text-gray-900"
       ],
-      "start": 1433,
-      "end": 1472
+      "start": 1418,
+      "end": 1457
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 1563,
-      "end": 1571
+      "start": 1548,
+      "end": 1556
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 1572,
-      "end": 1585
+      "start": 1557,
+      "end": 1570
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 1609,
-      "end": 1617
+      "start": 1594,
+      "end": 1602
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 1618,
-      "end": 1632
+      "start": 1603,
+      "end": 1617
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -440,36 +440,36 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 1633,
-      "end": 1643
+      "start": 1618,
+      "end": 1628
     },
     {
       "raw": "flex=\"shrink-0\"",
       "key": "flex",
       "value": "shrink-0",
-      "start": 1668,
-      "end": 1683
+      "start": 1653,
+      "end": 1668
     },
     {
       "raw": "h=5",
       "key": "h",
       "value": "5",
-      "start": 1684,
-      "end": 1687
+      "start": 1669,
+      "end": 1672
     },
     {
       "raw": "w=5",
       "key": "w",
       "value": "5",
-      "start": 1688,
-      "end": 1691
+      "start": 1673,
+      "end": 1676
     },
     {
       "raw": "text=cyan-500",
       "key": "text",
       "value": "cyan-500",
-      "start": 1692,
-      "end": 1705
+      "start": 1677,
+      "end": 1690
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -480,22 +480,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 1706,
-      "end": 1725
+      "start": 1691,
+      "end": 1710
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 1726,
-      "end": 1745
+      "start": 1711,
+      "end": 1730
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 1773,
-      "end": 1792
+      "start": 1758,
+      "end": 1777
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -527,29 +527,29 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 1815,
-      "end": 1952
+      "start": 1800,
+      "end": 1937
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 1975,
-      "end": 1994
+      "start": 1960,
+      "end": 1979
     },
     {
       "raw": "m=l-2",
       "key": "m",
       "value": "l-2",
-      "start": 2066,
-      "end": 2071
+      "start": 2051,
+      "end": 2056
     },
     {
       "raw": "font=\"bold\"",
       "key": "font",
       "value": "bold",
-      "start": 2139,
-      "end": 2150
+      "start": 2124,
+      "end": 2135
     },
     {
       "raw": "text=\"sm gray-900\"",
@@ -558,36 +558,36 @@ Tools / parse attributes / attr / 0: |-
         "sm",
         "gray-900"
       ],
-      "start": 2151,
-      "end": 2169
+      "start": 2136,
+      "end": 2154
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 2243,
-      "end": 2251
+      "start": 2228,
+      "end": 2236
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 2252,
-      "end": 2265
+      "start": 2237,
+      "end": 2250
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 2289,
-      "end": 2297
+      "start": 2274,
+      "end": 2282
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 2298,
-      "end": 2312
+      "start": 2283,
+      "end": 2297
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -596,8 +596,8 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 2313,
-      "end": 2323
+      "start": 2298,
+      "end": 2308
     },
     {
       "raw": "class=\"flex-shrink-0 h-5 w-5 text-cyan-500\"",
@@ -608,8 +608,8 @@ Tools / parse attributes / attr / 0: |-
         "w-5",
         "text-cyan-500"
       ],
-      "start": 2348,
-      "end": 2391
+      "start": 2333,
+      "end": 2376
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -620,22 +620,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 2392,
-      "end": 2411
+      "start": 2377,
+      "end": 2396
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 2412,
-      "end": 2431
+      "start": 2397,
+      "end": 2416
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 2459,
-      "end": 2478
+      "start": 2444,
+      "end": 2463
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -667,22 +667,22 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 2501,
-      "end": 2638
+      "start": 2486,
+      "end": 2623
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 2661,
-      "end": 2680
+      "start": 2646,
+      "end": 2665
     },
     {
       "raw": "m=\"l-2\"",
       "key": "m",
       "value": "l-2",
-      "start": 2752,
-      "end": 2759
+      "start": 2737,
+      "end": 2744
     },
     {
       "raw": "text=\"base sm:lg\"",
@@ -691,15 +691,15 @@ Tools / parse attributes / attr / 0: |-
         "base",
         "sm:lg"
       ],
-      "start": 3009,
-      "end": 3026
+      "start": 2994,
+      "end": 3011
     },
     {
       "raw": "p=\"t-6\"",
       "key": "p",
       "value": "t-6",
-      "start": 3027,
-      "end": 3034
+      "start": 3012,
+      "end": 3019
     },
     {
       "raw": "font=\"bold leading-6 sm:leading-7\"",
@@ -709,15 +709,15 @@ Tools / parse attributes / attr / 0: |-
         "leading-6",
         "sm:leading-7"
       ],
-      "start": 3035,
-      "end": 3069
+      "start": 3020,
+      "end": 3054
     },
     {
       "raw": "href=\"https://tailwindcss.com/docs\"",
       "key": "href",
       "value": "https://tailwindcss.com/docs",
-      "start": 3157,
-      "end": 3192
+      "start": 3142,
+      "end": 3177
     },
     {
       "raw": "text=\"cyan-600 hover:cyan-700\"",
@@ -726,8 +726,8 @@ Tools / parse attributes / attr / 0: |-
         "cyan-600",
         "hover:cyan-700"
       ],
-      "start": 3193,
-      "end": 3223
+      "start": 3178,
+      "end": 3208
     }
   ]
 Tools / parse classes / class / 0: |-
