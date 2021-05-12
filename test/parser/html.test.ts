@@ -1,13 +1,14 @@
 import { readFileSync } from 'fs';
 import { HTMLParser } from '../../src/utils/parser';
 
-const HTML = readFileSync('./test/assets/example.html').toString();
+const EXAMPLE_1 = readFileSync('./test/assets/example.html').toString();
+const EXAMPLE_2 = readFileSync('./test/assets/example2.html').toString();
 
 describe('HTMLParser', () => {
   it('parse tags', () => {
     const parser = new HTMLParser();
     expect(parser.parseTags().length).toBe(0);
-    parser.html = HTML;
+    parser.html = EXAMPLE_1;
     expect(parser.parseTags()).toEqual([
       'div',
       'img',
@@ -25,7 +26,7 @@ describe('HTMLParser', () => {
   it('parse classes', () => {
     const parser = new HTMLParser();
     expect(parser.parseClasses().length).toBe(0);
-    parser.html = HTML;
+    parser.html = EXAMPLE_1;
     expect(parser.parseClasses().map((i) => i.result)).toEqual([
       'container min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 md:py-0 lg:py-2 xl:py-4',
       'relative py-3 sm:max-w-xl sm:mx-auto',
@@ -53,5 +54,10 @@ describe('HTMLParser', () => {
       'pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7',
       'text-cyan-600 hover:text-cyan-700',
     ]);
+  });
+
+  it('parse attributes', () => {
+    const parser = new HTMLParser(EXAMPLE_2);
+    expect(parser.parseAttrs()).toMatchSnapshot('attr');
   });
 });

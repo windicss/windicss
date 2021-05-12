@@ -1,0 +1,732 @@
+Tools / parse attributes / attr / 0: |-
+  [
+    {
+      "raw": "container=\"~\"",
+      "key": "container",
+      "value": "~",
+      "start": 5,
+      "end": 18
+    },
+    {
+      "raw": "min-h=\"screen\"",
+      "key": "min-h",
+      "value": "screen",
+      "start": 19,
+      "end": 33
+    },
+    {
+      "raw": "bg=\"gray-100\"",
+      "key": "bg",
+      "value": "gray-100",
+      "start": 34,
+      "end": 47
+    },
+    {
+      "raw": "flex=\"~ col\"",
+      "key": "flex",
+      "value": [
+        "~",
+        "col"
+      ],
+      "start": 48,
+      "end": 60
+    },
+    {
+      "raw": "justify=\"center\"",
+      "key": "justify",
+      "value": "center",
+      "start": 61,
+      "end": 77
+    },
+    {
+      "raw": "p=\"y-6 sm:y-12 md:y-0 lg:y-2 xl:y-4\"",
+      "key": "p",
+      "value": [
+        "y-6",
+        "sm:y-12",
+        "md:y-0",
+        "lg:y-2",
+        "xl:y-4"
+      ],
+      "start": 78,
+      "end": 114
+    },
+    {
+      "raw": "position=\"relative\"",
+      "key": "position",
+      "value": "relative",
+      "start": 123,
+      "end": 142
+    },
+    {
+      "raw": "max-w=\"sm:xl\"",
+      "key": "max-w",
+      "value": "sm:xl",
+      "start": 143,
+      "end": 156
+    },
+    {
+      "raw": "p=\"y-3\"",
+      "key": "p",
+      "value": "y-3",
+      "start": 157,
+      "end": 164
+    },
+    {
+      "raw": "m=\"sm:x-auto\"",
+      "key": "m",
+      "value": "sm:x-auto",
+      "start": 165,
+      "end": 178
+    },
+    {
+      "raw": "position=\"absolute inset-0\"",
+      "key": "position",
+      "value": [
+        "absolute",
+        "inset-0"
+      ],
+      "start": 189,
+      "end": 216
+    },
+    {
+      "raw": "gradient=\"to-r from-cyan-400 to-light-blue-500\"",
+      "key": "gradient",
+      "value": [
+        "to-r",
+        "from-cyan-400",
+        "to-light-blue-500"
+      ],
+      "start": 217,
+      "end": 264
+    },
+    {
+      "raw": "shadow=\"lg\"",
+      "key": "shadow",
+      "value": "lg",
+      "start": 265,
+      "end": 276
+    },
+    {
+      "raw": "transform=\"~ -skew-y-6 sm:skew-y-0 sm:-rotate-6\"",
+      "key": "transform",
+      "value": [
+        "~",
+        "-skew-y-6",
+        "sm:skew-y-0",
+        "sm:-rotate-6"
+      ],
+      "start": 277,
+      "end": 325
+    },
+    {
+      "raw": "border=\"sm:rounded-3xl\"",
+      "key": "border",
+      "value": "sm:rounded-3xl",
+      "start": 326,
+      "end": 349
+    },
+    {
+      "raw": "position=\"relative\"",
+      "key": "position",
+      "value": "relative",
+      "start": 371,
+      "end": 390
+    },
+    {
+      "raw": "p=\"x-4 y-10 sm:20\"",
+      "key": "p",
+      "value": [
+        "x-4",
+        "y-10",
+        "sm:20"
+      ],
+      "start": 391,
+      "end": 409
+    },
+    {
+      "raw": "bg=\"white\"",
+      "key": "bg",
+      "value": "white",
+      "start": 410,
+      "end": 420
+    },
+    {
+      "raw": "shadow=\"lg\"",
+      "key": "shadow",
+      "value": "lg",
+      "start": 421,
+      "end": 432
+    },
+    {
+      "raw": "border=\"sm:rounded-3xl\"",
+      "key": "border",
+      "value": "sm:rounded-3xl",
+      "start": 433,
+      "end": 456
+    },
+    {
+      "raw": "m=\"x-auto\"",
+      "key": "m",
+      "value": "x-auto",
+      "start": 469,
+      "end": 479
+    },
+    {
+      "raw": "max-w=\"md\"",
+      "key": "max-w",
+      "value": "md",
+      "start": 480,
+      "end": 490
+    },
+    {
+      "raw": "src=\"/img/logo.svg\"",
+      "key": "src",
+      "value": "/img/logo.svg",
+      "start": 521,
+      "end": 540
+    },
+    {
+      "raw": "h=\"7 sm:8\"",
+      "key": "h",
+      "value": [
+        "7",
+        "sm:8"
+      ],
+      "start": 541,
+      "end": 551
+    },
+    {
+      "raw": "divide=\"y gray-200\"",
+      "key": "divide",
+      "value": [
+        "y",
+        "gray-200"
+      ],
+      "start": 582,
+      "end": 601
+    },
+    {
+      "raw": "text=\"base sm:lg gray-700\"",
+      "key": "text",
+      "value": [
+        "base",
+        "sm:lg",
+        "gray-700"
+      ],
+      "start": 618,
+      "end": 644
+    },
+    {
+      "raw": "font=\"leading-6 sm:leading-7\"",
+      "key": "font",
+      "value": [
+        "leading-6",
+        "sm:leading-7"
+      ],
+      "start": 645,
+      "end": 674
+    },
+    {
+      "raw": "p=\"y-8\"",
+      "key": "p",
+      "value": "y-8",
+      "start": 675,
+      "end": 682
+    },
+    {
+      "raw": "space=\"y-4\"",
+      "key": "space",
+      "value": "y-4",
+      "start": 683,
+      "end": 694
+    },
+    {
+      "raw": "list=\"disc\"",
+      "key": "list",
+      "value": "disc",
+      "start": 814,
+      "end": 825
+    },
+    {
+      "raw": "space=\"y-2\"",
+      "key": "space",
+      "value": "y-2",
+      "start": 826,
+      "end": 837
+    },
+    {
+      "raw": "flex=~",
+      "key": "flex",
+      "value": "~",
+      "start": 857,
+      "end": 863
+    },
+    {
+      "raw": "items=\"start\"",
+      "key": "items",
+      "value": "start",
+      "start": 864,
+      "end": 877
+    },
+    {
+      "raw": "h=\"6 sm:7\"",
+      "key": "h",
+      "value": [
+        "6",
+        "sm:7"
+      ],
+      "start": 901,
+      "end": 911
+    },
+    {
+      "raw": "flex=\"~\"",
+      "key": "flex",
+      "value": "~",
+      "start": 912,
+      "end": 920
+    },
+    {
+      "raw": "items=\"center\"",
+      "key": "items",
+      "value": "center",
+      "start": 921,
+      "end": 935
+    },
+    {
+      "raw": "flex=\"shrink-0\"",
+      "key": "flex",
+      "value": "shrink-0",
+      "start": 960,
+      "end": 975
+    },
+    {
+      "raw": "h=5",
+      "key": "h",
+      "value": "5",
+      "start": 976,
+      "end": 979
+    },
+    {
+      "raw": "w=5",
+      "key": "w",
+      "value": "5",
+      "start": 980,
+      "end": 983
+    },
+    {
+      "raw": "text=\"cyan-500\"",
+      "key": "text",
+      "value": "cyan-500",
+      "start": 984,
+      "end": 999
+    },
+    {
+      "raw": "viewBox=\"0 0 20 20\"",
+      "key": "viewBox",
+      "value": [
+        "0",
+        "0",
+        "20",
+        "20"
+      ],
+      "start": 1000,
+      "end": 1019
+    },
+    {
+      "raw": "fill=\"currentColor\"",
+      "key": "fill",
+      "value": "currentColor",
+      "start": 1020,
+      "end": 1039
+    },
+    {
+      "raw": "fill-rule=\"evenodd\"",
+      "key": "fill-rule",
+      "value": "evenodd",
+      "start": 1067,
+      "end": 1086
+    },
+    {
+      "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
+      "key": "d",
+      "value": [
+        "M10",
+        "18a8",
+        "8",
+        "0",
+        "100-16",
+        "8",
+        "8",
+        "0",
+        "000",
+        "16zm3.707-9.293a1",
+        "1",
+        "0",
+        "00-1.414-1.414L9",
+        "10.586",
+        "7.707",
+        "9.293a1",
+        "1",
+        "0",
+        "00-1.414",
+        "1.414l2",
+        "2a1",
+        "1",
+        "0",
+        "001.414",
+        "0l4-4z"
+      ],
+      "start": 1109,
+      "end": 1246
+    },
+    {
+      "raw": "clip-rule=\"evenodd\"",
+      "key": "clip-rule",
+      "value": "evenodd",
+      "start": 1269,
+      "end": 1288
+    },
+    {
+      "raw": "class=\"ml-2\"",
+      "key": "class",
+      "value": "ml-2",
+      "start": 1360,
+      "end": 1372
+    },
+    {
+      "raw": "class=\"text-sm font-bold text-gray-900\"",
+      "key": "class",
+      "value": [
+        "text-sm",
+        "font-bold",
+        "text-gray-900"
+      ],
+      "start": 1433,
+      "end": 1472
+    },
+    {
+      "raw": "flex=\"~\"",
+      "key": "flex",
+      "value": "~",
+      "start": 1563,
+      "end": 1571
+    },
+    {
+      "raw": "items=\"start\"",
+      "key": "items",
+      "value": "start",
+      "start": 1572,
+      "end": 1585
+    },
+    {
+      "raw": "flex=\"~\"",
+      "key": "flex",
+      "value": "~",
+      "start": 1609,
+      "end": 1617
+    },
+    {
+      "raw": "items=\"center\"",
+      "key": "items",
+      "value": "center",
+      "start": 1618,
+      "end": 1632
+    },
+    {
+      "raw": "h=\"6 sm:7\"",
+      "key": "h",
+      "value": [
+        "6",
+        "sm:7"
+      ],
+      "start": 1633,
+      "end": 1643
+    },
+    {
+      "raw": "flex=\"shrink-0\"",
+      "key": "flex",
+      "value": "shrink-0",
+      "start": 1668,
+      "end": 1683
+    },
+    {
+      "raw": "h=5",
+      "key": "h",
+      "value": "5",
+      "start": 1684,
+      "end": 1687
+    },
+    {
+      "raw": "w=5",
+      "key": "w",
+      "value": "5",
+      "start": 1688,
+      "end": 1691
+    },
+    {
+      "raw": "text=cyan-500",
+      "key": "text",
+      "value": "cyan-500",
+      "start": 1692,
+      "end": 1705
+    },
+    {
+      "raw": "viewBox=\"0 0 20 20\"",
+      "key": "viewBox",
+      "value": [
+        "0",
+        "0",
+        "20",
+        "20"
+      ],
+      "start": 1706,
+      "end": 1725
+    },
+    {
+      "raw": "fill=\"currentColor\"",
+      "key": "fill",
+      "value": "currentColor",
+      "start": 1726,
+      "end": 1745
+    },
+    {
+      "raw": "fill-rule=\"evenodd\"",
+      "key": "fill-rule",
+      "value": "evenodd",
+      "start": 1773,
+      "end": 1792
+    },
+    {
+      "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
+      "key": "d",
+      "value": [
+        "M10",
+        "18a8",
+        "8",
+        "0",
+        "100-16",
+        "8",
+        "8",
+        "0",
+        "000",
+        "16zm3.707-9.293a1",
+        "1",
+        "0",
+        "00-1.414-1.414L9",
+        "10.586",
+        "7.707",
+        "9.293a1",
+        "1",
+        "0",
+        "00-1.414",
+        "1.414l2",
+        "2a1",
+        "1",
+        "0",
+        "001.414",
+        "0l4-4z"
+      ],
+      "start": 1815,
+      "end": 1952
+    },
+    {
+      "raw": "clip-rule=\"evenodd\"",
+      "key": "clip-rule",
+      "value": "evenodd",
+      "start": 1975,
+      "end": 1994
+    },
+    {
+      "raw": "m=l-2",
+      "key": "m",
+      "value": "l-2",
+      "start": 2066,
+      "end": 2071
+    },
+    {
+      "raw": "font=\"bold\"",
+      "key": "font",
+      "value": "bold",
+      "start": 2139,
+      "end": 2150
+    },
+    {
+      "raw": "text=\"sm gray-900\"",
+      "key": "text",
+      "value": [
+        "sm",
+        "gray-900"
+      ],
+      "start": 2151,
+      "end": 2169
+    },
+    {
+      "raw": "flex=\"~\"",
+      "key": "flex",
+      "value": "~",
+      "start": 2243,
+      "end": 2251
+    },
+    {
+      "raw": "items=\"start\"",
+      "key": "items",
+      "value": "start",
+      "start": 2252,
+      "end": 2265
+    },
+    {
+      "raw": "flex=\"~\"",
+      "key": "flex",
+      "value": "~",
+      "start": 2289,
+      "end": 2297
+    },
+    {
+      "raw": "items=\"center\"",
+      "key": "items",
+      "value": "center",
+      "start": 2298,
+      "end": 2312
+    },
+    {
+      "raw": "h=\"6 sm:7\"",
+      "key": "h",
+      "value": [
+        "6",
+        "sm:7"
+      ],
+      "start": 2313,
+      "end": 2323
+    },
+    {
+      "raw": "class=\"flex-shrink-0 h-5 w-5 text-cyan-500\"",
+      "key": "class",
+      "value": [
+        "flex-shrink-0",
+        "h-5",
+        "w-5",
+        "text-cyan-500"
+      ],
+      "start": 2348,
+      "end": 2391
+    },
+    {
+      "raw": "viewBox=\"0 0 20 20\"",
+      "key": "viewBox",
+      "value": [
+        "0",
+        "0",
+        "20",
+        "20"
+      ],
+      "start": 2392,
+      "end": 2411
+    },
+    {
+      "raw": "fill=\"currentColor\"",
+      "key": "fill",
+      "value": "currentColor",
+      "start": 2412,
+      "end": 2431
+    },
+    {
+      "raw": "fill-rule=\"evenodd\"",
+      "key": "fill-rule",
+      "value": "evenodd",
+      "start": 2459,
+      "end": 2478
+    },
+    {
+      "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
+      "key": "d",
+      "value": [
+        "M10",
+        "18a8",
+        "8",
+        "0",
+        "100-16",
+        "8",
+        "8",
+        "0",
+        "000",
+        "16zm3.707-9.293a1",
+        "1",
+        "0",
+        "00-1.414-1.414L9",
+        "10.586",
+        "7.707",
+        "9.293a1",
+        "1",
+        "0",
+        "00-1.414",
+        "1.414l2",
+        "2a1",
+        "1",
+        "0",
+        "001.414",
+        "0l4-4z"
+      ],
+      "start": 2501,
+      "end": 2638
+    },
+    {
+      "raw": "clip-rule=\"evenodd\"",
+      "key": "clip-rule",
+      "value": "evenodd",
+      "start": 2661,
+      "end": 2680
+    },
+    {
+      "raw": "m=\"l-2\"",
+      "key": "m",
+      "value": "l-2",
+      "start": 2752,
+      "end": 2759
+    },
+    {
+      "raw": "text=\"base sm:lg\"",
+      "key": "text",
+      "value": [
+        "base",
+        "sm:lg"
+      ],
+      "start": 3009,
+      "end": 3026
+    },
+    {
+      "raw": "p=\"t-6\"",
+      "key": "p",
+      "value": "t-6",
+      "start": 3027,
+      "end": 3034
+    },
+    {
+      "raw": "font=\"bold leading-6 sm:leading-7\"",
+      "key": "font",
+      "value": [
+        "bold",
+        "leading-6",
+        "sm:leading-7"
+      ],
+      "start": 3035,
+      "end": 3069
+    },
+    {
+      "raw": "href=\"https://tailwindcss.com/docs\"",
+      "key": "href",
+      "value": "https://tailwindcss.com/docs",
+      "start": 3157,
+      "end": 3192
+    },
+    {
+      "raw": "text=\"cyan-600 hover:cyan-700\"",
+      "key": "text",
+      "value": [
+        "cyan-600",
+        "hover:cyan-700"
+      ],
+      "start": 3193,
+      "end": 3223
+    }
+  ]
