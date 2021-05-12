@@ -11,6 +11,7 @@ const preflightSheet = processor.preflight(html); // Parse all html tags, then g
 const attrs: { [key: string]: string | string[] } = parser
   .parseAttrs()
   .reduceRight((a: { [key: string]: string | string[] }, b) => {
+    if (b.key === 'class' || b.key === 'className') return a;
     if (b.key in a) {
       a[b.key] = Array.isArray(a[b.key])
         ? Array.isArray(b.value)? [ ...a[b.key], ...b.value ]: [ ...a[b.key], b.value ]
