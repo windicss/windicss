@@ -1,7 +1,7 @@
 {
   "name": "windicss",
-  "version": "3.0.0-beta.11",
-  "description": "Next generation tailwindcss compiler.",
+  "version": "3.0.0-beta.12",
+  "description": "Next generation utility-first CSS framework.",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
