@@ -13,8 +13,7 @@ import {
   Console,
 } from './utils';
 
-const doc = `
-Generate css from text files that containing windi classes.
+const doc = `Generate css from text files that containing windi classes.
 By default, it will use interpretation mode to generate a single css file.
 
 Usage:
@@ -176,6 +175,7 @@ if (args['--attributify']) {
     const attrs: { [key: string]: string | string[] } = parser
       .parseAttrs()
       .reduceRight((a: { [key: string]: string | string[] }, b) => {
+        if (b.key === 'class' || b.key === 'className') return a;
         if (b.key in a) {
           a[b.key] = Array.isArray(a[b.key])
             ? Array.isArray(b.value)? [ ...(a[b.key] as string[]), ...b.value ]: [ ...(a[b.key] as string[]), b.value ]
@@ -216,11 +216,11 @@ if (args['--separate']) {
       .sort()
       .combine()
       .extend(outputStyle);
-  const filePath = args['--output'] ?? 'windi.output.css';
+  const filePath = args['--output'] ?? 'windi.css';
   writeFileSync(filePath, outputStyle.build(args['--minify']));
   Console.log('matched files:', matchFiles);
   Console.log('output file:', filePath);
 }
 
 Console.log('ignored classes:', ignoredClasses);
-if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs);
+if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs.slice(0, 5), `... ${ignoredAttrs.length-5} more items`);

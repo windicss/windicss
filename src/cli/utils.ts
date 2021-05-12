@@ -76,7 +76,7 @@ export function getVersion(): string {
 
 export function generateTemplate(
   folder: string,
-  outputPath = 'windi.output.css'
+  outputPath = 'windi.css'
 ): { html: string; css: string } {
   if (!(fs.existsSync(folder) && fs.lstatSync(folder).isDirectory())) {
     fs.mkdirSync(folder);
