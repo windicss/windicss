@@ -36,30 +36,29 @@ export default class HTMLParser {
   parseClasses(): ClassName[] {
     // Match all class properties
     if (!this.html) return [];
-    const classRegex = /class\s*=\s*(["'])(?:(?=(\\?))\2.)*?\1/;
-    const quoteRegex = /["']/;
-    const classNames: ClassName[] = [];
-    let _indexStart = 0;
-    let _htmlLeft = this.html;
-    let propStart = _htmlLeft.search(classRegex);
-    while (propStart !== -1) {
-      const afterMatch = _htmlLeft.substring(propStart);
-      const relativeStart = afterMatch.search(quoteRegex);
-      const relativeEnd = afterMatch
-        .substring(relativeStart + 1)
-        .search(quoteRegex);
-      const absoluteStart = propStart + relativeStart + 1;
-      const absoluteEnd = absoluteStart + relativeEnd;
-      classNames.push({
-        result: _htmlLeft.substring(absoluteStart, absoluteEnd),
-        start: _indexStart + absoluteStart,
-        end: _indexStart + absoluteEnd,
-      });
-      _htmlLeft = _htmlLeft.substring(absoluteEnd + 2);
-      _indexStart += absoluteEnd + 2;
-      propStart = _htmlLeft.search(classRegex);
+    const output: ClassName[] = [];
+    const regex = /class(Name)?\s*=\s*"[^"]+"|class(Name)?\s*=\s*'[^']+'|class(Name)?\s*=\s*[^>\s]+/igm;
+    let match;
+    while ((match = regex.exec(this.html as string))) {
+      if (match) {
+        const raw = match[0];
+        const sep = raw.indexOf('=');
+        let value: string| string[] = raw.slice(sep + 1).trim();
+        let start = match.index + sep + 1 + (this.html.slice(sep + 1).match(/[^'"]/)?.index ?? 0);
+        let end = regex.lastIndex;
+        if (['"', '\''].includes(value.charAt(0))) {
+          value = value.slice(1, -1);
+          end--;
+          start++;
+        }
+        output.push({
+          result: value,
+          start,
+          end,
+        });
+      }
     }
-    return classNames;
+    return output;
   }
 
   parseTags(): string[] {

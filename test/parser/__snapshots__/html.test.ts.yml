@@ -730,3 +730,144 @@ Tools / parse attributes / attr / 0: |-
       "end": 3223
     }
   ]
+Tools / parse classes / class / 0: |-
+  [
+    {
+      "result": "container min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 md:py-0 lg:py-2 xl:py-4",
+      "start": 12,
+      "end": 113
+    },
+    {
+      "result": "relative py-3 sm:max-w-xl sm:mx-auto",
+      "start": 130,
+      "end": 166
+    },
+    {
+      "result": "absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl",
+      "start": 185,
+      "end": 320
+    },
+    {
+      "result": "relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20",
+      "start": 350,
+      "end": 411
+    },
+    {
+      "result": "max-w-md mx-auto",
+      "start": 432,
+      "end": 448
+    },
+    {
+      "result": "h-7 sm:h-8",
+      "start": 507,
+      "end": 517
+    },
+    {
+      "result": "divide-y divide-gray-200",
+      "start": 557,
+      "end": 581
+    },
+    {
+      "result": "py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7",
+      "start": 606,
+      "end": 678
+    },
+    {
+      "result": "list-disc space-y-2",
+      "start": 806,
+      "end": 825
+    },
+    {
+      "result": "flex items-start",
+      "start": 853,
+      "end": 869
+    },
+    {
+      "result": "h-6 flex items-center sm:h-7",
+      "start": 901,
+      "end": 929
+    },
+    {
+      "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
+      "start": 962,
+      "end": 997
+    },
+    {
+      "result": "ml-2",
+      "start": 1366,
+      "end": 1370
+    },
+    {
+      "result": "text-sm font-bold text-gray-900",
+      "start": 1439,
+      "end": 1470
+    },
+    {
+      "result": "flex items-start",
+      "start": 1569,
+      "end": 1585
+    },
+    {
+      "result": "h-6 flex items-center sm:h-7",
+      "start": 1617,
+      "end": 1645
+    },
+    {
+      "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
+      "start": 1678,
+      "end": 1713
+    },
+    {
+      "result": "ml-2",
+      "start": 2082,
+      "end": 2086
+    },
+    {
+      "result": "text-sm font-bold text-gray-900",
+      "start": 2162,
+      "end": 2193
+    },
+    {
+      "result": "flex items-start",
+      "start": 2275,
+      "end": 2291
+    },
+    {
+      "result": "h-6 flex items-center sm:h-7",
+      "start": 2323,
+      "end": 2351
+    },
+    {
+      "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
+      "start": 2384,
+      "end": 2419
+    },
+    {
+      "result": "ml-2",
+      "start": 2787,
+      "end": 2791
+    },
+    {
+      "result": "pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7",
+      "start": 3048,
+      "end": 3106
+    },
+    {
+      "result": "text-cyan-600 hover:text-cyan-700",
+      "start": 3238,
+      "end": 3271
+    }
+  ]
+Tools / parse tags / tag / 0: |-
+  [
+    "div",
+    "img",
+    "p",
+    "ul",
+    "li",
+    "span",
+    "svg",
+    "path",
+    "code",
+    "a"
+  ]
