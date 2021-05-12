@@ -124,10 +124,7 @@ export class Processor {
   };
 
   constructor(config?: Config) {
-    this._config = this.resolveConfig(config, baseConfig);
-    this._theme = this._config.theme;
-    this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
-    this._config.alias && this.loadAlias(this._config.alias);
+    this._config = this.loadConfig(config);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
@@ -228,6 +225,14 @@ export class Processor {
     const config = this.theme('vars') as NestObject | undefined;
     if (!config) return;
     this.addBase({ ':root': Object.assign({}, ...Object.keys(config).map(i => ({ [`--${i}`]: config[i] }))) as NestObject });
+  }
+
+  loadConfig(config?: Config): Config {
+    this._config = this.resolveConfig(config, baseConfig);
+    this._theme = this._config.theme;
+    this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
+    this._config.alias && this.loadAlias(this._config.alias);
+    return this._config;
   }
 
   resolveConfig(config: Config | undefined, presets: Config): Config {
