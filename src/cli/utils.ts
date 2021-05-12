@@ -10,6 +10,14 @@ export class Console {
     // eslint-disable-next-line no-console
     console.error(...message);
   }
+  static time(label?: string): void {
+    // eslint-disable-next-line no-console
+    console.time(label);
+  }
+  static timeEnd(label?: string): void {
+    // eslint-disable-next-line no-console
+    console.timeEnd(label);
+  }
 }
 
 export function isFile(path: string): boolean {

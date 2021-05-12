@@ -1,4 +1,6 @@
 import arg from 'arg';
+import chokidar from 'chokidar';
+import { deepCopy } from '../utils/tools';
 import { resolve } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFileSync } from 'fs';
@@ -18,9 +20,9 @@ By default, it will use interpretation mode to generate a single css file.
 
 Usage:
   windicss [filenames]
-  windicss [filenames] -c -m
-  windicss [filenames] -c -s -m
-  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-p <prefix:string>] [-o <path:string>] [--args arguments]
+  windicss [filenames] -c -m -w
+  windicss [filenames] -c -s -m -w
+  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-w] [-p <prefix:string>] [-o <path:string>] [--args arguments]
 
 Options:
   -h, --help            Print this help message and exit.
@@ -35,6 +37,7 @@ Options:
   -s, --separate        Generate a separate css file for each input file.
 
   -m, --minify          Generate minimized css file.
+  -w, --watch           Enable watch mode.
   -p, --prefix PREFIX   Set the css class name prefix, only valid in compilation mode. The default prefix is 'windi-'.
   -o, --output PATH     Set output css file path.
   -f, --config PATH     Set config file path.
@@ -52,6 +55,7 @@ const args = arg({
   '--preflight': Boolean,
   '--combine': Boolean,
   '--separate': Boolean,
+  '--watch': Boolean,
   '--minify': Boolean,
   '--init': String,
   '--prefix': String,
@@ -67,7 +71,7 @@ const args = arg({
   '-t': '--preflight',
   '-b': '--combine',
   '-s': '--separate',
-
+  '-w': '--watch',
   '-m': '--minify',
   '-p': '--prefix',
   '-o': '--output',
@@ -111,14 +115,14 @@ for (const pt of args._) {
 
 let ignoredClasses: string[] = [];
 let ignoredAttrs: string[] = [];
-const preflights: StyleSheet[] = [];
-const styleSheets: StyleSheet[] = [];
+const preflights: { [key:string]: StyleSheet } = {};
+const styleSheets: { [key:string]: StyleSheet } = {};
 const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
 
-if (args['--compile']) {
+function compile(files: string[]) {
   // compilation mode
   const prefix = args['--prefix'] ?? 'windi-';
-  matchFiles.forEach((file) => {
+  files.forEach((file) => {
     let indexStart = 0;
     const outputStyle: StyleSheet[] = [];
     const outputHTML: string[] = [];
@@ -135,7 +139,7 @@ if (args['--compile']) {
       indexStart = p.end;
     });
     outputHTML.push(html.substring(indexStart));
-    styleSheets.push(
+    styleSheets[file] = (
       outputStyle.reduce(
         (previousValue: StyleSheet, currentValue: StyleSheet) =>
           previousValue.extend(currentValue),
@@ -146,13 +150,13 @@ if (args['--compile']) {
     const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
     writeFileSync(outputFile, outputHTML.join(''));
     Console.log(`${file} -> ${outputFile}`);
-
-    if (args['--preflight'])
-      preflights.push(processor.preflight(parser.html));
+    if (args['--preflight']) preflights[file] = processor.preflight(parser.html);
   });
-} else {
+}
+
+function interpret(files: string[]) {
   // interpretation mode
-  matchFiles.forEach((file) => {
+  files.forEach((file) => {
     const parser = new HTMLParser(readFileSync(file).toString());
     const utility = processor.interpret(
       parser
@@ -160,17 +164,16 @@ if (args['--compile']) {
         .map((i) => i.result)
         .join(' ')
     );
-    styleSheets.push(utility.styleSheet);
+    styleSheets[file] = utility.styleSheet;
     ignoredClasses = [...ignoredClasses, ...utility.ignored];
 
-    if (args['--preflight'])
-      preflights.push(processor.preflight(parser.html));
+    if (args['--preflight']) preflights[file] = processor.preflight(parser.html);
   });
 }
 
-if (args['--attributify']) {
+function attributify(files: string[]) {
   // attributify mode
-  matchFiles.forEach((file) => {
+  files.forEach((file) => {
     const parser = new HTMLParser(readFileSync(file).toString());
     const attrs: { [key: string]: string | string[] } = parser
       .parseAttrs()
@@ -185,42 +188,66 @@ if (args['--attributify']) {
         return Object.assign(a, { [b.key]: b.value });
       }, {});
     const utility = processor.attributify(attrs);
-    styleSheets.push(utility.styleSheet);
+    styleSheets[file] = utility.styleSheet;
     ignoredAttrs = [...ignoredAttrs, ...utility.ignored];
   });
 }
 
-if (args['--separate']) {
-  styleSheets.forEach((style, index) => {
-    const filePath = matchFiles[index].replace(/\.\w+$/, '.windi.css');
-    if (args['--preflight']) style = preflights[index].extend(style);
-    writeFileSync(filePath, style.build(args['--minify']));
-    Console.log(`${matchFiles[index]} -> ${filePath}`);
-  });
-} else {
-  let outputStyle = styleSheets
-    .reduce(
-      (previousValue: StyleSheet, currentValue: StyleSheet) =>
-        previousValue.extend(currentValue),
-      new StyleSheet()
-    )
-    .sort()
-    .combine();
-  if (args['--preflight'])
-    outputStyle = preflights
+function build(files: string[], update = false) {
+  if (args['--compile']) {
+    compile(files);
+  } else {
+    interpret(files);
+  }
+  if (args['--attributify']) {
+    attributify(files);
+  }
+  if (args['--separate']) {
+    for (const [file, sheet] of Object.entries(styleSheets)) {
+      const outfile = file.replace(/\.\w+$/, '.windi.css');
+      writeFileSync(outfile, (args['--preflight'] ? deepCopy(sheet).extend(preflights[file], false) : sheet).build(args['--minify']));
+      Console.log(`${file} -> ${outfile}`);
+    }
+  } else {
+    let outputStyle = Object.values(styleSheets)
       .reduce(
         (previousValue: StyleSheet, currentValue: StyleSheet) =>
           previousValue.extend(currentValue),
         new StyleSheet()
       )
       .sort()
-      .combine()
-      .extend(outputStyle);
-  const filePath = args['--output'] ?? 'windi.css';
-  writeFileSync(filePath, outputStyle.build(args['--minify']));
-  Console.log('matched files:', matchFiles);
-  Console.log('output file:', filePath);
+      .combine();
+    if (args['--preflight'])
+      outputStyle = Object.values(preflights)
+        .reduce(
+          (previousValue: StyleSheet, currentValue: StyleSheet) =>
+            previousValue.extend(currentValue),
+          new StyleSheet()
+        )
+        .sort()
+        .combine()
+        .extend(outputStyle);
+    const filePath = args['--output'] ?? 'windi.css';
+    writeFileSync(filePath, outputStyle.build(args['--minify']));
+    if (!update) {
+      Console.log('matched files:', matchFiles);
+      Console.log('output file:', filePath);
+    }
+  }
+  if (!update) {
+    Console.log('ignored classes:', ignoredClasses);
+    if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs.slice(0, 5), `... ${ignoredAttrs.length-5} more items`);
+  }
 }
 
-Console.log('ignored classes:', ignoredClasses);
-if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs.slice(0, 5), `... ${ignoredAttrs.length-5} more items`);
+build(matchFiles);
+
+if (args['--watch']) {
+  const watcher = chokidar.watch(matchFiles);
+  watcher.on('change', (path) => {
+    Console.log('File', path, 'has been changed');
+    Console.time('Building');
+    build([path], true);
+    Console.timeEnd('Building');
+  });
+}
