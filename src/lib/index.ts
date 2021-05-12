@@ -720,6 +720,9 @@ export class Processor {
         case 'display':
           utility = utility.slice(8);
           break;
+        case 'pos':
+          utility = utility.slice(4);
+          break;
         case 'position':
           utility = utility.slice(9);
           break;

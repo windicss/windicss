@@ -1506,6 +1506,82 @@ Tools / with placeholder utility / css / 0: |-
   [placeholder~="opacity-50"]::placeholder {
     --tw-placeholder-opacity: 0.5;
   }
+Tools / with pos utility / css / 0: |-
+  [pos~="order-1"] {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+  [pos~="order-first"] {
+    -webkit-box-ordinal-group: -9998;
+    -webkit-order: -9999;
+    -ms-flex-order: -9999;
+    order: -9999;
+  }
+  [pos~="float-right"] {
+    float: right;
+  }
+  [pos~="float-left"] {
+    float: left;
+  }
+  [pos~="float-none"] {
+    float: none;
+  }
+  [pos~="clear-left"] {
+    clear: left;
+  }
+  [pos~="clear-right"] {
+    clear: right;
+  }
+  [pos~="clear-both"] {
+    clear: both;
+  }
+  [pos~="clear-none"] {
+    clear: none;
+  }
+  [pos~="static"] {
+    position: static;
+  }
+  [pos~="fixed"] {
+    position: fixed;
+  }
+  [pos~="absolute"] {
+    position: absolute;
+  }
+  [pos~="relative"] {
+    position: relative;
+  }
+  [pos~="sticky"] {
+    position: sticky;
+    position: -webkit-sticky;
+  }
+  [pos~="inset-1"] {
+    top: 0.25rem;
+    right: 0.25rem;
+    bottom: 0.25rem;
+    left: 0.25rem;
+  }
+  [pos~="-inset-1"] {
+    top: -0.25rem;
+    right: -0.25rem;
+    bottom: -0.25rem;
+    left: -0.25rem;
+  }
+  [pos~="-inset-y-2"] {
+    top: -0.5rem;
+    bottom: -0.5rem;
+  }
+  [pos~="inset-x-1"] {
+    right: 0.25rem;
+    left: 0.25rem;
+  }
+  [pos~="top-1.5"] {
+    top: 0.375rem;
+  }
+  [pos~="-left-3/4"] {
+    left: -75%;
+  }
 Tools / with position utility / css / 0: |-
   [position~="order-1"] {
     -webkit-box-ordinal-group: 2;

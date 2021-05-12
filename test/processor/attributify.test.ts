@@ -102,6 +102,21 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with pos utility', () => {
+    const result = processor.attributify({
+      'pos': [
+        'static', 'fixed', 'absolute', 'relative', 'sticky', // position
+        'inset-1', '-inset-1', 'inset-x-1', '-inset-y-2', // inset
+        'top-1.5', '-left-3/4', // top/left/bottom/right
+        'float-right', 'float-left', 'float-none', // float
+        'clear-left', 'clear-right', 'clear-both', 'clear-none', // clear
+        'order-1', 'order-first', // order
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with box utility', () => {
     const result = processor.attributify({
       'box': [
