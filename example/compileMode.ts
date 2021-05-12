@@ -34,6 +34,7 @@ fs.writeFileSync(
       new StyleSheet()
     ) // Combine all stylesheet
     .extend(preflightSheet, false) // Insert preflight before utilities, set second argument to true to insert after
-    .combine() // Remove duplicated classes
+    .sort()
+    .combine()
     .build(false) // Build css, set true to minify build
 );
