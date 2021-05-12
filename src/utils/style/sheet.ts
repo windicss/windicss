@@ -1,6 +1,6 @@
 import { hash, deepCopy } from '../tools';
 import { Layer } from '../../interfaces';
-import sortMeta from '../algorithm/sortMeta';
+import { sortMeta } from '../algorithm/sortStyle';
 import compileStyleSheet from '../algorithm/compileStyleSheet';
 import type { Style } from './base';
 
@@ -74,6 +74,11 @@ export class StyleSheet {
 
   sort(): this {
     this.children = this.children.sort(sortMeta);
+    return this;
+  }
+
+  sortby(compareFn?: ((a: Style, b: Style) => number) | undefined): this {
+    this.children = this.children.sort(compareFn);
     return this;
   }
 

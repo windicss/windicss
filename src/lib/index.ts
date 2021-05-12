@@ -8,6 +8,7 @@ import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
 import plugin from '../plugin/index';
 import { baseConfig } from '../config';
+import { sortGroup } from '../utils/algorithm/sortStyle';
 import { layerOrder, pluginOrder } from '../config/order';
 import cssEscape from '../utils/algorithm/cssEscape';
 import diffConfig from '../utils/algorithm/diffConfig';
@@ -580,7 +581,7 @@ export class Processor {
       success,
       ignored,
       className,
-      styleSheet: styleSheet.sort().combine(),
+      styleSheet: styleSheet.sortby(sortGroup).combine(),
     };
   }
 

@@ -10,9 +10,15 @@ function getWeights(a: string): number {
   return 499;
 }
 
-export default function sortMeta(a: Style, b: Style): number {
-  if (a.meta.type === 'base' && b.meta.type === 'base') {
-    return getWeights(a.selector ?? '') - getWeights(b.selector ?? '');
-  }
+export function sortMeta(a: Style, b: Style): number {
+  if (a.meta.type === 'base' && b.meta.type === 'base') return getWeights(a.selector ?? '') - getWeights(b.selector ?? '');
   return sortMediaQuery(a.meta.variants?.[0] || '', b.meta.variants?.[0] || '') || (a.meta.order - b.meta.order) || (a.meta.offset - b.meta.offset) || +b.meta.corePlugin - +a.meta.corePlugin;
+}
+
+export function sortHead(a: Style, b: Style): number {
+  return getWeights(a.selector ?? '') - getWeights(b.selector ?? '');
+}
+
+export function sortGroup(a: Style, b: Style): number {
+  return sortMediaQuery(a.meta.variants?.[0] || '', b.meta.variants?.[0] || '') || (a.meta.order - b.meta.order);
 }
