@@ -545,4 +545,16 @@ describe('Attributify Mode', () => {
       position: ['relative', 'fixed'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('Attributes for medium only and large only', () => {
+    expect(processor.attributify({
+      '<sm': 'font-light',
+      '<lg': 'p-4',
+      '@lg': 'font-bold',
+      '@md': ['px-4', 'py-2'],
+      '@xl': ['bg-green-400', 'bg-opacity-50'],
+      '@2xl': 'text-green-200',
+      'text': ['lg', 'white', '<lg:gray-200', '@md:opacity-50'],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

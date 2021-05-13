@@ -1,3 +1,59 @@
+Tools / Attributes for medium only and large only / css / 0: |-
+  [text~="lg"] {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [text~="white"] {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+  @media (min-width: 768px) and (max-width: 1023.9px) {
+    [\@md~="px-4"] {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    [\@md~="py-2"] {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    [text~="@md:opacity-50"] {
+      --tw-text-opacity: 0.5;
+    }
+  }
+  @media (min-width: 1024px) and (max-width: 1279.9px) {
+    [\@lg="font-bold"] {
+      font-weight: 700;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1535.9px) {
+    [\@xl~="bg-green-400"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(52, 211, 153, var(--tw-bg-opacity));
+    }
+    [\@xl~="bg-opacity-50"] {
+      --tw-bg-opacity: 0.5;
+    }
+  }
+  @media (min-width: 1536px) {
+    [\@2xl="text-green-200"] {
+      --tw-text-opacity: 1;
+      color: rgba(167, 243, 208, var(--tw-text-opacity));
+    }
+  }
+  @media (max-width: 1023.9px) {
+    [\<lg="p-4"] {
+      padding: 1rem;
+    }
+    [text~="<lg:gray-200"] {
+      --tw-text-opacity: 1;
+      color: rgba(229, 231, 235, var(--tw-text-opacity));
+    }
+  }
+  @media (max-width: 639.9px) {
+    [\<sm="font-light"] {
+      font-weight: 300;
+    }
+  }
 Tools / attributify order / css / 0: |-
   [position~="fixed"] {
     position: fixed;

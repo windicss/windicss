@@ -609,7 +609,7 @@ export class Processor {
 
       if (id in this._variants && id !== 'svg') {
         // sm = ... || sm:hover = ... || sm-hover = ...
-        const matches = key.match(/\w+/g);
+        const matches = key.match(/[@<\w]+/g);
         if (!matches) {
           ignored.push(buildSelector);
           return;
