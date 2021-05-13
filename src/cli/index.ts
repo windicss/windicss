@@ -1,6 +1,6 @@
 import arg from 'arg';
 import { deepCopy } from '../utils/tools';
-import { resolve, dirname } from 'path';
+import { resolve, dirname, join } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser } from '../utils/parser';
@@ -271,7 +271,7 @@ if (args['--watch']) {
   }
   for (const dir of new Set(matchFiles.map(f => dirname(f)))) {
     watch(dir, (event, path) => {
-      if (event === 'rename' && existsSync(path)) {
+      if (event === 'rename' && existsSync(join(dir, path))) {
         // when create new file
         const newFiles = globArray(args._);
         if (newFiles.length > matchFiles.length) {
