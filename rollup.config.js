@@ -232,6 +232,9 @@ export default [
           `../${path.dirname(path.relative('./src', id))}/index.js`,
       },
     ],
+    onwarn: (warning) => {
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return;
+    },
     external: (id) =>
       id.match(/\/src\/(lib|utils|plugin|config|colors)/),
     plugins: [
