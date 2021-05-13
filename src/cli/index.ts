@@ -219,7 +219,7 @@ function build(files: string[], update = false) {
   }
 }
 
-const matchFiles = globArray(args._);
+let matchFiles = globArray(args._);
 
 if (matchFiles.length === 0) {
   Console.error('No files were matched!');
@@ -231,6 +231,12 @@ build(matchFiles);
 if (args['--watch']) {
   for (const file of matchFiles) {
     watch(file, (event, path) => {
+      if (event === 'rename') {
+        const newFiles = globArray(args._);
+        Console.log('File', `'${matchFiles.filter(i => !(newFiles.includes(i)))[0], 'has been renamed to'}'`, `'${path}'`);
+        matchFiles = newFiles;
+        Console.log('matched files:', matchFiles);
+      }
       if (event === 'change') {
         Console.log('File', path, 'has been changed');
         Console.time('Building');
