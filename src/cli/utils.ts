@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import glob from 'glob';
+import minimatch from 'minimatch';
 
 export class Console {
   static log(...message: unknown[]): void {
@@ -20,61 +22,34 @@ export class Console {
   }
 }
 
-export function isFile(path: string): boolean {
-  return fs.existsSync(path) && fs.lstatSync(path).isFile();
-}
+export function globArray(patterns: string[], options?: glob.IOptions): string[] {
+  const list: string[] = [];
+  if (!Array.isArray(patterns)) {
+    patterns = [patterns];
+  }
 
-export function walk(
-  dir: string,
-  deep = true
-): { type: string; path: string }[] {
-  let result: { type: string; path: string }[] = [];
-
-  fs.readdirSync(dir).forEach((item) => {
-    const itemPath = path.join(dir, item);
-    const stat = fs.statSync(itemPath);
-    if (stat.isFile()) {
-      result.push({
-        type: 'file',
-        path: itemPath,
-      });
-    } else {
-      if (!itemPath.startsWith('node_modules') && stat.isDirectory()) {
-        result.push({
-          type: 'folder',
-          path: itemPath,
-        });
-        if (deep) result = [...result, ...walk(itemPath, deep)];
+  patterns.forEach(function (pattern) {
+    if (pattern[0] === '!') {
+      let i = list.length-1;
+      while( i > -1) {
+        if (!minimatch(list[i], pattern)) {
+          list.splice(i, 1);
+        }
+        i--;
       }
+
+    }
+    else {
+      const newList = glob.sync(pattern, options);
+      newList.forEach(function(item){
+        if (list.indexOf(item)===-1) {
+          list.push(item);
+        }
+      });
     }
   });
-  return result;
-}
 
-export class FilePattern {
-  pattern: RegExp;
-  constructor(pattern: string) {
-    this.pattern = this._transform(pattern);
-  }
-
-  match(text: string): boolean {
-    return Boolean(text.match(this.pattern));
-  }
-
-  private _transform(pattern: string) {
-    // if (!pattern.startsWith('^')) pattern = '^' + pattern;
-    if (!pattern.endsWith('$')) pattern += '$';
-    const backSlash = String.fromCharCode(92);
-    const anyText = `[${backSlash}s${backSlash}S]+`;
-    pattern = pattern
-      .replace(/^\.\//, '')
-      .replace(/\*\*\/\*/g, anyText)
-      .replace(/\*\*/g, '[^/]+')
-      .replace(/\*/g, '[^/]+')
-      .replace(/\./g, backSlash + '.')
-      .replace(/\//g, backSlash + '/');
-    return new RegExp(pattern);
-  }
+  return list;
 }
 
 export function getVersion(): string {

@@ -7,9 +7,7 @@ import { HTMLParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
   getVersion,
-  FilePattern,
-  walk,
-  isFile,
+  globArray,
   generateTemplate,
   Console,
 } from './utils';
@@ -92,24 +90,6 @@ if (args['--init']) {
   args._.push(template.html);
   args['--preflight'] = true;
   args['--output'] = template.css;
-}
-
-const localFiles = walk('.', true).filter((i) => i.type === 'file').map(i => ({ type: i.type, path: i.path.replace(/\\/g, '/') }) );
-
-const matchFiles: string[] = [];
-for (const pt of args._) {
-  if (isFile(pt) && pt.search(/\.windi\./) === -1) {
-    matchFiles.push(pt);
-  } else if (pt.search(/\*/) !== -1) {
-    // match files like **/*.html **/src/*.html *.html ...
-    localFiles.forEach((i) => {
-      const pattern = new FilePattern(pt);
-      if (pattern.match(i.path) && i.path.search(/\.windi\./) === -1)
-        matchFiles.push(i.path);
-    });
-  } else {
-    Console.error(`File ${pt} does not exist!`);
-  }
 }
 
 let ignoredClasses: string[] = [];
@@ -229,7 +209,7 @@ function build(files: string[], update = false) {
     const filePath = args['--output'] ?? 'windi.css';
     writeFileSync(filePath, outputStyle.build(args['--minify']));
     if (!update) {
-      Console.log('matched files:', matchFiles);
+      Console.log('matched files:', files);
       Console.log('output file:', filePath);
     }
   }
@@ -237,6 +217,13 @@ function build(files: string[], update = false) {
     Console.log('ignored classes:', ignoredClasses);
     if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs.slice(0, 5), `... ${ignoredAttrs.length-5} more items`);
   }
+}
+
+const matchFiles = globArray(args._);
+
+if (matchFiles.length === 0) {
+  Console.error('No files were matched!');
+  process.exit();
 }
 
 build(matchFiles);
