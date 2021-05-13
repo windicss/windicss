@@ -1,4 +1,5 @@
 import { addHook } from 'pirates';
+import { createRequire } from 'module';
 
 export function convert(code: string): string {
   const map = {
@@ -19,6 +20,7 @@ export function convert(code: string): string {
 }
 
 export function transform(path: string): any {
+  const require = createRequire(import.meta.url);
   const matcher = (filename: string) => !/\/windicss\//.test(filename);
   const revert = addHook(
     (code, ) => convert(code),
