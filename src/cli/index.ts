@@ -1,8 +1,8 @@
 import arg from 'arg';
 import { deepCopy } from '../utils/tools';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import { Processor } from '../lib';
-import { readFileSync, writeFileSync, watch } from 'fs';
+import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
@@ -229,18 +229,39 @@ if (matchFiles.length === 0) {
 build(matchFiles);
 
 if (args['--watch']) {
+  // const dirs = matchFiles.map(f => dirname(f));
   for (const file of matchFiles) {
     watch(file, (event, path) => {
       if (event === 'rename') {
         const newFiles = globArray(args._);
-        Console.log('File', `'${matchFiles.filter(i => !(newFiles.includes(i)))[0], 'has been renamed to'}'`, `'${path}'`);
-        matchFiles = newFiles;
-        Console.log('matched files:', matchFiles);
+        const renamed = matchFiles.filter(i => !(newFiles.includes(i)))[0];
+        if (existsSync(path)) {
+          Console.log('File', `'${renamed}'`, 'has been renamed to', `'${path}'`);
+          matchFiles = newFiles;
+          Console.log('matched files:', matchFiles);
+        } else {
+          Console.log('File', `'${file}'`, 'has been deleted');
+          unwatchFile(file);
+          matchFiles = newFiles;
+          delete styleSheets[file];
+          delete preflights[file];
+          if (matchFiles.length > 0) {
+            Console.log('matched files:', matchFiles);
+            Console.time('Building');
+          }
+          build([], true);
+          if (matchFiles.length > 0) {
+            Console.timeEnd('Building');
+          } else {
+            Console.error('No files were matched!');
+            process.exit();
+          }
+        }
       }
       if (event === 'change') {
         Console.log('File', path, 'has been changed');
         Console.time('Building');
-        build([path], true);
+        build([file], true);
         Console.timeEnd('Building');
       }
     });
