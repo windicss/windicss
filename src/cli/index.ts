@@ -1,6 +1,6 @@
 import arg from 'arg';
 import { deepCopy } from '../utils/tools';
-import { resolve, dirname, join } from 'path';
+import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser } from '../utils/parser';
@@ -12,6 +12,7 @@ import {
   Console,
   fuzzy,
 } from './utils';
+import type { Extractor } from '../interfaces';
 
 const doc = `Generate css from text files that containing windi classes.
 By default, it will use interpretation mode to generate a single css file.
@@ -100,6 +101,8 @@ const preflights: { [key:string]: StyleSheet } = {};
 const styleSheets: { [key:string]: StyleSheet } = {};
 const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
 
+if (args['--config']) Console.log('Config file:', resolve(args['--config']));
+
 function compile(files: string[]) {
   // compilation mode
   const prefix = args['--prefix'] ?? 'windi-';
@@ -138,14 +141,25 @@ function interpret(files: string[]) {
   // interpretation mode
   files.forEach((file) => {
     const content = readFileSync(file).toString();
-    let classes = '';
+    let classes: string[] = [];
     if (args['--fuzzy']) {
-      classes = fuzzy(content).join(' ');
+      classes = fuzzy(content);
     } else {
       const parser = new HTMLParser(content);
-      classes = parser.parseClasses().map((i) => i.result).join(' ');
+      classes = parser.parseClasses().map((i) => i.result);
     }
-    const utility = processor.interpret(classes);
+    const extractors = processor.config('extract.extractors') as Extractor[] | undefined;
+    if (extractors) {
+      for (const { extractor, extensions } of extractors) {
+        if (extensions.includes(extname(file).slice(1))) {
+          const result = extractor(content);
+          if ('classes' in result && result.classes) {
+            classes = [...classes, ...result.classes];
+          }
+        }
+      }
+    }
+    const utility = processor.interpret(classes.join(' '));
     styleSheets[file] = utility.styleSheet;
 
     if (args['--preflight']) preflights[file] = processor.preflight(content);
@@ -210,8 +224,8 @@ function build(files: string[], update = false) {
     const filePath = args['--output'] ?? 'windi.css';
     writeFileSync(filePath, outputStyle.build(args['--minify']));
     if (!update) {
-      Console.log('matched files:', files);
-      Console.log('output file:', filePath);
+      Console.log('Matched files:', files);
+      Console.log('Output file:', resolve(filePath));
     }
   }
 }
@@ -233,7 +247,7 @@ function watchBuild(file: string) {
       if (existsSync(path)) {
         Console.log('File', `'${renamed}'`, 'has been renamed to', `'${path}'`);
         matchFiles = newFiles;
-        Console.log('matched files:', matchFiles);
+        Console.log('Matched files:', matchFiles);
       } else {
         Console.log('File', `'${file}'`, 'has been deleted');
         unwatchFile(file);
@@ -241,7 +255,7 @@ function watchBuild(file: string) {
         delete styleSheets[file];
         delete preflights[file];
         if (matchFiles.length > 0) {
-          Console.log('matched files:', matchFiles);
+          Console.log('Matched files:', matchFiles);
           Console.time('Building');
         }
         build([], true);
@@ -275,7 +289,7 @@ if (args['--watch']) {
           const newFile = newFiles.filter(i => !matchFiles.includes(i))[0];
           Console.log('New file', `'${newFile}'`,  'added');
           matchFiles.push(newFile);
-          Console.log('matched files:', matchFiles);
+          Console.log('Matched files:', matchFiles);
           Console.time('Building');
           build([newFile], true);
           watchBuild(newFile);
