@@ -3,7 +3,7 @@ import { deepCopy } from '../utils/tools';
 import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
-import { HTMLParser } from '../utils/parser';
+import { HTMLParser, CSSParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
   getVersion,
@@ -42,6 +42,7 @@ Options:
   -o, --output PATH     Set output css file path.
   -f, --config PATH     Set config file path.
 
+  --style               Parse and transform windi style block.
   --init PATH           Start a new project on the path.
 `;
 
@@ -58,6 +59,7 @@ const args = arg({
   '--watch': Boolean,
   '--minify': Boolean,
   '--fuzzy': Boolean,
+  '--style': Boolean,
   '--init': String,
   '--prefix': String,
   '--output': String,
@@ -187,15 +189,26 @@ function attributify(files: string[]) {
   });
 }
 
+function styleBlock(files: string[]) {
+  files.forEach((file) => {
+    const content = readFileSync(file).toString();
+    const block = content.match(/(?<=<style lang=['"]windi["']>)[\s\S]*(?=<\/style>)/);
+    if (block && block.index) {
+      const css = content.slice(block.index, block.index + block[0].length);
+      const parser = new CSSParser(css, processor);
+      styleSheets[file] = styleSheets[file].extend(parser.parse());
+    }
+  });
+}
+
 function build(files: string[], update = false) {
   if (args['--compile']) {
     compile(files);
   } else {
     interpret(files);
   }
-  if (args['--attributify']) {
-    attributify(files);
-  }
+  if (args['--attributify']) attributify(files);
+  if (args['--style']) styleBlock(files);
   if (args['--separate']) {
     for (const [file, sheet] of Object.entries(styleSheets)) {
       const outfile = file.replace(/\.\w+$/, '.windi.css');
