@@ -269,7 +269,7 @@ if (args['--watch']) {
   for (const file of matchFiles) {
     watchBuild(file);
   }
-  for (const dir of new Set(matchFiles.map(f => dirname(f)))) {
+  for (const dir of Array.from(new Set(matchFiles.map(f => dirname(f))))) {
     watch(dir, (event, path) => {
       if (event === 'rename' && existsSync(join(dir, path))) {
         // when create new file
