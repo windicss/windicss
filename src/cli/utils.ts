@@ -54,6 +54,10 @@ export function getVersion(): string {
   return `__NAME__ __VERSION__`; // replace by rollup
 }
 
+export function fuzzy(content: string): string[] {
+  return content.match(/([^<>"'`\s]*[^<>"'`\s:])|([^<>"'`\s.(){}[\]#=%]*[^<>"'`\s.(){}[\]#=%:])/g) ?? [];
+}
+
 export function generateTemplate(
   folder: string,
   outputPath = 'windi.css'

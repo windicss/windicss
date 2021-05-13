@@ -10,6 +10,7 @@ import {
   globArray,
   generateTemplate,
   Console,
+  fuzzy,
 } from './utils';
 
 const doc = `Generate css from text files that containing windi classes.
@@ -35,6 +36,7 @@ Options:
 
   -m, --minify          Generate minimized css file.
   -w, --watch           Enable watch mode.
+  -z, --fuzzy           Enable fuzzy match, only works in interpration mode.
   -p, --prefix PREFIX   Set the css class name prefix, only valid in compilation mode. The default prefix is 'windi-'.
   -o, --output PATH     Set output css file path.
   -f, --config PATH     Set config file path.
@@ -54,6 +56,7 @@ const args = arg({
   '--separate': Boolean,
   '--watch': Boolean,
   '--minify': Boolean,
+  '--fuzzy': Boolean,
   '--init': String,
   '--prefix': String,
   '--output': String,
@@ -73,6 +76,7 @@ const args = arg({
   '-p': '--prefix',
   '-o': '--output',
   '-f': '--config',
+  '-z': '--fuzzy',
 });
 
 if (args['--help'] || (args._.length === 0 && Object.keys(args).length === 1)) {
@@ -92,8 +96,6 @@ if (args['--init']) {
   args['--output'] = template.css;
 }
 
-let ignoredClasses: string[] = [];
-let ignoredAttrs: string[] = [];
 const preflights: { [key:string]: StyleSheet } = {};
 const styleSheets: { [key:string]: StyleSheet } = {};
 const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
@@ -113,7 +115,6 @@ function compile(files: string[]) {
       outputHTML.push(html.substring(indexStart, p.start));
       const utility = processor.compile(p.result, prefix, true); // Set third argument to false to hide comments;
       outputStyle.push(utility.styleSheet);
-      ignoredClasses = [...ignoredClasses, ...utility.ignored];
       outputHTML.push([utility.className, ...utility.ignored].join(' '));
       indexStart = p.end;
     });
@@ -136,17 +137,18 @@ function compile(files: string[]) {
 function interpret(files: string[]) {
   // interpretation mode
   files.forEach((file) => {
-    const parser = new HTMLParser(readFileSync(file).toString());
-    const utility = processor.interpret(
-      parser
-        .parseClasses()
-        .map((i) => i.result)
-        .join(' ')
-    );
+    const content = readFileSync(file).toString();
+    let classes = '';
+    if (args['--fuzzy']) {
+      classes = fuzzy(content).join(' ');
+    } else {
+      const parser = new HTMLParser(content);
+      classes = parser.parseClasses().map((i) => i.result).join(' ');
+    }
+    const utility = processor.interpret(classes);
     styleSheets[file] = utility.styleSheet;
-    ignoredClasses = [...ignoredClasses, ...utility.ignored];
 
-    if (args['--preflight']) preflights[file] = processor.preflight(parser.html);
+    if (args['--preflight']) preflights[file] = processor.preflight(content);
   });
 }
 
@@ -168,7 +170,6 @@ function attributify(files: string[]) {
       }, {});
     const utility = processor.attributify(attrs);
     styleSheets[file] = utility.styleSheet;
-    ignoredAttrs = [...ignoredAttrs, ...utility.ignored];
   });
 }
 
@@ -212,10 +213,6 @@ function build(files: string[], update = false) {
       Console.log('matched files:', files);
       Console.log('output file:', filePath);
     }
-  }
-  if (!update) {
-    Console.log('ignored classes:', ignoredClasses);
-    if (args['--attributify']) Console.log('ignored attrs:', ignoredAttrs.slice(0, 5), `... ${ignoredAttrs.length-5} more items`);
   }
 }
 
