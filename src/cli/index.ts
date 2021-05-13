@@ -228,41 +228,62 @@ if (matchFiles.length === 0) {
 
 build(matchFiles);
 
-if (args['--watch']) {
-  // const dirs = matchFiles.map(f => dirname(f));
-  for (const file of matchFiles) {
-    watch(file, (event, path) => {
-      if (event === 'rename') {
-        const newFiles = globArray(args._);
-        const renamed = matchFiles.filter(i => !(newFiles.includes(i)))[0];
-        if (existsSync(path)) {
-          Console.log('File', `'${renamed}'`, 'has been renamed to', `'${path}'`);
-          matchFiles = newFiles;
+function watchBuild(file: string) {
+  watch(file, (event, path) => {
+    if (event === 'rename') {
+      const newFiles = globArray(args._);
+      const renamed = matchFiles.filter(i => !(newFiles.includes(i)))[0];
+      if (existsSync(path)) {
+        Console.log('File', `'${renamed}'`, 'has been renamed to', `'${path}'`);
+        matchFiles = newFiles;
+        Console.log('matched files:', matchFiles);
+      } else {
+        Console.log('File', `'${file}'`, 'has been deleted');
+        unwatchFile(file);
+        matchFiles = newFiles;
+        delete styleSheets[file];
+        delete preflights[file];
+        if (matchFiles.length > 0) {
           Console.log('matched files:', matchFiles);
+          Console.time('Building');
+        }
+        build([], true);
+        if (matchFiles.length > 0) {
+          Console.timeEnd('Building');
         } else {
-          Console.log('File', `'${file}'`, 'has been deleted');
-          unwatchFile(file);
-          matchFiles = newFiles;
-          delete styleSheets[file];
-          delete preflights[file];
-          if (matchFiles.length > 0) {
-            Console.log('matched files:', matchFiles);
-            Console.time('Building');
-          }
-          build([], true);
-          if (matchFiles.length > 0) {
-            Console.timeEnd('Building');
-          } else {
-            Console.error('No files were matched!');
-            process.exit();
-          }
+          Console.error('No files were matched!');
+          process.exit();
         }
       }
-      if (event === 'change') {
-        Console.log('File', path, 'has been changed');
-        Console.time('Building');
-        build([file], true);
-        Console.timeEnd('Building');
+    }
+    if (event === 'change') {
+      Console.log('File', `'${path}'`, 'has been changed');
+      Console.time('Building');
+      build([file], true);
+      Console.timeEnd('Building');
+    }
+  });
+}
+
+if (args['--watch']) {
+  for (const file of matchFiles) {
+    watchBuild(file);
+  }
+  for (const dir of new Set(matchFiles.map(f => dirname(f)))) {
+    watch(dir, (event, path) => {
+      if (event === 'rename' && existsSync(path)) {
+        // when create new file
+        const newFiles = globArray(args._);
+        if (newFiles.length > matchFiles.length) {
+          const newFile = newFiles.filter(i => !matchFiles.includes(i))[0];
+          Console.log('New file', `'${newFile}'`,  'added');
+          matchFiles.push(newFile);
+          Console.log('matched files:', matchFiles);
+          Console.time('Building');
+          build([newFile], true);
+          watchBuild(newFile);
+          Console.timeEnd('Building');
+        }
       }
     });
   }
