@@ -46,6 +46,55 @@ Tools / animation config test / animate / 0: |-
     -webkit-animation: skbounce 2.0s infinite ease-in-out;
     animation: skbounce 2.0s infinite ease-in-out;
   }
+Tools / change separator test / - / 2: |-
+  @media (min-width: 640px) {
+    .sm-bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+Tools / change separator test / -- / 3: |-
+  @media (min-width: 640px) {
+    .sm--bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+Tools / change separator test / --- / 4: |-
+  @media (min-width: 640px) {
+    .sm---bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+'Tools / change separator test / :: / 1': |-
+  @media (min-width: 640px) {
+    .sm\:\:bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+Tools / change separator test / _ / 0: |-
+  @media (min-width: 640px) {
+    .sm_bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+Tools / change separator test / _ / 5: |-
+  @media (min-width: 640px) {
+    .sm_bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
+Tools / change separator test / __ / 6: |-
+  @media (min-width: 640px) {
+    .sm__bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
 Tools / color config test / css / 0: |-
   .bg-active {
     background-color: var(--active);

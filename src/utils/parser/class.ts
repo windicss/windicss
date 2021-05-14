@@ -25,6 +25,7 @@ export default class ClassParser {
     let ignoreSpace = false;
     let ignoreBracket = false;
     let insideSquareBracket = false;
+    const sepLength = this.separator.length;
     const parts: Element[] = [];
     const length = this.classNames.length;
 
@@ -46,11 +47,14 @@ export default class ClassParser {
       case '!':
         important = true;
         break;
-      case this.separator:
-        variant = this.classNames.slice(variantStart, this.index);
-        variants.push(variant.charAt(0) === '!' ? variant.slice(1,): variant);
-        variantStart = this.index + 1;
-        ignoreSpace = true;
+      case this.separator[0]:
+        if (this.classNames.slice(this.index, this.index + sepLength) === this.separator) {
+          variant = this.classNames.slice(variantStart, this.index);
+          variants.push(variant.charAt(0) === '!' ? variant.slice(1,): variant);
+          this.index += sepLength - 1;
+          variantStart = this.index + 1;
+          ignoreSpace = true;
+        }
         break;
       case '[':
         insideSquareBracket = true;

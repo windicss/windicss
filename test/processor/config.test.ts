@@ -89,9 +89,19 @@ describe('Config', () => {
 
   it('change separator test', () => {
     const processor = new Processor({ separator: '_' });
-    expect(processor.interpret('sm_bg-black').styleSheet.build()).toBe(
-      '@media (min-width: 640px) {\n  .sm_bg-black {\n    --tw-bg-opacity: 1;\n    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));\n  }\n}'
-    );
+    expect(processor.interpret('sm_bg-gray-200').styleSheet.build()).toMatchSnapshot('_');
+    processor.loadConfig({ separator: '::' });
+    expect(processor.interpret('sm::bg-gray-200').styleSheet.build()).toMatchSnapshot('::');
+    processor.loadConfig({ separator: '-' });
+    expect(processor.interpret('sm-bg-gray-200').styleSheet.build()).toMatchSnapshot('-');
+    processor.loadConfig({ separator: '--' });
+    expect(processor.interpret('sm--bg-gray-200').styleSheet.build()).toMatchSnapshot('--');
+    processor.loadConfig({ separator: '---' });
+    expect(processor.interpret('sm---bg-gray-200').styleSheet.build()).toMatchSnapshot('---');
+    processor.loadConfig({ separator: '_' });
+    expect(processor.interpret('sm_bg-gray-200').styleSheet.build()).toMatchSnapshot('_');
+    processor.loadConfig({ separator: '__' });
+    expect(processor.interpret('sm__bg-gray-200').styleSheet.build()).toMatchSnapshot('__');
   });
 
   it('add prefix test', () => {
