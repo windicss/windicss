@@ -200,8 +200,13 @@ function attributify(files: string[]) {
         }
         return Object.assign(a, { [b.key]: b.value });
       }, {});
-    const utility = processor.attributify(attrs);
-    styleSheets[file] = utility.styleSheet;
+    if (args['--dev']) {
+      const utility = processor.attributify(attrs, true);
+      styleSheets[file] = styleSheets[file] ? styleSheets[file].extend(utility.styleSheet) : utility.styleSheet;
+    } else {
+      const utility = processor.attributify(attrs);
+      styleSheets[file] = utility.styleSheet;
+    }
   });
 }
 
