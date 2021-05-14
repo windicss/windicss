@@ -257,11 +257,11 @@ Tools / apply chain / css / 0: |-
     width: 2.25rem;
   }
   .extend-base {
+    --tw-bg-opacity: 1;
+    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
     border-radius: 0.375rem;
     height: 2.25rem;
     width: 2.25rem;
-    --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   }
 Tools / apply hover with multiple selector / css / 0: |-
   .a:hover, .b:hover {
@@ -321,20 +321,20 @@ Tools / layer directive / css / 0: |-
   base {
     margin-left: auto;
   }
+  .components {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  }
+  .utilities {
+    max-width: 768px;
+  }
   .test {
     font-weight: 700;
     --tw-text-opacity: 1;
     color: rgba(239, 68, 68, var(--tw-text-opacity));
   }
-  .components {
-    --tw-bg-opacity: 1;
-    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
-  }
   .normal {
     marign-right: auto;
-  }
-  .utilities {
-    max-width: 768px;
   }
 Tools / multiple line comment / css / 0: |-
   .box {

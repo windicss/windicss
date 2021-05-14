@@ -80,8 +80,8 @@ export default class CSSParser {
   }
 
   private _generateNestStyle(styles: Style[], parent?: string, parentType?:('atRule' | 'selector')): Style[] {
-    let layer: 'components' | 'utilities' | 'base' = 'components';
-    let order = layerOrder['components'];
+    let layer: 'components' | 'utilities' | 'base' = 'utilities';
+    let order = layerOrder['utilities'] + 1;
     let group = 'block';
     if (!parent) return styles;
     if (parentType === 'selector') {
