@@ -44,6 +44,7 @@ import type { Utility } from './utilities/handler';
 type Cache = {
   html: string[];
   classes: string[];
+  variants: string[];
   utilities: string[];
 }
 type ResolvedVariants = { [key: string]: () => Style }
@@ -59,7 +60,6 @@ interface Plugin {
   components: StyleArrayObject;
   preflights: StyleArrayObject;
   shortcuts: StyleArrayObject;
-  variants: { [key: string]: () => Style };
   alias: { [key: string]: Element[] };
 }
 
@@ -84,6 +84,7 @@ export class Processor {
     html: [],
     classes: [],
     utilities: [],
+    variants: [],
   };
 
   readonly _plugin: Plugin = {
@@ -92,7 +93,6 @@ export class Processor {
     utilities: {},
     components: {},
     preflights: {},
-    variants: {},
     shortcuts: {},
     alias: {},
   };
@@ -240,7 +240,8 @@ export class Processor {
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config.plugins?.map(i => typeof i === 'function' ? ('__isOptionsFunction' in i ? this.loadPluginWithOptions(i): this.loadPlugin(plugin(i))) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
-    this._variants = this.resolveVariants();
+    this._variants = { ...this._variants, ... this.resolveVariants() };
+    this._cache.variants = Object.keys(this._variants);
     this._loadVariables();
     if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2).map(i => ({ [i]: true }))), ...this._config.corePlugins };
     return this._config;
@@ -279,18 +280,20 @@ export class Processor {
     return (this._theme ?? {}) as DefaultTheme;
   }
 
+  get allVariant(): string[] {
+    return this._cache.variants;
+  }
+
   wrapWithVariants(variants: string[], styles: Style | Style[]): Style[] | undefined {
     // apply variant to style
     if (!Array.isArray(styles)) styles = [styles];
     if (variants.length === 0) return styles;
-    const allVariants = { ...this._variants, ...this._plugin.variants };
-    const filteredVariants = variants.filter(i => i in allVariants);
-    if (filteredVariants.length !== variants.length) return;
+
     return styles.map(style => {
       if (style instanceof Keyframes) return style;
       const atrules:string[] = [];
-      let wrapped = filteredVariants
-        .map(i => allVariants[i]())
+      let wrapped = variants
+        .map(i => this._variants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           const output = previousValue.extend(currentValue);
           if (previousValue.isAtrule) atrules.push((previousValue.atRules as string[])[0]);
@@ -348,10 +351,7 @@ export class Processor {
     handleIgnored?: (ignored:string) => Style | Style[] | undefined
   ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     // Interpret tailwind class then generate raw tailwind css.
-    const ast = new ClassParser(
-      classNames,
-      this.config('separator', ':') as string
-    ).parse();
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string, this._cache.variants).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -481,7 +481,7 @@ export class Processor {
     styleSheet: StyleSheet;
   } {
     // Compile tailwind css classes to one combined class.
-    const ast = new ClassParser(classNames, this.config('separator', ':') as string).parse();
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string, this._cache.variants).parse();
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -916,7 +916,7 @@ export class Processor {
 
   loadAlias(alias: { [key:string]: string }): void {
     for (const [key, value] of Object.entries(alias)) {
-      this._plugin.alias[key] = new ClassParser(value).parse();
+      this._plugin.alias[key] = new ClassParser(value, undefined, this._cache.variants).parse();
     }
   }
 
@@ -1088,7 +1088,8 @@ export class Processor {
       separator: this.config('separator', ':') as string,
       style: new Style(),
     });
-    this._plugin.variants[name] = () => style;
+    this._variants[name] = () => style;
+    this._cache.variants.push(name);
     return style;
   }
 

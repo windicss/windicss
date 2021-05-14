@@ -67,6 +67,13 @@ Tools / change separator test / --- / 4: |-
       background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
     }
   }
+Tools / change separator test / . / 7: |-
+  @media (min-width: 640px) {
+    .sm\.bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+    }
+  }
 'Tools / change separator test / :: / 1': |-
   @media (min-width: 640px) {
     .sm\:\:bg-gray-200 {

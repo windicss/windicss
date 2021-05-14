@@ -102,6 +102,8 @@ describe('Config', () => {
     expect(processor.interpret('sm_bg-gray-200').styleSheet.build()).toMatchSnapshot('_');
     processor.loadConfig({ separator: '__' });
     expect(processor.interpret('sm__bg-gray-200').styleSheet.build()).toMatchSnapshot('__');
+    processor.loadConfig({ separator: '.' });
+    expect(processor.interpret('sm.bg-gray-200').styleSheet.build()).toMatchSnapshot('.');
   });
 
   it('add prefix test', () => {

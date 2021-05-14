@@ -3,11 +3,13 @@ import type { Element } from '../../interfaces';
 export default class ClassParser {
   index: number;
   separator: string;
+  variants: string[];
   classNames?: string;
 
-  constructor(classNames?: string, separator = ':') {
+  constructor(classNames?: string, separator = ':', variants?: string[]) {
     this.classNames = classNames;
     this.separator = separator;
+    this.variants = variants || [];
     this.index = 0;
   }
 
@@ -50,10 +52,13 @@ export default class ClassParser {
       case this.separator[0]:
         if (this.classNames.slice(this.index, this.index + sepLength) === this.separator) {
           variant = this.classNames.slice(variantStart, this.index);
-          variants.push(variant.charAt(0) === '!' ? variant.slice(1,): variant);
-          this.index += sepLength - 1;
-          variantStart = this.index + 1;
-          ignoreSpace = true;
+          if (variant.charAt(0) === '!') variant = variant.slice(1,);
+          if (this.variants.includes(variant)) {
+            variants.push(variant);
+            this.index += sepLength - 1;
+            variantStart = this.index + 1;
+            ignoreSpace = true;
+          }
         }
         break;
       case '[':
