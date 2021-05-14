@@ -21,6 +21,7 @@ import {
   flatColors,
   searchPropEnd,
   searchNotEscape,
+  splitSelectors,
   guessClassName,
   increaseWithUnit,
 } from '../../src/utils';
@@ -238,10 +239,18 @@ describe('Tools', () => {
     expect(searchNotEscape('hover:bg-white', ':')).toEqual(5);
   });
 
+  it('split selectors', () => {
+    expect(splitSelectors('.test, .abc > div')).toEqual(['.test', '.abc > div']);
+    expect(splitSelectors('.bg-[rgb(23,23,23)], .abc > div')).toEqual(['.bg-[rgb(23,23,23)]', '.abc > div']);
+  });
+
   it('guess className by selector', () => {
     expect(guessClassName('[type=\'text\']')).toEqual({ selector: '[type=\'text\']', isClass: false });
     expect(guessClassName('.test')).toEqual({ selector: 'test', isClass: true });
     expect(guessClassName(String.raw`.hover\:bg-black:hover`)).toEqual({ selector: 'hover:bg-black', isClass: true, pseudo: ':hover' });
+    expect(guessClassName('.avatar>div')).toEqual({ selector: '.avatar>div', isClass: false });
+    expect(guessClassName('.avatar+div')).toEqual({ selector: '.avatar+div', isClass: false });
+    expect(guessClassName('.avatar~div')).toEqual({ selector: '.avatar~div', isClass: false });
   });
 
   it('increaseWithUnit', () => {

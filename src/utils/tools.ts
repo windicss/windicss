@@ -247,21 +247,55 @@ export function searchPropEnd(text: string, startIndex = 0): number {
   return output;
 }
 
-export function searchNotEscape(text:string, char = '{'): number {
-  if (text.charAt(0) === char) return 0;
-  const index = text.search(new RegExp(String.raw`([^\\]${char})`));
-  if (index === -1) return -1;
-  return index + 1;
+export function searchNotEscape(text:string, chars: string | string[] = ['{']): number {
+  if (!Array.isArray(chars)) chars = [ chars ];
+  let i = 0;
+  while (i < text.length) {
+    if (chars.includes(text.charAt(i)) && text.charAt(i - 1) !== '\\') {
+      return i;
+    }
+    i ++;
+  }
+  return -1;
+}
+
+export function splitSelectors(selectors: string): string[] {
+  const splitted = [];
+  let parens = 0;
+  let angulars = 0;
+  let soFar = '';
+  for (let i = 0, len = selectors.length; i < len; i++) {
+    const char = selectors[i];
+    if (char === '(') {
+      parens += 1;
+    } else if (char === ')') {
+      parens -= 1;
+    } else if (char === '[') {
+      angulars += 1;
+    } else if (char === ']') {
+      angulars -= 1;
+    } else if (char === ',') {
+      if (!parens && !angulars) {
+        splitted.push(soFar.trim());
+        soFar = '';
+        continue;
+      }
+    }
+    soFar += char;
+  }
+  splitted.push(soFar.trim());
+  return splitted;
 }
 
 export function guessClassName(selector: string): { selector: string, isClass: boolean, pseudo?: string } | { selector: string, isClass: boolean, pseudo?: string }[] {
-  if (selector.indexOf(',') >= 0) return selector.split(/\s*,\s*/g).map(i => guessClassName(i) as { selector: string, isClass: boolean });
+  if (selector.indexOf(',') >= 0) return splitSelectors(selector).map(i => guessClassName(i) as { selector: string, isClass: boolean });
   // not classes, contains attribute selectors, nested selectors - treat as static
-  if (selector.charAt(0) !== '.' || selector.indexOf('[') >= 0 || selector.trim().indexOf(' ') >= 0)
+  if (selector.charAt(0) !== '.' || searchNotEscape(selector, ['[', '>', '+', '~']) >= 0 || selector.trim().indexOf(' ') >= 0)
     return { selector, isClass: false };
-  const pos = searchNotEscape(selector, ':');
-  if (pos === -1) return { selector: selector.slice(1, ).replace(/\\/g, ''), isClass: true };
-  return { selector: selector.slice(1, pos).replace(/\\/g, ''), isClass: true, pseudo: selector.slice(pos,) };
+  const pseudo = searchNotEscape(selector, ':');
+  const className = (selector.match(/^\.([\w-]|(\\\W))+/)?.[0].slice(1,) || '').replace(/\\/g, '');
+  if (pseudo === -1) return { selector: className, isClass: true };
+  return { selector: className, isClass: true, pseudo: selector.slice(pseudo,) };
 }
 /**
  * Increase string a value with unit

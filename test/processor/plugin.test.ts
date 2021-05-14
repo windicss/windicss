@@ -130,6 +130,18 @@ describe('Plugin Method', () => {
     expect(processor.addComponents(buttons).map(i => i.build()).join('\n')).toBe('.btn {\n  padding: .5rem 1rem;\n  border-radius: .25rem;\n  font-weight: 600;\n}\n.btn-blue {\n  background-color: #3490dc;\n  color: #fff;\n}\n.btn-blue:hover {\n  background-color: #2779bd;\n}\n.btn-red {\n  background-color: #e3342f;\n  color: #fff;\n}\n.btn-red:hover {\n  background-color: #cc1f1a;\n}');
   });
 
+  it('addComponents #242', () => {
+    const processor = new Processor();
+    processor.addComponents({
+      '.avatar>div': { display: 'block', overflow: 'hidden' },
+      '.avatar+div': { display: 'block', overflow: 'hidden' },
+      '.avatar div': { display: 'block', overflow: 'hidden' },
+      '.avatar~div': { display: 'block', overflow: 'hidden' },
+    });
+    const css = processor.preflight(undefined, false, false, true).build();
+    expect(css).toMatchSnapshot('css');
+  });
+
   it('addComponents with non-class styles ', () => {
     const processor = new Processor();
     const components = {

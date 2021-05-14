@@ -70,6 +70,23 @@ Tools / add pseudo utilities / css / 0: |-
       }
     }
   }
+'Tools / addComponents #242 / css / 0': |-
+  .avatar>div {
+    display: block;
+    overflow: hidden;
+  }
+  .avatar+div {
+    display: block;
+    overflow: hidden;
+  }
+  .avatar div {
+    display: block;
+    overflow: hidden;
+  }
+  .avatar~div {
+    display: block;
+    overflow: hidden;
+  }
 Tools / addComponents with non-class styles  / css / 0: |-
   [data-theme] {
     --active: #0099FF;
