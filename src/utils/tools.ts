@@ -112,14 +112,14 @@ export function dashToCamel(str: string): string {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getNestedValue(obj: { [key: string]: any }, key: string): any {
-  const topKey = key.match(/^\w+/);
+  const topKey = key.match(/^[^.[]+/);
   if (!topKey) return;
   let topValue = obj[topKey[0]];
   if (!topValue) return;
   let index = topKey[0].length;
   while(index < key.length) {
     const square = key.slice(index, ).match(/\[[^\s\]]+?\]/);
-    const dot = key.slice(index, ).match(/\.\w+$|\.\w+(?=\.)/);
+    const dot = key.slice(index, ).match(/\.[^.[]+$|\.[^.[]+(?=\.)/);
     if (( !square && !dot ) || ( square?.index === undefined && dot?.index === undefined )) return topValue;
     if (typeof topValue !== 'object') return;
     if (dot && dot.index !== undefined && (square?.index === undefined || dot.index < square.index)) {

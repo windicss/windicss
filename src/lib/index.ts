@@ -923,13 +923,11 @@ export class Processor {
   // tailwind interfaces
   config(path: string, defaultValue?: unknown): unknown {
     if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2);
-    const value = getNestedValue(this._config, path) ?? defaultValue;
-    return (Array.isArray(value) && /[cC]olors/.test(path))? value.slice(-2, -1)[0]: value;
+    return getNestedValue(this._config, path) ?? defaultValue;
   }
 
   theme(path: string, defaultValue?: unknown): unknown {
-    const value = this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
-    return (Array.isArray(value) && /[cC]olors/.test(path))? value.slice(-2, -1)[0]: value;
+    return this._theme ? getNestedValue(this._theme, path) ?? defaultValue : undefined;
   }
 
   corePlugins(path: string): boolean {

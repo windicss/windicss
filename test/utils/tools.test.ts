@@ -137,6 +137,7 @@ describe('Tools', () => {
   });
 
   it('getNestedValue', () => {
+    expect(getNestedValue({ 'spacing-minus': 'spacing' }, 'spacing-minus')).toBe('spacing');
     expect(getNestedValue({ test: 'hello' }, 'hello')).toBeUndefined();
     expect(getNestedValue({ test: 'hello' }, 'test')).toBe('hello');
     expect(getNestedValue({ test: { wrap: 'hello' } }, 'test.wrap')).toBe('hello');

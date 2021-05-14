@@ -6654,3 +6654,22 @@ Tools / completions / static / 0: |-
     "blur-2xl",
     "blur-3xl"
   ]
+'Tools / custom theme properties #226 / css / 1': |-
+  .h-screen-px {
+    height: calc(100vh - 1px);
+  }
+  .h-screen-0 {
+    height: calc(100vh - 0px);
+  }
+  .max-h-screen-px {
+    max-height: calc(100vh - 1px);
+  }
+  .max-h-screen-0 {
+    max-height: calc(100vh - 0px);
+  }
+'Tools / custom theme properties #226 / theme / 0': |-
+  {
+    "screen-px": "calc(100vh - 1px)",
+    "screen-0": "calc(100vh - 0px)",
+    "screen-abc": "calc(100vh - 0px)"
+  }
