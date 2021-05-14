@@ -112,12 +112,12 @@ Tools / caret color / css / 0: |-
   .caret-auto {
     caret-color: auto;
   }
-  .caret-transparent {
-    caret-color: transparent;
-  }
   .caret-gray-800 {
     --tw-caret-opacity: 1;
     caret-color: rgba(31, 41, 55, var(--tw-caret-opacity));
+  }
+  .caret-transparent {
+    caret-color: transparent;
   }
   .caret-opacity-80 {
     --tw-caret-opacity: 0.8;
@@ -345,7 +345,7 @@ Tools / shadow color / css / 0: |-
   }
 Tools / stroke svg / css / 0: |-
   .stroke-gray-200 {
-    stroke: #e5e7eb;
+    stroke: rgb(229, 231, 235);
   }
   .stroke-cap-round {
     stroke-linecap: round;
@@ -417,14 +417,14 @@ Tools / text decoration color & opacity & length & offset / css / 0: |-
   .underline-auto {
     text-decoration-thickness: auto;
   }
-  .underline-transparent {
-    -webkit-text-decoration-color: transparent;
-    text-decoration-color: transparent;
-  }
   .underline-gray-200 {
     --tw-line-opacity: 1;
     -webkit-text-decoration-color: rgba(229, 231, 235, var(--tw-line-opacity));
     text-decoration-color: rgba(229, 231, 235, var(--tw-line-opacity));
+  }
+  .underline-transparent {
+    -webkit-text-decoration-color: transparent;
+    text-decoration-color: transparent;
   }
   .underline-opacity-90 {
     --tw-line-opacity: 0.9;
@@ -490,7 +490,7 @@ Tools / text stroke width & stroke color / css / 0: |-
     -webkit-text-stroke-width: medium;
   }
   .text-stroke-gray-200 {
-    -webkit-text-stroke-color: #e5e7eb;
+    -webkit-text-stroke-color: rgb(229, 231, 235);
   }
   .text-stroke-sm {
     -webkit-text-stroke-width: thin;

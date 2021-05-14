@@ -338,7 +338,7 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
     outline-offset: 2px;
   }
   [outline~="white"] {
-    outline: 2px dotted #fff;
+    outline: 2px dotted rgb(255, 255, 255);
     outline-offset: 2px;
   }
   [pointer~="none"] {
@@ -369,13 +369,13 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
     fill: currentColor;
   }
   [fill~="gray-200"] {
-    fill: #e5e7eb;
+    fill: rgb(229, 231, 235);
   }
   [stroke~="current"] {
     stroke: currentColor;
   }
   [stroke~="blue-500"] {
-    stroke: #3b82f6;
+    stroke: rgb(59, 130, 246);
   }
   [stroke~="0"] {
     stroke-width: 0;
@@ -1130,14 +1130,14 @@ Tools / with gradient utility / css / 0: |-
     background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
   }
   [gradient~="from-yellow-400"] {
-    --tw-gradient-from: #fbbf24;
+    --tw-gradient-from: rgb(251, 191, 36);
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251, 191, 36, 0));
   }
   [gradient~="via-red-500"] {
-    --tw-gradient-stops: var(--tw-gradient-from), #ef4444, var(--tw-gradient-to, rgba(239, 68, 68, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgb(239, 68, 68), var(--tw-gradient-to, rgba(239, 68, 68, 0));
   }
   [gradient~="to-pink-500"] {
-    --tw-gradient-to: #ec4899;
+    --tw-gradient-to: rgb(236, 72, 153);
   }
 Tools / with grid utility / css / 0: |-
   [grid~="default"] {
@@ -1749,7 +1749,7 @@ Tools / with ring utility / css / 0: |-
     --tw-ring-inset: inset;
   }
   [ring~="offset-gray-200"] {
-    --tw-ring-offset-color: #e5e7eb;
+    --tw-ring-offset-color: rgb(229, 231, 235);
   }
   [ring~="offset-4"] {
     --tw-ring-offset-width: 4px;
@@ -1800,13 +1800,13 @@ Tools / with svg utility / css / 0: |-
     fill: currentColor;
   }
   [svg~="fill-gray-200"] {
-    fill: #e5e7eb;
+    fill: rgb(229, 231, 235);
   }
   [svg~="stroke-current"] {
     stroke: currentColor;
   }
   [svg~="stroke-gray-200"] {
-    stroke: #e5e7eb;
+    stroke: rgb(229, 231, 235);
   }
   [svg~="stroke-2"] {
     stroke-width: 2;

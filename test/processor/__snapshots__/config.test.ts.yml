@@ -103,6 +103,10 @@ Tools / change separator test / __ / 6: |-
     }
   }
 Tools / color config test / css / 0: |-
+  .bg-darkTheme-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
+  }
   .bg-active {
     background-color: var(--active);
   }
@@ -111,10 +115,6 @@ Tools / color config test / css / 0: |-
   }
   .bg-on-frame-active {
     background-color: var(--on-frame-active);
-  }
-  .bg-darkTheme-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgba(38, 42, 52, var(--tw-bg-opacity));
   }
 Tools / config with brackets / css / 0: |-
   .font-bold {
@@ -217,10 +217,10 @@ Tools / handle colors test / css / 0: |-
     background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
   }
   .ring-offset-hex-1c1c1e {
-    --tw-ring-offset-color: #1c1c1e;
+    --tw-ring-offset-color: rgb(28, 28, 30);
   }
   .ring-offset-gray-200 {
-    --tw-ring-offset-color: #e5e7eb;
+    --tw-ring-offset-color: rgb(229, 231, 235);
   }
   .text-primary-color-red {
     --tw-text-opacity: 1;
@@ -438,15 +438,15 @@ Tools / shortcuts config string / shortcuts string / 0: |-
   }
   .bg-primary {
     --tw-bg-opacity: 1;
-    background-color: hsl(var(--p, 259 94% 51%), var(--tw-bg-opacity, 1));
+    background-color: hsla(var(--p, 259 94% 51%) / var(--tw-bg-opacity));
   }
   .bg-primary-focus {
     --tw-bg-opacity: 1;
-    background-color: hsl(var(--pf, 259 94% 41%), var(--tw-bg-opacity, 1));
+    background-color: hsla(var(--pf, 259 94% 41%) / var(--tw-bg-opacity));
   }
   .text-primary-content {
     --tw-text-opacity: 1;
-    color: hsl(var(--pc, 0 0% 100%), var(--tw-text-opacity, 1));
+    color: hsla(var(--pc, 0 0% 100%) / var(--tw-text-opacity));
   }
 Tools / transition property / css / 0: |-
   .btn {

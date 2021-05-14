@@ -3,6 +3,7 @@ import { toType } from '../../src/utils/tools';
 import { Processor } from '../../src/lib';
 import { twExclude } from '../../src/config';
 import { CSSParser } from '../../src/utils/parser';
+import type { colorObject } from '../../src/interfaces';
 
 const configPath = resolve('./test/assets/tailwind.config.js');
 const userConfig = require(configPath);
@@ -513,12 +514,7 @@ describe('Config', () => {
   });
 
   it('support color callback function #75 #256', () => {
-    type colorOpacity = {
-      opacityVariable?: string
-      opacityValue?: number | string
-    }
-    type colorCallback = (colorOpacity: colorOpacity) => string;
-    const colorObject: {[key:string]: string|colorCallback | {[key:string]:string|colorCallback}} = {
+    const colorObject: colorObject = {
       'transparent': 'transparent',
       'current': 'currentColor',
     };

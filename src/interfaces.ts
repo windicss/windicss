@@ -18,6 +18,13 @@ export type AnyValue<T> = T;
 
 export type Output = Property | Style | Style[] | undefined;
 
+export type colorOpacity = {
+  opacityVariable?: string
+  opacityValue?: string
+}
+export type colorCallback = (colorOpacity: colorOpacity) => string;
+export type colorObject = { [key: string]: string | colorCallback | colorObject };
+
 export type FontSize =
   | string
   | [fontSize: string, letterSpacing?: string]

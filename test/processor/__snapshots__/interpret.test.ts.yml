@@ -145,23 +145,23 @@ Tools / interpret outline / outline / 0: |-
     outline-offset: 2px;
   }
   .outline-black {
-    outline: 2px dotted #000;
+    outline: 2px dotted rgb(0, 0, 0);
     outline-offset: 2px;
   }
   .outline-solid-black {
-    outline: 2px solid black;
+    outline: 2px solid rgb(0, 0, 0);
     outline-offset: 2px;
   }
   .outline-dotted-white {
-    outline: 2px dotted white;
+    outline: 2px dotted rgb(255, 255, 255);
     outline-offset: 2px;
   }
   .outline-solid-red-200 {
-    outline: 2px solid #fecaca;
+    outline: 2px solid rgb(254, 202, 202);
     outline-offset: 2px;
   }
   .outline-dotted-red-200 {
-    outline: 2px dotted #fecaca;
+    outline: 2px dotted rgb(254, 202, 202);
     outline-offset: 2px;
   }
 Tools / interpret screen variants / screen variants / 0: |-
