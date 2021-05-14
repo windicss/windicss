@@ -2,7 +2,7 @@ import arg from 'arg';
 import { deepCopy } from '../utils/tools';
 import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
-import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
+import { readFileSync, writeFile, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser, CSSParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
@@ -133,7 +133,7 @@ function compile(files: string[]) {
     );
 
     const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
-    writeFileSync(outputFile, outputHTML.join(''));
+    writeFile(outputFile, outputHTML.join(''), () => null);
     Console.log(`${file} -> ${outputFile}`);
     if (args['--preflight']) preflights[file] = processor.preflight(parser.html);
   });
@@ -212,7 +212,7 @@ function build(files: string[], update = false) {
   if (args['--separate']) {
     for (const [file, sheet] of Object.entries(styleSheets)) {
       const outfile = file.replace(/\.\w+$/, '.windi.css');
-      writeFileSync(outfile, (args['--preflight'] ? deepCopy(sheet).extend(preflights[file], false) : sheet).build(args['--minify']));
+      writeFile(outfile, (args['--preflight'] ? deepCopy(sheet).extend(preflights[file], false) : sheet).build(args['--minify']), () => null);
       Console.log(`${file} -> ${outfile}`);
     }
   } else {
@@ -235,12 +235,13 @@ function build(files: string[], update = false) {
         .combine()
         .extend(outputStyle);
     const filePath = args['--output'] ?? 'windi.css';
-    writeFileSync(filePath, outputStyle.build(args['--minify']));
+    writeFile(filePath, outputStyle.build(args['--minify']), () => null);
     if (!update) {
       Console.log('Matched files:', files);
       Console.log('Output file:', resolve(filePath));
     }
   }
+
 }
 
 let matchFiles = globArray(args._);
