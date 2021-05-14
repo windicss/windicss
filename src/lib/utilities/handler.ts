@@ -12,7 +12,7 @@ import {
   negateValue,
   flatColors,
 } from '../../utils/tools';
-import type { colorCallback, colorObject } from 'src/interfaces';
+import type { colorCallback, colorObject } from '../../interfaces';
 
 
 
