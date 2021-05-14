@@ -511,4 +511,34 @@ describe('Config', () => {
     });
     expect(processor.interpret('text-gray text-gray-base text-base').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('support color callback function #75 #256', () => {
+    type colorOpacity = {
+      opacityVariable?: string
+      opacityValue?: number | string
+    }
+    type colorCallback = (colorOpacity: colorOpacity) => string;
+    const colorObject: {[key:string]: string|colorCallback | {[key:string]:string|colorCallback}} = {
+      'transparent': 'transparent',
+      'current': 'currentColor',
+    };
+    const colorValues = {
+      'primary'           : { name: 'p', value: '259 94% 51%' },
+      'primary-focus'     : { name: 'pf', value: '259 94% 41%' },
+      'primary-content'   : { name: 'pc', value: '0 0% 100%' },
+    };
+    for (const [key, { name, value }] of Object.entries(colorValues)) {
+      colorObject[key] = ({ opacityVariable, opacityValue }) => {
+        if (opacityValue !== undefined) return `hsla(var(--${name}, ${value}) / ${opacityValue})`;
+        if (opacityVariable !== undefined) return `hsla(var(--${name}, ${value}) / var(${opacityValue}, 1))`;
+        return `hsl(var(--${name}, ${value}))`;
+      };
+    }
+    const processor = new Processor({
+      theme: {
+        colors: colorObject,
+      },
+    });
+    expect(processor.interpret('bg-transparent bg-primary bg-primary-focus text-primary-content').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

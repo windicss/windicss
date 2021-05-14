@@ -432,6 +432,22 @@ Tools / shortcuts config string / shortcuts string / 0: |-
       box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
   }
+'Tools / support color callback function #75 #256 / css / 0': |-
+  .bg-transparent {
+    background-color: transparent;
+  }
+  .bg-primary {
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--p, 259 94% 51%), var(--tw-bg-opacity, 1));
+  }
+  .bg-primary-focus {
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--pf, 259 94% 41%), var(--tw-bg-opacity, 1));
+  }
+  .text-primary-content {
+    --tw-text-opacity: 1;
+    color: hsl(var(--pc, 0 0% 100%), var(--tw-text-opacity, 1));
+  }
 Tools / transition property / css / 0: |-
   .btn {
     -webkit-transition-property: background-color;
