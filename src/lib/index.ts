@@ -3,7 +3,7 @@ import { negative, breakpoints } from '../utils/helpers';
 import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
-
+import { createHandler, HandlerCreator } from './utilities/handler';
 import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
 import plugin from '../plugin/index';
@@ -86,7 +86,7 @@ export class Processor {
     utilities: [],
     variants: [],
   };
-
+  public _handler: HandlerCreator;
   readonly _plugin: Plugin = {
     static: {},
     dynamic: {},
@@ -124,7 +124,11 @@ export class Processor {
   };
 
   constructor(config?: Config) {
-    this._config = this.loadConfig(config);
+    this._config = this.resolveConfig(config, baseConfig);
+    this._theme = this._config.theme;
+    this._handler = createHandler(this._config.handlers);
+    this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
+    this._config.alias && this.loadAlias(this._config.alias);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
@@ -230,6 +234,7 @@ export class Processor {
   loadConfig(config?: Config): Config {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
+    this._handler = createHandler(this._config.handlers);
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
     this._config.alias && this.loadAlias(this._config.alias);
     return this._config;

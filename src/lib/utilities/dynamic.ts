@@ -425,7 +425,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       new Property('-webkit-text-stroke-color', theme('textStrokeColor.DEFAULT', '#e4e4e7') as string),
       new Property('-webkit-text-stroke-width', theme('textStrokeWidth.DEFAULT', 'medium') as string),
     ]).updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 1, true);
-    return new Utility('textStroke' + utility.raw.slice(11)).handler
+    return utility.clone('textStroke' + utility.raw.slice(11)).handler
       .handleColor(theme('textStrokeColor'))
       .handleVariable()
       .createColorStyle(utility.class, '-webkit-text-stroke-color')
@@ -674,7 +674,7 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/border-radius
 function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
   const raw = [ 'rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl' ].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
-  utility = new Utility(raw);
+  utility = utility.clone(raw);
   const directions = expandDirection(utility.center.replace(/-?\$[\w-]+/, ''), true);
   if (!directions) return;
   return utility.handler
@@ -715,7 +715,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
   const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
   const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
-  utility = new Utility(raw);
+  utility = utility.clone(raw);
   return utility.handler
     .handleStatic(borders)
     .handleSquareBrackets()
@@ -827,7 +827,7 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
 // https://tailwindcss.com/docs/ring-opacity
 function ring(utility: Utility, utils: PluginUtils): Output {
   // handle ring offset
-  if (utility.raw.startsWith('ring-offset')) return ringOffset(new Utility(utility.raw.replace('ring-offset', 'ringOffset')), utils);
+  if (utility.raw.startsWith('ring-offset')) return ringOffset(utility.clone(utility.raw.replace('ring-offset', 'ringOffset')), utils);
   // handle ring opacity
   if (utility.raw.startsWith('ring-opacity'))
     return utility.handler
@@ -947,7 +947,7 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function backdrop(utility: Utility, { theme }: PluginUtils): Output {
-  utility = new Utility(utility.raw.slice(9));
+  utility = utility.clone(utility.raw.slice(9));
   switch (utility.match(/[^-]+/)) {
   case 'blur':
     if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
@@ -1182,7 +1182,7 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
 // pespective
 function perspective(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('perspect-origin')) {
-    const origin = new Utility('perspectOrigin' + utility.raw.slice(15)).handler
+    const origin = utility.clone('perspectOrigin' + utility.raw.slice(15)).handler
       .handleBody(theme('perspectiveOrigin'))
       .handleSquareBrackets()
       .createProperty(['-webkit-perspective-origin', 'perspective-origin'])
@@ -1213,7 +1213,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
     return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
 
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
-    const newUtility = new Utility(utility.raw.replace('outline-', ''));
+    const newUtility = utility.clone(utility.raw.replace('outline-', ''));
     const outlineColor = newUtility.handler
       .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
       .handleColor()

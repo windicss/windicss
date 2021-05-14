@@ -230,6 +230,18 @@ export type Shortcut = string | NestObject;
 
 export type DarkModeConfig = 'class' | 'media' | false;
 
+export type Handlers = {
+  static?: boolean
+  number?: boolean
+  bracket?: boolean
+  hex?: boolean
+  nxl?: boolean
+  fraction?: boolean
+  size?: boolean
+  variable?: boolean
+  negative?: boolean
+}
+
 export interface ExtractorResultDetailed {
   attributes?: {
     names: string[];
@@ -316,6 +328,7 @@ export interface Config {
   theme?: Theme;
   variantOrder?: string[];
   plugins?: Plugin[];
+  handlers?: Handlers;
   corePlugins?: (keyof BaseTheme)[] | string[] | { [ T in keyof BaseTheme ] : boolean } | { [ key:string ] : boolean };
   prefix?: string;
   exclude?: RegExp[];

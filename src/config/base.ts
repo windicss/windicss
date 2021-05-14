@@ -1024,4 +1024,15 @@ export const baseConfig: Config = {
   },
   variantOrder: variantOrder,
   plugins: [],
+  handlers: {
+    static : true,
+    number : true,
+    bracket: true,
+    hex: true,
+    nxl: true,
+    fraction: true,
+    size: true,
+    variable: true,
+    negative: true,
+  },
 };
