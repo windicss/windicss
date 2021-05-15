@@ -19,9 +19,9 @@ By default, it will use interpretation mode to generate a single css file.
 
 Usage:
   windicss [filenames]
-  windicss [filenames] -c -m -w
-  windicss [filenames] -c -s -m -w
-  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-w] [-p <prefix:string>] [-o <path:string>] [--args arguments]
+  windicss [filenames] -c -m -d
+  windicss [filenames] -c -s -m -d
+  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-d] [-p <prefix:string>] [-o <path:string>] [--args arguments]
 
 Options:
   -h, --help            Print this help message and exit.
