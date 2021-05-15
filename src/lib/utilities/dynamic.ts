@@ -19,7 +19,7 @@ function notNumberLead(i:string) {
   return /^\d/.test(i) ? undefined : i;
 }
 
-// https://tailwindcss.com/docs/container
+// https://windicss.org/utilities/container.html
 function container(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'container') {
     const className = utility.class;
@@ -56,7 +56,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/object-position
+// https://windicss.org/utilities/positioning.html#object-position
 function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('objectPosition'))
@@ -64,7 +64,7 @@ function objectPosition(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'objectPosition', pluginOrder.objectPosition, 0, true);
 }
 
-// https://tailwindcss.com/docs/top-right-bottom-left
+// https://windicss.org/utilities/positioning.html#top-right-bottom-left
 function inset(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('inset'))
@@ -89,7 +89,7 @@ function inset(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/z-index
+// https://windicss.org/utilities/positioning.html#z-index
 function zIndex(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('zIndex'))
@@ -100,9 +100,9 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'zIndex', pluginOrder.zIndex, 0, true);
 }
 
-// https://tailwindcss.com/docs/flex
-// https://tailwindcss.com/docs/flex-grow
-// https://tailwindcss.com/docs/flex-shrink
+// https://windicss.org/utilities/flexbox.html#flex
+// https://windicss.org/utilities/flexbox.html#flex-grow
+// https://windicss.org/utilities/flexbox.html#flex-shrink
 function flex(utility: Utility, { theme }: PluginUtils): Output {
   const className = utility.raw;
   if (className.startsWith('flex-grow')) {
@@ -124,7 +124,7 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/order
+// https://windicss.org/utilities/positioning.html#order
 function order(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('order'))
@@ -138,8 +138,8 @@ function order(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'order', pluginOrder.order, utility.raw.charAt(0) === '-' ? 2 : 1, true);
 }
 
-// https://tailwindcss.com/docs/grid-template-columns
-// https://tailwindcss.com/docs/grid-template-rows
+// https://windicss.org/utilities/grid.html#grid-template-columns
+// https://windicss.org/utilities/grid.html#grid-template-rows
 function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   const type = utility.raw.match(/^grid-rows-/) ? 'rows' : utility.raw.match(/^grid-cols-/) ? 'columns' : undefined;
   if (!type) return;
@@ -156,7 +156,9 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', group, pluginOrder[group], 2, true);
 }
 
-// https://tailwindcss.com/docs/grid-column
+// https://windicss.org/utilities/grid.html#grid-column-span
+// https://windicss.org/utilities/grid.html#grid-column-start
+// https://windicss.org/utilities/grid.html#grid-column-end
 function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // col span
@@ -189,7 +191,9 @@ function gridColumn(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/grid-row
+// https://windicss.org/utilities/grid.html#grid-row-span
+// https://windicss.org/utilities/grid.html#grid-row-start
+// https://windicss.org/utilities/grid.html#grid-row-end
 function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // row span
@@ -222,8 +226,8 @@ function gridRow(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/grid-auto-columns
-// https://tailwindcss.com/docs/grid-auto-rows
+// https://windicss.org/utilities/grid.html#grid-auto-columns
+// https://windicss.org/utilities/grid.html#grid-auto-rows
 function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
   const type = utility.raw.startsWith('auto-cols') ? 'columns' : utility.raw.startsWith('auto-rows') ? 'rows' : undefined;
   if (!type) return;
@@ -236,7 +240,7 @@ function gridAuto(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/gap
+// https://windicss.org/utilities/grid.html#gap
 function gap(utility: Utility, { theme, config }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('gap'))
@@ -251,7 +255,7 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/padding
+// https://windicss.org/utilities/spacing.html#padding
 function padding(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('padding'))
@@ -268,7 +272,7 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/margin
+// https://windicss.org/utilities/spacing.html#margin
 function margin(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('margin'))
@@ -286,7 +290,7 @@ function margin(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/space
+// https://windicss.org/utilities/spacing.html#space-between-y
 function space(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'space-x-reverse') {
     return new Style(utility.class, [
@@ -323,8 +327,8 @@ function space(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/width
-// https://tailwindcss.com/docs/height
+// https://windicss.org/utilities/sizing.html#width
+// https://windicss.org/utilities/sizing.html#height
 function size(utility: Utility, { theme }: PluginUtils): Output {
   const name = utility.identifier === 'w' ? 'width' : 'height';
   const body = utility.body;
@@ -359,10 +363,10 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', name, pluginOrder[name], 4, true);
 }
 
-// https://tailwindcss.com/docs/min-width
-// https://tailwindcss.com/docs/min-height
-// https://tailwindcss.com/docs/max-width
-// https://tailwindcss.com/docs/max-height
+// https://windicss.org/utilities/sizing.html#min-width
+// https://windicss.org/utilities/sizing.html#min-height
+// https://windicss.org/utilities/sizing.html#max-width
+// https://windicss.org/utilities/sizing.html#max-height
 function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.raw.replace(/^(min|max)-[w|h]-/, '');
   const prop = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
@@ -399,9 +403,11 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', group, pluginOrder[group], 4, true);
 }
 
-// https://tailwindcss.com/docs/font-size
-// https://tailwindcss.com/docs/text-opacity
-// https://tailwindcss.com/docs/text-color
+// https://windicss.org/utilities/typography.html#text-opacity
+// https://windicss.org/utilities/typography.html#text-shadow
+// https://windicss.org/utilities/typography.html#text-stroke
+// https://windicss.org/utilities/typography.html#text-color
+// https://windicss.org/utilities/typography.html#font-size
 function text(utility: Utility, { theme }: PluginUtils): Output {
   // handle font opacity
   if (utility.raw.startsWith('text-opacity')) {
@@ -459,8 +465,8 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta('utilities', 'fontSize', pluginOrder.fontSize, 2, true);
 }
 
-// https://tailwindcss.com/docs/font-family
-// https://tailwindcss.com/docs/font-weight
+// https://windicss.org/utilities/typography.html#font-family
+// https://windicss.org/utilities/typography.html#font-weight
 function font(utility: Utility, { theme }: PluginUtils): Output {
   const fonts = theme('fontFamily') as { [ key : string ] : string | string[] };
   const map:{ [ key : string ] : string } = {};
@@ -481,7 +487,7 @@ function font(utility: Utility, { theme }: PluginUtils): Output {
   );
 }
 
-// https://tailwindcss.com/docs/letter-spacing
+// https://windicss.org/utilities/typography.html#letter-spacing
 function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('letterSpacing'))
@@ -493,7 +499,7 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'letterSpacing', pluginOrder.letterSpacing, 1, true);
 }
 
-// text decoration
+// https://windicss.org/utilities/typography.html#text-decoration
 function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
   // handle text decoration opacity
   if (utility.raw.startsWith('underline-opacity')) {
@@ -527,7 +533,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'textDecorationLength', pluginOrder.textDecorationLength, 1, true);
 }
 
-// https://tailwindcss.com/docs/line-height
+// https://windicss.org/utilities/typography.html#line-height
 function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('lineHeight'))
@@ -539,7 +545,7 @@ function lineHeight(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'lineHeight', pluginOrder.lineHeight, 1, true);
 }
 
-// https://tailwindcss.com/docs/list-style-type
+// https://windicss.org/utilities/behaviors.html#list-style-type
 function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('listStyleType'))
@@ -547,8 +553,8 @@ function listStyleType(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'listStyleType', pluginOrder.listStyleType, 1, true);
 }
 
-// https://tailwindcss.com/docs/placeholder-color
-// https://tailwindcss.com/docs/placeholder-opacity
+// https://windicss.org/utilities/behaviors.html#placeholder-color
+// https://windicss.org/utilities/behaviors.html#placeholder-opacity
 function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   // handle placeholder opacity
   if (utility.raw.startsWith('placeholder-opacity')) {
@@ -566,6 +572,8 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   if (color) return generatePlaceholder(color.selector || '', color.property, config('prefixer') as boolean).map(i => i.updateMeta('utilities', 'placeholderColor', pluginOrder.placeholderColor, 2, true));
 }
 
+// https://windicss.org/utilities/behaviors.html#caret-color
+// https://windicss.org/utilities/behaviors.html#caret-opacity
 function caret(utility: Utility, { theme }: PluginUtils): Output {
   // handle caret opacity
   if (utility.raw.startsWith('caret-opacity')) {
@@ -583,6 +591,7 @@ function caret(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'caretColor', pluginOrder.caretColor, 0, true);
 }
 
+// https://windicss.org/utilities/typography.html#tab-size
 function tabSize(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('tabSize'))
@@ -592,6 +601,7 @@ function tabSize(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'tabSize', pluginOrder.tabSize, 1, true);
 }
 
+// https://windicss.org/utilities/typography.html#text-indent
 function textIndent(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('textIndent'))
@@ -602,11 +612,11 @@ function textIndent(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'textIndent', pluginOrder.textIndent, 1, true);
 }
 
-// https://tailwindcss.com/docs/background-color
-// https://tailwindcss.com/docs/background-opacity
-// https://tailwindcss.com/docs/background-position
-// https://tailwindcss.com/docs/background-size
-// https://tailwindcss.com/docs/background-image
+// https://windicss.org/utilities/backgrounds.html#background-color
+// https://windicss.org/utilities/backgrounds.html#background-opacity
+// https://windicss.org/utilities/backgrounds.html#background-position
+// https://windicss.org/utilities/backgrounds.html#background-size
+// https://windicss.org/utilities/backgrounds.html#background-image
 function background(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   // handle background positions
@@ -640,7 +650,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'backgroundColor', pluginOrder.backgroundColor, 0, true);
 }
 
-// https://tailwindcss.com/docs/gradient-color-stops from
+// https://windicss.org/utilities/backgrounds.html#gradient-from
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
   if (handler.color || handler.value) {
@@ -651,7 +661,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/gradient-color-stops via
+// https://windicss.org/utilities/backgrounds.html#gradient-via
 function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
   if (handler.color || handler.value) {
@@ -661,7 +671,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/gradient-color-stops to
+// https://windicss.org/utilities/backgrounds.html#gradient-to
 function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable();
   if (handler.color || handler.value) {
@@ -671,7 +681,7 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/border-radius
+// https://windicss.org/utilities/borders.html#border-radius
 function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
   const raw = [ 'rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl' ].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
   utility = utility.clone(raw);
@@ -688,9 +698,9 @@ function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'borderRadius', pluginOrder.borderRadius, -(directions[0] === '*' ? 3 : directions.length), true);
 }
 
-// https://tailwindcss.com/docs/border-width
-// https://tailwindcss.com/docs/border-color
-// https://tailwindcss.com/docs/border-opacity
+// https://windicss.org/utilities/borders.html#border-width
+// https://windicss.org/utilities/borders.html#border-color
+// https://windicss.org/utilities/borders.html#border-opacity
 function border(utility: Utility, { theme }: PluginUtils): Output {
   // handle border opacity
   if (utility.raw.startsWith('border-opacity')) {
@@ -726,10 +736,10 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'borderWidth', pluginOrder.borderWidth, (directions[0] === '*' ? 1 : (directions.length + 1)), true);
 }
 
-// https://tailwindcss.com/docs/divide-width
-// https://tailwindcss.com/docs/divide-color
-// https://tailwindcss.com/docs/divide-opacity
-// https://tailwindcss.com/docs/divide-style
+// https://windicss.org/utilities/borders.html#divide-width
+// https://windicss.org/utilities/borders.html#divide-color
+// https://windicss.org/utilities/borders.html#divide-opacity
+// https://windicss.org/utilities/borders.html#divide-style
 function divide(utility: Utility, { theme }: PluginUtils): Output {
   // handle divide style
   if (['solid', 'dashed', 'dotted', 'double', 'none'].includes(utility.amount)) return new Property('border-style', utility.amount).toStyle(utility.class).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideStyle', pluginOrder.divideStyle, 1, true);
@@ -797,8 +807,8 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/ring-offset-width
-// https://tailwindcss.com/docs/ring-offset-color
+// https://windicss.org/utilities/borders.html#ring-offset-width
+// https://windicss.org/utilities/borders.html#ring-offset-color
 function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   let value;
   // handle ring offset width variable
@@ -822,9 +832,9 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'ringOffsetWidth', pluginOrder.ringOffsetWidth, 1, true);
 }
 
-// https://tailwindcss.com/docs/ring-width
-// https://tailwindcss.com/docs/ring-color
-// https://tailwindcss.com/docs/ring-opacity
+// https://windicss.org/utilities/borders.html#ring-width
+// https://windicss.org/utilities/borders.html#ring-color
+// https://windicss.org/utilities/borders.html#ring-opacity
 function ring(utility: Utility, utils: PluginUtils): Output {
   // handle ring offset
   if (utility.raw.startsWith('ring-offset')) return ringOffset(utility.clone(utility.raw.replace('ring-offset', 'ringOffset')), utils);
@@ -864,6 +874,7 @@ function ring(utility: Utility, utils: PluginUtils): Output {
   ]).updateMeta('utilities', 'ringWidth', pluginOrder.ringWidth, (utility.raw === 'ring' ? 1 : 2), true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-blur
 function blur(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
   return utility.handler
@@ -874,6 +885,7 @@ function blur(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'blur', pluginOrder.blur, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-brightness
 function brightness(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('brightness'))
@@ -882,6 +894,7 @@ function brightness(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'brightness', pluginOrder.brightness, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-contrast
 function contrast(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('contrast'))
@@ -890,6 +903,7 @@ function contrast(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'contrast', pluginOrder.contrast, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-drop-shadow
 function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
   let value;
   if (utility.raw === 'drop-shadow') {
@@ -902,6 +916,7 @@ function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
   if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`).updateMeta('utilities', 'dropShadow', pluginOrder.dropShadow, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-grayscale
 function grayscale(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
   return utility.handler
@@ -911,6 +926,7 @@ function grayscale(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'grayscale', pluginOrder.grayscale, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-hue-rotate
 function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('hueRotate'))
@@ -920,6 +936,7 @@ function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'hueRotate', pluginOrder.hueRotate, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-invert
 function invert(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
   return utility.handler
@@ -929,6 +946,7 @@ function invert(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'invert', pluginOrder.invert, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-saturate
 function saturate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('saturate'))
@@ -937,6 +955,7 @@ function saturate(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'saturate', pluginOrder.saturate, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#filter-sepia
 function sepia(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
   return utility.handler
@@ -946,6 +965,16 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'sepia', pluginOrder.sepia, 1, true);
 }
 
+// https://windicss.org/utilities/filters.html#backdrop-filter
+// https://windicss.org/utilities/filters.html#backdrop-blur
+// https://windicss.org/utilities/filters.html#backdrop-brightness
+// https://windicss.org/utilities/filters.html#backdrop-contrast
+// https://windicss.org/utilities/filters.html#backdrop-grayscale
+// https://windicss.org/utilities/filters.html#backdrop-hue-rotate
+// https://windicss.org/utilities/filters.html#backdrop-invert
+// https://windicss.org/utilities/filters.html#backdrop-opacity
+// https://windicss.org/utilities/filters.html#backdrop-saturate
+// https://windicss.org/utilities/filters.html#backdrop-sepia
 function backdrop(utility: Utility, { theme }: PluginUtils): Output {
   utility = utility.clone(utility.raw.slice(9));
   switch (utility.match(/[^-]+/)) {
@@ -1012,7 +1041,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/box-shadow/
+// https://windicss.org/utilities/effects.html#box-shadow
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body || 'DEFAULT';
   const shadows = toType(theme('boxShadow'), 'object') as { [key: string]: string };
@@ -1033,7 +1062,7 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'boxShadowColor', pluginOrder.boxShadowColor, 0, true);
 }
 
-// https://tailwindcss.com/docs/opacity
+// https://windicss.org/utilities/effects.html#opacity
 function opacity(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('opacity'))
@@ -1043,7 +1072,7 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'opacity', pluginOrder.opacity, 0, true);
 }
 
-// https://tailwindcss.com/docs/transition-property
+// https://windicss.org/utilities/transitions.html#transition-property
 function transition(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const props = toType(theme('transitionProperty'), 'object') as { [key: string]: string };
@@ -1061,7 +1090,7 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/transition-duration
+// https://windicss.org/utilities/transitions.html#transition-duration
 function duration(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('transitionDuration'))
@@ -1071,7 +1100,7 @@ function duration(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'transitionDuration', pluginOrder.transitionDuration, 1, true);
 }
 
-// https://tailwindcss.com/docs/transition-timing-function
+// https://windicss.org/utilities/transitions.html#transition-timing-function
 function transitionTimingFunction(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('transitionTimingFunction'))
@@ -1079,7 +1108,7 @@ function transitionTimingFunction(utility: Utility, { theme }: PluginUtils): Out
     ?.updateMeta('utilities', 'transitionTimingFunction', pluginOrder.transitionTimingFunction, 1, true);
 }
 
-// https://tailwindcss.com/docs/transition-delay
+// https://windicss.org/utilities/transitions.html#transition-delay
 function delay(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('transitionDelay'))
@@ -1089,7 +1118,7 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'transitionDelay', pluginOrder.transitionDelay, 0, true);
 }
 
-// https://tailwindcss.com/docs/animation
+// https://windicss.org/utilities/behaviors.html#animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
   const animations = toType(theme('animation'), 'object') as { [key: string]: string };
   if (Object.keys(animations).includes(utility.body)) {
@@ -1109,14 +1138,14 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/transform-origin
+// https://windicss.org/utilities/transforms.html#transform-origin
 function transformOrigin(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const origins = toType(theme('transformOrigin'), 'object') as { [key: string]: string };
   if (Object.keys(origins).includes(body)) return new Property(['-webkit-transform-origin', '-ms-transform-origin', 'transform-origin'], origins[body]).updateMeta('utilities', 'transformOrigin', pluginOrder.transformOrigin, 0, true);
 }
 
-// https://tailwindcss.com/docs/scale
+// https://windicss.org/utilities/transforms.html#transform-scale
 function scale(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('scale'))
@@ -1130,7 +1159,7 @@ function scale(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/rotate
+// https://windicss.org/utilities/transforms.html#transform-rotate
 function rotate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('rotate'))
@@ -1146,7 +1175,7 @@ function rotate(utility: Utility, { theme }: PluginUtils): Output {
     });
 }
 
-// https://tailwindcss.com/docs/translate
+// https://windicss.org/utilities/transforms.html#transform-translate
 function translate(utility: Utility, { theme }: PluginUtils): Output {
   const centerMatch = utility.raw.match(/^-?translate-[x|y|z]/);
   if (centerMatch) {
@@ -1164,7 +1193,7 @@ function translate(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// https://tailwindcss.com/docs/skew
+// https://windicss.org/utilities/transforms.html#transform-skew
 function skew(utility: Utility, { theme }: PluginUtils): Output {
   const centerMatch = utility.raw.match(/^-?skew-[x|y]/);
   if (centerMatch) {
@@ -1179,7 +1208,7 @@ function skew(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
-// pespective
+// https://windicss.org/utilities/transforms.html#perspective
 function perspective(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('perspect-origin')) {
     const origin = utility.clone('perspectOrigin' + utility.raw.slice(15)).handler
@@ -1198,14 +1227,14 @@ function perspective(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'perspective', pluginOrder.perspective, 0, true);
 }
 
-// https://tailwindcss.com/docs/cursor
+// https://windicss.org/utilities/behaviors.html#cursor
 function cursor(utility: Utility, { theme }: PluginUtils): Output {
   const body = utility.body;
   const cursors = toType(theme('cursor'), 'object') as { [key: string]: string };
   if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta('utilities', 'cursor', pluginOrder.cursor, 1, true);
 }
 
-// https://tailwindcss.com/docs/outline
+// https://windicss.org/utilities/behaviors.html#outline
 function outline(utility: Utility, { theme }: PluginUtils): Output {
   const amount = utility.amount;
   const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
@@ -1234,7 +1263,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
   ])?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
 }
 
-// https://tailwindcss.com/docs/fill
+// https://windicss.org/utilities/svg.html#fill-color
 function fill(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleColor(theme('fill'))
@@ -1243,8 +1272,8 @@ function fill(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'fill', pluginOrder.fill, 1, true);
 }
 
-// https://tailwindcss.com/docs/stroke
-// https://tailwindcss.com/docs/stroke-width
+// https://windicss.org/utilities/svg.html#stroke-color
+// https://windicss.org/utilities/svg.html#stroke-width
 function stroke(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('stroke-dash')) {
     return utility.handler.handleNumber().createProperty('stroke-dasharray')?.updateMeta('utilities', 'strokeDashArray', pluginOrder.strokeDashArray, 0, true);
