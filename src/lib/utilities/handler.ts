@@ -13,10 +13,9 @@ import {
   flatColors,
 } from '../../utils/tools';
 
-import type { colorCallback, colorObject } from '../../interfaces';
+import type { colorCallback, colorObject, Handlers } from '../../interfaces';
 
-export type 
-  = {
+export type Handler = {
   utility: Utility
   value?: string
   _amount: string
@@ -80,9 +79,7 @@ export type
 
 export type HandlerCreator = (utility: Utility, value?: string | undefined, color?: colorCallback | undefined) => Handler;
 
-export function createHandler(handlers: 
-                               
-                               = { static: true }): HandlerCreator {
+export function createHandler(handlers: Handlers = { static: true }): HandlerCreator {
   return (utility: Utility, value?: string, color?: colorCallback) => {
     const handler: Handler = {
       utility,
