@@ -1,8 +1,5 @@
 import type { StaticUtility } from '../../interfaces';
 
-// https://tailwindcss.com/docs/font-variant-numeric
-// This feature uses var+comment hacks to get around property stripping:
-// https://github.com/tailwindlabs/tailwindcss.com/issues/522#issuecomment-687667238
 const fontVariants = {
   '--tw-ordinal': 'var(--tw-empty,/*!*/ /*!*/)',
   '--tw-slashed-zero': 'var(--tw-empty,/*!*/ /*!*/)',
@@ -2623,7 +2620,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/transform
+  // https://windicss.org/utilities/transforms.html
   'transform': {
     'utility': {
       '--tw-rotate': '0',

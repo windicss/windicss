@@ -1,4 +1,4 @@
-// tailwind.config.js
+// windi.config.js
 const colors = require('../../dist/colors');
 
 module.exports = {

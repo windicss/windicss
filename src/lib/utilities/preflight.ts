@@ -32,7 +32,7 @@ Use a better box model (opinionated).
   //     'box-sizing': 'border-box'
   //   }
   // },
-  // overwrite by tailwind
+  // overwrite by windi
 
   /**
 Use a more readable tab size (opinionated).
@@ -59,7 +59,7 @@ Use a more readable tab size (opinionated).
     global: true,
     selector: 'html',
     properties: {
-    // 'line-height': '1.15', /* 1 */ overwrite by tailwind
+    // 'line-height': '1.15', /* 1 */ overwrite by windi
       '-webkit-text-size-adjust': '100%', /* 2 */
     },
   },
@@ -94,7 +94,7 @@ Improve consistency of default fonts in all browsers. (https://github.com/sindre
   //     'font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'"
   //   }
   // },
-  // overide by tailwind
+  // overide by windi
 
   /*
 Grouping content
@@ -152,7 +152,7 @@ Add the correct font weight in Edge and Safari.
   {
     keys: ['code', 'kbd', 'samp', 'pre'],
     properties: {
-    // 'font-family': "ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace", /* 1 */ overwrite by tailwind
+    // 'font-family': "ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace", /* 1 */ overwrite by windi
       'font-size': '1em', /* 2 */
     },
   },
@@ -510,7 +510,6 @@ Add the correct display in Chrome and Safari.
  *    need to set the `border-width` property instead of the entire `border`
  *    shorthand, making our border utilities much more straightforward to compose.
  *
- *    https://github.com/tailwindcss/tailwindcss/pull/116
  */
 
   {
@@ -544,7 +543,6 @@ Add the correct display in Chrome and Safari.
  * The Normalize reset is unnecessary for us since we default the border-width
  * to 0 on all elements.
  *
- * https://github.com/tailwindcss/tailwindcss/issues/362
  */
 
   {
@@ -756,7 +754,7 @@ Add the correct display in Chrome and Safari.
   },
 
   // added by ringWidth
-  // https://github.com/tailwindlabs/tailwindcss/blob/master/src/plugins/ringWidth.js
+  // https://windicss.org/utilities/borders.html#ring-width
   {
     keys: ['*'],
     global: true,
@@ -772,6 +770,7 @@ Add the correct display in Chrome and Safari.
   },
 
   // added by boxShadow
+  // https://windicss.org/utilities/effects.html#box-shadow
   {
     keys: ['*'],
     global: true,

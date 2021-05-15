@@ -357,7 +357,6 @@ export class Processor {
     ignoreProcessed = false,
     handleIgnored?: (ignored:string) => Style | Style[] | undefined
   ): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
-    // Interpret tailwind class then generate raw tailwind css.
     const ast = new ClassParser(classNames, this.config('separator', ':') as string, this._cache.variants).parse();
     const success: string[] = [];
     const ignored: string[] = [];
@@ -487,7 +486,6 @@ export class Processor {
     className?: string;
     styleSheet: StyleSheet;
   } {
-    // Compile tailwind css classes to one combined class.
     const ast = new ClassParser(classNames, this.config('separator', ':') as string, this._cache.variants).parse();
     const success: string[] = [];
     const ignored: string[] = [];
@@ -933,7 +931,6 @@ export class Processor {
     }
   }
 
-  // tailwind interfaces
   config(path: string, defaultValue?: unknown): unknown {
     if (path === 'corePlugins') return this._plugin.core ? Object.keys(this._plugin.core).filter(i => this._plugin.core?.[i]) : Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2);
     return getNestedValue(this._config, path) ?? defaultValue;

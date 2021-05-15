@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { Processor } from '../../src/lib';
 
-const configPath = resolve('./test/assets/tailwind.plugin.config.js');
+const configPath = resolve('./test/assets/windi.plugin.config.js');
 
 describe('Load Plugin', () => {
   const processor = new Processor(require(resolve(configPath)));

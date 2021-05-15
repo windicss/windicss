@@ -1,7 +1,7 @@
 import { Processor } from '../../src/lib';
 import { resolve } from 'path';
 
-const processor = new Processor(require(resolve('./test/assets/tailwind.plugin.config.js')));
+const processor = new Processor(require(resolve('./test/assets/windi.plugin.config.js')));
 
 describe('Resolve Tests', () => {
   it('resolve variants', () => {

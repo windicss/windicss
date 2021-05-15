@@ -14,7 +14,6 @@ function fromEntries<T>(entries: [keyof T, T[keyof T]][]): T {
 
 // docs
 // https://www.w3.org/TR/css-scroll-snap-1/#scroll-snap-position
-// https://github.com/innocenzi/tailwindcss-scroll-snap
 
 export default plugin(
   function ({ addUtilities, addDynamic, theme, variants }) {

@@ -5,7 +5,7 @@ import { twExclude } from '../../src/config';
 import { CSSParser } from '../../src/utils/parser';
 import type { colorObject } from '../../src/interfaces';
 
-const configPath = resolve('./test/assets/tailwind.config.js');
+const configPath = resolve('./test/assets/windi.config.js');
 const userConfig = require(configPath);
 
 describe('Config', () => {

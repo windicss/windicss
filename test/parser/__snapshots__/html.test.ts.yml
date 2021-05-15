@@ -245,29 +245,29 @@ Tools / parse attributes / attr / 0: |-
       "raw": "list=\"disc\"",
       "key": "list",
       "value": "disc",
-      "start": 799,
-      "end": 810
+      "start": 796,
+      "end": 807
     },
     {
       "raw": "space=\"y-2\"",
       "key": "space",
       "value": "y-2",
-      "start": 811,
-      "end": 822
+      "start": 808,
+      "end": 819
     },
     {
       "raw": "flex=~",
       "key": "flex",
       "value": "~",
-      "start": 842,
-      "end": 848
+      "start": 839,
+      "end": 845
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 849,
-      "end": 862
+      "start": 846,
+      "end": 859
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -276,50 +276,50 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 886,
-      "end": 896
+      "start": 883,
+      "end": 893
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 897,
-      "end": 905
+      "start": 894,
+      "end": 902
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 906,
-      "end": 920
+      "start": 903,
+      "end": 917
     },
     {
       "raw": "flex=\"shrink-0\"",
       "key": "flex",
       "value": "shrink-0",
-      "start": 945,
-      "end": 960
+      "start": 942,
+      "end": 957
     },
     {
       "raw": "h=5",
       "key": "h",
       "value": "5",
-      "start": 961,
-      "end": 964
+      "start": 958,
+      "end": 961
     },
     {
       "raw": "w=5",
       "key": "w",
       "value": "5",
-      "start": 965,
-      "end": 968
+      "start": 962,
+      "end": 965
     },
     {
       "raw": "text=\"cyan-500\"",
       "key": "text",
       "value": "cyan-500",
-      "start": 969,
-      "end": 984
+      "start": 966,
+      "end": 981
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -330,22 +330,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 985,
-      "end": 1004
+      "start": 982,
+      "end": 1001
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 1005,
-      "end": 1024
+      "start": 1002,
+      "end": 1021
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 1052,
-      "end": 1071
+      "start": 1049,
+      "end": 1068
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -377,22 +377,22 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 1094,
-      "end": 1231
+      "start": 1091,
+      "end": 1228
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 1254,
-      "end": 1273
+      "start": 1251,
+      "end": 1270
     },
     {
       "raw": "class=\"ml-2\"",
       "key": "class",
       "value": "ml-2",
-      "start": 1345,
-      "end": 1357
+      "start": 1342,
+      "end": 1354
     },
     {
       "raw": "class=\"text-sm font-bold text-gray-900\"",
@@ -402,36 +402,36 @@ Tools / parse attributes / attr / 0: |-
         "font-bold",
         "text-gray-900"
       ],
-      "start": 1418,
-      "end": 1457
+      "start": 1415,
+      "end": 1454
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 1548,
-      "end": 1556
+      "start": 1542,
+      "end": 1550
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 1557,
-      "end": 1570
+      "start": 1551,
+      "end": 1564
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 1594,
-      "end": 1602
+      "start": 1588,
+      "end": 1596
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 1603,
-      "end": 1617
+      "start": 1597,
+      "end": 1611
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -440,36 +440,36 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 1618,
-      "end": 1628
+      "start": 1612,
+      "end": 1622
     },
     {
       "raw": "flex=\"shrink-0\"",
       "key": "flex",
       "value": "shrink-0",
-      "start": 1653,
-      "end": 1668
+      "start": 1647,
+      "end": 1662
     },
     {
       "raw": "h=5",
       "key": "h",
       "value": "5",
-      "start": 1669,
-      "end": 1672
+      "start": 1663,
+      "end": 1666
     },
     {
       "raw": "w=5",
       "key": "w",
       "value": "5",
-      "start": 1673,
-      "end": 1676
+      "start": 1667,
+      "end": 1670
     },
     {
       "raw": "text=cyan-500",
       "key": "text",
       "value": "cyan-500",
-      "start": 1677,
-      "end": 1690
+      "start": 1671,
+      "end": 1684
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -480,22 +480,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 1691,
-      "end": 1710
+      "start": 1685,
+      "end": 1704
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 1711,
-      "end": 1730
+      "start": 1705,
+      "end": 1724
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 1758,
-      "end": 1777
+      "start": 1752,
+      "end": 1771
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -527,29 +527,29 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 1800,
-      "end": 1937
+      "start": 1794,
+      "end": 1931
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 1960,
-      "end": 1979
+      "start": 1954,
+      "end": 1973
     },
     {
       "raw": "m=l-2",
       "key": "m",
       "value": "l-2",
-      "start": 2051,
-      "end": 2056
+      "start": 2045,
+      "end": 2050
     },
     {
       "raw": "font=\"bold\"",
       "key": "font",
       "value": "bold",
-      "start": 2124,
-      "end": 2135
+      "start": 2118,
+      "end": 2129
     },
     {
       "raw": "text=\"sm gray-900\"",
@@ -558,36 +558,36 @@ Tools / parse attributes / attr / 0: |-
         "sm",
         "gray-900"
       ],
-      "start": 2136,
-      "end": 2154
+      "start": 2130,
+      "end": 2148
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 2228,
-      "end": 2236
+      "start": 2222,
+      "end": 2230
     },
     {
       "raw": "items=\"start\"",
       "key": "items",
       "value": "start",
-      "start": 2237,
-      "end": 2250
+      "start": 2231,
+      "end": 2244
     },
     {
       "raw": "flex=\"~\"",
       "key": "flex",
       "value": "~",
-      "start": 2274,
-      "end": 2282
+      "start": 2268,
+      "end": 2276
     },
     {
       "raw": "items=\"center\"",
       "key": "items",
       "value": "center",
-      "start": 2283,
-      "end": 2297
+      "start": 2277,
+      "end": 2291
     },
     {
       "raw": "h=\"6 sm:7\"",
@@ -596,8 +596,8 @@ Tools / parse attributes / attr / 0: |-
         "6",
         "sm:7"
       ],
-      "start": 2298,
-      "end": 2308
+      "start": 2292,
+      "end": 2302
     },
     {
       "raw": "class=\"flex-shrink-0 h-5 w-5 text-cyan-500\"",
@@ -608,8 +608,8 @@ Tools / parse attributes / attr / 0: |-
         "w-5",
         "text-cyan-500"
       ],
-      "start": 2333,
-      "end": 2376
+      "start": 2327,
+      "end": 2370
     },
     {
       "raw": "viewBox=\"0 0 20 20\"",
@@ -620,22 +620,22 @@ Tools / parse attributes / attr / 0: |-
         "20",
         "20"
       ],
-      "start": 2377,
-      "end": 2396
+      "start": 2371,
+      "end": 2390
     },
     {
       "raw": "fill=\"currentColor\"",
       "key": "fill",
       "value": "currentColor",
-      "start": 2397,
-      "end": 2416
+      "start": 2391,
+      "end": 2410
     },
     {
       "raw": "fill-rule=\"evenodd\"",
       "key": "fill-rule",
       "value": "evenodd",
-      "start": 2444,
-      "end": 2463
+      "start": 2438,
+      "end": 2457
     },
     {
       "raw": "d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\"",
@@ -667,22 +667,22 @@ Tools / parse attributes / attr / 0: |-
         "001.414",
         "0l4-4z"
       ],
-      "start": 2486,
-      "end": 2623
+      "start": 2480,
+      "end": 2617
     },
     {
       "raw": "clip-rule=\"evenodd\"",
       "key": "clip-rule",
       "value": "evenodd",
-      "start": 2646,
-      "end": 2665
+      "start": 2640,
+      "end": 2659
     },
     {
       "raw": "m=\"l-2\"",
       "key": "m",
       "value": "l-2",
-      "start": 2737,
-      "end": 2744
+      "start": 2731,
+      "end": 2738
     },
     {
       "raw": "text=\"base sm:lg\"",
@@ -691,15 +691,15 @@ Tools / parse attributes / attr / 0: |-
         "base",
         "sm:lg"
       ],
-      "start": 2994,
-      "end": 3011
+      "start": 2988,
+      "end": 3005
     },
     {
       "raw": "p=\"t-6\"",
       "key": "p",
       "value": "t-6",
-      "start": 3012,
-      "end": 3019
+      "start": 3006,
+      "end": 3013
     },
     {
       "raw": "font=\"bold leading-6 sm:leading-7\"",
@@ -709,15 +709,15 @@ Tools / parse attributes / attr / 0: |-
         "leading-6",
         "sm:leading-7"
       ],
-      "start": 3020,
-      "end": 3054
+      "start": 3014,
+      "end": 3048
     },
     {
-      "raw": "href=\"https://tailwindcss.com/docs\"",
+      "raw": "href=\"https://windicss.org/utilities\"",
       "key": "href",
-      "value": "https://tailwindcss.com/docs",
-      "start": 3142,
-      "end": 3177
+      "value": "https://windicss.org/utilities",
+      "start": 3133,
+      "end": 3170
     },
     {
       "raw": "text=\"cyan-600 hover:cyan-700\"",
@@ -726,8 +726,8 @@ Tools / parse attributes / attr / 0: |-
         "cyan-600",
         "hover:cyan-700"
       ],
-      "start": 3178,
-      "end": 3208
+      "start": 3171,
+      "end": 3201
     }
   ]
 Tools / parse classes / class / 0: |-
@@ -774,88 +774,88 @@ Tools / parse classes / class / 0: |-
     },
     {
       "result": "list-disc space-y-2",
-      "start": 806,
-      "end": 825
+      "start": 803,
+      "end": 822
     },
     {
       "result": "flex items-start",
-      "start": 853,
-      "end": 869
+      "start": 850,
+      "end": 866
     },
     {
       "result": "h-6 flex items-center sm:h-7",
-      "start": 901,
-      "end": 929
+      "start": 898,
+      "end": 926
     },
     {
       "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
-      "start": 962,
-      "end": 997
+      "start": 959,
+      "end": 994
     },
     {
       "result": "ml-2",
-      "start": 1366,
-      "end": 1370
+      "start": 1363,
+      "end": 1367
     },
     {
       "result": "text-sm font-bold text-gray-900",
-      "start": 1439,
-      "end": 1470
+      "start": 1436,
+      "end": 1467
     },
     {
       "result": "flex items-start",
-      "start": 1569,
-      "end": 1585
+      "start": 1563,
+      "end": 1579
     },
     {
       "result": "h-6 flex items-center sm:h-7",
-      "start": 1617,
-      "end": 1645
+      "start": 1611,
+      "end": 1639
     },
     {
       "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
-      "start": 1678,
-      "end": 1713
+      "start": 1672,
+      "end": 1707
     },
     {
       "result": "ml-2",
-      "start": 2082,
-      "end": 2086
+      "start": 2076,
+      "end": 2080
     },
     {
       "result": "text-sm font-bold text-gray-900",
-      "start": 2162,
-      "end": 2193
+      "start": 2156,
+      "end": 2187
     },
     {
       "result": "flex items-start",
-      "start": 2275,
-      "end": 2291
+      "start": 2269,
+      "end": 2285
     },
     {
       "result": "h-6 flex items-center sm:h-7",
-      "start": 2323,
-      "end": 2351
+      "start": 2317,
+      "end": 2345
     },
     {
       "result": "flex-shrink-0 h-5 w-5 text-cyan-500",
-      "start": 2384,
-      "end": 2419
+      "start": 2378,
+      "end": 2413
     },
     {
       "result": "ml-2",
-      "start": 2787,
-      "end": 2791
+      "start": 2781,
+      "end": 2785
     },
     {
       "result": "pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7",
-      "start": 3048,
-      "end": 3106
+      "start": 3042,
+      "end": 3100
     },
     {
       "result": "text-cyan-600 hover:text-cyan-700",
-      "start": 3238,
-      "end": 3271
+      "start": 3231,
+      "end": 3264
     }
   ]
 Tools / parse tags / tag / 0: |-

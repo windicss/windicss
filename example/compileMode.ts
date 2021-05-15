@@ -13,7 +13,7 @@ const outputCSS: StyleSheet[] = [];
 let ignoredClass: string[] = [];
 let indexStart = 0;
 
-// Match tailwind ClassName then replace with new ClassName
+// Match windi ClassName then replace with new ClassName
 parser.parseClasses().forEach((p) => {
   outputHTML.push(html.substring(indexStart, p.start));
   const result = processor.compile(p.result, 'windi-', true); // Set third argument to false to hide comments;

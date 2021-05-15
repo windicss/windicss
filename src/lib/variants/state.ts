@@ -9,20 +9,20 @@ export function generateStates (
 ): { [key: string]: () => Style } {
   const states: { [key: string]: () => Style } = {
     // Interactive links/buttons
-    hover: () => new Style().pseudoClass('hover'), // Tailwind
-    focus: () => new Style().pseudoClass('focus'), // Tailwind
-    active: () => new Style().pseudoClass('active'), // Tailwind
-    visited: () => new Style().pseudoClass('visited'), // Tailwind
+    hover: () => new Style().pseudoClass('hover'),
+    focus: () => new Style().pseudoClass('focus'),
+    active: () => new Style().pseudoClass('active'),
+    visited: () => new Style().pseudoClass('visited'),
     link: () => new Style().pseudoClass('link'),
     target: () => new Style().pseudoClass('target'),
-    'focus-visible': () => new Style().pseudoClass('focus-visible'), // Tailwind
-    'focus-within': () => new Style().pseudoClass('focus-within'), // Tailwind
+    'focus-visible': () => new Style().pseudoClass('focus-visible'),
+    'focus-within': () => new Style().pseudoClass('focus-within'),
 
     // Form element states
-    checked: () => new Style().pseudoClass('checked'), // Tailwind
+    checked: () => new Style().pseudoClass('checked'),
     'not-checked': () => new Style().pseudoClass('not(:checked)'),
     default: () => new Style().pseudoClass('default'),
-    disabled: () => new Style().pseudoClass('disabled'), // Tailwind
+    disabled: () => new Style().pseudoClass('disabled'),
     enabled: () => new Style().pseudoClass('enabled'),
     indeterminate: () => new Style().pseudoClass('indeterminate'),
     invalid: () => new Style().pseudoClass('invalid'),
@@ -39,16 +39,16 @@ export function generateStates (
     'not-first-of-type': () => new Style().pseudoClass('not(:first-of-type)'),
     'last-of-type': () => new Style().pseudoClass('last-of-type'),
     'not-last-of-type': () => new Style().pseudoClass('not(:last-of-type)'),
-    first: () => new Style().pseudoClass('first-child'), // Tailwind
-    last: () => new Style().pseudoClass('last-child'), // Tailwind
+    first: () => new Style().pseudoClass('first-child'),
+    last: () => new Style().pseudoClass('last-child'),
     'not-first': () => new Style().pseudoClass('not(:first-child)'),
     'not-last': () => new Style().pseudoClass('not(:last-child)'),
     'only-child': () => new Style().pseudoClass('only-child'),
     'not-only-child': () => new Style().pseudoClass('not(:only-child)'),
     'only-of-type': () => new Style().pseudoClass('only-of-type'),
     'not-only-of-type': () => new Style().pseudoClass('not(:only-of-type)'),
-    even: () => new Style().pseudoClass('nth-child(even)'), // Tailwind
-    odd: () => new Style().pseudoClass('nth-child(odd)'), // Tailwind
+    even: () => new Style().pseudoClass('nth-child(even)'),
+    odd: () => new Style().pseudoClass('nth-child(odd)'),
     'even-of-type': () => new Style().pseudoClass('nth-of-type(even)'),
     'odd-of-type': () => new Style().pseudoClass('nth-of-type(odd)'),
     root: () => new Style().pseudoClass('root'),
@@ -75,17 +75,15 @@ export function generateStates (
     // Group states
     // You'll need to add className="group" to an ancestor to make these work
     // https://github.com/ben-rogerson/twin.macro/blob/master/docs/group.md
-    'group-hover': () => new Style().parent('.group:hover'), // tailwind
-    'group-focus': () => new Style().parent('.group:focus'), // tailwind
+    'group-hover': () => new Style().parent('.group:hover'),
+    'group-focus': () => new Style().parent('.group:focus'),
     'group-active': () => new Style().parent('.group:active'),
     'group-visited': () => new Style().parent('.group:visited'),
 
     // Motion control
     // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
-    'motion-safe': () =>
-      new Style().atRule('@media (prefers-reduced-motion: no-preference)'), // tailwind
-    'motion-reduce': () =>
-      new Style().atRule('@media (prefers-reduced-motion: reduce)'), // tailwind
+    'motion-safe': () => new Style().atRule('@media (prefers-reduced-motion: no-preference)'),
+    'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),
   };
   const orderedStates: typeof states = {};
   variantOrder.forEach((v) => {
