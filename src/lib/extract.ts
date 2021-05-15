@@ -41,7 +41,7 @@ export default function extract(
   const staticPlugins = { ...processor._plugin.utilities, ...processor._plugin.components, ...processor._plugin.shortcuts };
   if (className in staticPlugins) return deepCopy(staticPlugins[className]);
 
-  const utility = new Utility(className);
+  const utility = new Utility(className, processor._handler);
 
 
   // handle dynamic plugin utilities

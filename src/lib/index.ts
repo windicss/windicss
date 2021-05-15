@@ -3,7 +3,7 @@ import { negative, breakpoints } from '../utils/helpers';
 import { Keyframes, Container, Property, Style, StyleSheet } from '../utils/style';
 import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
-
+import { createHandler, HandlerCreator } from './utilities/handler';
 import extract, { generateStaticStyle } from './extract';
 import preflight from './preflight';
 import plugin from '../plugin/index';
@@ -43,6 +43,7 @@ import type { Utility } from './utilities/handler';
 
 type Cache = {
   html: string[];
+  attrs: string[];
   classes: string[];
   variants: string[];
   utilities: string[];
@@ -82,11 +83,12 @@ export class Processor {
   private _variants: ResolvedVariants = {};
   private _cache: Cache = {
     html: [],
+    attrs: [],
     classes: [],
     utilities: [],
     variants: [],
   };
-
+  public _handler: HandlerCreator;
   readonly _plugin: Plugin = {
     static: {},
     dynamic: {},
@@ -124,7 +126,11 @@ export class Processor {
   };
 
   constructor(config?: Config) {
-    this._config = this.loadConfig(config);
+    this._config = this.resolveConfig(config, baseConfig);
+    this._theme = this._config.theme;
+    this._handler = createHandler(this._config.handlers);
+    this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
+    this._config.alias && this.loadAlias(this._config.alias);
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
@@ -230,6 +236,7 @@ export class Processor {
   loadConfig(config?: Config): Config {
     this._config = this.resolveConfig(config, baseConfig);
     this._theme = this._config.theme;
+    this._handler = createHandler(this._config.handlers);
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
     this._config.alias && this.loadAlias(this._config.alias);
     return this._config;
@@ -590,7 +597,7 @@ export class Processor {
     };
   }
 
-  attributify(attrs: { [ key:string ]: string | string[] }): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
+  attributify(attrs: { [ key:string ]: string | string[] }, ignoreProcessed = false): { success: string[]; ignored: string[]; styleSheet: StyleSheet } {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
@@ -598,8 +605,13 @@ export class Processor {
       key: string,
       value: string,
       equal = false,
+      ignoreProcessed = false,
     ) => {
       const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
+      if (ignoreProcessed && this._cache.attrs.includes(buildSelector)) {
+        ignored.push(buildSelector);
+        return;
+      }
       const importantValue = value.startsWith('!');
       if (importantValue) value = value.slice(1,);
       const id = key.match(/\w+$/)?.[0] ?? '';
@@ -825,6 +837,7 @@ export class Processor {
         }
         const wrapped = this.wrapWithVariants(variants, style);
         if (wrapped) {
+          ignoreProcessed && this._cache.attrs.push(buildSelector);
           success.push(buildSelector);
           styleSheet.add(wrapped);
         } else {
@@ -837,9 +850,9 @@ export class Processor {
 
     for (const [key, value] of Object.entries(attrs)) {
       if (Array.isArray(value)) {
-        value.forEach(i => _gStyle(key, i));
+        value.forEach(i => _gStyle(key, i, false, ignoreProcessed));
       } else {
-        _gStyle(key, value, true);
+        _gStyle(key, value, true, ignoreProcessed);
       }
     }
 

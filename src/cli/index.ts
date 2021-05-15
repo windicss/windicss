@@ -2,7 +2,7 @@ import arg from 'arg';
 import { deepCopy } from '../utils/tools';
 import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
-import { readFileSync, writeFileSync, watch, unwatchFile, existsSync } from 'fs';
+import { readFileSync, writeFile, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser, CSSParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
@@ -19,9 +19,9 @@ By default, it will use interpretation mode to generate a single css file.
 
 Usage:
   windicss [filenames]
-  windicss [filenames] -c -m -w
-  windicss [filenames] -c -s -m -w
-  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-w] [-p <prefix:string>] [-o <path:string>] [--args arguments]
+  windicss [filenames] -c -m -d
+  windicss [filenames] -c -s -m -d
+  windicss [filenames] [-c | -i] [-a] [-b | -s] [-m] [-d] [-p <prefix:string>] [-o <path:string>] [--args arguments]
 
 Options:
   -h, --help            Print this help message and exit.
@@ -35,8 +35,8 @@ Options:
   -b, --combine         Combine all css into one single file. This is the default behavior.
   -s, --separate        Generate a separate css file for each input file.
 
+  -d, --dev             Enable hot reload and watch mode.
   -m, --minify          Generate minimized css file.
-  -w, --watch           Enable watch mode.
   -z, --fuzzy           Enable fuzzy match, only works in interpration mode.
   -p, --prefix PREFIX   Set the css class name prefix, only valid in compilation mode. The default prefix is 'windi-'.
   -o, --output PATH     Set output css file path.
@@ -56,7 +56,7 @@ const args = arg({
   '--preflight': Boolean,
   '--combine': Boolean,
   '--separate': Boolean,
-  '--watch': Boolean,
+  '--dev': Boolean,
   '--minify': Boolean,
   '--fuzzy': Boolean,
   '--style': Boolean,
@@ -74,7 +74,7 @@ const args = arg({
   '-t': '--preflight',
   '-b': '--combine',
   '-s': '--separate',
-  '-w': '--watch',
+  '-d': '--dev',
   '-m': '--minify',
   '-p': '--prefix',
   '-o': '--output',
@@ -118,24 +118,32 @@ function compile(files: string[]) {
     // Match ClassName then replace with new ClassName
     parser.parseClasses().forEach((p) => {
       outputHTML.push(html.substring(indexStart, p.start));
-      const utility = processor.compile(p.result, prefix, true); // Set third argument to false to hide comments;
+      const utility = processor.compile(p.result, prefix, true, args['--dev']); // Set third argument to false to hide comments;
       outputStyle.push(utility.styleSheet);
       outputHTML.push([utility.className, ...utility.ignored].join(' '));
       indexStart = p.end;
     });
     outputHTML.push(html.substring(indexStart));
-    styleSheets[file] = (
+    const added = (
       outputStyle.reduce(
         (previousValue: StyleSheet, currentValue: StyleSheet) =>
           previousValue.extend(currentValue),
         new StyleSheet()
       )
     );
+    styleSheets[file] = args['--dev'] ? (styleSheets[file]? styleSheets[file].extend(added) : added) : added;
 
     const outputFile = file.replace(/(?=\.\w+$)/, '.windi');
-    writeFileSync(outputFile, outputHTML.join(''));
+    writeFile(outputFile, outputHTML.join(''), () => null);
     Console.log(`${file} -> ${outputFile}`);
-    if (args['--preflight']) preflights[file] = processor.preflight(parser.html);
+    if (args['--preflight']) {
+      if (args['--dev']) {
+        const preflight = processor.preflight(html, true, true, true, true);
+        preflights[file] = preflights[file] ? preflights[file].extend(preflight) : preflight;
+      } else {
+        preflights[file] = processor.preflight(html);
+      }
+    }
   });
 }
 
@@ -161,10 +169,18 @@ function interpret(files: string[]) {
         }
       }
     }
-    const utility = processor.interpret(classes.join(' '));
-    styleSheets[file] = utility.styleSheet;
-
-    if (args['--preflight']) preflights[file] = processor.preflight(content);
+    if (args['--dev']) {
+      const utility = processor.interpret(classes.join(' '), true);
+      styleSheets[file] = styleSheets[file] ? styleSheets[file].extend(utility.styleSheet) : utility.styleSheet;
+      if (args['--preflight']) {
+        const preflight = processor.preflight(content, true, true, true, true);
+        preflights[file] = preflights[file] ? preflights[file].extend(preflight) : preflight;
+      }
+    } else {
+      const utility = processor.interpret(classes.join(' '));
+      styleSheets[file] = utility.styleSheet;
+      if (args['--preflight']) preflights[file] = processor.preflight(content);
+    }
   });
 }
 
@@ -184,8 +200,13 @@ function attributify(files: string[]) {
         }
         return Object.assign(a, { [b.key]: b.value });
       }, {});
-    const utility = processor.attributify(attrs);
-    styleSheets[file] = utility.styleSheet;
+    if (args['--dev']) {
+      const utility = processor.attributify(attrs, true);
+      styleSheets[file] = styleSheets[file] ? styleSheets[file].extend(utility.styleSheet) : utility.styleSheet;
+    } else {
+      const utility = processor.attributify(attrs);
+      styleSheets[file] = utility.styleSheet;
+    }
   });
 }
 
@@ -212,7 +233,7 @@ function build(files: string[], update = false) {
   if (args['--separate']) {
     for (const [file, sheet] of Object.entries(styleSheets)) {
       const outfile = file.replace(/\.\w+$/, '.windi.css');
-      writeFileSync(outfile, (args['--preflight'] ? deepCopy(sheet).extend(preflights[file], false) : sheet).build(args['--minify']));
+      writeFile(outfile, (args['--preflight'] ? deepCopy(sheet).extend(preflights[file], false) : sheet).build(args['--minify']), () => null);
       Console.log(`${file} -> ${outfile}`);
     }
   } else {
@@ -235,12 +256,13 @@ function build(files: string[], update = false) {
         .combine()
         .extend(outputStyle);
     const filePath = args['--output'] ?? 'windi.css';
-    writeFileSync(filePath, outputStyle.build(args['--minify']));
+    writeFile(filePath, outputStyle.build(args['--minify']), () => null);
     if (!update) {
       Console.log('Matched files:', files);
       Console.log('Output file:', resolve(filePath));
     }
   }
+
 }
 
 let matchFiles = globArray(args._);
@@ -289,7 +311,7 @@ function watchBuild(file: string) {
   });
 }
 
-if (args['--watch']) {
+if (args['--dev']) {
   for (const file of matchFiles) {
     watchBuild(file);
   }
