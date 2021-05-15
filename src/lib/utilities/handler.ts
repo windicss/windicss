@@ -12,7 +12,8 @@ import {
   negateValue,
   flatColors,
 } from '../../utils/tools';
-import type { colorCallback, colorObject, Handlers } from 'src/interfaces';
+
+import type { colorCallback, colorObject, Handlers } from '../../interfaces';
 
 export type Handler = {
   utility: Utility
