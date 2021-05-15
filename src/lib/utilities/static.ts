@@ -13,15 +13,7 @@ const fontVariants = {
 };
 
 export const staticUtilities: StaticUtility = {
-  /**
-   * ===========================================
-   * Layout
-   */
-
-  // https://tailwindcss.com/docs/container
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/box-decoration-break
+  // https://windicss.org/utilities/behaviors.html#box-decoration-break
   'decoration-slice': {
     'utility': {
       '-webkit-box-decoration-break': 'slice',
@@ -44,7 +36,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/box-sizing
+  // https://windicss.org/utilities/sizing.html#box-sizing
   'box-border': {
     'utility': {
       '-webkit-box-sizing': 'border-box',
@@ -66,7 +58,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/display
+  // https://windicss.org/utilities/display.html
   'block': {
     'utility': {
       'display': 'block',
@@ -94,6 +86,8 @@ export const staticUtilities: StaticUtility = {
       'order': 3,
     },
   },
+
+  // https://windicss.org/utilities/flexbox.html
   'flex': {
     'utility': {
       'display': [
@@ -122,6 +116,8 @@ export const staticUtilities: StaticUtility = {
       'order': 5,
     },
   },
+
+  // https://windicss.org/utilities/tables.html
   'table': {
     'utility': {
       'display': 'table',
@@ -221,6 +217,8 @@ export const staticUtilities: StaticUtility = {
       'order': 16,
     },
   },
+
+  // https://windicss.org/utilities/grid.html
   'grid': {
     'utility': {
       'display': [
@@ -273,7 +271,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/float
+  // https://windicss.org/utilities/positioning.html#floats
   'float-right': {
     'utility': {
       'float': 'right',
@@ -302,7 +300,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/clear
+  // https://windicss.org/utilities/positioning.html#clear
   'clear-left': {
     'utility': {
       'clear': 'left',
@@ -340,7 +338,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/isolation
+  // https://windicss.org/utilities/positioning.html#isolation
   'isolate': {
     'utility': {
       'isolation': 'isolate',
@@ -360,7 +358,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/object-fit
+  // https://windicss.org/utilities/positioning.html#object-fit
   'object-contain': {
     'utility': {
       '-o-object-fit': 'contain',
@@ -412,10 +410,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/object-position
-  // dynamic
-
-  // https://tailwindcss.com/docs/overflow
+  // https://windicss.org/utilities/behaviors.html#overflow
   'overflow-auto': {
     'utility': {
       'overflow': 'auto',
@@ -525,7 +520,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/overscroll-behavior
+  // https://windicss.org/utilities/behaviors.html#overscroll-behavior
   'overscroll-auto': {
     'utility': {
       'overscroll-behavior': 'auto',
@@ -611,7 +606,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/position
+  // https://windicss.org/utilities/positioning.html#position
   'static': {
     'utility': {
       'position': 'static',
@@ -661,10 +656,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/top-right-bottom-left
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/visibility
+  // https://windicss.org/utilities/display.html#visibility
   'visible': {
     'utility': {
       'visibility': 'visible',
@@ -684,6 +676,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/display.html#backface-visibility
   'backface-visible': {
     'utility': {
       '-webkit-backface-visibility': 'visible',
@@ -694,7 +687,6 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-
   'backface-hidden': {
     'utility': {
       '-webkit-backface-visibility': 'hidden',
@@ -706,15 +698,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/z-index
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Flexbox
-   */
-
-  // https://tailwindcss.com/docs/flex-direction
+  // https://windicss.org/utilities/flexbox.html#flex-direction
   'flex-row': {
     'utility': {
       '-webkit-box-orient': 'horizontal',
@@ -768,7 +752,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/flex-wrap
+  // https://windicss.org/utilities/flexbox.html#flex-wrap
   'flex-wrap': {
     'utility': {
       '-ms-flex-wrap': 'wrap',
@@ -803,19 +787,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/flex
-  // https://tailwindcss.com/docs/flex-grow
-  // https://tailwindcss.com/docs/flex-shrink
-  // https://tailwindcss.com/docs/order
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Grid
-   */
-
-  // https://tailwindcss.com/docs/grid-template-columns
-  // https://tailwindcss.com/docs/grid-column
+  // https://windicss.org/utilities/grid.html#grid-column-span
   'col-auto': {
     'utility': {
       'grid-column': 'auto',
@@ -826,8 +798,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/grid-template-rows
-  // https://tailwindcss.com/docs/grid-row
+  // https://windicss.org/utilities/grid.html#grid-row-span
   'row-auto': {
     'utility': {
       'grid-row': 'auto',
@@ -838,7 +809,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/grid-auto-flow
+  // https://windicss.org/utilities/grid.html#grid-auto-flow
   'grid-flow-row': {
     'utility': {
       'grid-auto-flow': 'row',
@@ -876,12 +847,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/grid-auto-columns
-  // https://tailwindcss.com/docs/grid-auto-rows
-  // https://tailwindcss.com/docs/gap
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/justify-content
+  // https://windicss.org/utilities/positioning.html#justify-content
   'justify-start': {
     'utility': {
       '-webkit-box-pack': 'start',
@@ -954,7 +920,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/justify-items
+  // https://windicss.org/utilities/positioning.html#justify-items
   'justify-items-auto': {
     'utility': {
       'justify-items': 'auto',
@@ -1001,7 +967,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/justify-self
+  // https://windicss.org/utilities/positioning.html#justify-self
   'justify-self-auto': {
     'utility': {
       '-ms-grid-column-align': 'auto',
@@ -1053,7 +1019,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/align-content
+  // https://windicss.org/utilities/positioning.html#align-content
   'content-center': {
     'utility': {
       '-ms-flex-line-pack': 'center',
@@ -1121,7 +1087,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/align-items
+  // https://windicss.org/utilities/positioning.html#align-items
   'items-start': {
     'utility': {
       '-webkit-box-align': 'start',
@@ -1183,7 +1149,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/align-self
+  // https://windicss.org/utilities/positioning.html#align-self
   'self-auto': {
     'utility': {
       '-ms-flex-item-align': 'auto',
@@ -1243,7 +1209,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/place-content
+  // https://windicss.org/utilities/positioning.html#place-content
   'place-content-center': {
     'utility': {
       'place-content': 'center',
@@ -1308,7 +1274,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/place-items
+  // https://windicss.org/utilities/positioning.html#place-items
   'place-items-auto': {
     'utility': {
       'place-items': 'auto',
@@ -1354,6 +1320,8 @@ export const staticUtilities: StaticUtility = {
       'order': 5,
     },
   },
+
+  // https://windicss.org/utilities/positioning.html#place-self
   'place-self-auto': {
     'utility': {
       '-ms-grid-row-align': 'auto',
@@ -1410,39 +1378,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  /**
-   * ===========================================
-   * Spacing
-   */
-
-  // https://tailwindcss.com/docs/padding
-  // https://tailwindcss.com/docs/margin
-  // https://tailwindcss.com/docs/space
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Sizing
-   */
-
-  // https://tailwindcss.com/docs/width
-  // https://tailwindcss.com/docs/min-width
-  // https://tailwindcss.com/docs/max-width
-  // https://tailwindcss.com/docs/height
-  // https://tailwindcss.com/docs/min-height
-  // https://tailwindcss.com/docs/max-height
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Typography
-   */
-
-  // https://tailwindcss.com/docs/font-family
-  // https://tailwindcss.com/docs/font-size
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/font-smoothing
+  // https://windicss.org/utilities/typography.html#font-smoothing
   'antialiased': {
     'utility': {
       '-webkit-font-smoothing': 'antialiased',
@@ -1464,7 +1400,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/font-style
+  // https://windicss.org/utilities/typography.html#font-style
   'italic': {
     'utility': {
       'font-style': 'italic',
@@ -1484,10 +1420,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/font-weight
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/font-variant-numeric
+  // https://windicss.org/utilities/typography.html#font-variant-numeric
   'normal-nums': {
     'utility': {
       'font-variant-numeric': 'normal',
@@ -1578,12 +1511,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/letter-spacing
-  // https://tailwindcss.com/docs/line-height
-  // https://tailwindcss.com/docs/list-style-type
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/list-style-position
+  // https://windicss.org/utilities/behaviors.html#list-style-position
   'list-inside': {
     'utility': {
       'list-style-position': 'inside',
@@ -1603,11 +1531,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/placeholder-color
-  // https://tailwindcss.com/docs/placeholder-opacity
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/text-align
+  // https://windicss.org/utilities/typography.html#text-alignment
   'text-left': {
     'utility': {
       'text-align': 'left',
@@ -1645,11 +1569,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/text-color
-  // https://tailwindcss.com/docs/text-opacity
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/text-decoration
+  // https://windicss.org/utilities/typography.html#text-decoration
   'underline': {
     'utility': {
       '-webkit-text-decoration-line': 'underline',
@@ -1679,7 +1599,8 @@ export const staticUtilities: StaticUtility = {
       'order': 3,
     },
   },
-  // text decoration style
+
+  // http://localhost:3001/utilities/typography.html#text-decoration-style
   'underline-solid': {
     'utility': {
       '-webkit-text-decoration-style': 'solid',
@@ -1721,7 +1642,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/text-transform
+  // https://windicss.org/utilities/typography.html#text-transform
   'uppercase': {
     'utility': {
       'text-transform': 'uppercase',
@@ -1759,7 +1680,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/text-overflow
+  // https://windicss.org/utilities/typography.html#text-overflow
   'truncate': {
     'utility': {
       'overflow': 'hidden',
@@ -1793,7 +1714,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/vertical-align
+  // https://windicss.org/utilities/typography.html#vertical-alignment
   'align-baseline': {
     'utility': {
       'vertical-align': 'baseline',
@@ -1849,7 +1770,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/whitespace
+  // https://windicss.org/utilities/typography.html#whitespace
   'whitespace-normal': {
     'utility': {
       'white-space': 'normal',
@@ -1896,7 +1817,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/word-break
+  // https://windicss.org/utilities/typography.html#word-break
   'break-normal': {
     'utility': {
       'word-break': 'normal',
@@ -1926,7 +1847,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // writing mode by windi
+  // https://windicss.org/utilities/typography.html#writing-mode
   'write-normal': {
     'utility': {
       '-webkit-writing-mode': 'horizontal-tb',
@@ -1963,7 +1884,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // text arientation
+  // https://windicss.org/utilities/typography.html#writing-orientation
   'write-orient-mixed': {
     'utility': {
       '-webkit-text-orientation': 'mixed',
@@ -1997,7 +1918,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // hyphens by windi
+  // https://windicss.org/utilities/typography.html#hyphens
   'hyphens-none': {
     'utility': {
       '-webkit-hyphens': 'none',
@@ -2031,12 +1952,8 @@ export const staticUtilities: StaticUtility = {
       'order': 3,
     },
   },
-  /**
-   * ===========================================
-   * Backgrounds
-   */
 
-  // https://tailwindcss.com/docs/background-attachment
+  // https://windicss.org/utilities/backgrounds.html#background-attachment
   'bg-fixed': {
     'utility': {
       'background-attachment': 'fixed',
@@ -2065,7 +1982,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/background-clip
+  // https://windicss.org/utilities/backgrounds.html#background-clip
   'bg-clip-border': {
     'utility': {
       '-webkit-background-clip': 'border-box',
@@ -2107,12 +2024,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/background-color
-  // https://tailwindcss.com/docs/background-opacity
-  // https://tailwindcss.com/docs/background-position
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/background-repeat
+  // https://windicss.org/utilities/backgrounds.html#background-repeat
   'bg-repeat': {
     'utility': {
       'background-repeat': 'repeat',
@@ -2168,7 +2080,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // background origin
+  // https://windicss.org/utilities/backgrounds.html#background-origin
   'bg-origin-border': {
     'utility': {
       'background-origin': 'border-box',
@@ -2197,26 +2109,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/background-image
-  // https://tailwindcss.com/docs/gradient-color-stops
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Borders
-   */
-
-  // https://tailwindcss.com/docs/border-radius
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/border-width
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/border-color
-  // https://tailwindcss.com/docs/border-opacity
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/border-style
+  // https://windicss.org/utilities/borders.html#border-style
   'border-solid': {
     'utility': {
       'border-style': 'solid',
@@ -2263,17 +2156,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/divide-width
-  // https://tailwindcss.com/docs/divide-color
-  // https://tailwindcss.com/docs/divide-opacity
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/ring-width
-  // https://tailwindcss.com/docs/ring-color
-  // https://tailwindcss.com/docs/ring-opacity
-  // https://tailwindcss.com/docs/ring-offset-width
-  // https://tailwindcss.com/docs/ring-offset-color
-  // dynamic
+  // https://windicss.org/utilities/behaviors.html#image-rendering
   'image-render-auto': {
     'utility': {
       'image-rendering': 'auto',
@@ -2303,15 +2186,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  /**
-   * ===========================================
-   * Effects
-   */
-
-  // https://tailwindcss.com/docs/box-shadow/
-  // https://tailwindcss.com/docs/opacity
-  // See dynamic.ts
-  // https://tailwindcss.com/docs/mix-blend-mode
+  // https://windicss.org/utilities/effects.html#mix-blend-mode
   'mix-blend-normal': {
     'utility': {
       'mix-blend-mode': 'normal',
@@ -2456,7 +2331,7 @@ export const staticUtilities: StaticUtility = {
       'order': 16,
     },
   },
-  // https://tailwindcss.com/docs/background-blend-mode
+  // https://windicss.org/utilities/backgrounds.html#background-blend-mode
   'bg-blend-normal': {
     'utility': {
       'background-blend-mode': 'normal',
@@ -2602,6 +2477,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/filters.html#filter
   'filter': {
     'utility': {
       '--tw-blur': 'var(--tw-empty,/*!*/ /*!*/)',
@@ -2633,6 +2509,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/filters.html#backdrop-filter
   'backdrop-filter': {
     'utility': {
       '--tw-backdrop-blur': 'var(--tw-empty,/*!*/ /*!*/)',
@@ -2664,12 +2541,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  /**
-   * ===========================================
-   * Tables
-   */
-
-  // https://tailwindcss.com/docs/border-collapse
+  // https://windicss.org/utilities/tables.html#table-border-collapse
   'border-collapse': {
     'utility': {
       'border-collapse': 'collapse',
@@ -2689,6 +2561,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/tables.html#table-caption-side
   'caption-top': {
     'utility': {
       'caption-side': 'top',
@@ -2709,6 +2582,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/tables.html#table-empty-cells
   'empty-cells-visible': {
     'utility': {
       'empty-cells': 'show',
@@ -2729,7 +2603,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/table-layout
+  // https://windicss.org/utilities/tables.html#table-layout
   'table-auto': {
     'utility': {
       'table-layout': 'auto',
@@ -2749,21 +2623,6 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  /**
-   * ===========================================
-   * Transitions
-   */
-
-  // https://tailwindcss.com/docs/transition-property
-  // https://tailwindcss.com/docs/transition-duration
-  // https://tailwindcss.com/docs/transition-delay
-  // https://tailwindcss.com/docs/transition-timing-function
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Transforms
-   */
   // https://tailwindcss.com/docs/transform
   'transform': {
     'utility': {
@@ -2823,6 +2682,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/transforms.html#transform-type
   'preserve-flat': {
     'utility': {
       '-webkit-transform-style': 'flat',
@@ -2845,20 +2705,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/transform-origin
-
-  // https://tailwindcss.com/docs/scale
-  // https://tailwindcss.com/docs/rotate
-  // https://tailwindcss.com/docs/translate
-  // https://tailwindcss.com/docs/skew
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Interactivity
-   */
-
-  // https://tailwindcss.com/docs/appearance
+  // https://windicss.org/utilities/behaviors.html#appearance
   'appearance-none': {
     'utility': {
       '-webkit-appearance': 'none',
@@ -2871,11 +2718,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/cursor
-  // https://tailwindcss.com/docs/outline
-  // See dynamic.ts
-
-  // https://tailwindcss.com/docs/pointer-events
+  // https://windicss.org/utilities/behaviors.html#pointer-events
   'pointer-events-none': {
     'utility': {
       'pointer-events': 'none',
@@ -2895,7 +2738,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/resize
+  // https://windicss.org/utilities/behaviors.html#resize
   'resize-none': {
     'utility': {
       'resize': 'none',
@@ -2933,7 +2776,7 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  // https://tailwindcss.com/docs/user-select
+  // https://windicss.org/utilities/behaviors.html#user-select
   'select-none': {
     'utility': {
       '-webkit-user-select': 'none',
@@ -2983,14 +2826,8 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
-  /**
-   * ===========================================
-   * Svg
-   */
-
-  // https://tailwindcss.com/docs/fill
-  // https://tailwindcss.com/docs/stroke
-  // https://tailwindcss.com/docs/stroke-width
+  // https://windicss.org/utilities/svg.html#fill-color
+  // https://windicss.org/utilities/svg.html#stroke-color
   'fill-current': {
     'utility': {
       'fill': 'currentColor',
@@ -3009,6 +2846,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
+  // https://windicss.org/utilities/svg.html#stroke-linecap
   'stroke-cap-auto': {
     'utility': {
       'stroke-linecap': 'butt',
@@ -3036,6 +2874,7 @@ export const staticUtilities: StaticUtility = {
       'order': 4,
     },
   },
+  // https://windicss.org/utilities/svg.html#stroke-linejoin
   'stroke-join-auto': {
     'utility': {
       'stroke-linejoin': 'miter',
@@ -3081,14 +2920,7 @@ export const staticUtilities: StaticUtility = {
       'order': 9,
     },
   },
-  // See dynamic.ts
-
-  /**
-   * ===========================================
-   * Accessibility
-   */
-
-  // https://tailwindcss.com/docs/screen-readers
+  // https://windicss.org/utilities/behaviors.html#screen-readers-access
   'sr-only': {
     'utility': {
       'position': 'absolute',
