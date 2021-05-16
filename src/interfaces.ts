@@ -208,8 +208,8 @@ export interface BaseTheme {
 
   // contributed by extensions
   aspectRatio: ThemeType
-  filter: ThemeType,
-  backdropFilter: ThemeType,
+  filter: ThemeType
+  backdropFilter: ThemeType
   lineClamp: ThemeType
   snapMargin: ThemeType
   snapPadding:ThemeType
@@ -241,6 +241,11 @@ export type Handlers = {
   variable?: boolean
   negative?: boolean
 }
+
+export type StyleArrayObject = { [key: string]: Style[] }
+export type ResolvedVariants = { [key: string]: () => Style }
+export type VariantTypes = 'screen' | 'theme' | 'state'
+export type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
 
 export interface ExtractorResultDetailed {
   attributes?: {
@@ -485,4 +490,47 @@ export interface Element {
   func?: string;
   type: 'group' | 'func' | 'utility' | 'alias';
   important: boolean;
+}
+
+export interface Validata {
+  className: string;
+  raw: string;
+  start: number;
+  end: number;
+  variants: string[];
+  content?: string | Element[] | undefined;
+  func?: string | undefined;
+  type: 'group' | 'func' | 'utility' | 'alias';
+  important: boolean;
+  parent: Element | undefined;
+}
+
+export interface ProcessorCache {
+  html: string[];
+  attrs: string[];
+  classes: string[];
+  variants: string[];
+  utilities: string[];
+}
+
+export interface PluginCache {
+  core?: { [key:string]:boolean };
+  static: StyleArrayObject; // utilities that don't need dynamically generated
+  dynamic: { [key: string]: ((utility: Utility) => Output)};
+  utilities: StyleArrayObject;
+  components: StyleArrayObject;
+  preflights: StyleArrayObject;
+  shortcuts: StyleArrayObject;
+  alias: { [key: string]: Element[] };
+}
+
+export interface VariantUtils {
+  modifySelectors: (modifier: ({ className }: {
+      className: string;
+  }) => string) => Style;
+  atRule: (name: string) => Style;
+  pseudoClass: (name: string) => Style;
+  pseudoElement: (name: string) => Style;
+  parent: (name: string) => Style;
+  child: (name: string) => Style;
 }

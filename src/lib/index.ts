@@ -26,7 +26,6 @@ import type {
   ConfigUtil,
   Theme,
   DefaultTheme,
-  Output,
   Element,
   Shortcut,
   PluginUtils,
@@ -36,66 +35,25 @@ import type {
   DeepNestObject,
   UtilityGenerator,
   VariantGenerator,
+  ProcessorCache,
   ThemeType,
   NestObject,
+  Validata,
+  StyleArrayObject,
+  PluginCache,
+  ResolvedVariants,
+  VariantTypes,
+  AddPluginType,
+  VariantUtils,
 } from '../interfaces';
 
 import type { Utility } from './utilities/handler';
-
-type Validata = {
-  parent: Element | undefined;
-  raw: string;
-  start: number;
-  end: number;
-  variants: string[];
-  content?: string | Element[] | undefined;
-  func?: string | undefined;
-  type: 'group' | 'func' | 'utility' | 'alias';
-  important: boolean;
-  className: string;
-}
-
-type Cache = {
-  html: string[];
-  attrs: string[];
-  classes: string[];
-  variants: string[];
-  utilities: string[];
-}
-type ResolvedVariants = { [key: string]: () => Style }
-type VariantTypes = 'screen' | 'theme' | 'state'
-
-type StyleArrayObject = { [key: string]: Style[] }
-
-interface Plugin {
-  core?: { [key:string]:boolean };
-  static: StyleArrayObject; // utilities that don't need dynamically generated
-  dynamic: { [key: string]: ((utility: Utility) => Output)};
-  utilities: StyleArrayObject;
-  components: StyleArrayObject;
-  preflights: StyleArrayObject;
-  shortcuts: StyleArrayObject;
-  alias: { [key: string]: Element[] };
-}
-
-type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
-
-type VariantUtils = {
-  modifySelectors: (modifier: ({ className }: {
-      className: string;
-  }) => string) => Style;
-  atRule: (name: string) => Style;
-  pseudoClass: (name: string) => Style;
-  pseudoElement: (name: string) => Style;
-  parent: (name: string) => Style;
-  child: (name: string) => Style;
-}
 
 export class Processor {
   private _config: Config;
   private _theme: Config['theme'];
   private _variants: ResolvedVariants = {};
-  private _cache: Cache = {
+  private _cache: ProcessorCache = {
     html: [],
     attrs: [],
     classes: [],
@@ -103,7 +61,7 @@ export class Processor {
     variants: [],
   };
   public _handler: HandlerCreator;
-  readonly _plugin: Plugin = {
+  readonly _plugin: PluginCache = {
     static: {},
     dynamic: {},
     utilities: {},
@@ -234,7 +192,7 @@ export class Processor {
     });
   }
 
-  private _addPluginCache(type: AddPluginType, key: string, styles: Style | Style[]) {
+  private _addPluginProcessorCache(type: AddPluginType, key: string, styles: Style | Style[]) {
     styles = toArray(styles);
     this._plugin[type][key] = key in this._plugin[type]
       ? [...this._plugin[type][key], ...styles]
@@ -1097,19 +1055,19 @@ export class Processor {
         styles.forEach(style => {
           if (style.selector) className = guessClassName(style.selector);
           if (Array.isArray(className)) {
-            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('utilities', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
+            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginProcessorCache('utilities', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
             const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-            if (base) this._addPluginCache('static', base, style.clone(base));
+            if (base) this._addPluginProcessorCache('static', base, style.clone(base));
           } else {
-            this._addPluginCache(className.isClass? 'utilities' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
+            this._addPluginProcessorCache(className.isClass? 'utilities' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
           }
         });
       } else if (Array.isArray(className)) {
-        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('utilities', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
+        className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginProcessorCache('utilities', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
         const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-        if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
+        if (base) this._addPluginProcessorCache('static', base, styles.map(i => i.clone(base)));
       } else {
-        this._addPluginCache(className.isClass? 'utilities': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
+        this._addPluginProcessorCache(className.isClass? 'utilities': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
       }
       output = [...output, ...styles];
     }
@@ -1164,25 +1122,25 @@ export class Processor {
         styles.forEach(style => {
           if (style.selector) className = guessClassName(style.selector);
           if (Array.isArray(className)) {
-            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
+            className.filter(i => i.isClass).forEach(({ selector, pseudo }) => this._addPluginProcessorCache('components', selector, pseudo? style.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo) : style.clone()));
             const base = className.filter(i => !i.isClass).map(i => i.selector).join(', ');
-            if (base) this._addPluginCache('static', base, style.clone(base));
+            if (base) this._addPluginProcessorCache('static', base, style.clone(base));
           } else {
-            this._addPluginCache(className.isClass? 'components' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
+            this._addPluginProcessorCache(className.isClass? 'components' : 'static', className.selector, className.pseudo? style.clone('.' + cssEscape(className.selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo) : style.clone());
           }
         });
       } else if (Array.isArray(className)) {
         // one of the selector are not class, treat the entire as static to avoid duplication
         if (className.some(i => !i.isClass)) {
           const base = className.map(i => i.selector).join(', ');
-          if (base) this._addPluginCache('static', base, styles.map(i => i.clone(base)));
+          if (base) this._addPluginProcessorCache('static', base, styles.map(i => i.clone(base)));
         }
         // class
         else {
-          className.forEach(({ selector, pseudo }) => this._addPluginCache('components', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
+          className.forEach(({ selector, pseudo }) => this._addPluginProcessorCache('components', selector, pseudo ? styles.map(i => i.clone('.' + cssEscape(selector)).wrapSelector(selector => selector + pseudo)): deepCopy(styles)));
         }
       } else {
-        this._addPluginCache(className.isClass? 'components': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
+        this._addPluginProcessorCache(className.isClass? 'components': 'static', className.selector, className.pseudo ? styles.map(style => style.clone('.' + cssEscape((className as { selector: string }).selector)).wrapSelector(selector => selector + (className as { pseudo: string }).pseudo)) : styles);
       }
       output = [...output, ...styles];
     }
@@ -1194,7 +1152,7 @@ export class Processor {
     for (const [key, value] of Object.entries(baseStyles)) {
       const styles = Style.generate(key, value).map(i => i.updateMeta('base', 'plugin', 10));
       this._replaceStyleVariants(styles);
-      this._addPluginCache('preflights', key, styles);
+      this._addPluginProcessorCache('preflights', key, styles);
       output = [...output, ...styles];
     }
     return output;
