@@ -5,6 +5,7 @@ import { resolveVariants } from './variants';
 import { staticUtilities, dynamicUtilities } from './utilities';
 import { createHandler, HandlerCreator } from './utilities/handler';
 import extract, { generateStaticStyle } from './extract';
+import test from './test';
 import preflight from './preflight';
 import plugin from '../plugin/index';
 import { baseConfig } from '../config';
@@ -40,6 +41,19 @@ import type {
 } from '../interfaces';
 
 import type { Utility } from './utilities/handler';
+
+type Validata = {
+  parent: Element | undefined;
+  raw: string;
+  start: number;
+  end: number;
+  variants: string[];
+  content?: string | Element[] | undefined;
+  func?: string | undefined;
+  type: 'group' | 'func' | 'utility' | 'alias';
+  important: boolean;
+  className: string;
+}
 
 type Cache = {
   html: string[];
@@ -336,6 +350,10 @@ export class Processor {
     return extract(this, className, addComment, prefix);
   }
 
+  test(className: string, prefix?: string): boolean {
+    return test(this, className, prefix);
+  }
+
   preflight(
     html?: string,
     includeBase = true,
@@ -470,6 +488,100 @@ export class Processor {
       success,
       ignored,
       styleSheet: styleSheet.sort(),
+    };
+  }
+
+  validate(classNames: string): { success: Validata[]; ignored: Validata[] } {
+    const ast = new ClassParser(classNames, this.config('separator', ':') as string, this._cache.variants).parse();
+    const success: Validata[] = [];
+    const ignored: Validata[] = [];
+
+    const _hSuccess = (className: string, self: Element, parent?: Element) => {
+      success.push({
+        className,
+        ...self,
+        parent,
+      });
+    };
+
+    const _hIgnored = (className: string, self: Element, parent?: Element) => {
+      ignored.push({
+        className,
+        ...self,
+        parent,
+      });
+    };
+
+    const _gStyle = (
+      baseClass: string,
+      variants: string[],
+      selector: string,
+      self: Element,
+      parent?: Element,
+      prefix?: string,
+    ) => {
+      if (this._config.exclude && testRegexr(selector, this._config.exclude)) {
+        // filter exclude className
+        _hIgnored(selector, self, parent);
+        return;
+      }
+      if (variants[0] && selector in { ...this._plugin.utilities, ...this._plugin.components }) {
+        // handle special selector that conflict with class parser, such as 'hover:abc'
+        _hSuccess(selector, self, parent);
+        return;
+      }
+      if (this.test(baseClass, prefix) && variants.filter(i => !(i in this._variants)).length === 0) {
+        _hSuccess(selector, self, parent);
+      } else {
+        _hIgnored(selector, self, parent);
+      }
+    };
+
+    const _hGroup = (obj: Element, parentVariants: string[] = []) => {
+      const _eval = (u: Element, parent: Element) => {
+        if (u.type === 'group') {
+          _hGroup(u, obj.variants);
+        } else if (u.type === 'alias' && (u.content as string) in this._plugin.alias) {
+          this._plugin.alias[u.content as string].forEach(i => _eval(i, u));
+        } else {
+          // utility
+          const variants = [
+            ...parentVariants,
+            ...obj.variants,
+            ...u.variants,
+          ];
+          const important = obj.important || u.important;
+          const selector = (important ? '!' : '') + [...variants, u.content].join(':');
+          typeof u.content === 'string' &&
+            _gStyle(u.content, variants, selector, u, parent, this.config('prefix') as string);
+        }
+      };
+      Array.isArray(obj.content) && obj.content.forEach(u => _eval(u, obj));
+    };
+
+    const _gAst = (ast: Element[]) => {
+      ast.forEach(obj => {
+        if (obj.type === 'utility') {
+          if (Array.isArray(obj.content)) {
+            // #functions stuff
+          } else if (obj.content) {
+            _gStyle(obj.content, obj.variants, obj.raw, obj, undefined, this.config('prefix') as string);
+          }
+        } else if (obj.type === 'group') {
+          _hGroup(obj);
+        } else if (obj.type === 'alias' && (obj.content as string) in this._plugin.alias) {
+          _gAst(this._plugin.alias[obj.content as string]);
+        } else {
+          _hIgnored(obj.raw, obj);
+        }
+      });
+    };
+
+    _gAst(ast);
+
+    return {
+      success,
+      ignored,
     };
   }
 
