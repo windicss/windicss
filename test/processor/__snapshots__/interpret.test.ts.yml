@@ -242,6 +242,57 @@ Tools / interpret square brackets / square brackets / 0: |-
     grid-gap: 4rem;
     gap: 4rem;
   }
+  .blur-\[11px\] {
+    --tw-blur: blur(11px);
+  }
+  .brightness-\[1\.23\] {
+    --tw-brightness: brightness(1.23);
+  }
+  .contrast-\[0\.87\] {
+    --tw-contrast: contrast(0.87);
+  }
+  .grayscale-\[0\.42\] {
+    --tw-grayscale: grayscale(0.42);
+  }
+  .hue-rotate-\[1\.57rad\] {
+    --tw-hue-rotate: hue-rotate(1.57rad);
+  }
+  .invert-\[0\.66\] {
+    --tw-invert: invert(0.66);
+  }
+  .saturate-\[144\%\] {
+    --tw-saturate: saturate(144%);
+  }
+  .sepia-\[0\.38\] {
+    --tw-sepia: sepia(0.38);
+  }
+  .backdrop-blur-\[11px\] {
+    --tw-backdrop-blur: blur(11px);
+  }
+  .backdrop-brightness-\[1\.23\] {
+    --tw-backdrop-brightness: brightness(1.23);
+  }
+  .backdrop-contrast-\[0\.87\] {
+    --tw-backdrop-contrast: contrast(0.87);
+  }
+  .backdrop-grayscale-\[0\.42\] {
+    --tw-backdrop-grayscale: grayscale(0.42);
+  }
+  .backdrop-hue-rotate-\[1\.57rad\] {
+    --tw-backdrop-hue-rotate: hue-rotate(1.57rad);
+  }
+  .backdrop-invert-\[0\.66\] {
+    --tw-backdrop-invert: invert(0.66);
+  }
+  .backdrop-opacity-\[22\%\] {
+    --tw-backdrop-opacity: opacity(22%);
+  }
+  .backdrop-saturate-\[144\%\] {
+    --tw-backdrop-saturate: saturate(144%);
+  }
+  .backdrop-sepia-\[0\.38\] {
+    --tw-backdrop-sepia: sepia(0.38);
+  }
 Tools / interpret square brackets grid / square brackets grids / 0: |-
   .grid-cols-\[1fr\2c 700px\2c 2fr\] {
     grid-template-columns: 1fr 700px 2fr;
