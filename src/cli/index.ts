@@ -101,10 +101,11 @@ if (args['--init']) {
 
 const preflights: { [key:string]: StyleSheet } = {};
 const styleSheets: { [key:string]: StyleSheet } = {};
-const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
-const safelist = processor.config('safelist');
+const configFile = args['--config'] ? resolve(args['--config']) : undefined;
+let processor = new Processor(configFile ? require(configFile) : undefined);
+let safelist = processor.config('safelist');
 
-if (args['--config']) Console.log('Config file:', resolve(args['--config']));
+if (configFile) Console.log('Config file:', configFile);
 
 function compile(files: string[]) {
   // compilation mode
@@ -266,6 +267,25 @@ function build(files: string[], update = false) {
 
 }
 
+function buildSafeList(safelist: unknown) {
+  if (safelist) {
+    let classes: string[] = [];
+    if (typeof safelist === 'string') {
+      classes = safelist.split(/\s/).filter(i => i);
+    }
+    if (Array.isArray(safelist)) {
+      for (const item of safelist) {
+        if (typeof item === 'string') {
+          classes.push(item);
+        } else if (Array.isArray(item)) {
+          classes = classes.concat(item);
+        }
+      }
+    }
+    styleSheets['safelist'] = processor.interpret(classes.join(' ')).styleSheet;
+  }
+}
+
 let matchFiles = globArray(args._);
 
 if (matchFiles.length === 0) {
@@ -273,24 +293,8 @@ if (matchFiles.length === 0) {
   process.exit();
 }
 
-if (safelist) {
-  let classes: string[] = [];
-  if (typeof safelist === 'string') {
-    classes = safelist.split(/\s/).filter(i => i);
-  }
-  if (Array.isArray(safelist)) {
-    for (const item of safelist) {
-      if (typeof item === 'string') {
-        classes.push(item);
-      } else if (Array.isArray(item)) {
-        classes = classes.concat(item);
-      }
-    }
-  }
-  styleSheets['safelist'] = processor.interpret(classes.join(' ')).styleSheet;
-}
+buildSafeList(safelist);
 build(matchFiles);
-
 
 function watchBuild(file: string) {
   watch(file, (event, path) => {
@@ -329,7 +333,24 @@ function watchBuild(file: string) {
   });
 }
 
+function watchConfig(file?: string) {
+  if (!file) return;
+  watch(file, (event, path) => {
+    if (event === 'change') {
+      Console.log('Config', `'${path}'`, 'has been changed');
+      Console.time('Building');
+      configFile && delete require.cache[configFile];
+      processor = new Processor(configFile ? require(configFile) : undefined);
+      safelist = processor.config('safelist');
+      buildSafeList(safelist);
+      build(matchFiles, true);
+      Console.timeEnd('Building');
+    }
+  });
+}
+
 if (args['--dev']) {
+  watchConfig(configFile);
   for (const file of matchFiles) {
     watchBuild(file);
   }
