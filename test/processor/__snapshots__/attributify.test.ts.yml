@@ -1602,6 +1602,23 @@ Tools / with overscroll utility / css / 0: |-
   [overscroll~="x-none"] {
     overscroll-behavior-x: none;
   }
+Tools / with perspect utility / css / 0: |-
+  [perspect~="none"] {
+    -webkit-perspective: none;
+    perspective: none;
+  }
+  [perspect~="lg"] {
+    -webkit-perspective: 32rem;
+    perspective: 32rem;
+  }
+  [perspect~="origin-center"] {
+    -webkit-perspective-origin: center;
+    perspective-origin: center;
+  }
+  [perspect~="origin-top"] {
+    -webkit-perspective-origin: top;
+    perspective-origin: top;
+  }
 Tools / with place utility / css / 0: |-
   [place~="items-start"] {
     place-items: start;
@@ -1961,6 +1978,18 @@ Tools / with svg utility / css / 0: |-
     stroke-width: 4;
   }
 Tools / with table utility / css / 0: |-
+  [table~="caption-top"] {
+    caption-side: top;
+  }
+  [table~="caption-bottom"] {
+    caption-side: bottom;
+  }
+  [table~="empty-cells-visible"] {
+    empty-cells: show;
+  }
+  [table~="empty-cells-hidden"] {
+    empty-cells: hide;
+  }
   [table~="default"] {
     display: table;
   }
@@ -2247,6 +2276,33 @@ Tools / with text utility / css / 0: |-
   [text~="break-all"] {
     word-break: break-all;
   }
+  [text~="write-normal"] {
+    -webkit-writing-mode: horizontal-tb;
+    -ms-writing-mode: lr-tb;
+    writing-mode: horizontal-tb;
+  }
+  [text~="write-vertical-right"] {
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: tb-rl;
+    writing-mode: vertical-rl;
+  }
+  [text~="write-vertical-left"] {
+    -webkit-writing-mode: vertical-lr;
+    -ms-writing-mode: tb-lr;
+    writing-mode: vertical-lr;
+  }
+  [text~="write-orient-mixed"] {
+    -webkit-text-orientation: mixed;
+    text-orientation: mixed;
+  }
+  [text~="write-orient-upright"] {
+    -webkit-text-orientation: upright;
+    text-orientation: upright;
+  }
+  [text~="write-orient-sideways"] {
+    -webkit-text-orientation: sideways;
+    text-orientation: sideways;
+  }
   [text~="hyphens-none"] {
     -webkit-hyphens: none;
     -ms-hyphens: none;
@@ -2302,6 +2358,14 @@ Tools / with transform utility / css / 0: |-
     -ms-transform: none;
     transform: none;
   }
+  [transform~="preserve-flat"] {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+  }
+  [transform~="preserve-3d"] {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
   [transform~="origin-center"] {
     -webkit-transform-origin: center;
     -ms-transform-origin: center;
@@ -2323,8 +2387,29 @@ Tools / with transform utility / css / 0: |-
   [transform~="-rotate-50"] {
     --tw-rotate: -50deg;
   }
+  [transform~="rotate-x-30"] {
+    --tw-rotate-x: 30deg;
+  }
+  [transform~="rotate-x-45"] {
+    --tw-rotate-x: 45deg;
+  }
+  [transform~="rotate-y-45"] {
+    --tw-rotate-y: 45deg;
+  }
+  [transform~="rotate-y-90"] {
+    --tw-rotate-y: 90deg;
+  }
+  [transform~="rotate-z-30"] {
+    --tw-rotate-z: 30deg;
+  }
+  [transform~="rotate-z-45"] {
+    --tw-rotate-z: 45deg;
+  }
   [transform~="translate-x-4"] {
     --tw-translate-x: 1rem;
+  }
+  [transform~="translate-z-1/2"] {
+    --tw-translate-z: 50%;
   }
   [transform~="-translate-y-3/4"] {
     --tw-translate-y: -75%;
@@ -2334,6 +2419,26 @@ Tools / with transform utility / css / 0: |-
   }
   [transform~="-skew-y-12"] {
     --tw-skew-y: -12deg;
+  }
+  [transform~="perspect-none"] {
+    -webkit-perspective: none;
+    perspective: none;
+  }
+  [transform~="perspect-lg"] {
+    -webkit-perspective: 32rem;
+    perspective: 32rem;
+  }
+  [transform~="perspect-xl"] {
+    -webkit-perspective: 36rem;
+    perspective: 36rem;
+  }
+  [transform~="perspect-origin-center"] {
+    -webkit-perspective-origin: center;
+    perspective-origin: center;
+  }
+  [transform~="perspect-origin-top"] {
+    -webkit-perspective-origin: top;
+    perspective-origin: top;
   }
 Tools / with transition utility / css / 0: |-
   [transition~="none"] {
@@ -2678,6 +2783,34 @@ Tools / with width and height utility / css / 0: |-
     [w~="md:screen"] {
       width: 100vw;
     }
+  }
+Tools / with writing utility / css / 0: |-
+  [write~="normal"] {
+    -webkit-writing-mode: horizontal-tb;
+    -ms-writing-mode: lr-tb;
+    writing-mode: horizontal-tb;
+  }
+  [write~="vertical-right"] {
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: tb-rl;
+    writing-mode: vertical-rl;
+  }
+  [write~="vertical-left"] {
+    -webkit-writing-mode: vertical-lr;
+    -ms-writing-mode: tb-lr;
+    writing-mode: vertical-lr;
+  }
+  [write~="orient-mixed"] {
+    -webkit-text-orientation: mixed;
+    text-orientation: mixed;
+  }
+  [write~="orient-upright"] {
+    -webkit-text-orientation: upright;
+    text-orientation: upright;
+  }
+  [write~="orient-sideways"] {
+    -webkit-text-orientation: sideways;
+    text-orientation: sideways;
   }
 Tools / with z-index width min-width max-width height min-height max-height opacity / css / 0: |-
   [h~="full"] {

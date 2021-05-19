@@ -1,4 +1,3 @@
-import M from 'minimatch';
 import { Processor } from '../../src/lib';
 
 const processor = new Processor();
@@ -181,6 +180,8 @@ describe('Attributify Mode', () => {
       'table': [
         'default', 'inline', 'caption', 'cell', 'column', 'column-group', 'footer-group', 'header-group', 'row-group', 'row', // display
         'auto', 'fixed', // table-layout
+        'caption-top', 'caption-bottom', // table-caption-side
+        'empty-cells-visible', 'empty-cells-hidden', // table-empty-cells
       ],
     });
     expect(result.ignored.length).toEqual(0);
@@ -407,6 +408,19 @@ describe('Attributify Mode', () => {
         'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
         'break-normal', 'break-words', 'break-all', // word-break
         'placeholder-gray-200', 'placeholder-opacity-80', // placeholder
+        'write-normal', 'write-vertical-right', 'write-vertical-left', // writing-mode
+        'write-orient-mixed', 'write-orient-upright', 'write-orient-sideways', // writing-orientation
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with writing utility', () => {
+    const result = processor.attributify({
+      'write': [
+        'vertical-right', 'vertical-left', 'normal', // writing mode
+        'orient-mixed', 'orient-upright', 'orient-sideways', // writing orientation
       ],
     });
     expect(result.ignored.length).toEqual(0);
@@ -576,8 +590,25 @@ describe('Attributify Mode', () => {
         'origin-center', 'origin-top', // transform-origin
         'scale-50', // scale
         'rotate-50', '-rotate-50', // rotate
-        'translate-x-4', '-translate-y-3/4', //translate
+        'rotate-x-30', 'rotate-x-45', // rotate-x
+        'rotate-y-45', 'rotate-y-90', // rotate-y
+        'rotate-z-30', 'rotate-z-45', // rotate-z
+        'translate-x-4', '-translate-y-3/4', 'translate-z-1/2', //translate
         'skew-x-4', '-skew-y-12', //skew
+        'preserve-3d', 'preserve-flat', // transform-style
+        'perspect-none', 'perspect-lg', 'perspect-xl', // prespective
+        'perspect-origin-center', 'perspect-origin-top', // perspective origin
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with perspect utility', () => {
+    const result = processor.attributify({
+      'perspect': [
+        'none', 'lg',
+        'origin-center', 'origin-top',
       ],
     });
     expect(result.ignored.length).toEqual(0);
