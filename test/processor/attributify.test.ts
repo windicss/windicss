@@ -186,6 +186,17 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with caret utility', () => {
+    const result = processor.attributify({
+      'caret' : [
+        'black', 'white', 'gray-500', // caret-color
+        'opacity-50', // caret-opacit
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with animate appearance cursor outline pointer resize select fill stroke sr blend', () => {
     const result = processor.attributify({
       'animate': ['none', 'spin', 'ping'],
@@ -345,6 +356,16 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('with image utility', () => {
+    const result = processor.attributify({
+      'image': [
+        'render-pixel', 'render-auto', 'render-edge', // image-rendering
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('with placeholder utility', () => {
     const result = processor.attributify({
       'placeholder': [
@@ -387,6 +408,7 @@ describe('Attributify Mode', () => {
         'repeat', 'no-repeat', 'repeat-x', 'repeat-y', 'repeat-round', 'repeat-space', // background-repeat
         'auto', 'cover', 'contain', // background-size
         'none', // background-image: none
+        'origin-border', 'origin-padding', 'origin-content', // background-origin
         'blend-normal', 'blend-hard-light', // background-blend-mode
       ],
     });
