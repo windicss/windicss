@@ -636,6 +636,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('bg-opacity'))
     return utility.handler
       .handleStatic(theme('backgroundOpacity'))
+      .handleSquareBrackets()
       .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
       .handleVariable()
       .createProperty('--tw-bg-opacity')
@@ -685,7 +686,7 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
 function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
   const raw = [ 'rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl' ].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
   utility = utility.clone(raw);
-  const directions = expandDirection(utility.center.replace(/-?\$[\w-]+/, ''), true);
+  const directions = expandDirection(raw.match(/rounded-[trbl][trbl]?-/)?.[0].slice(8, -1) || '', true);
   if (!directions) return;
   return utility.handler
     .handleStatic(theme('borderRadius'))
