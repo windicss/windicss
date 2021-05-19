@@ -879,6 +879,7 @@ function blur(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
   return utility.handler
     .handleBody(theme('blur'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'int', (number) => `${number}px`)
     .handleSize()
     .createProperty('--tw-blur', value => `blur(${value})`)
@@ -889,6 +890,7 @@ function blur(utility: Utility, { theme }: PluginUtils): Output {
 function brightness(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('brightness'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-brightness', value => `brightness(${value})`)
     ?.updateMeta('utilities', 'brightness', pluginOrder.brightness, 1, true);
@@ -898,6 +900,7 @@ function brightness(utility: Utility, { theme }: PluginUtils): Output {
 function contrast(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('contrast'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-contrast', value => `contrast(${value})`)
     ?.updateMeta('utilities', 'contrast', pluginOrder.contrast, 1, true);
@@ -921,6 +924,7 @@ function grayscale(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
   return utility.handler
     .handleBody(theme('grayscale'))
+    .handleSquareBrackets()
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-grayscale', value => `grayscale(${value})`)
     ?.updateMeta('utilities', 'grayscale', pluginOrder.grayscale, 1, true);
@@ -930,6 +934,7 @@ function grayscale(utility: Utility, { theme }: PluginUtils): Output {
 function hueRotate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('hueRotate'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
     .handleNegative()
     .createProperty('--tw-hue-rotate', value => `hue-rotate(${value})`)
@@ -941,6 +946,7 @@ function invert(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
   return utility.handler
     .handleBody(theme('invert'))
+    .handleSquareBrackets()
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-invert', value => `invert(${value})`)
     ?.updateMeta('utilities', 'invert', pluginOrder.invert, 1, true);
@@ -950,6 +956,7 @@ function invert(utility: Utility, { theme }: PluginUtils): Output {
 function saturate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('saturate'))
+    .handleSquareBrackets()
     .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
     .createProperty('--tw-saturate', value => `saturate(${value})`)
     ?.updateMeta('utilities', 'saturate', pluginOrder.saturate, 1, true);
@@ -960,6 +967,7 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
   return utility.handler
     .handleBody(theme('sepia'))
+    .handleSquareBrackets()
     .handleNumber(0, 100, 'int', (number) => `${number/100}`)
     .createProperty('--tw-sepia', value => `sepia(${value})`)
     ?.updateMeta('utilities', 'sepia', pluginOrder.sepia, 1, true);
@@ -982,6 +990,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropBlur'))
+      .handleSquareBrackets()
       .handleNumber(0, undefined, 'int', (number) => `${number}px`)
       .handleSize()
       .createProperty('--tw-backdrop-blur', value => `blur(${value})`)
@@ -989,12 +998,14 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
   case 'brightness':
     return utility.handler
       .handleBody(theme('backdropBrightness'))
+      .handleSquareBrackets()
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
       ?.updateMeta('utilities', 'backdropBrightness', pluginOrder.backdropBrightness, 1, true);
   case 'contrast':
     return utility.handler
       .handleBody(theme('backdropContrast'))
+      .handleSquareBrackets()
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
       ?.updateMeta('utilities', 'backdropContrast', pluginOrder.backdropContrast, 1, true);
@@ -1002,12 +1013,14 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropGrayscale'))
+      .handleSquareBrackets()
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
       ?.updateMeta('utilities', 'backdropGrayscale', pluginOrder.backdropGrayscale, 1, true);
   case 'hue':
     return utility.handler
       .handleBody(theme('backdropHueRotate'))
+      .handleSquareBrackets()
       .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
       .handleNegative()
       .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
@@ -1016,18 +1029,21 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropInvert'))
+      .handleSquareBrackets()
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
       ?.updateMeta('utilities', 'backdropInvert', pluginOrder.backdropInvert, 1, true);
   case 'opacity':
     return utility.handler
       .handleBody(theme('backdropOpacity'))
+      .handleSquareBrackets()
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
       ?.updateMeta('utilities', 'backdropOpacity', pluginOrder.backdropOpacity, 1, true);
   case 'saturate':
     return utility.handler
       .handleBody(theme('backdropSaturate'))
+      .handleSquareBrackets()
       .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
       ?.updateMeta('utilities', 'backdropSaturate', pluginOrder.backdropSaturate, 1, true);
@@ -1035,6 +1051,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
     return utility.handler
       .handleBody(theme('backdropSepia'))
+      .handleSquareBrackets()
       .handleNumber(0, 100, 'int', (number) => `${number/100}`)
       .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
       ?.updateMeta('utilities', 'backdropSepia', pluginOrder.backdropSepia, 1, true);
