@@ -99,9 +99,9 @@ if (args['--init']) {
   args['--output'] = template.css;
 }
 
-const preflights: { [key:string]: StyleSheet } = {};
-const styleSheets: { [key:string]: StyleSheet } = {};
 const configFile = args['--config'] ? resolve(args['--config']) : undefined;
+let preflights: { [key:string]: StyleSheet } = {};
+let styleSheets: { [key:string]: StyleSheet } = {};
 let processor = new Processor(configFile ? require(configFile) : undefined);
 let safelist = processor.config('safelist');
 
@@ -335,13 +335,18 @@ function watchBuild(file: string) {
 
 function watchConfig(file?: string) {
   if (!file) return;
+  let stamp = 0;
   watch(file, (event, path) => {
-    if (event === 'change') {
+    if (event === 'change' && (stamp === 0 || + new Date() - stamp > 500)) {
+      // fix fire twice event when change config file
+      stamp = + new Date();
       Console.log('Config', `'${path}'`, 'has been changed');
       Console.time('Building');
       configFile && delete require.cache[configFile];
       processor = new Processor(configFile ? require(configFile) : undefined);
       safelist = processor.config('safelist');
+      styleSheets = {};
+      preflights = {};
       buildSafeList(safelist);
       build(matchFiles, true);
       Console.timeEnd('Building');
