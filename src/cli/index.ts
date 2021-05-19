@@ -102,6 +102,7 @@ if (args['--init']) {
 const preflights: { [key:string]: StyleSheet } = {};
 const styleSheets: { [key:string]: StyleSheet } = {};
 const processor = new Processor(args['--config'] ? require(resolve(args['--config'])) : undefined);
+const safelist = processor.config('safelist');
 
 if (args['--config']) Console.log('Config file:', resolve(args['--config']));
 
@@ -272,7 +273,24 @@ if (matchFiles.length === 0) {
   process.exit();
 }
 
+if (safelist) {
+  let classes: string[] = [];
+  if (typeof safelist === 'string') {
+    classes = safelist.split(/\s/).filter(i => i);
+  }
+  if (Array.isArray(safelist)) {
+    for (const item of safelist) {
+      if (typeof item === 'string') {
+        classes.push(item);
+      } else if (Array.isArray(item)) {
+        classes = classes.concat(item);
+      }
+    }
+  }
+  styleSheets['safelist'] = processor.interpret(classes.join(' ')).styleSheet;
+}
 build(matchFiles);
+
 
 function watchBuild(file: string) {
   watch(file, (event, path) => {
