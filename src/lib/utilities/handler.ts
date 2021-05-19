@@ -216,7 +216,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         if (handler.value) {
           if (handler.value === 'transparent') return `rgba(0, 0, 0, ${opacityValue})`;
           if (handler.value === 'currentColor') return `rgba(255, 255, 255, ${opacityValue})`;
-          if (handler.value.includes('var')) return `rgba(${handler.value}, ${opacityValue})`;
+          if (handler.value.includes('var') && opacityValue) return `rgba(${handler.value}, ${opacityValue})`;
           return opacityValue ? `rgba(${toColor(handler.value).color}, ${opacityValue})` : `rgb(${toColor(handler.value).color})`;
         }
       },
