@@ -1,3 +1,4 @@
+import M from 'minimatch';
 import { Processor } from '../../src/lib';
 
 const processor = new Processor();
@@ -210,6 +211,10 @@ describe('Attributify Mode', () => {
       'stroke': [
         'current', 'blue-500', // stroke
         '0', '2', // stroke-width
+        'dash-2', 'dash-4', // stroke-dasharray
+        'offset-2', 'offset-4', // stroke-dashoffset
+        'cap-auto', 'cap-square', 'cap-round', // stroke-linecap
+        'join-auto', 'join-bevel', 'join-round', // stroke-linejoin
       ],
       'sr': ['only', 'not-only'],
       'blend': ['normal', 'overlay', 'color-burn'], // mix-blend-mode
@@ -385,13 +390,49 @@ describe('Attributify Mode', () => {
         'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', // vertical-align
         'red-500', // color
         'opacity-50', // opacity
+        'hyphens-none', 'hyphens-manual', 'hyphens-auto', // hyphens
+        'tab', 'tab-0', 'tab-2', 'tab-4', // tab-size
         'underline', 'line-through', 'no-underline', // text-decoration
+        'underline-solid', 'underline-double', 'underline-dotted', 'underline-dashed', // text-decoration-style
+        'underline-green-500', 'underline-gray-500', // text-decoration-color
+        'underline-opacity-50', 'underline-opacity-60', // text-decoration-opacity
+        'underline-auto', 'underline-2', 'underline-4', // text-decoration-length
+        'underline-offset-auto', 'underline-offset-1', // text-decoration-offset
+        'indent', 'indent-xs', 'indent-sm', 'indent-md', // text-indent
+        'shadow', 'shadow-lg', 'shadow-sm', 'shadow-xl', // text-shadow
+        'stroke', 'stroke-none', 'stroke-sm', // text-stroke-width
+        'stroke-blue-500', 'stroke-gray-500', // text-stroke-color
         'uppercase', 'lowercase', 'capitalize', 'normal-case', // text-transform
         'truncate', 'overflow-ellipsis', 'overflow-clip', // text-overflow
         'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
         'break-normal', 'break-words', 'break-all', // word-break
         'placeholder-gray-200', 'placeholder-opacity-80', // placeholder
       ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with underline utility', () => {
+    const result = processor.attributify({
+      'underline': [
+        '~', 'line-through', 'none',
+        'solid', 'double', 'dotted',
+        'green-500', 'gray-500',
+        'opacity-50', 'opacity-60',
+        'auto', '0', '2',
+        'offset-auto', 'offset-1',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with indent tab hyphens hyphens', () => {
+    const result = processor.attributify({
+      'indent': [ '~', 'xs', 'sm', 'md' ],
+      'tab': ['~', '0', '2', '4'],
+      'hyphens': ['none', 'manual', 'auto'],
     });
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('css');

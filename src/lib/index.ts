@@ -716,6 +716,7 @@ export class Processor {
         if (negative) utility = utility.slice(1,);
         utility = ['m', 'p'].includes(last) && ['t', 'l', 'b', 'r', 'x', 'y'].includes(utility.charAt(0)) ? last + utility : last + '-' + utility;
         if (negative) utility = '-' + utility;
+        utility !== 'cursor-default' && (utility = utility.replace(/-(~|default)$/, ''));
         // handle special cases
         switch(last) {
         case 'w':
@@ -738,7 +739,6 @@ export class Processor {
           break;
         case 'flex':
           switch (utility) {
-          case 'flex-~':
           case 'flex-default':
             utility = 'flex';
             break;
@@ -749,7 +749,6 @@ export class Processor {
           break;
         case 'grid':
           switch(utility) {
-          case 'grid-~':
           case 'grid-default':
             utility = 'grid';
             break;
@@ -759,9 +758,6 @@ export class Processor {
           default:
             if (/^grid-(auto|gap|col|row)-/.test(utility)) utility = utility.slice(5);
           }
-          break;
-        case 'container':
-          if (utility === 'container-default' || utility === 'container-~') utility = 'container';
           break;
         case 'justify':
           if (utility.startsWith('justify-content-')) {
@@ -787,7 +783,7 @@ export class Processor {
         case 'text':
           if (['text-baseline', 'text-top', 'text-middle', 'text-bottom', 'text-text-top', 'text-text-bottom'].includes(utility)) {
             utility = 'align-' + utility.slice(5);
-          } else if (utility.startsWith('text-placeholder')) {
+          } else if (utility.startsWith('text-placeholder') || utility.startsWith('text-underline') || utility.startsWith('text-tab') || utility.startsWith('text-indent') || utility.startsWith('text-hyphens')) {
             utility = utility.slice(5);
           } else if (['text-underline', 'text-line-through', 'text-no-underline', 'text-uppercase', 'text-lowercase', 'text-capitalize', 'text-normal-case', 'text-truncate', 'text-overflow-ellipsis', 'text-overflow-clip', 'text-break-normal', 'text-break-words', 'text-break-all'].includes(utility)) {
             utility = utility.slice(5);
@@ -795,21 +791,20 @@ export class Processor {
             utility = 'white' + utility.slice(5);
           }
           break;
+        case 'underline':
+          if (utility === 'underline-none') {
+            utility = 'no-underline';
+          } else if (utility === 'underline-line-through') {
+            utility = 'line-through';
+          }
+          break;
         case 'svg':
           if (utility.startsWith('svg-fill') || utility.startsWith('svg-stroke')) utility = utility.slice(4);
           break;
         case 'border':
-          if (utility === 'border-~' || utility === 'border-default') {
-            utility = 'border';
-          } else if (utility.startsWith('border-rounded')) {
+          if (utility.startsWith('border-rounded')) {
             utility = utility.slice(7);
           }
-          break;
-        case 'ring':
-          if (utility === 'ring-~' || utility === 'ring-default') utility = 'ring';
-          break;
-        case 'shadow':
-          if (utility === 'shadow-~' || utility === 'shadow-default') utility = 'shadow';
           break;
         case 'gradient':
           if (utility === 'gradient-none') {
@@ -835,30 +830,24 @@ export class Processor {
           }
           break;
         case 'filter':
-          if (utility === 'filter-~' || utility === 'filter-default') {
-            utility = 'filter';
-          } else if (utility !== 'filter-none') {
+          if (utility !== 'filter-none' && utility !== 'filter') {
             utility = utility.slice(7);
           }
           break;
         case 'backdrop':
-          if (utility === 'backdrop-~' || utility === 'backdrop-default') {
+          if (utility === 'backdrop') {
             utility = 'backdrop-filter';
           } else if (utility === 'backdrop-none') {
             utility = 'backdrop-filter-none';
           }
           break;
         case 'transition':
-          if (utility === 'transition-~' || utility === 'transition-default') {
-            utility = 'transition';
-          } else if (/transition-(duration|ease|delay)-/.test(utility)) {
+          if (/transition-(duration|ease|delay)-/.test(utility)) {
             utility = utility.slice(11);
           }
           break;
         case 'transform':
-          if (utility === 'transform-~' || utility === 'transform-default') {
-            utility = 'transform';
-          } else if (!['transform-gpu', 'transform-none'].includes(utility)) {
+          if (!['transform-gpu', 'transform-none', 'transform'].includes(utility)) {
             utility = utility.slice(10);
           }
           break;
@@ -866,21 +855,15 @@ export class Processor {
           if (utility === 'isolation-isolate') utility = 'isolate';
           break;
         case 'table':
-          switch (utility) {
-          case 'table-~':
-          case 'table-default':
-            utility = 'table';
-            break;
-          case 'table-inline':
+          if (utility === 'table-inline') {
             utility = 'inline-table';
-            break;
           }
           break;
         case 'pointer':
           utility = 'pointer-events' + utility.slice(7);
           break;
         case 'resize':
-          if (['resize-both', 'resize-~', 'resize-default'].includes(utility)) utility = 'resize';
+          if (utility === 'resize-both') utility = 'resize';
           break;
         case 'blend':
           utility = 'mix-' + utility;
