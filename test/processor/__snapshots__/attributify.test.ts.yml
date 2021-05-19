@@ -541,6 +541,15 @@ Tools / with backdrop utility / css / 0: |-
   [backdrop~="sepia"] {
     --tw-backdrop-sepia: sepia(100%);
   }
+Tools / with backface utility / css / 0: |-
+  [backface~="visible"] {
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+  [backface~="hidden"] {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 Tools / with bg utility / css / 0: |-
   [bg~="fixed"] {
     background-attachment: fixed;
@@ -784,6 +793,14 @@ Tools / with display utility / css / 0: |-
   }
   [display~="invisible"] {
     visibility: hidden;
+  }
+  [display~="backface-visible"] {
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+  [display~="backface-hidden"] {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   @media (min-width: 768px) {
     [display~="md:hidden"] {
@@ -1638,6 +1655,12 @@ Tools / with pos utility / css / 0: |-
   [pos~="-left-3/4"] {
     left: -75%;
   }
+  [pos~="isolate"] {
+    isolation: isolate;
+  }
+  [pos~="isolation-auto"] {
+    isolation: auto;
+  }
 Tools / with position utility / css / 0: |-
   [position~="order-1"] {
     -webkit-box-ordinal-group: 2;
@@ -1713,6 +1736,12 @@ Tools / with position utility / css / 0: |-
   }
   [position~="-left-3/4"] {
     left: -75%;
+  }
+  [position~="isolate"] {
+    isolation: isolate;
+  }
+  [position~="isolation-auto"] {
+    isolation: auto;
   }
 Tools / with ring utility / css / 0: |-
   [ring~="default"] {

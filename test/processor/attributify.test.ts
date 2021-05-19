@@ -81,6 +81,17 @@ describe('Attributify Mode', () => {
         'visible', 'invisible', // visibility
         'inline', 'flow-root', 'contents', 'list-item', 'hidden', 'block', 'inline-block', // display
         'md:hidden',
+        'backface-visible', 'backface-hidden',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with backface utility', () => {
+    const result = processor.attributify({
+      'backface': [
+        'visible', 'hidden',
       ],
     });
     expect(result.ignored.length).toEqual(0);
@@ -96,6 +107,7 @@ describe('Attributify Mode', () => {
         'float-right', 'float-left', 'float-none', // float
         'clear-left', 'clear-right', 'clear-both', 'clear-none', // clear
         'order-1', 'order-first', // order
+        'isolate', 'isolation-auto', // isolation
       ],
     });
     expect(result.ignored.length).toEqual(0);
@@ -111,6 +123,7 @@ describe('Attributify Mode', () => {
         'float-right', 'float-left', 'float-none', // float
         'clear-left', 'clear-right', 'clear-both', 'clear-none', // clear
         'order-1', 'order-first', // order
+        'isolate', 'isolation-auto', // isolation
       ],
     });
     expect(result.ignored.length).toEqual(0);
