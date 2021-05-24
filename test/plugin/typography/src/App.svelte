@@ -3,7 +3,7 @@
   import RTLTest from './lib/RTLTest.mdx';
 </script>
 
-<div class="antialiased text-gray-900">
+<div class="dark antialiased text-gray-900 dark:bg-dark-900">
   <div class="px-4 py-10 max-w-3xl mx-auto sm:px-6 sm:py-12 lg:max-w-4xl lg:py-16 lg:px-8 xl:max-w-6xl">
     <article>
       <h1 class="sr-only">Windi CSS Typography</h1>

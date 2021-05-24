@@ -2,9 +2,11 @@ import typography from '../../../src/plugin/typography';
 import { defineConfig } from '../../../src/helpers';
 
 export default defineConfig({
+  darkMode: 'media',
   plugins: [
     typography({
-      rtl: true,
+      rtl: false,
+      dark: true,
     }),
   ],
 });

@@ -11,7 +11,7 @@
     "mdsvex": "^0.9.6",
     "svelte": "^3.37.0",
     "vite": "^2.3.3",
-    "windicss": "file:../../../dist",
-    "vite-plugin-windicss": "^0.16.0"
+    "vite-plugin-windicss": "^0.16.0",
+    "windicss": "^3.0.10"
   }
 }

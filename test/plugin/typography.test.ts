@@ -67,6 +67,52 @@ describe('typography plugin', () => {
     expect(css).toMatchSnapshot('rtl');
   });
 
+  it('dark class interpret test', () => {
+    const processor = new Processor({
+      darkMode: 'class',
+      plugins: [
+        typography({ dark: true }),
+      ],
+    });
+    const result = processor.interpret('prose');
+    expect(result.ignored.length).toEqual(0);
+    const css = result.styleSheet.build();
+    expect(css).toMatchSnapshot('class');
+  });
+
+  it('dark media interpret test', () => {
+    const processor = new Processor({
+      darkMode: 'media',
+      plugins: [
+        typography({ dark: true }),
+      ],
+    });
+    const result = processor.interpret('prose');
+    expect(result.ignored.length).toEqual(0);
+    const css = result.styleSheet.build();
+    expect(css).toMatchSnapshot('media');
+  });
+
+  it('customize dark mode', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          typography: {
+            DARK: {
+              css: {
+                backgroundColor: 'red',
+              },
+            },
+          },
+        },
+      },
+      plugins: [
+        typography({ dark: true }),
+      ],
+    });
+    expect(processor.interpret('prose').styleSheet.build()).toMatchSnapshot('media');
+  });
+
   it('with extend', () => {
     const processor = new Processor({
       theme: {

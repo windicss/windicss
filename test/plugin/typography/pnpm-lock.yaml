@@ -6,7 +6,7 @@ specifiers:
   svelte: ^3.37.0
   vite: ^2.3.3
   vite-plugin-windicss: ^0.16.0
-  windicss: file:../../../dist
+  windicss: ^3.0.10
 
 devDependencies:
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.10_svelte@3.38.2+vite@2.3.3
@@ -14,7 +14,7 @@ devDependencies:
   svelte: 3.38.2
   vite: 2.3.3
   vite-plugin-windicss: 0.16.0_vite@2.3.3
-  windicss: link:../../../dist
+  windicss: 3.0.10
 
 packages:
 
@@ -457,6 +457,12 @@ packages:
       rollup: 2.49.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /windicss/3.0.10:
+    resolution: {integrity: sha512-ihcGCdgjKloqRr9l072J+eWOddgdUdoEXl89W1wdnaDScz2AT6S6H9znoKf5y3g4Zu1JRTYTqCdYultRxezYpw==}
+    engines: {node: '>= 12'}
+    hasBin: true
     dev: true
 
   /windicss/3.0.9:
