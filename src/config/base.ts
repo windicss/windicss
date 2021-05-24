@@ -197,6 +197,16 @@ export const baseConfig: Config = {
     }),
     caretOpacity: (theme) => theme('opacity'),
     container: {},
+    content: {
+      'open-quote': 'open-quote',
+      'close-quoto': 'close-quote',
+      'open-square': '"["',
+      'close-square': '"]"',
+      'open-curly': '"{"',
+      'close-curly': '"}"',
+      'open-bracket': '"("',
+      'close-bracket': '")"',
+    },
     contrast: {
       0: '0',
       50: '.5',
@@ -1026,6 +1036,7 @@ export const baseConfig: Config = {
   handlers: {
     static : true,
     number : true,
+    string: true,
     bracket: true,
     hex: true,
     nxl: true,

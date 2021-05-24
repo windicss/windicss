@@ -173,6 +173,7 @@ export enum pluginOrder {
   'textIndent' = 8550,
   'textStrokeColor' = 8560,
   'textStrokeWidth' = 8570,
+  'content' = 8580,
   'fontSmoothing' = 8600,
   'fontVariantNumeric' = 8700,
   'letterSpacing' = 8800,

@@ -1342,6 +1342,16 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
   );
 }
 
+function content(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleBody(theme('content'))
+    .handleSquareBrackets()
+    .handleVariable()
+    .handleString((string) => `"${string}"`)
+    .createProperty('content')
+    ?.updateMeta('utilities', 'content', pluginOrder.content, 1, true);
+}
+
 export const dynamicUtilities: DynamicUtility = {
   container: container,
   space: space,
@@ -1421,5 +1431,6 @@ export const dynamicUtilities: DynamicUtility = {
   ease: transitionTimingFunction,
   duration: duration,
   delay: delay,
+  content: content,
   animate: animation,
 };
