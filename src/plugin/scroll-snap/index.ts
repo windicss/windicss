@@ -105,12 +105,10 @@ export default plugin(
           variants: variants(tn),
           group: tn,
           completions: [
-            ...['snap', '-snap'].map(key => ['{static}', '{float}', '{size}', '${var}', '[7px]']
+            ...['{static}', '{float}', '{size}', '${var}', '[7px]']
               .map(type => ['', 'y', 'x', 't', 'l', 'b', 'r']
-                .map(i => `${key}-${n}${i}-${type}`))
-              .reduce((a, b) => a.concat(b), []))
-              .reduce((a, b) => a.concat(b), [])
-              .filter(i => !(i.charAt(0) === '-' && i.endsWith('{static}'))),
+                .map(i => `snap-${n}${i}-${type}`))
+              .reduce((a, b) => a.concat(b), []),
           ],
         }
       );
@@ -118,10 +116,9 @@ export default plugin(
   },
   {
     theme: {
-      snapMargin: (theme, { negative }) => ({
+      snapMargin: (theme) => ({
         auto: 'auto',
         ...(theme('spacing') ?? {}),
-        ...negative(theme('spacing')),
       }),
       snapPadding: (theme) => theme('spacing'),
     },
