@@ -34,6 +34,7 @@ export type Handler = {
     type?: 'int' | 'float',
     callback?: (number: number) => string | undefined
   ) => Handler
+  handleString: (callback: (string: string) => string | undefined) => Handler
   handleSpacing: () => Handler
   handleSquareBrackets: (
     callback?: (number: string) => string | undefined
@@ -116,6 +117,12 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         if (handler.value) return handler;
         if (isNumber(handler._amount, start, end, type))
           handler.value = callback ? callback(+handler._amount) : handler._amount;
+        return handler;
+      } : () => handler,
+
+      handleString: handlers.string ? (callback) => {
+        if (handler.value) return handler;
+        handler.value = callback(handler.utility.body);
         return handler;
       } : () => handler,
 

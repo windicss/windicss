@@ -237,6 +237,7 @@ export type DarkModeConfig = 'class' | 'media' | false;
 export type Handlers = {
   static?: boolean
   number?: boolean
+  string?: boolean
   bracket?: boolean
   hex?: boolean
   nxl?: boolean
