@@ -1,5 +1,4 @@
 import plugin from '../index';
-import type { PluginUtilOptions } from '../../interfaces';
 import { dashToCamel, expandDirection } from '../../utils';
 
 // TODO: tsconfig -> ES2019 (node 12+)

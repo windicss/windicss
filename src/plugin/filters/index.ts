@@ -1,5 +1,4 @@
 import plugin from '../index';
-import type { PluginUtilOptions } from '../../interfaces';
 
 export default plugin(
   function ({ addDynamic, theme, variants }) {
