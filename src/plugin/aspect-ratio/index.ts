@@ -40,6 +40,10 @@ export default plugin(
     }, {
       layer: 'components',
       variants: variants('aspectRatio'),
+      group: 'aspectRatio',
+      completions: [
+        'aspect-w-{float}',
+      ],
     });
 
     addDynamic('aspect-h', ({ Utility }) => {
@@ -50,6 +54,10 @@ export default plugin(
     }, {
       layer: 'components',
       variants: variants('aspectRatio'),
+      group: 'aspectRatio',
+      completions: [
+        'aspect-h-{float}',
+      ],
     });
 
     addDynamic('aspect', ({ Utility, Style }) => {
@@ -72,6 +80,10 @@ export default plugin(
       }
     }, {
       layer: 'components',
+      group: 'aspectRatio',
+      completions: [
+        'aspect-{fraction}',
+      ],
     });
   },
   {

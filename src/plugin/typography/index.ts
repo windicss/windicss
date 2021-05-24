@@ -87,6 +87,8 @@ export default plugin.withOptions<{
       }, {
         layer: 'components',
         order: 149,
+        group: 'typography',
+        completions: all.map(i => `${className}-${i}`),
       });
     };
   },

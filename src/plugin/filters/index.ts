@@ -7,13 +7,25 @@ export default plugin(
       return Utility.handler
         .handleStatic(theme('filter'))
         .createProperty(['-webkit-filter', 'filter']);
-    }, variants('filter') as PluginUtilOptions);
+    }, {
+      variants: variants('filter'),
+      group: 'filter',
+      completions: [
+        'blur-{static}',
+      ],
+    });
 
     addDynamic('backdrop', ({ Utility }) => {
       return Utility.handler
         .handleStatic(theme('backdropFilter'))
         .createProperty(['-webkit-backdrop-filter', 'backdrop-filter']);
-    }, variants('backdropFilter') as PluginUtilOptions);
+    }, {
+      variants: variants('backdropFilter'),
+      group: 'backdropFilter',
+      completions: [
+        'backdrop-{static}',
+      ],
+    });
 
     addDynamic('blur', ({ Utility }) => {
       return Utility.handler
@@ -28,7 +40,13 @@ export default plugin(
             return `blur(${value})`;
           }
         );
-    }, variants('blur') as PluginUtilOptions);
+    }, {
+      variants: variants('blur'),
+      group: 'blur',
+      completions: [
+        'blur-{static}',
+      ],
+    });
   },
   {
     theme: {

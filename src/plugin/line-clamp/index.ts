@@ -14,6 +14,12 @@ export default plugin(
           '-webkit-line-clamp': value,
         });
       }
+    }, {
+      group: 'lineClamp',
+      completions: [
+        'line-clamp-none',
+        'line-clamp-{int}',
+      ],
     });
   },
   {

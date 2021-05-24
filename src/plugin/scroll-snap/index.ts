@@ -101,14 +101,27 @@ export default plugin(
             );
           }
         },
-        variants(tn) as PluginUtilOptions
+        {
+          variants: variants(tn),
+          group: tn,
+          completions: [
+            ...['{static}', '{float}', '{size}', '${var}', '[7px]']
+              .map(type => ['', 'y', 'x', 't', 'l', 'b', 'r']
+                .map(i => `snap-m${i}-${type}`))
+              .reduce((a, b) => a.concat(b), []),
+          ],
+        }
       );
     });
   },
   {
     theme: {
-      snapMargin: {},
-      snapPadding: {},
+      snapMargin: (theme, { negative }) => ({
+        auto: 'auto',
+        ...(theme('spacing') ?? {}),
+        ...negative(theme('spacing')),
+      }),
+      snapPadding: (theme) => theme('spacing'),
     },
     variants: {
       snapMargin: ['responsive'],
