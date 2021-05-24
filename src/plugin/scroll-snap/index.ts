@@ -105,10 +105,12 @@ export default plugin(
           variants: variants(tn),
           group: tn,
           completions: [
-            ...['{static}', '{float}', '{size}', '${var}', '[7px]']
+            ...['snap', '-snap'].map(key => ['{static}', '{float}', '{size}', '${var}', '[7px]']
               .map(type => ['', 'y', 'x', 't', 'l', 'b', 'r']
-                .map(i => `snap-m${i}-${type}`))
-              .reduce((a, b) => a.concat(b), []),
+                .map(i => `${key}-${n}${i}-${type}`))
+              .reduce((a, b) => a.concat(b), []))
+              .reduce((a, b) => a.concat(b), [])
+              .filter(i => !(i.charAt(0) === '-' && i.endsWith('{static}'))),
           ],
         }
       );
