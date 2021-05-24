@@ -22,7 +22,7 @@ const isMedia = /^\s*@media/i;
 const maxValue = Number.MAX_VALUE;
 
 function _getQueryLength(length: string) {
-  const result = /(-?\d*\.?\d+)(ch|em|ex|px|rem)/.exec(length);
+  const result = /(-?\d*\.?\d+)(ch|em|ex|px|rpx|rem)/.exec(length);
 
   if (result === null) {
     return maxValue;
@@ -40,6 +40,7 @@ function _getQueryLength(length: string) {
   case 'ex':
     return parseFloat(number) * 8.296875;
   case 'px':
+  case 'rpx':
     return parseFloat(number);
   }
 
