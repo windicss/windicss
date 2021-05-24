@@ -326,10 +326,10 @@ Tools / should load all plugins correctly / css / 0: |-
     margin-bottom: 0;
   }
   .prose-red a {
-    color: #dc2626;
+    color: #e11d48;
   }
   .prose-red a code {
-    color: #dc2626;
+    color: #e11d48;
   }
   .btn {
     padding: .5rem 1rem;
