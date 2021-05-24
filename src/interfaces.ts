@@ -63,6 +63,7 @@ export type PluginUtilOptions =
       respectImportant?: boolean;
       respectSelector?: boolean;
       layer?: Layer;
+      order?: number;
     };
 
 export interface PluginBuilder {

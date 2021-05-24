@@ -3013,13 +3013,13 @@ Tools / with multi selector / css / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
-  .dark .prose-dark a {
+  .dark .dark\:prose-dark a {
     color: #1c1c1e;
   }
-  .dark .prose-dark a code {
+  .dark .dark\:prose-dark a code {
     color: #1c1c1e;
   }
-  .dark .prose-dark h2 > a, .dark .prose-dark h3 > a {
+  .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
     color: #1f2937;
     font-weight: inherit;
   }

@@ -22,25 +22,6 @@ Tools / should load all plugins correctly / css / 0: |-
       max-width: 1440px;
     }
   }
-  .btn {
-    padding: .5rem 1rem;
-    border-radius: .25rem;
-    font-weight: 600;
-  }
-  .btn-blue {
-    background-color: #3490dc;
-    color: #fff;
-  }
-  .btn-blue:hover {
-    background-color: #2779bd;
-  }
-  .btn-red {
-    background-color: #e3342f;
-    color: #fff;
-  }
-  .btn-red:hover {
-    background-color: #cc1f1a;
-  }
   .prose {
     color: #374151;
     max-width: 65ch;
@@ -344,6 +325,31 @@ Tools / should load all plugins correctly / css / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
+  .prose-red a {
+    color: #dc2626;
+  }
+  .prose-red a code {
+    color: #dc2626;
+  }
+  .btn {
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    font-weight: 600;
+  }
+  .btn-blue {
+    background-color: #3490dc;
+    color: #fff;
+  }
+  .btn-blue:hover {
+    background-color: #2779bd;
+  }
+  .btn-red {
+    background-color: #e3342f;
+    color: #fff;
+  }
+  .btn-red:hover {
+    background-color: #cc1f1a;
+  }
   .aspect-w-4 {
     --tw-aspect-w: 4;
     position: relative;
@@ -373,12 +379,6 @@ Tools / should load all plugins correctly / css / 0: |-
     right: 0;
     bottom: 0;
     left: 0;
-  }
-  .prose-red a {
-    color: #dc2626;
-  }
-  .prose-red a code {
-    color: #dc2626;
   }
   .bg-red-500 {
     --tw-bg-opacity: 1;

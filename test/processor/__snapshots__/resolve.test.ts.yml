@@ -426,7 +426,8 @@ Tools / resolve dynamic utilities / with-plugins / 1: |-
     "aspect-w",
     "aspect-h",
     "aspect",
-    "line-clamp"
+    "line-clamp",
+    "prose"
   ]
 Tools / resolve dynamic utilities / without-plugins / 0: |-
   [

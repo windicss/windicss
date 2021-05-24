@@ -1085,7 +1085,7 @@ export class Processor {
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
     const layer = uOptions.layer ?? 'utilities';
-    const order = layerOrder[layer] + 1;
+    const order = uOptions.order || layerOrder[layer] + 1;
     const style = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Style(selector, property, important);
     const prop = (name: string | string[], value?: string, comment?: string, important = uOptions.respectImportant && this._config.important ? true : false) => new Property(name, value, comment, important);
     const keyframes = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Keyframes(selector, property, important);
@@ -1097,8 +1097,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order, 0, false, uOptions.respectSelector));
-        return output.updateMeta(layer, 'plugin', order, 0, false, uOptions.respectSelector);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order, 0, false, i.meta.respectSelector || uOptions.respectSelector));
+        return output.updateMeta(layer, 'plugin', order, 0, false, output.meta.respectSelector || uOptions.respectSelector);
       };
     return generator;
   }

@@ -71,10 +71,14 @@ export default plugin.withOptions<{
         return [
           ...Style.generate(isDefault? `.${className}` : `.${className}-${modifier}`, configToCss(config[modifier])),
           ...(rtl ? Style.generate(isDefault? `.${className}[dir="rtl"]` : `.${className}-${modifier}[dir="rtl"]`,
-            configToCss(config['rtl'][modifier])) : []),
+            configToCss(config['rtl'][modifier])).map(i => {
+            i.meta.respectSelector = true;
+            return i;
+          }) : []),
         ];
       }, {
-        respectSelector: true,
+        layer: 'components',
+        order: 149,
       });
     };
   },
