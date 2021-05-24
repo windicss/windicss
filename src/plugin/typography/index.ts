@@ -3,6 +3,7 @@ import { uniq, castArray, isUsableColor } from './utils';
 import plugin from '../index';
 import styles from './styles';
 import rtlStyles from './rtl';
+import darkStyles from './dark';
 import combineConfig from '../../utils/algorithm/combineConfig';
 
 const computed: {
@@ -28,13 +29,15 @@ export default plugin.withOptions<{
   modifiers?: string[];
   className?: string;
   rtl?: boolean;
+  dark?: boolean;
 }>(
   ({
     modifiers,
     className = 'prose',
     rtl = false,
+    dark = false,
   } = {}) => {
-    return function ({ addDynamic, theme }) {
+    return function ({ addDynamic, theme, config }) {
       const DEFAULT_MODIFIERS = [
         'DEFAULT',
         'sm',
@@ -50,16 +53,20 @@ export default plugin.withOptions<{
           .map(([color]) => color),
       ];
       modifiers = modifiers === undefined ? DEFAULT_MODIFIERS : modifiers;
-      const config = theme('typography') as {
+      const pluginConfig = theme('typography') as {
         [key: string]: Record<string, string>
       } & {
-        rtl: { [key: string]: Record<string, string> };
+        RTL: { [key: string]: Record<string, string> };
+      } & {
+        DARK: Record<string, string>;
       };
+
+      const darkMode = config('darkMode', 'class') as 'class' | 'media';
 
       const all: string[] = uniq([
         'DEFAULT',
         ...modifiers,
-        ...Object.keys(config).filter(
+        ...Object.keys(pluginConfig).filter(
           (modifier) => !DEFAULT_MODIFIERS.includes(modifier)
         ),
       ]);
@@ -69,9 +76,10 @@ export default plugin.withOptions<{
         const modifier = isDefault? 'DEFAULT' : Utility.body;
         if (!all.includes(modifier)) return;
         return [
-          ...Style.generate(isDefault? `.${className}` : `.${className}-${modifier}`, configToCss(config[modifier])),
+          ...Style.generate(isDefault? `.${className}` : `.${className}-${modifier}`, configToCss(pluginConfig[modifier])),
+          ...(dark && isDefault? Style.generate(`.${className}`, configToCss(pluginConfig['DARK'])).map(i => darkMode === 'class' ? i.parent('.dark') : i.atRule('@media (prefers-color-scheme: dark)')) : [] ),
           ...(rtl ? Style.generate(isDefault? `.${className}[dir="rtl"]` : `.${className}-${modifier}[dir="rtl"]`,
-            configToCss(config['rtl'][modifier])).map(i => {
+            configToCss(pluginConfig['RTL'][modifier])).map(i => {
             i.meta.respectSelector = true;
             return i;
           }) : []),
@@ -83,7 +91,7 @@ export default plugin.withOptions<{
     };
   },
   () => ({
-    theme: { typography: (theme: ThemeUtil) => ({ ...styles(theme), rtl: rtlStyles(theme) }) },
+    theme: { typography: (theme: ThemeUtil) => ({ ...styles(theme), RTL: rtlStyles(theme), DARK: darkStyles(theme) }) },
     variants: { typography: ['responsive'] },
   })
 );
