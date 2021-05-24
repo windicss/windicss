@@ -2239,6 +2239,13 @@ Tools / interpret test / css / 0: |-
   .prose-red a code {
     color: #dc2626;
   }
+Tools / prose with customize colors / css / 0: |-
+  .prose-deep-blush a {
+    color: #d46691;
+  }
+  .prose-deep-blush a code {
+    color: #d46691;
+  }
 Tools / rtl interpret test / rtl / 0: |-
   .prose {
     color: #374151;

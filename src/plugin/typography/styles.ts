@@ -1095,7 +1095,7 @@ const styles: (
   },
 
   // Add color modifiers
-  ...Object.entries(colors).reduce(
+  ...Object.entries(theme('colors', colors) as string | Record<string | number, string>).reduce(
     (reduced, [color, values]) => {
       if (!isUsableColor(color, values)) {
         return reduced;
