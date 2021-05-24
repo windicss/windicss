@@ -59,11 +59,13 @@ export type PluginUtilOptions =
   | string[]
   | {
       variants?: string[];
+      completions?: string[];
       respectPrefix?: boolean;
       respectImportant?: boolean;
       respectSelector?: boolean;
       layer?: Layer;
       order?: number;
+      group?: string;
     };
 
 export interface PluginBuilder {
@@ -524,6 +526,7 @@ export interface PluginCache {
   preflights: StyleArrayObject;
   shortcuts: StyleArrayObject;
   alias: { [key: string]: Element[] };
+  completions: { [key: string]: string[] };
 }
 
 export interface VariantUtils {

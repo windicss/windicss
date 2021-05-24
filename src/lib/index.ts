@@ -69,6 +69,7 @@ export class Processor {
     preflights: {},
     shortcuts: {},
     alias: {},
+    completions: {},
   };
 
   public pluginUtils: PluginUtils = {
@@ -1077,15 +1078,19 @@ export class Processor {
     generator: UtilityGenerator,
     options: PluginUtilOptions = {
       layer: 'utilities',
+      group: 'plugin',
       variants: [],
+      completions: [],
       respectPrefix: true,
       respectImportant: true,
       respectSelector: false,
     }
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
-    const layer = uOptions.layer ?? 'utilities';
+    const layer = uOptions.layer || 'utilities';
+    const group = uOptions.group || 'plugin';
     const order = uOptions.order || layerOrder[layer] + 1;
+    if (uOptions.completions) this._plugin.completions[group] = group in this._plugin.completions ? [...this._plugin.completions[group], ...uOptions.completions] : uOptions.completions;
     const style = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Style(selector, property, important);
     const prop = (name: string | string[], value?: string, comment?: string, important = uOptions.respectImportant && this._config.important ? true : false) => new Property(name, value, comment, important);
     const keyframes = (selector: string, property?: Property | Property[], important:boolean = uOptions.respectImportant && this._config.important ? true : false) => new Keyframes(selector, property, important);
@@ -1097,8 +1102,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order, 0, false, i.meta.respectSelector || uOptions.respectSelector));
-        return output.updateMeta(layer, 'plugin', order, 0, false, output.meta.respectSelector || uOptions.respectSelector);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, group, order, 0, false, i.meta.respectSelector || uOptions.respectSelector));
+        return output.updateMeta(layer, group, order, 0, false, output.meta.respectSelector || uOptions.respectSelector);
       };
     return generator;
   }
