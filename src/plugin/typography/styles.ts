@@ -1,4 +1,4 @@
-import { colors } from '../../config';
+import { defaultColors as colors } from '../../config/base';
 import { round, rem, em, isUsableColor } from './utils';
 import type { ThemeUtil } from '../../interfaces';
 
