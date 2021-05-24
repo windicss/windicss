@@ -3,6 +3,8 @@ import { defineConfig } from '../../../src/helpers';
 
 export default defineConfig({
   plugins: [
-    typography(),
+    typography({
+      rtl: true,
+    }),
   ],
 });

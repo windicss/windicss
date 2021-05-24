@@ -1,5 +1,6 @@
 <script>
   import Markdown from './lib/Markdown.mdx';
+  import RTLTest from './lib/RTLTest.mdx';
 </script>
 
 <div class="antialiased text-gray-900">
@@ -10,6 +11,10 @@
         <div class="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto">
           <Markdown/>
         </div>
+      </div>
+      <hr>
+      <div class="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto" dir="rtl">
+        <RTLTest/>
       </div>
     </article>
   </div>
