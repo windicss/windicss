@@ -286,7 +286,11 @@ function buildSafeList(safelist: unknown) {
   }
 }
 
-let matchFiles = globArray(args._);
+const patterns = args._
+  .concat(processor.config('extract.include', []) as string[])
+  .concat((processor.config('extract.exclude', []) as string[]).map(i => '!' + i));
+
+let matchFiles = globArray(patterns);
 
 if (matchFiles.length === 0) {
   Console.error('No files were matched!');
@@ -299,7 +303,7 @@ build(matchFiles);
 function watchBuild(file: string) {
   watch(file, (event, path) => {
     if (event === 'rename') {
-      const newFiles = globArray(args._);
+      const newFiles = globArray(patterns);
       const renamed = matchFiles.filter(i => !(newFiles.includes(i)))[0];
       if (existsSync(path)) {
         Console.log('File', `'${renamed}'`, 'has been renamed to', `'${path}'`);
@@ -363,7 +367,7 @@ if (args['--dev']) {
     watch(dir, (event, path) => {
       if (event === 'rename' && existsSync(join(dir, path))) {
         // when create new file
-        const newFiles = globArray(args._);
+        const newFiles = globArray(patterns);
         if (newFiles.length > matchFiles.length) {
           const newFile = newFiles.filter(i => !matchFiles.includes(i))[0];
           Console.log('New file', `'${newFile}'`,  'added');
