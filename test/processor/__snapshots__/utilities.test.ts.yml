@@ -263,6 +263,9 @@ Tools / content utilities / css / 0: |-
   .after\:content-\[attr\(value\)\]::after {
     content: attr(value);
   }
+  .content {
+    content: "";
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;

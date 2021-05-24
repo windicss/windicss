@@ -198,6 +198,7 @@ export const baseConfig: Config = {
     caretOpacity: (theme) => theme('opacity'),
     container: {},
     content: {
+      DEFAULT: '""',
       'open-quote': 'open-quote',
       'close-quoto': 'close-quote',
       'open-square': '"["',
