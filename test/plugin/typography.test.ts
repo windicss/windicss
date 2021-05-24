@@ -159,4 +159,10 @@ describe('typography plugin', () => {
     processor.loadPluginWithOptions(typography);
     expect(processor.interpret('prose dark:prose-dark').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('add completions', () => {
+    const processor = new Processor();
+    processor.loadPluginWithOptions(typography);
+    expect(processor._plugin.completions).toMatchSnapshot('completions');
+  });
 });

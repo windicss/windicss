@@ -16,6 +16,7 @@ describe('line clamp plugin', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('line-clamp');
   });
+
   it('customize test', () => {
     const processor = new Processor({
       theme: { extend: { lineClamp: { sm: '4', md: '6' } } },
@@ -31,6 +32,7 @@ describe('line clamp plugin', () => {
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('line-clamp customized');
   });
+
   it('works with prefix', () => {
     const processor = new Processor({ prefix: 'windi-' });
     processor.loadPlugin(lineClamp);
@@ -44,5 +46,11 @@ describe('line clamp plugin', () => {
     const result = processor.interpret(classes);
     expect(result.ignored.length).toEqual(0);
     expect(result.styleSheet.build()).toMatchSnapshot('line-clamp with prefix');
+  });
+
+  it('add completions', () => {
+    const processor = new Processor();
+    processor.loadPlugin(lineClamp);
+    expect(processor._plugin.completions).toMatchSnapshot('completions');
   });
 });

@@ -1,3 +1,15 @@
+Tools / add completions / completions / 0: |-
+  {
+    "filter": [
+      "blur-{static}"
+    ],
+    "backdropFilter": [
+      "backdrop-{static}"
+    ],
+    "blur": [
+      "blur-{static}"
+    ]
+  }
 Tools / interpret test / css / 0: |-
   .filter-none {
     -webkit-filter: none;

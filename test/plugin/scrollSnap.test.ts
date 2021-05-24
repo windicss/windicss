@@ -50,4 +50,10 @@ describe('Scroll Snap plugin', () => {
   scroll-margin-bottom: 5px;
 }`);
   });
+
+  it('add completions', () => {
+    const processor = new Processor();
+    processor.loadPlugin(scrollSnap);
+    expect(processor._plugin.completions).toMatchSnapshot('completions');
+  });
 });

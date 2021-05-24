@@ -15,6 +15,7 @@ describe('aspect ratio plugin', () => {
     expect(utility.ignored.length).toEqual(0);
     expect(utility.styleSheet.build()).toMatchSnapshot('aspect-ratio base');
   });
+
   it('works with prefix', () => {
     const processor = new Processor({ prefix: 'windi-' });
     processor.loadPlugin(aspectRatio);
@@ -27,5 +28,11 @@ describe('aspect ratio plugin', () => {
     const utility = processor.interpret(classes);
     expect(utility.ignored.length).toEqual(0);
     expect(utility.styleSheet.build()).toMatchSnapshot('aspect-ratio with prefix');
+  });
+
+  it('add completions', () => {
+    const processor = new Processor();
+    processor.loadPlugin(aspectRatio);
+    expect(processor._plugin.completions).toMatchSnapshot('completions');
   });
 });

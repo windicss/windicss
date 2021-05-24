@@ -1,3 +1,36 @@
+Tools / add completions / completions / 0: |-
+  {
+    "typography": [
+      "prose",
+      "prose-sm",
+      "prose-lg",
+      "prose-xl",
+      "prose-2xl",
+      "prose-light",
+      "prose-dark",
+      "prose-red",
+      "prose-yellow",
+      "prose-green",
+      "prose-blue",
+      "prose-indigo",
+      "prose-purple",
+      "prose-pink",
+      "prose-rose",
+      "prose-fuchsia",
+      "prose-violet",
+      "prose-cyan",
+      "prose-teal",
+      "prose-emerald",
+      "prose-lime",
+      "prose-amber",
+      "prose-orange",
+      "prose-light-blue",
+      "prose-warm-gray",
+      "prose-true-gray",
+      "prose-cool-gray",
+      "prose-blue-gray"
+    ]
+  }
 Tools / customize dark mode / media / 0: |-
   .prose {
     color: #374151;
@@ -2129,10 +2162,10 @@ Tools / interpret test / css / 0: |-
     color: #c026d3;
   }
   .prose-purple a {
-    color: #9333ea;
+    color: #7c3aed;
   }
   .prose-purple a code {
-    color: #9333ea;
+    color: #7c3aed;
   }
   .prose-violet a {
     color: #7c3aed;
@@ -2171,10 +2204,10 @@ Tools / interpret test / css / 0: |-
     color: #059669;
   }
   .prose-green a {
-    color: #16a34a;
+    color: #059669;
   }
   .prose-green a code {
-    color: #16a34a;
+    color: #059669;
   }
   .prose-lime a {
     color: #65a30d;
@@ -2183,10 +2216,10 @@ Tools / interpret test / css / 0: |-
     color: #65a30d;
   }
   .prose-yellow a {
-    color: #ca8a04;
+    color: #d97706;
   }
   .prose-yellow a code {
-    color: #ca8a04;
+    color: #d97706;
   }
   .prose-amber a {
     color: #d97706;
@@ -3426,10 +3459,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #c026d3;
   }
   .prose-purple a {
-    color: #9333ea;
+    color: #7c3aed;
   }
   .prose-purple a code {
-    color: #9333ea;
+    color: #7c3aed;
   }
   .prose-violet a {
     color: #7c3aed;
@@ -3468,10 +3501,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #059669;
   }
   .prose-green a {
-    color: #16a34a;
+    color: #059669;
   }
   .prose-green a code {
-    color: #16a34a;
+    color: #059669;
   }
   .prose-lime a {
     color: #65a30d;
@@ -3480,10 +3513,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #65a30d;
   }
   .prose-yellow a {
-    color: #ca8a04;
+    color: #d97706;
   }
   .prose-yellow a code {
-    color: #ca8a04;
+    color: #d97706;
   }
   .prose-amber a {
     color: #d97706;

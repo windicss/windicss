@@ -79,4 +79,10 @@ describe('filter plugin', () => {
   backdrop-filter: blur(6px);
 }`);
   });
+
+  it('add completions', () => {
+    const processor = new Processor();
+    processor.loadPlugin(filters);
+    expect(processor._plugin.completions).toMatchSnapshot('completions');
+  });
 });

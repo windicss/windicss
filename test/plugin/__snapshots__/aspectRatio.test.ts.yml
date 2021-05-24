@@ -1,3 +1,11 @@
+Tools / add completions / completions / 0: |-
+  {
+    "aspectRatio": [
+      "aspect-w-{float}",
+      "aspect-h-{float}",
+      "aspect-{fraction}"
+    ]
+  }
 Tools / interpret test / aspect-ratio base / 0: |-
   .aspect-none {
     position: static;
