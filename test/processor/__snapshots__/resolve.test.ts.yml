@@ -104,6 +104,7 @@ Tools / get corePlugins / list / 0: |-
     "textIndent",
     "textStrokeColor",
     "textStrokeWidth",
+    "content",
     "fontSmoothing",
     "fontVariantNumeric",
     "letterSpacing",
@@ -277,6 +278,7 @@ Tools / get corePlugins / list3 / 2: |-
     "textIndent",
     "textStrokeColor",
     "textStrokeWidth",
+    "content",
     "fontSmoothing",
     "fontVariantNumeric",
     "letterSpacing",
@@ -421,6 +423,7 @@ Tools / resolve dynamic utilities / with-plugins / 1: |-
     "ease",
     "duration",
     "delay",
+    "content",
     "animate",
     "filter",
     "aspect-w",
@@ -509,5 +512,6 @@ Tools / resolve dynamic utilities / without-plugins / 0: |-
     "ease",
     "duration",
     "delay",
+    "content",
     "animate"
   ]

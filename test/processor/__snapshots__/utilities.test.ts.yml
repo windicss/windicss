@@ -250,6 +250,19 @@ Tools / container padding / container padding / 0: |-
       max-width: 1536px;
     }
   }
+Tools / content utilities / css / 0: |-
+  .content-👍 {
+    content: "👍";
+  }
+  .before\:content-\[\"👍\"\]::before {
+    content: "👍";
+  }
+  .content-open-quote {
+    content: open-quote;
+  }
+  .after\:content-\[attr\(value\)\]::after {
+    content: attr(value);
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;

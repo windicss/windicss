@@ -208,4 +208,8 @@ describe('Utilities', () => {
   it('prespective and perspective origin', () => {
     expect(processor.interpret('perspect-none perspect-800px perspect-lg perspect-[4rem] perspect-23rem perspect-origin-center perspect-origin-bottom-right perspect-origin-[250%_250%] perspect-origin-[-170%]').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('content utilities', () => {
+    expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)]').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
