@@ -61,6 +61,7 @@ export type PluginUtilOptions =
       variants?: string[];
       respectPrefix?: boolean;
       respectImportant?: boolean;
+      respectSelector?: boolean;
       layer?: Layer;
     };
 

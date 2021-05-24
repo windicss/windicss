@@ -18,6 +18,7 @@ type Meta = {
   offset: number
   corePlugin: boolean
   variants?: string[]
+  respectSelector?: boolean
 };
 
 type NestObject = { [key: string]: string | string[] | NestObject };
@@ -518,13 +519,14 @@ export class Style {
     return minify ? result.replace(/;}/g, '}') : result;
   }
 
-  updateMeta(type: LayerName, group: string, order: number, offset = 0, corePlugin = false): Style {
+  updateMeta(type: LayerName, group: string, order: number, offset = 0, corePlugin = false, respectSelector = false): Style {
     this.meta = {
       type,
       group,
       order,
       offset,
       corePlugin,
+      respectSelector,
     };
     return this;
   }

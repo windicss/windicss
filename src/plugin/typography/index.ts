@@ -73,6 +73,8 @@ export default plugin.withOptions<{
           ...(rtl ? Style.generate(isDefault? `.${className}[dir="rtl"]` : `.${className}-${modifier}[dir="rtl"]`,
             configToCss(config['rtl'][modifier])) : []),
         ];
+      }, {
+        respectSelector: true,
       });
     };
   },

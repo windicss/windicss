@@ -1412,23 +1412,23 @@ Tools / rtl interpret test / rtl / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
-  .prose ol > li {
+  .prose[dir="rtl"] ol > li {
     padding-left: initial;
     padding-right: 1.75em;
   }
-  .prose ol > li::before {
+  .prose[dir="rtl"] ol > li::before {
     left: initial;
     right: 0;
   }
-  .prose ul > li {
+  .prose[dir="rtl"] ul > li {
     padding-left: initial;
     padding-right: 1.75em;
   }
-  .prose ul > li::before {
+  .prose[dir="rtl"] ul > li::before {
     left: initial;
     right: 0.25em;
   }
-  .prose blockquote {
+  .prose[dir="rtl"] blockquote {
     border-left-width: 0;
     border-left-color: initial;
     border-right-width: 0.25rem;
@@ -1436,22 +1436,22 @@ Tools / rtl interpret test / rtl / 0: |-
     padding-left: initial;
     padding-right: 1em;
   }
-  .prose table {
+  .prose[dir="rtl"] table {
     text-align: right;
   }
-  .prose thead th:first-child {
+  .prose[dir="rtl"] thead th:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose thead th:last-child {
+  .prose[dir="rtl"] thead th:last-child {
     padding-right: initial;
     padding-left: 0;
   }
-  .prose tbody td:first-child {
+  .prose[dir="rtl"] tbody td:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose tbody td:last-child {
+  .prose[dir="rtl"] tbody td:last-child {
     padding-right: initial;
     padding-left: 0;
   }
@@ -1634,39 +1634,39 @@ Tools / rtl interpret test / rtl / 0: |-
   .prose-sm > :last-child {
     margin-bottom: 0;
   }
-  .prose-sm blockquote {
+  .prose-sm[dir="rtl"] blockquote {
     padding-left: initial;
     padding-right: 1.1111111em;
   }
-  .prose-sm ol > li {
+  .prose-sm[dir="rtl"] ol > li {
     padding-left: initial;
     padding-right: 1.5714286em;
   }
-  .prose-sm ol > li::before {
+  .prose-sm[dir="rtl"] ol > li::before {
     left: initial;
     right: 0;
   }
-  .prose-sm ul > li {
+  .prose-sm[dir="rtl"] ul > li {
     padding-left: initial;
     padding-right: 1.5714286em;
   }
-  .prose-sm ul > li::before {
+  .prose-sm[dir="rtl"] ul > li::before {
     left: initial;
     right: 0.2142857em;
   }
-  .prose-sm thead th:first-child {
+  .prose-sm[dir="rtl"] thead th:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-sm thead th:last-child {
+  .prose-sm[dir="rtl"] thead th:last-child {
     padding-right: initial;
     padding-left: 0;
   }
-  .prose-sm tbody td:first-child {
+  .prose-sm[dir="rtl"] tbody td:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-sm tbody td:last-child {
+  .prose-sm[dir="rtl"] tbody td:last-child {
     padding-right: initial;
     padding-left: 0;
   }
@@ -1849,39 +1849,39 @@ Tools / rtl interpret test / rtl / 0: |-
   .prose-lg > :last-child {
     margin-bottom: 0;
   }
-  .prose-lg blockquote {
+  .prose-lg[dir="rtl"] blockquote {
     padding-left: initial;
     padding-right: 1em;
   }
-  .prose-lg ol > li {
+  .prose-lg[dir="rtl"] ol > li {
     padding-left: initial;
     padding-right: 1.6666667em;
   }
-  .prose-lg ol > li::before {
+  .prose-lg[dir="rtl"] ol > li::before {
     left: initial;
     right: 0;
   }
-  .prose-lg ul > li {
+  .prose-lg[dir="rtl"] ul > li {
     padding-left: initial;
     padding-right: 1.6666667em;
   }
-  .prose-lg ul > li::before {
+  .prose-lg[dir="rtl"] ul > li::before {
     left: initial;
     right: 0.2222222em;
   }
-  .prose-lg thead th:first-child {
+  .prose-lg[dir="rtl"] thead th:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-lg thead th:last-child {
+  .prose-lg[dir="rtl"] thead th:last-child {
     padding-right: initial;
     padding-left: 0;
   }
-  .prose-lg tbody td:first-child {
+  .prose-lg[dir="rtl"] tbody td:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-lg tbody td:last-child {
+  .prose-lg[dir="rtl"] tbody td:last-child {
     padding-right: initial;
     padding-left: 0;
   }
@@ -2064,39 +2064,39 @@ Tools / rtl interpret test / rtl / 0: |-
   .prose-xl > :last-child {
     margin-bottom: 0;
   }
-  .prose-xl blockquote {
+  .prose-xl[dir="rtl"] blockquote {
     padding-left: initial;
     padding-right: 1.0666667em;
   }
-  .prose-xl ol > li {
+  .prose-xl[dir="rtl"] ol > li {
     padding-left: initial;
     padding-right: 1.8em;
   }
-  .prose-xl ol > li::before {
+  .prose-xl[dir="rtl"] ol > li::before {
     left: initial;
     right: 0;
   }
-  .prose-xl ul > li {
+  .prose-xl[dir="rtl"] ul > li {
     padding-left: initial;
     padding-right: 1.8em;
   }
-  .prose-xl ul > li::before {
+  .prose-xl[dir="rtl"] ul > li::before {
     left: initial;
     right: 0.25em;
   }
-  .prose-xl thead th:first-child {
+  .prose-xl[dir="rtl"] thead th:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-xl thead th:last-child {
+  .prose-xl[dir="rtl"] thead th:last-child {
     padding-right: initial;
     padding-left: 0;
   }
-  .prose-xl tbody td:first-child {
+  .prose-xl[dir="rtl"] tbody td:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-xl tbody td:last-child {
+  .prose-xl[dir="rtl"] tbody td:last-child {
     padding-right: initial;
     padding-left: 0;
   }
@@ -2279,39 +2279,39 @@ Tools / rtl interpret test / rtl / 0: |-
   .prose-2xl > :last-child {
     margin-bottom: 0;
   }
-  .prose-2xl blockquote {
+  .prose-2xl[dir="rtl"] blockquote {
     padding-left: initial;
     padding-right: 1.1111111em;
   }
-  .prose-2xl ol > li {
+  .prose-2xl[dir="rtl"] ol > li {
     padding-left: initial;
     padding-right: 1.6666667em;
   }
-  .prose-2xl ol > li::before {
+  .prose-2xl[dir="rtl"] ol > li::before {
     left: initial;
     right: 0;
   }
-  .prose-2xl ul > li {
+  .prose-2xl[dir="rtl"] ul > li {
     padding-left: initial;
     padding-right: 1.6666667em;
   }
-  .prose-2xl ul > li::before {
+  .prose-2xl[dir="rtl"] ul > li::before {
     left: initial;
     right: 0.25em;
   }
-  .prose-2xl thead th:first-child {
+  .prose-2xl[dir="rtl"] thead th:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-2xl thead th:last-child {
+  .prose-2xl[dir="rtl"] thead th:last-child {
     padding-right: initial;
     padding-left: 0;
   }
-  .prose-2xl tbody td:first-child {
+  .prose-2xl[dir="rtl"] tbody td:first-child {
     padding-left: initial;
     padding-right: 0;
   }
-  .prose-2xl tbody td:last-child {
+  .prose-2xl[dir="rtl"] tbody td:last-child {
     padding-right: initial;
     padding-left: 0;
   }
@@ -3013,13 +3013,13 @@ Tools / with multi selector / css / 0: |-
   .prose > :last-child {
     margin-bottom: 0;
   }
-  .dark .dark\:prose-dark a {
+  .dark .prose-dark a {
     color: #1c1c1e;
   }
-  .dark .dark\:prose-dark a code {
+  .dark .prose-dark a code {
     color: #1c1c1e;
   }
-  .dark .dark\:prose-dark h2 > a, .dark .dark\:prose-dark h3 > a {
+  .dark .prose-dark h2 > a, .dark .prose-dark h3 > a {
     color: #1f2937;
     font-weight: inherit;
   }

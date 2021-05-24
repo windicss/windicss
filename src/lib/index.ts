@@ -373,12 +373,12 @@ export class Processor {
       if (result) {
         const escapedSelector = '.' + cssEscape(selector);
         if (result instanceof Style) {
-          result.selector = escapedSelector;
+          if(!result.meta.respectSelector) result.selector = escapedSelector;
           this.markAsImportant(result, important);
         } else if (Array.isArray(result)) {
           result = result.map(i => {
             if (i instanceof Keyframes) return i;
-            i.selector = escapedSelector;
+            if(!i.meta.respectSelector) i.selector = escapedSelector;
             this.markAsImportant(i, important);
             return i;
           });
@@ -1080,6 +1080,7 @@ export class Processor {
       variants: [],
       respectPrefix: true,
       respectImportant: true,
+      respectSelector: false,
     }
   ): UtilityGenerator {
     const uOptions = Array.isArray(options)? { variants:options } : options;
@@ -1096,8 +1097,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order));
-        return output.updateMeta(layer, 'plugin', order);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, 'plugin', order, 0, false, uOptions.respectSelector));
+        return output.updateMeta(layer, 'plugin', order, 0, false, uOptions.respectSelector);
       };
     return generator;
   }
