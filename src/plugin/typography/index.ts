@@ -69,7 +69,7 @@ export default plugin.withOptions<{
         ...Object.keys(pluginConfig).filter(
           (modifier) => !DEFAULT_MODIFIERS.includes(modifier)
         ),
-      ]);
+      ]).filter(i => !['RTL', 'DARK'].includes(i));
 
       addDynamic(className, ({ Utility, Style }) => {
         const isDefault = Utility.raw === className;
@@ -88,7 +88,7 @@ export default plugin.withOptions<{
         layer: 'components',
         order: 149,
         group: 'typography',
-        completions: all.map(i => `${className}-${i}`),
+        completions: all.map(i => i === 'DEFAULT' ? className : `${className}-${i}`),
       });
     };
   },
