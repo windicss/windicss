@@ -283,10 +283,12 @@ Tools / should load all plugins correctly / css / 0: |-
   .prose ol {
     margin-top: 1.25em;
     margin-bottom: 1.25em;
+    list-style-type: none;
   }
   .prose ul {
     margin-top: 1.25em;
     margin-bottom: 1.25em;
+    list-style-type: none;
   }
   .prose li {
     margin-top: 0.5em;

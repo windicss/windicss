@@ -12,3 +12,13 @@ export function castArray<T>(value: T): unknown[] {
 export function isUsableColor(color: string, values: string | {[key:string]:string}): boolean {
   return Boolean(values && typeof values === 'object' && color !== 'gray' && values[600]);
 }
+
+export const round = (num: number): string =>
+  num
+    .toFixed(7)
+    .replace(/(\.[0-9]+?)0+$/, '$1')
+    .replace(/\.0$/, '');
+
+export const rem = (px: number): string => `${round(px / 16)}rem`;
+
+export const em = (px: number, base: number): string => `${round(px / base)}em`;

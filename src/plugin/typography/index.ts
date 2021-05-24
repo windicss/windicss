@@ -1,7 +1,8 @@
-import { DeepNestObject } from '../../interfaces';
+import { DeepNestObject, ThemeUtil } from '../../interfaces';
 import { uniq, castArray, isUsableColor } from './utils';
 import plugin from '../index';
 import styles from './styles';
+import rtlStyles from './rtl';
 import combineConfig from '../../utils/algorithm/combineConfig';
 
 const computed: {
@@ -25,13 +26,15 @@ function configToCss(config: Record<string, string> = {}): DeepNestObject {
 
 export default plugin.withOptions<{
   modifiers?: string[];
-  className?: string
+  className?: string;
+  rtl?: boolean;
 }>(
   ({
     modifiers,
     className = 'prose',
+    rtl = false,
   } = {}) => {
-    return function ({ addComponents, theme, variants }) {
+    return function ({ addDynamic, theme }) {
       const DEFAULT_MODIFIERS = [
         'DEFAULT',
         'sm',
@@ -48,7 +51,9 @@ export default plugin.withOptions<{
       ];
       modifiers = modifiers === undefined ? DEFAULT_MODIFIERS : modifiers;
       const config = theme('typography') as {
-        [key: string]: Record<string, string>;
+        [key: string]: Record<string, string>
+      } & {
+        rtl: { [key: string]: Record<string, string> };
       };
 
       const all: string[] = uniq([
@@ -59,18 +64,20 @@ export default plugin.withOptions<{
         ),
       ]);
 
-      addComponents(
-        all.map((modifier) => ({
-          [modifier === 'DEFAULT'
-            ? `.${className}`
-            : `.${className}-${modifier}`]: configToCss(config[modifier]),
-        })),
-        variants('typography')
-      );
+      addDynamic(className, ({ Utility, Style }) => {
+        const isDefault = Utility.raw === className;
+        const modifier = isDefault? 'DEFAULT' : Utility.body;
+        if (!all.includes(modifier)) return;
+        return [
+          ...Style.generate(isDefault? `.${className}` : `.${className}-${modifier}`, configToCss(config[modifier])),
+          ...(rtl ? Style.generate(isDefault? `.${className}[dir="rtl"]` : `.${className}-${modifier}[dir="rtl"]`,
+            configToCss(config['rtl'][modifier])) : []),
+        ];
+      });
     };
   },
   () => ({
-    theme: { typography: styles },
+    theme: { typography: (theme: ThemeUtil) => ({ ...styles(theme), rtl: rtlStyles(theme) }) },
     variants: { typography: ['responsive'] },
   })
 );

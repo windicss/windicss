@@ -33,6 +33,40 @@ describe('typography plugin', () => {
     expect(css).toMatchSnapshot('css');
   });
 
+  it('rtl interpret test', () => {
+    const processor = new Processor({
+      plugins: [
+        typography({ rtl: true }),
+      ],
+    });
+    const classes = `
+      prose
+      prose-sm
+      prose-lg
+      prose-xl
+      prose-2xl
+      prose-pink
+      prose-fuchsia
+      prose-purple
+      prose-violet
+      prose-indigo
+      prose-blue
+      prose-cyan
+      prose-teal
+      prose-emerald
+      prose-green
+      prose-lime
+      prose-yellow
+      prose-amber
+      prose-orange
+      prose-red
+      `;
+    const result = processor.interpret(classes);
+    expect(result.ignored.length).toEqual(0);
+    const css = result.styleSheet.build();
+    expect(css).toMatchSnapshot('rtl');
+  });
+
   it('with extend', () => {
     const processor = new Processor({
       theme: {

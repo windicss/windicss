@@ -1,14 +1,6 @@
 import { colors } from '../../config';
-import { isUsableColor } from './utils';
+import { round, rem, em, isUsableColor } from './utils';
 import type { ThemeUtil } from '../../interfaces';
-
-const round = (num: number) =>
-  num
-    .toFixed(7)
-    .replace(/(\.[0-9]+?)0+$/, '$1')
-    .replace(/\.0$/, '');
-const rem = (px: number) => `${round(px / 16)}rem`;
-const em = (px: number, base: number) => `${round(px / base)}em`;
 
 const styles: (
   theme: ThemeUtil
