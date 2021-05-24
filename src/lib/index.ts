@@ -669,14 +669,17 @@ export class Processor {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
+    const { prefix, disable }: { prefix?: string, disable?: string[] } = (this._config.attributify && typeof this._config.attributify === 'boolean') ? {} : this._config.attributify || {};
+
     const _gStyle = (
       key: string,
       value: string,
       equal = false,
+      notAllow = false,
       ignoreProcessed = false,
     ) => {
-      const buildSelector = `[${this.e(key)}${equal?'=':'~='}"${value}"]`;
-      if (ignoreProcessed && this._cache.attrs.includes(buildSelector)) {
+      const buildSelector = `[${this.e((prefix || '') + key)}${equal?'=':'~='}"${value}"]`;
+      if (notAllow || (ignoreProcessed && this._cache.attrs.includes(buildSelector))) {
         ignored.push(buildSelector);
         return;
       }
@@ -901,11 +904,21 @@ export class Processor {
       }
     };
 
-    for (const [key, value] of Object.entries(attrs)) {
+    // eslint-disable-next-line prefer-const
+    for (let [key, value] of Object.entries(attrs)) {
+      let notAllow = false;
+      if (prefix) {
+        if (key.startsWith(prefix)) {
+          key = key.slice(prefix.length);
+        } else {
+          notAllow = true;
+        }
+      }
+      if (disable?.includes(key)) notAllow = true;
       if (Array.isArray(value)) {
-        value.forEach(i => _gStyle(key, i, false, ignoreProcessed));
+        value.forEach(i => _gStyle(key, i, false, notAllow, ignoreProcessed));
       } else {
-        _gStyle(key, value, true, ignoreProcessed);
+        _gStyle(key, value, true, notAllow, ignoreProcessed);
       }
     }
 

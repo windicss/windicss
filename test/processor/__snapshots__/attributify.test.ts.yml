@@ -54,6 +54,58 @@ Tools / Attributes for medium only and large only / css / 0: |-
       font-weight: 300;
     }
   }
+Tools / With Prefix and disable config / css / 0: |-
+  [w-text~="lg"] {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [w-text~="white"] {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+Tools / With Prefix config / css / 0: |-
+  [w-bg~="!red-500"] {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
+  }
+  [w-text~="lg"] {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [w-text~="white"] {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+  @media (min-width: 640px) {
+    [w-sm~="bg-red-500"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+  }
+  @media (min-width: 768px) {
+    [w-bg~="md:red-600"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+    }
+  }
+Tools / With disable config / css / 0: |-
+  [font~="sans"] {
+    font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  }
+  [text~="lg"] {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  [text~="white"] {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+  @media (min-width: 1280px) {
+    [xl~="bg-blue-500"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
+    }
+  }
 Tools / attributify order / css / 0: |-
   [position~="fixed"] {
     position: fixed;

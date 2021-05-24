@@ -664,4 +664,56 @@ describe('Attributify Mode', () => {
       'text': ['lg', 'white', '<lg:gray-200', '@md:opacity-50'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('With Prefix config', () => {
+    const processor = new Processor({
+      attributify: {
+        prefix: 'w-',
+      },
+    });
+    const result = processor.attributify({
+      'w-bg': ['!red-500', 'md:red-600'],
+      'w-text': ['lg', 'white'],
+      'w-sm': ['bg-red-500'],
+      'font': ['sans'],
+      'xl': ['bg-blue-500'],
+    });
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+    expect(result.ignored.length).toEqual(2);
+  });
+
+  it('With disable config', () => {
+    const processor = new Processor({
+      attributify: {
+        disable: [ 'bg', 'sm' ],
+      },
+    });
+    const result = processor.attributify({
+      'bg': ['!red-500', 'md:red-600'],
+      'text': ['lg', 'white'],
+      'sm': ['bg-red-500'],
+      'font': ['sans'],
+      'xl': ['bg-blue-500'],
+    });
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+    expect(result.ignored.length).toEqual(3);
+  });
+
+  it('With Prefix and disable config', () => {
+    const processor = new Processor({
+      attributify: {
+        prefix: 'w-',
+        disable: [ 'bg', 'sm' ],
+      },
+    });
+    const result = processor.attributify({
+      'w-bg': ['!red-500', 'md:red-600'],
+      'w-text': ['lg', 'white'],
+      'w-sm': ['bg-red-500'],
+      'font': ['sans'],
+      'xl': ['bg-blue-500'],
+    });
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+    expect(result.ignored.length).toEqual(5);
+  });
 });
