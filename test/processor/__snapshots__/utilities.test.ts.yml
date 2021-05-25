@@ -347,6 +347,31 @@ Tools / fontsize config test / fontSize / 0: |-
     font-size: 1.25rem;
     line-height: 2rem;
   }
+Tools / from via to opacity / css / 0: |-
+  .from-opacity-50 {
+    --tw-from-opacity: 0.5;
+  }
+  .via-opacity-50 {
+    --tw-via-opacity: 0.5;
+  }
+  .to-opacity-50 {
+    --tw-to-opacity: 0.5;
+  }
+  .outline-opacity-50 {
+    --tw-outline-opacity: 0.5;
+  }
+  .ring-offset-opacity-50 {
+    --tw-ring-offset-opacity: 0.5;
+  }
+  .fill-opacity-50 {
+    --tw-fill-opacity: 0.5;
+  }
+  .stroke-opacity-50 {
+    --tw-stroke-opacity: 0.5;
+  }
+  .text-stroke-opacity-50 {
+    --tw-ring-offset-opacity: 0.5;
+  }
 Tools / grid template test / grid template / 0: |-
   .grid-cols-list {
     grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));

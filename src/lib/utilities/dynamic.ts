@@ -445,11 +445,21 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       new Property('-webkit-text-stroke-color', theme('textStrokeColor.DEFAULT', '#e4e4e7') as string),
       new Property('-webkit-text-stroke-width', theme('textStrokeWidth.DEFAULT', 'medium') as string),
     ]).updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 1, true);
+
+    if (utility.raw.startsWith('text-stroke-opacity')) {
+      return utility.handler
+        .handleStatic(theme('opacity'))
+        .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+        .handleVariable()
+        .createProperty('--tw-ring-offset-opacity')
+        ?.updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 3, true);
+    }
+
     return utility.clone('textStroke' + utility.raw.slice(11)).handler
       .handleColor(theme('textStrokeColor'))
       .handleOpacity(theme('opacity'))
       .handleVariable()
-      .createColorStyle(utility.class, '-webkit-text-stroke-color')
+      .createColorStyle(utility.class, '-webkit-text-stroke-color', '--tw-text-stroke-opacity')
       ?.updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 2, true)
   || utility.handler
     .handleStatic(theme('textStrokeWidth'))
@@ -675,10 +685,18 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/backgrounds.html#gradient-from
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('from-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-from-opacity')
+      ?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 2, true);
+  }
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class, [
-      new Property('--tw-gradient-from', handler.createColorValue()),
+      new Property('--tw-gradient-from', handler.createColorValue('var(--tw-from-opacity, 1)')),
       new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`),
     ]).updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 1, true);
   }
@@ -686,21 +704,37 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/backgrounds.html#gradient-via
 function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('via-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-via-opacity')
+      ?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 4, true);
+  }
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class,
-      new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.createColorValue()}, var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`)
-    )?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 2, true);
+      new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.createColorValue('var(--tw-via-opacity, 1)')}, var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`)
+    )?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 3, true);
   }
 }
 
 // https://windicss.org/utilities/backgrounds.html#gradient-to
 function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('to-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-to-opacity')
+      ?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 6, true);
+  }
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class,
-      new Property('--tw-gradient-to', handler.createColorValue())
-    )?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 3, true);
+      new Property('--tw-gradient-to', handler.createColorValue('var(--tw-to-opacity, 1)'))
+    )?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 5, true);
   }
 }
 
@@ -842,13 +876,22 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
     if (value) return new Property('--tw-ring-offset-width', value).toStyle(utility.class.replace('ringOffset', 'ring-offset')).updateMeta('utilities', 'ringOffsetWidth', pluginOrder.ringOffsetWidth, 2, true);
   }
 
+  if (utility.raw.startsWith('ringOffset-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-ring-offset-opacity')
+      ?.updateMeta('utilities', 'ringOffsetColor', pluginOrder.ringOffsetColor, 2, true);
+  }
+
   // handle ring offset color || ring offset width
   return utility.handler
     .handleColor(theme('ringOffsetColor'))
     .handleOpacity('ringOpacity')
     .handleVariable()
     .handleSquareBrackets()
-    .createColorStyle(utility.class.replace('ringOffset', 'ring-offset'), '--tw-ring-offset-color')
+    .createColorStyle(utility.class.replace('ringOffset', 'ring-offset'), '--tw-ring-offset-color', '--tw-ring-offset-opacity')
     ?.updateMeta('utilities', 'ringOffsetColor', pluginOrder.ringOffsetColor, 1, true)
   || utility.handler
     .handleStatic(theme('ringOffsetWidth'))
@@ -1293,6 +1336,15 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
   if (Object.keys(staticMap).includes(amount))
     return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
 
+  if (utility.raw.startsWith('outline-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-outline-opacity')
+      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 4, true);
+  }
+
   if (utility.raw.match(/^outline-(solid|dotted)/)) {
     const newUtility = utility.clone(utility.raw.replace('outline-', ''));
     const outlineColor = newUtility.handler
@@ -1300,7 +1352,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
       .handleColor()
       .handleOpacity(theme('opacity'))
       .handleVariable()
-      .createColorValue();
+      .createColorValue('var(--tw-outline-opacity, 1)');
 
     if (outlineColor) return new Style(utility.class, [
       new Property('outline', `2px ${newUtility.identifier} ${outlineColor}`),
@@ -1318,12 +1370,20 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/svg.html#fill-color
 function fill(utility: Utility, { theme }: PluginUtils): Output {
+  if (utility.raw.startsWith('fill-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-fill-opacity')
+      ?.updateMeta('utilities', 'fill', pluginOrder.ringOffsetColor, 2, true);
+  }
   return utility.handler
     .handleColor(theme('fill'))
     .handleOpacity(theme('opacity'))
     .handleSquareBrackets()
     .handleVariable()
-    .createColorStyle(utility.class, 'fill')
+    .createColorStyle(utility.class, 'fill', '--tw-fill-opacity')
     ?.updateMeta('utilities', 'fill', pluginOrder.fill, 1, true);
 }
 
@@ -1336,12 +1396,21 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('stroke-offset')) {
     return utility.handler.handleNumber().createProperty('stroke-dashoffset')?.updateMeta('utilities', 'strokeDashOffset', pluginOrder.strokeDashOffset, 0, true);
   }
+
+  if (utility.raw.startsWith('stroke-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleVariable()
+      .createProperty('--tw-stroke-opacity')
+      ?.updateMeta('utilities', 'stroke', pluginOrder.stroke, 2, true);
+  }
   return utility.handler
     .handleColor(theme('stroke'))
     .handleOpacity(theme('opacity'))
     .handleVariable()
     .handleSquareBrackets()
-    .createColorStyle(utility.class, 'stroke')
+    .createColorStyle(utility.class, 'stroke', '--tw-stroke-opacity')
     ?.updateMeta('utilities', 'stroke', pluginOrder.stroke, 1, true)
   || (utility.raw.startsWith('stroke-$')
     ? utility.handler
