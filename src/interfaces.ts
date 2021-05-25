@@ -236,6 +236,8 @@ export type DarkModeConfig = 'class' | 'media' | false;
 
 export type Handlers = {
   static?: boolean
+  color?: boolean
+  opacity?: boolean
   number?: boolean
   string?: boolean
   bracket?: boolean

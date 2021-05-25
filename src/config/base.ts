@@ -1036,6 +1036,8 @@ export const baseConfig: Config = {
   plugins: [],
   handlers: {
     static : true,
+    color: true,
+    opacity: true,
     number : true,
     string: true,
     bracket: true,
