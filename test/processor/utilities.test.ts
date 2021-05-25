@@ -212,4 +212,19 @@ describe('Utilities', () => {
   it('content utilities', () => {
     expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)] content').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('color opacity group utilities', () => {
+    expect(processor.interpret(`bg-green-500/50 bg-blue-600/32
+    bg-indigo-500/$primary-opacity bg-[var(--background-color)]
+    bg-teal-500/[var(--primary-opacity)] bg-green-500/[0.17]
+    text-green-500/50
+    underline-green-500/50
+    placeholder-green-500/50
+    caret-green-500/50
+    border-green-500/50
+    divide-green-500/50
+    ring-green-500/50
+    outlint-green-500/50
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -122,6 +122,75 @@ Tools / caret color / css / 0: |-
   .caret-opacity-80 {
     --tw-caret-opacity: 0.8;
   }
+Tools / color opacity group utilities / css / 0: |-
+  .divide-green-500\/50 > :not([hidden]) ~ :not([hidden]) {
+    --tw-divide-opacity: 0.5;
+    border-color: rgba(16, 185, 129, var(--tw-divide-opacity));
+  }
+  .bg-green-500\/50 {
+    --tw-bg-opacity: 0.5;
+    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+  }
+  .bg-blue-600\/32 {
+    --tw-bg-opacity: 0.32;
+    background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
+  }
+  .bg-indigo-500\/\$primary-opacity {
+    --tw-bg-opacity: var(--primary-opacity);
+    background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
+  }
+  .bg-\[var\(--background-color\)\] {
+    background-color: var(--background-color);
+  }
+  .bg-teal-500\/\[var\(--primary-opacity\)\] {
+    --tw-bg-opacity: var(--primary-opacity);
+    background-color: rgba(20, 184, 166, var(--tw-bg-opacity));
+  }
+  .bg-green-500\/\[0\.17\] {
+    --tw-bg-opacity: 0.17;
+    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+  }
+  .border-green-500\/50 {
+    --tw-border-opacity: 0.5;
+    border-color: rgba(16, 185, 129, var(--tw-border-opacity));
+  }
+  .placeholder-green-500\/50::-webkit-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+  }
+  .placeholder-green-500\/50::-moz-placeholder {
+    --tw-placeholder-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+  }
+  .placeholder-green-500\/50:-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+  }
+  .placeholder-green-500\/50::-ms-input-placeholder {
+    --tw-placeholder-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+  }
+  .placeholder-green-500\/50::placeholder {
+    --tw-placeholder-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+  }
+  .caret-green-500\/50 {
+    --tw-caret-opacity: 0.5;
+    caret-color: rgba(16, 185, 129, var(--tw-caret-opacity));
+  }
+  .ring-green-500\/50 {
+    --tw-ring-opacity: 0.5;
+    --tw-ring-color: rgba(16, 185, 129, var(--tw-ring-opacity));
+  }
+  .text-green-500\/50 {
+    --tw-text-opacity: 0.5;
+    color: rgba(16, 185, 129, var(--tw-text-opacity));
+  }
+  .underline-green-500\/50 {
+    --tw-line-opacity: 0.5;
+    -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
+    text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
+  }
 Tools / container max-width test / container / 0: |-
   .container {
     width: 100%;
