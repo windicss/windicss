@@ -149,19 +149,19 @@ Tools / interpret outline / outline / 0: |-
     outline-offset: 2px;
   }
   .outline-solid-black {
-    outline: 2px solid rgb(0, 0, 0);
+    outline: 2px solid rgba(0, 0, 0, var(--tw-outline-opacity, 1));
     outline-offset: 2px;
   }
   .outline-dotted-white {
-    outline: 2px dotted rgb(255, 255, 255);
+    outline: 2px dotted rgba(255, 255, 255, var(--tw-outline-opacity, 1));
     outline-offset: 2px;
   }
   .outline-solid-red-200 {
-    outline: 2px solid rgb(254, 202, 202);
+    outline: 2px solid rgba(254, 202, 202, var(--tw-outline-opacity, 1));
     outline-offset: 2px;
   }
   .outline-dotted-red-200 {
-    outline: 2px dotted rgb(254, 202, 202);
+    outline: 2px dotted rgba(254, 202, 202, var(--tw-outline-opacity, 1));
     outline-offset: 2px;
   }
 Tools / interpret screen variants / screen variants / 0: |-
@@ -196,24 +196,24 @@ Tools / interpret square brackets / square brackets / 0: |-
     background-color: rgba(34, 51, 68, var(--tw-bg-opacity));
   }
   .from-\[\#da5b66\] {
-    --tw-gradient-from: rgb(218, 91, 102);
+    --tw-gradient-from: rgba(218, 91, 102, var(--tw-from-opacity, 1));
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(218, 91, 102, 0));
   }
   .from-\[var\(--color\)\] {
-    --tw-gradient-from: rgb(var(--color));
+    --tw-gradient-from: rgba(var(--color), var(--tw-from-opacity, 1));
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(var(--color), 0));
   }
   .via-\[\#da5b66\] {
-    --tw-gradient-stops: var(--tw-gradient-from), rgb(218, 91, 102), var(--tw-gradient-to, rgba(218, 91, 102, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(218, 91, 102, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(218, 91, 102, 0));
   }
   .via-\[var\(--color\)\] {
-    --tw-gradient-stops: var(--tw-gradient-from), rgb(var(--color)), var(--tw-gradient-to, rgba(var(--color), 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(var(--color), var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(var(--color), 0));
   }
   .to-\[\#da5b66\] {
-    --tw-gradient-to: rgb(218, 91, 102);
+    --tw-gradient-to: rgba(218, 91, 102, var(--tw-to-opacity, 1));
   }
   .to-\[var\(--color\)\] {
-    --tw-gradient-to: rgb(var(--color));
+    --tw-gradient-to: rgba(var(--color), var(--tw-to-opacity, 1));
   }
   .bg-opacity-\[0\.11\] {
     --tw-bg-opacity: 0.11;
@@ -426,7 +426,8 @@ Tools / interpret square brackets / square brackets / 0: |-
     box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
   }
   .ring-offset-\[\#76ad65\] {
-    --tw-ring-offset-color: rgb(118, 173, 101);
+    --tw-ring-offset-opacity: 1;
+    --tw-ring-offset-color: rgba(118, 173, 101, var(--tw-ring-offset-opacity));
   }
   .ring-\[\#34123250\] {
     --tw-ring-opacity: 0.3137254901960784;
@@ -440,13 +441,15 @@ Tools / interpret square brackets / square brackets / 0: |-
     --tw-ring-opacity: var(--ring-opacity);
   }
   .fill-\[\#1c1c1e\] {
-    fill: rgb(28, 28, 30);
+    --tw-fill-opacity: 1;
+    fill: rgba(28, 28, 30, var(--tw-fill-opacity));
   }
   .fill-\[var\(--color\)\] {
     fill: var(--color);
   }
   .stroke-\[\#da5b66\] {
-    stroke: rgb(218, 91, 102);
+    --tw-stroke-opacity: 1;
+    stroke: rgba(218, 91, 102, var(--tw-stroke-opacity));
   }
   .text-\[\#9254d2\] {
     --tw-text-opacity: 1;

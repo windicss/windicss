@@ -217,10 +217,12 @@ Tools / handle colors test / css / 0: |-
     background-color: rgba(114, 137, 218, var(--tw-bg-opacity));
   }
   .ring-offset-hex-1c1c1e {
-    --tw-ring-offset-color: rgb(28, 28, 30);
+    --tw-ring-offset-opacity: 1;
+    --tw-ring-offset-color: rgba(28, 28, 30, var(--tw-ring-offset-opacity));
   }
   .ring-offset-gray-200 {
-    --tw-ring-offset-color: rgb(229, 231, 235);
+    --tw-ring-offset-opacity: 1;
+    --tw-ring-offset-color: rgba(229, 231, 235, var(--tw-ring-offset-opacity));
   }
   .text-primary-color-red {
     --tw-text-opacity: 1;
