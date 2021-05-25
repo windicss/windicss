@@ -373,6 +373,37 @@ Tools / list style type / css / 0: |-
   .list-zero-decimal {
     list-style-type: decimal-leading-zero;
   }
+Tools / more color opacity group utilities / css / 0: |-
+  .from-green-500\/50 {
+    --tw-gradient-from: rgba(16, 185, 129, 0.5);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16, 185, 129, 0.5));
+  }
+  .via-green-500\/50 {
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(16, 185, 129, 0.5), var(--tw-gradient-to, rgba(16, 185, 129, 0.5));
+  }
+  .to-green-500\/50 {
+    --tw-gradient-to: rgba(16, 185, 129, 0.5);
+  }
+  .outline-solid-green-500\/50 {
+    outline: 2px solid rgba(16, 185, 129, 0.5);
+    outline-offset: 2px;
+  }
+  .ring-offset-green-500\/50 {
+    --tw-ring-offset-opacity: 50;
+    --tw-ring-offset-color: rgba(16, 185, 129, var(--tw-ring-offset-opacity));
+  }
+  .fill-green-500\/50 {
+    --tw-fill-opacity: 0.5;
+    fill: rgba(16, 185, 129, var(--tw-fill-opacity));
+  }
+  .stroke-green-500\/50 {
+    --tw-stroke-opacity: 0.5;
+    stroke: rgba(16, 185, 129, var(--tw-stroke-opacity));
+  }
+  .text-stroke-green-500\/50 {
+    --tw-text-stroke-opacity: 0.5;
+    -webkit-text-stroke-color: rgba(16, 185, 129, var(--tw-text-stroke-opacity));
+  }
 Tools / prespective and perspective origin / css / 0: |-
   .perspect-none {
     -webkit-perspective: none;
@@ -430,7 +461,8 @@ Tools / shadow color / css / 0: |-
   }
 Tools / stroke svg / css / 0: |-
   .stroke-gray-200 {
-    stroke: rgb(229, 231, 235);
+    --tw-stroke-opacity: 1;
+    stroke: rgba(229, 231, 235, var(--tw-stroke-opacity));
   }
   .stroke-cap-round {
     stroke-linecap: round;
@@ -575,7 +607,8 @@ Tools / text stroke width & stroke color / css / 0: |-
     -webkit-text-stroke-width: medium;
   }
   .text-stroke-gray-200 {
-    -webkit-text-stroke-color: rgb(229, 231, 235);
+    --tw-text-stroke-opacity: 1;
+    -webkit-text-stroke-color: rgba(229, 231, 235, var(--tw-text-stroke-opacity));
   }
   .text-stroke-sm {
     -webkit-text-stroke-width: thin;

@@ -227,4 +227,17 @@ describe('Utilities', () => {
     outlint-green-500/50
     `).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('more color opacity group utilities', () => {
+    expect(processor.interpret(`from-green-500/50
+    via-green-500/50
+    to-green-500/50
+    ring-offset-green-500/50
+    fill-green-500/50
+    stroke-green-500/50
+    text-stroke-green-500/50
+    outline-solid-green-500/50
+    outline-dashed-green-500/50
+`).styleSheet.build()).toMatchSnapshot('css');
+  });
 });
