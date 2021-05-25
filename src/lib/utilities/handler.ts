@@ -11,14 +11,16 @@ import {
   hex2RGB,
   negateValue,
   flatColors,
+  splitColorGroup,
 } from '../../utils/tools';
 
-import type { colorCallback, colorObject, Handlers } from '../../interfaces';
+import type { colorCallback, colorObject, DictStr, Handlers } from '../../interfaces';
 
 export type Handler = {
   utility: Utility
   value?: string
   _amount: string
+  opacity?: string | undefined
   color?: colorCallback
   handleStatic: (
     map?: { [key: string]: string | string[] } | unknown,
@@ -42,6 +44,7 @@ export type Handler = {
   handleColor: (
     map?: colorObject | unknown
   ) => Handler
+  handleOpacity: (map?: DictStr | unknown) => Handler
   handleFraction: (
     callback?: (fraction: string) => string | undefined
   ) => Handler
@@ -179,22 +182,42 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         return handler;
       } : () => handler,
 
-      handleColor: handlers.static ? (map = defaultColors) => {
+      handleColor: handlers.color ? (map = defaultColors) => {
         if (handler.value) return handler;
         let color;
         if (map && typeof map === 'object') {
           const colors = flatColors(map as colorObject);
           const body = handler.utility.raw.replace(/^ring-offset|outline-solid|outline-dotted/, 'head').replace(/^\w+-/, '');
-          if (body in colors) {
-            color = colors[body];
-          } else if (handlers.hex && body.startsWith('hex-')) {
-            const hex = body.slice(4);
+          const [ key, opacity ] = splitColorGroup(body);
+          handler.opacity = opacity;
+          if (key in colors) {
+            color = colors[key];
+          } else if (handlers.hex && key.startsWith('hex-')) {
+            const hex = key.slice(4);
             if(hex2RGB(hex)) color = '#' + hex;
           }
           if (typeof color === 'string') {
             handler.value = color;
           } else if (typeof color === 'function') {
             handler.color = color;
+          }
+        }
+        return handler;
+      }: () => handler,
+
+      handleOpacity: handlers.opacity ? (map) => {
+        if (handler.opacity && typeof map === 'object') {
+          const _map = map as DictStr;
+          if (handlers.static && handler.opacity in _map) {
+            handler.opacity = _map[handler.opacity];
+          } else if (handlers.number && isNumber(handler.opacity, 0, 100, 'int')) {
+            handler.opacity = (+handler.opacity / 100).toString();
+          } else if (handlers.variable && handler.opacity.charAt(0) === '$') {
+            handler.opacity = `var(--${handler.opacity.slice(1)})`;
+          } else if (handlers.bracket && handler.opacity.charAt(0) === '[' && handler.opacity.charAt(handler.opacity.length - 1) === ']') {
+            handler.opacity = handler.opacity.slice(1, -1).replace(/_/g, ' ');
+          } else {
+            handler.opacity = undefined;
           }
         }
         return handler;
@@ -221,10 +244,10 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       createColorValue: (opacityValue) => {
         if (handler.color) return handler.color({ opacityValue });
         if (handler.value) {
-          if (handler.value === 'transparent') return `rgba(0, 0, 0, ${opacityValue})`;
-          if (handler.value === 'currentColor') return `rgba(255, 255, 255, ${opacityValue})`;
-          if (handler.value.includes('var') && opacityValue) return `rgba(${handler.value}, ${opacityValue})`;
-          return opacityValue ? `rgba(${toColor(handler.value).color}, ${opacityValue})` : `rgb(${toColor(handler.value).color})`;
+          if (handler.value === 'transparent') return `rgba(0, 0, 0, ${handler.opacity || opacityValue})`;
+          if (handler.value === 'currentColor') return `rgba(255, 255, 255, ${handler.opacity || opacityValue})`;
+          if (handler.value.includes('var') && opacityValue) return `rgba(${handler.value}, ${handler.opacity || opacityValue})`;
+          return opacityValue ? `rgba(${toColor(handler.value).color}, ${handler.opacity || opacityValue})` : `rgb(${toColor(handler.value).color})`;
         }
       },
 
@@ -233,7 +256,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
           const value = handler.color({ opacityVariable, opacityValue: opacityVariable ? `var(${opacityVariable})`: undefined });
           if (opacityVariable) {
             return new Style(selector, [
-              new Property(opacityVariable, '1'),
+              new Property(opacityVariable, handler.opacity || '1'),
               new Property(property, value),
             ]);
           }
@@ -245,7 +268,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         const rgb = toColor(color);
         if (opacityVariable) {
           return new Style(selector, [
-            new Property(opacityVariable, rgb.opacity),
+            new Property(opacityVariable, handler.opacity || rgb.opacity),
             new Property(property, `rgba(${rgb.color}, var(${opacityVariable}))`),
           ]);
         }
