@@ -97,6 +97,26 @@ Tools / border radius fraction / css / 0: |-
   .rounded-1\/4 {
     border-radius: 25%;
   }
+Tools / border top/left/bottom/right color / css / 0: |-
+  .border-green-200 {
+    --tw-border-opacity: 1;
+    border-color: rgba(167, 243, 208, var(--tw-border-opacity));
+  }
+  .border-green-200\/50 {
+    --tw-border-opacity: 0.5;
+    border-color: rgba(167, 243, 208, var(--tw-border-opacity));
+  }
+  .border-t-green-200 {
+    --tw-border-opacity: 1;
+    border-top-color: rgba(167, 243, 208, var(--tw-border-opacity));
+  }
+  .border-b-green-200 {
+    --tw-border-opacity: 1;
+    border-bottom-color: rgba(167, 243, 208, var(--tw-border-opacity));
+  }
+  .border-t-green-200\/50 {
+    border-top-color: rgba(167, 243, 208, 0.5);
+  }
 Tools / border width shouldn't infer / css / 0: |-
   .border-gray-200 {
     --tw-border-opacity: 1;

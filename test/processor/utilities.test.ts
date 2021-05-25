@@ -244,4 +244,8 @@ describe('Utilities', () => {
   it('from via to opacity', () => {
     expect(processor.interpret('from-opacity-50 via-opacity-50 to-opacity-50 text-stroke-opacity-50 ring-offset-opacity-50 outline-opacity-50 fill-opacity-50 stroke-opacity-50').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('border top/left/bottom/right color', () => {
+    expect(processor.interpret('border-t-green-200 border-t-green-200/50 border-b-green-200 border-green-200 border-green-200/50').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
