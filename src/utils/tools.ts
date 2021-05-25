@@ -316,3 +316,10 @@ export function increaseWithUnit(target: string | number, delta: number): string
     return target;
   return result + unit;
 }
+
+
+export function splitColorGroup(color: string): [ string, string | undefined ] {
+  const sep = color.indexOf('/');
+  if (sep === -1) return [ color, undefined ];
+  return [ color.slice(0, sep), color.slice(sep+1) ];
+}

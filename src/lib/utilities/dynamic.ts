@@ -447,6 +447,7 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
     ]).updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 1, true);
     return utility.clone('textStroke' + utility.raw.slice(11)).handler
       .handleColor(theme('textStrokeColor'))
+      .handleOpacity(theme('opacity'))
       .handleVariable()
       .createColorStyle(utility.class, '-webkit-text-stroke-color')
       ?.updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 2, true)
@@ -459,8 +460,9 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   }
   // handle text colors
   const textColor = utility.handler
-    .handleSquareBrackets(notNumberLead)
     .handleColor(theme('textColor'))
+    .handleOpacity(theme('textOpacity'))
+    .handleSquareBrackets(notNumberLead)
     .handleVariable()
     .createColorStyle(utility.class, 'color', '--tw-text-opacity')
     ?.updateMeta('utilities', 'textColor', pluginOrder.textColor, 0, true);
@@ -536,6 +538,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
   // handle text decoration color or length
   return utility.handler
     .handleColor(theme('textDecorationColor'))
+    .handleOpacity(theme('opacity'))
     .handleVariable()
     .createColorStyle(utility.class, ['-webkit-text-decoration-color', 'text-decoration-color'], '--tw-line-opacity')
     ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 0, true)
@@ -582,6 +585,7 @@ function placeholder(utility: Utility, { theme, config }: PluginUtils): Output {
   }
   const color = utility.handler
     .handleColor(theme('placeholderColor'))
+    .handleOpacity(theme('placeholderOpacity'))
     .handleSquareBrackets()
     .handleVariable()
     .createColorStyle(utility.class, 'color', '--tw-placeholder-opacity');
@@ -602,6 +606,7 @@ function caret(utility: Utility, { theme }: PluginUtils): Output {
   }
   return utility.handler
     .handleColor(theme('caretColor'))
+    .handleOpacity(theme('caretOpacity'))
     .handleVariable()
     .createColorStyle(utility.class, 'caret-color', '--tw-caret-opacity')
     ?.updateMeta('utilities', 'caretColor', pluginOrder.caretColor, 0, true);
@@ -660,8 +665,9 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
 
   // handle background color
   return utility.handler
-    .handleSquareBrackets(notNumberLead)
     .handleColor(theme('backgroundColor'))
+    .handleOpacity(theme('backgroundOpacity'))
+    .handleSquareBrackets(notNumberLead)
     .handleVariable()
     .createColorStyle(utility.class, 'background-color', '--tw-bg-opacity')
     ?.updateMeta('utilities', 'backgroundColor', pluginOrder.backgroundColor, 0, true);
@@ -669,7 +675,7 @@ function background(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/backgrounds.html#gradient-from
 function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
-  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().handleSquareBrackets();
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class, [
       new Property('--tw-gradient-from', handler.createColorValue()),
@@ -680,7 +686,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/backgrounds.html#gradient-via
 function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
-  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().handleSquareBrackets();
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class,
       new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.createColorValue()}, var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`)
@@ -690,7 +696,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/backgrounds.html#gradient-to
 function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
-  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleVariable().handleSquareBrackets();
+  const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class,
       new Property('--tw-gradient-to', handler.createColorValue())
@@ -731,8 +737,9 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
 
   // handle border color
   const borderColor = utility.handler
-    .handleSquareBrackets(notNumberLead)
     .handleColor(theme('borderColor'))
+    .handleOpacity(theme('borderOpacity'))
+    .handleSquareBrackets(notNumberLead)
     .handleVariable((variable: string) => utility.raw.startsWith('border-$') ? `var(--${variable})` : undefined)
     .createColorStyle(utility.class, 'border-color', '--tw-border-opacity')
     ?.updateMeta('utilities', 'borderColor', pluginOrder.borderColor, 2, true);
@@ -773,6 +780,7 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
   // handle divide color
   const divideColor = utility.handler
     .handleColor(theme('divideColor'))
+    .handleOpacity(theme('divideOpacity'))
     .handleVariable((variable: string) => utility.raw.startsWith('divide-$') ? `var(--${variable})` : undefined)
     .createColorStyle(utility.class, 'border-color', '--tw-divide-opacity')
     ?.child('> :not([hidden]) ~ :not([hidden])')
@@ -837,6 +845,7 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
   // handle ring offset color || ring offset width
   return utility.handler
     .handleColor(theme('ringOffsetColor'))
+    .handleOpacity('ringOpacity')
     .handleVariable()
     .handleSquareBrackets()
     .createColorStyle(utility.class.replace('ringOffset', 'ring-offset'), '--tw-ring-offset-color')
@@ -867,8 +876,9 @@ function ring(utility: Utility, utils: PluginUtils): Output {
       ?.updateMeta('utilities', 'ringOpacity', pluginOrder.ringOpacity, 1, true);
   // handle ring color
   const ringColor = utility.handler
-    .handleSquareBrackets(notNumberLead)
     .handleColor(utils.theme('ringColor'))
+    .handleOpacity(utils.theme('ringOpacity'))
+    .handleSquareBrackets(notNumberLead)
     .handleVariable((variable: string) => utility.raw.startsWith('ring-$') ? `var(--${variable})` : undefined)
     .createColorStyle(utility.class, '--tw-ring-color', '--tw-ring-opacity')
     ?.updateMeta('utilities', 'ringColor', pluginOrder.ringColor, 0, true);
@@ -1091,8 +1101,9 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
   }
   // handle shadowColor
   return utility.handler
-    .handleSquareBrackets()
     .handleColor(theme('boxShadowColor'))
+    .handleOpacity(theme('opacity'))
+    .handleSquareBrackets()
     .handleVariable()
     .createColorStyle(utility.class, '--tw-shadow-color', undefined, false)
     ?.updateMeta('utilities', 'boxShadowColor', pluginOrder.boxShadowColor, 0, true);
@@ -1287,6 +1298,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
     const outlineColor = newUtility.handler
       .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
       .handleColor()
+      .handleOpacity(theme('opacity'))
       .handleVariable()
       .createColorValue();
 
@@ -1296,7 +1308,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
     ).updateMeta('utilities', 'outline', pluginOrder.outline, 3, true);
   }
 
-  const handler = utility.handler.handleColor().handleSquareBrackets().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
+  const handler = utility.handler.handleColor().handleOpacity(theme('opacity')).handleSquareBrackets().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
   const color = handler.createColorValue();
   if (color) return new Style(utility.class, [
     new Property('outline', `2px ${ handler.value === 'transparent' ? 'solid' : 'dotted'} ${color}`),
@@ -1308,6 +1320,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
 function fill(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleColor(theme('fill'))
+    .handleOpacity(theme('opacity'))
     .handleSquareBrackets()
     .handleVariable()
     .createColorStyle(utility.class, 'fill')
@@ -1325,6 +1338,7 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
   }
   return utility.handler
     .handleColor(theme('stroke'))
+    .handleOpacity(theme('opacity'))
     .handleVariable()
     .handleSquareBrackets()
     .createColorStyle(utility.class, 'stroke')
