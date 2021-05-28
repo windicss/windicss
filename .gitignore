@@ -57,3 +57,5 @@ dist
 .algolia.env
 
 !test/extend.d.ts
+!test/plugin/typography/src/*.d.ts
+!test/plugin/typography/index.html
