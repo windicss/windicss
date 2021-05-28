@@ -93,7 +93,7 @@ export default plugin.withOptions<{
     };
   },
   () => ({
-    theme: { typography: (theme: ThemeUtil) => ({ ...styles(theme), RTL: rtlStyles(theme), DARK: darkStyles(theme) }) },
+    theme: { typography: (theme: ThemeUtil) => ({ ...styles(theme), RTL: rtlStyles(), DARK: darkStyles(theme) }) },
     variants: { typography: ['responsive'] },
   })
 );

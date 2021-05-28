@@ -1,12 +1,6 @@
-import { defaultColors as colors } from '../../config/base';
 import { em } from './utils';
-import type { ThemeUtil } from '../../interfaces';
 
-const styles: (
-  theme: ThemeUtil
-) => { [key: string]: { css: { [key: string]: unknown }[] } } = (
-  theme: ThemeUtil
-) => ({
+const styles: () => { [key: string]: { css: { [key: string]: unknown }[] } } = () => ({
   DEFAULT: {
     css: [
       {
