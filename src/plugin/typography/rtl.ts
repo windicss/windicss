@@ -28,9 +28,7 @@ const styles: (
         },
         blockquote: {
           borderLeftWidth: '0',
-          borderLeftColor: 'initial',
           borderRightWidth: '0.25rem',
-          borderRightColor: theme('colors.gray.200', colors.gray[200]),
           paddingLeft: 'initial',
           paddingRight: em(20, 20),
         },

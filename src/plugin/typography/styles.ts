@@ -78,7 +78,7 @@ const styles: (
           fontStyle: 'italic',
           color: theme('colors.gray.900', colors.gray[900]),
           borderLeftWidth: '0.25rem',
-          borderLeftColor: theme('colors.gray.200', colors.gray[200]),
+          borderColor: theme('colors.gray.200', colors.gray[200]),
           quotes: '"\\201C""\\201D""\\2018""\\2019"',
         },
         'blockquote p:first-of-type::before': {

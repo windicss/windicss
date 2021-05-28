@@ -29,7 +29,7 @@ const styles: (
       },
       blockquote: {
         color: theme('colors.warm-gray.500', colors['warm-gray'][500]),
-        borderLeftColor: theme('colors.warm-gray.700', colors['warm-gray'][700]),
+        borderColor: theme('colors.warm-gray.700', colors['warm-gray'][700]),
       },
       h1: {
         color: theme('colors.warm-gray.200', colors['warm-gray'][200]),
