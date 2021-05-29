@@ -116,7 +116,7 @@ Tools / customize dark mode / media / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -359,7 +359,7 @@ Tools / customize dark mode / media / 0: |-
   }
   .dark .prose blockquote {
     color: #78716c;
-    border-left-color: #44403c;
+    border-color: #44403c;
   }
   .dark .prose h1 {
     color: #e7e5e4;
@@ -482,7 +482,7 @@ Tools / dark class interpret test / class / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -724,7 +724,7 @@ Tools / dark class interpret test / class / 0: |-
   }
   .dark .prose blockquote {
     color: #78716c;
-    border-left-color: #44403c;
+    border-color: #44403c;
   }
   .dark .prose h1 {
     color: #e7e5e4;
@@ -847,7 +847,7 @@ Tools / dark media interpret test / media / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -1090,7 +1090,7 @@ Tools / dark media interpret test / media / 0: |-
     }
     .prose blockquote {
       color: #78716c;
-      border-left-color: #44403c;
+      border-color: #44403c;
     }
     .prose h1 {
       color: #e7e5e4;
@@ -1214,7 +1214,7 @@ Tools / interpret test / css / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -2331,7 +2331,7 @@ Tools / rtl interpret test / rtl / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -2568,9 +2568,7 @@ Tools / rtl interpret test / rtl / 0: |-
   }
   .prose[dir="rtl"] blockquote {
     border-left-width: 0;
-    border-left-color: initial;
     border-right-width: 0.25rem;
-    border-right-color: #e5e7eb;
     padding-left: initial;
     padding-right: 1em;
   }
@@ -3628,7 +3626,7 @@ Tools / with extend / css / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
@@ -3932,7 +3930,7 @@ Tools / with multi selector / css / 0: |-
     font-style: italic;
     color: #111827;
     border-left-width: 0.25rem;
-    border-left-color: #e5e7eb;
+    border-color: #e5e7eb;
     quotes: "\201C""\201D""\2018""\2019";
     margin-top: 1.6em;
     margin-bottom: 1.6em;
