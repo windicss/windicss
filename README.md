@@ -33,7 +33,7 @@ A quote from the author should illustrate his motivation to create [Windi CSS]:
 
 By scanning your HTML and CSS and generating utilities on demand, [Windi CSS] is able to provide [faster load times][video comparison] and a speedy HMR in development, and does not require purging in production.
 
-Read more about it in the [Introduction](https://windicss.org/guide/introduction).
+Read more about it in the [Introduction](https://windicss.org/guide/).
 
 ## Integrations
 
