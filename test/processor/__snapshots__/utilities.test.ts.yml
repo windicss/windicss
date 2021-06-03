@@ -234,10 +234,35 @@ Tools / animation / animation / 0: |-
   .animate-shock {
     -webkit-animation: shock;
     animation: shock;
+    -webkit-transform-origin: center bottom;
+    -ms-transform-origin: center bottom;
+    transform-origin: center bottom;
   }
   .animate-flip-in-x {
     -webkit-animation: flipInX;
     animation: flipInX;
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+  .animate-ease {
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+  }
+  .animate-ease-in {
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  .animate-ease-linear {
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+  .animate-ease-out {
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+  .animate-ease-in-out {
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
   }
 Tools / animation test / animate-ping / 0: |-
   @keyframes ping {

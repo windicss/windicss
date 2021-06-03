@@ -255,6 +255,12 @@ describe('Utilities', () => {
 
   it('animation', () => {
     expect(processor.interpret(`
+      animate-ease
+      animate-ease-in
+      animate-ease-linear
+      animate-ease-out
+      animate-ease-in-out
+
       animate-none
       animate-spin
       animate-ping

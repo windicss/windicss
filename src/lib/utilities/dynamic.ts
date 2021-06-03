@@ -1226,9 +1226,11 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/behaviors.html#animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
+  const body = utility.body;
+  if (utility.raw.startsWith('animate-ease')) return utility.clone(utility.raw.slice(8)).handler.handleStatic(theme('animationTimingFunction')).createProperty(['-webkit-animation-timing-function', 'animation-timing-function'])?.updateMeta('utilities', 'animation', pluginOrder.animation, 3, true);
   const animations = toType(theme('animation'), 'object') as { [key: string]: string | { [key: string]: string } };
-  if (Object.keys(animations).includes(utility.body)) {
-    let value = animations[utility.body];
+  if (Object.keys(animations).includes(body)) {
+    let value = animations[body];
     const prop = config('prefixer') ? ['-webkit-animation', 'animation'] : 'animation';
     if (value === 'none') return new Property(prop, 'none').updateMeta('utilities', 'animation', pluginOrder.animation, 1, true);
     let styles, keyframe;
