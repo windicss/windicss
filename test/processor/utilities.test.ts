@@ -252,4 +252,17 @@ describe('Utilities', () => {
   it('gradient colors', () => {
     expect(processor.interpret('bg-gradient-1 bg-gradient-60').styleSheet.build()).toMatchSnapshot('gradient');
   });
+
+  it('animation', () => {
+    expect(processor.interpret(`
+      animate-none
+      animate-spin
+      animate-ping
+      animate-pulse
+      animate-bounce
+      animate-flash
+      animate-shock
+      animate-flip-in-x
+    `).styleSheet.build()).toMatchSnapshot('animation');
+  });
 });

@@ -1226,21 +1226,44 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/behaviors.html#animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
-  const animations = toType(theme('animation'), 'object') as { [key: string]: string };
+  const animations = toType(theme('animation'), 'object') as { [key: string]: string | { [key: string]: string } };
   if (Object.keys(animations).includes(utility.body)) {
-    const value = animations[utility.body];
-    const keyframe = value.match(/^\w+/)?.[0];
+    let value = animations[utility.body];
     const prop = config('prefixer') ? ['-webkit-animation', 'animation'] : 'animation';
     if (value === 'none') return new Property(prop, 'none').updateMeta('utilities', 'animation', pluginOrder.animation, 1, true);
-    return [
-      new Style(utility.class, new Property(prop, value)).updateMeta('utilities', 'animation', pluginOrder.animation, 2, true),
-      ... keyframe ? Keyframes.generate(
-        keyframe,
+    let styles, keyframe;
+    if (typeof value === 'string') {
+      keyframe = value.match(/^\w+/)?.[0];
+      styles = [ new Style(utility.class, new Property(prop, value)) ];
+    } else {
+      keyframe = value['animation'] || value['animationName'] || value['animation-name'];
+      if (config('prefixer')) {
+        const props: { [ key:string ]: string } = {};
+        for (const [k, v] of Object.entries(value)) {
+          if (k.startsWith('animation') || k.startsWith('backface')) {
+            props['-webkit-' + k] = v;
+          } else if (k.startsWith('transform')) {
+            props['-webkit-' + k] = v;
+            props['-ms-' + k] = v;
+          }
+          props[k] = v;
+        }
+        value = props;
+      }
+      styles = Style.generate(utility.class, value).map(i => i.updateMeta('utilities', 'animation', pluginOrder.animation, 2, true));
+    }
+
+    if (styles) {
+      return [
+        ...styles.map(i => i.updateMeta('utilities', 'animation', pluginOrder.animation, 2, true)),
+        ... keyframe ? Keyframes.generate(
+          keyframe,
         (theme(`keyframes.${keyframe}`) ?? {}) as { [key: string]: { [key: string]: string } },
         undefined,
         config('prefixer', false) as boolean
-      ).map(i => i.updateMeta('utilities', 'keyframes', pluginOrder.keyframes, 1, true)) : [],
-    ];
+        ).map(i => i.updateMeta('utilities', 'keyframes', pluginOrder.keyframes, 1, true)) : [],
+      ];
+    }
   }
 }
 
