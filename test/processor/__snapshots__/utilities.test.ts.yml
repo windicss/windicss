@@ -392,6 +392,13 @@ Tools / from via to opacity / css / 0: |-
   .text-stroke-opacity-50 {
     --tw-ring-offset-opacity: 0.5;
   }
+Tools / gradient colors / gradient / 0: |-
+  .bg-gradient-1 {
+    background-image: linear-gradient(135deg, #FDEB71 10%, #F8D800 100%);
+  }
+  .bg-gradient-60 {
+    background-image: linear-gradient(135deg, #FF96F9 10%, #C32BAC 100%);
+  }
 Tools / grid template test / grid template / 0: |-
   .grid-cols-list {
     grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
