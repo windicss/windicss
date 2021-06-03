@@ -1,4 +1,5 @@
 import { colors } from './colors';
+import { keyframes } from './keyframes';
 import { variantOrder } from './order';
 import type { Config } from '../interfaces';
 
@@ -92,7 +93,9 @@ export const baseConfig: Config = {
       ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
       pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       bounce: 'bounce 1s infinite',
-      flash: 'flash',
+      'shock': 'shock',
+      'flash': 'flash',
+      'bubble': 'bubble',
       'rubber-band': 'rubberBand',
       'shake-x': 'shakeX',
       'shake-y': 'shakeY',
@@ -218,7 +221,7 @@ export const baseConfig: Config = {
     },
     animationIterationCount: {
       DEFAULT: '1',
-      infinite: 'infinite',
+      loop: 'infinite',
       'repeat-1': '1',
       'repeat-2': '2',
       'repeat-3': '3',
@@ -732,44 +735,7 @@ export const baseConfig: Config = {
       DEFAULT: '100%',
       0: '0',
     },
-    keyframes: {
-      spin: {
-        from: {
-          transform: 'rotate(0deg)',
-        },
-        to: {
-          transform: 'rotate(360deg)',
-        },
-      },
-      ping: {
-        '0%': {
-          transform: 'scale(1)',
-          opacity: '1',
-        },
-        '75%, 100%': {
-          transform: 'scale(2)',
-          opacity: '0',
-        },
-      },
-      pulse: {
-        '0%, 100%': {
-          opacity: '1',
-        },
-        '50%': {
-          opacity: '.5',
-        },
-      },
-      bounce: {
-        '0%, 100%': {
-          transform: 'translateY(-25%)',
-          animationTimingFunction: 'cubic-bezier(0.8,0,1,1)',
-        },
-        '50%': {
-          transform: 'translateY(0)',
-          animationTimingFunction: 'cubic-bezier(0,0,0.2,1)',
-        },
-      },
-    },
+    keyframes,
     letterSpacing: {
       tighter: '-0.05em',
       tight: '-0.025em',
