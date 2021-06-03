@@ -7,7 +7,7 @@ export default class ClassParser {
   classNames?: string;
 
   constructor(classNames?: string, separator = ':', variants?: string[]) {
-    this.classNames = classNames;
+    this.classNames = classNames?.replace(/'([^']+)'/g, '$1');
     this.separator = separator;
     this.variants = variants || [];
     this.index = 0;
