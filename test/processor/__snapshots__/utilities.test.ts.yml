@@ -244,6 +244,31 @@ Tools / animation / animation / 0: |-
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
   }
+Tools / animation static utilities / animationStatic / 0: |-
+  .animate-reverse {
+    -webkit-animation-direction: reverse;
+    animation-direction: reverse;
+  }
+  .animate-alternate {
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+  }
+  .animate-alternate-reverse {
+    -webkit-animation-direction: alternate-reverse;
+    animation-direction: alternate-reverse;
+  }
+  .animate-fill-none {
+    -webkit-animation-fill-mode: none;
+    animation-fill-mode: none;
+  }
+  .animate-fill-forwards {
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+  }
+  .animate-paused {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+  }
 Tools / animation test / animate-ping / 0: |-
   @keyframes ping {
     0% {

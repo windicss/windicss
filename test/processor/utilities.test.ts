@@ -298,4 +298,15 @@ describe('Utilities', () => {
       animate-delay-$delay
     `).styleSheet.build()).toMatchSnapshot('animationDelay');
   });
+
+  it('animation static utilities', () => {
+    expect(processor.interpret(`
+      animate-reverse
+      animate-alternate
+      animate-alternate-reverse
+      animate-fill-none
+      animate-fill-forwards
+      animate-paused
+    `).styleSheet.build()).toMatchSnapshot('animationStatic');
+  });
 });
