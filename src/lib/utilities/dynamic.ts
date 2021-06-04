@@ -1227,7 +1227,31 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 // https://windicss.org/utilities/behaviors.html#animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
   const body = utility.body;
-  if (utility.raw.startsWith('animate-ease')) return utility.clone(utility.raw.slice(8)).handler.handleStatic(theme('animationTimingFunction')).createProperty(['-webkit-animation-timing-function', 'animation-timing-function'])?.updateMeta('utilities', 'animation', pluginOrder.animation, 3, true);
+  if (utility.raw.startsWith('animate-ease')) {
+    return utility.clone(utility.raw.slice(8)).handler
+      .handleBody(theme('animationTimingFunction'))
+      .handleSquareBrackets()
+      .createProperty(['-webkit-animation-timing-function', 'animation-timing-function'])
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 4, true);
+  }
+  if (utility.raw.startsWith('animate-duration')) {
+    return utility.clone(utility.raw.slice(8)).handler
+      .handleStatic(theme('animationDuration'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
+      .handleVariable()
+      .createProperty(['-webkit-animation-duration', 'animation-duration'])
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 5, true);
+  }
+  if (utility.raw.startsWith('animate-delay')) {
+    return utility.clone(utility.raw.slice(8)).handler
+      .handleStatic(theme('animationDelay'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
+      .handleVariable()
+      .createProperty(['-webkit-animation-delay', 'animation-delay'])
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 6, true);
+  }
   const animations = toType(theme('animation'), 'object') as { [key: string]: string | { [key: string]: string } };
   if (Object.keys(animations).includes(body)) {
     let value = animations[body];

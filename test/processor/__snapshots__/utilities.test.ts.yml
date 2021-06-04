@@ -244,26 +244,6 @@ Tools / animation / animation / 0: |-
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
   }
-  .animate-ease {
-    -webkit-animation-timing-function: ease;
-    animation-timing-function: ease;
-  }
-  .animate-ease-in {
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-  .animate-ease-linear {
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-  }
-  .animate-ease-out {
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
-  .animate-ease-in-out {
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
-  }
 Tools / animation test / animate-ping / 0: |-
   @keyframes ping {
     0% {
@@ -348,6 +328,81 @@ Tools / animation test / spin-slow / 0: |-
   .animate-spin-slow {
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
+  }
+Tools / animationDelay / animationDelay / 0: |-
+  .animate-delay {
+    -webkit-animation-delay: 500ms;
+    animation-delay: 500ms;
+  }
+  .animate-delay-100 {
+    -webkit-animation-delay: 100ms;
+    animation-delay: 100ms;
+  }
+  .animate-delay-1500 {
+    -webkit-animation-delay: 1500ms;
+    animation-delay: 1500ms;
+  }
+  .animate-delay-132 {
+    -webkit-animation-delay: 132ms;
+    animation-delay: 132ms;
+  }
+  .animate-delay-\[1s\] {
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+  }
+  .animate-delay-\$delay {
+    -webkit-animation-delay: var(--delay);
+    animation-delay: var(--delay);
+  }
+Tools / animationDuration / animationDuration / 0: |-
+  .animate-duration {
+    -webkit-animation-duration: 1000ms;
+    animation-duration: 1000ms;
+  }
+  .animate-duration-100 {
+    -webkit-animation-duration: 100ms;
+    animation-duration: 100ms;
+  }
+  .animate-duration-1500 {
+    -webkit-animation-duration: 1500ms;
+    animation-duration: 1500ms;
+  }
+  .animate-duration-132 {
+    -webkit-animation-duration: 132ms;
+    animation-duration: 132ms;
+  }
+  .animate-duration-\[1s\] {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+  }
+  .animate-duration-\$duration {
+    -webkit-animation-duration: var(--duration);
+    animation-duration: var(--duration);
+  }
+Tools / animationTimingFunction / animationTimingFunction / 0: |-
+  .animate-ease {
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+  }
+  .animate-ease-in {
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+  .animate-ease-linear {
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+  }
+  .animate-ease-out {
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+  }
+  .animate-ease-in-out {
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+  .animate-ease-\[cubic-bezier\(0\.25\2c 0\.1\2c 0\.25\2c 1\)\] {
+    -webkit-animation-timing-function: cubic-bezier(0.25,0.1,0.25,1);
+    animation-timing-function: cubic-bezier(0.25,0.1,0.25,1);
   }
 Tools / backgroundImage config test / Background Image / 0: |-
   .bg-home-pattern {

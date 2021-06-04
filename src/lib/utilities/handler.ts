@@ -108,7 +108,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         if (handler.value) return handler;
         if (map && typeof map === 'object') {
           const knownMap = map as { [key: string]: string | string[] };
-          if (knownMap.DEFAULT) knownMap[handler.utility.raw] = knownMap.DEFAULT;
+          if (knownMap.DEFAULT) knownMap[''] = knownMap.DEFAULT;
           const body = handler.utility.body;
           if (body in knownMap)
             handler.value = callback ? callback(body) : `${knownMap[body]}`;

@@ -255,12 +255,6 @@ describe('Utilities', () => {
 
   it('animation', () => {
     expect(processor.interpret(`
-      animate-ease
-      animate-ease-in
-      animate-ease-linear
-      animate-ease-out
-      animate-ease-in-out
-
       animate-none
       animate-spin
       animate-ping
@@ -270,5 +264,38 @@ describe('Utilities', () => {
       animate-shock
       animate-flip-in-x
     `).styleSheet.build()).toMatchSnapshot('animation');
+  });
+
+  it('animationTimingFunction', () => {
+    expect(processor.interpret(`
+      animate-ease
+      animate-ease-in
+      animate-ease-linear
+      animate-ease-out
+      animate-ease-in-out
+      animate-ease-[cubic-bezier(0.25,0.1,0.25,1)]
+    `).styleSheet.build()).toMatchSnapshot('animationTimingFunction');
+  });
+
+  it('animationDuration', () => {
+    expect(processor.interpret(`
+      animate-duration
+      animate-duration-100
+      animate-duration-1500
+      animate-duration-132
+      animate-duration-[1s]
+      animate-duration-$duration
+    `).styleSheet.build()).toMatchSnapshot('animationDuration');
+  });
+
+  it('animationDelay', () => {
+    expect(processor.interpret(`
+      animate-delay
+      animate-delay-100
+      animate-delay-1500
+      animate-delay-132
+      animate-delay-[1s]
+      animate-delay-$delay
+    `).styleSheet.build()).toMatchSnapshot('animationDelay');
   });
 });
