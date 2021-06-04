@@ -265,6 +265,49 @@ Tools / animation iteration count / animationIterationCount / 0: |-
     -webkit-animation-iteration-count: 13;
     aniamtion-iteration-count: 13;
   }
+Tools / animation order / transition / 0: |-
+  @keyframes flash {
+    from, 50%, to {
+      opacity: 1;
+    }
+    25%, 75% {
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes flash {
+    from, 50%, to {
+      opacity: 1;
+    }
+    25%, 75% {
+      opacity: 0;
+    }
+  }
+  .animate-flash {
+    -webkit-animation: flash;
+    animation: flash;
+  }
+  .animated {
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-fill-mode: both;
+    animation-duration: 1000ms;
+    animation-fill-mode: both;
+  }
+  .animate-reverse {
+    -webkit-animation-direction: reverse;
+    animation-direction: reverse;
+  }
+  .animate-duration-1\.5s {
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+  }
+  .animate-delay-20ms {
+    -webkit-animation-delay: 20ms;
+    animation-delay: 20ms;
+  }
+  .animate-loop {
+    -webkit-animation-iteration-count: infinite;
+    aniamtion-iteration-count: infinite;
+  }
 Tools / animation static utilities / animationStatic / 0: |-
   .animated {
     -webkit-animation-duration: 1000ms;

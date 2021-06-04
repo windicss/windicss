@@ -333,4 +333,15 @@ describe('Utilities', () => {
       delay-2.5s
     `).styleSheet.build()).toMatchSnapshot('transition');
   });
+
+  it('animation order', () => {
+    expect(processor.interpret(`
+      animate-duration-1.5s
+      animate-delay-20ms
+      animate-flash
+      animated
+      animate-reverse
+      animate-loop
+    `).styleSheet.build()).toMatchSnapshot('transition');
+  });
 });

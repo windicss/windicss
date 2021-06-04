@@ -2711,7 +2711,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 0,
+      'order': 3,
     },
   },
 
@@ -2722,7 +2722,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 3,
+      'order': 4,
     },
   },
 
@@ -2733,7 +2733,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 4,
+      'order': 5,
     },
   },
 
@@ -2744,7 +2744,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 5,
+      'order': 6,
     },
   },
 
@@ -2755,7 +2755,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 6,
+      'order': 7,
     },
   },
 
@@ -2766,7 +2766,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 7,
+      'order': 8,
     },
   },
 
@@ -2777,7 +2777,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 8,
+      'order': 9,
     },
   },
 
@@ -2788,7 +2788,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 9,
+      'order': 10,
     },
   },
 
@@ -2799,7 +2799,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 10,
+      'order': 11,
     },
   },
 
@@ -2810,7 +2810,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'animation',
-      'order': 11,
+      'order': 12,
     },
   },
 
