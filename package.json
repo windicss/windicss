@@ -1,6 +1,6 @@
 {
   "name": "windicss",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Next generation utility-first CSS framework.",
   "main": "index.js",
   "module": "index.mjs",
