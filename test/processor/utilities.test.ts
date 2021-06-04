@@ -285,6 +285,8 @@ describe('Utilities', () => {
       animate-duration-132
       animate-duration-[1s]
       animate-duration-$duration
+      animate-duration-1.5s
+      animate-duration-200ms
     `).styleSheet.build()).toMatchSnapshot('animationDuration');
   });
 
@@ -296,6 +298,8 @@ describe('Utilities', () => {
       animate-delay-132
       animate-delay-[1s]
       animate-delay-$delay
+      animate-delay-1.5s
+      animate-delay-200ms
     `).styleSheet.build()).toMatchSnapshot('animationDelay');
   });
 
@@ -319,5 +323,14 @@ describe('Utilities', () => {
       animate-repeat-24
       animate-repeat-[13]
     `).styleSheet.build()).toMatchSnapshot('animationIterationCount');
+  });
+
+  it('transition time handler', () => {
+    expect(processor.interpret(`
+      duration-100ms
+      duration-1.5s
+      delay-150ms
+      delay-2.5s
+    `).styleSheet.build()).toMatchSnapshot('transition');
   });
 });

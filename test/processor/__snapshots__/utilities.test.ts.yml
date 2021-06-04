@@ -406,6 +406,14 @@ Tools / animationDelay / animationDelay / 0: |-
     -webkit-animation-delay: var(--delay);
     animation-delay: var(--delay);
   }
+  .animate-delay-1\.5s {
+    -webkit-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+  }
+  .animate-delay-200ms {
+    -webkit-animation-delay: 200ms;
+    animation-delay: 200ms;
+  }
 Tools / animationDuration / animationDuration / 0: |-
   .animate-duration {
     -webkit-animation-duration: 1000ms;
@@ -430,6 +438,14 @@ Tools / animationDuration / animationDuration / 0: |-
   .animate-duration-\$duration {
     -webkit-animation-duration: var(--duration);
     animation-duration: var(--duration);
+  }
+  .animate-duration-1\.5s {
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+  }
+  .animate-duration-200ms {
+    -webkit-animation-duration: 200ms;
+    animation-duration: 200ms;
   }
 Tools / animationTimingFunction / animationTimingFunction / 0: |-
   .animate-ease {
@@ -1158,6 +1174,27 @@ Tools / transform rotateY / css / 0: |-
   }
   .-rotate-y-45 {
     --tw-rotate-y: -45deg;
+  }
+Tools / transition time handler / transition / 0: |-
+  .duration-100ms {
+    -webkit-transition-duration: 100ms;
+    -o-transition-duration: 100ms;
+    transition-duration: 100ms;
+  }
+  .duration-1\.5s {
+    -webkit-transition-duration: 1.5s;
+    -o-transition-duration: 1.5s;
+    transition-duration: 1.5s;
+  }
+  .delay-150ms {
+    -webkit-transition-delay: 150ms;
+    -o-transition-delay: 150ms;
+    transition-delay: 150ms;
+  }
+  .delay-2\.5s {
+    -webkit-transition-delay: 2.5s;
+    -o-transition-delay: 2.5s;
+    transition-delay: 2.5s;
   }
 Tools / wrap container / small container / 0: |-
   @media (min-width: 640px) {
