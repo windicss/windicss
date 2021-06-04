@@ -725,4 +725,20 @@ describe('Attributify Mode', () => {
       'lg:hover:group-hover': ['bg-red-500'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('long variants test', () => {
+    expect(processor.attributify({
+      'focus-visible': ['bg-red-900'],
+      'focus-within': ['bg-red-900'],
+      'not-checked': ['bg-red-900'],
+      'placeholder-shown': ['bg-red-900'],
+      'read-only': ['bg-red-900'],
+      'read-write': ['bg-red-900'],
+      'not-disabled': ['bg-red-500'],
+      'not-first-of-type': ['bg-red-500'],
+      'sm:focus-visible': ['bg-red-900'],
+      'sm:not-first-of-type': ['bg-red-500'],
+      'sm:not-first-of-type:bg': ['red-500'],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

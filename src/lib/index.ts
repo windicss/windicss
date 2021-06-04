@@ -685,39 +685,41 @@ export class Processor {
         return;
       }
       const importantValue = value.startsWith('!');
-      if (importantValue) value = value.slice(1,);
+      if (importantValue) value = value.slice(1);
+      const importantKey = key.startsWith('!');
+      if (importantKey) key = key.slice(1);
       const id = key.match(/\w+$/)?.[0] ?? '';
       const splits = value.split(':');
       let variants = splits.slice(0, -1);
       let utility = splits.slice(-1)[0];
+      let keys = key.split(':');
+      const lastKey = keys.slice(-1)[0];
 
-      if (id in this._variants && id !== 'svg') {
+      if (lastKey in this._variants && lastKey !== 'svg') {
+        variants = [...keys, ...variants];
+      } else if (id in this._variants && id !== 'svg') {
         // sm = ... || sm:hover = ... || sm-hover = ...
         const matches = key.match(/[@<\w]+/g);
         if (!matches) {
           ignored.push(buildSelector);
           return;
         }
-        if (key.split(':').slice(-1)[0] in this._variants) {
-          variants = [...key.split(':'), ...variants];
-        } else {
-          variants = [...matches, ...variants];
-        }
+        variants = [...matches, ...variants];
       } else {
         // text = ... || sm:text = ... || sm-text = ... || sm-hover-text = ...
-        const matches = key.match(/\w+/g);
-        if (!matches) {
+        if (!keys) {
           ignored.push(buildSelector);
           return;
         }
+        if (keys.length === 1) keys = key.split('-');
         let last;
         // handle min-h || max-w ...
-        if (['min', 'max'].includes(matches.slice(-2, -1)[0])) {
-          variants = [...matches.slice(0, -2), ...variants];
-          last = matches.slice(-2,).join('-');
+        if (['min', 'max'].includes(keys.slice(-2, -1)[0])) {
+          variants = [...keys.slice(0, -2), ...variants];
+          last = keys.slice(-2,).join('-');
         } else {
-          variants = [...matches.slice(0, -1), ...variants];
-          last = matches[matches.length - 1];
+          variants = [...keys.slice(0, -1), ...variants];
+          last = keys[keys.length - 1];
         }
         // handle negative, such as m = -x-2
         const negative = utility.charAt(0) === '-';
@@ -875,6 +877,8 @@ export class Processor {
         case 'resize':
           if (utility === 'resize-both') utility = 'resize';
           break;
+        case 'ring':
+          break;
         case 'blend':
           utility = 'mix-' + utility;
           break;
@@ -885,7 +889,7 @@ export class Processor {
       }
       const style = this.extract(utility, false);
       if (style) {
-        const important = key.charAt(0) === '!' || importantValue;
+        const important = importantKey || importantValue;
         if (Array.isArray(style)) {
           style.forEach(i => {
             if (i instanceof Keyframes) return i;

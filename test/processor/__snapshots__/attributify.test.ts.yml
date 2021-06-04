@@ -173,6 +173,53 @@ Tools / important test / css / 0: |-
       color: rgba(229, 231, 235, var(--tw-text-opacity)) !important;
     }
   }
+Tools / long variants test / css / 0: |-
+  [focus-visible~="bg-red-900"]:focus-visible {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [focus-within~="bg-red-900"]:focus-within {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [not-checked~="bg-red-900"]:not(:checked) {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [placeholder-shown~="bg-red-900"]:placeholder-shown {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [read-only~="bg-red-900"]:read-only {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [read-write~="bg-red-900"]:read-write {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  [not-disabled~="bg-red-500"]:not(:disabled) {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  }
+  [not-first-of-type~="bg-red-500"]:not(:first-of-type) {
+    --tw-bg-opacity: 1;
+    background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  }
+  @media (min-width: 640px) {
+    [sm\:focus-visible~="bg-red-900"]:focus-visible {
+      --tw-bg-opacity: 1;
+      background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+    }
+    [sm\:not-first-of-type~="bg-red-500"]:not(:first-of-type) {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+    [sm\:not-first-of-type\:bg~="red-500"]:not(:first-of-type) {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+  }
 Tools / mix utility and variant / css / 0: |-
   [p~="x-4"] {
     padding-left: 1rem;
