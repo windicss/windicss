@@ -717,6 +717,22 @@ describe('Attributify Mode', () => {
     expect(result.ignored.length).toEqual(5);
   });
 
+  it('With separator config', () => {
+    const processor = new Processor({
+      attributify: {
+        separator: '__',
+      },
+    });
+    const result = processor.attributify({
+      'group-hover': ['bg-red-900'],
+      'group-focus': ['bg-red-900'],
+      'sm__group-hover': ['bg-red-900'],
+      'sm__group-hover__bg': ['red-500'],
+    });
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+    expect(result.ignored.length).toEqual(0);
+  });
+
   it('group-hover attributify #308', () => {
     expect(processor.attributify({
       'group-hover': ['bg-red-900'],

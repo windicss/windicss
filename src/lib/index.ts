@@ -670,7 +670,7 @@ export class Processor {
     const success: string[] = [];
     const ignored: string[] = [];
     const styleSheet = new StyleSheet();
-    const { prefix, disable }: { prefix?: string, disable?: string[] } = (this._config.attributify && typeof this._config.attributify === 'boolean') ? {} : this._config.attributify || {};
+    const { prefix, separator, disable }: { prefix?: string, separator?: string, disable?: string[] } = (this._config.attributify && typeof this._config.attributify === 'boolean') ? {} : this._config.attributify || {};
 
     const _gStyle = (
       key: string,
@@ -689,10 +689,10 @@ export class Processor {
       const importantKey = key.startsWith('!');
       if (importantKey) key = key.slice(1);
       const id = key.match(/\w+$/)?.[0] ?? '';
-      const splits = value.split(':');
+      const splits = value.split(separator || ':');
       let variants = splits.slice(0, -1);
       let utility = splits.slice(-1)[0];
-      let keys = key.split(':');
+      let keys = key.split(separator || ':');
       const lastKey = keys.slice(-1)[0];
 
       if (lastKey in this._variants && lastKey !== 'svg') {

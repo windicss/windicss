@@ -106,6 +106,25 @@ Tools / With disable config / css / 0: |-
       background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
     }
   }
+Tools / With separator config / css / 0: |-
+  .group:hover [group-hover~="bg-red-900"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  .group:focus [group-focus~="bg-red-900"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  @media (min-width: 640px) {
+    .group:hover [sm__group-hover~="bg-red-900"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+    }
+    .group:hover [sm__group-hover__bg~="red-500"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+  }
 Tools / attributify order / css / 0: |-
   [position~="fixed"] {
     position: fixed;

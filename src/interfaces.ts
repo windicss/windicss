@@ -333,6 +333,7 @@ export interface Config {
   prefixer?: boolean;
   attributify?: boolean | {
     prefix?: string
+    separator?: string
     disable?: string[]
   }
   separator?: string;
