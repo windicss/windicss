@@ -2702,6 +2702,19 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'animated': {
+    'utility': {
+      '-webkit-animation-duration': '1000ms',
+      '-webkit-animation-fill-mode': 'both',
+      'animation-duration': '1000ms',
+      'animation-fill-mode': 'both',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 0,
+    },
+  },
+
   'animate-reverse': {
     'utility': {
       '-webkit-animation-direction': 'reverse',

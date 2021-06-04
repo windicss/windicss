@@ -301,6 +301,7 @@ describe('Utilities', () => {
 
   it('animation static utilities', () => {
     expect(processor.interpret(`
+      animated
       animate-reverse
       animate-alternate
       animate-alternate-reverse
@@ -308,5 +309,15 @@ describe('Utilities', () => {
       animate-fill-forwards
       animate-paused
     `).styleSheet.build()).toMatchSnapshot('animationStatic');
+  });
+
+  it('animation iteration count', () => {
+    expect(processor.interpret(`
+      animate-loop
+      animate-repeat-1
+      animate-repeat-12
+      animate-repeat-24
+      animate-repeat-[13]
+    `).styleSheet.build()).toMatchSnapshot('animationIterationCount');
   });
 });

@@ -1252,6 +1252,8 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
       .createProperty(['-webkit-animation-delay', 'animation-delay'])
       ?.updateMeta('utilities', 'animation', pluginOrder.animation, 22, true);
   }
+  const animateIterationCount = utility.handler.handleBody(theme('animationIterationCount')).handleNumber(0, undefined, 'int').handleSquareBrackets().value;
+  if (animateIterationCount) return new Property(['-webkit-animation-iteration-count', 'aniamtion-iteration-count'], animateIterationCount);
   const animations = toType(theme('animation'), 'object') as { [key: string]: string | { [key: string]: string } };
   if (Object.keys(animations).includes(body)) {
     let value = animations[body];

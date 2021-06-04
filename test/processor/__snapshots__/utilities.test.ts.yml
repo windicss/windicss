@@ -244,7 +244,34 @@ Tools / animation / animation / 0: |-
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
   }
+Tools / animation iteration count / animationIterationCount / 0: |-
+  .animate-loop {
+    -webkit-animation-iteration-count: infinite;
+    aniamtion-iteration-count: infinite;
+  }
+  .animate-repeat-1 {
+    -webkit-animation-iteration-count: 1;
+    aniamtion-iteration-count: 1;
+  }
+  .animate-repeat-12 {
+    -webkit-animation-iteration-count: 12;
+    aniamtion-iteration-count: 12;
+  }
+  .animate-repeat-24 {
+    -webkit-animation-iteration-count: 24;
+    aniamtion-iteration-count: 24;
+  }
+  .animate-repeat-\[13\] {
+    -webkit-animation-iteration-count: 13;
+    aniamtion-iteration-count: 13;
+  }
 Tools / animation static utilities / animationStatic / 0: |-
+  .animated {
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-fill-mode: both;
+    animation-duration: 1000ms;
+    animation-fill-mode: both;
+  }
   .animate-reverse {
     -webkit-animation-direction: reverse;
     animation-direction: reverse;
