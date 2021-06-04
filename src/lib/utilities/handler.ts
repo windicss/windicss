@@ -41,6 +41,12 @@ export type Handler = {
   handleSquareBrackets: (
     callback?: (number: string) => string | undefined
   ) => Handler
+  handleTime: (
+    start?: number,
+    end?: number,
+    type?: 'int' | 'float',
+    callback?: (milliseconds: number) => string | undefined
+  ) => Handler
   handleColor: (
     map?: colorObject | unknown
   ) => Handler
@@ -120,6 +126,23 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         if (handler.value) return handler;
         if (isNumber(handler._amount, start, end, type))
           handler.value = callback ? callback(+handler._amount) : handler._amount;
+        return handler;
+      } : () => handler,
+
+      handleTime: handlers.time ? (start = -Infinity, end = Infinity, type = 'int', callback) => {
+        if (handler.value) return handler;
+        let unit = 'ms';
+        let amount = handler._amount;
+        if (amount.endsWith('ms')) {
+          amount = amount.slice(0, -2);
+        } else if (amount.endsWith('s')) {
+          unit = 's';
+          amount = amount.slice(0, -1);
+        } else {
+          return handler;
+        }
+        if (isNumber(amount, start, end, type))
+          handler.value = callback ? callback(unit === 's' ? +amount * 1000 : +amount) : handler._amount;
         return handler;
       } : () => handler,
 

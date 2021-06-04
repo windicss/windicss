@@ -241,6 +241,7 @@ export type Handlers = {
   number?: boolean
   string?: boolean
   bracket?: boolean
+  time?: boolean
   hex?: boolean
   nxl?: boolean
   fraction?: boolean

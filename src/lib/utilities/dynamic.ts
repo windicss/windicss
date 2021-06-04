@@ -1199,6 +1199,7 @@ function duration(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('transitionDuration'))
     .handleSquareBrackets()
+    .handleTime(0, undefined, 'float')
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
     .createProperty(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration'])
@@ -1218,6 +1219,7 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('transitionDelay'))
     .handleSquareBrackets()
+    .handleTime(0, undefined, 'float')
     .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
     .handleVariable()
     .createProperty(['-webkit-transition-delay', '-o-transition-delay', 'transition-delay'])
@@ -1238,6 +1240,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
     return utility.clone(utility.raw.slice(8)).handler
       .handleStatic(theme('animationDuration'))
       .handleSquareBrackets()
+      .handleTime(0, undefined, 'float')
       .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
       .handleVariable()
       .createProperty(['-webkit-animation-duration', 'animation-duration'])
@@ -1247,6 +1250,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
     return utility.clone(utility.raw.slice(8)).handler
       .handleStatic(theme('animationDelay'))
       .handleSquareBrackets()
+      .handleTime(0, undefined, 'float')
       .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
       .handleVariable()
       .createProperty(['-webkit-animation-delay', 'animation-delay'])

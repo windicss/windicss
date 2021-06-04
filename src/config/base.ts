@@ -1230,6 +1230,7 @@ export const baseConfig: Config = {
   plugins: [],
   handlers: {
     static : true,
+    time: true,
     color: true,
     opacity: true,
     number : true,
