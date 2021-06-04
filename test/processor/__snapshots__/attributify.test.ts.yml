@@ -1257,10 +1257,10 @@ Tools / with gradient utility / css / 0: |-
   }
   [gradient~="from-yellow-400"] {
     --tw-gradient-from: rgba(251, 191, 36, var(--tw-from-opacity, 1));
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251, 191, 36, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   [gradient~="via-red-500"] {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(239, 68, 68, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(239, 68, 68, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(239, 68, 68, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   [gradient~="to-pink-500"] {
     --tw-gradient-to: rgba(236, 72, 153, var(--tw-to-opacity, 1));

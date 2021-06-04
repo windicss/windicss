@@ -697,7 +697,7 @@ function gradientColorFrom(utility: Utility, { theme }: PluginUtils): Output {
   if (handler.color || handler.value) {
     return new Style(utility.class, [
       new Property('--tw-gradient-from', handler.createColorValue('var(--tw-from-opacity, 1)')),
-      new Property('--tw-gradient-stops', `var(--tw-gradient-from), var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`),
+      new Property('--tw-gradient-stops', 'var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0))'),
     ]).updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 1, true);
   }
 }
@@ -715,7 +715,7 @@ function gradientColorVia(utility: Utility, { theme }: PluginUtils): Output {
   const handler = utility.handler.handleColor(theme('gradientColorStops')).handleOpacity(theme('opacity')).handleVariable().handleSquareBrackets();
   if (handler.color || handler.value) {
     return new Style(utility.class,
-      new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.createColorValue('var(--tw-via-opacity, 1)')}, var(--tw-gradient-to, ${handler.createColorValue('0') || 'rgba(255, 255, 255, 0)'})`)
+      new Property('--tw-gradient-stops', `var(--tw-gradient-from), ${handler.createColorValue('var(--tw-via-opacity, 1)')}, var(--tw-gradient-to, rgba(255, 255, 255, 0))`)
     )?.updateMeta('utilities', 'gradientColorStops', pluginOrder.gradientColorStops, 3, true);
   }
 }

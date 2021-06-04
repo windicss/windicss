@@ -197,17 +197,17 @@ Tools / interpret square brackets / square brackets / 0: |-
   }
   .from-\[\#da5b66\] {
     --tw-gradient-from: rgba(218, 91, 102, var(--tw-from-opacity, 1));
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(218, 91, 102, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .from-\[var\(--color\)\] {
     --tw-gradient-from: rgba(var(--color), var(--tw-from-opacity, 1));
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(var(--color), 0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .via-\[\#da5b66\] {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(218, 91, 102, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(218, 91, 102, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(218, 91, 102, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .via-\[var\(--color\)\] {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(var(--color), var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(var(--color), 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(var(--color), var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .to-\[\#da5b66\] {
     --tw-gradient-to: rgba(218, 91, 102, var(--tw-to-opacity, 1));

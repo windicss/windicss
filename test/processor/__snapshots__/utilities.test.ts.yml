@@ -831,6 +831,37 @@ Tools / gradient colors / gradient / 0: |-
   .bg-gradient-60 {
     background-image: linear-gradient(135deg, #FF96F9 10%, #C32BAC 100%);
   }
+'Tools / gradient current and transparent #317 / css / 0': |-
+  .from-current {
+    --tw-gradient-from: currentColor;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .from-transparent {
+    --tw-gradient-from: transparent;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .from-gray-200 {
+    --tw-gradient-from: rgba(229, 231, 235, var(--tw-from-opacity, 1));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .via-current {
+    --tw-gradient-stops: var(--tw-gradient-from), currentColor, var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .via-transparent {
+    --tw-gradient-stops: var(--tw-gradient-from), transparent, var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .via-green-200 {
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(167, 243, 208, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+  }
+  .to-current {
+    --tw-gradient-to: currentColor;
+  }
+  .to-transparent {
+    --tw-gradient-to: transparent;
+  }
+  .to-red-500 {
+    --tw-gradient-to: rgba(239, 68, 68, var(--tw-to-opacity, 1));
+  }
 Tools / grid template test / grid template / 0: |-
   .grid-cols-list {
     grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
@@ -860,10 +891,10 @@ Tools / list style type / css / 0: |-
 Tools / more color opacity group utilities / css / 0: |-
   .from-green-500\/50 {
     --tw-gradient-from: rgba(16, 185, 129, 0.5);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16, 185, 129, 0.5));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .via-green-500\/50 {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(16, 185, 129, 0.5), var(--tw-gradient-to, rgba(16, 185, 129, 0.5));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(16, 185, 129, 0.5), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .to-green-500\/50 {
     --tw-gradient-to: rgba(16, 185, 129, 0.5);
