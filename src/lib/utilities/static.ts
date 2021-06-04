@@ -2702,6 +2702,105 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  'animate-reverse': {
+    'utility': {
+      '-webkit-animation-direction': 'reverse',
+      'animation-direction': 'reverse',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 3,
+    },
+  },
+
+  'animate-alternate': {
+    'utility': {
+      '-webkit-animation-direction': 'alternate',
+      'animation-direction': 'alternate',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 4,
+    },
+  },
+
+  'animate-alternate-reverse': {
+    'utility': {
+      '-webkit-animation-direction': 'alternate-reverse',
+      'animation-direction': 'alternate-reverse',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 5,
+    },
+  },
+
+  'animate-fill-none': {
+    'utility': {
+      '-webkit-animation-fill-mode': 'none',
+      'animation-fill-mode': 'none',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 6,
+    },
+  },
+
+  'animate-fill-forwards': {
+    'utility': {
+      '-webkit-animation-fill-mode': 'forwards',
+      'animation-fill-mode': 'forwards',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 7,
+    },
+  },
+
+  'animate-fill-backwards': {
+    'utility': {
+      '-webkit-animation-fill-mode': 'backwards',
+      'animation-fill-mode': 'backwards',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 8,
+    },
+  },
+
+  'animate-fill-both': {
+    'utility': {
+      '-webkit-animation-fill-mode': 'both',
+      'animation-fill-mode': 'both',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 9,
+    },
+  },
+
+  'animate-paused': {
+    'utility': {
+      '-webkit-animation-play-state': 'paused',
+      'animation-play-state': 'paused',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 10,
+    },
+  },
+
+  'animate-running': {
+    'utility': {
+      '-webkit-animation-play-state': 'running',
+      'animation-play-state': 'running',
+    },
+    'meta': {
+      'group': 'animation',
+      'order': 11,
+    },
+  },
+
   // https://windicss.org/utilities/behaviors.html#appearance
   'appearance-none': {
     'utility': {

@@ -1232,7 +1232,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
       .handleBody(theme('animationTimingFunction'))
       .handleSquareBrackets()
       .createProperty(['-webkit-animation-timing-function', 'animation-timing-function'])
-      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 4, true);
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 20, true);
   }
   if (utility.raw.startsWith('animate-duration')) {
     return utility.clone(utility.raw.slice(8)).handler
@@ -1241,7 +1241,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
       .handleVariable()
       .createProperty(['-webkit-animation-duration', 'animation-duration'])
-      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 5, true);
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 21, true);
   }
   if (utility.raw.startsWith('animate-delay')) {
     return utility.clone(utility.raw.slice(8)).handler
@@ -1250,7 +1250,7 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int', (number: number) => `${number}ms`)
       .handleVariable()
       .createProperty(['-webkit-animation-delay', 'animation-delay'])
-      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 6, true);
+      ?.updateMeta('utilities', 'animation', pluginOrder.animation, 22, true);
   }
   const animations = toType(theme('animation'), 'object') as { [key: string]: string | { [key: string]: string } };
   if (Object.keys(animations).includes(body)) {
