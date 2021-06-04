@@ -113,6 +113,27 @@ Tools / attributify order / css / 0: |-
   [position~="relative"] {
     position: relative;
   }
+'Tools / group-hover attributify #308 / css / 0': |-
+  .group:hover [group-hover~="bg-red-900"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  .group:focus [group-focus~="bg-red-900"] {
+    --tw-bg-opacity: 1;
+    background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+  }
+  @media (min-width: 640px) {
+    .group:hover [sm\:group-hover~="bg-red-900"] {
+      --tw-bg-opacity: 1;
+      background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
+    }
+  }
+  @media (min-width: 1024px) {
+    .group:hover [lg\:hover\:group-hover~="bg-red-500"]:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+    }
+  }
 Tools / important test / css / 0: |-
   [bg~="!red-500"] {
     --tw-bg-opacity: 1 !important;

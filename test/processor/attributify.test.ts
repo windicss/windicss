@@ -716,4 +716,13 @@ describe('Attributify Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('css');
     expect(result.ignored.length).toEqual(5);
   });
+
+  it('group-hover attributify #308', () => {
+    expect(processor.attributify({
+      'group-hover': ['bg-red-900'],
+      'group-focus': ['bg-red-900'],
+      'sm:group-hover': ['bg-red-900'],
+      'lg:hover:group-hover': ['bg-red-500'],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

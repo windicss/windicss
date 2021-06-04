@@ -698,7 +698,11 @@ export class Processor {
           ignored.push(buildSelector);
           return;
         }
-        variants = [...matches, ...variants];
+        if (key.split(':').slice(-1)[0] in this._variants) {
+          variants = [...key.split(':'), ...variants];
+        } else {
+          variants = [...matches, ...variants];
+        }
       } else {
         // text = ... || sm:text = ... || sm-text = ... || sm-hover-text = ...
         const matches = key.match(/\w+/g);
