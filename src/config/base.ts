@@ -431,7 +431,7 @@ export const baseConfig: Config = {
     content: {
       DEFAULT: '""',
       'open-quote': 'open-quote',
-      'close-quoto': 'close-quote',
+      'close-quote': 'close-quote',
       'open-square': '"["',
       'close-square': '"]"',
       'open-curly': '"{"',
