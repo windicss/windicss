@@ -271,6 +271,9 @@ export class Processor {
 
     return styles.map(style => {
       if (style instanceof Keyframes) return style;
+      for (const variant of variants) {
+        if (typeof this._variants[variant] !== 'function') return style;
+      }
       const atrules:string[] = [];
       let wrapped = variants
         .map(i => this._variants[i]())
