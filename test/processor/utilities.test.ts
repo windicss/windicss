@@ -358,4 +358,8 @@ describe('Utilities', () => {
       animate-loop
     `).styleSheet.build()).toMatchSnapshot('transition');
   });
+
+  it('fill-none and stroke-none is wrong', () => {
+    expect(processor.interpret('fill-none stroke-none').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -267,7 +267,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       createColorValue: (opacityValue) => {
         if (handler.color) return handler.color({ opacityValue });
         if (handler.value) {
-          if (['transparent', 'currentColor'].includes(handler.value)) return handler.value;
+          if (['transparent', 'currentColor', 'auto', 'none'].includes(handler.value)) return handler.value;
           if (handler.value.includes('var') && opacityValue) return `rgba(${handler.value}, ${handler.opacity || opacityValue})`;
           return opacityValue ? `rgba(${toColor(handler.value).color}, ${handler.opacity || opacityValue})` : `rgb(${toColor(handler.value).color})`;
         }
@@ -286,7 +286,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         }
         const color = handler.value;
         if (!color) return;
-        if (['transparent', 'currentColor', 'auto'].includes(color) || color.includes('var')) return new Style(selector, new Property(property, color));
+        if (['transparent', 'currentColor', 'auto', 'none'].includes(color) || color.includes('var')) return new Style(selector, new Property(property, color));
         const rgb = toColor(color);
         if (opacityVariable) {
           return new Style(selector, [

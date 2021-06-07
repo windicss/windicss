@@ -787,6 +787,13 @@ Tools / content utilities / css / 0: |-
   .content {
     content: "";
   }
+Tools / fill-none and stroke-none is wrong / css / 0: |-
+  .fill-none {
+    fill: none;
+  }
+  .stroke-none {
+    stroke: none;
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;
