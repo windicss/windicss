@@ -858,6 +858,27 @@ Tools / parse classes / class / 0: |-
       "end": 3264
     }
   ]
+Tools / parse jsx syntax / class / 0: |-
+  [
+    {
+      "result": "z-20 bg-green-600 ${variable}",
+      "start": 8,
+      "end": 37
+    }
+  ]
+Tools / parse jsx syntax / className / 1: |-
+  [
+    {
+      "result": "css`height:calc(100",
+      "start": 16,
+      "end": 35
+    },
+    {
+      "result": "float-left w-250px h-full bg-hex-f7f7fa overflow-y-auto",
+      "start": 63,
+      "end": 118
+    }
+  ]
 Tools / parse tags / tag / 0: |-
   [
     "div",

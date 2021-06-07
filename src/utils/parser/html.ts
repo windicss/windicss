@@ -37,7 +37,7 @@ export default class HTMLParser {
     // Match all class properties
     if (!this.html) return [];
     const output: ClassName[] = [];
-    const regex = /class(Name)?\s*=\s*"[^"]+"|class(Name)?\s*=\s*'[^']+'|class(Name)?\s*=\s*[^>\s]+/igm;
+    const regex = /class(Name)?\s*=\s*{`[^]+`}|class(Name)?\s*=\s*"[^"]+"|class(Name)?\s*=\s*'[^']+'|class(Name)?\s*=\s*[^>\s]+/igm;
     let match;
     while ((match = regex.exec(this.html as string))) {
       if (match) {
@@ -46,8 +46,10 @@ export default class HTMLParser {
         let value: string| string[] = raw.slice(sep + 1).trim();
         let start = match.index + sep + 1 + (this.html.slice(sep + 1).match(/[^'"]/)?.index ?? 0);
         let end = regex.lastIndex;
-        if (['"', '\''].includes(value.charAt(0))) {
+        let first = value.charAt(0);
+        while (['"', '\'', '`', '{'].includes(first)) {
           value = value.slice(1, -1);
+          first = value.charAt(0);
           end--;
           start++;
         }
