@@ -398,4 +398,24 @@ describe('Plugin Method', () => {
     const newProcessor = new Processor(config);
     expect(newProcessor.interpret('bg-nord0').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('add nest class name', () => {
+    const a = {
+      '.btn.loading:before': {
+        'borderRadius': '9999px',
+        'borderWidth': '2px',
+        'height': '1rem',
+        'marginRight': '.5rem',
+        'width': '1rem',
+        'WebkitAnimation': 'spin 2s linear infinite',
+        'animation': 'spin 2s linear infinite',
+        'content': '""',
+        'borderColor': 'transparent currentColor currentColor transparent',
+      },
+    };
+
+    const processor = new Processor();
+    processor.addComponents(a);
+    expect(processor.preflight(undefined, false, false, true).build()).toMatchSnapshot('css');
+  });
 });

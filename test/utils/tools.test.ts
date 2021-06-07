@@ -252,6 +252,8 @@ describe('Tools', () => {
     expect(guessClassName('.avatar>div')).toEqual({ selector: '.avatar>div', isClass: false });
     expect(guessClassName('.avatar+div')).toEqual({ selector: '.avatar+div', isClass: false });
     expect(guessClassName('.avatar~div')).toEqual({ selector: '.avatar~div', isClass: false });
+    expect(guessClassName('.p-3\\.5')).toEqual({ selector: 'p-3.5', isClass: true });
+    expect(guessClassName('.btn.loading:before')).toEqual({ selector: '.btn.loading:before', isClass: false });
   });
 
   it('increaseWithUnit', () => {

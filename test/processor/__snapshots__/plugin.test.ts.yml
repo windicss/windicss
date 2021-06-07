@@ -25,6 +25,18 @@ Tools / add multi utilities / preflight / 0: |-
     padding: .5rem 1rem;
     border-radius: .25rem;
   }
+Tools / add nest class name / css / 0: |-
+  .btn.loading:before {
+    border-radius: 9999px;
+    border-width: 2px;
+    height: 1rem;
+    margin-right: .5rem;
+    width: 1rem;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    content: "";
+    border-color: transparent currentColor currentColor transparent;
+  }
 Tools / add pseudo components / css / 0: |-
   .btn {
     padding: .5rem 1rem;

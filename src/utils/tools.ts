@@ -290,7 +290,7 @@ export function splitSelectors(selectors: string): string[] {
 export function guessClassName(selector: string): { selector: string, isClass: boolean, pseudo?: string } | { selector: string, isClass: boolean, pseudo?: string }[] {
   if (selector.indexOf(',') >= 0) return splitSelectors(selector).map(i => guessClassName(i) as { selector: string, isClass: boolean });
   // not classes, contains attribute selectors, nested selectors - treat as static
-  if (selector.charAt(0) !== '.' || searchNotEscape(selector, ['[', '>', '+', '~']) >= 0 || selector.trim().indexOf(' ') >= 0)
+  if (selector.charAt(0) !== '.' || searchNotEscape(selector, ['[', '>', '+', '~']) >= 0 || selector.trim().indexOf(' ') >= 0 || searchNotEscape(selector.slice(1), '.') >=0)
     return { selector, isClass: false };
   const pseudo = searchNotEscape(selector, ':');
   const className = (selector.match(/^\.([\w-]|(\\\W))+/)?.[0].slice(1,) || '').replace(/\\/g, '');
