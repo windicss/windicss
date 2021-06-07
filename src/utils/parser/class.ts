@@ -17,7 +17,6 @@ export default class ClassParser {
     if (!this.classNames) return [];
     let char;
     let group;
-    let func;
     let variant;
     let variants = [];
     let variantStart = this.index + 1;
@@ -69,9 +68,6 @@ export default class ClassParser {
           ignoreBracket = true;
         } else if (ignoreSpace) {
           group = this._handle_group();
-        } else {
-          func = this.classNames.slice(groupStart, this.index);
-          group = this._handle_function();
         }
         ignoreSpace = false;
         break;
@@ -88,10 +84,7 @@ export default class ClassParser {
             if (Array.isArray(group)) {
               parts.push({ raw, start, end, variants, content: group, type: 'group', important });
               group = undefined;
-            } else if (func) {
-              parts.push({ raw, start, end, variants, func, content: group, type: 'func', important });
-              func = undefined;
-            } else if (ignoreBracket) {
+            } else if (ignoreBracket && char === ')') {
               // utility with bracket
               const utility = this.classNames.slice(variantStart, this.index + 1);
               parts.push({ raw: raw + ')', start, end: this.index, variants, content: important ? utility.slice(1,): utility, type: 'utility', important });
@@ -132,15 +125,6 @@ export default class ClassParser {
       return newParts;
     }
     return parts;
-  }
-
-  private _handle_function() {
-    if (!this.classNames) return;
-    const groupStart = this.index + 1;
-    while (this.classNames.charAt(this.index) !== ')') {
-      this.index++;
-    }
-    return this.classNames.slice(groupStart, this.index);
   }
 
   parse(removeDuplicated = true): Element[] {

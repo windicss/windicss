@@ -217,56 +217,6 @@ Tools / parse / class parser / 0: |-
       "content": "bg-hex-fff",
       "type": "utility",
       "important": false
-    },
-    {
-      "raw": "bg-rgb(32,31,22)",
-      "start": 317,
-      "end": 333,
-      "variants": [],
-      "func": "bg-rgb",
-      "content": "32,31,22",
-      "type": "func",
-      "important": false
-    },
-    {
-      "raw": "bg-raw(#fff)",
-      "start": 334,
-      "end": 346,
-      "variants": [],
-      "func": "bg-raw",
-      "content": "#fff",
-      "type": "func",
-      "important": false
-    },
-    {
-      "raw": "bg-rgba(255, 0, 0, 0.3)",
-      "start": 347,
-      "end": 370,
-      "variants": [],
-      "func": "bg-rgba",
-      "content": "255, 0, 0, 0.3",
-      "type": "func",
-      "important": false
-    },
-    {
-      "raw": "bg-hsl(0, 100%, 25%)",
-      "start": 371,
-      "end": 391,
-      "variants": [],
-      "func": "bg-hsl",
-      "content": "0, 100%, 25%",
-      "type": "func",
-      "important": false
-    },
-    {
-      "raw": "bg-hsla(0, 100%, 50%, 0.5)",
-      "start": 392,
-      "end": 418,
-      "variants": [],
-      "func": "bg-hsla",
-      "content": "0, 100%, 50%, 0.5",
-      "type": "func",
-      "important": false
     }
   ]
 Tools / parse alias / parse alias / 0: |-
@@ -317,6 +267,72 @@ Tools / parse alias / parse alias / 0: |-
         }
       ],
       "type": "group",
+      "important": false
+    }
+  ]
+Tools / parse bad class / bad classes / 0: |-
+  [
+    {
+      "raw": "css`height:calc-(100",
+      "start": 0,
+      "end": 20,
+      "variants": [],
+      "content": "css`height:calc-(100",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "float-left",
+      "start": 21,
+      "end": 31,
+      "variants": [],
+      "content": "float-left",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "w-250px",
+      "start": 32,
+      "end": 39,
+      "variants": [],
+      "content": "w-250px",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "h-full",
+      "start": 40,
+      "end": 46,
+      "variants": [],
+      "content": "h-full",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-hex-f7f7fa",
+      "start": 47,
+      "end": 60,
+      "variants": [],
+      "content": "bg-hex-f7f7fa",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "overflow-y-auto",
+      "start": 61,
+      "end": 76,
+      "variants": [],
+      "content": "overflow-y-auto",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "height:calc-(100)",
+      "start": 77,
+      "end": 94,
+      "variants": [],
+      "content": "height:calc-(100)",
+      "type": "utility",
       "important": false
     }
   ]
