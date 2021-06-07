@@ -757,4 +757,10 @@ describe('Attributify Mode', () => {
       'sm:not-first-of-type:bg': ['red-500'],
     }).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('variant not exist #320', () => {
+    expect(processor.attributify({
+      'enter-from': [ 'opacity-0' ],
+    }).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

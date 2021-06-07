@@ -900,13 +900,17 @@ export class Processor {
           style.selector = buildSelector;
           this.markAsImportant(style, important);
         }
-        const wrapped = this.wrapWithVariants(variants, style);
-        if (wrapped) {
-          ignoreProcessed && this._cache.attrs.push(buildSelector);
-          success.push(buildSelector);
-          styleSheet.add(wrapped);
-        } else {
+        if (variants.find(i => !(i in this._variants))) {
           ignored.push(buildSelector);
+        } else {
+          const wrapped = this.wrapWithVariants(variants, style);
+          if (wrapped) {
+            ignoreProcessed && this._cache.attrs.push(buildSelector);
+            success.push(buildSelector);
+            styleSheet.add(wrapped);
+          } else {
+            ignored.push(buildSelector);
+          }
         }
       } else {
         ignored.push(buildSelector);

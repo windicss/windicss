@@ -392,6 +392,7 @@ Tools / simple attributify / css / 0: |-
       padding: 1rem;
     }
   }
+'Tools / variant not exist #320 / css / 0': ''
 Tools / with align utility / css / 0: |-
   [align~="items-start"] {
     -webkit-box-align: start;
