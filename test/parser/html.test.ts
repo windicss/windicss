@@ -23,4 +23,11 @@ describe('HTMLParser', () => {
     const parser = new HTMLParser(EXAMPLE_2);
     expect(parser.parseAttrs()).toMatchSnapshot('attr');
   });
+
+  it('parse jsx syntax', () => {
+    const parser = new HTMLParser('class={`z-20 bg-green-600 ${variable}`}');
+    expect(parser.parseClasses()).toMatchSnapshot('class');
+    parser.html = '<div className={css`height:calc(100% - 56px)`}><div className="float-left w-250px h-full bg-hex-f7f7fa overflow-y-auto"></div></div>';
+    expect(parser.parseClasses()).toMatchSnapshot('className');
+  });
 });
