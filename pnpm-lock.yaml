@@ -15,6 +15,7 @@ specifiers:
   '@types/js-yaml': ^4.0.0
   '@types/lodash.merge': ^4.6.6
   '@types/node': ^14.14.37
+  '@types/react': ^17.0.9
   '@typescript-eslint/eslint-plugin': ^4.20.0
   '@typescript-eslint/parser': ^4.20.0
   arg: ^5.0.0
@@ -56,6 +57,7 @@ devDependencies:
   '@types/js-yaml': 4.0.0
   '@types/lodash.merge': 4.6.6
   '@types/node': 14.14.37
+  '@types/react': 17.0.9
   '@typescript-eslint/eslint-plugin': 4.20.0_7448dc1756632cc6400f187319207d38
   '@typescript-eslint/parser': 4.20.0_eslint@7.23.0+typescript@4.2.3
   arg: 5.0.0
@@ -473,10 +475,26 @@ packages:
     resolution: {integrity: sha512-DssMqTV9UnnoxDWu959sDLZzfvqCF0qDNRjaWeYSui9xkFe61kKo4l1TWNTQONpuXEm+gLMRvdlzvNHBamzmEw==}
     dev: true
 
+  /@types/prop-types/15.7.3:
+    resolution: {integrity: sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==}
+    dev: true
+
+  /@types/react/17.0.9:
+    resolution: {integrity: sha512-2Cw7FvevpJxQrCb+k5t6GH1KIvmadj5uBbjPaLlJB/nZWUj56e1ZqcD6zsoMFB47MsJUTFl9RJ132A7hb3QFJA==}
+    dependencies:
+      '@types/prop-types': 15.7.3
+      '@types/scheduler': 0.16.1
+      csstype: 3.0.8
+    dev: true
+
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
       '@types/node': 14.14.37
+    dev: true
+
+  /@types/scheduler/0.16.1:
+    resolution: {integrity: sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==}
     dev: true
 
   /@typescript-eslint/eslint-plugin/4.20.0_7448dc1756632cc6400f187319207d38:
@@ -904,6 +922,10 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: true
+
+  /csstype/3.0.8:
+    resolution: {integrity: sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==}
     dev: true
 
   /debug/4.3.1:

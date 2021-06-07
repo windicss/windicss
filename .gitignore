@@ -41,7 +41,6 @@ dist
 *.css
 *.html
 *.windi
-*.d.ts
 src/**/*.js
 example/**/*.js
 
