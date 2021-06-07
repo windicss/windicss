@@ -71,6 +71,9 @@ export default class ClassParser {
         }
         ignoreSpace = false;
         break;
+      case '"':
+      case '`':
+      case '\'':
       case ')':
       case ' ':
       case '\n':

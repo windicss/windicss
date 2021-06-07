@@ -31,4 +31,10 @@ describe('ClassParser', () => {
     const parser = new ClassParser(classes, ':', []);
     expect(parser.parse()).toMatchSnapshot('bad classes');
   });
+
+  it('parse bad class with quotes', () => {
+    const classes = '${ active ? \'text-green-400\' : \'text-orange-400\' }';
+    const parser = new ClassParser(classes, ':', []);
+    expect(parser.parse()).toMatchSnapshot('bad classes');
+  });
 });
