@@ -37,4 +37,16 @@ describe('ClassParser', () => {
     const parser = new ClassParser(classes, ':', []);
     expect(parser.parse()).toMatchSnapshot('bad classes');
   });
+
+  it('parse bad class with bracket', () => {
+    const classes = 'xyz() p-5 bg-red-500 xyz-() xy-( xy) bg-yellow-600';
+    const parser = new ClassParser(classes, ':', []);
+    expect(parser.parse()).toMatchSnapshot('bad bracket');
+  });
+
+  it('parse bad class with half bracket', () => {
+    const classes = 'abc( text-lg font-bold';
+    const parser = new ClassParser(classes, ':', []);
+    expect(parser.parse()).toMatchSnapshot('bad half bracket');
+  });
 });

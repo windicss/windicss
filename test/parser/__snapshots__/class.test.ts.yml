@@ -345,6 +345,102 @@ Tools / parse bad class / bad classes / 0: |-
       "important": false
     }
   ]
+Tools / parse bad class with bracket / bad bracket / 0: |-
+  [
+    {
+      "raw": "xyz()",
+      "start": 0,
+      "end": 5,
+      "variants": [],
+      "content": "xyz()",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "p-5",
+      "start": 6,
+      "end": 9,
+      "variants": [],
+      "content": "p-5",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-red-500",
+      "start": 10,
+      "end": 20,
+      "variants": [],
+      "content": "bg-red-500",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "xyz-()",
+      "start": 21,
+      "end": 27,
+      "variants": [],
+      "content": "xyz-()",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "xy-(",
+      "start": 28,
+      "end": 32,
+      "variants": [],
+      "content": "xy-(",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "xy)",
+      "start": 33,
+      "end": 36,
+      "variants": [],
+      "content": "xy)",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "bg-yellow-600",
+      "start": 37,
+      "end": 50,
+      "variants": [],
+      "content": "bg-yellow-600",
+      "type": "utility",
+      "important": false
+    }
+  ]
+Tools / parse bad class with half bracket / bad half bracket / 0: |-
+  [
+    {
+      "raw": "abc(",
+      "start": 0,
+      "end": 4,
+      "variants": [],
+      "content": "abc(",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "text-lg",
+      "start": 5,
+      "end": 12,
+      "variants": [],
+      "content": "text-lg",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "font-bold",
+      "start": 13,
+      "end": 22,
+      "variants": [],
+      "content": "font-bold",
+      "type": "utility",
+      "important": false
+    }
+  ]
 Tools / parse bad class with quotes / bad classes / 0: |-
   [
     {

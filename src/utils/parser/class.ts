@@ -1,4 +1,5 @@
 import type { Element } from '../../interfaces';
+import { isSpace } from '../../utils/tools';
 
 export default class ClassParser {
   index: number;
@@ -17,6 +18,7 @@ export default class ClassParser {
     if (!this.classNames) return [];
     let char;
     let group;
+    let func;
     let variant;
     let variants = [];
     let variantStart = this.index + 1;
@@ -68,6 +70,12 @@ export default class ClassParser {
           ignoreBracket = true;
         } else if (ignoreSpace) {
           group = this._handle_group();
+        } else {
+          func = this.classNames.slice(groupStart, this.index);
+          while (!isSpace(this.classNames.charAt(this.index))) {
+            this.index++;
+          }
+          this.index--;
         }
         ignoreSpace = false;
         break;
@@ -87,6 +95,10 @@ export default class ClassParser {
             if (Array.isArray(group)) {
               parts.push({ raw, start, end, variants, content: group, type: 'group', important });
               group = undefined;
+            } else if (func) {
+              const utility = this.classNames.slice(variantStart, this.index);
+              parts.push({ raw: raw, start, end, variants, content: utility, type: 'utility', important });
+              func = undefined;
             } else if (ignoreBracket && char === ')') {
               // utility with bracket
               const utility = this.classNames.slice(variantStart, this.index + 1);
