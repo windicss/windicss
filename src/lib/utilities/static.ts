@@ -836,7 +836,7 @@ export const staticUtilities: StaticUtility = {
   },
   'grid-flow-col-dense': {
     'utility': {
-      'grid-auto-flow': 'col dense',
+      'grid-auto-flow': 'column dense',
     },
     'meta': {
       'group': 'gridAutoFlow',
