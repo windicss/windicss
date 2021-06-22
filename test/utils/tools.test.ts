@@ -232,6 +232,11 @@ describe('Tools', () => {
   it('search property end', () => {
     expect(searchPropEnd('font-family: "iconfont";')).toEqual(23);
     expect(searchPropEnd(String.raw`src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy') format('woff2');`)).toEqual(105);
+    expect(searchPropEnd(String.raw`src: url(data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAXEAAsAAAAACy) format('woff2');`)).toEqual(103);
+    expect(searchPropEnd(String.raw`content: "')\"(";`)).toEqual(16);
+    expect(searchPropEnd(String.raw`content: '")\'(';`)).toEqual(16);
+    expect(searchPropEnd(String.raw`content: '\\';`)).toEqual(13);
+    expect(searchPropEnd(String.raw`content: ";";`)).toEqual(12);
   });
 
   it('search not escape', () => {
