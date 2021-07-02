@@ -227,18 +227,35 @@ export function searchPropEnd(text: string, startIndex = 0): number {
   let output = -1;
   let openSingleQuote = false;
   let openDoubleQuote = false;
+  let openBracket = false;
+  let isEscaped = false;
   while (index < text.length) {
     switch (text.charAt(index)) {
+    case '\\':
+      isEscaped = !isEscaped;
+      break;
     case '\'':
-      if (text.charAt(index - 1) !== '\\') openSingleQuote = !openSingleQuote;
+      if (!openDoubleQuote && !openBracket && !isEscaped) openSingleQuote = !openSingleQuote;
+      isEscaped = false;
       break;
     case '"':
-      if (text.charAt(index - 1) !== '\\') openDoubleQuote = !openDoubleQuote;
+      if (!openSingleQuote && !openBracket && !isEscaped) openDoubleQuote = !openDoubleQuote;
+      isEscaped = false;
+      break;
+    case '(':
+      if (!openBracket && !openSingleQuote && !openDoubleQuote && !isEscaped) openBracket = true;
+      isEscaped = false;
+      break;
+    case ')':
+      if (openBracket && !isEscaped) openBracket = false;
+      isEscaped = false;
       break;
     case ';':
-      if (openSingleQuote === false && openDoubleQuote === false) output = index;
+      if (!isEscaped && !openSingleQuote && !openDoubleQuote && !openBracket) output = index;
+      isEscaped = false;
       break;
     default:
+      isEscaped = false;
       break;
     }
     if (output !== -1) break;
