@@ -83,6 +83,7 @@ Tools / generate states / all / 0: |-
     "after": ".test::after {\n  background: #1C1C1E;\n}",
     "first-letter": ".test::first-letter {\n  background: #1C1C1E;\n}",
     "first-line": ".test::first-line {\n  background: #1C1C1E;\n}",
+    "file-selector-button": ".test::file-selector-button {\n  background: #1C1C1E;\n}",
     "selection": ".test::selection {\n  background: #1C1C1E;\n}",
     "svg": ".test svg {\n  background: #1C1C1E;\n}",
     "all": ".test * {\n  background: #1C1C1E;\n}",

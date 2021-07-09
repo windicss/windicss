@@ -28,12 +28,12 @@ describe('Resolve Tests', () => {
       'not-only-of-type',  'even',             'odd',
       'even-of-type',      'odd-of-type',      'root',
       'empty',             'before',           'after',
-      'first-letter',      'first-line',       'selection',
-      'svg',               'all',              'children',
-      'siblings',          'sibling',          'ltr',
-      'rtl',               'group-hover',      'group-focus',
-      'group-active',      'group-visited',    'motion-safe',
-      'motion-reduce',
+      'first-letter',      'first-line',       'file-selector-button',
+      'selection',         'svg',              'all',
+      'children',          'siblings',         'sibling',
+      'ltr',               'rtl',              'group-hover',
+      'group-focus',       'group-active',     'group-visited',
+      'motion-safe',       'motion-reduce',
     ];
     const themeVariants = [ '@dark', '@light', '.dark', '.light', 'dark', 'light' ];
 

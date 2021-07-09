@@ -59,6 +59,7 @@ export function generateStates (
     after: () => new Style().pseudoElement('after'),
     'first-letter': () => new Style().pseudoElement('first-letter'),
     'first-line': () => new Style().pseudoElement('first-line'),
+    'file-selector-button': () => new Style().pseudoElement('file-selector-button'),
     selection: () => new Style().pseudoElement('selection'),
 
     svg: () => new Style().child('svg'),
