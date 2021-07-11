@@ -155,7 +155,10 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       handleSquareBrackets: handlers.bracket ? (callback) => {
         if (handler.value) return handler;
         if (handler._amount[0] === '[' && handler._amount[handler._amount.length-1] === ']') {
-          const value = handler._amount.slice(1, -1).replace(/_/g, ' '); // replace _ to space
+          let value = handler._amount.slice(1, -1).replace(/_/g, ' '); // replace _ to space
+          if (value.indexOf('calc(') > -1) {
+            value = value.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ');
+          }
           handler.value = callback
             ? callback(value)
             : value;
