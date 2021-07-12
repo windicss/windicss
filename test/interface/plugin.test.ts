@@ -94,4 +94,21 @@ describe('plugin interface test', () => {
 
     expect(processor.preflight(' ', false, false, true).build()).toMatchSnapshot('css');
   });
+
+  it('variants not cleared when plugin loaded', () => {
+    const processor = new Processor({
+      plugins: [
+        {
+          handler: ({ addVariant }) => {
+            addVariant('variant', ({ parent }) => parent('.variant'));
+          },
+        },
+        {
+          handler: () => {/* Nothing */},
+        },
+      ],
+    });
+
+    expect(processor.interpret('variant:text-black').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

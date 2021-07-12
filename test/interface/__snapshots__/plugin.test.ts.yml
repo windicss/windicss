@@ -26,3 +26,8 @@ Tools / addComponents with attribute selectors / css / 0: |-
     --tw-text-opacity: 0.2;
     color: hsla(var(--bc,215 28% 17%)/var(--tw-text-opacity));
   }
+Tools / variants not cleared when plugin loaded / css / 0: |-
+  .variant .variant\:text-black {
+    --tw-text-opacity: 1;
+    color: rgba(0, 0, 0, var(--tw-text-opacity));
+  }

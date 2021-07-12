@@ -969,7 +969,7 @@ export class Processor {
     }
     this._config = this._resolveFunction(this._config);
     this._theme = this._config.theme;
-    this._variants = this.resolveVariants();
+    this._variants = { ...this._variants, ...this.resolveVariants() };
     handler(this.pluginUtils);
   }
 
