@@ -614,3 +614,7 @@ Tools / interpret square brackets grids with function / square brackets grids / 
   minmax\(100px\2c 1fr\)\] {
     grid-template-columns: minmax(200px,2fr) minmax(300px,3fr) minmax(100px,1fr);
   }
+Tools / min-bracket / css / 0: |-
+  .max-h-\[100vh\] {
+    max-height: 100vh;
+  }

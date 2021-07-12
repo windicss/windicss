@@ -146,4 +146,8 @@ describe('Interpretation Mode', () => {
   it('interpert order', () => {
     expect(processor.interpret('relative fixed').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('min-bracket', () => {
+    expect(processor.interpret('min-[100vh] max-h-[100vh]').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

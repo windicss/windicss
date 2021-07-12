@@ -382,6 +382,8 @@ function size(utility: Utility, { theme }: PluginUtils): Output {
 // https://windicss.org/utilities/sizing.html#max-width
 // https://windicss.org/utilities/sizing.html#max-height
 function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
+  if (!utility.raw.match(/^(min|max)-[w|h]-/))
+    return;
   const body = utility.raw.replace(/^(min|max)-[w|h]-/, '');
   const prop = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
   const group = dashToCamel(prop) as ('minHeight'|'maxHeight'|'minWidth'|'maxWidth');
