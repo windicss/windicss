@@ -247,23 +247,23 @@ Tools / animation / animation / 0: |-
 Tools / animation iteration count / animationIterationCount / 0: |-
   .animate-loop {
     -webkit-animation-iteration-count: infinite;
-    aniamtion-iteration-count: infinite;
+    animation-iteration-count: infinite;
   }
   .animate-repeat-1 {
     -webkit-animation-iteration-count: 1;
-    aniamtion-iteration-count: 1;
+    animation-iteration-count: 1;
   }
   .animate-repeat-12 {
     -webkit-animation-iteration-count: 12;
-    aniamtion-iteration-count: 12;
+    animation-iteration-count: 12;
   }
   .animate-repeat-24 {
     -webkit-animation-iteration-count: 24;
-    aniamtion-iteration-count: 24;
+    animation-iteration-count: 24;
   }
   .animate-repeat-\[13\] {
     -webkit-animation-iteration-count: 13;
-    aniamtion-iteration-count: 13;
+    animation-iteration-count: 13;
   }
 Tools / animation order / transition / 0: |-
   @keyframes flash {
@@ -306,7 +306,7 @@ Tools / animation order / transition / 0: |-
   }
   .animate-loop {
     -webkit-animation-iteration-count: infinite;
-    aniamtion-iteration-count: infinite;
+    animation-iteration-count: infinite;
   }
 Tools / animation static utilities / animationStatic / 0: |-
   .animated {
