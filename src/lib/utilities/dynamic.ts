@@ -1496,6 +1496,8 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function content(utility: Utility, { theme }: PluginUtils): Output {
+  if (!utility.raw.startsWith('content-'))
+    return;
   return utility.handler
     .handleBody(theme('content'))
     .handleSquareBrackets()

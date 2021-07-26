@@ -213,6 +213,11 @@ describe('Utilities', () => {
     expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)] content').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  // #216
+  it('content utilities false', () => {
+    expect(processor.interpret('.content-type .bg-red-100').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('color opacity group utilities', () => {
     expect(processor.interpret(`bg-green-500/50 bg-blue-600/32
     bg-indigo-500/$primary-opacity bg-[var(--background-color)]

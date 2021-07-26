@@ -784,9 +784,7 @@ Tools / content utilities / css / 0: |-
   .after\:content-\[attr\(value\)\]::after {
     content: attr(value);
   }
-  .content {
-    content: "";
-  }
+Tools / content utilities false / css / 0: ''
 Tools / fill-none and stroke-none is wrong / css / 0: |-
   .fill-none {
     fill: none;
