@@ -273,6 +273,7 @@ export class Processor {
       if (style instanceof Keyframes) return style;
       const atrules:string[] = [];
       let wrapped = variants
+        .filter(i => this._variants?.[i])
         .map(i => this._variants[i]())
         .reduce((previousValue: Style, currentValue: Style) => {
           const output = previousValue.extend(currentValue);
