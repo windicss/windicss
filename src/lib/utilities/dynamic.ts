@@ -6,6 +6,7 @@ import { linearGradient, minMaxContent } from '../../utils/style/prefixer';
 import {
   generatePlaceholder,
   generateFontSize,
+  isString,
   expandDirection,
 } from '../../utils/helpers';
 
@@ -41,6 +42,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
     const screens = toType(theme('container.screens', theme('screens')), 'object');
 
     for (const [screen, size] of Object.entries(screens)) {
+      if (!isString(size)) continue;
       const props = [new Property('max-width', `${size}`)];
       const padding = theme(`container.padding.${screen}`);
       if (padding && typeof padding === 'string') {
