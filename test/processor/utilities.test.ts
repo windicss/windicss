@@ -364,7 +364,7 @@ describe('Utilities', () => {
     `).styleSheet.build()).toMatchSnapshot('transition');
   });
 
-  // https://github.com/windicss/vite-plugin-windicss/issues/213
+  // #404
   it('false duration and animate utilities', () => {
     expect(processor.interpret(`
       <animate
