@@ -1182,6 +1182,8 @@ function opacity(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/transitions.html#transition-property
 function transition(utility: Utility, { theme }: PluginUtils): Output {
+  if (!utility.raw.startsWith('transition'))
+    return;
   const body = utility.body;
   const props = toType(theme('transitionProperty'), 'object') as { [key: string]: string };
   for (const [key, value] of Object.entries(props)) {
@@ -1200,6 +1202,8 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/transitions.html#transition-duration
 function duration(utility: Utility, { theme }: PluginUtils): Output {
+  if (!utility.raw.startsWith('duration-'))
+    return;
   return utility.handler
     .handleStatic(theme('transitionDuration'))
     .handleSquareBrackets()
@@ -1232,6 +1236,8 @@ function delay(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/behaviors.html#animation
 function animation(utility: Utility, { theme, config }: PluginUtils): Output {
+  if (!utility.raw.startsWith('animate-'))
+    return;
   const body = utility.body;
   if (utility.raw.startsWith('animate-ease')) {
     return utility.clone(utility.raw.slice(8)).handler

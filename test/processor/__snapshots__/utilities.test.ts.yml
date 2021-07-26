@@ -785,6 +785,7 @@ Tools / content utilities / css / 0: |-
     content: attr(value);
   }
 Tools / content utilities false / css / 0: ''
+Tools / false duration and animate utilities / transition / 0: ''
 Tools / fill-none and stroke-none is wrong / css / 0: |-
   .fill-none {
     fill: none;

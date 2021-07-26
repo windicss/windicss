@@ -364,6 +364,17 @@ describe('Utilities', () => {
     `).styleSheet.build()).toMatchSnapshot('transition');
   });
 
+  // https://github.com/windicss/vite-plugin-windicss/issues/213
+  it('false duration and animate utilities', () => {
+    expect(processor.interpret(`
+      <animate
+      <transition
+      .duration
+      duration
+      duration.value
+    `).styleSheet.build()).toMatchSnapshot('transition');
+  });
+
   it('fill-none and stroke-none is wrong', () => {
     expect(processor.interpret('fill-none stroke-none').styleSheet.build()).toMatchSnapshot('css');
   });
