@@ -34,6 +34,12 @@ describe('combineConfig', () => {
     });
   });
 
+  it('should override nested arrays when provide depth', () => {
+    expect(combineConfig({ a: [1, 2] }, { a: [3, 4] }, 0)).toEqual({
+      a: [3, 4],
+    });
+  });
+
   it('should combine deep nested two arrays', () => {
     expect(
       combineConfig({ a: { b: { c: [1, 2] } } }, { a: { b: { c: [3, 4] } } })

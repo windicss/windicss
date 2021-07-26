@@ -137,7 +137,7 @@ export class Processor {
         );
         break;
       case 'object':
-        theme[key] = (theme, { negative, breakpoints }) => combineConfig(themeValue, (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}));
+        theme[key] = (theme, { negative, breakpoints }) => combineConfig(themeValue, (typeof value === 'function' ? value(theme, { negative, breakpoints }) : value ?? {}), 0 /* prevent fontfamily merge */);
         break;
       default:
         theme[key] = value;

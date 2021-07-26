@@ -538,6 +538,20 @@ describe('Config', () => {
     expect(processor.interpret('bg-transparent bg-primary bg-primary-focus text-primary-content').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  // #363
+  it('extend fontFamily with array', () => {
+    const processor = new Processor({
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Graphik', 'sans-serif'],
+          },
+        },
+      },
+    });
+    expect(processor.interpret('font-sans').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   // #402
   it('container with screens', () => {
     const processor = new Processor({

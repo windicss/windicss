@@ -213,6 +213,10 @@ Tools / extend black / css / 0: |-
     --tw-bg-opacity: 1;
     background-color: rgba(34, 0, 0, var(--tw-bg-opacity));
   }
+Tools / extend fontFamily with array / css / 0: |-
+  .font-sans {
+    font-family: Graphik,sans-serif;
+  }
 Tools / handle colors test / css / 0: |-
   .bg-discord {
     --tw-bg-opacity: 1;
