@@ -139,6 +139,16 @@ Tools / confuses color with font-size if keys are the same / css / 0: |-
     --tw-text-opacity: 1;
     color: rgba(89, 174, 144, var(--tw-text-opacity));
   }
+Tools / container with screens / css / 0: |-
+  .container {
+    width: 100%;
+  }
+  @media print {
+    .print\:bg-black {
+      --tw-bg-opacity: 1;
+      background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+    }
+  }
 Tools / dashify / css / 0: |-
   .foo {
     --tw-bg-opacity: 1;

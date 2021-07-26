@@ -537,4 +537,16 @@ describe('Config', () => {
     });
     expect(processor.interpret('bg-transparent bg-primary bg-primary-focus text-primary-content').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  // #402
+  it('container with screens', () => {
+    const processor = new Processor({
+      theme: {
+        screens: {
+          print: { raw: 'print' },
+        },
+      },
+    });
+    expect(processor.interpret('print:bg-black container').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
