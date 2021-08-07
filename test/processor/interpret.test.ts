@@ -150,4 +150,8 @@ describe('Interpretation Mode', () => {
   it('min-bracket', () => {
     expect(processor.interpret('min-[100vh] max-h-[100vh]').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('interpret fractions for padding and margin', () => {
+    expect(processor.interpret('p-1/2 p-1/100 m-4/5 m-10/1000').styleSheet.build()).toMatchSnapshot('css');
+  });
 });

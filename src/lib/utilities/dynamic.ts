@@ -277,6 +277,7 @@ function padding(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme('padding'))
     .handleSquareBrackets()
     .handleSpacing()
+    .handleFraction()
     .handleSize()
     .handleVariable()
     .callback(value => {
@@ -294,6 +295,7 @@ function margin(utility: Utility, { theme }: PluginUtils): Output {
     .handleStatic(theme('margin'))
     .handleSquareBrackets()
     .handleSpacing()
+    .handleFraction()
     .handleSize()
     .handleNegative()
     .handleVariable()
