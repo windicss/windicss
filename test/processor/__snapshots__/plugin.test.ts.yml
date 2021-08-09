@@ -60,13 +60,6 @@ Tools / add pseudo utilities / css / 0: |-
   .btn:hover {
     color: #fff;
   }
-  @media (min-width: 768px) {
-    @keyframes ping {
-      .btn {
-        font-weight: 600;
-      }
-    }
-  }
   .hover\:abc:hover {
     color: #1c1c1e;
   }
@@ -79,6 +72,9 @@ Tools / add pseudo utilities / css / 0: |-
     @keyframes ping {
       .test {
         color: red;
+      }
+      .btn {
+        font-weight: 600;
       }
     }
   }
@@ -135,4 +131,16 @@ Tools / dump config / css / 0: |-
   .bg-nord0 {
     --tw-bg-opacity: 1;
     background-color: rgba(46, 52, 64, var(--tw-bg-opacity));
+  }
+Tools / interpret order should follow add components order / css / 0: |-
+  .btn {
+    padding: .5rem 1rem;
+  }
+  .btn-sm {
+    border-radius: .25rem;
+    font-weight: 600;
+  }
+  .btn-lg {
+    border-radius: .5rem;
+    font-weight: 700;
   }

@@ -221,6 +221,31 @@ describe('Plugin Method', () => {
     expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('interpret order should follow add components order', () => {
+    const a = {
+      '.btn': {
+        padding: '.5rem 1rem',
+      },
+    };
+
+    const b = {
+      '.btn-sm': {
+        borderRadius: '.25rem',
+        fontWeight: '600',
+      },
+      '.btn-lg': {
+        borderRadius: '.5rem',
+        fontWeight: '700',
+      },
+    };
+
+    const processor = new Processor();
+    processor.addComponents(a);
+    processor.addComponents(b);
+    expect(processor.interpret('btn-lg btn-sm btn').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('btn-lg btn-sm btn').styleSheet.build()).toEqual(processor.interpret('btn btn-sm btn-lg').styleSheet.build());
+  });
+
   it('addBase', () => {
     const processor = new Processor();
     expect(processor.addBase({
