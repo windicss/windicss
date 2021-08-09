@@ -43,6 +43,7 @@ export const variantOrder = [
   'after',
   'first-letter',
   'first-line',
+  'file-selector-button',
   'selection',
   'svg',
   'all',
