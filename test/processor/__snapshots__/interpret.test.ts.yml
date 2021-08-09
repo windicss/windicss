@@ -115,6 +115,19 @@ Tools / interpret duplicated important / duplicated important / 0: |-
     --tw-text-opacity: 1 !important;
     color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
+Tools / interpret fractions for padding and margin / css / 0: |-
+  .m-4\/5 {
+    margin: 80%;
+  }
+  .m-10\/1000 {
+    margin: 1%;
+  }
+  .p-1\/2 {
+    padding: 50%;
+  }
+  .p-1\/100 {
+    padding: 1%;
+  }
 Tools / interpret important / important / 0: |-
   .\!hover\:bg-red-500:hover {
     --tw-bg-opacity: 1 !important;
