@@ -54,6 +54,7 @@ export class Processor {
   private _theme: Config['theme'];
   private _variants: ResolvedVariants = {};
   private _cache: ProcessorCache = {
+    count: 0,
     html: [],
     attrs: [],
     classes: [],
@@ -983,7 +984,7 @@ export class Processor {
     for (const [key, value] of Object.entries(shortcuts)) {
       const prefix = this.config('prefix', '');
       if (typeof value === 'string') {
-        this._plugin.shortcuts[key] = this.compile(value, undefined, undefined, false, undefined, cssEscape(prefix + key)).styleSheet.children.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts']));
+        this._plugin.shortcuts[key] = this.compile(value, undefined, undefined, false, undefined, cssEscape(prefix + key)).styleSheet.children.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts'], ++this._cache.count));
       } else {
         let styles: Style[] = [];
         Style.generate('.' + cssEscape(key), value).forEach(style => {
@@ -1002,7 +1003,7 @@ export class Processor {
             }
           }
         });
-        this._plugin.shortcuts[key] = styles.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts']));
+        this._plugin.shortcuts[key] = styles.map(i => i.updateMeta('components', 'shortcuts', layerOrder['shortcuts'], ++this._cache.count));
       }
     }
   }
@@ -1060,7 +1061,7 @@ export class Processor {
     const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(utilities)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
-      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order));
+      if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order, ++this._cache.count));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -1115,8 +1116,8 @@ export class Processor {
       : (Utility: Utility) => {
         const output = generator({ Utility, Style: style, Property: prop, Keyframes: keyframes });
         if (!output) return;
-        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, group, order, 0, false, i.meta.respectSelector || uOptions.respectSelector));
-        return output.updateMeta(layer, group, order, 0, false, output.meta.respectSelector || uOptions.respectSelector);
+        if (Array.isArray(output)) return output.map(i => i.updateMeta(layer, group, order, ++this._cache.count, false, i.meta.respectSelector || uOptions.respectSelector));
+        return output.updateMeta(layer, group, order, ++this._cache.count, false, output.meta.respectSelector || uOptions.respectSelector);
       };
     return generator;
   }
@@ -1132,7 +1133,7 @@ export class Processor {
     const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(components)) {
       const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
-      styles.forEach(style => style.updateMeta(layer, 'plugin', order));
+      styles.forEach(style => style.updateMeta(layer, 'plugin', order, ++this._cache.count));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
       if (key.charAt(0) === '@') {
@@ -1167,7 +1168,7 @@ export class Processor {
   addBase(baseStyles: DeepNestObject): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
-      const styles = Style.generate(key, value).map(i => i.updateMeta('base', 'plugin', 10));
+      const styles = Style.generate(key, value).map(i => i.updateMeta('base', 'plugin', 10, ++this._cache.count));
       this._replaceStyleVariants(styles);
       this._addPluginProcessorCache('preflights', key, styles);
       output = [...output, ...styles];

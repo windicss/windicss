@@ -515,6 +515,7 @@ export interface Validata {
 }
 
 export interface ProcessorCache {
+  count: number; // plugin utilities count
   html: string[];
   attrs: string[];
   classes: string[];
