@@ -1,6 +1,6 @@
 module.exports = {
   extract: {
-    include: ['**/*.{html,}'],
+    include: ['**/*.html'],
     exclude: ['**/node_modules/**', '.git', 'dist', 'personal'],
   },
   theme: {
