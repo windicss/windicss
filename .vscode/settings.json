@@ -6,4 +6,5 @@
     "typescriptreact",
     "vue"
   ],
+  "liveServer.settings.root": "/playground"
 }
