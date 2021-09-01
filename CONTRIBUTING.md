@@ -20,13 +20,13 @@ There are five steps to building this project:
 
 ### Set up Git and Install Node.js
 
-All GitHub projects are backed by a version control software called *Git*. You'll need to [set up Git](https://github.com/danthareja/contribute-to-open-source/wiki/Setting-up-Git) in order to contribute to *any* project on GitHub.
+All GitHub projects are backed by a version control software called _Git_. You'll need to [set up Git](https://github.com/danthareja/contribute-to-open-source/wiki/Setting-up-Git) in order to contribute to _any_ project on GitHub.
 
 This specific project is written in JavaScript and uses Node.js as it's runtime. You'll need to [install Node.js](https://nodejs.org/en/) in order to run the project.
 
 ### Fork the [repository](https://github.com/voorjaar/windicss.git)
 
-A *fork* is a copy of a repository. Forking a repository lets you to make changes to your copy without affecting any of the original code.
+A _fork_ is a copy of a repository. Forking a repository lets you to make changes to your copy without affecting any of the original code.
 
 Click **Fork** (in the top-right corner of the page) to copy this repository to your GitHub account.
 
@@ -34,8 +34,8 @@ Click **Fork** (in the top-right corner of the page) to copy this repository to 
 
 Use git to clone your fork to your computer.
 
-```
-$ git clone https://github.com/${username}/windicss.git
+```bash
+git clone https://github.com/${username}/windicss.git
 ```
 
 ### Install dependencies
@@ -44,32 +44,33 @@ This project uses [pnpm](https://pnpm.js.org/), a command-line tool bundled with
 
 First, navigate into the project's directory
 
-```
-$ cd windicss
+```bash
+cd windicss
 ```
 
 Next, use `pnpm` to install the project' dependencies
-```
-$ pnpm install
+
+```bash
+pnpm install
 ```
 
 ### Build the project
 
 Development Version
 
-```
-$ pnpm build
+```bash
+pnpm build
 ```
 
 Production Version
 
-```
-$ pnpm build:prod
+```bash
+pnpm build:prod
 ```
 
 ## Submit a Pull Request
 
-After you successfully [build the project](#build-the-project), you can make some changes of your own. 
+After you successfully [build the project](#build-the-project), you can make some changes of your own.
 
 There are five steps to submit pull request:
 
@@ -81,9 +82,9 @@ There are five steps to submit pull request:
 
 ### Create a new branch
 
-```
-$ git branch fix-issue-123
-$ git checkout fix-issue-123
+```bash
+git branch fix-issue-123
+git checkout fix-issue-123
 ```
 
 ### Make your changes
@@ -91,8 +92,9 @@ $ git checkout fix-issue-123
 Make sure your code is following [TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html).
 
 Lint your code:
-```
-$ pnpm lint
+
+```bash
+pnpm lint
 ```
 
 ### Test your changes
@@ -100,21 +102,47 @@ $ pnpm lint
 You should add a new test file for your changes into [test](/tree/main/test) folder, the file should has extension `.test.ts`.
 
 Run tests:
-```
-$ pnpm test
+
+```bash
+pnpm test
 ```
 
 Generate coverage report:
+
+```bash
+pnpm coverage
 ```
-$ pnpm coverage
-```
+
+### Test changes in a real project
+
+To test the changes you made, you can use the [`playground`](./playground)
+project.
+
+1. In the windicss root project directory, run:
+
+    ```bash
+    pnpm install
+    ```
+
+2. In the first terminal, run `pnpm dev` in the windicss project directory, and in the
+   second one open the playground directory and run `pnpm dev`.
+
+    This would set up a watcher that would rebuild the `windi.css` file in the `playground`
+    directory every time you make a change in the windicss source code. You would need
+    something like [Live
+    Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to
+    see your changes in the browser.
+
+#### Development
+
+Open two editors, one with the windicss repo, one with your actual project.
 
 ### Push your changes
 
-```
-$ git add .
-$ git commit -m "fix issue 123"
-$ git push origin fix-issue-123
+```bash
+git add .
+git commit -m "fix issue 123"
+git push origin fix-issue-123
 ```
 
 ### Open a Pull Request
