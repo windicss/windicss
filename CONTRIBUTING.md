@@ -124,8 +124,8 @@ project.
     pnpm install
     ```
 
-2. In the first terminal, run `pnpm run dev` in the windicss project directory, and in the
-   second one open the playground directory and run `pnpm run dev`.
+2. In the first terminal, run `pnpm dev` in the windicss project directory, and in the
+   second one open the playground directory and run `pnpm dev`.
 
     This would set up a watcher that would rebuild the `windi.css` file in the `playground`
     directory every time you make a change in the windicss source code. You would need
