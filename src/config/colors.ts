@@ -1,3 +1,5 @@
+import { Console } from '../cli/utils';
+
 type Colors =
   'black'
   | 'white'
@@ -31,6 +33,20 @@ export type DefaultColors = {
   [key in Colors]: string | Record<number | string, string>
 }
 
+const sky = {
+  50: '#f0f9ff',
+  100: '#e0f2fe',
+  200: '#bae6fd',
+  300: '#7dd3fc',
+  400: '#38bdf8',
+  500: '#0ea5e9',
+  600: '#0284c7',
+  700: '#0369a1',
+  800: '#075985',
+  900: '#0c4a6e',
+};
+
+let warned = false;
 
 export const colors: DefaultColors =  {
   black: '#000',
@@ -119,29 +135,14 @@ export const colors: DefaultColors =  {
     800: '#1e40af',
     900: '#1e3a8a',
   },
-  lightBlue: {
-    50: '#f0f9ff',
-    100: '#e0f2fe',
-    200: '#bae6fd',
-    300: '#7dd3fc',
-    400: '#38bdf8',
-    500: '#0ea5e9',
-    600: '#0284c7',
-    700: '#0369a1',
-    800: '#075985',
-    900: '#0c4a6e',
-  },
-  sky: {
-    50: '#f0f9ff',
-    100: '#e0f2fe',
-    200: '#bae6fd',
-    300: '#7dd3fc',
-    400: '#38bdf8',
-    500: '#0ea5e9',
-    600: '#0284c7',
-    700: '#0369a1',
-    800: '#075985',
-    900: '#0c4a6e',
+  sky,
+  get lightBlue() {
+    if (!warned) {
+      Console.log('warn - `lightBlue` has been renamed to `sky`.');
+      Console.log('warn - Please update your color palette to eliminate this warning.');
+      warned = true;
+    }
+    return sky;
   },
   cyan: {
     50: '#ecfeff',
