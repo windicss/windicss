@@ -144,3 +144,17 @@ Tools / interpret order should follow add components order / css / 0: |-
     border-radius: .5rem;
     font-weight: 700;
   }
+Tools / properties as array of style objects / css / 0: |-
+  @media (min-width:1024px) {
+    .btn {
+      color: red;
+      border: 1rem;
+    }
+  }
+Tools / properties as array of style objects / css / 1: |-
+  @media (min-width:1024px) {
+    .btn-side {
+      color: white;
+      border: 2rem;
+    }
+  }

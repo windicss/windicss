@@ -221,6 +221,19 @@ describe('Plugin Method', () => {
     expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('properties as array of style objects', () => {
+    const a = {
+      '@media (min-width:1024px)': [
+        { '.btn': [{ color: 'red' }, { border: '1rem' }] },
+        { '.btn-side': { color: 'white', border: '2rem' } },
+      ],
+    };
+    const processor = new Processor();
+    processor.addComponents(a);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('btn-side').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('interpret order should follow add components order', () => {
     const a = {
       '.btn': {

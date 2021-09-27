@@ -1132,7 +1132,11 @@ export class Processor {
     const layer = options.layer ?? 'components';
     const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(components)) {
-      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
+      let propertyValue = value;
+      if (Array.isArray(value)) {
+        propertyValue = Object.assign({}, ...value);
+      }
+      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, propertyValue);
       styles.forEach(style => style.updateMeta(layer, 'plugin', order, ++this._cache.count));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);

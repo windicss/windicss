@@ -249,10 +249,14 @@ export class Style {
     let output: Style[] = [];
 
     for (const [key, value] of Object.entries(property ?? {})) {
-      if (typeof value === 'string') {
-        root.add(new Property(camelToDash(key), value));
-      } else if (Array.isArray(value)) {
-        value.map(i => root?.add(new Property(camelToDash(key), i)));
+      let propertyValue = value;
+      if (Array.isArray(propertyValue) && propertyValue.every(e => typeof e === 'object')) {
+        propertyValue = Object.assign({}, ...propertyValue);
+      }
+      if (typeof propertyValue === 'string') {
+        root.add(new Property(camelToDash(key), propertyValue));
+      } else if (Array.isArray(propertyValue)) {
+        propertyValue.map(i => root?.add(new Property(camelToDash(key), i)));
       } else {
         const wrap = deepCopy(root);
         wrap.property = [];
@@ -285,7 +289,7 @@ export class Style {
             }
           }
         }
-        output = output.concat(Style.generate(key.startsWith('@') ? undefined : key, value, child));
+        output = output.concat(Style.generate(key.startsWith('@') ? undefined : key, propertyValue, child));
       }
     }
     if (root.property.length > 0) output.unshift(root);
