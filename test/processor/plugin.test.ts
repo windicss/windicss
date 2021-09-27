@@ -104,6 +104,20 @@ describe('Plugin Method', () => {
     expect(processor.interpret('b').styleSheet.build()).toMatchSnapshot('b');
   });
 
+  it('add utilities containing array of style objects #439', () => {
+    const a = {
+      '@media (min-width:1024px)': [
+        { '.btn': [{ color: 'red' }, { border: '1rem' }] },
+        { '.btn-side': { color: 'white', border: '2rem' } },
+      ],
+    };
+    const processor = new Processor();
+    processor.addUtilities(a);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('btn-side').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+
   it('addComponents', () => {
     const buttons = {
       '.btn': {
@@ -221,6 +235,19 @@ describe('Plugin Method', () => {
     expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('add components containing array of style objects #439', () => {
+    const a = {
+      '@media (min-width:1024px)': [
+        { '.btn': [{ color: 'red' }, { border: '1rem' }] },
+        { '.btn-side': { color: 'white', border: '2rem' } },
+      ],
+    };
+    const processor = new Processor();
+    processor.addComponents(a);
+    expect(processor.interpret('btn').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('btn-side').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('interpret order should follow add components order', () => {
     const a = {
       '.btn': {
@@ -263,6 +290,17 @@ describe('Plugin Method', () => {
     });
 
     expect(processor.preflight(undefined, false, false, true).build()).toEqual('h1 {\n  font-size: 1.5rem;\n}\nh2 {\n  font-size: 1.25rem;\n}');
+  });
+
+  it('add base styles containing array of style objects #439', () => {
+    const a = {
+      'h1': [{ fontSize: '1.5rem' }, { lineHeight: '.2rem' }],
+      'h2': { fontSize: '1.5rem', lineHeight: '.2rem' },
+    };
+    const processor = new Processor();
+    const result = processor.addBase(a).map(i => i.build());
+    expect(result[0]).toEqual('h1 {\n  font-size: 1.5rem;\n  line-height: .2rem;\n}');
+    expect(result[1]).toEqual('h2 {\n  font-size: 1.5rem;\n  line-height: .2rem;\n}');
   });
 
   it('addVariant pseudoClass', () => {
@@ -358,7 +396,7 @@ describe('Plugin Method', () => {
   it('syntax for hex colors', () => {
     const processor = new Processor({
       plugins: [
-        plugin(function ({ addDynamic }) {
+        plugin(function({ addDynamic }) {
           addDynamic('bg', ({ Utility, Style, Property }) => {
             if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(Utility.body)) {
               return Style(Utility.class, [

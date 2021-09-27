@@ -1060,7 +1060,11 @@ export class Processor {
     const layer = options.layer ?? 'utilities';
     const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(utilities)) {
-      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, value);
+      let propertyValue = value;
+      if (Array.isArray(value)) {
+        propertyValue = Object.assign({}, ...value);
+      }
+      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, propertyValue);
       if (options.layer) styles.forEach(style => style.updateMeta(layer, 'plugin', order, ++this._cache.count));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
@@ -1132,7 +1136,11 @@ export class Processor {
     const layer = options.layer ?? 'components';
     const order = layerOrder[layer] + 1;
     for (const [key, value] of Object.entries(components)) {
-      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key): key, value);
+      let propertyValue = value;
+      if (Array.isArray(value)) {
+        propertyValue = Object.assign({}, ...value);
+      }
+      const styles = Style.generate(key.startsWith('.') && options.respectPrefix ? this.prefix(key) : key, propertyValue);
       styles.forEach(style => style.updateMeta(layer, 'plugin', order, ++this._cache.count));
       if (options.respectImportant && this._config.important) styles.forEach(style => style.important = true);
       let className = guessClassName(key);
@@ -1168,7 +1176,11 @@ export class Processor {
   addBase(baseStyles: DeepNestObject): Style[] {
     let output: Style[] = [];
     for (const [key, value] of Object.entries(baseStyles)) {
-      const styles = Style.generate(key, value).map(i => i.updateMeta('base', 'plugin', 10, ++this._cache.count));
+      let propertyValue = value;
+      if (Array.isArray(value)) {
+        propertyValue = Object.assign({}, ...value);
+      }
+      const styles = Style.generate(key, propertyValue).map(i => i.updateMeta('base', 'plugin', 10, ++this._cache.count));
       this._replaceStyleVariants(styles);
       this._addPluginProcessorCache('preflights', key, styles);
       output = [...output, ...styles];

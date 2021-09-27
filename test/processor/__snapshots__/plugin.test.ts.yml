@@ -1,31 +1,45 @@
-Tools / add duplicated components / css / 0: |-
+'Plugin Method / add components containing array of style objects #439 / css / 0': |-
+  @media (min-width:1024px) {
+    .btn {
+      color: red;
+      border: 1rem;
+    }
+  }
+'Plugin Method / add components containing array of style objects #439 / css / 1': |-
+  @media (min-width:1024px) {
+    .btn-side {
+      color: white;
+      border: 2rem;
+    }
+  }
+Plugin Method / add duplicated components / css / 0: |-
   .btn {
     padding: .5rem 1rem;
     border-radius: .25rem;
     font-weight: 600;
   }
-Tools / add duplicated utilities / css / 0: |-
+Plugin Method / add duplicated utilities / css / 0: |-
   .btn {
     padding: .5rem 1rem;
     border-radius: .25rem;
     font-weight: 600;
   }
-Tools / add multi utilities / a / 1: |-
+Plugin Method / add multi utilities / a / 1: |-
   .a {
     padding: .5rem 1rem;
     border-radius: .25rem;
   }
-Tools / add multi utilities / b / 2: |-
+Plugin Method / add multi utilities / b / 2: |-
   .b:hover {
     padding: .5rem 1rem;
     border-radius: .25rem;
   }
-Tools / add multi utilities / preflight / 0: |-
+Plugin Method / add multi utilities / preflight / 0: |-
   [type='button'] {
     padding: .5rem 1rem;
     border-radius: .25rem;
   }
-Tools / add nest class name / css / 0: |-
+Plugin Method / add nest class name / css / 0: |-
   .btn.loading:before {
     border-radius: 9999px;
     border-width: 2px;
@@ -37,7 +51,7 @@ Tools / add nest class name / css / 0: |-
     content: "";
     border-color: transparent currentColor currentColor transparent;
   }
-Tools / add pseudo components / css / 0: |-
+Plugin Method / add pseudo components / css / 0: |-
   .btn {
     padding: .5rem 1rem;
     border-radius: .25rem;
@@ -52,7 +66,7 @@ Tools / add pseudo components / css / 0: |-
       }
     }
   }
-Tools / add pseudo utilities / css / 0: |-
+Plugin Method / add pseudo utilities / css / 0: |-
   .btn {
     padding: .5rem 1rem;
     border-radius: .25rem;
@@ -78,7 +92,21 @@ Tools / add pseudo utilities / css / 0: |-
       }
     }
   }
-'Tools / addComponents #242 / css / 0': |-
+'Plugin Method / add utilities containing array of style objects #439 / css / 0': |-
+  @media (min-width:1024px) {
+    .btn {
+      color: red;
+      border: 1rem;
+    }
+  }
+'Plugin Method / add utilities containing array of style objects #439 / css / 1': |-
+  @media (min-width:1024px) {
+    .btn-side {
+      color: white;
+      border: 2rem;
+    }
+  }
+'Plugin Method / addComponents #242 / css / 0': |-
   .avatar>div {
     display: block;
     overflow: hidden;
@@ -95,7 +123,7 @@ Tools / add pseudo utilities / css / 0: |-
     display: block;
     overflow: hidden;
   }
-Tools / addComponents with non-class styles  / css / 0: |-
+Plugin Method / addComponents with non-class styles  / css / 0: |-
   [data-theme] {
     --active: #0099FF;
   }
@@ -115,24 +143,24 @@ Tools / addComponents with non-class styles  / css / 0: |-
     --on-frame: #808080;
     --on-frame-active: var(--on-primary);
   }
-Tools / addVariant modifySelectors / css / 0: |-
+Plugin Method / addVariant modifySelectors / css / 0: |-
   .disabled\:float-right:disabled {
     float: right;
   }
-Tools / addVariant pseudoClass / css / 1: |-
+Plugin Method / addVariant pseudoClass / css / 1: |-
   .hocus\:float-right:hover:focus {
     float: right;
   }
-Tools / addVariant pseudoClass / extend / 0: |-
+Plugin Method / addVariant pseudoClass / extend / 0: |-
   .float-right:hover:focus {
     float: right;
   }
-Tools / dump config / css / 0: |-
+Plugin Method / dump config / css / 0: |-
   .bg-nord0 {
     --tw-bg-opacity: 1;
     background-color: rgba(46, 52, 64, var(--tw-bg-opacity));
   }
-Tools / interpret order should follow add components order / css / 0: |-
+Plugin Method / interpret order should follow add components order / css / 0: |-
   .btn {
     padding: .5rem 1rem;
   }
