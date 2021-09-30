@@ -315,8 +315,8 @@ describe('Attributify Mode', () => {
 
   it('with margin padding space_between', () => {
     const result = processor.attributify({
-      'm': ['4', 'x-2', 'y-3', 't-4'],
-      'p': ['4', '-x-2', '-y-3', 'r-px'],
+      'p': ['4', 'x-2', 'y-3', 't-4'],
+      'm': ['4', '-x-2', '-y-3', 'r-px'],
       'space': ['x-4', 'y-2', '-x-4'],
     });
     expect(result.ignored.length).toEqual(0);
