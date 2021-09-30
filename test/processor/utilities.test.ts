@@ -214,7 +214,7 @@ describe('Utilities', () => {
   });
 
   // #216
-  it('content utilities false', () => {
+  it('content utilities startsWith symbol', () => {
     expect(processor.interpret('.content-type .bg-red-100').styleSheet.build()).toMatchSnapshot('css');
   });
 
@@ -366,5 +366,13 @@ describe('Utilities', () => {
 
   it('fill-none and stroke-none is wrong', () => {
     expect(processor.interpret('fill-none stroke-none').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('inset exact match', () => {
+    expect(processor.interpret('inset-auto inset-sth-auto inset-4 inset-x-13 inset-x-sth-13 top-1/3 top-sth-1/3 top-sth-4/15 inset-y-sth-3.5rem inset-sth-[3.5rem] inset-sth-$var-name').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('zIndex exact match', () => {
+    expect(processor.interpret('z-auto z-20 -z-10 z-$var-name z-sth-auto, z-sth-20 -z-sth-10 z-sth-42 -z-sth-42 -z-sth-$var-name').styleSheet.build()).toMatchSnapshot('css');
   });
 });
