@@ -375,4 +375,13 @@ describe('Utilities', () => {
   it('zIndex exact match', () => {
     expect(processor.interpret('z-auto z-20 -z-10 z-$var-name z-sth-auto, z-sth-20 -z-sth-10 z-sth-42 -z-sth-42 -z-sth-$var-name').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('padding exact match', () => {
+    expect(processor.interpret('p-4 p-12.5 p-what-ever-2 p-what-ever-[2rem] p-sth-$var-name p-col-12').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('lineHeight exact match', () => {
+    expect(processor.interpret('leading-4 leading-[1.25rem] leading-any-thing-4 leading-any-thing-[1.25rem] ').styleSheet.build()).toMatchSnapshot('css');
+  });
+  // TODO: we need more tests for exact matching
 });
