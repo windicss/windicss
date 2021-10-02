@@ -1,5 +1,24 @@
 import type { colorCallback, colorObject } from '../interfaces';
 
+export class Console {
+  static log(...message: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.log(...message);
+  }
+  static error(...message: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.error(...message);
+  }
+  static time(label?: string): void {
+    // eslint-disable-next-line no-console
+    console.time(label);
+  }
+  static timeEnd(label?: string): void {
+    // eslint-disable-next-line no-console
+    console.timeEnd(label);
+  }
+}
+
 export type Arrayable<T> = T | T[]
 
 export function toArray<T>(v: Arrayable<T>): T[] {
