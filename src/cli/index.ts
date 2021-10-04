@@ -1,5 +1,5 @@
 import arg from 'arg';
-import { deepCopy } from '../utils/tools';
+import { deepCopy, Console } from '../utils/tools';
 import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
 import { readFileSync, writeFile, watch, unwatchFile, existsSync } from 'fs';
@@ -9,7 +9,6 @@ import {
   getVersion,
   globArray,
   generateTemplate,
-  Console,
   fuzzy,
 } from './utils';
 import type { Extractor } from '../interfaces';

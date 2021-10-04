@@ -3,25 +3,6 @@ import path from 'path';
 import glob from 'glob';
 import minimatch from 'minimatch';
 
-export class Console {
-  static log(...message: unknown[]): void {
-    // eslint-disable-next-line no-console
-    console.log(...message);
-  }
-  static error(...message: unknown[]): void {
-    // eslint-disable-next-line no-console
-    console.error(...message);
-  }
-  static time(label?: string): void {
-    // eslint-disable-next-line no-console
-    console.time(label);
-  }
-  static timeEnd(label?: string): void {
-    // eslint-disable-next-line no-console
-    console.timeEnd(label);
-  }
-}
-
 export function globArray(patterns: string[], options?: glob.IOptions): string[] {
   const list: string[] = [];
 

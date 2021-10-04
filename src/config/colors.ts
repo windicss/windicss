@@ -1,4 +1,4 @@
-import { Console } from '../cli/utils';
+import { Console } from '../utils/tools';
 
 type Colors =
   'black'
