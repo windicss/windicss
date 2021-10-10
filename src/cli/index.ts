@@ -257,8 +257,7 @@ function build(files: string[], update = false) {
         .combine()
         .extend(outputStyle);
     const filePath = args['--output'] ?? 'windi.css';
-    const parts = filePath.split('/');
-    const dir = parts.slice(0, parts.length - 1).join('/');
+    const dir = dirname(filePath);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
     writeFile(filePath, outputStyle.build(args['--minify']), () => null);
     if (!update) {
