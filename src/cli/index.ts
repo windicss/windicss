@@ -2,7 +2,7 @@ import arg from 'arg';
 import { deepCopy, Console } from '../utils/tools';
 import { resolve, dirname, join, extname } from 'path';
 import { Processor } from '../lib';
-import { readFileSync, writeFile, watch, unwatchFile, existsSync } from 'fs';
+import { mkdirSync, readFileSync, writeFile, watch, unwatchFile, existsSync } from 'fs';
 import { HTMLParser, CSSParser } from '../utils/parser';
 import { StyleSheet } from '../utils/style';
 import {
@@ -257,6 +257,8 @@ function build(files: string[], update = false) {
         .combine()
         .extend(outputStyle);
     const filePath = args['--output'] ?? 'windi.css';
+    const dir = dirname(filePath);
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
     writeFile(filePath, outputStyle.build(args['--minify']), () => null);
     if (!update) {
       Console.log('Matched files:', files);
