@@ -30,6 +30,7 @@ export default function extract(
   addComment = false,
   prefix?: string,
 ): Style | Style[] | undefined {
+  if (prefix && !className.startsWith(prefix)) return;
 
   // handle static base utilities
   if (!prefix && className in staticUtilities) return generateStaticStyle(processor, className, addComment);

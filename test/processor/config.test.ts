@@ -4,6 +4,7 @@ import { Processor } from '../../src/lib';
 import { twExclude } from '../../src/config';
 import { CSSParser } from '../../src/utils/parser';
 import type { colorObject } from '../../src/interfaces';
+import aspectRatio from '../../src/plugin/aspect-ratio';
 
 const configPath = resolve('./test/assets/windi.config.js');
 const userConfig = require(configPath);
@@ -116,10 +117,11 @@ describe('Config', () => {
 
   it('does not generate non-prefixed classes when using prefix', () => {
     const processor = new Processor({ prefix: 'windi-' });
-    const classes = 'items-center justify-center flex-wrap block flex windi-block';
+    processor.loadPlugin(aspectRatio);
+    const classes = 'items-center justify-center flex-wrap block flex windi-block windi-py-3 py-3 container aspect-none';
     // it should not compile the standard classes (items-center, justify-center) because they are not prefixed
     expect(processor.interpret(classes).styleSheet.build()).toBe(
-      '.windi-block {\n  display: block;\n}'
+      '.windi-block {\n  display: block;\n}\n.windi-py-3 {\n  padding-top: 0.75rem;\n  padding-bottom: 0.75rem;\n}'
     );
   });
 
