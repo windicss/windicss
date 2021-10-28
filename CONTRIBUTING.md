@@ -4,7 +4,7 @@ Thanks for your interest in contributing! Please read carefully through our guid
 
 ## Issue Tracking
 
-We use [GitHub Issues](https://github.com/voorjaar/windicss/issues) to track all tasks related to this project.
+We use [GitHub Issues](https://github.com/windicss/windicss/issues) to track all tasks related to this project.
 
 ## Build the project locally
 
@@ -24,7 +24,7 @@ All GitHub projects are backed by a version control software called _Git_. You'l
 
 This specific project is written in JavaScript and uses Node.js as it's runtime. You'll need to [install Node.js](https://nodejs.org/en/) in order to run the project.
 
-### Fork the [repository](https://github.com/voorjaar/windicss.git)
+### Fork the [repository](https://github.com/windicss/windicss.git)
 
 A _fork_ is a copy of a repository. Forking a repository lets you to make changes to your copy without affecting any of the original code.
 
@@ -147,7 +147,7 @@ git push origin fix-issue-123
 
 ### Open a Pull Request
 
-1. Find the [New Pull Request](https://github.com/voorjaar/windicss/compare) button
+1. Find the [New Pull Request](https://github.com/windicss/windicss/compare) button
 2. Select the option to **compare across forks**
 3. Select **your fork**(${username}/windicss) in the `head repository` option
 4. Select **your branch** in the `compare` option
@@ -155,4 +155,4 @@ git push origin fix-issue-123
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under its [MIT license](https://github.com/voorjaar/windicss/blob/main/LICENSE).
+By contributing, you agree that your contributions will be licensed under its [MIT license](https://github.com/windicss/windicss/blob/main/LICENSE).
