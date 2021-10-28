@@ -862,7 +862,7 @@ Tools / with border utility / css / 0: |-
     border-width: 2px;
   }
   [border~="t-0"] {
-    border-top-width: 0px;
+    border-width: 0px;
   }
 Tools / with box utility / css / 0: |-
   [box~="decoration-slice"] {
