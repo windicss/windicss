@@ -27,7 +27,7 @@ export type Handler = {
   _prefix_expr?: string
   opacity?: string | undefined
   color?: colorCallback
-  catchPrefix: (regex: RegExp, match?: boolean) => Handler | undefined,
+  catchPrefix: (regex: RegExp, match?: boolean, matchIndex?: number) => Handler | undefined,
   isStatic: (map: { [key: string]: string | string[] }, amount?: string) => boolean,
   isTime: (start: number, end: number, type: 'int' | 'float') => boolean,
   isNumber: (start: number, end: number, type: 'int' | 'float') => boolean,
@@ -111,13 +111,13 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       _amount: utility.amount,
       _slices: utility.slices,
 
-      catchPrefix: (regex, match = false) => {
+      catchPrefix: (regex, match = false, matchIndex = 0) => {
         handler._prefix_expr = regex.source;
 
         if (match) {
           const matched = utility.raw.match(regex);
           if (!matched) return;
-          handler.prefix = matched[0];
+          handler.prefix = matched[matchIndex];
         }
         return handler;
       },
