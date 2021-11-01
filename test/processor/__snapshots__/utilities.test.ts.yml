@@ -534,6 +534,10 @@ Tools / border top/left/bottom/right color / css / 0: |-
     --tw-border-opacity: 1;
     border-color: rgba(167, 243, 208, var(--tw-border-opacity));
   }
+  .border-true-gray-300 {
+    --tw-border-opacity: 1;
+    border-color: rgba(212, 212, 212, var(--tw-border-opacity));
+  }
   .border-green-200\/50 {
     --tw-border-opacity: 0.5;
     border-color: rgba(167, 243, 208, var(--tw-border-opacity));
