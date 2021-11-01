@@ -4,6 +4,8 @@ import { toColor } from '../../utils/color';
 import { cssEscape } from '../../utils/algorithm';
 import {
   isNumber,
+  isFraction,
+  isSize,
   roundUp,
   fracToPercent,
   hex2RGB,
@@ -14,32 +16,16 @@ import {
 
 import type { colorCallback, colorObject, DictStr, Handlers } from '../../interfaces';
 
-type emptyCallback = () => Property | Style | Style[] | undefined
-type valueCallback = (value: string) => Property | Style | Style[] | undefined
-type handlerCallback = (handler: Handler) => Property | Style | Style[] | undefined
-
 export type Handler = {
   utility: Utility
   value?: string
-  prefix?: string
   _amount: string
-  _slices: string[]
-  _prefix_expr?: string
   opacity?: string | undefined
   color?: colorCallback
-  catchPrefix: (regex: RegExp, match?: boolean) => Handler | undefined,
-  isStatic: (map: { [key: string]: string | string[] }, amount?: string) => boolean,
-  isTime: (start: number, end: number, type: 'int' | 'float') => boolean,
-  isNumber: (start: number, end: number, type: 'int' | 'float') => boolean,
-  isFraction: () => boolean,
-  isSize: () => boolean,
-  isNxl: () => boolean,
-  isVariable: () => boolean,
-  isSquareBracket: () => boolean,
   handleStatic: (
     map?: { [key: string]: string | string[] } | unknown,
     callback?: (str: string) => string | undefined
-  ) => Handler
+  )=> Handler
   handleBody: (
     map?: { [key: string]: string | string[] } | unknown,
     callback?: (str: string) => string | undefined
@@ -96,8 +82,9 @@ export type Handler = {
     opacityVariable?: string | undefined,
     wrapRGB?: boolean
   ) => Style | undefined
-  callback: (func: valueCallback) => Property | Style | Style[] | undefined
-  then: (func: (handlerCallback | emptyCallback)) => Property | Style | Style[] | undefined
+  callback: (
+    func: (value: string) => Property | Style | Style[] | undefined
+  ) => Property | Style | Style[] | undefined
 }
 
 export type HandlerCreator = (utility: Utility, value?: string | undefined, color?: colorCallback | undefined) => Handler;
@@ -109,87 +96,13 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       value,
       color,
       _amount: utility.amount,
-      _slices: utility.slices,
-
-      catchPrefix: (regex, match = false) => {
-        handler._prefix_expr = regex.source;
-
-        if (match) {
-          const matched = utility.raw.match(regex);
-          if (!matched) return;
-          handler.prefix = matched[0];
-        }
-        return handler;
-      },
-
-      isStatic: (map, amount = handler._amount) => {
-        return amount in map && new RegExp(`${handler._prefix_expr ?? ''}-?${amount}$`).test(handler.utility.raw);
-      },
-
-      isNumber: (
-        start = -Infinity,
-        end = Infinity,
-        type = 'int'
-      ) => {
-        const prefix = handler._prefix_expr;
-        const utility = handler.utility.raw;
-        if (!prefix) return isNumber(handler._amount, start, end, type);
-        const isInt = new RegExp(`${prefix}-\\d+$`).test(utility);
-        if (type === 'int') {
-          if (!isInt) return false;
-        } else {
-          const isFloat = new RegExp(`${prefix}-\\d+\\.\\d+$`).test(utility);
-          if (!(isInt || isFloat)) return false;
-        }
-        const num = parseFloat(handler._amount);
-        return num >= start && num <= end;
-      },
-
-      isTime: (
-        start = -Infinity,
-        end = Infinity,
-        type = 'int'
-      ) => {
-        const prefix = handler._prefix_expr;
-        const utility = handler.utility.raw;
-        if (!prefix) return isNumber(handler._amount, start, end, type);
-        const isInt = new RegExp(`${prefix}-\\d+(s|ms)$`).test(utility);
-        if (type === 'int') {
-          if (!isInt) return false;
-        } else {
-          const isFloat = new RegExp(`${prefix}-\\d+\\.\\d+(s|ms)$`).test(utility);
-          if (!(isInt || isFloat)) return false;
-        }
-        const num = parseFloat(handler._amount);
-        return num >= start && num <= end;
-      },
-
-      isFraction: () => {
-        return handler._prefix_expr ? new RegExp(`${handler._prefix_expr}-\\d+\\/\\d+$`).test(handler.utility.raw) : /^\d+\/\d+$/.test(handler._amount);
-      },
-
-      isSize: () => {
-        return handler._prefix_expr ? new RegExp(`${handler._prefix_expr}-(\\d+(\\.\\d+)?)+(rem|em|px|rpx|vh|vw|ch|ex)$`).test(handler.utility.raw) : /^-?(\d+(\.\d+)?)+(rem|em|px|rpx|vh|vw|ch|ex)$/.test(handler._amount);
-      },
-
-      isNxl: () => {
-        return handler._prefix_expr ? new RegExp(`${handler._prefix_expr}-\\d*xl$`).test(handler.utility.raw) : /^\d*xl$/.test(handler._amount);
-      },
-
-      isVariable: () => {
-        return new RegExp(`${handler._prefix_expr ?? ''}-\\$[\\w-]+`).test(handler.utility.raw);
-      },
-
-      isSquareBracket: () => {
-        return new RegExp(`${handler._prefix_expr ?? ''}-\\[.+\\]`).test(handler.utility.raw);
-      },
 
       handleStatic: handlers.static ? (map, callback) => {
         if (handler.value) return handler;
         if (map && typeof map === 'object') {
           const knownMap = map as { [key: string]: string | string[] };
-          if (knownMap.DEFAULT) knownMap[''] = knownMap.DEFAULT;
-          if (handler.isStatic(knownMap))
+          if (knownMap.DEFAULT) knownMap[handler.utility.raw] = knownMap.DEFAULT;
+          if (handler._amount in knownMap)
             handler.value = callback
               ? callback(handler._amount)
               : `${knownMap[handler._amount]}`;
@@ -211,7 +124,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
 
       handleNumber: handlers.number ? (start = -Infinity, end = Infinity, type = 'int', callback) => {
         if (handler.value) return handler;
-        if (handler.isNumber(start, end, type))
+        if (isNumber(handler._amount, start, end, type))
           handler.value = callback ? callback(+handler._amount) : handler._amount;
         return handler;
       } : () => handler,
@@ -241,7 +154,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
 
       handleSquareBrackets: handlers.bracket ? (callback) => {
         if (handler.value) return handler;
-        if (handler._amount[0] === '[' && handler._amount[handler._amount.length-1] === ']' && handler.isSquareBracket()) {
+        if (handler._amount[0] === '[' && handler._amount[handler._amount.length-1] === ']') {
           let value = handler._amount.slice(1, -1).replace(/_/g, ' '); // replace _ to space
           if (value.indexOf('calc(') > -1) {
             value = value.replace(/(-?\d*\.?\d(?!\b-.+[,)](?![^+\-/*])\D)(?:%|[a-z]+)?|\))([+\-/*])/g, '$1 $2 ');
@@ -262,7 +175,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
 
       handleNxl: handlers.nxl ? (callback) => {
         if (handler.value) return handler;
-        if (handler.isNxl())
+        if (/^\d*xl$/.test(handler._amount))
           handler.value = callback
             ? callback(handler._amount === 'xl' ? 1 : parseInt(handler._amount))
             : parseInt(handler._amount).toString();
@@ -271,7 +184,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
 
       handleFraction: handlers.fraction ? (callback) => {
         if (handler.value) return handler;
-        if (handler.isFraction())
+        if (isFraction(handler._amount))
           handler.value = callback
             ? callback(handler._amount)
             : fracToPercent(handler._amount);
@@ -280,7 +193,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
 
       handleSize: handlers.size ? (callback) => {
         if (handler.value) return handler;
-        if (handler.isSize())
+        if (isSize(handler._amount))
           handler.value = callback ? callback(handler._amount) : handler._amount;
         return handler;
       } : () => handler,
@@ -288,7 +201,7 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
       handleVariable: handlers.variable ? (callback) => {
         if (handler.value) return handler;
         const matchVariable = handler.utility.raw.match(/-\$[\w-]+/);
-        if (matchVariable && handler.isVariable()) {
+        if (matchVariable) {
           const variableName = matchVariable[0].substring(2);
           handler.value = callback ? callback(variableName) : `var(--${variableName})`;
         }
@@ -391,8 +304,6 @@ export function createHandler(handlers: Handlers = { static: true }): HandlerCre
         if (!handler.value) return;
         return func(handler.value);
       },
-
-      then: (func) => func(handler),
     };
     return handler;
   };
@@ -431,13 +342,10 @@ export class Utility {
     return this.match(/-.+(?=-)/).substring(1); // real-gray
   }
   get amount(): string {
-    return this.match(/-(?:[^-]+|\[[\s\S]*?\])$/).substring(1); // 300
+    return this.match(/(?:[^-]+|\[[\s\S]*?\])$/); // 300
   }
   get body(): string {
     return this.match(/-.+/).substring(1); // real-gray-300
-  }
-  get slices(): string[] {
-    return this.absolute.split('-'); // ['placeholder', 'real', 'gray', '300']
   }
   get handler(): Handler {
     return this._h(this);

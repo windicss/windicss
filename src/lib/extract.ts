@@ -59,7 +59,8 @@ export default function extract(
   }
 
   // handle dynamic base utilities
-  const key = className.replace(/^-/, '').match(/^\w+/)?.[0];
+  const matches = className.match(/\w+/);
+  const key = matches ? matches[0] : undefined;
   // eslint-disable-next-line no-prototype-builtins
   if (key && dynamicUtilities.hasOwnProperty(key)) {
     let style = dynamicUtilities[key](utility, processor.pluginUtils);

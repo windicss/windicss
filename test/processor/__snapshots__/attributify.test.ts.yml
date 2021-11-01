@@ -1597,30 +1597,30 @@ Tools / with margin padding space_between / css / 0: |-
   [m~="4"] {
     margin: 1rem;
   }
-  [m~="-x-2"] {
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
+  [m~="x-2"] {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
-  [m~="-y-3"] {
-    margin-top: -0.75rem;
-    margin-bottom: -0.75rem;
+  [m~="y-3"] {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
   }
-  [m~="r-px"] {
-    margin-right: 1px;
+  [m~="t-4"] {
+    margin-top: 1rem;
   }
   [p~="4"] {
     padding: 1rem;
   }
-  [p~="x-2"] {
+  [p~="-x-2"] {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
-  [p~="y-3"] {
+  [p~="-y-3"] {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
   }
-  [p~="t-4"] {
-    padding-top: 1rem;
+  [p~="r-px"] {
+    padding-right: 1px;
   }
 Tools / with negative utility / css / 0: |-
   [m~="-x-4"] {
