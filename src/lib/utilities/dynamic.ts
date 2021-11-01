@@ -805,7 +805,7 @@ function border(utility: Utility, plugin: PluginUtils, dir = '*', real?: Utility
     ?.updateMeta('utilities', 'borderOpacity', pluginOrder.borderOpacity, 1, true)
 
   // handle border side
-  || dir === '*' && handler.catchPrefix(/^(border-[tlbr])-/, true, 1)
+  || dir === '*' && handler.catchPrefix(/^border-[tlbr]/, true)
     ?.then(() => border(utility.clone('border' + utility.raw.slice(8)), plugin, expandDirection(handler.prefix?.slice(-1) as string, false)?.[0], utility))
 
   // handle border color

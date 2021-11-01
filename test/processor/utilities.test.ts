@@ -265,7 +265,7 @@ describe('Utilities', () => {
   });
 
   it('border top/left/bottom/right color', () => {
-    expect(processor.interpret('border-t-green-200 border-t-green-200/50 border-b-green-200 border-green-200 border-true-gray-300 border-green-200/50').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('border-t-green-200 border-t-green-200/50 border-b-green-200 border-green-200 border-green-200/50').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('gradient colors', () => {
