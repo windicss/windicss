@@ -240,7 +240,7 @@ Tools / interpret square brackets / square brackets / 0: |-
   }
   .border-l-\[\#342\] {
     --tw-border-opacity: 1;
-    border-color: rgba(51, 68, 34, var(--tw-border-opacity));
+    border-left-color: rgba(51, 68, 34, var(--tw-border-opacity));
   }
   .rounded-\[11px\] {
     border-radius: 11px;
