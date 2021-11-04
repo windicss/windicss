@@ -775,6 +775,15 @@ Tools / container padding / container padding / 0: |-
       max-width: 1536px;
     }
   }
+Tools / content pseudo elements / css / 0: |-
+  .before\:contents::before {
+    content: "";
+    display: contents;
+  }
+  .after\:contents::after {
+    content: "";
+    display: contents;
+  }
 Tools / content utilities / css / 0: |-
   .content-👍 {
     content: "👍";
