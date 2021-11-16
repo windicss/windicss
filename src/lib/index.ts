@@ -15,7 +15,6 @@ import cssEscape from '../utils/algorithm/cssEscape';
 import diffConfig from '../utils/algorithm/diffConfig';
 import combineConfig from '../utils/algorithm/combineConfig';
 import ClassParser from '../utils/parser/class';
-// @ts-expect-error no types
 import toSource from 'tosource';
 
 import type {
