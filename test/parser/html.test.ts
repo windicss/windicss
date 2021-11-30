@@ -40,8 +40,7 @@ describe('HTMLParser', () => {
   });
 
   it('parse razor syntax', () => {
-    const parser = new HTMLParser(`class=@(active ? "bg-green-600" : "bg-red-500")`);
-    console.log(parser.parseClasses());
+    const parser = new HTMLParser('class=@(active ? "bg-green-600" : "bg-red-500")');
     expect(parser.parseClasses()).toMatchSnapshot('class');
   });
 });
