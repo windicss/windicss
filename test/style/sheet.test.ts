@@ -47,6 +47,10 @@ describe('StyleSheet', () => {
   });
 
   it('combine same style selectors', () => {
+    // Ensure `s1` and `s2` have same `components` layer here to enable combining
+    const s1 = new Style('.bg-white', new Property('--bg-opacity', '1'));
+    const s2 = new Style('.bg-white', new Property('background-color', 'rgba(255, 255, 255, var(--tw-bg-opacity))'));
+    const s3 = new Style('.py-10', new Property(['padding-top', 'padding-bottom'], '2.5rem'));
     const ss = new StyleSheet([s1, s2, s3]).combine();
     expect(ss.children.length).toBe(2);
   });
