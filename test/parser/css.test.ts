@@ -311,6 +311,38 @@ describe('CSSParser', () => {
     expect(parser.parse().sort().children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
   });
 
+  it('layer directive with same tag name', () => {
+    const css = `
+    @layer utilities {
+      h1 {
+        color: blue;
+      }
+      h2 {
+        color: blue;
+      }
+    }
+
+    @layer base {
+      h1 {
+        color: green;
+      }
+      h3 {
+        color: green;
+      }
+    }
+    @layer components {
+      h1 {
+        color: red;
+      }
+      h4 {
+        color: red;
+      }
+    }
+    `;
+    const parser = new CSSParser(css, PROCESSOR);
+    expect(parser.parse().sort().children.map(i => i.build()).join('\n')).toMatchSnapshot('css');
+  });
+
   it('keeps multiple @font-face', () => {
     const css = `
     @font-face {
