@@ -123,7 +123,7 @@ export class Property {
 }
 
 export class InlineAtRule extends Property {
-  name: string;
+  declare name: string;
   constructor(name: string, value?: string, important = false) {
     super(name, value, undefined, important);
     this.name = name;
