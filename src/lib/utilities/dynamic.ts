@@ -1500,7 +1500,7 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 function content(utility: Utility, { theme }: PluginUtils): Output {
-  if (!utility.raw.startsWith('content-'))
+  if (!/^content-(?!$)/.test(utility.raw))
     return;
   return utility.handler
     .handleBody(theme('content'))

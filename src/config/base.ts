@@ -1,6 +1,7 @@
 import { colors } from './colors';
 import { keyframes } from './keyframes';
 import { variantOrder } from './order';
+import plugin from '../plugin';
 import type { Config } from '../interfaces';
 
 export const defaultColors = {
@@ -1228,7 +1229,24 @@ export const baseConfig: Config = {
     },
   },
   variantOrder: variantOrder,
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.before\\:contents': {
+          '&::before': {
+            content: '""',
+            display: 'contents',
+          },
+        },
+        '.after\\:contents': {
+          '&::after': {
+            content: '""',
+            display: 'contents',
+          },
+        },
+      });
+    }),
+  ],
   handlers: {
     static : true,
     time: true,
