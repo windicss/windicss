@@ -643,8 +643,8 @@ export const staticUtilities: StaticUtility = {
   'sticky': {
     'utility': {
       'position': [
-        'sticky',
         '-webkit-sticky',
+        'sticky',
       ],
     },
     'meta': {

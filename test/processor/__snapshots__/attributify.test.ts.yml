@@ -1902,8 +1902,8 @@ Tools / with pos utility / css / 0: |-
     position: relative;
   }
   [pos~="sticky"] {
-    position: sticky;
     position: -webkit-sticky;
+    position: sticky;
   }
   [pos~="inset-1"] {
     top: 0.25rem;
@@ -1984,8 +1984,8 @@ Tools / with position utility / css / 0: |-
     position: relative;
   }
   [position~="sticky"] {
-    position: sticky;
     position: -webkit-sticky;
+    position: sticky;
   }
   [position~="inset-1"] {
     top: 0.25rem;
