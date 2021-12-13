@@ -22,6 +22,11 @@ Tools / compile / css / 0: |-
     }
   }
 Tools / compile important / important / 0: |-
+  .windi-17we48r {
+    font-weight: 700;
+    --tw-text-opacity: 1 !important;
+    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+  }
   .windi-17we48r:hover {
     --tw-bg-opacity: 1 !important;
     background-color: rgba(239, 68, 68, var(--tw-bg-opacity)) !important;
@@ -30,11 +35,6 @@ Tools / compile important / important / 0: |-
   .windi-17we48r:focus {
     border-width: 1px !important;
     float: right;
-  }
-  .windi-17we48r {
-    font-weight: 700;
-    --tw-text-opacity: 1 !important;
-    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
   }
 Tools / compile order / css / 0: |-
   .windi-1kiu5fv {

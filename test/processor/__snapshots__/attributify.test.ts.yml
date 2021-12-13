@@ -1938,6 +1938,9 @@ Tools / with pos utility / css / 0: |-
     isolation: auto;
   }
 Tools / with position utility / css / 0: |-
+  [position~="absolute"] {
+    position: absolute;
+  }
   [position~="order-1"] {
     -webkit-box-ordinal-group: 2;
     -webkit-order: 1;
@@ -1976,9 +1979,6 @@ Tools / with position utility / css / 0: |-
   }
   [position~="fixed"] {
     position: fixed;
-  }
-  [position~="absolute"] {
-    position: absolute;
   }
   [position~="relative"] {
     position: relative;

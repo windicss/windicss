@@ -38,7 +38,7 @@ export class StyleSheet {
   combine(): this {
     const styleMap: { [key: string]: Style } = {};
     this.children.forEach((style, index) => {
-      const hashValue = hash(style.atRules + style.rule);
+      const hashValue = hash(style.atRules + style.meta.type + style.rule);
       if (hashValue in styleMap) {
         if (style.atRules?.includes('@font-face')) {
           // keeps multiple @font-face

@@ -336,6 +336,25 @@ Tools / layer directive / css / 0: |-
   .normal {
     marign-right: auto;
   }
+Tools / layer directive with same tag name / css / 0: |-
+  h1 {
+    color: green;
+  }
+  h3 {
+    color: green;
+  }
+  h1 {
+    color: red;
+  }
+  h4 {
+    color: red;
+  }
+  h1 {
+    color: blue;
+  }
+  h2 {
+    color: blue;
+  }
 Tools / multiple line comment / css / 0: |-
   .box {
     border: 10px solid green;
