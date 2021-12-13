@@ -213,6 +213,10 @@ describe('Utilities', () => {
     expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)] content content-').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('content pseudo elements', () => {
+    expect(processor.interpret('before:contents after:contents').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   // #216
   it('content utilities false', () => {
     expect(processor.interpret('.content-type .bg-red-100').styleSheet.build()).toMatchSnapshot('css');
