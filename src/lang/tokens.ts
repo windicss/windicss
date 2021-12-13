@@ -222,7 +222,7 @@ export class Params {
 }
 
 export class Dict {
-  pairs: [string|number, (DataType)][]
+  pairs: [string|number, (DataType)][];
   constructor(pairs: [string|number, (DataType)][]) {
     this.pairs = pairs;
   }
@@ -297,7 +297,7 @@ export class Console {
 }
 
 export class JS {
-  code: string
+  code: string;
   constructor(code: string) {
     this.code = code;
   }
@@ -322,8 +322,8 @@ export class StyleDecl {
 }
 
 export class Block {
-  statement_list: (Assign | Update | Console | NoOp)[]
-  style_list: (StyleDecl | PropDecl | NoOp)[]
+  statement_list: (Assign | Update | Console | NoOp)[];
+  style_list: (StyleDecl | PropDecl | NoOp)[];
   constructor(statement_list: (Assign | Update | Console | NoOp)[], style_list: (StyleDecl | PropDecl | NoOp)[]) {
     this.statement_list = statement_list;
     this.style_list = style_list;
@@ -527,7 +527,7 @@ export type Module = {
 }
 
 export class Load {
-  modules: Module[]
+  modules: Module[];
   constructor(modules: Module[]) {
     this.modules = modules;
   }
