@@ -210,7 +210,7 @@ describe('Utilities', () => {
   });
 
   it('content utilities', () => {
-    expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)] content').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('content-👍 before:content-["👍"] content-open-quote after:content-[attr(value)] content content-').styleSheet.build()).toMatchSnapshot('css');
   });
 
   // #216
