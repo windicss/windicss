@@ -41,7 +41,7 @@ importers:
       pirates: ^4.0.1
       rollup: ^2.44.0
       sucrase: ^3.17.1
-      tosource: ^2.0.0-alpha.2
+      tosource: ^2.0.0-alpha.3
       tslib: ^2.1.0
       typescript: ^4.2.3
     devDependencies:
@@ -82,7 +82,7 @@ importers:
       pirates: 4.0.1
       rollup: 2.44.0
       sucrase: 3.17.1
-      tosource: 2.0.0-alpha.2
+      tosource: 2.0.0-alpha.3
       tslib: 2.1.0
       typescript: 4.2.3
 
@@ -2403,8 +2403,8 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /tosource/2.0.0-alpha.2:
-    resolution: {integrity: sha512-WR68bGIDsg1eBF2uHV4bIYYoAeXD3GGj9mToy3AGKnelZgsfuhCrE5xKFvLp7G66N5gTMWkDzN/+iyMrvsVxSA==}
+  /tosource/2.0.0-alpha.3:
+    resolution: {integrity: sha512-KAB2lrSS48y91MzFPFuDg4hLbvDiyTjOVgaK7Erw+5AmZXNq4sFRVn8r6yxSLuNs15PaokrDRpS61ERY9uZOug==}
     engines: {node: '>=10'}
     dev: true
 

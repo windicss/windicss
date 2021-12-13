@@ -147,7 +147,7 @@
     "pirates": "^4.0.1",
     "rollup": "^2.44.0",
     "sucrase": "^3.17.1",
-    "tosource": "^2.0.0-alpha.2",
+    "tosource": "^2.0.0-alpha.3",
     "tslib": "^2.1.0",
     "typescript": "^4.2.3"
   }
