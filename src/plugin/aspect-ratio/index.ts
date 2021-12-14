@@ -17,6 +17,21 @@ export default plugin(
         },
       },
     }, { layer: 'components' });
+    addUtilities({
+      '.aspect-auto': {
+        'aspect-ratio': 'auto',
+      },
+    }, { layer: 'components' });
+    addUtilities({
+      '.aspect-square': {
+        'aspect-ratio': '1 / 1',
+      },
+    }, { layer: 'components' });
+    addUtilities({
+      '.aspect-video': {
+        'aspect-ratio': '16 / 9',
+      },
+    }, { layer: 'components' });
     addDynamic('aspect-w', ({ Utility, Style }) => {
       const prop = Utility.handler
         .handleStatic(theme('aspectRatio'))
