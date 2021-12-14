@@ -7,6 +7,7 @@ import type { Config } from '../interfaces';
 export const defaultColors = {
   transparent: 'transparent',
   current: 'currentColor',
+  inherit: 'inherit',
   light: colors.light,
   dark: colors.dark,
   black: colors.black,
@@ -1070,6 +1071,15 @@ export const baseConfig: Config = {
     },
     textDecorationOffset: {
       'auto': 'auto',
+      0: '0px',
+      1: '1px',
+      2: '2px',
+      4: '4px',
+      8: '8px',
+    },
+    textDecorationThickness: {
+      'auto': 'auto',
+      'from-font': 'from-font',
       0: '0px',
       1: '1px',
       2: '2px',

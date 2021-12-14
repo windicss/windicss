@@ -1608,7 +1608,7 @@ export const staticUtilities: StaticUtility = {
   },
 
   // http://localhost:3001/utilities/typography.html#text-decoration-style
-  'underline-solid': {
+  'decoration-solid': {
     'utility': {
       '-webkit-text-decoration-style': 'solid',
       'text-decoration-style': 'solid',
@@ -1618,7 +1618,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'underline-double': {
+  'decoration-double': {
     'utility': {
       '-webkit-text-decoration-style': 'double',
       'text-decoration-style': 'double',
@@ -1628,7 +1628,7 @@ export const staticUtilities: StaticUtility = {
       'order': 2,
     },
   },
-  'underline-dotted': {
+  'decoration-dotted': {
     'utility': {
       '-webkit-text-decoration-style': 'dotted',
       'text-decoration-style': 'dotted',
@@ -1638,7 +1638,7 @@ export const staticUtilities: StaticUtility = {
       'order': 3,
     },
   },
-  'underline-dashed': {
+  'decoration-dashed': {
     'utility': {
       '-webkit-text-decoration-style': 'dashed',
       'text-decoration-style': 'dashed',
@@ -1646,6 +1646,16 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'textDecorationStyle',
       'order': 4,
+    },
+  },
+  'decoration-wavy': {
+    'utility': {
+      '-webkit-text-decoration-style': 'wavy',
+      'text-decoration-style': 'wavy',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 5,
     },
   },
 

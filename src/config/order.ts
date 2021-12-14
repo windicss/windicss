@@ -170,6 +170,7 @@ export enum pluginOrder {
   'textDecorationColor' = 8460,
   'textDecorationOpacity' = 8470,
   'textDecorationOffset' = 8480,
+  'textDecorationThickness' = 8490,
   'textDecoration' = 8500,
   'textIndent' = 8550,
   'textStrokeColor' = 8560,

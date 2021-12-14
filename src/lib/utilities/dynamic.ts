@@ -533,16 +533,26 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/typography.html#text-decoration
 function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
-  // handle text decoration opacity
-  if (utility.raw.startsWith('underline-opacity')) {
-    return utility.handler
-      .handleStatic(theme('textDecorationOpacity'))
-      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+  return (
+    // text-decoration-color
+    utility.handler
+      .handleColor(theme('textDecorationColor'))
+      .handleOpacity(theme('textDecorationOpacity'))
+      .handleSquareBrackets(notNumberLead)
       .handleVariable()
-      .createProperty('--tw-line-opacity')
-      ?.updateMeta('utilities', 'textDecorationOpacity', pluginOrder.textDecorationOpacity, 1, true);
-  }
+      .createColorStyle(utility.class, 'text-decoration-color', '--tw-text-decoration-opacity')
+      ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 1, true)
+    // text-decoration-thickness
+    || utility.handler
+      .handleStatic(theme('textDecorationThickness'))
+      .handleNumber(0, undefined, 'int', number => `${number}px`)
+      .createProperty('text-decoration-thickness')
+      ?.updateMeta('utilities', 'textDecorationThickness', pluginOrder.textDecorationThickness, 1, true)
+  );
+}
 
+// https://windicss.org/utilities/typography.html#text-decoration-offset
+function textUnderline(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw.startsWith('underline-offset')) {
     return utility.handler
       .handleStatic(theme('textDecorationOffset'))
@@ -551,19 +561,6 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       .createProperty('text-underline-offset')
       ?.updateMeta('utilities', 'textDecorationOffset', pluginOrder.textDecorationOffset, 1, true);
   }
-  // handle text decoration color or length
-  return utility.handler
-    .handleColor(theme('textDecorationColor'))
-    .handleOpacity(theme('opacity'))
-    .handleVariable()
-    .createColorStyle(utility.class, ['-webkit-text-decoration-color', 'text-decoration-color'], '--tw-line-opacity')
-    ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 0, true)
-  || utility.handler
-    .handleStatic(theme('textDecorationLength'))
-    .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
-    .handleSize()
-    .createProperty('text-decoration-thickness')
-    ?.updateMeta('utilities', 'textDecorationLength', pluginOrder.textDecorationLength, 1, true);
 }
 
 // https://windicss.org/utilities/typography.html#line-height
@@ -1572,7 +1569,8 @@ export const dynamicUtilities: DynamicUtility = {
   stroke: stroke,
   text: text,
   tracking: letterSpacing,
-  underline: textDecoration,
+  decoration: textDecoration,
+  underline: textUnderline,
   w: size,
   z: zIndex,
   gap: gap,
