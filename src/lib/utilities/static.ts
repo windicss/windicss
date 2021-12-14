@@ -1577,6 +1577,16 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
+  'overline': {
+    'utility': {
+      '-webkit-text-decoration-line': 'overline',
+      'text-decoration-line': 'overline',
+    },
+    'meta': {
+      'group': 'textDecoration',
+      'order': 2,
+    },
+  },
   'line-through': {
     'utility': {
       '-webkit-text-decoration-line': 'line-through',
@@ -1584,7 +1594,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'textDecoration',
-      'order': 2,
+      'order': 3,
     },
   },
   'no-underline': {
@@ -1593,7 +1603,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'textDecoration',
-      'order': 3,
+      'order': 4,
     },
   },
 
