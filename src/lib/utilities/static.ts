@@ -1659,6 +1659,58 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // http://localhost:3001/utilities/typography.html#text-decoration-style - Fallback to .decoration-{style}
+  'underline-solid': {
+    'utility': {
+      '-webkit-text-decoration-style': 'solid',
+      'text-decoration-style': 'solid',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 1,
+    },
+  },
+  'underline-double': {
+    'utility': {
+      '-webkit-text-decoration-style': 'double',
+      'text-decoration-style': 'double',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 2,
+    },
+  },
+  'underline-dotted': {
+    'utility': {
+      '-webkit-text-decoration-style': 'dotted',
+      'text-decoration-style': 'dotted',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 3,
+    },
+  },
+  'underline-dashed': {
+    'utility': {
+      '-webkit-text-decoration-style': 'dashed',
+      'text-decoration-style': 'dashed',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 4,
+    },
+  },
+  'underline-wavy': {
+    'utility': {
+      '-webkit-text-decoration-style': 'wavy',
+      'text-decoration-style': 'wavy',
+    },
+    'meta': {
+      'group': 'textDecorationStyle',
+      'order': 5,
+    },
+  },
+
   // https://windicss.org/utilities/typography.html#text-transform
   'uppercase': {
     'utility': {
