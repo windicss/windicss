@@ -268,6 +268,188 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/columns.html
+  'break-after-auto': {
+    'utility': {
+      'break-after': 'auto',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 1,
+    },
+  },
+  'break-after-avoid': {
+    'utility': {
+      'break-after': 'avoid',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 2,
+    },
+  },
+  'break-after-all': {
+    'utility': {
+      'break-after': 'all',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 3,
+    },
+  },
+  'break-after-avoid-page': {
+    'utility': {
+      'break-after': 'avoid-page',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 4,
+    },
+  },
+  'break-after-page': {
+    'utility': {
+      'break-after': 'page',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 5,
+    },
+  },
+  'break-after-left': {
+    'utility': {
+      'break-after': 'left',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 6,
+    },
+  },
+  'break-after-right': {
+    'utility': {
+      'break-after': 'right',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 7,
+    },
+  },
+  'break-after-column': {
+    'utility': {
+      'break-after': 'column',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 8,
+    },
+  },
+  'break-before-auto': {
+    'utility': {
+      'break-before': 'auto',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 9,
+    },
+  },
+  'break-before-avoid': {
+    'utility': {
+      'break-before': 'avoid',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 10,
+    },
+  },
+  'break-before-all': {
+    'utility': {
+      'break-before': 'all',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 11,
+    },
+  },
+  'break-before-avoid-page': {
+    'utility': {
+      'break-before': 'avoid-page',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 12,
+    },
+  },
+  'break-before-page': {
+    'utility': {
+      'break-before': 'page',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 13,
+    },
+  },
+  'break-before-left': {
+    'utility': {
+      'break-before': 'left',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 14,
+    },
+  },
+  'break-before-right': {
+    'utility': {
+      'break-before': 'right',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 15,
+    },
+  },
+  'break-before-column': {
+    'utility': {
+      'break-before': 'column',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 16,
+    },
+  },
+  'break-inside-auto': {
+    'utility': {
+      'break-inside': 'auto',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 17,
+    },
+  },
+  'break-inside-avoid': {
+    'utility': {
+      'break-inside': 'avoid',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 18,
+    },
+  },
+  'break-inside-avoid-page': {
+    'utility': {
+      'break-inside': 'avoid-page',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 19,
+    },
+  },
+  'break-inside-avoid-column': {
+    'utility': {
+      'break-inside': 'avoid-column',
+    },
+    'meta': {
+      'group': 'columns',
+      'order': 20,
+    },
+  },
+
   // https://windicss.org/utilities/positioning.html#floats
   'float-right': {
     'utility': {

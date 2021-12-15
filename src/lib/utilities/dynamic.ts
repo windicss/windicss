@@ -272,7 +272,7 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
 }
 
 // https://windicss.org/utilities/columns.html
-function columns(utility: Utility, { theme, config }: PluginUtils): Output {
+function columns(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('columns'))
     .handleSquareBrackets()
