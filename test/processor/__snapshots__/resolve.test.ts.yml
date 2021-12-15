@@ -1,5 +1,6 @@
 Tools / get corePlugins / list / 0: |-
   [
+    "columns",
     "container",
     "space",
     "divideWidth",
@@ -176,6 +177,7 @@ Tools / get corePlugins / list2 / 1: |-
   ]
 Tools / get corePlugins / list3 / 2: |-
   [
+    "columns",
     "space",
     "divideWidth",
     "divideColor",
@@ -345,6 +347,7 @@ Tools / get corePlugins / list3 / 2: |-
   ]
 Tools / resolve dynamic utilities / with-plugins / 1: |-
   [
+    "columns",
     "container",
     "space",
     "divide",
@@ -434,6 +437,7 @@ Tools / resolve dynamic utilities / with-plugins / 1: |-
   ]
 Tools / resolve dynamic utilities / without-plugins / 0: |-
   [
+    "columns",
     "container",
     "space",
     "divide",

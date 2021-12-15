@@ -2,6 +2,12 @@ import type { Processor } from '../lib';
 import { flatColors } from './tools';
 const utilities: { [key:string]: string[]} = {
   // Layout
+  columns: [
+    'columns-${static}',
+    'columns-${float}',
+    'columns-${size}',
+    'columns-${int}xl',
+  ],
   container: [
     'container',
   ],
