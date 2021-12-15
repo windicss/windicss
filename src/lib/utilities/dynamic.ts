@@ -546,6 +546,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
     || utility.handler
       .handleStatic(theme('textDecorationThickness'))
       .handleNumber(0, undefined, 'int', number => `${number}px`)
+      .handleSize()
       .createProperty('text-decoration-thickness')
       ?.updateMeta('utilities', 'textDecorationThickness', pluginOrder.textDecorationThickness, 1, true)
   );
