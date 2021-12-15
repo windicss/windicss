@@ -540,7 +540,7 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       .handleOpacity(theme('textDecorationOpacity'))
       .handleSquareBrackets(notNumberLead)
       .handleVariable()
-      .createColorStyle(utility.class, 'text-decoration-color', '--tw-text-decoration-opacity')
+      .createColorStyle(utility.class, ['-webkit-text-decoration-color', 'text-decoration-color'], '--tw-text-decoration-opacity')
       ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 1, true)
     // .decoration-{thickness}
     || utility.handler
