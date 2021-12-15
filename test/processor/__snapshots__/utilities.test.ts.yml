@@ -1039,21 +1039,45 @@ Tools / tab size / css / 0: |-
     tab-size: 13px;
   }
 Tools / text decoration color & opacity & length & offset / css / 0: |-
+  .decoration-solid {
+    -webkit-text-decoration-style: solid;
+    text-decoration-style: solid;
+  }
   .underline-solid {
     -webkit-text-decoration-style: solid;
     text-decoration-style: solid;
+  }
+  .decoration-double {
+    -webkit-text-decoration-style: double;
+    text-decoration-style: double;
   }
   .underline-double {
     -webkit-text-decoration-style: double;
     text-decoration-style: double;
   }
+  .decoration-dotted {
+    -webkit-text-decoration-style: dotted;
+    text-decoration-style: dotted;
+  }
   .underline-dotted {
     -webkit-text-decoration-style: dotted;
     text-decoration-style: dotted;
   }
+  .decoration-dashed {
+    -webkit-text-decoration-style: dashed;
+    text-decoration-style: dashed;
+  }
   .underline-dashed {
     -webkit-text-decoration-style: dashed;
     text-decoration-style: dashed;
+  }
+  .decoration-wavy {
+    -webkit-text-decoration-style: wavy;
+    text-decoration-style: wavy;
+  }
+  .underline-wavy {
+    -webkit-text-decoration-style: wavy;
+    text-decoration-style: wavy;
   }
   .underline-2 {
     text-decoration-thickness: 2px;
@@ -1076,6 +1100,20 @@ Tools / text decoration color & opacity & length & offset / css / 0: |-
     -webkit-text-decoration-color: transparent;
     text-decoration-color: transparent;
   }
+  .decoration-gray-200\/90 {
+    --tw-text-decoration-opacity: 0.9;
+    -webkit-text-decoration-color: rgba(229, 231, 235, var(--tw-text-decoration-opacity));
+    text-decoration-color: rgba(229, 231, 235, var(--tw-text-decoration-opacity));
+  }
+  .decoration-gray-200 {
+    --tw-text-decoration-opacity: 1;
+    -webkit-text-decoration-color: rgba(229, 231, 235, var(--tw-text-decoration-opacity));
+    text-decoration-color: rgba(229, 231, 235, var(--tw-text-decoration-opacity));
+  }
+  .decoration-transparent {
+    -webkit-text-decoration-color: transparent;
+    text-decoration-color: transparent;
+  }
   .underline-opacity-90 {
     --tw-line-opacity: 0.9;
   }
@@ -1088,9 +1126,25 @@ Tools / text decoration color & opacity & length & offset / css / 0: |-
   .underline-offset-3px {
     text-underline-offset: 3px;
   }
+  .decoration-2 {
+    text-decoration-thickness: 2px;
+  }
+  .decoration-3px {
+    text-decoration-thickness: 3px;
+  }
+  .decoration-1rem {
+    text-decoration-thickness: 1rem;
+  }
+  .decoration-auto {
+    text-decoration-thickness: auto;
+  }
   .underline {
     -webkit-text-decoration-line: underline;
     text-decoration-line: underline;
+  }
+  .overline {
+    -webkit-text-decoration-line: overline;
+    text-decoration-line: overline;
   }
   .line-through {
     -webkit-text-decoration-line: line-through;

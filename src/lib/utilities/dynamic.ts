@@ -533,7 +533,38 @@ function letterSpacing(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/typography.html#text-decoration
 function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
-  // handle text decoration opacity
+  return (
+    // .decoration-{color}/{opacity}
+    utility.handler
+      .handleColor(theme('textDecorationColor'))
+      .handleOpacity(theme('textDecorationOpacity'))
+      .handleSquareBrackets(notNumberLead)
+      .handleVariable()
+      .createColorStyle(utility.class, ['-webkit-text-decoration-color', 'text-decoration-color'], '--tw-text-decoration-opacity')
+      ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 1, true)
+    // .decoration-{thickness}
+    || utility.handler
+      .handleStatic(theme('textDecorationThickness'))
+      .handleNumber(0, undefined, 'int', number => `${number}px`)
+      .handleSize()
+      .createProperty('text-decoration-thickness')
+      ?.updateMeta('utilities', 'textDecorationThickness', pluginOrder.textDecorationThickness, 1, true)
+  );
+}
+
+// https://windicss.org/utilities/typography.html#text-decoration
+function textUnderline(utility: Utility, { theme }: PluginUtils): Output {
+  // .underline-offset-{offset}
+  if (utility.raw.startsWith('underline-offset')) {
+    return utility.handler
+      .handleStatic(theme('textDecorationOffset'))
+      .handleNumber(0, undefined, 'int', number => `${number}px`)
+      .handleSize()
+      .createProperty('text-underline-offset')
+      ?.updateMeta('utilities', 'textDecorationOffset', pluginOrder.textDecorationOffset, 1, true);
+  }
+
+  // .underline-opacity-{opacity} - This is a fallback for .decoration-{color}/{opacity}
   if (utility.raw.startsWith('underline-opacity')) {
     return utility.handler
       .handleStatic(theme('textDecorationOpacity'))
@@ -543,15 +574,8 @@ function textDecoration(utility: Utility, { theme }: PluginUtils): Output {
       ?.updateMeta('utilities', 'textDecorationOpacity', pluginOrder.textDecorationOpacity, 1, true);
   }
 
-  if (utility.raw.startsWith('underline-offset')) {
-    return utility.handler
-      .handleStatic(theme('textDecorationOffset'))
-      .handleNumber(0, undefined, 'int', number => `${number}px`)
-      .handleSize()
-      .createProperty('text-underline-offset')
-      ?.updateMeta('utilities', 'textDecorationOffset', pluginOrder.textDecorationOffset, 1, true);
-  }
-  // handle text decoration color or length
+  // .underline-{color} - This is a fallback for .decoration-{color} to avoid breaking changes
+  // .underline-{thickness} - This is a fallback for .decoration-{thickness} to avoid breaking changes
   return utility.handler
     .handleColor(theme('textDecorationColor'))
     .handleOpacity(theme('opacity'))
@@ -1572,7 +1596,8 @@ export const dynamicUtilities: DynamicUtility = {
   stroke: stroke,
   text: text,
   tracking: letterSpacing,
-  underline: textDecoration,
+  decoration: textDecoration,
+  underline: textUnderline,
   w: size,
   z: zIndex,
   gap: gap,
