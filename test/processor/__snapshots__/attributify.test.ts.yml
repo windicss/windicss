@@ -963,6 +963,33 @@ Tools / with container utility / css / 0: |-
       max-width: 1536px;
     }
   }
+Tools / with decoration utility / css / 0: |-
+  [decoration~="solid"] {
+    -webkit-text-decoration-style: solid;
+    text-decoration-style: solid;
+  }
+  [decoration~="double"] {
+    -webkit-text-decoration-style: double;
+    text-decoration-style: double;
+  }
+  [decoration~="dotted"] {
+    -webkit-text-decoration-style: dotted;
+    text-decoration-style: dotted;
+  }
+  [decoration~="wavy"] {
+    -webkit-text-decoration-style: wavy;
+    text-decoration-style: wavy;
+  }
+  [decoration~="green-500"] {
+    --tw-text-decoration-opacity: 1;
+    -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
+    text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
+  }
+  [decoration~="gray-500"] {
+    --tw-text-decoration-opacity: 1;
+    -webkit-text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
+    text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
+  }
 Tools / with display utility / css / 0: |-
   [display~="block"] {
     display: block;
@@ -2292,45 +2319,6 @@ Tools / with text utility / css / 0: |-
   [text~="normal-case"] {
     text-transform: none;
   }
-  [text~="decoration-solid"] {
-    -webkit-text-decoration-style: solid;
-    text-decoration-style: solid;
-  }
-  [text~="decoration-double"] {
-    -webkit-text-decoration-style: double;
-    text-decoration-style: double;
-  }
-  [text~="decoration-dotted"] {
-    -webkit-text-decoration-style: dotted;
-    text-decoration-style: dotted;
-  }
-  [text~="decoration-dashed"] {
-    -webkit-text-decoration-style: dashed;
-    text-decoration-style: dashed;
-  }
-  [text~="decoration-wavy"] {
-    -webkit-text-decoration-style: wavy;
-    text-decoration-style: wavy;
-  }
-  [text~="decoration-auto"] {
-    text-decoration-thickness: auto;
-  }
-  [text~="decoration-2"] {
-    text-decoration-thickness: 2px;
-  }
-  [text~="decoration-4"] {
-    text-decoration-thickness: 4px;
-  }
-  [text~="decoration-green-500"] {
-    --tw-text-decoration-opacity: 1;
-    -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
-    text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
-  }
-  [text~="decoration-gray-500"] {
-    --tw-text-decoration-opacity: 1;
-    -webkit-text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
-    text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
-  }
   [text~="underline-solid"] {
     -webkit-text-decoration-style: solid;
     text-decoration-style: solid;
@@ -2346,10 +2334,6 @@ Tools / with text utility / css / 0: |-
   [text~="underline-dashed"] {
     -webkit-text-decoration-style: dashed;
     text-decoration-style: dashed;
-  }
-  [text~="underline-wavy"] {
-    -webkit-text-decoration-style: wavy;
-    text-decoration-style: wavy;
   }
   [text~="underline-auto"] {
     text-decoration-thickness: auto;
@@ -2385,6 +2369,10 @@ Tools / with text utility / css / 0: |-
   [text~="underline"] {
     -webkit-text-decoration-line: underline;
     text-decoration-line: underline;
+  }
+  [text~="overline"] {
+    -webkit-text-decoration-line: overline;
+    text-decoration-line: overline;
   }
   [text~="line-through"] {
     -webkit-text-decoration-line: line-through;
@@ -2789,53 +2777,6 @@ Tools / with underline utility / css / 0: |-
     text-decoration-line: line-through;
   }
   [underline~="none"] {
-    text-decoration: none;
-  }
-Tools / with decoration utility / css / 0: |-
-  [decoration~="solid"] {
-    -webkit-text-decoration-style: solid;
-    text-decoration-style: solid;
-  }
-  [decoration~="double"] {
-    -webkit-text-decoration-style: double;
-    text-decoration-style: double;
-  }
-  [decoration~="dotted"] {
-    -webkit-text-decoration-style: dotted;
-    text-decoration-style: dotted;
-  }
-  [decoration~="wavy"] {
-    -webkit-text-decoration-style: wavy;
-    text-decoration-style: wavy;
-  }
-  [decoration~="auto"] {
-    text-decoration-thickness: auto;
-  }
-  [decoration~="0"] {
-    text-decoration-thickness: 0px;
-  }
-  [decoration~="2"] {
-    text-decoration-thickness: 2px;
-  }
-  [decoration~="green-500"] {
-    --tw-text-decoration-opacity: 1;
-    -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
-    text-decoration-color: rgba(16, 185, 129, var(--tw-text-decoration-opacity));
-  }
-  [decoration~="gray-500"] {
-    --tw-text-decoration-opacity: 1;
-    -webkit-text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
-    text-decoration-color: rgba(107, 114, 128, var(--tw-text-decoration-opacity));
-  }
-  [decoration~="~"] {
-    -webkit-text-decoration-line: underline;
-    text-decoration-line: underline;
-  }
-  [decoration~="line-through"] {
-    -webkit-text-decoration-line: line-through;
-    text-decoration-line: line-through;
-  }
-  [decoration~="none"] {
     text-decoration: none;
   }
 Tools / with variants / css / 0: |-
