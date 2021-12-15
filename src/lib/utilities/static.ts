@@ -3317,4 +3317,42 @@ export const staticUtilities: StaticUtility = {
       'order': 2,
     },
   },
+
+  // https://windicss.org/utilities/behaviors.html#will-change
+  'will-change-auto': {
+    'utility': {
+      'will-change': 'auto',
+    },
+    'meta': {
+      'group': 'willChange',
+      'order': 1,
+    },
+  },
+  'will-change-scroll': {
+    'utility': {
+      'will-change': 'scroll',
+    },
+    'meta': {
+      'group': 'willChange',
+      'order': 2,
+    },
+  },
+  'will-change-contents': {
+    'utility': {
+      'will-change': 'contents',
+    },
+    'meta': {
+      'group': 'willChange',
+      'order': 3,
+    },
+  },
+  'will-change-transform': {
+    'utility': {
+      'will-change': 'transform',
+    },
+    'meta': {
+      'group': 'willChange',
+      'order': 4,
+    },
+  },
 };

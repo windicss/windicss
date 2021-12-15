@@ -1422,3 +1422,16 @@ Tools / wrap container / small container / 0: |-
       }
     }
   }
+Tools / will-change / css / 0: |-
+  .will-change-auto {
+    will-change: auto;
+  }
+  .will-change-scroll {
+    will-change: scroll;
+  }
+  .will-change-contents {
+    will-change: contents;
+  }
+  .will-change-transform {
+    will-change: transform;
+  }
