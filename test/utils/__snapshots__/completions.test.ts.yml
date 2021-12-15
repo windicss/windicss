@@ -7016,7 +7016,9 @@ Tools / completions / static / 0: |-
     "touch-pan-up",
     "touch-pan-down",
     "touch-pinch-zoom",
-    "touch-manipulation"
+    "touch-manipulation",
+    "scroll-auto",
+    "scroll-smooth"
   ]
 'Tools / custom theme properties #226 / css / 1': |-
   .h-screen-px {

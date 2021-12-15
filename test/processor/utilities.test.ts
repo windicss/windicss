@@ -414,4 +414,11 @@ describe('Utilities', () => {
     touch-manipulation
     `).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('scroll-behavior', () => {
+    expect(processor.interpret(`
+    scroll-auto
+    scroll-smooth
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

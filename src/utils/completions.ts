@@ -497,6 +497,10 @@ const utilities: { [key:string]: string[]} = {
     'touch-pinch-zoom',
     'touch-manipulation',
   ],
+  scrollBehavior: [
+    'scroll-auto',
+    'scroll-smooth',
+  ],
 };
 
 const negative: { [key:string]: true} = {

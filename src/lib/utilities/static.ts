@@ -3447,4 +3447,24 @@ export const staticUtilities: StaticUtility = {
       'order': 10,
     },
   },
+
+  // https://windicss.org/utilities/behaviors.html#scroll-behavior
+  'scroll-auto': {
+    'utility': {
+      'scroll-behavior': 'auto',
+    },
+    'meta': {
+      'group': 'scrollBehavior',
+      'order': 1,
+    },
+  },
+  'scroll-smooth': {
+    'utility': {
+      'scroll-behavior': 'smooth',
+    },
+    'meta': {
+      'group': 'scrollBehavior',
+      'order': 2,
+    },
+  },
 };
