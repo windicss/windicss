@@ -1039,21 +1039,25 @@ Tools / tab size / css / 0: |-
     tab-size: 13px;
   }
 Tools / text decoration color & opacity & length & offset / css / 0: |-
-  .underline-solid {
+  .decoration-solid {
     -webkit-text-decoration-style: solid;
     text-decoration-style: solid;
   }
-  .underline-double {
+  .decoration-double {
     -webkit-text-decoration-style: double;
     text-decoration-style: double;
   }
-  .underline-dotted {
+  .decoration-dotted {
     -webkit-text-decoration-style: dotted;
     text-decoration-style: dotted;
   }
-  .underline-dashed {
+  .decoration-dashed {
     -webkit-text-decoration-style: dashed;
     text-decoration-style: dashed;
+  }
+  .decoration-wavy {
+    -webkit-text-decoration-style: wavy;
+    text-decoration-style: wavy;
   }
   .underline-2 {
     text-decoration-thickness: 2px;
@@ -1091,6 +1095,10 @@ Tools / text decoration color & opacity & length & offset / css / 0: |-
   .underline {
     -webkit-text-decoration-line: underline;
     text-decoration-line: underline;
+  }
+  .overline {
+    -webkit-text-decoration-line: overline;
+    text-decoration-line: overline;
   }
   .line-through {
     -webkit-text-decoration-line: line-through;

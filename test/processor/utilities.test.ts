@@ -170,7 +170,7 @@ describe('Utilities', () => {
   });
 
   it('text decoration color & opacity & length & offset', () => {
-    expect(processor.interpret('underline line-through no-underline underline-solid underline-dashed underline-dotted underline-double underline-opacity-90 underline-gray-200 underline-2 underline-3px underline-1rem underline-auto underline-transparent underline-offset-2 underline-offset-auto underline-offset-3px').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('underline line-through no-underline overline decoration-solid decoration-dashed decoration-dotted decoration-double decoration-wavy underline-opacity-90 underline-gray-200 underline-2 underline-3px underline-1rem underline-auto underline-transparent underline-offset-2 underline-offset-auto underline-offset-3px').styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('list style type', () => {

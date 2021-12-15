@@ -393,11 +393,14 @@ describe('Attributify Mode', () => {
         'opacity-50', // opacity
         'hyphens-none', 'hyphens-manual', 'hyphens-auto', // hyphens
         'tab', 'tab-0', 'tab-2', 'tab-4', // tab-size
-        'underline', 'line-through', 'no-underline', // text-decoration
-        'underline-solid', 'underline-double', 'underline-dotted', 'underline-dashed', // text-decoration-style
-        'underline-green-500', 'underline-gray-500', // text-decoration-color
+        'underline', 'overline', 'line-through', 'no-underline', // text-decoration
+        'decoration-solid', 'decoration-double', 'decoration-dotted', 'decoration-dashed', 'decoration-wavy', // text-decoration-style
+        'underline-solid', 'underline-double', 'underline-dotted', 'underline-dashed', 'underline-wavy', // text-decoration-style - Fallback
+        'decoration-green-500', 'decoration-gray-500', // text-decoration-color
+        'underline-green-500', 'underline-gray-500', // text-decoration-color - Fallback
         'underline-opacity-50', 'underline-opacity-60', // text-decoration-opacity
-        'underline-auto', 'underline-2', 'underline-4', // text-decoration-length
+        'decoration-auto', 'decoration-2', 'decoration-4', // text-decoration-length
+        'underline-auto', 'underline-2', 'underline-4', // text-decoration-length - Fallback
         'underline-offset-auto', 'underline-offset-1', // text-decoration-offset
         'indent', 'indent-xs', 'indent-sm', 'indent-md', // text-indent
         'shadow', 'shadow-lg', 'shadow-sm', 'shadow-xl', // text-shadow
@@ -432,10 +435,23 @@ describe('Attributify Mode', () => {
       'underline': [
         '~', 'line-through', 'none',
         'solid', 'double', 'dotted',
-        'green-500', 'gray-500',
+        'wavy', 'green-500', 'gray-500',
         'opacity-50', 'opacity-60',
         'auto', '0', '2',
         'offset-auto', 'offset-1',
+      ],
+    });
+    expect(result.ignored.length).toEqual(0);
+    expect(result.styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('with decoration utility', () => {
+    const result = processor.attributify({
+      'decoration': [
+        '~', 'line-through', 'none',
+        'solid', 'double', 'dotted',
+        'wavy', 'green-500', 'gray-500',
+        'auto', '0', '2',
       ],
     });
     expect(result.ignored.length).toEqual(0);
