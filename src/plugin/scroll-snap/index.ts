@@ -36,6 +36,10 @@ export default plugin(
         ])
       ),
 
+      '.snap-align-none': {
+        'scroll-snap-align': 'none',
+      },
+
       // scroll-snap-type
       '.snap': {
         'scroll-snap-type':

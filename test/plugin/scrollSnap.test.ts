@@ -11,6 +11,7 @@ describe('Scroll Snap plugin', () => {
       snap-start
       snap-end
       snap-center
+      snap-align-none
       snap-none
       snap-mandatory
       snap-proximity
