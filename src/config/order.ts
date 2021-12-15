@@ -240,4 +240,5 @@ export enum pluginOrder {
   'backdropOpacity' = 13900,
   'backdropSaturate' = 14000,
   'backdropSepia' = 14100,
+  'willChange' = 14200,
 }

@@ -479,6 +479,12 @@ const utilities: { [key:string]: string[]} = {
     'blur-${float}',
     'blur-${size}',
   ],
+  willChange: [
+    'will-change-auto',
+    'will-change-scroll',
+    'will-change-contents',
+    'will-change-transform',
+  ],
 };
 
 const negative: { [key:string]: true} = {

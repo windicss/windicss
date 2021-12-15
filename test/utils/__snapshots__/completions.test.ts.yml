@@ -7002,7 +7002,11 @@ Tools / completions / static / 0: |-
     "blur-lg",
     "blur-xl",
     "blur-2xl",
-    "blur-3xl"
+    "blur-3xl",
+    "will-change-auto",
+    "will-change-scroll",
+    "will-change-contents",
+    "will-change-transform"
   ]
 'Tools / custom theme properties #226 / css / 1': |-
   .h-screen-px {

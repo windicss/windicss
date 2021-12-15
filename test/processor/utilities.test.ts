@@ -390,4 +390,13 @@ describe('Utilities', () => {
   it('fill-none and stroke-none is wrong', () => {
     expect(processor.interpret('fill-none stroke-none').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('will-change', () => {
+    expect(processor.interpret(`
+    will-change-auto 
+    will-change-scroll 
+    will-change-contents 
+    will-change-transform
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });
