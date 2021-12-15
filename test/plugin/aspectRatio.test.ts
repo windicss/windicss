@@ -7,6 +7,9 @@ describe('aspect ratio plugin', () => {
     processor.loadPlugin(aspectRatio);
     const classes = `
       aspect-none
+      aspect-auto
+      aspect-square
+      aspect-video
       aspect-w-16
       aspect-h-9
       aspect-9/16
@@ -21,6 +24,9 @@ describe('aspect ratio plugin', () => {
     processor.loadPlugin(aspectRatio);
     const classes = `
       windi-aspect-none
+      windi-aspect-auto
+      windi-aspect-square
+      windi-aspect-video
       windi-aspect-w-16
       windi-aspect-h-9
       sm:windi-aspect-9/16

@@ -20,6 +20,15 @@ Tools / interpret test / aspect-ratio base / 0: |-
     bottom: auto;
     left: auto;
   }
+  .aspect-auto {
+    aspect-ratio: auto;
+  }
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
   .aspect-w-16 {
     --tw-aspect-w: 16;
     position: relative;
@@ -63,6 +72,15 @@ Tools / works with prefix / aspect-ratio with prefix / 0: |-
     right: auto;
     bottom: auto;
     left: auto;
+  }
+  .windi-aspect-auto {
+    aspect-ratio: auto;
+  }
+  .windi-aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+  .windi-aspect-video {
+    aspect-ratio: 16 / 9;
   }
   .windi-aspect-w-16 {
     --tw-aspect-w: 16;
