@@ -451,6 +451,9 @@ const utilities: { [key:string]: string[]} = {
   ],
   aspectRatio: [
     'aspect-none',
+    'aspect-auto',
+    'aspect-square',
+    'aspect-video',
     'aspect-w-${float}',
     'aspect-h-${float}',
     'aspect-${fraction}',
