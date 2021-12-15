@@ -271,6 +271,18 @@ function gap(utility: Utility, { theme, config }: PluginUtils): Output {
     });
 }
 
+// https://windicss.org/utilities/columns.html
+function columns(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleStatic(theme('columns'))
+    .handleSquareBrackets()
+    .handleSize()
+    .handleNxl((number: number) => `${(number - 3) * 8 + 48}rem`)
+    .handleVariable()
+    .createProperty('columns')
+    ?.updateMeta('utilities', 'columns', pluginOrder.columns, 1, true);
+}
+
 // https://windicss.org/utilities/spacing.html#padding
 function padding(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
@@ -1536,6 +1548,7 @@ function content(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 export const dynamicUtilities: DynamicUtility = {
+  columns: columns,
   container: container,
   space: space,
   divide: divide,

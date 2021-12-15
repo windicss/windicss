@@ -70,6 +70,7 @@ export enum layerOrder {
 }
 
 export enum pluginOrder {
+  'columns' = 80,
   'container' = 100,
   'space' = 200,
   'divideWidth' = 300,

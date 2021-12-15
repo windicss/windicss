@@ -130,6 +130,16 @@ describe('Utilities', () => {
     expect(processor.interpret('bg-home-pattern').styleSheet.build()).toMatchSnapshot('Background Image');
   });
 
+  it('columns & break-after & break-before & break-inside', () => {
+    const processor = new Processor();
+    expect(processor.interpret(`
+    columns-1 columns-12 columns-auto columns-7xl
+    break-after-auto break-after-all break-after-page break-after-right
+    break-before-avoid break-before-avoid-page break-before-left break-before-column
+    break-inside-auto break-inside-avoid break-inside-avoid-page break-inside-avoid-column
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('wrap container', () => {
     const processor = new Processor();
     expect(processor.interpret('sm:container').styleSheet.build()).toMatchSnapshot('small container');
