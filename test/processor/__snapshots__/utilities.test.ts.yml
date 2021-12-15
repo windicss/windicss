@@ -647,6 +647,55 @@ Tools / color opacity group utilities / css / 0: |-
     -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
     text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
   }
+Tools / columns & break-after & break-before & break-inside / css / 0: |-
+  .columns-1 {
+    columns: 1;
+  }
+  .columns-12 {
+    columns: 12;
+  }
+  .columns-auto {
+    columns: auto;
+  }
+  .columns-7xl {
+    columns: 80rem;
+  }
+  .break-after-auto {
+    break-after: auto;
+  }
+  .break-after-all {
+    break-after: all;
+  }
+  .break-after-page {
+    break-after: page;
+  }
+  .break-after-right {
+    break-after: right;
+  }
+  .break-before-avoid {
+    break-before: avoid;
+  }
+  .break-before-avoid-page {
+    break-before: avoid-page;
+  }
+  .break-before-left {
+    break-before: left;
+  }
+  .break-before-column {
+    break-before: column;
+  }
+  .break-inside-auto {
+    break-inside: auto;
+  }
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
+  .break-inside-avoid-page {
+    break-inside: avoid-page;
+  }
+  .break-inside-avoid-column {
+    break-inside: avoid-column;
+  }
 Tools / container max-width test / container / 0: |-
   .container {
     width: 100%;
