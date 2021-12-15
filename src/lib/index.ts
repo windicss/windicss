@@ -796,7 +796,7 @@ export class Processor {
             utility = 'align-' + utility.slice(5);
           } else if (utility.startsWith('text-placeholder') || utility.startsWith('text-underline') || utility.startsWith('text-tab') || utility.startsWith('text-indent') || utility.startsWith('text-hyphens') || utility.startsWith('text-write')) {
             utility = utility.slice(5);
-          } else if (['text-underline', 'text-line-through', 'text-no-underline', 'text-uppercase', 'text-lowercase', 'text-capitalize', 'text-normal-case', 'text-truncate', 'text-overflow-ellipsis', 'text-overflow-clip', 'text-break-normal', 'text-break-words', 'text-break-all'].includes(utility)) {
+          } else if (['text-underline', 'text-overline', 'text-line-through', 'text-no-underline', 'text-uppercase', 'text-lowercase', 'text-capitalize', 'text-normal-case', 'text-truncate', 'text-overflow-ellipsis', 'text-overflow-clip', 'text-break-normal', 'text-break-words', 'text-break-all'].includes(utility)) {
             utility = utility.slice(5);
           } else if (utility.startsWith('text-space')) {
             utility = 'white' + utility.slice(5);
