@@ -101,7 +101,6 @@ describe('Variants', () => {
   });
 
   it('orientation', () => {
-    const processor = new Processor();
     const orientations = generateOrientations({
       portrait: 'portrait',
       landscape: 'landscape',
