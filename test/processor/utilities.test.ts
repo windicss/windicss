@@ -421,4 +421,15 @@ describe('Utilities', () => {
     scroll-smooth
     `).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('flex-basis', () => {
+    expect(processor.interpret(`
+    basis-auto
+    basis-full
+    basis-0
+    basis-px
+    basis-0.5
+    basis-1/2
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

@@ -474,6 +474,12 @@ const utilities: { [key:string]: string[]} = {
   backdropFilter: [
     'backdrop-${static}',
   ],
+  basis: [
+    'basis-${static}',
+    'basis-${float}',
+    'basis-${size}',
+    'basis-${fraction}',
+  ],
   blur: [
     'blur-${static}',
     'blur-${float}',

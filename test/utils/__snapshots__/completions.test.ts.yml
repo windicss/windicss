@@ -4036,6 +4036,9 @@ Tools / completions / dynamic / 1: |-
     "aspect-h-${float}",
     "aspect-${fraction}",
     "line-clamp-${int}",
+    "basis-${float}",
+    "basis-${size}",
+    "basis-${fraction}",
     "blur-${float}",
     "blur-${size}"
   ]

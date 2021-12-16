@@ -101,6 +101,7 @@ export enum pluginOrder {
   'captionSide' = 2550,
   'emptyCells' = 2560,
   'display' = 2600,
+  'flexBasis' = 2699,
   'flexDirection' = 2700,
   'flexWrap' = 2800,
   'placeItems' = 2900,
