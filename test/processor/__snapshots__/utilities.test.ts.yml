@@ -854,6 +854,25 @@ Tools / fill-none and stroke-none is wrong / css / 0: |-
   .stroke-none {
     stroke: none;
   }
+Tools / flex-basis / css / 0: |-
+  .basis-auto {
+    flex-basis: auto;
+  }
+  .basis-0 {
+    flex-basis: 0px;
+  }
+  .basis-px {
+    flex-basis: 1px;
+  }
+  .basis-0\.5 {
+    flex-basis: 0.125rem;
+  }
+  .basis-1\/2 {
+    flex-basis: 50%;
+  }
+  .basis-full {
+    flex-basis: 100%;
+  }
 Tools / fontsize config test / fontSize / 0: |-
   .text-main {
     font-size: 1.25rem;
