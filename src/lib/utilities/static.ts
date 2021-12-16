@@ -33,6 +33,26 @@ export const staticUtilities: StaticUtility = {
     },
   },
 
+  // https://windicss.org/utilities/flexbox.html#flex-basis
+  'basis-auto' : {
+    'utility': {
+      'flex-basis': 'auto',
+    },
+    'meta': {
+      'group': 'flexBasis',
+      'order': 1,
+    },
+  },
+  'basis-full' : {
+    'utility': {
+      'flex-basis': '100%',
+    },
+    'meta': {
+      'group': 'flexBasis',
+      'order': 2,
+    },
+  },
+
   // https://windicss.org/utilities/sizing.html#box-sizing
   'box-border': {
     'utility': {

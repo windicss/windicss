@@ -128,6 +128,19 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
   }
 }
 
+// https://windicss.org/utilities/flexbox.html#flex-basis
+function basis(utility:Utility, { theme }: PluginUtils): Output {
+  return utility.handler
+    .handleStatic(theme('spacing'))
+    .handleNumber(1, Infinity, undefined, number => `${number / 4}rem`)
+    .handleSize()
+    .handleFraction()
+    .handleVariable()
+    .handleSquareBrackets()
+    .createProperty('flex-basis')
+    ?.updateMeta('utilities', 'flexBasis', pluginOrder.flexBasis, 1, true);
+}
+
 // https://windicss.org/utilities/positioning.html#order
 function order(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
@@ -1553,6 +1566,7 @@ export const dynamicUtilities: DynamicUtility = {
   space: space,
   divide: divide,
   bg: background,
+  basis: basis,
   from: gradientColorFrom,
   via: gradientColorVia,
   to: gradientColorTo,
