@@ -399,4 +399,26 @@ describe('Utilities', () => {
     will-change-transform
     `).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('touch-action', () => {
+    expect(processor.interpret(`
+    touch-auto
+    touch-none
+    touch-pan-x
+    touch-pan-left
+    touch-pan-right
+    touch-pan-y
+    touch-pan-up
+    touch-pan-down
+    touch-pinch-zoom
+    touch-manipulation
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('scroll-behavior', () => {
+    expect(processor.interpret(`
+    scroll-auto
+    scroll-smooth
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

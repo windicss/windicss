@@ -3355,4 +3355,116 @@ export const staticUtilities: StaticUtility = {
       'order': 4,
     },
   },
+
+  // https://windicss.org/utilities/behaviors.html#touch-action
+  'touch-auto': {
+    'utility': {
+      'touch-action': 'auto',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 1,
+    },
+  },
+  'touch-none': {
+    'utility': {
+      'touch-action': 'none',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 2,
+    },
+  },
+  'touch-pan-x': {
+    'utility': {
+      'touch-action': 'pan-x',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 3,
+    },
+  },
+  'touch-pan-left': {
+    'utility': {
+      'touch-action': 'pan-left',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 4,
+    },
+  },
+  'touch-pan-right': {
+    'utility': {
+      'touch-action': 'pan-right',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 5,
+    },
+  },
+  'touch-pan-y': {
+    'utility': {
+      'touch-action': 'pan-y',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 6,
+    },
+  },
+  'touch-pan-up': {
+    'utility': {
+      'touch-action': 'pan-up',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 7,
+    },
+  },
+  'touch-pan-down': {
+    'utility': {
+      'touch-action': 'pan-down',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 8,
+    },
+  },
+  'touch-pinch-zoom': {
+    'utility': {
+      'touch-action': 'pinch-zoom',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 9,
+    },
+  },
+  'touch-manipulation': {
+    'utility': {
+      'touch-action': 'manipulation',
+    },
+    'meta': {
+      'group': 'touchAction',
+      'order': 10,
+    },
+  },
+
+  // https://windicss.org/utilities/behaviors.html#scroll-behavior
+  'scroll-auto': {
+    'utility': {
+      'scroll-behavior': 'auto',
+    },
+    'meta': {
+      'group': 'scrollBehavior',
+      'order': 1,
+    },
+  },
+  'scroll-smooth': {
+    'utility': {
+      'scroll-behavior': 'smooth',
+    },
+    'meta': {
+      'group': 'scrollBehavior',
+      'order': 2,
+    },
+  },
 };

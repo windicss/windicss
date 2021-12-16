@@ -241,4 +241,6 @@ export enum pluginOrder {
   'backdropSaturate' = 14000,
   'backdropSepia' = 14100,
   'willChange' = 14200,
+  'touchAction' = 14300,
+  'scrollBehavior' = 14400,
 }

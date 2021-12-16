@@ -485,6 +485,22 @@ const utilities: { [key:string]: string[]} = {
     'will-change-contents',
     'will-change-transform',
   ],
+  touchAction: [
+    'touch-auto',
+    'touch-none',
+    'touch-pan-x',
+    'touch-pan-left',
+    'touch-pan-right',
+    'touch-pan-y',
+    'touch-pan-up',
+    'touch-pan-down',
+    'touch-pinch-zoom',
+    'touch-manipulation',
+  ],
+  scrollBehavior: [
+    'scroll-auto',
+    'scroll-smooth',
+  ],
 };
 
 const negative: { [key:string]: true} = {

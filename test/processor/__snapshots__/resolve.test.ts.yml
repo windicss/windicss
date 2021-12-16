@@ -170,7 +170,9 @@ Tools / get corePlugins / list / 0: |-
     "backdropOpacity",
     "backdropSaturate",
     "backdropSepia",
-    "willChange"
+    "willChange",
+    "touchAction",
+    "scrollBehavior"
   ]
 Tools / get corePlugins / list2 / 1: |-
   [
@@ -347,7 +349,9 @@ Tools / get corePlugins / list3 / 2: |-
     "backdropOpacity",
     "backdropSaturate",
     "backdropSepia",
-    "willChange"
+    "willChange",
+    "touchAction",
+    "scrollBehavior"
   ]
 Tools / resolve dynamic utilities / with-plugins / 1: |-
   [

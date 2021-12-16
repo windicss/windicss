@@ -1031,6 +1031,13 @@ Tools / ring opacity / css / 0: |-
     --tw-ring-opacity: 1;
     --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
   }
+Tools / scroll-behavior / css / 0: |-
+  .scroll-auto {
+    scroll-behavior: auto;
+  }
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
 Tools / shadow color / css / 0: |-
   .shadow-2xl {
     --tw-shadow-color: 0, 0, 0;
@@ -1260,6 +1267,37 @@ Tools / text stroke width & stroke color / css / 0: |-
   }
   .text-stroke-3px {
     -webkit-text-stroke-width: 3px;
+  }
+Tools / touch-action / css / 0: |-
+  .touch-auto {
+    touch-action: auto;
+  }
+  .touch-none {
+    touch-action: none;
+  }
+  .touch-pan-x {
+    touch-action: pan-x;
+  }
+  .touch-pan-left {
+    touch-action: pan-left;
+  }
+  .touch-pan-right {
+    touch-action: pan-right;
+  }
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+  .touch-pan-up {
+    touch-action: pan-up;
+  }
+  .touch-pan-down {
+    touch-action: pan-down;
+  }
+  .touch-pinch-zoom {
+    touch-action: pinch-zoom;
+  }
+  .touch-manipulation {
+    touch-action: manipulation;
   }
 Tools / transform 3d / css / 0: |-
   .transform {

@@ -7006,7 +7006,19 @@ Tools / completions / static / 0: |-
     "will-change-auto",
     "will-change-scroll",
     "will-change-contents",
-    "will-change-transform"
+    "will-change-transform",
+    "touch-auto",
+    "touch-none",
+    "touch-pan-x",
+    "touch-pan-left",
+    "touch-pan-right",
+    "touch-pan-y",
+    "touch-pan-up",
+    "touch-pan-down",
+    "touch-pinch-zoom",
+    "touch-manipulation",
+    "scroll-auto",
+    "scroll-smooth"
   ]
 'Tools / custom theme properties #226 / css / 1': |-
   .h-screen-px {
