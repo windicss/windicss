@@ -2,6 +2,7 @@ import { Property } from '../../src/utils/style';
 import type { Style } from '../../src/utils/style';
 import { baseConfig } from '../../src/config';
 import {
+  generateOrientations,
   generateScreens,
   generateStates,
   generateThemes,
@@ -69,7 +70,7 @@ describe('Variants', () => {
 
   it('resolve variants', () => {
     const variants = resolveVariants(baseConfig);
-    expect(Object.keys(variants)).toEqual(['screen', 'theme', 'state']);
+    expect(Object.keys(variants)).toEqual(['orientation', 'screen', 'theme', 'state']);
     expect(Object.keys(variants.screen)).toMatchSnapshot('screen');
     expect(Object.keys(variants.theme)).toEqual([
       '@dark',
@@ -80,8 +81,10 @@ describe('Variants', () => {
       'light',
     ]);
     expect(Object.keys(variants.state)).toEqual(baseConfig.variantOrder ?? []);
+    expect(Object.keys(variants.orientation)).toEqual(['portrait', 'landscape']);
 
     const emptyVariants = resolveVariants({});
+    expect(emptyVariants.orientation).toEqual({});
     expect(emptyVariants.screen).toEqual({});
     expect(emptyVariants.theme).toEqual({});
     expect(emptyVariants.state).toEqual({});
@@ -95,5 +98,13 @@ describe('Variants', () => {
   it('directions', () => {
     const processor = new Processor();
     expect(processor.interpret('ltr:text-lg rtl:dark:text-sm').styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('orientation', () => {
+    const orientations = generateOrientations({
+      portrait: 'portrait',
+      landscape: 'landscape',
+    });
+    expect(_generateTestVariants(orientations)).toMatchSnapshot('css');
   });
 });

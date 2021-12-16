@@ -59,6 +59,10 @@ export const baseConfig: Config = {
   attributify: false,
   darkMode: 'class', // or 'media'
   theme: {
+    orientation: {
+      portrait: 'portrait',
+      landscape: 'landscape',
+    },
     screens: {
       sm: '640px',
       md: '768px',

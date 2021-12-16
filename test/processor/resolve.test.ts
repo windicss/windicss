@@ -36,8 +36,10 @@ describe('Resolve Tests', () => {
       'motion-safe',       'motion-reduce',
     ];
     const themeVariants = [ '@dark', '@light', '.dark', '.light', 'dark', 'light' ];
+    const orientationVariants = ['portrait', 'landscape'];
 
-    expect(Object.keys(processor.resolveVariants())).toEqual([...screenVariants, ...themeVariants, ...stateVariants]);
+    expect(Object.keys(processor.resolveVariants())).toEqual([...screenVariants, ...themeVariants, ...stateVariants, ...orientationVariants]);
+    expect(Object.keys(processor.resolveVariants('orientation'))).toEqual(orientationVariants);
     expect(Object.keys(processor.resolveVariants('screen'))).toEqual(screenVariants);
     expect(Object.keys(processor.resolveVariants('theme'))).toEqual(themeVariants);
     expect(Object.keys(processor.resolveVariants('state'))).toEqual(stateVariants);
