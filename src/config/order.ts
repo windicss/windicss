@@ -60,8 +60,6 @@ export const variantOrder = [
   'motion-reduce',
 ];
 
-
-
 export enum layerOrder {
   base = 10,
   components = 150,

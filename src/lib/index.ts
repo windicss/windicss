@@ -234,7 +234,7 @@ export class Processor {
     if (type) {
       return variants[type];
     }
-    return { ...variants.screen, ...variants.theme, ...variants.state };
+    return { ...variants.screen, ...variants.theme, ...variants.state, ...variants.orientation };
   }
 
   resolveStaticUtilities(includePlugins = false): StyleArrayObject {

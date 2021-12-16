@@ -126,6 +126,11 @@ Tools / generate themes with darkMode media / vars / 0: |-
     "dark": "@media (prefers-color-scheme: dark) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
     "light": "@media (prefers-color-scheme: light) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
   }
+Tools / orientation / css / 0: |-
+  {
+    "portrait": "@media (orientation: portrait) {\n  .test {\n    background: #1C1C1E;\n  }\n}",
+    "landscape": "@media (orientation: landscape) {\n  .test {\n    background: #1C1C1E;\n  }\n}"
+  }
 Tools / resolve variants / screen / 0: |-
   [
     "sm",

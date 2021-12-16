@@ -97,6 +97,7 @@ export type ThemeType = ConfigUtil | Record<string, any> | undefined
 
 export interface BaseTheme {
   vars: ThemeType
+  orientation: ThemeType
   screens: ThemeType
   colors: ThemeType
   spacing: ThemeType
@@ -252,7 +253,7 @@ export type Handlers = {
 
 export type StyleArrayObject = { [key: string]: Style[] }
 export type ResolvedVariants = { [key: string]: () => Style }
-export type VariantTypes = 'screen' | 'theme' | 'state'
+export type VariantTypes = 'screen' | 'theme' | 'state' | 'orientation'
 export type AddPluginType = 'static' | 'utilities' | 'components' | 'preflights' | 'shortcuts'
 
 export interface ExtractorResultDetailed {
