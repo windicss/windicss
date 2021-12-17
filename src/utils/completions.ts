@@ -507,6 +507,16 @@ const utilities: { [key:string]: string[]} = {
     'scroll-auto',
     'scroll-smooth',
   ],
+  shadow: [
+    'shadow',
+    'shadow-sm',
+    'shadow-md',
+    'shadow-lg',
+    'shadow-xl',
+    'shadow-2xl',
+    'shadow-inner',
+    'shadow-none',
+  ],
 };
 
 const negative: { [key:string]: true} = {

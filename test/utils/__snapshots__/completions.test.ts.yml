@@ -6499,14 +6499,6 @@ Tools / completions / static / 0: |-
     "ring-95",
     "ring-100",
     "ring",
-    "shadow",
-    "shadow-sm",
-    "shadow-md",
-    "shadow-lg",
-    "shadow-xl",
-    "shadow-2xl",
-    "shadow-inner",
-    "shadow-none",
     "opacity-0",
     "opacity-5",
     "opacity-10",
@@ -7021,7 +7013,15 @@ Tools / completions / static / 0: |-
     "touch-pinch-zoom",
     "touch-manipulation",
     "scroll-auto",
-    "scroll-smooth"
+    "scroll-smooth",
+    "shadow",
+    "shadow-sm",
+    "shadow-md",
+    "shadow-lg",
+    "shadow-xl",
+    "shadow-2xl",
+    "shadow-inner",
+    "shadow-none"
   ]
 'Tools / custom theme properties #226 / css / 1': |-
   .h-screen-px {
