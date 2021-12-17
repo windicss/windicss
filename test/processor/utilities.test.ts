@@ -172,7 +172,11 @@ describe('Utilities', () => {
   });
 
   it('shadow color', () => {
-    expect(processor.interpret('shadow-2xl shadow-red-800').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret(`
+    shadow-2xl 
+    shadow-red-800
+    shadow-red-800/50
+    `).styleSheet.build()).toMatchSnapshot('css');
   });
 
   it('caret color', () => {

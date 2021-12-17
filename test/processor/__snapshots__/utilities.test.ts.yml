@@ -1058,14 +1058,19 @@ Tools / scroll-behavior / css / 0: |-
     scroll-behavior: smooth;
   }
 Tools / shadow color / css / 0: |-
-  .shadow-2xl {
-    --tw-shadow-color: 0, 0, 0;
-    --tw-shadow: 0 25px 50px -12px rgba(var(--tw-shadow-color), 0.25);
-    -webkit-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  }
   .shadow-red-800 {
-    --tw-shadow-color: 153, 27, 27;
+    --tw-shadow-color: rgba(153, 27, 27, 1);
+    --tw-shadow: var(--tw-shadow-colored);
+  }
+  .shadow-red-800\/50 {
+    --tw-shadow-color: rgba(153, 27, 27, 0.5);
+    --tw-shadow: var(--tw-shadow-colored);
+  }
+  .shadow-2xl {
+    --tw-shadow: 0 25px 50px -12px rgb(0 0 0/0.25);
+    --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
   }
 Tools / stroke svg / css / 0: |-
   .stroke-gray-200 {

@@ -1200,24 +1200,17 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/effects.html#box-shadow
 function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
-  const body = utility.body || 'DEFAULT';
-  const shadows = toType(theme('boxShadow'), 'object') as { [key: string]: string };
-  if (Object.keys(shadows).includes(body)) {
-    const shadow = shadows[body].replace(/rgba\s*\(\s*0\s*,\s*0\s*,\s*0/g, 'rgba(var(--tw-shadow-color)');
-    return new Style(utility.class, [
-      new Property('--tw-shadow-color', '0, 0, 0'),
-      new Property('--tw-shadow', shadow),
-      new Property(['-webkit-box-shadow', 'box-shadow'], 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)'),
-    ]).updateMeta('utilities', 'boxShadow', pluginOrder.boxShadow, 0, true);
-  }
-  // handle shadowColor
-  return utility.handler
+  const color = utility.handler
     .handleColor(theme('boxShadowColor'))
     .handleOpacity(theme('opacity'))
     .handleSquareBrackets()
     .handleVariable()
-    .createColorStyle(utility.class, '--tw-shadow-color', undefined, false)
-    ?.updateMeta('utilities', 'boxShadowColor', pluginOrder.boxShadowColor, 0, true);
+    .createColorValue('1');
+
+  return new Style(utility.class, [
+    new Property('--tw-shadow-color', color),
+    new Property('--tw-shadow', 'var(--tw-shadow-colored)'),
+  ]).updateMeta('utilities', 'boxShadow', pluginOrder.boxShadow, 0, true);
 }
 
 // https://windicss.org/utilities/effects.html#opacity
