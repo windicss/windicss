@@ -7,16 +7,16 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.2.26"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.2.2",
-    "@vue/compiler-sfc": "^3.0.5",
-    "typescript": "^4.1.3",
-    "vite": "^2.3.4",
-    "vite-plugin-md": "^0.6.7",
-    "vite-plugin-windicss": "^0.16.7",
-    "vue-tsc": "^0.0.24",
+    "@vitejs/plugin-vue": "^2.0.1",
+    "@vue/compiler-sfc": "^3.2.26",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.3",
+    "vite-plugin-md": "^0.11.6",
+    "vite-plugin-windicss": "^1.5.4",
+    "vue-tsc": "^0.29.8",
     "windicss": "file:../../../dist"
   }
 }
