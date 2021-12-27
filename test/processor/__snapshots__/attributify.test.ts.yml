@@ -881,15 +881,15 @@ Tools / with box utility / css / 0: |-
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
   }
-  [box~="shadow-gray-200"] {
-    --tw-shadow-color: rgba(229, 231, 235, 1);
-    --tw-shadow: var(--tw-shadow-colored);
-  }
   [box~="shadow"] {
     --tw-shadow: 0 1px 3px 0 rgb(0 0 0/0.1),0 1px 2px -1px rgb(0 0 0/0.1);
     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);
     -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  }
+  [box~="shadow-gray-200"] {
+    --tw-shadow-color: rgba(229, 231, 235, 1);
+    --tw-shadow: var(--tw-shadow-colored);
   }
 Tools / with caret utility / css / 0: |-
   [caret~="black"] {
@@ -2096,19 +2096,15 @@ Tools / with ring utility / css / 0: |-
     --tw-ring-opacity: 0.5;
   }
 Tools / with shadow utility / css / 0: |-
-  [shadow~="gray-400"] {
-    --tw-shadow-color: rgba(156, 163, 175, 1);
-    --tw-shadow: var(--tw-shadow-colored);
+  [shadow~="default"] {
+    --tw-shadow: 0 1px 3px 0 rgb(0 0 0/0.1),0 1px 2px -1px rgb(0 0 0/0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);
+    -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
   }
   [shadow~="sm"] {
     --tw-shadow: 0 1px 2px 0 rgb(0 0 0/0.05);
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-    -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
-    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
-  }
-  [shadow~="default"] {
-    --tw-shadow: 0 1px 3px 0 rgb(0 0 0/0.1),0 1px 2px -1px rgb(0 0 0/0.1);
-    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);
     -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
   }
@@ -2129,6 +2125,10 @@ Tools / with shadow utility / css / 0: |-
     --tw-shadow-colored: 0 0 #0000;
     -webkit-box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
     box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+  }
+  [shadow~="gray-400"] {
+    --tw-shadow-color: rgba(156, 163, 175, 1);
+    --tw-shadow: var(--tw-shadow-colored);
   }
 Tools / with svg utility / css / 0: |-
   [svg~="fill-current"] {

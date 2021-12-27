@@ -171,9 +171,9 @@ describe('Utilities', () => {
     expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('shadow color', () => {
+  it('box shadows & box shadow color', () => {
     expect(processor.interpret(`
-    shadow-2xl 
+    shadow-2xl
     shadow-red-800
     shadow-red-800/50
     `).styleSheet.build()).toMatchSnapshot('css');
