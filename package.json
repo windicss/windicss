@@ -1,0 +1,15 @@
+{
+	"dependencies": {
+		"@unocss/core": "0.18.1",
+		"@unocss/preset-mini": "0.18.1"
+	},
+	"devDependencies": {
+		"typescript": "4.5.4",
+		"vite": "2.7.7",
+		"vitest": "0.0.115"
+	},
+	"scripts": {
+		"test": "vitest",
+		"coverage": "vitest --coverage"
+	}
+}
