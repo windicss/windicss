@@ -87,10 +87,6 @@ Tools / all tags / tags / 0: |-
     background-color: transparent;
     background-image: none;
   }
-  button:focus {
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-  }
   button, [role="button"] {
     cursor: pointer;
   }
