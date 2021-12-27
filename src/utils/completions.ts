@@ -508,14 +508,7 @@ const utilities: { [key:string]: string[]} = {
     'scroll-smooth',
   ],
   shadow: [
-    'shadow',
-    'shadow-sm',
-    'shadow-md',
-    'shadow-lg',
-    'shadow-xl',
-    'shadow-2xl',
-    'shadow-inner',
-    'shadow-none',
+    'shadow-${static}',
   ],
 };
 
