@@ -424,17 +424,6 @@ Add the correct display in Chrome and Safari.
  */
 
   {
-    keys: ['button'],
-    selector: 'button:focus',
-    properties: {
-      'outline': [
-        '1px dotted',
-        '5px auto -webkit-focus-ring-color',
-      ],
-    },
-  },
-
-  {
     keys: ['fieldset'],
     properties: {
       'margin': '0',
