@@ -60,6 +60,7 @@ export function generateStates (
     'first-letter': () => new Style().pseudoElement('first-letter'),
     'first-line': () => new Style().pseudoElement('first-line'),
     'file-selector-button': () => new Style().pseudoElement('file-selector-button'),
+    file: () => new Style().pseudoElement('file-selector-button'),
     selection: () => new Style().pseudoElement('selection'),
 
     svg: () => new Style().child('svg'),
