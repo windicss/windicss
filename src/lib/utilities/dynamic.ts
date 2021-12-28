@@ -1575,9 +1575,8 @@ function accent(utility:Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .createColorValue('1');
 
-  return new Style(utility.class, [
-    new Property('accent-color', color),
-  ]).updateMeta('utilities', 'accentColor', pluginOrder.accentColor, 0, true);
+  return new Style(utility.class, new Property('accent-color', color))
+    .updateMeta('utilities', 'accentColor', pluginOrder.accentColor, 0, true);
 }
 
 export const dynamicUtilities: DynamicUtility = {
