@@ -62,6 +62,7 @@ export function generateStates (
     'file-selector-button': () => new Style().pseudoElement('file-selector-button'),
     file: () => new Style().pseudoElement('file-selector-button'),
     selection: () => new Style().pseudoElement('selection'),
+    marker: () => new Style().wrapSelector(selector => `${selector} *::marker, ${selector}::marker`),
 
     svg: () => new Style().child('svg'),
     all: () => new Style().child('*'),

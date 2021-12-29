@@ -29,7 +29,7 @@ describe('Resolve Tests', () => {
       'even-of-type',      'odd-of-type',      'root',
       'empty',             'before',           'after',
       'first-letter',      'first-line',       'file-selector-button',
-      'file',              'selection',        'svg',
+      'file',              'selection',        'marker',           'svg',
       'all',               'children',         'siblings',
       'sibling',           'ltr',              'rtl',
       'group-hover',       'group-focus',      'group-active',

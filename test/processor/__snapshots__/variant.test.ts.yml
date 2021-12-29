@@ -86,6 +86,7 @@ Tools / generate states / all / 0: |-
     "file-selector-button": ".test::file-selector-button {\n  background: #1C1C1E;\n}",
     "file": ".test::file-selector-button {\n  background: #1C1C1E;\n}",
     "selection": ".test::selection {\n  background: #1C1C1E;\n}",
+    "marker": ".test *::marker, .test::marker {\n  background: #1C1C1E;\n}",
     "svg": ".test svg {\n  background: #1C1C1E;\n}",
     "all": ".test * {\n  background: #1C1C1E;\n}",
     "children": ".test > * {\n  background: #1C1C1E;\n}",
