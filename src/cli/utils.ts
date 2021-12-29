@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import glob from 'glob';
+import fg from 'fast-glob';
 import minimatch from 'minimatch';
 
-export function globArray(patterns: string[], options?: glob.IOptions): string[] {
+export function globArray(patterns: string[], options?: fg.Options): string[] {
   const list: string[] = [];
 
   patterns.forEach(pattern => {
@@ -18,7 +18,7 @@ export function globArray(patterns: string[], options?: glob.IOptions): string[]
 
     }
     else {
-      const newList = glob.sync(pattern, options);
+      const newList = fg.sync(pattern, options);
       newList.forEach(item => {
         if (list.indexOf(item)===-1) {
           list.push(item);

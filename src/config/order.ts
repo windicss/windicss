@@ -44,6 +44,7 @@ export const variantOrder = [
   'first-letter',
   'first-line',
   'file-selector-button',
+  'file',
   'selection',
   'marker',
   'svg',
@@ -243,4 +244,5 @@ export enum pluginOrder {
   'willChange' = 14200,
   'touchAction' = 14300,
   'scrollBehavior' = 14400,
+  'accentColor' = 14500,
 }

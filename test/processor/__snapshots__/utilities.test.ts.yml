@@ -1,3 +1,16 @@
+Tools / accent-color / css / 0: |-
+  .accent-green-500\/50 {
+    accent-color: rgba(16, 185, 129, 0.5);
+  }
+  .accent-red-500\/50 {
+    accent-color: rgba(239, 68, 68, 0.5);
+  }
+  .accent-green-500 {
+    accent-color: rgba(16, 185, 129, 1);
+  }
+  .accent-red-500 {
+    accent-color: rgba(239, 68, 68, 1);
+  }
 Tools / animation / animation / 0: |-
   @keyframes spin {
     from {

@@ -173,7 +173,8 @@ Tools / get corePlugins / list / 0: |-
     "backdropSepia",
     "willChange",
     "touchAction",
-    "scrollBehavior"
+    "scrollBehavior",
+    "accentColor"
   ]
 Tools / get corePlugins / list2 / 1: |-
   [
@@ -353,7 +354,8 @@ Tools / get corePlugins / list3 / 2: |-
     "backdropSepia",
     "willChange",
     "touchAction",
-    "scrollBehavior"
+    "scrollBehavior",
+    "accentColor"
   ]
 Tools / resolve dynamic utilities / with-plugins / 1: |-
   [
@@ -440,6 +442,7 @@ Tools / resolve dynamic utilities / with-plugins / 1: |-
     "delay",
     "content",
     "animate",
+    "accent",
     "filter",
     "aspect-w",
     "aspect-h",
@@ -531,5 +534,6 @@ Tools / resolve dynamic utilities / without-plugins / 0: |-
     "duration",
     "delay",
     "content",
-    "animate"
+    "animate",
+    "accent"
   ]

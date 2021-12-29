@@ -436,4 +436,13 @@ describe('Utilities', () => {
     basis-1/2
     `).styleSheet.build()).toMatchSnapshot('css');
   });
+
+  it('accent-color', () => {
+    expect(processor.interpret(`
+    accent-green-500/50
+    accent-red-500/50
+    accent-green-500
+    accent-red-500
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
 });

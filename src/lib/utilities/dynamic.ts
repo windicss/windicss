@@ -1566,6 +1566,19 @@ function content(utility: Utility, { theme }: PluginUtils): Output {
     ?.updateMeta('utilities', 'content', pluginOrder.content, 1, true);
 }
 
+// https://windicss.org/utilities/behaviors.html#accent-color
+function accent(utility:Utility, { theme }: PluginUtils): Output {
+  const color = utility.handler
+    .handleColor(theme('boxShadowColor'))
+    .handleOpacity(theme('opacity'))
+    .handleSquareBrackets()
+    .handleVariable()
+    .createColorValue('1');
+
+  return new Style(utility.class, new Property('accent-color', color))
+    .updateMeta('utilities', 'accentColor', pluginOrder.accentColor, 0, true);
+}
+
 export const dynamicUtilities: DynamicUtility = {
   columns: columns,
   container: container,
@@ -1650,4 +1663,5 @@ export const dynamicUtilities: DynamicUtility = {
   delay: delay,
   content: content,
   animate: animation,
+  accent: accent,
 };
