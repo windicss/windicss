@@ -44,6 +44,7 @@ export const variantOrder = [
   'first-letter',
   'first-line',
   'file-selector-button',
+  'file',
   'selection',
   'svg',
   'all',
