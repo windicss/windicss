@@ -13,6 +13,7 @@ const preset = (options: {}): Preset<Theme> => ({
 
 export class Processor {
   UNO: UnoGenerator;
+  CSSPARSER: any;
 
   constructor() {
     this.UNO = createGenerator({}, {
@@ -21,7 +22,16 @@ export class Processor {
   }
 
   public interpret(classNames: string) {
-    return this.UNO.generate(classNames, {})
+    
+    // takes classNames and uses UNO to generates CSS
+    const generatedCSS = this.UNO.generate(classNames);
+
+    // uses windi CSSParser to parse the generated CSS into windi StyleSheet
+    const parsedCSS = this.CSSPARSER.parse(generatedCSS);
+
+    // returns windi StyleSheet
+    //return parsedCSS;
+    return undefined
   }
 }
 
