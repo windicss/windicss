@@ -268,6 +268,7 @@ describe('Attributify Mode', () => {
         '1', 'auto', 'initial', 'none', // flex
         'grow', 'grow-0', // flex-grow
         'shrink', 'shrink-0', // flex-shrink
+        'gap-2', 'gap-x-4', 'gap-y-2', // gap/column-gap/row-gap
       ],
     });
     expect(result.ignored.length).toEqual(0);

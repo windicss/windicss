@@ -756,6 +756,8 @@ export class Processor {
           case 'flex-inline':
             utility = 'inline-flex';
             break;
+          default:
+            if (/^flex-gap-/.test(utility)) utility = utility.slice(5);
           }
           break;
         case 'grid':
