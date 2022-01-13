@@ -79,8 +79,8 @@ Tools / generate states / all / 0: |-
     "odd-of-type": ".test:nth-of-type(odd) {\n  background: #1C1C1E;\n}",
     "root": ".test:root {\n  background: #1C1C1E;\n}",
     "empty": ".test:empty {\n  background: #1C1C1E;\n}",
-    "before": ".test::before {\n  background: #1C1C1E;\n}",
-    "after": ".test::after {\n  background: #1C1C1E;\n}",
+    "before": ".test::before {\n  content: \"\";\n  background: #1C1C1E;\n}",
+    "after": ".test::after {\n  content: \"\";\n  background: #1C1C1E;\n}",
     "first-letter": ".test::first-letter {\n  background: #1C1C1E;\n}",
     "first-line": ".test::first-line {\n  background: #1C1C1E;\n}",
     "file-selector-button": ".test::file-selector-button {\n  background: #1C1C1E;\n}",
@@ -105,7 +105,7 @@ Tools / generate states / some / 1: |-
   {
     "focus": ".test:focus {\n  background: #1C1C1E;\n}",
     "hover": ".test:hover {\n  background: #1C1C1E;\n}",
-    "before": ".test::before {\n  background: #1C1C1E;\n}",
+    "before": ".test::before {\n  content: \"\";\n  background: #1C1C1E;\n}",
     "svg": ".test svg {\n  background: #1C1C1E;\n}",
     "group-hover": ".group:hover .test {\n  background: #1C1C1E;\n}",
     "motion-safe": "@media (prefers-reduced-motion: no-preference) {\n  .test {\n    background: #1C1C1E;\n  }\n}"

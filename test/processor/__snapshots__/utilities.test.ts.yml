@@ -866,12 +866,14 @@ Tools / content utilities / css / 0: |-
     content: "👍";
   }
   .before\:content-\[\"👍\"\]::before {
+    content: "";
     content: "👍";
   }
   .content-open-quote {
     content: open-quote;
   }
   .after\:content-\[attr\(value\)\]::after {
+    content: "";
     content: attr(value);
   }
 Tools / content utilities false / css / 0: ''

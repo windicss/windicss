@@ -1,4 +1,5 @@
-import { Style } from '../../utils/style';
+import { Property, Style } from '../../utils/style';
+import { pluginOrder } from '../../config/order';
 /*
  * See MDN web docs for more information
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
@@ -55,8 +56,8 @@ export function generateStates (
     empty: () => new Style().pseudoClass('empty'),
 
     // Pseudo elements
-    before: () => new Style().pseudoElement('before'),
-    after: () => new Style().pseudoElement('after'),
+    before: () => new Style().pseudoElement('before').add(new Property('content', '""')),
+    after: () => new Style().pseudoElement('after').add(new Property('content', '""')),
     'first-letter': () => new Style().pseudoElement('first-letter'),
     'first-line': () => new Style().pseudoElement('first-line'),
     'file-selector-button': () => new Style().pseudoElement('file-selector-button'),
