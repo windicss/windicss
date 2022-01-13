@@ -1,5 +1,5 @@
 import { Property, Style } from '../../utils/style';
-import { pluginOrder } from '../../config/order';
+
 /*
  * See MDN web docs for more information
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
