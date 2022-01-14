@@ -51,13 +51,11 @@ describe('ClassParser', () => {
   });
 
   it('parse function with parameter deconstruction', () => {
-    const badClasses = 'function ComponentA({ name }: Props) { return div className= grid }';
-    const goodClasses = '{ return div className= grid }';
-    const badResult = new ClassParser(badClasses, ':', []).parse();
-    const goodResult = new ClassParser(goodClasses, ':', []).parse();
+    const classes = 'function ComponentA({ name } Props) { return div className= grid }';
+    const result = new ClassParser(classes, ':', []).parse();
 
     const findGrid = (els: any[]) => els.find(item => item.raw === 'grid');
-    expect(findGrid(badResult)).toBeTruthy();
-    expect(findGrid(goodResult)).toBeTruthy();
+    expect(findGrid(result)).toBeTruthy();
+    expect(result).toMatchSnapshot('jsx function component');
   });
 });
