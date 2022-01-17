@@ -324,7 +324,13 @@ export function splitSelectors(selectors: string): string[] {
 }
 
 export function guessClassName(selector: string): { selector: string, isClass: boolean, pseudo?: string } | { selector: string, isClass: boolean, pseudo?: string }[] {
-  if (selector.indexOf(',') >= 0) return splitSelectors(selector).map(i => guessClassName(i) as { selector: string, isClass: boolean });
+  if (selector.indexOf(',') >= 0) {
+    const splittedSelectors = splitSelectors(selector);
+    if (splittedSelectors.length !== 1)
+      return splittedSelectors.map(
+        (i) => guessClassName(i) as { selector: string; isClass: boolean }
+      );
+  }
   // not classes, contains attribute selectors, nested selectors - treat as static
   if (selector.charAt(0) !== '.' || searchNotEscape(selector, ['[', '>', '+', '~']) >= 0 || selector.trim().indexOf(' ') >= 0 || searchNotEscape(selector.slice(1), '.') >=0)
     return { selector, isClass: false };
