@@ -104,6 +104,12 @@ export class Processor {
     this._handler = createHandler(this._config.handlers);
     this._config.shortcuts && this.loadShortcuts(this._config.shortcuts);
     this._config.alias && this.loadAlias(this._config.alias);
+
+    if (this._config.preflight && this._config.preflight.safelist) {
+      if (typeof this._config.preflight.safelist === 'string') {
+        this._config.preflight.safelist = this._config.preflight.safelist.split(/\s+/);
+      }
+    }
   }
 
   private _resolveConfig(userConfig: Config, presets: Config = {}) {
