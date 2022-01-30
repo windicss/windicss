@@ -18,6 +18,7 @@ export type UtilityNames =
   | 'align'
   | 'justify'
   | 'items'
+  | 'block'
   | 'content'
   | 'pos'
   | 'box'
