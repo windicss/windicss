@@ -4,7 +4,7 @@ import { Style } from '../../utils/style';
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
  */
 
-export function generateStates (
+export function generateStates(
   variantOrder: string[]
 ): { [key: string]: () => Style } {
   const states: { [key: string]: () => Style } = {
@@ -61,7 +61,7 @@ export function generateStates (
     'first-line': () => new Style().pseudoElement('first-line'),
     'file-selector-button': () => new Style().pseudoElement('file-selector-button'),
     file: () => new Style().pseudoElement('file-selector-button'),
-    selection: () => new Style().pseudoElement('selection'),
+    selection: () => new Style().wrapSelector(selector => `${selector} *::selection, ${selector}::selection`),
     marker: () => new Style().wrapSelector(selector => `${selector} *::marker, ${selector}::marker`),
 
     svg: () => new Style().child('svg'),
