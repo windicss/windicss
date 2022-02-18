@@ -507,6 +507,99 @@ Tools / parse bad class with quotes / bad classes / 0: |-
       "important": false
     }
   ]
+Tools / parse function with parameter deconstruction / jsx function component / 0: |-
+  [
+    {
+      "raw": "function",
+      "start": 0,
+      "end": 8,
+      "variants": [],
+      "content": "function",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "ComponentA({",
+      "start": 9,
+      "end": 21,
+      "variants": [],
+      "content": "ComponentA({",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "name",
+      "start": 22,
+      "end": 26,
+      "variants": [],
+      "content": "name",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "}",
+      "start": 27,
+      "end": 28,
+      "variants": [],
+      "content": "}",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "Props",
+      "start": 29,
+      "end": 34,
+      "variants": [],
+      "content": "Props",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "{",
+      "start": 36,
+      "end": 37,
+      "variants": [],
+      "content": "{",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "return",
+      "start": 38,
+      "end": 44,
+      "variants": [],
+      "content": "return",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "div",
+      "start": 45,
+      "end": 48,
+      "variants": [],
+      "content": "div",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "className=",
+      "start": 49,
+      "end": 59,
+      "variants": [],
+      "content": "className=",
+      "type": "utility",
+      "important": false
+    },
+    {
+      "raw": "grid",
+      "start": 60,
+      "end": 64,
+      "variants": [],
+      "content": "grid",
+      "type": "utility",
+      "important": false
+    }
+  ]
 Tools / parse important / parse important / 0: |-
   [
     {

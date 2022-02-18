@@ -49,4 +49,13 @@ describe('ClassParser', () => {
     const parser = new ClassParser(classes, ':', []);
     expect(parser.parse()).toMatchSnapshot('bad half bracket');
   });
+
+  it('parse function with parameter deconstruction', () => {
+    const classes = 'function ComponentA({ name } Props) { return div className= grid }';
+    const result = new ClassParser(classes, ':', []).parse();
+
+    const findGrid = (els: any[]) => els.find(item => item.raw === 'grid');
+    expect(findGrid(result)).toBeTruthy();
+    expect(result).toMatchSnapshot('jsx function component');
+  });
 });
