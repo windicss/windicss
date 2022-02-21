@@ -34,7 +34,7 @@ export const staticUtilities: StaticUtility = {
   },
 
   // https://windicss.org/utilities/flexbox.html#flex-basis
-  'basis-auto' : {
+  'basis-auto': {
     'utility': {
       'flex-basis': 'auto',
     },
@@ -43,7 +43,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'basis-full' : {
+  'basis-full': {
     'utility': {
       'flex-basis': '100%',
     },

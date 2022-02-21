@@ -1249,11 +1249,11 @@ export const baseConfig: Config = {
     }),
   ],
   handlers: {
-    static : true,
+    static: true,
     time: true,
     color: true,
     opacity: true,
-    number : true,
+    number: true,
     string: true,
     bracket: true,
     hex: true,
