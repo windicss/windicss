@@ -1458,43 +1458,35 @@ function cursor(utility: Utility, { theme }: PluginUtils): Output {
   if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta('utilities', 'cursor', pluginOrder.cursor, 1, true);
 }
 
-// https://windicss.org/utilities/behaviors.html#outline
+// https://windicss.org/utilities/borders/outline.html
 function outline(utility: Utility, { theme }: PluginUtils): Output {
-  const amount = utility.amount;
-  const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
-  if (Object.keys(staticMap).includes(amount))
-    return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
-
-  if (utility.raw.startsWith('outline-opacity')) {
+  if (utility.raw.startsWith('outline-offset')) {
     return utility.handler
-      .handleStatic(theme('opacity'))
-      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleStatic(theme('outlineOffset'))
+      .handleNumber(0, undefined, 'int')
       .handleVariable()
-      .createProperty('--tw-outline-opacity')
-      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 4, true);
+      .handleSquareBrackets()
+      .createProperty('offset-outline')
+      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 0, true);
   }
 
-  if (utility.raw.match(/^outline-(solid|dotted)/)) {
-    const newUtility = utility.clone(utility.raw.replace('outline-', ''));
-    const outlineColor = newUtility.handler
-      .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
-      .handleColor()
-      .handleOpacity(theme('opacity'))
-      .handleVariable()
-      .createColorValue('var(--tw-outline-opacity, 1)');
+  const outlineColor = utility.handler
+    .handleColor(theme('outlineColor'))
+    .handleOpacity(theme('opacity'))
+    .handleSquareBrackets(notNumberLead)
+    .handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined)
+    .createColorStyle(utility.class, 'outline-color',)
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
 
-    if (outlineColor) return new Style(utility.class, [
-      new Property('outline', `2px ${newUtility.identifier} ${outlineColor}`),
-      new Property('outline-offset', '2px') ]
-    ).updateMeta('utilities', 'outline', pluginOrder.outline, 3, true);
-  }
+  if (outlineColor) return outlineColor;
 
-  const handler = utility.handler.handleColor().handleOpacity(theme('opacity')).handleSquareBrackets().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
-  const color = handler.createColorValue();
-  if (color) return new Style(utility.class, [
-    new Property('outline', `2px ${ handler.value === 'transparent' ? 'solid' : 'dotted'} ${color}`),
-    new Property('outline-offset', '2px'),
-  ])?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
+  return utility.handler
+    .handleStatic(theme('outlineWidth'))
+    .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
+    .handleSquareBrackets()
+    .handleVariable()
+    .createProperty('outline-width')
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
 }
 
 // https://windicss.org/utilities/svg.html#fill-color
