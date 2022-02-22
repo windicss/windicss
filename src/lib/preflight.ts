@@ -13,6 +13,7 @@ export default function preflight(
   // Generate preflight style based on html tags.
   const globalSheet = new StyleSheet();
   const styleSheet = new StyleSheet();
+  const pluginSheet = new StyleSheet();
 
   const createStyle = (
     selector: string | undefined,
@@ -58,16 +59,16 @@ export default function preflight(
     Object.values(processor._plugin.preflights).forEach((styles) => {
       preflightList = preflightList.concat(styles);
     });
-    styleSheet.add(preflightList);
+    pluginSheet.add(preflightList);
 
     // always generated styles
     let staticList: Style[] = [];
     Object.values(processor._plugin.static).forEach((styles) => {
       staticList = staticList.concat(styles);
     });
-    styleSheet.add(staticList);
+    pluginSheet.add(staticList);
   }
 
-  const result = styleSheet.combine().sort();
+  const result = styleSheet.combine().sort().extend(pluginSheet.combine().sort());
   return includeGlobal ? result.extend(globalSheet.combine().sort(), false) : result;
 }
