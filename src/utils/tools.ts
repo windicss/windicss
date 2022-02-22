@@ -85,7 +85,7 @@ export function isFraction(amount: string): boolean {
 }
 
 export function isSize(amount: string): boolean {
-  return /^-?(\d+(\.\d+)?)+(rem|em|px|rpx|vh|vw|ch|ex)$/.test(amount);
+  return /^-?(\d+(\.\d+)?)+(rem|em|px|rpx|vh|vw|ch|ex|cm|mm|in|pt|pc)$/.test(amount);
 }
 
 export function isSpace(str: string): boolean {
