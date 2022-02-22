@@ -17,6 +17,8 @@ export type UtilityNames =
   | 'transform'
   | 'align'
   | 'justify'
+  | 'items'
+  | 'block'
   | 'content'
   | 'pos'
   | 'box'
