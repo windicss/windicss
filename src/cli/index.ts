@@ -214,7 +214,7 @@ function attributify(files: string[]) {
 function styleBlock(files: string[]) {
   files.forEach((file) => {
     const content = readFileSync(file).toString();
-    const block = content.match(/(?<=<style lang=['"]windi["']>)[\s\S]*(?=<\/style>)/);
+    const block = content.match(/(?<=<style[\r\n]*\s*lang\s?=\s?['"]windi["']>)[\s\S]*(?=<\/style>)/);
     if (block && block.index) {
       const css = content.slice(block.index, block.index + block[0].length);
       const parser = new CSSParser(css, processor);
