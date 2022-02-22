@@ -33,7 +33,8 @@ export default function preflight(
     return style;
   };
 
-  const tags = html ? Array.from(new Set(html.match(/<\w+/g))).map((i) => i.substring(1)) : undefined;
+  const safelist = processor.config('preflight.safelist', []) as string[];
+  const tags = html ? safelist.concat(Array.from(new Set(html.match(/<\w+/g))).map((i) => i.substring(1))) : undefined;
 
   // handle base style
   includeBase && (processor.config('prefixer') ? baseUtilities : baseUtilities.filter(i => !i.selector || !/::?(webkit-input|-moz|-ms-input)-placeholder$/.test(i.selector))).forEach(p => {
