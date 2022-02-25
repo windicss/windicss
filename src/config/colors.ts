@@ -118,7 +118,7 @@ const gray = {
 
 let warned = false;
 
-function color_warn({ from, to }) {
+function color_warn({ from: string, to: string }) {
   if (!warned) {
     Console.log(`warn - '${from}' has been renamed to '${to}'.`);
     Console.log('warn - Please update your color palette to eliminate this warning.');
