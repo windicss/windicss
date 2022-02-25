@@ -13,23 +13,23 @@ export function hsl2rgb(h: number, s: number, l: number): [number, number, numbe
   let b = 0;
 
   if (0 <= h && h < 60) {
-    r = c; g = x; b = 0;
+    r = c + m; g = x + m; b = m;
   } else if (60 <= h && h < 120) {
-    r = x; g = c; b = 0;
+    r = x + m; g = c + m; b = m;
   } else if (120 <= h && h < 180) {
-    r = 0; g = c; b = x;
+    r = m; g = c + m; b = x + m;
   } else if (180 <= h && h < 240) {
-    r = 0; g = x; b = c;
+    r = m; g = x + m; b = c + m;
   } else if (240 <= h && h < 300) {
-    r = x; g = 0; b = c;
+    r = x + m; g = m; b = c + m;
   } else if (300 <= h && h < 360) {
-    r = c; g = 0; b = x;
+    r = c + m; g = m; b = x + m;
   }
 
   return [
-    Math.round((r + m) * 255),
-    Math.round((g + m) * 255),
-    Math.round((b + m) * 255),
+    Math.round(r * 255),
+    Math.round(g * 255),
+    Math.round(b * 255),
   ];
 }
 
