@@ -25,21 +25,21 @@ export function hsl2rgb(h: number, s: number, l: number): [number, number, numbe
   } else if (300 <= h && h < 360) {
     r = c; g = 0; b = x;
   }
-  
+
   return [
     Math.round((r + m) * 255),
     Math.round((g + m) * 255),
-    Math.round((b + m) * 255)
+    Math.round((b + m) * 255),
   ];
 }
 
 export function hwb2rgb(h: number, w: number, b: number): [number, number, number] {
   const rgb = hsl2rgb(h, 100, 50);
-  
+
   return [
     Math.round((((rgb[0] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
     Math.round((((rgb[1] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
-    Math.round((((rgb[2] / 255) * (1 - w/100 - b/100)) + w/100) * 255)
+    Math.round((((rgb[2] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
   ];
 }
 
