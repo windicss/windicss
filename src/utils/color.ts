@@ -67,6 +67,7 @@ export function toRGBA(color: string): Color | undefined {
 
 export function toRGB(color: string): number[] | undefined {
   const rgba = toRGBA(color);
+  if (!rgba) return;
   rgba.pop();
   return rgba;
 }
