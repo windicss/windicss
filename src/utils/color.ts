@@ -36,11 +36,16 @@ export function hsl2rgb(h: number, s: number, l: number): [number, number, numbe
 export function hwb2rgb(h: number, w: number, b: number): [number, number, number] {
   const rgb = hsl2rgb(h, 100, 50);
 
-  return [
-    Math.round((((rgb[0] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
-    Math.round((((rgb[1] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
-    Math.round((((rgb[2] / 255) * (1 - w/100 - b/100)) + w/100) * 255),
-  ];
+  for (let i = 0; i < 3; ++i) {
+    let c = rgb[i] / 255;
+
+    c *= 1 - w/100 - b/100;
+    c += w/100;
+
+    rgb[i] = Math.round(c * 255);
+  }
+
+  return rgb;
 }
 
 export function toRGBA(color: string): Color | undefined {
