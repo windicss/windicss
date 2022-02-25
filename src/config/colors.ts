@@ -118,7 +118,7 @@ const gray = {
 
 let warned = false;
 
-function color_warn({ from: string, to: string }) {
+function color_warn(from: string, to: string) {
   if (!warned) {
     Console.log(`warn - '${from}' has been renamed to '${to}'.`);
     Console.log('warn - Please update your color palette to eliminate this warning.');
@@ -215,7 +215,7 @@ export const colors: DefaultColors =  {
   },
   sky,
   get lightBlue() {
-    color_warn({ from: 'lightBlue', to: 'sky' });
+    color_warn('lightBlue', 'sky');
     return sky;
   },
   cyan: {
@@ -327,26 +327,26 @@ export const colors: DefaultColors =  {
     900: '#7f1d1d',
   },
   get warmGray() {
-    color_warn({ from: 'warmGray', to: 'stone' });
+    color_warn('warmGray', 'stone');
     return stone;
   },
   get trueGray() {
-    color_warn({ from: 'trueGray', to: 'neutral' });
+    color_warn('trueGray', 'neutral');
     return neutral;
   },
   gray,
   get coolGray() {
-    color_warn({ from: 'coolGray', to: 'gray' });
+    color_warn('coolGray', 'gray');
     return gray;
   },
   get blueGray() {
-    color_warn({ from: 'blueGray', to: 'slate' });
+    color_warn('blueGray', 'slate');
     return slate;
   },
   slate,
   zinc,
   get zink() {
-    color_warn({ from: 'zink', to: 'zinc' });
+    color_warn('zink', 'zinc');
     return zinc;
   },
   neutral,
