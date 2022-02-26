@@ -1,6 +1,6 @@
 import type { Processor } from '../lib';
 import { flatColors } from './tools';
-const utilities: { [key:string]: string[]} = {
+const utilities: { [key: string]: string[] } = {
   // Layout
   columns: [
     'columns-${static}',
@@ -422,11 +422,7 @@ const utilities: { [key:string]: string[]} = {
   // Interactivity
   outline: [
     'outline-${static}',
-  ],
-  outlineColor: [
     'outline-${color}',
-    'outline-solid-${color}',
-    'outline-dotted-${color}',
   ],
   // SVG
   fill: [
@@ -512,7 +508,7 @@ const utilities: { [key:string]: string[]} = {
   ],
 };
 
-const negative: { [key:string]: true} = {
+const negative: { [key: string]: true } = {
   inset: true,
   zIndex: true,
   order: true,
@@ -524,22 +520,22 @@ const negative: { [key:string]: true} = {
   skew: true,
 };
 
-export function generateCompletions(processor: Processor): { static: string[], color: string[], dynamic: string[]} {
-  const completions : {
+export function generateCompletions(processor: Processor): { static: string[], color: string[], dynamic: string[] } {
+  const completions: {
     static: string[],
     color: string[],
     dynamic: string[]
   } = { static: [], color: [], dynamic: [] };
-  const colors = flatColors(processor.theme('colors') as {[key:string]:string|{[key:string]:string}});
+  const colors = flatColors(processor.theme('colors') as { [key: string]: string | { [key: string]: string } });
   for (const [config, list] of Object.entries(utilities)) {
     list.forEach(utility => {
       const mark = utility.search(/\$/);
       if (mark === -1) {
         completions.static.push(utility);
       } else {
-        const prefix = utility.slice(0, mark-1);
+        const prefix = utility.slice(0, mark - 1);
         const suffix = utility.slice(mark);
-        switch(suffix) {
+        switch (suffix) {
         case '${static}':
           completions.static = completions.static.concat(Object.keys(processor.theme(config, {}) as any).map(i => i === 'DEFAULT' ? prefix : i.charAt(0) === '-' ? `-${prefix}${i}` : `${prefix}-${i}`));
           break;

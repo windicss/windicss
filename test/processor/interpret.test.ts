@@ -118,13 +118,6 @@ describe('Interpretation Mode', () => {
     expect(result.styleSheet.build()).toMatchSnapshot('screen variants');
   });
 
-  // #222
-  it('interpret outline', () => {
-    const result = processor.interpret('outline-black outline-none outline-solid-black outline-dotted-white outline-solid-red-200 outline-dotted-red-200');
-    expect(result.ignored.length).toEqual(0);
-    expect(result.styleSheet.build()).toMatchSnapshot('outline');
-  });
-
   // #234
   it('interpret constructor', () => {
     const result = processor.interpret('constructor');

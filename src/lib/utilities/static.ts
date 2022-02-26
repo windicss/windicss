@@ -34,7 +34,7 @@ export const staticUtilities: StaticUtility = {
   },
 
   // https://windicss.org/utilities/flexbox.html#flex-basis
-  'basis-auto' : {
+  'basis-auto': {
     'utility': {
       'flex-basis': 'auto',
     },
@@ -43,7 +43,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'basis-full' : {
+  'basis-full': {
     'utility': {
       'flex-basis': '100%',
     },
@@ -3485,6 +3485,63 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'scrollBehavior',
       'order': 2,
+    },
+  },
+
+  // https://windicss.org/utilities/borders/outline.html
+  'outline-none': {
+    'utility': {
+      'outline': '2px solid transparent',
+      'outline-offset': '2px',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 1,
+    },
+  },
+  'outline': {
+    'utility': {
+      'outline-style': 'solid',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 2,
+    },
+  },
+  'outline-dashed': {
+    'utility': {
+      'outline-style': 'dashed',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 3,
+    },
+  },
+  'outline-dotted': {
+    'utility': {
+      'outline-style': 'dotted',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 4,
+    },
+  },
+  'outline-double': {
+    'utility': {
+      'outline-style': 'double',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 5,
+    },
+  },
+  'outline-hidden': {
+    'utility': {
+      'outline-style': 'hidden',
+    },
+    'meta': {
+      'group': 'outline',
+      'order': 6,
     },
   },
 };

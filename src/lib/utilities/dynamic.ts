@@ -12,11 +12,11 @@ import {
 
 import type { PluginUtils, FontSize, Output, DynamicUtility } from '../../interfaces';
 
-function isNumberLead(i:string) {
+function isNumberLead(i: string) {
   return /^\d/.test(i) ? i : undefined;
 }
 
-function notNumberLead(i:string) {
+function notNumberLead(i: string) {
   return /^\d/.test(i) ? undefined : i;
 }
 
@@ -34,7 +34,7 @@ function container(utility: Utility, { theme }: PluginUtils): Output {
 
     const center = theme('container.center');
 
-    if (center && typeof center === 'boolean'){
+    if (center && typeof center === 'boolean') {
       baseStyle.add(new Property(['margin-left', 'margin-right'], 'auto'));
     }
 
@@ -129,7 +129,7 @@ function flex(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://windicss.org/utilities/flexbox.html#flex-basis
-function basis(utility:Utility, { theme }: PluginUtils): Output {
+function basis(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(theme('spacing'))
     .handleNumber(1, Infinity, undefined, number => `${number / 4}rem`)
@@ -160,17 +160,17 @@ function order(utility: Utility, { theme }: PluginUtils): Output {
 function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   const type = utility.raw.match(/^grid-rows-/) ? 'rows' : utility.raw.match(/^grid-cols-/) ? 'columns' : undefined;
   if (!type) return;
-  const group = type === 'rows'? 'gridTemplateRows' : 'gridTemplateColumns';
+  const group = type === 'rows' ? 'gridTemplateRows' : 'gridTemplateColumns';
   return utility.handler
     .handleStatic(theme(group))
-    .handleSquareBrackets(i => i.replace(/\(.*?\)|,/g, (r) => r === ',' ? ' ' : r /* ignore content inside nested-brackets */ ))
+    .handleSquareBrackets(i => i.replace(/\(.*?\)|,/g, (r) => r === ',' ? ' ' : r /* ignore content inside nested-brackets */))
     .createProperty(`grid-template-${type}`, (value) => value === 'none' ? 'none' : value)
     ?.updateMeta('utilities', group, pluginOrder[group], 1, true)
-  || utility.handler
-    .handleNumber(1, undefined, 'int')
-    .handleVariable()
-    .createProperty(`grid-template-${type}`, (value) => `repeat(${value}, minmax(0, 1fr))`)
-    ?.updateMeta('utilities', group, pluginOrder[group], 2, true);
+    || utility.handler
+      .handleNumber(1, undefined, 'int')
+      .handleVariable()
+      .createProperty(`grid-template-${type}`, (value) => `repeat(${value}, minmax(0, 1fr))`)
+      ?.updateMeta('utilities', group, pluginOrder[group], 2, true);
 }
 
 // https://windicss.org/utilities/grid.html#grid-column-span
@@ -415,7 +415,7 @@ function minMaxSize(utility: Utility, { theme }: PluginUtils): Output {
     return;
   const body = utility.raw.replace(/^(min|max)-[w|h]-/, '');
   const prop = utility.raw.substring(0, 5).replace('h', 'height').replace('w', 'width');
-  const group = dashToCamel(prop) as ('minHeight'|'maxHeight'|'minWidth'|'maxWidth');
+  const group = dashToCamel(prop) as ('minHeight' | 'maxHeight' | 'minWidth' | 'maxWidth');
   const sizes = toType(theme(group), 'object') as { [key: string]: string };
   // handle static
   if (Object.keys(sizes).includes(body)) {
@@ -492,12 +492,12 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
       .handleVariable()
       .createColorStyle(utility.class, '-webkit-text-stroke-color', '--tw-text-stroke-opacity')
       ?.updateMeta('utilities', 'textStrokeColor', pluginOrder.textStrokeColor, 2, true)
-  || utility.handler
-    .handleStatic(theme('textStrokeWidth'))
-    .handleNumber(0, undefined, 'int', (number) => `${number}px`)
-    .handleSize()
-    .createProperty('-webkit-text-stroke-width')
-    ?.updateMeta('utilities', 'textStrokeWidth', pluginOrder.textStrokeWidth, 1, true);
+      || utility.handler
+        .handleStatic(theme('textStrokeWidth'))
+        .handleNumber(0, undefined, 'int', (number) => `${number}px`)
+        .handleSize()
+        .createProperty('-webkit-text-stroke-width')
+        ?.updateMeta('utilities', 'textStrokeWidth', pluginOrder.textStrokeWidth, 1, true);
   }
   // handle text colors
   const textColor = utility.handler
@@ -519,16 +519,16 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
     .handleSize()
     .value;
   if (utility.raw.startsWith('text-size-$')) value = utility.handler.handleVariable().value;
-  if (value) return new Style(utility.class, [ new Property('font-size', value), new Property('line-height', '1') ]).updateMeta('utilities', 'fontSize', pluginOrder.fontSize, 2, true);
+  if (value) return new Style(utility.class, [new Property('font-size', value), new Property('line-height', '1')]).updateMeta('utilities', 'fontSize', pluginOrder.fontSize, 2, true);
 }
 
 // https://windicss.org/utilities/typography.html#font-family
 // https://windicss.org/utilities/typography.html#font-weight
 function font(utility: Utility, { theme }: PluginUtils): Output {
-  const fonts = theme('fontFamily') as { [ key : string ] : string | string[] };
-  const map:{ [ key : string ] : string } = {};
+  const fonts = theme('fontFamily') as { [key: string]: string | string[] };
+  const map: { [key: string]: string } = {};
   for (const [key, value] of Object.entries(fonts)) {
-    map[key] = Array.isArray(value)? value.join(',') : value;
+    map[key] = Array.isArray(value) ? value.join(',') : value;
   }
   return (
     utility.handler
@@ -607,12 +607,12 @@ function textUnderline(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .createColorStyle(utility.class, ['-webkit-text-decoration-color', 'text-decoration-color'], '--tw-line-opacity')
     ?.updateMeta('utilities', 'textDecorationColor', pluginOrder.textDecorationColor, 0, true)
-  || utility.handler
-    .handleStatic(theme('textDecorationLength'))
-    .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
-    .handleSize()
-    .createProperty('text-decoration-thickness')
-    ?.updateMeta('utilities', 'textDecorationLength', pluginOrder.textDecorationLength, 1, true);
+    || utility.handler
+      .handleStatic(theme('textDecorationLength'))
+      .handleNumber(0, undefined, 'int', (number: number) => `${number}px`)
+      .handleSize()
+      .createProperty('text-decoration-thickness')
+      ?.updateMeta('utilities', 'textDecorationLength', pluginOrder.textDecorationLength, 1, true);
 }
 
 // https://windicss.org/utilities/typography.html#line-height
@@ -795,7 +795,7 @@ function gradientColorTo(utility: Utility, { theme }: PluginUtils): Output {
 
 // https://windicss.org/utilities/borders.html#border-radius
 function borderRadius(utility: Utility, { theme }: PluginUtils): Output {
-  const raw = [ 'rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl' ].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
+  const raw = ['rounded', 'rounded-t', 'rounded-l', 'rounded-r', 'rounded-b', 'rounded-tl', 'rounded-tr', 'rounded-br', 'rounded-bl'].includes(utility.raw) ? utility.raw + '-DEFAULT' : utility.raw;
   utility = utility.clone(raw);
   const directions = expandDirection(raw.match(/rounded-[trbl][trbl]?-/)?.[0].slice(8, -1) || '', true);
   if (!directions) return;
@@ -835,9 +835,9 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   if (borderColor) return borderColor;
 
   // handle border width
-  const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
+  const directions = expandDirection(utility.raw.substring(7, 8), false) ?? ['*'];
   const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
-  const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l', 'border-x', 'border-y' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
+  const raw = ['border', 'border-t', 'border-r', 'border-b', 'border-l', 'border-x', 'border-y'].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
 
   // handle border side color
   const borderSide = utility.clone(raw.slice(7)).handler
@@ -855,7 +855,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(borders)
     .handleSquareBrackets()
-    .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbrxy])?$/.test(utility.key)? `${number}px`: undefined)
+    .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbrxy])?$/.test(utility.key) ? `${number}px` : undefined)
     .handleSize()
     .handleVariable()
     .createProperty(directions[0] === '*' ? 'border-width' : directions.map((i) => `border-${i}-width`))
@@ -961,13 +961,13 @@ function ringOffset(utility: Utility, { theme }: PluginUtils): Output {
     .handleSquareBrackets()
     .createColorStyle(utility.class.replace('ringOffset', 'ring-offset'), '--tw-ring-offset-color', '--tw-ring-offset-opacity')
     ?.updateMeta('utilities', 'ringOffsetColor', pluginOrder.ringOffsetColor, 1, true)
-  || utility.handler
-    .handleStatic(theme('ringOffsetWidth'))
-    .handleSquareBrackets(isNumberLead)
-    .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
-    .handleSize()
-    .createStyle(utility.class.replace('ringOffset', 'ring-offset'), value => new Property('--tw-ring-offset-width', value))
-    ?.updateMeta('utilities', 'ringOffsetWidth', pluginOrder.ringOffsetWidth, 1, true);
+    || utility.handler
+      .handleStatic(theme('ringOffsetWidth'))
+      .handleSquareBrackets(isNumberLead)
+      .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
+      .handleSize()
+      .createStyle(utility.class.replace('ringOffset', 'ring-offset'), value => new Property('--tw-ring-offset-width', value))
+      ?.updateMeta('utilities', 'ringOffsetWidth', pluginOrder.ringOffsetWidth, 1, true);
 }
 
 // https://windicss.org/utilities/borders.html#ring-width
@@ -1031,7 +1031,7 @@ function brightness(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('brightness'))
     .handleSquareBrackets()
-    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-brightness', value => `brightness(${value})`)
     ?.updateMeta('utilities', 'brightness', pluginOrder.brightness, 1, true);
 }
@@ -1041,7 +1041,7 @@ function contrast(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('contrast'))
     .handleSquareBrackets()
-    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-contrast', value => `contrast(${value})`)
     ?.updateMeta('utilities', 'contrast', pluginOrder.contrast, 1, true);
 }
@@ -1052,11 +1052,11 @@ function dropShadow(utility: Utility, { theme }: PluginUtils): Output {
   if (utility.raw === 'drop-shadow') {
     value = theme('dropShadow.DEFAULT', ['0 1px 2px rgba(0, 0, 0, 0.1)', '0 1px 1px rgba(0, 0, 0, 0.06)']) as string | string[];
   } else {
-    const dropShadows = theme('dropShadow') as {[key:string]:string|string[]};
+    const dropShadows = theme('dropShadow') as { [key: string]: string | string[] };
     const amount = utility.amount;
     if (utility.raw.startsWith('drop-shadow') && amount in dropShadows) value = dropShadows[amount];
   }
-  if (value) return new Property('--tw-drop-shadow', Array.isArray(value)? value.map(i => `drop-shadow(${i})`).join(' '): `drop-shadow(${value})`).updateMeta('utilities', 'dropShadow', pluginOrder.dropShadow, 1, true);
+  if (value) return new Property('--tw-drop-shadow', Array.isArray(value) ? value.map(i => `drop-shadow(${i})`).join(' ') : `drop-shadow(${value})`).updateMeta('utilities', 'dropShadow', pluginOrder.dropShadow, 1, true);
 }
 
 // https://windicss.org/utilities/filters.html#filter-grayscale
@@ -1065,7 +1065,7 @@ function grayscale(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('grayscale'))
     .handleSquareBrackets()
-    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-grayscale', value => `grayscale(${value})`)
     ?.updateMeta('utilities', 'grayscale', pluginOrder.grayscale, 1, true);
 }
@@ -1087,7 +1087,7 @@ function invert(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('invert'))
     .handleSquareBrackets()
-    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-invert', value => `invert(${value})`)
     ?.updateMeta('utilities', 'invert', pluginOrder.invert, 1, true);
 }
@@ -1097,7 +1097,7 @@ function saturate(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('saturate'))
     .handleSquareBrackets()
-    .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+    .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-saturate', value => `saturate(${value})`)
     ?.updateMeta('utilities', 'saturate', pluginOrder.saturate, 1, true);
 }
@@ -1108,7 +1108,7 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleBody(theme('sepia'))
     .handleSquareBrackets()
-    .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+    .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
     .createProperty('--tw-sepia', value => `sepia(${value})`)
     ?.updateMeta('utilities', 'sepia', pluginOrder.sepia, 1, true);
 }
@@ -1139,14 +1139,14 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     return utility.handler
       .handleBody(theme('backdropBrightness'))
       .handleSquareBrackets()
-      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
       ?.updateMeta('utilities', 'backdropBrightness', pluginOrder.backdropBrightness, 1, true);
   case 'contrast':
     return utility.handler
       .handleBody(theme('backdropContrast'))
       .handleSquareBrackets()
-      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
       ?.updateMeta('utilities', 'backdropContrast', pluginOrder.backdropContrast, 1, true);
   case 'grayscale':
@@ -1154,7 +1154,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     return utility.handler
       .handleBody(theme('backdropGrayscale'))
       .handleSquareBrackets()
-      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
       ?.updateMeta('utilities', 'backdropGrayscale', pluginOrder.backdropGrayscale, 1, true);
   case 'hue':
@@ -1170,21 +1170,21 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     return utility.handler
       .handleBody(theme('backdropInvert'))
       .handleSquareBrackets()
-      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
       ?.updateMeta('utilities', 'backdropInvert', pluginOrder.backdropInvert, 1, true);
   case 'opacity':
     return utility.handler
       .handleBody(theme('backdropOpacity'))
       .handleSquareBrackets()
-      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
       ?.updateMeta('utilities', 'backdropOpacity', pluginOrder.backdropOpacity, 1, true);
   case 'saturate':
     return utility.handler
       .handleBody(theme('backdropSaturate'))
       .handleSquareBrackets()
-      .handleNumber(0, undefined, 'int', (number) => `${number/100}`)
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
       ?.updateMeta('utilities', 'backdropSaturate', pluginOrder.backdropSaturate, 1, true);
   case 'sepia':
@@ -1192,7 +1192,7 @@ function backdrop(utility: Utility, { theme }: PluginUtils): Output {
     return utility.handler
       .handleBody(theme('backdropSepia'))
       .handleSquareBrackets()
-      .handleNumber(0, 100, 'int', (number) => `${number/100}`)
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
       .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
       ?.updateMeta('utilities', 'backdropSepia', pluginOrder.backdropSepia, 1, true);
   }
@@ -1249,7 +1249,7 @@ function transition(utility: Utility, { theme }: PluginUtils): Output {
         new Property('-o-transition-property', value),
         new Property('transition-property', value.replace(/transform/g, 'transform, -webkit-transform').replace(/box-shadow/g, 'box-shadow, -webkit-box-shadow')),
         new Property(['-webkit-transition-timing-function', '-o-transition-timing-function', 'transition-timing-function'], toType(theme('transitionTimingFunction.DEFAULT'), 'string') ?? 'cubic-bezier(0.4, 0, 0.2, 1)'),
-        new Property(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration' ], toType(theme('transitionDuration.DEFAULT'), 'string') ?? '150ms'),
+        new Property(['-webkit-transition-duration', '-o-transition-duration', 'transition-duration'], toType(theme('transitionDuration.DEFAULT'), 'string') ?? '150ms'),
       ]).updateMeta('utilities', 'transitionProperty', pluginOrder.transitionProperty, 2, true);
     }
   }
@@ -1327,11 +1327,11 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
     let styles, keyframe;
     if (typeof value === 'string') {
       keyframe = value.match(/^\w+/)?.[0];
-      styles = [ new Style(utility.class, new Property(prop, value)) ];
+      styles = [new Style(utility.class, new Property(prop, value))];
     } else {
       keyframe = value['animation'] || value['animationName'] || value['animation-name'];
       if (config('prefixer')) {
-        const props: { [ key:string ]: string } = {};
+        const props: { [key: string]: string } = {};
         for (const [k, v] of Object.entries(value)) {
           if (k.startsWith('animation') || k.startsWith('backface')) {
             props['-webkit-' + k] = v;
@@ -1349,11 +1349,11 @@ function animation(utility: Utility, { theme, config }: PluginUtils): Output {
     if (styles) {
       return [
         ...styles.map(i => i.updateMeta('utilities', 'animation', pluginOrder.animation, 2, true)),
-        ... keyframe ? Keyframes.generate(
+        ...keyframe ? Keyframes.generate(
           keyframe,
-        (theme(`keyframes.${keyframe}`) ?? {}) as { [key: string]: { [key: string]: string } },
-        undefined,
-        config('prefixer', false) as boolean
+          (theme(`keyframes.${keyframe}`) ?? {}) as { [key: string]: { [key: string]: string } },
+          undefined,
+          config('prefixer', false) as boolean
         ).map(i => i.updateMeta('utilities', 'keyframes', pluginOrder.keyframes, 1, true)) : [],
       ];
     }
@@ -1458,43 +1458,45 @@ function cursor(utility: Utility, { theme }: PluginUtils): Output {
   if (Object.keys(cursors).includes(body)) return new Property('cursor', cursors[body]).updateMeta('utilities', 'cursor', pluginOrder.cursor, 1, true);
 }
 
-// https://windicss.org/utilities/behaviors.html#outline
+// https://windicss.org/utilities/borders/outline.html
 function outline(utility: Utility, { theme }: PluginUtils): Output {
-  const amount = utility.amount;
-  const staticMap = toType(theme('outline'), 'object') as { [key: string]: [outline: string, outlineOffset: string] };
-  if (Object.keys(staticMap).includes(amount))
-    return new Style(utility.class, [ new Property('outline', staticMap[amount][0]), new Property('outline-offset', staticMap[amount][1]) ]).updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
+  if (utility.raw.startsWith('outline-offset')) {
+    return utility.handler
+      .handleStatic(theme('outlineOffset'))
+      .handleNumber(0, undefined, 'int')
+      .handleVariable()
+      .handleSquareBrackets()
+      .createProperty('outline-offset')
+      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 0, true);
+  }
 
   if (utility.raw.startsWith('outline-opacity')) {
     return utility.handler
       .handleStatic(theme('opacity'))
-      .handleNumber(0, 100, 'int', (number: number) => (number / 100).toString())
+      .handleNumber(0, 1, 'float')
       .handleVariable()
+      .handleSquareBrackets()
       .createProperty('--tw-outline-opacity')
-      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 4, true);
+      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
   }
 
-  if (utility.raw.match(/^outline-(solid|dotted)/)) {
-    const newUtility = utility.clone(utility.raw.replace('outline-', ''));
-    const outlineColor = newUtility.handler
-      .handleStatic({ none: 'transparent', white: 'white', black: 'black' })
-      .handleColor()
-      .handleOpacity(theme('opacity'))
-      .handleVariable()
-      .createColorValue('var(--tw-outline-opacity, 1)');
+  const outlineColor = utility.handler
+    .handleColor(theme('outlineColor'))
+    .handleOpacity(theme('opacity'))
+    .handleSquareBrackets(notNumberLead)
+    .handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined)
+    .createColorStyle(utility.class, 'outline-color', '--tw-outline-opacity')
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
 
-    if (outlineColor) return new Style(utility.class, [
-      new Property('outline', `2px ${newUtility.identifier} ${outlineColor}`),
-      new Property('outline-offset', '2px') ]
-    ).updateMeta('utilities', 'outline', pluginOrder.outline, 3, true);
-  }
+  if (outlineColor) return outlineColor;
 
-  const handler = utility.handler.handleColor().handleOpacity(theme('opacity')).handleSquareBrackets().handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined);
-  const color = handler.createColorValue();
-  if (color) return new Style(utility.class, [
-    new Property('outline', `2px ${ handler.value === 'transparent' ? 'solid' : 'dotted'} ${color}`),
-    new Property('outline-offset', '2px'),
-  ])?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
+  return utility.handler
+    .handleStatic(theme('outlineWidth'))
+    .handleNumber(0, undefined, 'float', (number: number) => `${number}px`)
+    .handleSquareBrackets()
+    .handleVariable()
+    .createProperty('outline-width')
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 3, true);
 }
 
 // https://windicss.org/utilities/svg.html#fill-color
@@ -1541,17 +1543,17 @@ function stroke(utility: Utility, { theme }: PluginUtils): Output {
     .handleSquareBrackets()
     .createColorStyle(utility.class, 'stroke', '--tw-stroke-opacity')
     ?.updateMeta('utilities', 'stroke', pluginOrder.stroke, 1, true)
-  || (utility.raw.startsWith('stroke-$')
-    ? utility.handler
-      .handleVariable()
-      .createProperty('stroke-width')
-      ?.updateMeta('utilities', 'strokeWidth', pluginOrder.strokeWidth, 2, true)
-    : utility.handler
-      .handleStatic(theme('strokeWidth'))
-      .handleNumber(0, undefined, 'int')
-      .createProperty('stroke-width')
-      ?.updateMeta('utilities', 'strokeWidth', pluginOrder.strokeWidth, 1, true)
-  );
+    || (utility.raw.startsWith('stroke-$')
+      ? utility.handler
+        .handleVariable()
+        .createProperty('stroke-width')
+        ?.updateMeta('utilities', 'strokeWidth', pluginOrder.strokeWidth, 2, true)
+      : utility.handler
+        .handleStatic(theme('strokeWidth'))
+        .handleNumber(0, undefined, 'int')
+        .createProperty('stroke-width')
+        ?.updateMeta('utilities', 'strokeWidth', pluginOrder.strokeWidth, 1, true)
+    );
 }
 
 function content(utility: Utility, { theme }: PluginUtils): Output {
@@ -1567,7 +1569,7 @@ function content(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://windicss.org/utilities/behaviors.html#accent-color
-function accent(utility:Utility, { theme }: PluginUtils): Output {
+function accent(utility: Utility, { theme }: PluginUtils): Output {
   const color = utility.handler
     .handleColor(theme('boxShadowColor'))
     .handleOpacity(theme('opacity'))
