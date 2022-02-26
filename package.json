@@ -143,7 +143,7 @@
     "mini-svg-data-uri": "^1.4.3",
     "minimatch": "^3.0.4",
     "nyc": "^15.1.0",
-	"picocolors": "^1.0.0",
+    "picocolors": "^1.0.0",
     "pirates": "^4.0.4",
     "rollup": "^2.61.1",
     "sucrase": "^3.20.3",
