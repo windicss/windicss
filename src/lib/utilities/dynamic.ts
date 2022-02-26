@@ -78,15 +78,15 @@ function inset(utility: Utility, { theme }: PluginUtils): Output {
     .handleVariable()
     .callback(value => {
       switch (utility.identifier) {
-        case 'top':
-        case 'right':
-        case 'bottom':
-        case 'left':
-          return new Property(utility.identifier, value).updateMeta('utilities', 'inset', pluginOrder.inset, 4, true);
-        case 'inset':
-          if (utility.raw.match(/^-?inset-x/)) return new Property(['right', 'left'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 3, true);
-          if (utility.raw.match(/^-?inset-y/)) return new Property(['top', 'bottom'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 2, true);
-          return new Property(['top', 'right', 'bottom', 'left'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 1, true);
+      case 'top':
+      case 'right':
+      case 'bottom':
+      case 'left':
+        return new Property(utility.identifier, value).updateMeta('utilities', 'inset', pluginOrder.inset, 4, true);
+      case 'inset':
+        if (utility.raw.match(/^-?inset-x/)) return new Property(['right', 'left'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 3, true);
+        if (utility.raw.match(/^-?inset-y/)) return new Property(['top', 'bottom'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 2, true);
+        return new Property(['top', 'right', 'bottom', 'left'], value).updateMeta('utilities', 'inset', pluginOrder.inset, 1, true);
       }
     });
 }
@@ -890,22 +890,22 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
   if (divideColor) return divideColor;
   // handle divide width
   switch (utility.raw) {
-    case 'divide-x-reverse':
-      return new Style(utility.class, new Property('--tw-divide-x-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 6, true);
-    case 'divide-y-reverse':
-      return new Style(utility.class, new Property('--tw-divide-y-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 5, true);
-    case 'divide-y':
-      return new Style(utility.class, [
-        new Property('--tw-divide-y-reverse', '0'),
-        new Property('border-top-width', 'calc(1px * calc(1 - var(--tw-divide-y-reverse)))'),
-        new Property('border-bottom-width', 'calc(1px * var(--tw-divide-y-reverse))'),
-      ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 3, true);
-    case 'divide-x':
-      return new Style(utility.class, [
-        new Property('--tw-divide-x-reverse', '0'),
-        new Property('border-right-width', 'calc(1px * var(--tw-divide-x-reverse))'),
-        new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'),
-      ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 4, true);
+  case 'divide-x-reverse':
+    return new Style(utility.class, new Property('--tw-divide-x-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 6, true);
+  case 'divide-y-reverse':
+    return new Style(utility.class, new Property('--tw-divide-y-reverse', '1')).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 5, true);
+  case 'divide-y':
+    return new Style(utility.class, [
+      new Property('--tw-divide-y-reverse', '0'),
+      new Property('border-top-width', 'calc(1px * calc(1 - var(--tw-divide-y-reverse)))'),
+      new Property('border-bottom-width', 'calc(1px * var(--tw-divide-y-reverse))'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 3, true);
+  case 'divide-x':
+    return new Style(utility.class, [
+      new Property('--tw-divide-x-reverse', '0'),
+      new Property('border-right-width', 'calc(1px * var(--tw-divide-x-reverse))'),
+      new Property('border-left-width', 'calc(1px * calc(1 - var(--tw-divide-x-reverse)))'),
+    ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 4, true);
   }
   return utility.handler
     .handleSquareBrackets()
@@ -917,18 +917,18 @@ function divide(utility: Utility, { theme }: PluginUtils): Output {
       if (centerMatch) {
         const center = centerMatch[0].replace(/^-?divide-/, '');
         switch (center) {
-          case 'x':
-            return new Style(utility.class, [
-              new Property('--tw-divide-x-reverse', '0'),
-              new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`),
-              new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`),
-            ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 2, true);
-          case 'y':
-            return new Style(utility.class, [
-              new Property('--tw-divide-y-reverse', '0'),
-              new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`),
-              new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`),
-            ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 1, true);
+        case 'x':
+          return new Style(utility.class, [
+            new Property('--tw-divide-x-reverse', '0'),
+            new Property('border-right-width', `calc(${value} * var(--tw-divide-x-reverse))`),
+            new Property('border-left-width', `calc(${value} * calc(1 - var(--tw-divide-x-reverse)))`),
+          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 2, true);
+        case 'y':
+          return new Style(utility.class, [
+            new Property('--tw-divide-y-reverse', '0'),
+            new Property('border-top-width', `calc(${value} * calc(1 - var(--tw-divide-y-reverse)))`),
+            new Property('border-bottom-width', `calc(${value} * var(--tw-divide-y-reverse))`),
+          ]).child('> :not([hidden]) ~ :not([hidden])').updateMeta('utilities', 'divideWidth', pluginOrder.divideWidth, 1, true);
         }
       }
     });
@@ -1126,75 +1126,75 @@ function sepia(utility: Utility, { theme }: PluginUtils): Output {
 function backdrop(utility: Utility, { theme }: PluginUtils): Output {
   utility = utility.clone(utility.raw.slice(9));
   switch (utility.match(/[^-]+/)) {
-    case 'blur':
-      if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
-      return utility.handler
-        .handleBody(theme('backdropBlur'))
-        .handleSquareBrackets()
-        .handleNumber(0, undefined, 'int', (number) => `${number}px`)
-        .handleSize()
-        .createProperty('--tw-backdrop-blur', value => `blur(${value})`)
-        ?.updateMeta('utilities', 'backdropBlur', pluginOrder.backdropBlur, 1, true);
-    case 'brightness':
-      return utility.handler
-        .handleBody(theme('backdropBrightness'))
-        .handleSquareBrackets()
-        .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
-        ?.updateMeta('utilities', 'backdropBrightness', pluginOrder.backdropBrightness, 1, true);
-    case 'contrast':
-      return utility.handler
-        .handleBody(theme('backdropContrast'))
-        .handleSquareBrackets()
-        .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
-        ?.updateMeta('utilities', 'backdropContrast', pluginOrder.backdropContrast, 1, true);
-    case 'grayscale':
-      if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
-      return utility.handler
-        .handleBody(theme('backdropGrayscale'))
-        .handleSquareBrackets()
-        .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
-        ?.updateMeta('utilities', 'backdropGrayscale', pluginOrder.backdropGrayscale, 1, true);
-    case 'hue':
-      return utility.handler
-        .handleBody(theme('backdropHueRotate'))
-        .handleSquareBrackets()
-        .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
-        .handleNegative()
-        .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
-        ?.updateMeta('utilities', 'backdropHueRotate', pluginOrder.backdropHueRotate, 1, true);
-    case 'invert':
-      if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
-      return utility.handler
-        .handleBody(theme('backdropInvert'))
-        .handleSquareBrackets()
-        .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
-        ?.updateMeta('utilities', 'backdropInvert', pluginOrder.backdropInvert, 1, true);
-    case 'opacity':
-      return utility.handler
-        .handleBody(theme('backdropOpacity'))
-        .handleSquareBrackets()
-        .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
-        ?.updateMeta('utilities', 'backdropOpacity', pluginOrder.backdropOpacity, 1, true);
-    case 'saturate':
-      return utility.handler
-        .handleBody(theme('backdropSaturate'))
-        .handleSquareBrackets()
-        .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
-        ?.updateMeta('utilities', 'backdropSaturate', pluginOrder.backdropSaturate, 1, true);
-    case 'sepia':
-      if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
-      return utility.handler
-        .handleBody(theme('backdropSepia'))
-        .handleSquareBrackets()
-        .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
-        .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
-        ?.updateMeta('utilities', 'backdropSepia', pluginOrder.backdropSepia, 1, true);
+  case 'blur':
+    if (utility.raw === 'blur') utility.raw = 'blur-DEFAULT';
+    return utility.handler
+      .handleBody(theme('backdropBlur'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number) => `${number}px`)
+      .handleSize()
+      .createProperty('--tw-backdrop-blur', value => `blur(${value})`)
+      ?.updateMeta('utilities', 'backdropBlur', pluginOrder.backdropBlur, 1, true);
+  case 'brightness':
+    return utility.handler
+      .handleBody(theme('backdropBrightness'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-brightness', value => `brightness(${value})`)
+      ?.updateMeta('utilities', 'backdropBrightness', pluginOrder.backdropBrightness, 1, true);
+  case 'contrast':
+    return utility.handler
+      .handleBody(theme('backdropContrast'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-contrast', value => `contrast(${value})`)
+      ?.updateMeta('utilities', 'backdropContrast', pluginOrder.backdropContrast, 1, true);
+  case 'grayscale':
+    if (utility.raw === 'grayscale') utility.raw = 'grayscale-DEFAULT';
+    return utility.handler
+      .handleBody(theme('backdropGrayscale'))
+      .handleSquareBrackets()
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-grayscale', value => `grayscale(${value})`)
+      ?.updateMeta('utilities', 'backdropGrayscale', pluginOrder.backdropGrayscale, 1, true);
+  case 'hue':
+    return utility.handler
+      .handleBody(theme('backdropHueRotate'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'float', (number) => `${number}deg`)
+      .handleNegative()
+      .createProperty('--tw-backdrop-hue-rotate', value => `hue-rotate(${value})`)
+      ?.updateMeta('utilities', 'backdropHueRotate', pluginOrder.backdropHueRotate, 1, true);
+  case 'invert':
+    if (utility.raw === 'invert') utility.raw = 'invert-DEFAULT';
+    return utility.handler
+      .handleBody(theme('backdropInvert'))
+      .handleSquareBrackets()
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-invert', value => `invert(${value})`)
+      ?.updateMeta('utilities', 'backdropInvert', pluginOrder.backdropInvert, 1, true);
+  case 'opacity':
+    return utility.handler
+      .handleBody(theme('backdropOpacity'))
+      .handleSquareBrackets()
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-opacity', value => `opacity(${value})`)
+      ?.updateMeta('utilities', 'backdropOpacity', pluginOrder.backdropOpacity, 1, true);
+  case 'saturate':
+    return utility.handler
+      .handleBody(theme('backdropSaturate'))
+      .handleSquareBrackets()
+      .handleNumber(0, undefined, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-saturate', value => `saturate(${value})`)
+      ?.updateMeta('utilities', 'backdropSaturate', pluginOrder.backdropSaturate, 1, true);
+  case 'sepia':
+    if (utility.raw === 'sepia') utility.raw = 'sepia-DEFAULT';
+    return utility.handler
+      .handleBody(theme('backdropSepia'))
+      .handleSquareBrackets()
+      .handleNumber(0, 100, 'int', (number) => `${number / 100}`)
+      .createProperty('--tw-backdrop-sepia', value => `sepia(${value})`)
+      ?.updateMeta('utilities', 'backdropSepia', pluginOrder.backdropSepia, 1, true);
   }
 }
 

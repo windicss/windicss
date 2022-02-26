@@ -536,19 +536,19 @@ export function generateCompletions(processor: Processor): { static: string[], c
         const prefix = utility.slice(0, mark - 1);
         const suffix = utility.slice(mark);
         switch (suffix) {
-          case '${static}':
-            completions.static = completions.static.concat(Object.keys(processor.theme(config, {}) as any).map(i => i === 'DEFAULT' ? prefix : i.charAt(0) === '-' ? `-${prefix}${i}` : `${prefix}-${i}`));
-            break;
-          case '${color}':
-            for (const key of Object.keys(flatColors(processor.theme(config, colors) as any))) {
-              if (key !== 'DEFAULT')
-                completions.color.push(`${prefix}-${key}`);
-            }
-            break;
-          default:
-            completions.dynamic.push(utility);
-            if (config in negative) completions.dynamic.push(`-${utility}`);
-            break;
+        case '${static}':
+          completions.static = completions.static.concat(Object.keys(processor.theme(config, {}) as any).map(i => i === 'DEFAULT' ? prefix : i.charAt(0) === '-' ? `-${prefix}${i}` : `${prefix}-${i}`));
+          break;
+        case '${color}':
+          for (const key of Object.keys(flatColors(processor.theme(config, colors) as any))) {
+            if (key !== 'DEFAULT')
+              completions.color.push(`${prefix}-${key}`);
+          }
+          break;
+        default:
+          completions.dynamic.push(utility);
+          if (config in negative) completions.dynamic.push(`-${utility}`);
+          break;
         }
       }
     });
