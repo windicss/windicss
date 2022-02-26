@@ -1991,7 +1991,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'overflow-ellipsis': {
+  'overflow-ellipsis': { // deprecated
     'utility': {
       '-o-text-overflow': 'ellipsis',
       'text-overflow': 'ellipsis',
