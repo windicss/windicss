@@ -628,13 +628,22 @@ export const staticUtilities: StaticUtility = {
       'order': 2,
     },
   },
+  'overflow-clip': {
+    'utility': {
+      'overflow': 'clip',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 3,
+    },
+  },
   'overflow-visible': {
     'utility': {
       'overflow': 'visible',
     },
     'meta': {
       'group': 'overflow',
-      'order': 3,
+      'order': 4,
     },
   },
   'overflow-scroll': {
@@ -643,7 +652,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 4,
+      'order': 5,
     },
   },
   'overflow-x-auto': {
@@ -652,7 +661,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 5,
+      'order': 6,
     },
   },
   'overflow-y-auto': {
@@ -661,7 +670,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 6,
+      'order': 7,
     },
   },
   'overflow-x-hidden': {
@@ -670,7 +679,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 7,
+      'order': 8,
     },
   },
   'overflow-y-hidden': {
@@ -679,7 +688,25 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 8,
+      'order': 9,
+    },
+  },
+  'overflow-x-clip': {
+    'utility': {
+      'overflow-x': 'clip',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 10,
+    },
+  },
+  'overflow-y-clip': {
+    'utility': {
+      'overflow-y': 'clip',
+    },
+    'meta': {
+      'group': 'overflow',
+      'order': 11,
     },
   },
   'overflow-x-visible': {
@@ -688,7 +715,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 9,
+      'order': 12,
     },
   },
   'overflow-y-visible': {
@@ -697,7 +724,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 10,
+      'order': 13,
     },
   },
   'overflow-x-scroll': {
@@ -706,7 +733,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 11,
+      'order': 14,
     },
   },
   'overflow-y-scroll': {
@@ -715,7 +742,7 @@ export const staticUtilities: StaticUtility = {
     },
     'meta': {
       'group': 'overflow',
-      'order': 12,
+      'order': 15,
     },
   },
 
@@ -1964,7 +1991,7 @@ export const staticUtilities: StaticUtility = {
       'order': 1,
     },
   },
-  'overflow-ellipsis': {
+  'overflow-ellipsis': { // deprecated
     'utility': {
       '-o-text-overflow': 'ellipsis',
       'text-overflow': 'ellipsis',
@@ -1974,14 +2001,24 @@ export const staticUtilities: StaticUtility = {
       'order': 2,
     },
   },
-  'overflow-clip': {
+  'text-ellipsis': {
+    'utility': {
+      '-o-text-overflow': 'ellipsis',
+      'text-overflow': 'ellipsis',
+    },
+    'meta': {
+      'group': 'textOverflow',
+      'order': 3,
+    },
+  },
+  'text-clip': {
     'utility': {
       '-o-text-overflow': 'clip',
       'text-overflow': 'clip',
     },
     'meta': {
       'group': 'textOverflow',
-      'order': 3,
+      'order': 4,
     },
   },
 
@@ -2038,6 +2075,24 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'verticalAlign',
       'order': 6,
+    },
+  },
+  'align-sub': {
+    'utility': {
+      'vertical-align': 'sub',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 7,
+    },
+  },
+  'align-super': {
+    'utility': {
+      'vertical-align': 'super',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 8,
     },
   },
 
@@ -2424,6 +2479,15 @@ export const staticUtilities: StaticUtility = {
     'meta': {
       'group': 'borderStyle',
       'order': 5,
+    },
+  },
+  'border-hidden': {
+    'utility': {
+      'border-style': 'hidden',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 6,
     },
   },
 

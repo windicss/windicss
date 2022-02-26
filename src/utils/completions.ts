@@ -319,6 +319,10 @@ const utilities: { [key: string]: string[] } = {
     'border-b-${size}',
     'border-l-${int}',
     'border-l-${size}',
+    'border-x-${int}',
+    'border-x-${size}',
+    'border-y-${int}',
+    'border-y-${size}',
   ],
   borderColor: [
     'border-${color}',

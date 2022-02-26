@@ -238,9 +238,9 @@ describe('Attributify Mode', () => {
   it('with overflow utility', () => {
     const result = processor.attributify({
       'overflow': [
-        'auto', 'hidden', 'visible', 'scroll', // overflow
-        'x-auto', 'x-hidden', 'x-visible', 'x-scroll', // overflow-x
-        'y-auto', 'y-hidden', 'y-visible', 'y-scroll', // overflow-y
+        'auto', 'hidden', 'clip', 'visible', 'scroll', // overflow
+        'x-auto', 'x-hidden', 'x-clip', 'x-visible', 'x-scroll', // overflow-x
+        'y-auto', 'y-hidden', 'y-clip', 'y-visible', 'y-scroll', // overflow-y
       ],
     });
     expect(result.ignored.length).toEqual(0);
@@ -389,7 +389,7 @@ describe('Attributify Mode', () => {
       'text': [
         'xs', 'sm', // font-size
         'left', 'center', 'right', 'justify', // text-align
-        'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', // vertical-align
+        'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', 'sub', 'super', // vertical-align
         'red-500', // color
         'opacity-50', // opacity
         'hyphens-none', 'hyphens-manual', 'hyphens-auto', // hyphens
@@ -405,7 +405,7 @@ describe('Attributify Mode', () => {
         'stroke', 'stroke-none', 'stroke-sm', // text-stroke-width
         'stroke-blue-500', 'stroke-gray-500', // text-stroke-color
         'uppercase', 'lowercase', 'capitalize', 'normal-case', // text-transform
-        'truncate', 'overflow-ellipsis', 'overflow-clip', // text-overflow
+        'truncate', 'overflow-ellipsis', 'text-ellipsis', 'text-clip', // text-overflow
         'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
         'break-normal', 'break-words', 'break-all', // word-break
         'placeholder-gray-200', 'placeholder-opacity-80', // placeholder
@@ -490,7 +490,7 @@ describe('Attributify Mode', () => {
         '1', '2', 't-0', // border-width
         'gray-400', // border-color
         'opacity-50', // opacity
-        'solid', 'dashed', 'dotted', 'double', 'none', // border-style
+        'solid', 'dashed', 'dotted', 'double', 'none', 'hidden', // border-style
         'collapse', 'separate', // border-collapse
       ],
     });

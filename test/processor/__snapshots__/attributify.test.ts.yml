@@ -855,6 +855,9 @@ Tools / with border utility / css / 0: |-
   [border~="none"] {
     border-style: none;
   }
+  [border~="hidden"] {
+    border-style: hidden;
+  }
   [border~="1"] {
     border-width: 1px;
   }
@@ -1727,6 +1730,9 @@ Tools / with overflow utility / css / 0: |-
   [overflow~="hidden"] {
     overflow: hidden;
   }
+  [overflow~="clip"] {
+    overflow: clip;
+  }
   [overflow~="visible"] {
     overflow: visible;
   }
@@ -1744,6 +1750,12 @@ Tools / with overflow utility / css / 0: |-
   }
   [overflow~="y-hidden"] {
     overflow-y: hidden;
+  }
+  [overflow~="x-clip"] {
+    overflow-x: clip;
+  }
+  [overflow~="y-clip"] {
+    overflow-y: clip;
   }
   [overflow~="x-visible"] {
     overflow-x: visible;
@@ -2309,7 +2321,11 @@ Tools / with text utility / css / 0: |-
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
   }
-  [text~="overflow-clip"] {
+  [text~="text-ellipsis"] {
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+  }
+  [text~="text-clip"] {
     -o-text-overflow: clip;
     text-overflow: clip;
   }
@@ -2446,6 +2462,12 @@ Tools / with text utility / css / 0: |-
   }
   [text~="text-bottom"] {
     vertical-align: text-bottom;
+  }
+  [text~="sub"] {
+    vertical-align: sub;
+  }
+  [text~="super"] {
+    vertical-align: super;
   }
   [text~="space-normal"] {
     white-space: normal;
