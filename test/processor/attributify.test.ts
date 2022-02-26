@@ -490,7 +490,7 @@ describe('Attributify Mode', () => {
         '1', '2', 't-0', // border-width
         'gray-400', // border-color
         'opacity-50', // opacity
-        'solid', 'dashed', 'dotted', 'double', 'none', // border-style
+        'solid', 'dashed', 'dotted', 'double', 'none', 'hidden', // border-style
         'collapse', 'separate', // border-collapse
       ],
     });
