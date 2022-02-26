@@ -171,7 +171,7 @@ describe('Utilities', () => {
     expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
   });
 
-  it('border x and y should override', () => {
+  it('border x and y', () => {
     expect(processor.interpret('border-t-1 border-r-2 border-b-3 border-l-4 border-y-5 border-x-6').styleSheet.build()).toMatchSnapshot('css');
   });
 

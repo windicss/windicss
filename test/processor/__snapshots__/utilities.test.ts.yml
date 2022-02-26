@@ -577,7 +577,7 @@ Tools / border width shouldn't infer / css / 0: |-
   .border-t-4 {
     border-top-width: 4px;
   }
-Tools / border x and y should override / css / 0: |-
+Tools / border x and y / css / 0: |-
   .border-t-1 {
     border-top-width: 1px;
   }
