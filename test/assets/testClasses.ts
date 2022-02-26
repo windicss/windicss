@@ -95,7 +95,7 @@ const classNames = [
   'capitalize',
   'normal-case',
   'truncate',
-  'overflow-ellipsis', 'overflow-clip',
+  'overflow-ellipsis', 'text-ellipsis', 'text-clip',
   'align-baseline', 'align-top', 'align-middle', 'align-bottom', 'align-text-top', 'align-text-bottom', 'align-sub', 'align-super',
   'whitespace-normal', 'whitespace-nowrap', 'whitespace-pre', 'whitespace-pre-line', 'whitespace-pre-wrap',
   'break-normal', 'break-words', 'break-all',
