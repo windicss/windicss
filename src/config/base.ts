@@ -900,12 +900,21 @@ export const baseConfig: Config = {
       12: '12',
       // int[1, 9999]
     },
-    outline: {
-      none: ['2px solid transparent', '2px'],
-      // white: ['2px dotted white', '2px'],
-      // black: ['2px dotted black', '2px'],
-    },
     outlineColor: (theme) => theme('colors'),
+    outlineWidth: {
+      0: '0px',
+      1: '1px',
+      2: '2px',
+      4: '4px',
+      8: '8px',
+    },
+    outlineOffset: {
+      0: '0px',
+      1: '1px',
+      2: '2px',
+      4: '4px',
+      8: '8px',
+    },
     padding: (theme) => theme('spacing'),
     perspective: (theme) => ({
       ...(theme('spacing') ?? {}),
@@ -1240,11 +1249,11 @@ export const baseConfig: Config = {
     }),
   ],
   handlers: {
-    static : true,
+    static: true,
     time: true,
     color: true,
     opacity: true,
-    number : true,
+    number: true,
     string: true,
     bracket: true,
     hex: true,

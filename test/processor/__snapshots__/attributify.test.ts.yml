@@ -478,8 +478,8 @@ Tools / with animate appearance cursor outline pointer resize select fill stroke
     outline-offset: 2px;
   }
   [outline~="white"] {
-    outline: 2px dotted rgb(255, 255, 255);
-    outline-offset: 2px;
+    --tw-outline-opacity: 1;
+    outline-color: rgba(255, 255, 255, var(--tw-outline-opacity));
   }
   [pointer~="none"] {
     pointer-events: none;

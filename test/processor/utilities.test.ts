@@ -73,13 +73,14 @@ describe('Utilities', () => {
   });
 
   it('animation test', () => {
-    const processor = new Processor({ theme: {
-      extend: {
-        animation: {
-          'spin-slow': 'spin 3s linear infinite',
+    const processor = new Processor({
+      theme: {
+        extend: {
+          animation: {
+            'spin-slow': 'spin 3s linear infinite',
+          },
         },
       },
-    },
     });
     expect(processor.interpret('animate-spin-slow').styleSheet.build()).toMatchSnapshot('spin-slow');
   });
@@ -120,7 +121,7 @@ describe('Utilities', () => {
         extend: {
           backgroundImage: (theme) => {
             return {
-              ...theme('backgroudImage') as {[key:string]:string},
+              ...theme('backgroudImage') as { [key: string]: string },
               'home-pattern': 'url(\'./src/assets/home.svg\')',
             };
           },
@@ -171,11 +172,30 @@ describe('Utilities', () => {
     expect(processor.interpret('border-gray-200 border-gray-150 border-4 border-t-4').styleSheet.build()).toMatchSnapshot('css');
   });
 
+  it('border x and y', () => {
+    expect(processor.interpret('border-t-1 border-r-2 border-b-3 border-l-4 border-y-5 border-x-6').styleSheet.build()).toMatchSnapshot('css');
+  });
+
   it('box shadows & box shadow color', () => {
     expect(processor.interpret(`
     shadow-2xl
     shadow-red-800
     shadow-red-800/50
+    `).styleSheet.build()).toMatchSnapshot('css');
+  });
+
+  it('outline width & color & style & offset', () => {
+    expect(processor.interpret(`
+    outline-0
+    outline-8
+    outline-red-800
+    outline-red-800/50
+    outline-none
+    outline
+    outline-dashed
+    outline-offset-1
+    outline-offset-2
+    outline-opacity-50
     `).styleSheet.build()).toMatchSnapshot('css');
   });
 
@@ -268,8 +288,7 @@ describe('Utilities', () => {
     fill-green-500/50
     stroke-green-500/50
     text-stroke-green-500/50
-    outline-solid-green-500/50
-    outline-dashed-green-500/50
+    outline-green-500/50
 `).styleSheet.build()).toMatchSnapshot('css');
   });
 
