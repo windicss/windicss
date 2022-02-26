@@ -389,7 +389,7 @@ describe('Attributify Mode', () => {
       'text': [
         'xs', 'sm', // font-size
         'left', 'center', 'right', 'justify', // text-align
-        'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', // vertical-align
+        'baseline', 'top', 'middle', 'bottom', 'text-top', 'text-bottom', 'sub', 'super', // vertical-align
         'red-500', // color
         'opacity-50', // opacity
         'hyphens-none', 'hyphens-manual', 'hyphens-auto', // hyphens

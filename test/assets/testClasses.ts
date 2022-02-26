@@ -96,7 +96,7 @@ const classNames = [
   'normal-case',
   'truncate',
   'overflow-ellipsis', 'overflow-clip',
-  'align-baseline', 'align-top', 'align-middle', 'align-bottom', 'align-text-top', 'align-text-bottom',
+  'align-baseline', 'align-top', 'align-middle', 'align-bottom', 'align-text-top', 'align-text-bottom', 'align-sub', 'align-super',
   'whitespace-normal', 'whitespace-nowrap', 'whitespace-pre', 'whitespace-pre-line', 'whitespace-pre-wrap',
   'break-normal', 'break-words', 'break-all',
   'bg-fixed', 'bg-local', 'bg-scroll', 'bg-clip-border', 'bg-clip-padding', 'bg-clip-content', 'bg-clip-text', 'bg-transparent', 'bg-current', 'bg-black', 'bg-white', 'bg-hex-1c1c1e', 'bg-$test-variable', 'bg-opacity-0', 'bg-opacity-55', 'bg-opacity-$test-variable', 'bg-bottom', 'bg-center', 'bg-left', 'bg-left-bottom', 'bg-left-top', 'bg-right', 'bg-right-bottom', 'bg-right-top', 'bg-top', 'bg-repeat', 'bg-no-repeat', 'bg-repeat-x', 'bg-repeat-y', 'bg-repeat-round', 'bg-repeat-space', 'bg-auto', 'bg-cover', 'bg-contain', 'bg-none', 'bg-gradient-to-t', 'bg-gradient-to-tr', 'bg-gradient-to-r', 'bg-gradient-to-br', 'bg-gradient-to-b', 'bg-gradient-to-bl', 'bg-gradient-to-l', 'bg-gradient-to-tl',

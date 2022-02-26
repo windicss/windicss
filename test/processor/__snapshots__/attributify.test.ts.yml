@@ -2447,6 +2447,12 @@ Tools / with text utility / css / 0: |-
   [text~="text-bottom"] {
     vertical-align: text-bottom;
   }
+  [text~="sub"] {
+    vertical-align: sub;
+  }
+  [text~="super"] {
+    vertical-align: super;
+  }
   [text~="space-normal"] {
     white-space: normal;
   }

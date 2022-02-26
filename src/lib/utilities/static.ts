@@ -2040,6 +2040,24 @@ export const staticUtilities: StaticUtility = {
       'order': 6,
     },
   },
+  'align-sub': {
+    'utility': {
+      'vertical-align': 'sub',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 7,
+    },
+  },
+  'align-super': {
+    'utility': {
+      'vertical-align': 'super',
+    },
+    'meta': {
+      'group': 'verticalAlign',
+      'order': 8,
+    },
+  },
 
   // https://windicss.org/utilities/typography.html#whitespace
   'whitespace-normal': {
