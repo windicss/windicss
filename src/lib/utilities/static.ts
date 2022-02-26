@@ -2426,6 +2426,15 @@ export const staticUtilities: StaticUtility = {
       'order': 5,
     },
   },
+  'border-hidden': {
+    'utility': {
+      'border-style': 'hidden',
+    },
+    'meta': {
+      'group': 'borderStyle',
+      'order': 6,
+    },
+  },
 
   // https://windicss.org/utilities/behaviors.html#image-rendering
   'image-render-auto': {

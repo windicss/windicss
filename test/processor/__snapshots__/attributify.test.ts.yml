@@ -855,6 +855,9 @@ Tools / with border utility / css / 0: |-
   [border~="none"] {
     border-style: none;
   }
+  [border~="hidden"] {
+    border-style: hidden;
+  }
   [border~="1"] {
     border-width: 1px;
   }
