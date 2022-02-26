@@ -1,12 +1,13 @@
 import plugin from '../index';
 import { colors, baseConfig } from '../../config';
+import { staticUtilities } from '../../lib/utilities/static';
 import svgToDataUri from 'mini-svg-data-uri';
 import type { DefaultTheme } from '../../interfaces';
 
 const defaultTheme = baseConfig.theme as unknown as DefaultTheme;
 const [baseFontSize, { lineHeight: baseLineHeight }] = defaultTheme.fontSize.base;
-const { borderWidth, borderRadius, outline } = defaultTheme;
-const spacing = (num:number) => `${num/4}rem`;
+const { borderWidth, borderRadius } = defaultTheme;
+const spacing = (num: number) => `${num / 4}rem`;
 
 export default plugin(function ({ addBase, theme }) {
   addBase({
@@ -29,7 +30,7 @@ select
 `]: {
       '-webkit-appearance': 'none',
       '-moz-appearance': 'none',
-      appearance: 'none',
+      'appearance': 'none',
       'background-color': '#fff',
       'border-color': theme('colors.gray.500', colors.gray[500]) as string,
       'border-width': borderWidth['DEFAULT'] as string,
@@ -41,8 +42,8 @@ select
       'font-size': baseFontSize,
       'line-height': baseLineHeight,
       '&:focus': {
-        outline: outline.none[0],
-        'outline-offset': outline.none[1],
+        'outline': staticUtilities['outline-none']['utility'][0],
+        'outline-offset': staticUtilities['outline-none']['utility'][1],
         '--tw-ring-inset': 'var(--tw-empty,/*!*/ /*!*/)',
         '--tw-ring-offset-width': '0px',
         '--tw-ring-offset-color': '#fff',
@@ -111,11 +112,11 @@ select
 `]: {
       '-webkit-appearance': 'none',
       '-moz-appearance': 'none',
-      appearance: 'none',
-      padding: '0',
+      'appearance': 'none',
+      'padding': '0',
       '-webkit-print-color-adjust': 'exact',
       'color-adjust': 'exact',
-      display: 'inline-block',
+      'display': 'inline-block',
       'vertical-align': 'middle',
       'background-origin': 'border-box',
       '-webkit-user-select': 'none',
@@ -123,9 +124,9 @@ select
       '-ms-user-select': 'none',
       'user-select': 'none',
       'flex-shrink': '0',
-      height: spacing(4),
-      width: spacing(4),
-      color: theme('colors.blue.600', colors.blue[600]) as string,
+      'height': spacing(4),
+      'width': spacing(4),
+      'color': theme('colors.blue.600', colors.blue[600]) as string,
       'background-color': '#fff',
       'border-color': theme('colors.gray.500', colors.gray[500]) as string,
       'border-width': borderWidth['DEFAULT'] as string,
@@ -143,8 +144,8 @@ select
 [type='checkbox']:focus,
 [type='radio']:focus
     `]: {
-      outline: outline.none[0],
-      'outline-offset': outline.none[1],
+      'outline': staticUtilities['outline-none']['utility'][0],
+      'outline-offset': staticUtilities['outline-none']['utility'][1],
       '--tw-ring-inset': 'var(--tw-empty,/*!*/ /*!*/)',
       '--tw-ring-offset-width': '2px',
       '--tw-ring-offset-color': '#fff',
@@ -208,11 +209,11 @@ select
     },
 
     ['[type=\'file\']']: {
-      background: 'unset',
+      'background': 'unset',
       'border-color': 'inherit',
       'border-width': '0',
       'border-radius': '0',
-      padding: '0',
+      'padding': '0',
       'font-size': 'unset',
       'line-height': 'inherit',
     },

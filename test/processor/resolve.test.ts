@@ -7,35 +7,35 @@ describe('Resolve Tests', () => {
   it('resolve variants', () => {
     const processor = new Processor();
     const screenVariants = [
-      'sm',   '<sm',   '@sm', '-sm',  '+sm',
-      'md',   '<md',   '@md', '-md',  '+md',
-      'lg',   '<lg',   '@lg', '-lg',  '+lg',
-      'xl',   '<xl',   '@xl', '-xl',  '+xl',
-      '2xl', '<2xl',  '@2xl', '-2xl', '+2xl',
+      'sm', '<sm', '@sm', '-sm', '+sm',
+      'md', '<md', '@md', '-md', '+md',
+      'lg', '<lg', '@lg', '-lg', '+lg',
+      'xl', '<xl', '@xl', '-xl', '+xl',
+      '2xl', '<2xl', '@2xl', '-2xl', '+2xl',
     ];
     const stateVariants = [
-      'hover',             'focus',            'active',
-      'visited',           'link',             'target',
-      'focus-visible',     'focus-within',     'checked',
-      'not-checked',       'default',          'disabled',
-      'enabled',           'indeterminate',    'invalid',
-      'valid',             'optional',         'required',
-      'placeholder-shown', 'read-only',        'read-write',
-      'not-disabled',      'first-of-type',    'not-first-of-type',
-      'last-of-type',      'not-last-of-type', 'first',
-      'last',              'not-first',        'not-last',
-      'only-child',        'not-only-child',   'only-of-type',
-      'not-only-of-type',  'even',             'odd',
-      'even-of-type',      'odd-of-type',      'root',
-      'empty',             'before',           'after',
-      'first-letter',      'first-line',       'file-selector-button',
-      'file',              'selection',        'marker',           'svg',
-      'all',               'children',         'siblings',
-      'sibling',           'ltr',              'rtl',
-      'group-hover',       'group-focus',      'group-active',
-      'group-visited',     'motion-safe',      'motion-reduce',
+      'hover', 'focus', 'active',
+      'visited', 'link', 'target',
+      'focus-visible', 'focus-within', 'checked',
+      'not-checked', 'default', 'disabled',
+      'enabled', 'indeterminate', 'invalid',
+      'valid', 'optional', 'required',
+      'placeholder-shown', 'read-only', 'read-write',
+      'not-disabled', 'first-of-type', 'not-first-of-type',
+      'last-of-type', 'not-last-of-type', 'first',
+      'last', 'not-first', 'not-last',
+      'only-child', 'not-only-child', 'only-of-type',
+      'not-only-of-type', 'even', 'odd',
+      'even-of-type', 'odd-of-type', 'root',
+      'empty', 'before', 'after',
+      'first-letter', 'first-line', 'file-selector-button',
+      'file', 'selection', 'marker', 'svg',
+      'all', 'children', 'siblings',
+      'sibling', 'ltr', 'rtl',
+      'group-hover', 'group-focus', 'group-active',
+      'group-visited', 'motion-safe', 'motion-reduce',
     ];
-    const themeVariants = [ '@dark', '@light', '.dark', '.light', 'dark', 'light' ];
+    const themeVariants = ['@dark', '@light', '.dark', '.light', 'dark', 'light'];
     const orientationVariants = ['portrait', 'landscape'];
 
     expect(Object.keys(processor.resolveVariants())).toEqual([...screenVariants, ...themeVariants, ...stateVariants, ...orientationVariants]);
@@ -46,8 +46,8 @@ describe('Resolve Tests', () => {
   });
 
   it('resolve static utilities', () => {
-    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(338);
-    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(347);
+    expect(Object.keys(processor.resolveStaticUtilities(false)).length).toEqual(344);
+    expect(Object.keys(processor.resolveStaticUtilities(true)).length).toEqual(353);
   });
 
   it('resolve dynamic utilities', () => {

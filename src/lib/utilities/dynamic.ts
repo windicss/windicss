@@ -1466,8 +1466,18 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
       .handleNumber(0, undefined, 'int')
       .handleVariable()
       .handleSquareBrackets()
-      .createProperty('offset-outline')
+      .createProperty('outline-offset')
       ?.updateMeta('utilities', 'outline', pluginOrder.outline, 0, true);
+  }
+
+  if (utility.raw.startsWith('outline-opacity')) {
+    return utility.handler
+      .handleStatic(theme('opacity'))
+      .handleNumber(0, 1, 'float')
+      .handleVariable()
+      .handleSquareBrackets()
+      .createProperty('--tw-outline-opacity')
+      ?.updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
   }
 
   const outlineColor = utility.handler
@@ -1475,8 +1485,8 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
     .handleOpacity(theme('opacity'))
     .handleSquareBrackets(notNumberLead)
     .handleVariable((variable: string) => utility.raw.startsWith('outline-$') ? `var(--${variable})` : undefined)
-    .createColorStyle(utility.class, 'outline-color',)
-    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 1, true);
+    .createColorStyle(utility.class, 'outline-color', '--tw-outline-opacity')
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
 
   if (outlineColor) return outlineColor;
 
@@ -1486,7 +1496,7 @@ function outline(utility: Utility, { theme }: PluginUtils): Output {
     .handleSquareBrackets()
     .handleVariable()
     .createProperty('outline-width')
-    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 2, true);
+    ?.updateMeta('utilities', 'outline', pluginOrder.outline, 3, true);
 }
 
 // https://windicss.org/utilities/svg.html#fill-color

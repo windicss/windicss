@@ -1034,9 +1034,9 @@ Tools / more color opacity group utilities / css / 0: |-
   .to-green-500\/50 {
     --tw-gradient-to: rgba(16, 185, 129, 0.5);
   }
-  .outline-solid-green-500\/50 {
-    outline: 2px solid rgba(16, 185, 129, 0.5);
-    outline-offset: 2px;
+  .outline-green-500\/50 {
+    --tw-outline-opacity: 0.5;
+    outline-color: rgba(16, 185, 129, var(--tw-outline-opacity));
   }
   .ring-offset-green-500\/50 {
     --tw-ring-offset-opacity: 50;
@@ -1053,6 +1053,40 @@ Tools / more color opacity group utilities / css / 0: |-
   .text-stroke-green-500\/50 {
     --tw-text-stroke-opacity: 0.5;
     -webkit-text-stroke-color: rgba(16, 185, 129, var(--tw-text-stroke-opacity));
+  }
+Tools / outline width & color & style & offset / css / 0: |-
+  .outline-offset-1 {
+    outline-offset: 1px;
+  }
+  .outline-offset-2 {
+    outline-offset: 2px;
+  }
+  .outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  .outline-opacity-50 {
+    --tw-outline-opacity: 0.5;
+  }
+  .outline-red-800 {
+    --tw-outline-opacity: 1;
+    outline-color: rgba(153, 27, 27, var(--tw-outline-opacity));
+  }
+  .outline-red-800\/50 {
+    --tw-outline-opacity: 0.5;
+    outline-color: rgba(153, 27, 27, var(--tw-outline-opacity));
+  }
+  .outline {
+    outline-style: solid;
+  }
+  .outline-0 {
+    outline-width: 0px;
+  }
+  .outline-8 {
+    outline-width: 8px;
+  }
+  .outline-dashed {
+    outline-style: dashed;
   }
 Tools / prespective and perspective origin / css / 0: |-
   .perspect-none {
