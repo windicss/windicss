@@ -377,7 +377,7 @@ describe('Config', () => {
               },
             },
             extend: {
-              flexGrow: {
+              grow: {
                 2: '20',
               },
             },
@@ -392,7 +392,7 @@ describe('Config', () => {
               },
             },
             extend: {
-              flexGrow: {
+              grow: {
                 3: '30',
               },
             },
@@ -426,9 +426,9 @@ describe('Config', () => {
     // extend key should be combined
     expect(processor.theme('minHeight.prose')).toEqual('65ch');
     expect(processor.theme('minHeight.48')).toEqual('12rem');
-    expect(processor.theme('flexGrow.0')).toEqual('0');
-    expect(processor.theme('flexGrow.2')).toEqual('20');
-    expect(processor.theme('flexGrow.3')).toEqual('30');
+    expect(processor.theme('grow.0')).toEqual('0');
+    expect(processor.theme('grow.2')).toEqual('20');
+    expect(processor.theme('grow.3')).toEqual('30');
   });
 
   it('extend black', () => {

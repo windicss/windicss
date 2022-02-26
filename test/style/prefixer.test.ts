@@ -74,7 +74,7 @@ describe('closePrefixer', () => {
     });
     expect(processor.preflight(undefined, true, true).build()).toMatchSnapshot('preflight');
     // #132
-    expect(processor.interpret('bg-clip-padding flex bg-gradient-to-bl animate-ping placeholder-gray-200 flex-grow flex-shrink').styleSheet.build()).toMatchSnapshot('css');
+    expect(processor.interpret('bg-clip-padding flex bg-gradient-to-bl animate-ping placeholder-gray-200 grow shrink').styleSheet.build()).toMatchSnapshot('css');
     // #207
     expect(processor.interpret('line-clamp-2').styleSheet.build()).toMatchSnapshot('line-clamp-2');
   });

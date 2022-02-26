@@ -8,10 +8,10 @@ Tools / processor prefix / css / 1: |-
   .flex {
     display: flex;
   }
-  .flex-grow {
+  .grow {
     flex-grow: 1;
   }
-  .flex-shrink {
+  .shrink {
     flex-shrink: 1;
   }
   .placeholder-gray-200::placeholder {

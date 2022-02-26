@@ -266,8 +266,6 @@ describe('Attributify Mode', () => {
         'row', 'row-reverse', 'col', 'col-reverse',  // flex-direction
         'wrap', 'wrap-reverse', 'nowrap', // flex-wrap
         '1', 'auto', 'initial', 'none', // flex
-        'grow', 'grow-0', // flex-grow
-        'shrink', 'shrink-0', // flex-shrink
         'gap-2', 'gap-x-4', 'gap-y-2', // gap/column-gap/row-gap
       ],
     });

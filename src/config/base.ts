@@ -12,7 +12,7 @@ export const defaultColors = {
   dark: colors.dark,
   black: colors.black,
   white: colors.white,
-  gray: colors.coolGray,
+  gray: colors.gray,
   red: colors.red,
   yellow: colors.amber,
   green: colors.emerald,
@@ -30,7 +30,7 @@ export const defaultColors = {
   amber: colors.amber,
   orange: colors.orange,
   sky: colors.sky,
-  'light-blue': colors.sky,
+  'light-blue': colors.lightBlue,
   'warm-gray': colors.warmGray,
   'true-gray': colors.trueGray,
   'cool-gray': colors.coolGray,
@@ -519,11 +519,11 @@ export const baseConfig: Config = {
       initial: '0 1 auto',
       none: 'none',
     },
-    flexGrow: {
+    grow: {
       DEFAULT: '1',
       0: '0',
     },
-    flexShrink: {
+    shrink: {
       DEFAULT: '1',
       0: '0',
     },

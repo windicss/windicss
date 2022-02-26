@@ -1223,28 +1223,6 @@ Tools / with flex utility / css / 0: |-
     -webkit-flex: none;
     flex: none;
   }
-  [flex~="grow"] {
-    -webkit-box-flex: 1;
-    -ms-flex-positive: 1;
-    -webkit-flex-grow: 1;
-    flex-grow: 1;
-  }
-  [flex~="grow-0"] {
-    -webkit-box-flex: 0;
-    -ms-flex-positive: 0;
-    -webkit-flex-grow: 0;
-    flex-grow: 0;
-  }
-  [flex~="shrink"] {
-    -ms-flex-negative: 1;
-    -webkit-flex-shrink: 1;
-    flex-shrink: 1;
-  }
-  [flex~="shrink-0"] {
-    -ms-flex-negative: 0;
-    -webkit-flex-shrink: 0;
-    flex-shrink: 0;
-  }
   [flex~="gap-2"] {
     grid-gap: 0.5rem;
     gap: 0.5rem;

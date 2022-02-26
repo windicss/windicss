@@ -58,11 +58,11 @@ const utilities: { [key: string]: string[] } = {
   flex: [
     'flex-${static}',
   ],
-  flexGrow: [
-    'flex-grow-${static}',
+  grow: [
+    'grow-${static}',
   ],
-  flexShrink: [
-    'flex-shrink-${static}',
+  shrink: [
+    'shrink-${static}',
   ],
   order: [
     'order-${static}',

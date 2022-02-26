@@ -135,8 +135,8 @@ export interface BaseTheme {
   dropShadow: ThemeType
   fill: ThemeType
   flex: ThemeType
-  flexGrow: ThemeType
-  flexShrink: ThemeType
+  grow: ThemeType
+  shrink: ThemeType
   fontFamily: ThemeType
   fontSize: ThemeType
   fontWeight: ThemeType

@@ -103,29 +103,32 @@ function zIndex(utility: Utility, { theme }: PluginUtils): Output {
 }
 
 // https://windicss.org/utilities/flexbox.html#flex
-// https://windicss.org/utilities/flexbox.html#flex-grow
-// https://windicss.org/utilities/flexbox.html#flex-shrink
 function flex(utility: Utility, { theme }: PluginUtils): Output {
+  return utility.handler.handleStatic(theme('flex')).handleSquareBrackets().createStyle(utility.class, value => {
+    value = value.trim();
+    return [
+      new Property('-webkit-box-flex', value.startsWith('0') || value === 'none' ? '0' : '1'),
+      new Property(['-ms-flex', '-webkit-flex', 'flex'], value),
+    ];
+  })?.updateMeta('utilities', 'flex', pluginOrder.flex, 0, true);
+}
+
+// https://windicss.org/utilities/flexbox.html#grow
+function grow(utility: Utility, { theme }: PluginUtils): Output {
   const className = utility.raw;
-  if (className.startsWith('flex-grow')) {
-    const map = toType(theme('flexGrow'), 'object') as { [key: string]: string };
-    const amount = className.replace(/flex-grow-?/, '') || 'DEFAULT';
-    if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'flexGrow', pluginOrder.flexGrow, 0, true);
-    return utility.handler.handleSquareBrackets().createProperty(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'])?.updateMeta('utilities', 'flexGrow', pluginOrder.flexGrow, 1, true);
-  } else if (className.startsWith('flex-shrink')) {
-    const map = toType(theme('flexShrink'), 'object') as { [key: string]: string };
-    const amount = className.replace(/flex-shrink-?/, '') || 'DEFAULT';
-    if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'flexShrink', pluginOrder.flexShrink, 0, true);
-    return utility.handler.handleSquareBrackets().createProperty(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'])?.updateMeta('utilities', 'flexShrink', pluginOrder.flexShrink, 1, true);
-  } else {
-    return utility.handler.handleStatic(theme('flex')).handleSquareBrackets().createStyle(utility.class, value => {
-      value = value.trim();
-      return [
-        new Property('-webkit-box-flex', value.startsWith('0') || value === 'none' ? '0' : '1'),
-        new Property(['-ms-flex', '-webkit-flex', 'flex'], value),
-      ];
-    })?.updateMeta('utilities', 'flex', pluginOrder.flex, 0, true);
-  }
+  const map = toType(theme('grow'), 'object') as { [key: string]: string };
+  const amount = className.replace(/grow-?/, '') || 'DEFAULT';
+  if (Object.keys(map).includes(amount)) return new Property(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'grow', pluginOrder.grow, 0, true);
+  return utility.handler.handleSquareBrackets().createProperty(['-webkit-box-flex', '-ms-flex-positive', '-webkit-flex-grow', 'flex-grow'])?.updateMeta('utilities', 'grow', pluginOrder.grow, 1, true);
+}
+
+// https://windicss.org/utilities/flexbox.html#shrink
+function shrink(utility: Utility, { theme }: PluginUtils): Output {
+  const className = utility.raw;
+  const map = toType(theme('shrink'), 'object') as { [key: string]: string };
+  const amount = className.replace(/shrink-?/, '') || 'DEFAULT';
+  if (Object.keys(map).includes(amount)) return new Property(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'], map[amount]).toStyle(utility.class).updateMeta('utilities', 'shrink', pluginOrder.shrink, 0, true);
+  return utility.handler.handleSquareBrackets().createProperty(['-ms-flex-negative', '-webkit-flex-shrink', 'flex-shrink'])?.updateMeta('utilities', 'shrink', pluginOrder.shrink, 1, true);
 }
 
 // https://windicss.org/utilities/flexbox.html#flex-basis
@@ -1595,6 +1598,8 @@ export const dynamicUtilities: DynamicUtility = {
   rounded: borderRadius,
   cursor: cursor,
   flex: flex,
+  grow: grow,
+  shrink: shrink,
   order: order,
   font: font,
   h: size,

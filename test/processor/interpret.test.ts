@@ -68,7 +68,7 @@ describe('Interpretation Mode', () => {
       row-[7] row-end-[7] row-start-[7]
       text-[1.5rem] text-[#9254d2] text-[rgb(123,123,23)] text-[rgba(132,2,193,0.5)] text-[hsl(360,100%,50%)]
       fill-[#1c1c1e] fill-[var(--color)]
-      flex-[var(--flex)] flex-grow-[var(--grow)] flex-shrink-[var(--shrink)]
+      flex-[var(--flex)] grow-[var(--grow)] shrink-[var(--shrink)]
       backdrop-blur-[11px] backdrop-brightness-[1.23] backdrop-contrast-[0.87] backdrop-grayscale-[0.42] backdrop-hue-rotate-[1.57rad] backdrop-invert-[0.66] backdrop-opacity-[22%] backdrop-saturate-[144%] backdrop-sepia-[0.38]
       blur-[11px] brightness-[1.23] contrast-[0.87] grayscale-[0.42] hue-rotate-[1.57rad] invert-[0.66] saturate-[144%] sepia-[0.38]
     `);

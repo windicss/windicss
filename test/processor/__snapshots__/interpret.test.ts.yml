@@ -257,13 +257,13 @@ Tools / interpret square brackets / square brackets / 0: |-
     -webkit-flex: var(--flex);
     flex: var(--flex);
   }
-  .flex-grow-\[var\(--grow\)\] {
+  .grow-\[var\(--grow\)\] {
     -webkit-box-flex: var(--grow);
     -ms-flex-positive: var(--grow);
     -webkit-flex-grow: var(--grow);
     flex-grow: var(--grow);
   }
-  .flex-shrink-\[var\(--shrink\)\] {
+  .shrink-\[var\(--shrink\)\] {
     -ms-flex-negative: var(--shrink);
     -webkit-flex-shrink: var(--shrink);
     flex-shrink: var(--shrink);

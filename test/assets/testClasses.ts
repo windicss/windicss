@@ -27,7 +27,7 @@ const classNames = [
   'visible',
   'invisible',
   'z-0', 'z-auto', 'z-321', 'z-789', 'z-$test-variable',
-  'flex-row', 'flex-row-reverse', 'flex-col', 'flex-col-reverse', 'flex-wrap', 'flex-wrap-reverse', 'flex-nowrap', 'flex-1', 'flex-auto', 'flex-initial', 'flex-none', 'flex-grow-0', 'flex-grow', 'flex-shrink-0', 'flex-shrink',
+  'flex-row', 'flex-row-reverse', 'flex-col', 'flex-col-reverse', 'flex-wrap', 'flex-wrap-reverse', 'flex-nowrap', 'flex-1', 'flex-auto', 'flex-initial', 'flex-none', 'grow-0', 'grow', 'shrink-0', 'shrink',
   'order-1', 'order-123',
   '-order-456',
   'order-$test-variable',

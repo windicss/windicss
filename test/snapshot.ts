@@ -42,8 +42,13 @@ export function compareDiff<T extends string>(
   const diff = diffLines(expected, actual);
   let messages = colors.yellow(reason) + '\n\n';
   diff.forEach((part) => {
-    const color = part.added ? 'green' : part.removed ? 'red' : 'gray';
-    messages += colors.gray[color](part.value);
+    if (part.added) {
+      messages += colors.green(part.value);
+    } else if (part.removed) {
+      messages += colors.red(part.value);
+    } else {
+      messages += colors.gray(part.value);
+    }
   });
   return {
     pass: false,
