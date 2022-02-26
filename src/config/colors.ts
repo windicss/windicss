@@ -1,7 +1,10 @@
 import { Console } from '../utils/tools';
 
 type Colors =
-  'black'
+  'inherit'
+  | 'current'
+  | 'transparent'
+  | 'black'
   | 'white'
   | 'rose'
   | 'pink'
@@ -28,6 +31,7 @@ type Colors =
   | 'blueGray'
   | 'slate'
   | 'zink'
+  | 'zinc'
   | 'neutral'
   | 'stone'
   | 'dark'
@@ -50,9 +54,85 @@ const sky = {
   900: '#0c4a6e',
 };
 
+const neutral = {
+  50: '#fafafa',
+  100: '#f5f5f5',
+  200: '#e5e5e5',
+  300: '#d4d4d4',
+  400: '#a3a3a3',
+  500: '#737373',
+  600: '#525252',
+  700: '#404040',
+  800: '#262626',
+  900: '#171717',
+};
+
+const stone = {
+  50: '#fafaf9',
+  100: '#f5f5f4',
+  200: '#e7e5e4',
+  300: '#d6d3d1',
+  400: '#a8a29e',
+  500: '#78716c',
+  600: '#57534e',
+  700: '#44403c',
+  800: '#292524',
+  900: '#1c1917',
+};
+
+const slate = {
+  50: '#f8fafc',
+  100: '#f1f5f9',
+  200: '#e2e8f0',
+  300: '#cbd5e1',
+  400: '#94A3B8',
+  500: '#64748B',
+  600: '#475569',
+  700: '#334155',
+  800: '#1E293B',
+  900: '#0F172A',
+};
+
+const zinc = {
+  50: '#fafafa',
+  100: '#f4f4f5',
+  200: '#e4e4e7',
+  300: '#d4d4d8',
+  400: '#a1a1aa',
+  500: '#71717A',
+  600: '#52525B',
+  700: '#3F3F46',
+  800: '#27272A',
+  900: '#18181B',
+};
+
+const gray = {
+  50: '#f9fafb',
+  100: '#f3f4f6',
+  200: '#e5e7eb',
+  300: '#d1d5db',
+  400: '#9ca3af',
+  500: '#6b7280',
+  600: '#4b5563',
+  700: '#374151',
+  800: '#1f2937',
+  900: '#111827',
+};
+
 let warned = false;
 
+function color_warn(from: string, to: string) {
+  if (!warned) {
+    Console.log(`warn - '${from}' has been renamed to '${to}'.`);
+    Console.log('warn - Please update your color palette to eliminate this warning.');
+    warned = true;
+  }
+}
+
 export const colors: DefaultColors =  {
+  inherit: 'inherit',
+  current: 'currentColor',
+  transparent: 'transparent',
   black: '#000',
   white: '#fff',
   rose: {
@@ -141,11 +221,7 @@ export const colors: DefaultColors =  {
   },
   sky,
   get lightBlue() {
-    if (!warned) {
-      Console.log('warn - `lightBlue` has been renamed to `sky`.');
-      Console.log('warn - Please update your color palette to eliminate this warning.');
-      warned = true;
-    }
+    color_warn('lightBlue', 'sky');
     return sky;
   },
   cyan: {
@@ -256,114 +332,31 @@ export const colors: DefaultColors =  {
     800: '#991b1b',
     900: '#7f1d1d',
   },
-  warmGray: {
-    50: '#fafaf9',
-    100: '#f5f5f4',
-    200: '#e7e5e4',
-    300: '#d6d3d1',
-    400: '#a8a29e',
-    500: '#78716c',
-    600: '#57534e',
-    700: '#44403c',
-    800: '#292524',
-    900: '#1c1917',
+  get warmGray() {
+    color_warn('warmGray', 'stone');
+    return stone;
   },
-  trueGray: {
-    50: '#fafafa',
-    100: '#f5f5f5',
-    200: '#e5e5e5',
-    300: '#d4d4d4',
-    400: '#a3a3a3',
-    500: '#737373',
-    600: '#525252',
-    700: '#404040',
-    800: '#262626',
-    900: '#171717',
+  get trueGray() {
+    color_warn('trueGray', 'neutral');
+    return neutral;
   },
-  gray: {
-    50: '#fafafa',
-    100: '#f4f4f5',
-    200: '#e4e4e7',
-    300: '#d4d4d8',
-    400: '#a1a1aa',
-    500: '#71717a',
-    600: '#52525b',
-    700: '#3f3f46',
-    800: '#27272a',
-    900: '#18181b',
+  gray,
+  get coolGray() {
+    color_warn('coolGray', 'gray');
+    return gray;
   },
-  coolGray: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
+  get blueGray() {
+    color_warn('blueGray', 'slate');
+    return slate;
   },
-  blueGray: {
-    50: '#f8fafc',
-    100: '#f1f5f9',
-    200: '#e2e8f0',
-    300: '#cbd5e1',
-    400: '#94a3b8',
-    500: '#64748b',
-    600: '#475569',
-    700: '#334155',
-    800: '#1e293b',
-    900: '#0f172a',
+  slate,
+  zinc,
+  get zink() {
+    color_warn('zink', 'zinc');
+    return zinc;
   },
-  slate: {
-    50: '#f8fafc',
-    100: '#f1f5f9',
-    200: '#e2e8f0',
-    300: '#cbd5e1',
-    400: '#94A3B8',
-    500: '#64748B',
-    600: '#475569',
-    700: '#334155',
-    800: '#1E293B',
-    900: '#0F172A',
-  },
-  zink: {
-    50: '#fafafa',
-    100: '#f4f4f5',
-    200: '#e4e4e7',
-    300: '#d4d4d8',
-    400: '#a1a1aa',
-    500: '#71717A',
-    600: '#52525B',
-    700: '#3F3F46',
-    800: '#27272A',
-    900: '#18181B',
-  },
-  neutral: {
-    50: '#fafafa',
-    100: '#f5f5f5',
-    200: '#e5e5e5',
-    300: '#d4d4d4',
-    400: '#a3a3a3',
-    500: '#737373',
-    600: '#525252',
-    700: '#404040',
-    800: '#262626',
-    900: '#171717',
-  },
-  stone: {
-    50: '#fafaf9',
-    100: '#f5f5f4',
-    200: '#e7e5e4',
-    300: '#d6d3d1',
-    400: '#a8a29e',
-    500: '#78716C',
-    600: '#57534E',
-    700: '#44403C',
-    800: '#292524',
-    900: '#1C1917',
-  },
+  neutral,
+  stone,
   light: {
     50:  '#fdfdfd',
     100: '#fcfcfc',
