@@ -143,7 +143,7 @@ img, video {
 legend {
   padding: 0;
 }
-ol, ul {
+ol, ul, menu {
   list-style: none;
   margin: 0;
   padding: 0;
