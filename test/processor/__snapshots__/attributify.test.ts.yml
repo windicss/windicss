@@ -2317,10 +2317,6 @@ Tools / with text utility / css / 0: |-
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  [text~="overflow-ellipsis"] {
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-  }
   [text~="text-ellipsis"] {
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;

@@ -405,7 +405,7 @@ describe('Attributify Mode', () => {
         'stroke', 'stroke-none', 'stroke-sm', // text-stroke-width
         'stroke-blue-500', 'stroke-gray-500', // text-stroke-color
         'uppercase', 'lowercase', 'capitalize', 'normal-case', // text-transform
-        'truncate', 'overflow-ellipsis', 'text-ellipsis', 'text-clip', // text-overflow
+        'truncate', 'text-ellipsis', 'text-clip', // text-overflow
         'space-normal', 'space-nowrap', 'space-pre', 'space-pre-line', 'space-pre-wrap', // white-space
         'break-normal', 'break-words', 'break-all', // word-break
         'placeholder-gray-200', 'placeholder-opacity-80', // placeholder
