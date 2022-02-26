@@ -837,7 +837,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   // handle border width
   const directions = expandDirection(utility.raw.substring(7, 8), false) ?? [ '*' ];
   const borders = toType(theme('borderWidth'), 'object') as { [key: string]: string };
-  const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
+  const raw = [ 'border', 'border-t', 'border-r', 'border-b', 'border-l', 'border-x', 'border-y' ].includes(utility.raw) ? `${utility.raw}-${borders.DEFAULT ?? '1px'}` : utility.raw;
 
   // handle border side color
   const borderSide = utility.clone(raw.slice(7)).handler
@@ -855,7 +855,7 @@ function border(utility: Utility, { theme }: PluginUtils): Output {
   return utility.handler
     .handleStatic(borders)
     .handleSquareBrackets()
-    .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbr])?$/.test(utility.key)? `${number}px`: undefined)
+    .handleNumber(0, undefined, 'int', (number: number) => /^border(-[tlbrxy])?$/.test(utility.key)? `${number}px`: undefined)
     .handleSize()
     .handleVariable()
     .createProperty(directions[0] === '*' ? 'border-width' : directions.map((i) => `border-${i}-width`))

@@ -577,6 +577,27 @@ Tools / border width shouldn't infer / css / 0: |-
   .border-t-4 {
     border-top-width: 4px;
   }
+Tools / border x and y / css / 0: |-
+  .border-t-1 {
+    border-top-width: 1px;
+  }
+  .border-r-2 {
+    border-right-width: 2px;
+  }
+  .border-b-3 {
+    border-bottom-width: 3px;
+  }
+  .border-l-4 {
+    border-left-width: 4px;
+  }
+  .border-y-5 {
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+  }
+  .border-x-6 {
+    border-left-width: 6px;
+    border-right-width: 6px;
+  }
 Tools / box shadows & box shadow color / css / 0: |-
   .shadow-2xl {
     --tw-shadow: 0 25px 50px -12px rgb(0 0 0/0.25);
