@@ -127,6 +127,9 @@ function color_warn(from: string, to: string) {
 }
 
 export const colors: DefaultColors =  {
+  inherit: 'inherit',
+  current: 'currentColor',
+  transparent: 'transparent',
   black: '#000',
   white: '#fff',
   rose: {
