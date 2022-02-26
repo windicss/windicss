@@ -1,7 +1,10 @@
 import { Console } from '../utils/tools';
 
 type Colors =
-  'black'
+  'inherit'
+  | 'current'
+  | 'transparent'
+  | 'black'
   | 'white'
   | 'rose'
   | 'pink'
