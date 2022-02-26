@@ -1,7 +1,7 @@
 import { basename, dirname, join } from 'path';
 import fs from 'fs-extra';
 import yaml from 'js-yaml';
-import chalk from 'chalk';
+import colors from 'picocolors';
 import { diffLines } from 'diff';
 
 /**
@@ -40,10 +40,10 @@ export function compareDiff<T extends string>(
   }
 
   const diff = diffLines(expected, actual);
-  let messages = chalk.yellow(reason) + '\n\n';
+  let messages = colors.yellow(reason) + '\n\n';
   diff.forEach((part) => {
     const color = part.added ? 'green' : part.removed ? 'red' : 'gray';
-    messages += chalk.gray[color](part.value);
+    messages += colors.gray[color](part.value);
   });
   return {
     pass: false,
