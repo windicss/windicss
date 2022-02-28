@@ -12,7 +12,7 @@ export const defaultColors = {
   dark: colors.dark,
   black: colors.black,
   white: colors.white,
-  gray: colors.coolGray,
+  gray: colors.gray,
   red: colors.red,
   yellow: colors.amber,
   green: colors.emerald,
@@ -31,10 +31,10 @@ export const defaultColors = {
   orange: colors.orange,
   sky: colors.sky,
   'light-blue': colors.sky,
-  'warm-gray': colors.warmGray,
-  'true-gray': colors.trueGray,
-  'cool-gray': colors.coolGray,
-  'blue-gray': colors.blueGray,
+  'warm-gray': colors.stone,
+  'true-gray': colors.neutral,
+  'cool-gray': colors.gray,
+  'blue-gray': colors.slate,
 };
 
 // tShirtScale describes the sizes xs - 7xl
