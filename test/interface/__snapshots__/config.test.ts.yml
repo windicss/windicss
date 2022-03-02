@@ -657,10 +657,6 @@ Tools / should load all plugins correctly / css / 0: |-
       bottom: 0;
       left: 0;
     }
-    .md\:bg-gray-300 {
-      --tw-bg-opacity: 1;
-      background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-    }
   }
   @media (min-width: 976px) {
     .lg\:backdrop-filter {
