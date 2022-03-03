@@ -3,6 +3,7 @@ import { HTMLParser } from '../../src/utils/parser';
 
 const EXAMPLE_1 = readFileSync('./test/assets/example.html').toString();
 const EXAMPLE_2 = readFileSync('./test/assets/example2.html').toString();
+const EXAMPLE_3 = readFileSync('./test/assets/example3.razor').toString();
 
 describe('HTMLParser', () => {
   it('parse tags', () => {
@@ -19,6 +20,13 @@ describe('HTMLParser', () => {
     expect(parser.parseClasses()).toMatchSnapshot('class');
   });
 
+  it('parse razor classes', () => {
+    const parser = new HTMLParser();
+    expect(parser.parseClasses().length).toBe(0);
+    parser.html = EXAMPLE_3;
+    expect(parser.parseClasses()).toMatchSnapshot('parse razor classes');
+  });
+
   it('parse attributes', () => {
     const parser = new HTMLParser(EXAMPLE_2);
     expect(parser.parseAttrs()).toMatchSnapshot('attr');
@@ -29,5 +37,10 @@ describe('HTMLParser', () => {
     expect(parser.parseClasses()).toMatchSnapshot('class');
     parser.html = '<div className={css`height:calc(100% - 56px)`}><div className="float-left w-250px h-full bg-hex-f7f7fa overflow-y-auto"></div></div>';
     expect(parser.parseClasses()).toMatchSnapshot('className');
+  });
+
+  it('parse razor syntax', () => {
+    const parser = new HTMLParser('class=@(active ? "bg-green-600" : "bg-red-500")');
+    expect(parser.parseClasses()).toMatchSnapshot('class');
   });
 });
