@@ -11,8 +11,8 @@ module.exports = {
       xl: '1440px',
     },
     colors: {
-      gray: colors.gray,
-      blue: colors.sky,
+      gray: colors.coolGray,
+      blue: colors.lightBlue,
       red: colors.rose,
       pink: colors.fuchsia,
     },
