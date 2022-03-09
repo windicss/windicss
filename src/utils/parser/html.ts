@@ -37,7 +37,7 @@ export default class HTMLParser {
     // Match all class properties
     if (!this.html) return [];
     const output: ClassName[] = [];
-    const regex = /class(Name)?\s*=\s*{`[^]+`}|class(Name)?\s*=\s*"[^"]+"|class(Name)?\s*=\s*'[^']+'|class(Name)?\s*=\s*[^>\s]+/igm;
+    const regex = /class(Name)?\s*=\s*{`[^`]+`}|class(Name)?\s*=\s*"[^"]+"|class(Name)?\s*=\s*'[^']+'|class(Name)?\s*=\s*[^>\s]+/igm;
     let match;
     while ((match = regex.exec(this.html as string))) {
       if (match) {
