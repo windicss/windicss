@@ -60,7 +60,6 @@ export function generateStates(
     'motion-safe': () => new Style().atRule('@media (prefers-reduced-motion: no-preference)'),
     'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),
 
-    // 'peer-hover': () => new Style().parent('.peer:hover ~'),
     ...peerStates,
   };
   const orderedStates: typeof states = {};
