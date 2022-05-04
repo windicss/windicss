@@ -1,6 +1,7 @@
 {
   "name": "windicss",
-  "version": "3.5.1",
+  "version": "3.5.0",
+  "packageManager": "pnpm@6",
   "description": "Next generation utility-first CSS framework.",
   "main": "index.js",
   "module": "index.mjs",

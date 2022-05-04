@@ -9,12 +9,15 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - name: Set node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm i -g pnpm
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:prod
       - run: pnpm test

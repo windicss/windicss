@@ -20,30 +20,25 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Setup dependencies cache
-      uses: actions/cache@v2
-      id: pnpm-cache
-      with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-${{ matrix.node-version }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.node-version }}-pnpm-
-    - name: Install pnpm
-      run: npm install -g pnpm
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile
-    - name: Lint code
-      run: pnpm lint
-    - name: Build package
-      run: pnpm build
-    - name: Test types
-      run: pnpm test:dts
-    - name: Run tests and generate coverage report
-      run: pnpm coverage
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - name: Set node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint code
+        run: pnpm lint
+      - name: Build package
+        run: pnpm build
+      - name: Test types
+        run: pnpm test:dts
+      - name: Run tests and generate coverage report
+        run: pnpm coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
