@@ -93,7 +93,7 @@ select
       'background-size': '1.5em 1.5em',
       'padding-right': spacing(10),
       '-webkit-print-color-adjust': 'exact',
-      'color-adjust': 'exact',
+      'print-color-adjust': 'exact',
     },
 
     '[multiple]': {
@@ -103,7 +103,7 @@ select
       'background-size': 'initial',
       'padding-right': spacing(3),
       '-webkit-print-color-adjust': 'unset',
-      'color-adjust': 'unset',
+      'print-color-adjust': 'unset',
     },
 
     [`
@@ -115,7 +115,7 @@ select
       'appearance': 'none',
       'padding': '0',
       '-webkit-print-color-adjust': 'exact',
-      'color-adjust': 'exact',
+      'print-color-adjust': 'exact',
       'display': 'inline-block',
       'vertical-align': 'middle',
       'background-origin': 'border-box',
