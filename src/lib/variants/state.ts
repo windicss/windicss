@@ -1,3 +1,4 @@
+import { pseudoClassNames } from '../../config/order';
 import { Style } from '../../utils/style';
 /*
  * See MDN web docs for more information
@@ -7,52 +8,23 @@ import { Style } from '../../utils/style';
 export function generateStates(
   variantOrder: string[]
 ): { [key: string]: () => Style } {
+  const peseudoClassStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[pseudoClassName] = () => new Style().pseudoClass(pseudoClassName), o), {});
+  const peerStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`peer-${pseudoClassName}`] = () => new Style().parent(`.peer:${pseudoClassName} ~`), o), {});
+
   const states: { [key: string]: () => Style } = {
-    // Interactive links/buttons
-    hover: () => new Style().pseudoClass('hover'),
-    focus: () => new Style().pseudoClass('focus'),
-    active: () => new Style().pseudoClass('active'),
-    visited: () => new Style().pseudoClass('visited'),
-    link: () => new Style().pseudoClass('link'),
-    target: () => new Style().pseudoClass('target'),
-    'focus-visible': () => new Style().pseudoClass('focus-visible'),
-    'focus-within': () => new Style().pseudoClass('focus-within'),
-
-    // Form element states
-    checked: () => new Style().pseudoClass('checked'),
+    ...peseudoClassStates,
     'not-checked': () => new Style().pseudoClass('not(:checked)'),
-    default: () => new Style().pseudoClass('default'),
-    disabled: () => new Style().pseudoClass('disabled'),
-    enabled: () => new Style().pseudoClass('enabled'),
-    indeterminate: () => new Style().pseudoClass('indeterminate'),
-    invalid: () => new Style().pseudoClass('invalid'),
-    valid: () => new Style().pseudoClass('valid'),
-    optional: () => new Style().pseudoClass('optional'),
-    required: () => new Style().pseudoClass('required'),
-    'placeholder-shown': () => new Style().pseudoClass('placeholder-shown'),
-    'read-only': () => new Style().pseudoClass('read-only'),
-    'read-write': () => new Style().pseudoClass('read-write'),
-
-    // Child selectors
     'not-disabled': () => new Style().pseudoClass('not(:disabled)'),
-    'first-of-type': () => new Style().pseudoClass('first-of-type'),
     'not-first-of-type': () => new Style().pseudoClass('not(:first-of-type)'),
-    'last-of-type': () => new Style().pseudoClass('last-of-type'),
     'not-last-of-type': () => new Style().pseudoClass('not(:last-of-type)'),
-    first: () => new Style().pseudoClass('first-child'),
-    last: () => new Style().pseudoClass('last-child'),
     'not-first': () => new Style().pseudoClass('not(:first-child)'),
     'not-last': () => new Style().pseudoClass('not(:last-child)'),
-    'only-child': () => new Style().pseudoClass('only-child'),
     'not-only-child': () => new Style().pseudoClass('not(:only-child)'),
-    'only-of-type': () => new Style().pseudoClass('only-of-type'),
     'not-only-of-type': () => new Style().pseudoClass('not(:only-of-type)'),
     even: () => new Style().pseudoClass('nth-child(even)'),
     odd: () => new Style().pseudoClass('nth-child(odd)'),
     'even-of-type': () => new Style().pseudoClass('nth-of-type(even)'),
     'odd-of-type': () => new Style().pseudoClass('nth-of-type(odd)'),
-    root: () => new Style().pseudoClass('root'),
-    empty: () => new Style().pseudoClass('empty'),
 
     // Pseudo elements
     before: () => new Style().pseudoElement('before'),
@@ -87,6 +59,8 @@ export function generateStates(
     // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
     'motion-safe': () => new Style().atRule('@media (prefers-reduced-motion: no-preference)'),
     'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),
+
+    ...peerStates,
   };
   const orderedStates: typeof states = {};
   variantOrder.forEach((v) => {

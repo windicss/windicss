@@ -1,4 +1,4 @@
-export const variantOrder = [
+export const pseudoClassNames = [
   'hover',
   'focus',
   'active',
@@ -8,7 +8,7 @@ export const variantOrder = [
   'focus-visible',
   'focus-within',
   'checked',
-  'not-checked',
+
   'default',
   'disabled',
   'enabled',
@@ -20,25 +20,39 @@ export const variantOrder = [
   'placeholder-shown',
   'read-only',
   'read-write',
-  'not-disabled',
+
   'first-of-type',
-  'not-first-of-type',
+
   'last-of-type',
-  'not-last-of-type',
+
   'first',
   'last',
+
+  'only-child',
+
+  'only-of-type',
+
+
+  'root',
+  'empty',
+];
+
+export const variantOrder = [
+  ...pseudoClassNames,
+
+  'not-checked',
+  'not-disabled',
+  'not-first-of-type',
+  'not-last-of-type',
   'not-first',
   'not-last',
-  'only-child',
   'not-only-child',
-  'only-of-type',
   'not-only-of-type',
   'even',
   'odd',
   'even-of-type',
   'odd-of-type',
-  'root',
-  'empty',
+
   'before',
   'after',
   'first-letter',
@@ -60,6 +74,7 @@ export const variantOrder = [
   'group-visited',
   'motion-safe',
   'motion-reduce',
+  ...pseudoClassNames.map(pseudoClassName => `peer-${pseudoClassName}`),
 ];
 
 export enum layerOrder {

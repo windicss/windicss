@@ -1,5 +1,6 @@
 import { Processor } from '../../src/lib';
 import { resolve } from 'path';
+import { pseudoClassNames } from '../../src/config/order';
 
 const processor = new Processor(require(resolve('./test/assets/windi.plugin.config.js')));
 
@@ -14,26 +15,25 @@ describe('Resolve Tests', () => {
       '2xl', '<2xl', '@2xl', '-2xl', '+2xl',
     ];
     const stateVariants = [
-      'hover', 'focus', 'active',
-      'visited', 'link', 'target',
-      'focus-visible', 'focus-within', 'checked',
-      'not-checked', 'default', 'disabled',
-      'enabled', 'indeterminate', 'invalid',
-      'valid', 'optional', 'required',
-      'placeholder-shown', 'read-only', 'read-write',
-      'not-disabled', 'first-of-type', 'not-first-of-type',
-      'last-of-type', 'not-last-of-type', 'first',
-      'last', 'not-first', 'not-last',
-      'only-child', 'not-only-child', 'only-of-type',
-      'not-only-of-type', 'even', 'odd',
-      'even-of-type', 'odd-of-type', 'root',
-      'empty', 'before', 'after',
+      ...pseudoClassNames, 'not-checked',
+      'not-disabled',
+      'not-first-of-type',
+      'not-last-of-type',
+      'not-first',
+      'not-last',
+      'not-only-child',
+      'not-only-of-type',
+      'even',
+      'odd',
+      'even-of-type',
+      'odd-of-type', 'before', 'after',
       'first-letter', 'first-line', 'file-selector-button',
       'file', 'selection', 'marker', 'svg',
       'all', 'children', 'siblings',
       'sibling', 'ltr', 'rtl',
       'group-hover', 'group-focus', 'group-active',
       'group-visited', 'motion-safe', 'motion-reduce',
+      ...pseudoClassNames.map(pseudoClassName => `peer-${pseudoClassName}`),
     ];
     const themeVariants = ['@dark', '@light', '.dark', '.light', 'dark', 'light'];
     const orientationVariants = ['portrait', 'landscape'];
