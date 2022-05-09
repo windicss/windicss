@@ -1217,11 +1217,10 @@ function boxShadow(utility: Utility, { theme }: PluginUtils): Output {
     .handleColor(theme('boxShadowColor'))
     .handleOpacity(theme('opacity'))
     .handleSquareBrackets()
-    .handleVariable()
-    .createColorValue('1');
+    .handleVariable();
 
   return new Style(utility.class, [
-    new Property('--tw-shadow-color', color),
+    new Property('--tw-shadow-color', color.createColorValue(color.opacity || '1')),
     new Property('--tw-shadow', 'var(--tw-shadow-colored)'),
   ]).updateMeta('utilities', 'boxShadowColor', pluginOrder.boxShadowColor, 0, true);
 }
