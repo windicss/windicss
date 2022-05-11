@@ -46,7 +46,7 @@ Windi CSS provides first-class integrations for your favorite tools, select your
 | Vite | [vite-plugin-windicss](https://github.com/windicss/vite-plugin-windicss) | ![](https://img.shields.io/npm/v/vite-plugin-windicss?label=&color=0EA5E9) |
 | Rollup | [rollup-plugin-windicss](https://github.com/windicss/vite-plugin-windicss/tree/main/packages/rollup-plugin-windicss) | ![](https://img.shields.io/npm/v/rollup-plugin-windicss?label=&color=1388bd) |
 | Webpack | [windicss-webpack-plugin](https://github.com/windicss/windicss-webpack-plugin) | ![](https://img.shields.io/npm/v/windicss-webpack-plugin?label=&color=1388bd) |
-| Nuxt | [nuxt-windicss](https://github.com/windicss/nuxt-windicss-module) | ![](https://img.shields.io/npm/v/nuxt-windicss-module?label=&color=1388bd) |
+| Nuxt | [nuxt-windicss](https://github.com/windicss/nuxt-windicss-module) | ![](https://img.shields.io/npm/v/nuxt-windicss?label=&color=1388bd) |
 | Svelte | [svelte-windicss-preprocess](https://github.com/windicss/svelte-windicss-preprocess) | ![](https://img.shields.io/npm/v/svelte-windicss-preprocess?label=&color=1388bd) |
 | StencilJS | [stencil-windicss](https://github.com/codeperate/stencil-windicss)<sup>Community</sup> | ![](https://img.shields.io/npm/v/@codeperate/stencil-windicss?label=&color=1388bd) |
 
