@@ -25,9 +25,6 @@ export const pseudoClassNames = [
 
   'last-of-type',
 
-  'first',
-  'last',
-
   'only-child',
 
   'only-of-type',
@@ -44,7 +41,9 @@ export const variantOrder = [
   'not-disabled',
   'not-first-of-type',
   'not-last-of-type',
+  'first',
   'not-first',
+  'last',
   'not-last',
   'not-only-child',
   'not-only-of-type',
