@@ -33,8 +33,8 @@ describe('Resolve Tests', () => {
       'file', 'selection', 'marker', 'svg',
       'all', 'children', 'siblings',
       'sibling', 'ltr', 'rtl',
-      'group-hover', 'group-focus', 'group-active',
-      'group-visited', 'motion-safe', 'motion-reduce',
+      ...pseudoClassNames.map(pseudoClassName => `group-${pseudoClassName}`),
+      'motion-safe', 'motion-reduce',
       ...pseudoClassNames.map(pseudoClassName => `peer-${pseudoClassName}`),
     ];
     const themeVariants = ['@dark', '@light', '.dark', '.light', 'dark', 'light'];
