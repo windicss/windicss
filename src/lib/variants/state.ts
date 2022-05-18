@@ -11,6 +11,8 @@ export function generateStates(
   const peseudoClassStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[pseudoClassName] = () => new Style().pseudoClass(pseudoClassName), o), {});
   const peerStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`peer-${pseudoClassName}`] = () => new Style().parent(`.peer:${pseudoClassName} ~`), o), {});
 
+  const groupStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`group-${pseudoClassName}`] = () => new Style().parent(`.group:${pseudoClassName}`), o), {});
+
   const states: { [key: string]: () => Style } = {
     ...peseudoClassStates,
     'not-checked': () => new Style().pseudoClass('not(:checked)'),
@@ -52,10 +54,7 @@ export function generateStates(
     // Group states
     // You'll need to add className="group" to an ancestor to make these work
     // https://github.com/ben-rogerson/twin.macro/blob/master/docs/group.md
-    'group-hover': () => new Style().parent('.group:hover'),
-    'group-focus': () => new Style().parent('.group:focus'),
-    'group-active': () => new Style().parent('.group:active'),
-    'group-visited': () => new Style().parent('.group:visited'),
+    ...groupStates,
 
     // Motion control
     // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
