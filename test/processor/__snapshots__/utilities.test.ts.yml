@@ -1,12 +1,12 @@
 Tools / accent-color / css / 0: |-
   .accent-green-500\/50 {
-    accent-color: rgba(16, 185, 129, 0.5);
+    accent-color: rgba(34, 197, 94, 0.5);
   }
   .accent-red-500\/50 {
     accent-color: rgba(239, 68, 68, 0.5);
   }
   .accent-green-500 {
-    accent-color: rgba(16, 185, 129, 1);
+    accent-color: rgba(34, 197, 94, 1);
   }
   .accent-red-500 {
     accent-color: rgba(239, 68, 68, 1);
@@ -545,7 +545,7 @@ Tools / border radius fraction / css / 0: |-
 Tools / border top/left/bottom/right color / css / 0: |-
   .border-green-200 {
     --tw-border-opacity: 1;
-    border-color: rgba(167, 243, 208, var(--tw-border-opacity));
+    border-color: rgba(187, 247, 208, var(--tw-border-opacity));
   }
   .border-true-gray-300 {
     --tw-border-opacity: 1;
@@ -553,18 +553,18 @@ Tools / border top/left/bottom/right color / css / 0: |-
   }
   .border-green-200\/50 {
     --tw-border-opacity: 0.5;
-    border-color: rgba(167, 243, 208, var(--tw-border-opacity));
+    border-color: rgba(187, 247, 208, var(--tw-border-opacity));
   }
   .border-t-green-200 {
     --tw-border-opacity: 1;
-    border-top-color: rgba(167, 243, 208, var(--tw-border-opacity));
+    border-top-color: rgba(187, 247, 208, var(--tw-border-opacity));
   }
   .border-b-green-200 {
     --tw-border-opacity: 1;
-    border-bottom-color: rgba(167, 243, 208, var(--tw-border-opacity));
+    border-bottom-color: rgba(187, 247, 208, var(--tw-border-opacity));
   }
   .border-t-green-200\/50 {
-    border-top-color: rgba(167, 243, 208, 0.5);
+    border-top-color: rgba(187, 247, 208, 0.5);
   }
 Tools / border width shouldn't infer / css / 0: |-
   .border-gray-200 {
@@ -630,11 +630,11 @@ Tools / caret color / css / 0: |-
 Tools / color opacity group utilities / css / 0: |-
   .divide-green-500\/50 > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-opacity: 0.5;
-    border-color: rgba(16, 185, 129, var(--tw-divide-opacity));
+    border-color: rgba(34, 197, 94, var(--tw-divide-opacity));
   }
   .bg-green-500\/50 {
     --tw-bg-opacity: 0.5;
-    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+    background-color: rgba(34, 197, 94, var(--tw-bg-opacity));
   }
   .bg-blue-600\/32 {
     --tw-bg-opacity: 0.32;
@@ -653,48 +653,48 @@ Tools / color opacity group utilities / css / 0: |-
   }
   .bg-green-500\/\[0\.17\] {
     --tw-bg-opacity: 0.17;
-    background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+    background-color: rgba(34, 197, 94, var(--tw-bg-opacity));
   }
   .border-green-500\/50 {
     --tw-border-opacity: 0.5;
-    border-color: rgba(16, 185, 129, var(--tw-border-opacity));
+    border-color: rgba(34, 197, 94, var(--tw-border-opacity));
   }
   .placeholder-green-500\/50::-webkit-input-placeholder {
     --tw-placeholder-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+    color: rgba(34, 197, 94, var(--tw-placeholder-opacity));
   }
   .placeholder-green-500\/50::-moz-placeholder {
     --tw-placeholder-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+    color: rgba(34, 197, 94, var(--tw-placeholder-opacity));
   }
   .placeholder-green-500\/50:-ms-input-placeholder {
     --tw-placeholder-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+    color: rgba(34, 197, 94, var(--tw-placeholder-opacity));
   }
   .placeholder-green-500\/50::-ms-input-placeholder {
     --tw-placeholder-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+    color: rgba(34, 197, 94, var(--tw-placeholder-opacity));
   }
   .placeholder-green-500\/50::placeholder {
     --tw-placeholder-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-placeholder-opacity));
+    color: rgba(34, 197, 94, var(--tw-placeholder-opacity));
   }
   .caret-green-500\/50 {
     --tw-caret-opacity: 0.5;
-    caret-color: rgba(16, 185, 129, var(--tw-caret-opacity));
+    caret-color: rgba(34, 197, 94, var(--tw-caret-opacity));
   }
   .ring-green-500\/50 {
     --tw-ring-opacity: 0.5;
-    --tw-ring-color: rgba(16, 185, 129, var(--tw-ring-opacity));
+    --tw-ring-color: rgba(34, 197, 94, var(--tw-ring-opacity));
   }
   .text-green-500\/50 {
     --tw-text-opacity: 0.5;
-    color: rgba(16, 185, 129, var(--tw-text-opacity));
+    color: rgba(34, 197, 94, var(--tw-text-opacity));
   }
   .underline-green-500\/50 {
     --tw-line-opacity: 0.5;
-    -webkit-text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
-    text-decoration-color: rgba(16, 185, 129, var(--tw-line-opacity));
+    -webkit-text-decoration-color: rgba(34, 197, 94, var(--tw-line-opacity));
+    text-decoration-color: rgba(34, 197, 94, var(--tw-line-opacity));
   }
 Tools / columns & break-after & break-before & break-inside / css / 0: |-
   .columns-1 {
@@ -986,7 +986,7 @@ Tools / gradient colors / gradient / 0: |-
     --tw-gradient-stops: var(--tw-gradient-from), transparent, var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .via-green-200 {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(167, 243, 208, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(187, 247, 208, var(--tw-via-opacity, 1)), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .to-current {
     --tw-gradient-to: currentColor;
@@ -1025,34 +1025,34 @@ Tools / list style type / css / 0: |-
   }
 Tools / more color opacity group utilities / css / 0: |-
   .from-green-500\/50 {
-    --tw-gradient-from: rgba(16, 185, 129, 0.5);
+    --tw-gradient-from: rgba(34, 197, 94, 0.5);
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .via-green-500\/50 {
-    --tw-gradient-stops: var(--tw-gradient-from), rgba(16, 185, 129, 0.5), var(--tw-gradient-to, rgba(255, 255, 255, 0));
+    --tw-gradient-stops: var(--tw-gradient-from), rgba(34, 197, 94, 0.5), var(--tw-gradient-to, rgba(255, 255, 255, 0));
   }
   .to-green-500\/50 {
-    --tw-gradient-to: rgba(16, 185, 129, 0.5);
+    --tw-gradient-to: rgba(34, 197, 94, 0.5);
   }
   .outline-green-500\/50 {
     --tw-outline-opacity: 0.5;
-    outline-color: rgba(16, 185, 129, var(--tw-outline-opacity));
+    outline-color: rgba(34, 197, 94, var(--tw-outline-opacity));
   }
   .ring-offset-green-500\/50 {
     --tw-ring-offset-opacity: 50;
-    --tw-ring-offset-color: rgba(16, 185, 129, var(--tw-ring-offset-opacity));
+    --tw-ring-offset-color: rgba(34, 197, 94, var(--tw-ring-offset-opacity));
   }
   .fill-green-500\/50 {
     --tw-fill-opacity: 0.5;
-    fill: rgba(16, 185, 129, var(--tw-fill-opacity));
+    fill: rgba(34, 197, 94, var(--tw-fill-opacity));
   }
   .stroke-green-500\/50 {
     --tw-stroke-opacity: 0.5;
-    stroke: rgba(16, 185, 129, var(--tw-stroke-opacity));
+    stroke: rgba(34, 197, 94, var(--tw-stroke-opacity));
   }
   .text-stroke-green-500\/50 {
     --tw-text-stroke-opacity: 0.5;
-    -webkit-text-stroke-color: rgba(16, 185, 129, var(--tw-text-stroke-opacity));
+    -webkit-text-stroke-color: rgba(34, 197, 94, var(--tw-text-stroke-opacity));
   }
 Tools / outline width & color & style & offset / css / 0: |-
   .outline-offset-1 {
@@ -1131,7 +1131,7 @@ Tools / ring opacity / css / 0: |-
   }
   .focus\:ring-purple-800:focus {
     --tw-ring-opacity: 1;
-    --tw-ring-color: rgba(91, 33, 182, var(--tw-ring-opacity));
+    --tw-ring-color: rgba(107, 33, 168, var(--tw-ring-opacity));
   }
 Tools / scroll-behavior / css / 0: |-
   .scroll-auto {

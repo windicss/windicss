@@ -5,7 +5,7 @@ Tools / compile / css / 0: |-
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
     font-weight: 700;
     --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
+    color: rgba(134, 239, 172, var(--tw-text-opacity));
   }
   @media (min-width: 640px) {
     .windi-sarsyj {
@@ -25,7 +25,7 @@ Tools / compile important / important / 0: |-
   .windi-17we48r {
     font-weight: 700;
     --tw-text-opacity: 1 !important;
-    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+    color: rgba(134, 239, 172, var(--tw-text-opacity)) !important;
   }
   .windi-17we48r:hover {
     --tw-bg-opacity: 1 !important;

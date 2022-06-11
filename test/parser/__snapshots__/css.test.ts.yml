@@ -67,7 +67,7 @@ Tools / Directives and Functions / css / 0: |-
   @media (min-width: 1024px) {
     .container {
       --tw-bg-opacity: 1 !important;
-      background-color: rgba(110, 231, 183, var(--tw-bg-opacity)) !important;
+      background-color: rgba(134, 239, 172, var(--tw-bg-opacity)) !important;
     }
   }
   @media (min-width: 640px) {
@@ -87,12 +87,12 @@ Tools / Directives and Functions / css / 0: |-
   @media (min-width: 1024px) {
     .button:hover {
       --tw-text-opacity: 1;
-      color: rgba(110, 231, 183, var(--tw-text-opacity));
+      color: rgba(134, 239, 172, var(--tw-text-opacity));
     }
   }
   .button:focus {
     --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
+    color: rgba(134, 239, 172, var(--tw-text-opacity));
   }
   .link:hover {
     --tw-bg-opacity: 1;

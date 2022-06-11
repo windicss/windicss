@@ -28,7 +28,7 @@ Tools / interpret / css / 1: |-
   }
   .text-green-300 {
     --tw-text-opacity: 1;
-    color: rgba(110, 231, 183, var(--tw-text-opacity));
+    color: rgba(134, 239, 172, var(--tw-text-opacity));
   }
   @media (min-width: 640px) {
     .sm\:bg-gray-100 {
@@ -113,7 +113,7 @@ Tools / interpret duplicated important / duplicated important / 0: |-
   }
   .\!text-green-300 {
     --tw-text-opacity: 1 !important;
-    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+    color: rgba(134, 239, 172, var(--tw-text-opacity)) !important;
   }
 Tools / interpret fractions for padding and margin / css / 0: |-
   .m-4\/5 {
@@ -150,7 +150,7 @@ Tools / interpret important / important / 0: |-
   }
   .\!text-green-300 {
     --tw-text-opacity: 1 !important;
-    color: rgba(110, 231, 183, var(--tw-text-opacity)) !important;
+    color: rgba(134, 239, 172, var(--tw-text-opacity)) !important;
   }
 Tools / interpret screen variants / screen variants / 0: |-
   @media (min-width: 768px) {

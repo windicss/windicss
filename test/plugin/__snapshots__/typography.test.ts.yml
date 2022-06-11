@@ -2167,10 +2167,10 @@ Tools / interpret test / css / 0: |-
     color: #c026d3;
   }
   .prose-purple a {
-    color: #7c3aed;
+    color: #9333ea;
   }
   .prose-purple a code {
-    color: #7c3aed;
+    color: #9333ea;
   }
   .prose-violet a {
     color: #7c3aed;
@@ -2209,10 +2209,10 @@ Tools / interpret test / css / 0: |-
     color: #059669;
   }
   .prose-green a {
-    color: #059669;
+    color: #16a34a;
   }
   .prose-green a code {
-    color: #059669;
+    color: #16a34a;
   }
   .prose-lime a {
     color: #65a30d;
@@ -2221,10 +2221,10 @@ Tools / interpret test / css / 0: |-
     color: #65a30d;
   }
   .prose-yellow a {
-    color: #d97706;
+    color: #ca8a04;
   }
   .prose-yellow a code {
-    color: #d97706;
+    color: #ca8a04;
   }
   .prose-amber a {
     color: #d97706;
@@ -3469,10 +3469,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #c026d3;
   }
   .prose-purple a {
-    color: #7c3aed;
+    color: #9333ea;
   }
   .prose-purple a code {
-    color: #7c3aed;
+    color: #9333ea;
   }
   .prose-violet a {
     color: #7c3aed;
@@ -3511,10 +3511,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #059669;
   }
   .prose-green a {
-    color: #059669;
+    color: #16a34a;
   }
   .prose-green a code {
-    color: #059669;
+    color: #16a34a;
   }
   .prose-lime a {
     color: #65a30d;
@@ -3523,10 +3523,10 @@ Tools / rtl interpret test / rtl / 0: |-
     color: #65a30d;
   }
   .prose-yellow a {
-    color: #d97706;
+    color: #ca8a04;
   }
   .prose-yellow a code {
-    color: #d97706;
+    color: #ca8a04;
   }
   .prose-amber a {
     color: #d97706;
