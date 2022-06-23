@@ -64,7 +64,7 @@ export function generateStates(
     'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),
 
     ...peerStates,
-    ...notPeerStates
+    ...notPeerStates,
   };
   const orderedStates: typeof states = {};
   variantOrder.forEach((v) => {
