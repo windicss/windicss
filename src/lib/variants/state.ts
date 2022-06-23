@@ -11,6 +11,8 @@ export function generateStates(
   const peseudoClassStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[pseudoClassName] = () => new Style().pseudoClass(pseudoClassName), o), {});
   const peerStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`peer-${pseudoClassName}`] = () => new Style().parent(`.peer:${pseudoClassName} ~`), o), {});
 
+  const notPeerStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`peer-not-${pseudoClassName}`] = () => new Style().parent(`.peer:not(:${pseudoClassName}) ~`), o), {});
+
   const groupStates = pseudoClassNames.reduce((o: { [key: string]: () => Style }, pseudoClassName) => (o[`group-${pseudoClassName}`] = () => new Style().parent(`.group:${pseudoClassName}`), o), {});
 
   const states: { [key: string]: () => Style } = {
@@ -62,6 +64,7 @@ export function generateStates(
     'motion-reduce': () => new Style().atRule('@media (prefers-reduced-motion: reduce)'),
 
     ...peerStates,
+    ...notPeerStates
   };
   const orderedStates: typeof states = {};
   variantOrder.forEach((v) => {
