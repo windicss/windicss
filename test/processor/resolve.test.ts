@@ -36,6 +36,7 @@ describe('Resolve Tests', () => {
       ...pseudoClassNames.map(pseudoClassName => `group-${pseudoClassName}`),
       'motion-safe', 'motion-reduce',
       ...pseudoClassNames.map(pseudoClassName => `peer-${pseudoClassName}`),
+      ...pseudoClassNames.map(pseudoClassName => `peer-not-${pseudoClassName}`),
     ];
     const themeVariants = ['@dark', '@light', '.dark', '.light', 'dark', 'light'];
     const orientationVariants = ['portrait', 'landscape'];

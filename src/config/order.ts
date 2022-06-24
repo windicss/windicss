@@ -71,6 +71,7 @@ export const variantOrder = [
   'motion-safe',
   'motion-reduce',
   ...pseudoClassNames.map(pseudoClassName => `peer-${pseudoClassName}`),
+  ...pseudoClassNames.map(pseudoClassName => `peer-not-${pseudoClassName}`),
 ];
 
 export enum layerOrder {
