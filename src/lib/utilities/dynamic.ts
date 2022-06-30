@@ -163,7 +163,10 @@ function gridTemplate(utility: Utility, { theme }: PluginUtils): Output {
   const group = type === 'rows' ? 'gridTemplateRows' : 'gridTemplateColumns';
   return utility.handler
     .handleStatic(theme(group))
-    .handleSquareBrackets(i => i.replace(/\(.*?\)|,/g, (r) => r === ',' ? ' ' : r /* ignore content inside nested-brackets */))
+    .handleSquareBrackets(i => i
+      .replace(/\(.*?\)|,/g, (r) => r === ',' ? ' ' : r /* ignore content inside nested-brackets */)
+      .replace(/_/g, ' ')
+    )
     .createProperty(`grid-template-${type}`, (value) => value === 'none' ? 'none' : value)
     ?.updateMeta('utilities', group, pluginOrder[group], 1, true)
     || utility.handler

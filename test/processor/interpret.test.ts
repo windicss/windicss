@@ -79,8 +79,10 @@ describe('Interpretation Mode', () => {
   it('interpret square brackets grid', () => {
     const result = processor.interpret(`
       grid-cols-[1fr,700px,2fr]
+      grid-cols-[1fr_700px_2fr]
       grid-cols-[auto]
       grid-rows-[auto,max-content,10px]
+      grid-rows-[200px_minmax(900px,_1fr)_100px]
     `);
     expect(result.ignored).toEqual([]);
     expect(result.styleSheet.build()).toMatchSnapshot('square brackets grids');

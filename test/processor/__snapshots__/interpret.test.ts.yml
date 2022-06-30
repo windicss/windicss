@@ -590,11 +590,17 @@ Tools / interpret square brackets grid / square brackets grids / 0: |-
   .grid-cols-\[1fr\2c 700px\2c 2fr\] {
     grid-template-columns: 1fr 700px 2fr;
   }
+  .grid-cols-\[1fr_700px_2fr\] {
+    grid-template-columns: 1fr 700px 2fr;
+  }
   .grid-cols-\[auto\] {
     grid-template-columns: auto;
   }
   .grid-rows-\[auto\2c max-content\2c 10px\] {
     grid-template-rows: auto max-content 10px;
+  }
+  .grid-rows-\[200px_minmax\(900px\2c _1fr\)_100px\] {
+    grid-template-rows: 200px minmax(900px, 1fr) 100px;
   }
 Tools / interpret square brackets grids with function / square brackets grids / 0: >-
   .grid-cols-\[minmax\(200px\2c 2fr\)\2c minmax\(300px\2c 3fr\)\2c
