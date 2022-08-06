@@ -513,9 +513,9 @@ function text(utility: Utility, { theme }: PluginUtils): Output {
   if (textColor) return textColor;
 
   // handle font sizes
-  const amount = utility.amount;
+  const body = utility.body;
   const fontSizes = toType(theme('fontSize'), 'object') as { [key: string]: FontSize };
-  if (Object.keys(fontSizes).includes(amount)) return new Style(utility.class, generateFontSize(fontSizes[amount])).updateMeta('utilities', 'fontSize', pluginOrder.fontSize, 1, true);
+  if (Object.keys(fontSizes).includes(body)) return new Style(utility.class, generateFontSize(fontSizes[body])).updateMeta('utilities', 'fontSize', pluginOrder.fontSize, 1, true);
   let value = utility.handler
     .handleSquareBrackets(isNumberLead)
     .handleNxl((number: number) => `${number}rem`)

@@ -217,6 +217,15 @@ Tools / extend fontFamily with array / css / 0: |-
   .font-sans {
     font-family: Graphik,sans-serif;
   }
+Tools / font size name with multi kebab / css / 0: |-
+  .text-title-1 {
+    font-size: 40px;
+    line-height: 25px;
+  }
+  .text-title\:1 {
+    font-size: 40px;
+    line-height: 25px;
+  }
 Tools / handle colors test / css / 0: |-
   .bg-discord {
     --tw-bg-opacity: 1;
