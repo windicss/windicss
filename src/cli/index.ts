@@ -206,7 +206,7 @@ function attributify(files: string[]) {
       styleSheets[file] = styleSheets[file] ? styleSheets[file].extend(utility.styleSheet) : utility.styleSheet;
     } else {
       const utility = processor.attributify(attrs);
-      styleSheets[file] = utility.styleSheet;
+      styleSheets[file] = styleSheets[file] ? styleSheets[file].extend(utility.styleSheet) : utility.styleSheet;
     }
   });
 }
