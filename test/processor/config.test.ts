@@ -565,4 +565,17 @@ describe('Config', () => {
     });
     expect(processor.interpret('print:bg-black container').styleSheet.build()).toMatchSnapshot('css');
   });
+
+  // #808
+  it('font size name with multi kebab', () => {
+    const processor = new Processor({
+      theme: {
+        fontSize: {
+          'title-1': ['40px', '25px'],
+          'title:1': ['40px', '25px'],
+        },
+      },
+    });
+    expect(processor.interpret('text-title-1 text-title:1').styleSheet.build()).toMatchSnapshot('css');
+  });
 });
