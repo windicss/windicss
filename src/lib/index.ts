@@ -226,7 +226,7 @@ export class Processor {
     this._theme = this._config.theme; // update theme to make sure theme() function works.
     this._config.plugins?.map(i => typeof i === 'function' ? ('__isOptionsFunction' in i ? this.loadPluginWithOptions(i): this.loadPlugin(plugin(i))) : this.loadPlugin(i));
     this._config = this._resolveFunction(this._config);
-    this._variants = { ...this._variants, ... this.resolveVariants() };
+    this._variants = { ...this._variants, ...this.resolveVariants() };
     this._cache.variants = Object.keys(this._variants);
     this._loadVariables();
     if (this._config.corePlugins) this._plugin.core = Array.isArray(this._config.corePlugins) ? Object.assign({}, ...(this._config.corePlugins as string[]).map(i => ({ [i]: true }))) : { ...Object.assign({}, ...Object.keys(pluginOrder).slice(Object.keys(pluginOrder).length/2).map(i => ({ [i]: true }))), ...this._config.corePlugins };
