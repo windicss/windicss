@@ -1,3 +1,10 @@
+<p align="center" style="background-color: #FFFF99; padding: 15px; border-radius: 5px;">
+  <strong>⚠️ Windi CSS is Sunsetting ⚠️</strong><br>
+  We are sunsetting Windi CSS and we recommend new projects to seek for alternatives. Read the <a href="https://windicss.org/posts/sunsetting.html">full blog post</a>.
+</p>
+
+<hr>
+
 <h1 align="center">
 <a href="https://github.com/windicss/windicss/wiki">
   <img src="https://next.windicss.org/assets/logo.svg" alt="Windi CSS Logo" height="120" width="120"/><br>
@@ -16,10 +23,6 @@
 </p>
 
 <p align="center">Next generation utility-first CSS framework.</p>
-
-<p align="center">
-If you are already familiar with Tailwind CSS, think about Windi CSS as an <b>on-demanded</b> alternative to Tailwind, which provides faster load times, <b>fully compatible with Tailwind v2.0</b> and with a bunch of additional cool features.
-</p>
 
 [windi css]: https://windicss.org
 [website]: https://windicss.org
